@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Oct  1 12:03:15 PDT 2004
+irfs/irfUtil/irfUtil
+
+Modified Files:
+	Util.h 
+Log Message:
+remove functions now in st_facilities
+    *
+------------------------------------------------------------
 User: jchiang  Sat Aug  7 07:48:34 PDT 2004
 irfs/irfUtil/doc
 
