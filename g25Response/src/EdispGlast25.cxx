@@ -16,6 +16,8 @@
 #include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/RandGauss.h"
 
+#include "astro/SkyDir.h"
+
 #include "irfUtil/Util.h"
 
 #include "EdispGlast25.h"
