@@ -8,6 +8,7 @@ author James Chiang <jchiang@slac.stanford.edu>
 use STpolicy v1r*
 use dc1Response v0* irfs
 use g25Response v0* irfs
+use testResponse v0* irfs
 
 apply_pattern ST_library option=" -no_share "
 

@@ -6,6 +6,7 @@
 
 #include "dc1Response/loadIrfs.h"
 #include "g25Response/loadIrfs.h"
+#include "testResponse/loadIrfs.h"
 
 #include <algorithm>
 #include <stdexcept>
@@ -13,20 +14,41 @@
 #include "irfLoader/Loader.h"
 
 namespace {
-   char * irf_names[] = {"DC1", "GLAST25"};
+   char * irf_names[] = {"DC1", "GLAST25", "TEST"};
 }
 
 namespace irfLoader {
 
-std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names+2);
+std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names+3);
+
+std::map<std::string, std::vector<std::string> > Loader::s_respIds;
 
 void Loader::go(const std::string & irfsName) {
 // @todo Replace this switch with polymorphism or find a way to
 // dispatch the desired function call using a map.
    if (irfsName == "DC1") {
       dc1Response::loadIrfs();
+      s_respIds["DC1"].push_back("DC1::Front");
+      s_respIds["DC1"].push_back("DC1::Back");
+      s_respIds["DC1FRONT"].push_back("DC1::Front");
+      s_respIds["DC1BACK"].push_back("DC1::Back");
+// These are deprecated in favor of "DC1" versions:
+      s_respIds["FRONT/BACK"].push_back("DC1::Front");
+      s_respIds["FRONT/BACK"].push_back("DC1::Back");
+      s_respIds["FRONT"].push_back("DC1::Front");
+      s_respIds["BACK"].push_back("DC1::Back");
    } else if (irfsName == "GLAST25") {
       g25Response::loadIrfs();
+      s_respIds["GLAST25"].push_back("Glast25::Front");
+      s_respIds["GLAST25"].push_back("Glast25::Back");
+      s_respIds["G25FRONT"].push_back("Glast25::Front");
+      s_respIds["G25BACK"].push_back("Glast25::Back");
+   } else if (irfsName == "TEST") {
+      testResponse::loadIrfs();
+      s_respIds["TEST"].push_back("testIrfs::Front");
+      s_respIds["TEST"].push_back("testIrfs::Back");
+      s_respIds["TESTFRONT"].push_back("testIrfs::Front");
+      s_respIds["TESTBACK"].push_back("testIrfs::Back");
    } else {
       throw std::invalid_argument("Request for an invalid set of irfs named "
                                   + irfsName);

@@ -10,6 +10,7 @@
 #ifndef irfLoader_Loader_h
 #define irfLoader_Loader_h
 
+#include <map>
 #include <string>
 #include <vector>
 
@@ -41,6 +42,12 @@ public:
       return s_irfsNames;
    }
 
+   /// @return A reference to a map for common combinations of 
+   ///         response functions for use with a PIL entry.
+   static const std::map<std::string, std::vector<std::string> > & respIds() {
+      return s_respIds;
+   }
+
 protected:
 
    Loader() {}
@@ -50,6 +57,8 @@ protected:
 private:
 
    static std::vector<std::string> s_irfsNames;
+
+   static std::map<std::string, std::vector<std::string> > s_respIds;
 
 };
 
