@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Nov 10 16:01:29 PST 2004
+irfs/irfInterface/irfInterface
+
+Modified Files:
+	IAeff.h IEdisp.h IPsf.h 
+Log Message:
+make operator() const
+    *
+------------------------------------------------------------
 User: jchiang  Mon Jul 19 11:07:17 PDT 2004
 irfs/irfInterface
 
