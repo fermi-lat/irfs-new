@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jul 20 09:55:38 PDT 2004
+irfs/irfUtil/irfUtil
+
+Modified Files:
+	Util.h 
+Log Message:
+remove unnecessary scoping in declaration
+    *
+------------------------------------------------------------
 User: jchiang  Mon Jul 19 11:08:35 PDT 2004
 irfs/irfUtil
 
