@@ -46,6 +46,7 @@
 %template(StringVector) std::vector<std::string>;
 %template(IrfVector) std::vector<irfInterface::Irfs>;
 %template(IrfMap) std::map<unsigned int, irfInterface::Irfs *>;
+%template(ConeVector) std::vector<irfInterface::AcceptanceCone *>;
 %extend irfInterface::IPsf {
    std::pair<double, double> app_dir(double energy, double inclination) {
       astro::SkyDir srcDir(0, 0);
