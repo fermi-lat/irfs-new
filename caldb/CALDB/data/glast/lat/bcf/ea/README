@@ -1,0 +1,31 @@
+$Header$
+
+The file aeff_DC1.fits contains the LAT effective area as a function
+of incident photon energy and incident angle (theta) measured with
+respect to the LAT z-axis.  Azimuthal (phi) symmetry has been assumed.
+
+The file has three binary table extensions:
+
+EA_FRONT      effective area for front-converting events (HDU=2)
+EA_BACK       effective area for back-converting events (HDU=3)
+EA_ALL        effective area for all events so that 
+              EA_ALL = EA_FRONT + EA_BACK (HDU=4)
+
+Each extension comprises a single row that contains the following
+variable length vectors:
+
+ENERGY_LO      lower bound of the 36 energy bins (MeV)
+ENERGY_HI      upper bound of the 36 energy bins (MeV)
+THETA_LO       lower bound of the 20 theta bins (degrees)
+THETA_HI       upper bound of the 20 theta bins (degrees)
+EFFAREA        720 values of effective area for each bin (cm^2)
+
+For the EFFAREA vector, the theta bins run faster than the energy
+bins.  IDL code for accessing the bin corresponding to an energy E and
+angle theta would look something like
+
+EFFAREA(max(where(E gt ENERGY_HI))*20 + max(where(theta gt THETA_HI)))
+
+Note that for some reason THETA_LO[0] in the FITS table has a small,
+non-zero value.  This is a flaw in the way the FITS files were
+generated from the original ROOT file. Its value should be zero.
