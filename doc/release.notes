@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  20-Aug-04 v0r4    JC    added testResponse; updates to irfLoader
   07-Aug-04 v0r3    JC    updates to dc1Response, g25Response, irfUtil
   23-Jul-04 v0r2    JC    added irfLoader package
   20-Jul-04 v0r1    JC    refactored irfUtil
