@@ -1,5 +1,5 @@
 package dc1Response
-version v0r2
+version v0r2p1
 
 author James Chiang <jchiang@slac.stanford.edu>
 
@@ -13,7 +13,7 @@ use caldb v0* irfs
 use CLHEP v* IExternal
 use f2c v*
 use astro v1r*
-use tip v1*
+use tip v2*
 
 apply_pattern ST_library option=" -no_share "
 
