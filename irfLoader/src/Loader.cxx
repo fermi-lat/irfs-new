@@ -12,17 +12,13 @@
 
 #include "irfLoader/Loader.h"
 
+namespace {
+   char * irf_names[] = {"DC1", "GLAST25"};
+}
+
 namespace irfLoader {
 
-Loader * Loader::s_instance(0);
-
-std::vector<std::string> Loader::s_irfsNames;
-
-Loader::Loader() {
-   s_irfsNames.clear();
-   s_irfsNames.push_back("DC1");
-   s_irfsNames.push_back("GLAST25");
-}
+std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names+2);
 
 void Loader::go(const std::string & irfsName) {
 // @todo Replace this switch with polymorphism or find a way to
@@ -38,7 +34,6 @@ void Loader::go(const std::string & irfsName) {
 }
 
 void Loader::go(const std::vector<std::string> & irfsNames) {
-   create_instance();
    std::vector<std::string>::const_iterator name = irfsNames.begin();
    std::vector<std::string> invalidNames;
    for ( ; name != irfsNames.end(); ++name) {
