@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Aug 25 14:47:59 PDT 2004
+irfs/testResponse/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+fix psf normalization
+    *
+------------------------------------------------------------
 User: jchiang  Wed Aug 25 13:33:16 PDT 2004
 irfs/testResponse/src
 
