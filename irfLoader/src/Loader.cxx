@@ -7,6 +7,7 @@
 #include "dc1Response/loadIrfs.h"
 #include "g25Response/loadIrfs.h"
 #include "testResponse/loadIrfs.h"
+//#include "devResponse/loadIrfs.h"
 
 #include <algorithm>
 #include <stdexcept>
@@ -14,6 +15,7 @@
 #include "irfLoader/Loader.h"
 
 namespace {
+//   char * irf_names[] = {"DC1", "GLAST25", "TEST", "DEV"};
    char * irf_names[] = {"DC1", "GLAST25", "TEST"};
 }
 
@@ -26,7 +28,7 @@ std::map<std::string, std::vector<std::string> > Loader::s_respIds;
 void Loader::go(const std::string & irfsName) {
 // @todo Replace this switch with polymorphism or find a way to
 // dispatch the desired function call using a map.
-   if (irfsName == "DC1") {
+   if (irfsName == "DC1" && !s_respIds.count("DC1")) {
       dc1Response::loadIrfs();
       s_respIds["DC1"].push_back("DC1::Front");
       s_respIds["DC1"].push_back("DC1::Back");
@@ -37,7 +39,7 @@ void Loader::go(const std::string & irfsName) {
       s_respIds["FRONT/BACK"].push_back("DC1::Back");
       s_respIds["FRONT"].push_back("DC1::Front");
       s_respIds["BACK"].push_back("DC1::Back");
-   } else if (irfsName == "GLAST25") {
+   } else if (irfsName == "GLAST25" && !s_respIds.count("G25")) {
       g25Response::loadIrfs();
       s_respIds["G25"].push_back("Glast25::Front");
       s_respIds["G25"].push_back("Glast25::Back");
@@ -48,15 +50,23 @@ void Loader::go(const std::string & irfsName) {
       s_respIds["GLAST25"].push_back("Glast25::Back");
       s_respIds["G25FRONT"].push_back("Glast25::Front");
       s_respIds["G25BACK"].push_back("Glast25::Back");
-   } else if (irfsName == "TEST") {
+   } else if (irfsName == "TEST" && !s_respIds.count("TEST")) {
       testResponse::loadIrfs();
       s_respIds["TEST"].push_back("testIrfs::Front");
       s_respIds["TEST"].push_back("testIrfs::Back");
       s_respIds["TESTF"].push_back("testIrfs::Front");
       s_respIds["TESTB"].push_back("testIrfs::Back");
+//    } else if (irfsName == "DEV" && !s_respIds.count("DEV")) {
+//       devResponse::loadIrfs();
+//       s_respIds["DEV"].push_back("dev::Front");
+//       s_respIds["DEV"].push_back("dev::Back");
+//       s_respIds["DEVF"].push_back("dev::Front");
+//       s_respIds["DEVB"].push_back("dev::Back");
    } else {
-      throw std::invalid_argument("Request for an invalid set of irfs named "
-                                  + irfsName);
+      if (!s_respIds.count(irfsName)) {
+         throw std::invalid_argument("Request to load an invalid set of irfs: "
+                                     + irfsName);
+      }
    }
 }
 

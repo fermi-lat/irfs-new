@@ -29,32 +29,13 @@ class Psf(object):
     def __getattr__(self, attrname):
         return getattr(self._psf, attrname)
 
-#psf = Psf("Glast25::Front", 1000.)
+psf = Psf("Glast25::Back", 100., 30.)
 #psf = Psf("testIrfs::Front", 1000.)
-psf = Psf("DC1::Front", 1000.)
-
-#nsamp = 1000
-#separations = []
-#wts = []
-#for i in range(nsamp):
-#    sep = psf.app_dir()[0]
-#    separations.append(sep)
-#    wts.append(1./num.sin(sep*num.pi/180.))
-#
-#nt = plot.newNTuple((separations, wts), ('separation', 'wt'))
-#
-#hist = plot.Histogram(nt, 'separation', xlog=1, ylog=1)
-#rep = hist.getDataRep()
-#rep.setWeight('wt')
-#
-#seps = 0.01*num.exp(num.arange(100, type=num.Float)*num.log(20./0.01)/99.)
-#psf_vals = psf(seps)*100.
-#plot.scatter(seps, psf_vals, pointRep='Line', lineStyle='Dash', oplot=1,
-#             autoscale=1)
+#psf = Psf("dev::Front", 1000.)
 
 SkyDir = irfLoader.SkyDir
 
-energy = 300.
+energy = 1e4
 theta = 40.
 phi = 0.
 scZAxis = SkyDir(180., theta)
@@ -62,7 +43,7 @@ scXAxis = SkyDir(90., 0)
 
 cones = irfLoader.ConeVector()
 roiCenter = SkyDir(180., 0.)
-roi = irfLoader.AcceptanceCone(roiCenter, 15.)
+roi = irfLoader.AcceptanceCone(roiCenter, 20.)
 cones.append(roi)
 
 def sample_dist(sep, ntrials=20, nsamp=1000):
@@ -88,7 +69,7 @@ seps = []
 nobs = []
 nobserr = []
 npreds = []
-for sep in num.arange(5, 20):
+for sep in num.arange(15, 25):
     seps.append(sep)
     nn, nerr = sample_dist(sep)
     nobs.append(nn)

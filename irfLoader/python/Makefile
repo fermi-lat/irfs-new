@@ -15,18 +15,20 @@ INCLUDE = -I$(IRFLOADERROOT)\
 	-I$(DC1RESPONSEROOT)\
 	-I$(G25RESPONSEROOT)\
 	-I$(TESTRESPONSEROOT)\
+	-I$(DEVRESPONSEROOT)\
 	-I$(IRFINTERFACEROOT)\
 	-I$(ASTROROOT)\
 	-I$(F2CROOT)\
 	-I$(GLAST_EXT)/cfitsio/v2470/include\
 	-I$(GLAST_EXT)/CLHEP/1.8.0.0/include
 
-LIBS = -L../$(BINDIR)/ -lirfLoaderLib\
-	-L$(DC1RESPONSEROOT)/$(BINDIR) -ldc1ResponseLib\
-	-L$(G25RESPONSEROOT)/$(BINDIR) -lg25ResponseLib\
-	-L$(TESTRESPONSEROOT)/$(BINDIR) -ltestResponseLib\
-	-L$(IRFINTERFACEROOT)/$(BINDIR) -lirfInterfaceLib\
-	-L$(IRFUTILROOT)/$(BINDIR) -lirfUtilLib\
+LIBS = -L../$(BINDIR)/ -lirfLoader\
+	-L$(DC1RESPONSEROOT)/$(BINDIR) -ldc1Response\
+	-L$(G25RESPONSEROOT)/$(BINDIR) -lg25Response\
+	-L$(TESTRESPONSEROOT)/$(BINDIR) -ltestResponse\
+	-L$(DEVRESPONSEROOT)/$(BINDIR) -ldevResponse\
+	-L$(IRFINTERFACEROOT)/$(BINDIR) -lirfInterface\
+	-L$(IRFUTILROOT)/$(BINDIR) -lirfUtil\
 	-L$(ASTROROOT)/$(BINDIR) -lastro\
 	-L$(TIPROOT)/$(BINDIR) -ltipLib\
 	-L$(ST_FACILITIESROOT)/$(BINDIR) -lst_facilitiesLib\
