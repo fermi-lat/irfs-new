@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Aug  6 14:55:02 PDT 2004
+irfs/g25Response/src
+
+Modified Files:
+	AeffGlast25.cxx PsfGlast25.cxx 
+Log Message:
+handle bounds errors in bilinear interpolation more gracefully
+    *
+------------------------------------------------------------
 User: jchiang  Mon Jul 19 11:11:53 PDT 2004
 irfs/g25Response
 
