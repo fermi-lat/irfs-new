@@ -199,11 +199,14 @@ double PsfDC1::energyScaling(double energy) const {
 void PsfDC1::computeCumulativeDists() {
 // Prepare array of scaled angles.
    int npts(1000);            // Is this enough points?
+   double angle_min = 1e-4;   //
    double angle_max = 20.;    // Does this go out far enough?
-   double angle_step = angle_max/(npts-1);
+//   double angle_step = angle_max/(npts-1);
+   double angle_step = log(angle_max/angle_min)/(npts-1.);
    m_scaledAngles.reserve(npts);
    for (int i = 0; i < npts; i++) {
-      m_scaledAngles.push_back(i*angle_step);
+//      m_scaledAngles.push_back(i*angle_step);
+      m_scaledAngles.push_back(angle_min*exp(i*angle_step));
    }
 
 // Apply trapezoidal rule on this grid of points for each set of
