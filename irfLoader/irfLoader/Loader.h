@@ -41,6 +41,7 @@ public:
 
    /// Access to the names of the available irfs.
    static const std::vector<std::string> & irfsNames() {
+      create_instance();
       return s_irfsNames;
    }
 
