@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 16 20:52:42 PDT 2004
+irfs/irfLoader/src
+
+Modified Files:
+	Loader.cxx 
+Log Message:
+add respIds access
+    *
+------------------------------------------------------------
 User: jchiang  Mon Aug 16 20:52:41 PDT 2004
 irfs/irfLoader/irfLoader
 
