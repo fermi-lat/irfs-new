@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Aug 13 11:32:51 PDT 2004
+irfs/g25Response/src
+
+Modified Files:
+	EdispGlast25.cxx 
+Log Message:
+include astro/SkyDir.h
+    *
+------------------------------------------------------------
 User: jchiang  Sat Aug  7 07:38:45 PDT 2004
 irfs/g25Response/cmt
 
