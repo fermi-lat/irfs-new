@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Aug  7 07:44:47 PDT 2004
+irfs/dc2Response/src
+
+Modified Files:
+	Psf.cxx 
+Log Message:
+fix python build; use radians in Psf::value
+    *
+------------------------------------------------------------
+User: jchiang  Sat Aug  7 07:44:47 PDT 2004
 irfs/dc2Response/python
 
 Modified Files:
