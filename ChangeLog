@@ -2,6 +2,16 @@
 TAG
 Tag name: v0r6p3, operation: add
 Package: irfs
+User: jchiang  Tue Mar  1 09:31:00 2005
+Files:
+  irfs/cmt/requirements  1.15
+  irfs/doc/release.notes  1.12
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: v0r6p3, operation: add
+Package: irfs
 User: jchiang  Tue Mar  1 09:30:43 2005
 Files:
   irfs/.cvsignore  1.1.1.1
