@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 30 21:28:39 PDT 2004
+irfs/dc1Response/src
+
+Modified Files:
+	PsfDC1.cxx 
+Log Message:
+use log scale to sample
+    *
+------------------------------------------------------------
 User: jchiang  Mon Aug 30 17:32:02 PDT 2004
 irfs/dc1Response/src
 
