@@ -270,6 +270,7 @@ double Psf::angularIntegral(double energy, double theta,
                             double phi, double radius) const {
    (void)(phi);
    int ipar = getParamsIndex(energy, theta);
+   radius *= M_PI/180.;
    radius /= energyScaling(energy);
 
    if (radius >= *(m_scaledAngles.end()-1)) {
