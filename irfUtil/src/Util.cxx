@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <vector>
 
@@ -59,16 +60,17 @@ double Util::bilinear(const std::vector<double> &xx, double x,
    double value = (1. - tt)*(1. - uu)*y1 + tt*(1. - uu)*y2 
       + tt*uu*y3 + (1. - tt)*uu*y4; 
    if (value < 0.) {
-      std::cerr << "bilinear: value = " << value << " < 0\n";
-      std::cerr << xx[i-1] << "  " << *(ix-1) << "  " 
-                << x << "  " << *ix << "\n";
-      std::cerr << yy[j-1] << "  " << *(iy-1) << "  " 
-                << y << "  " << *iy << "\n";
-      std::cerr << tt << "  " << uu << "  " 
-                << y1 << "  " << y2 << "  "
-                << y3 << "  " << y4 << "  " << std::endl;
-      assert(false);
-//      throw std::string("Response::bilinear: \n bailing...");
+      std::ostringstream message;
+      message << "irfUtil::Util::bilinear:\n"
+              << "value = " << value << " < 0\n";
+      message << xx[i-1] << "  " << *(ix-1) << "  " 
+              << x << "  " << *ix << "\n";
+      message << yy[j-1] << "  " << *(iy-1) << "  " 
+              << y << "  " << *iy << "\n";
+      message << tt << "  " << uu << "  " 
+              << y1 << "  " << y2 << "  "
+              << y3 << "  " << y4;
+      throw std::runtime_error(message.str());
    }
    return value;
 }
