@@ -1,0 +1,15 @@
+package irfs
+version v0
+
+author J. Chiang <jchiang@slac.stanford.edu>
+
+# $Id$
+
+use irfAnalysis v6 irfs
+use irfTests v0 irfs
+use irfInterface v0 irfs
+
+use g25Response v0 irfs
+use dc1Response v0 irfs
+#use dc2Response v0 irfs
+#use egretResponse v0 irfs
