@@ -1,0 +1,77 @@
+------------------------------------------------------------
+User: jchiang  Sun Aug 15 18:06:13 PDT 2004
+users/jchiang/testResponse/testResponse
+
+Modified Files:
+	loadIrfs.h 
+Log Message:
+refactored irfs based on GR v4r2
+    *
+------------------------------------------------------------
+User: jchiang  Sun Aug 15 18:06:13 PDT 2004
+users/jchiang/testResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+refactored irfs based on GR v4r2
+    *
+------------------------------------------------------------
+User: jchiang  Sun Aug 15 18:06:13 PDT 2004
+users/jchiang/testResponse/src
+
+Modified Files:
+	Aeff.cxx Aeff.h Edisp.cxx Edisp.h Psf.cxx Psf.h loadIrfs.cxx 
+Removed Files:
+	DC2.cxx DC2.h 
+Log Message:
+refactored irfs based on GR v4r2
+    *
+------------------------------------------------------------
+User: jchiang  Sun Aug 15 18:06:13 PDT 2004
+users/jchiang/testResponse/cmt
+
+Modified Files:
+	requirements 
+Removed Files:
+	cleanup.csh cleanup.sh setup.csh setup.sh 
+Log Message:
+refactored irfs based on GR v4r2
+    *
+------------------------------------------------------------
+User: jchiang  Wed Aug 11 15:04:38 PDT 2004
+users/jchiang/testResponse
+
+Log Message:
+initial import
+
+Status:
+
+Vendor Tag:	JC
+Release Tags:	v0
+		
+N users/jchiang/testResponse/.cvsignore
+N users/jchiang/testResponse/cmt/requirements
+N users/jchiang/testResponse/cmt/Makefile
+N users/jchiang/testResponse/cmt/cleanup.csh
+N users/jchiang/testResponse/cmt/setup.csh
+N users/jchiang/testResponse/cmt/setup.sh
+N users/jchiang/testResponse/cmt/cleanup.sh
+N users/jchiang/testResponse/python/Makefile
+N users/jchiang/testResponse/python/dc2Response.i
+N users/jchiang/testResponse/src/Aeff.cxx
+N users/jchiang/testResponse/src/Aeff.h
+N users/jchiang/testResponse/src/DC2.cxx
+N users/jchiang/testResponse/src/DC2.h
+N users/jchiang/testResponse/src/Edisp.cxx
+N users/jchiang/testResponse/src/Edisp.h
+N users/jchiang/testResponse/src/Psf.cxx
+N users/jchiang/testResponse/src/Psf.h
+N users/jchiang/testResponse/src/loadIrfs.cxx
+I users/jchiang/testResponse/src/.#Psf.cxx.1.1.1.1
+N users/jchiang/testResponse/src/test/test.cxx
+N users/jchiang/testResponse/testResponse/loadIrfs.h
+
+No conflicts created by this import
+
+    *
