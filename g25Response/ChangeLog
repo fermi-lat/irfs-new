@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Oct  1 12:01:55 PDT 2004
+irfs/g25Response/src
+
+Modified Files:
+	AeffGlast25.cxx EdispGlast25.cxx PsfGlast25.cxx 
+Log Message:
+use st_facilities
+    *
+------------------------------------------------------------
 User: jchiang  Fri Oct  1 12:01:54 PDT 2004
 irfs/g25Response/cmt
 
