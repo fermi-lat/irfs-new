@@ -1,4 +1,43 @@
 ------------------------------------------------------------
+User: jchiang  Fri Aug 20 09:01:19 PDT 2004
+irfs/testResponse
+
+Log Message:
+initial import
+
+Status:
+
+Vendor Tag:	GLAST
+Release Tags:	v0
+		
+I irfs/testResponse/CVS
+N irfs/testResponse/.cvsignore
+N irfs/testResponse/ChangeLog
+I irfs/testResponse/rh9_gcc32
+I irfs/testResponse/work
+I irfs/testResponse/cmt/CVS
+N irfs/testResponse/cmt/requirements
+I irfs/testResponse/doc/CVS
+I irfs/testResponse/python/CVS
+N irfs/testResponse/python/Makefile
+N irfs/testResponse/python/testResponse.i
+I irfs/testResponse/src/CVS
+N irfs/testResponse/src/Aeff.cxx
+N irfs/testResponse/src/Aeff.h
+N irfs/testResponse/src/Edisp.cxx
+N irfs/testResponse/src/Edisp.h
+N irfs/testResponse/src/Psf.cxx
+N irfs/testResponse/src/Psf.h
+N irfs/testResponse/src/loadIrfs.cxx
+I irfs/testResponse/src/test/CVS
+N irfs/testResponse/src/test/test.cxx
+I irfs/testResponse/testResponse/CVS
+N irfs/testResponse/testResponse/loadIrfs.h
+
+No conflicts created by this import
+
+    *
+------------------------------------------------------------
 User: jchiang  Sun Aug 15 18:06:13 PDT 2004
 users/jchiang/testResponse/testResponse
 
