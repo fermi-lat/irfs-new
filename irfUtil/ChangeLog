@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jul 20 16:55:46 PDT 2004
+irfs/irfUtil/src
+
+Added Files:
+	RootTable.cxx 
+Log Message:
+add RootTable
+    *
+------------------------------------------------------------
 User: jchiang  Tue Jul 20 16:55:45 PDT 2004
 irfs/irfUtil/irfUtil
 
