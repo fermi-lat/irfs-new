@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  07-Aug-04 v0r0p2  JC    use correct angular units in angularIntegrals method
   20-Jul-04 v0r0p1  JC    RootTable moved to irfUtil
   16-Jul-04 v0      JC    initial version
  
