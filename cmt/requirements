@@ -12,9 +12,9 @@ use irfInterface v0 irfs
 use irfUtil v0r3 irfs
 use irfLoader v0r1 irfs
 
-use g25Response v0r0p1 irfs
-use dc1Response v0r1 irfs
-use testResponse v0r2 irfs
+use g25Response v0r1 irfs
+use dc1Response v0r2 irfs
+use testResponse v0r3 irfs
 #use dc2Response v0 irfs
 #use egretResponse v0 irfs
 
