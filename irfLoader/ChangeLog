@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 16 20:52:41 PDT 2004
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add respIds access
+    *
+------------------------------------------------------------
 User: jchiang  Fri Jul 23 13:52:58 PDT 2004
 irfs/irfLoader/doc
 
