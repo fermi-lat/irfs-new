@@ -1,6 +1,7 @@
 import os, sys
 import numarray as num
-#import hippoplotter as plot
+
+from hippoplot import *
 
 import irfLoader
 irfLoader.Loader_go()
@@ -64,7 +65,7 @@ roiCenter = SkyDir(180., 0.)
 roi = irfLoader.AcceptanceCone(roiCenter, 15.)
 cones.append(roi)
 
-def sample_dist(sep, ntrials=100, nsamp=1000):
+def sample_dist(sep, ntrials=20, nsamp=1000):
     srcDir = SkyDir(180., sep)
     nobs = []
     for j in range(ntrials):
@@ -89,16 +90,13 @@ nobserr = []
 npreds = []
 for sep in num.arange(5, 20):
     seps.append(sep)
-    nn, nerr = sample_dist(sep, ntrials=20)
+    nn, nerr = sample_dist(sep)
     nobs.append(nn)
     nobserr.append(nerr)
     npreds.append(Npred(sep))
     print sep, nobs[-1], nobserr[-1], npreds[-1]
 
-from hippoplot import *
-createApp(1)
-plot1 = LinePlot(seps, npreds, xname='separation', yname='Npred')
-plot2 = XYPlot(seps, nobs, yerr=nobserr, currentDisplay=plot1)
-plot2.saveAsImage('foo.png')
-
-
+createCanvas(1)
+plot = LinePlot(seps, npreds, xname='separation', yname='Npred')
+XYPlot(seps, nobs, yerr=nobserr, display=plot, color='red')
+plot.saveAsImage('foo.png')

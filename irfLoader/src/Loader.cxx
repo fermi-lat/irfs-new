@@ -30,8 +30,8 @@ void Loader::go(const std::string & irfsName) {
       dc1Response::loadIrfs();
       s_respIds["DC1"].push_back("DC1::Front");
       s_respIds["DC1"].push_back("DC1::Back");
-      s_respIds["DC1FRONT"].push_back("DC1::Front");
-      s_respIds["DC1BACK"].push_back("DC1::Back");
+      s_respIds["DC1F"].push_back("DC1::Front");
+      s_respIds["DC1B"].push_back("DC1::Back");
 // These are deprecated in favor of "DC1" versions:
       s_respIds["FRONT/BACK"].push_back("DC1::Front");
       s_respIds["FRONT/BACK"].push_back("DC1::Back");
@@ -39,6 +39,11 @@ void Loader::go(const std::string & irfsName) {
       s_respIds["BACK"].push_back("DC1::Back");
    } else if (irfsName == "GLAST25") {
       g25Response::loadIrfs();
+      s_respIds["G25"].push_back("Glast25::Front");
+      s_respIds["G25"].push_back("Glast25::Back");
+      s_respIds["G25F"].push_back("Glast25::Front");
+      s_respIds["G25B"].push_back("Glast25::Back");
+// Deprecated:
       s_respIds["GLAST25"].push_back("Glast25::Front");
       s_respIds["GLAST25"].push_back("Glast25::Back");
       s_respIds["G25FRONT"].push_back("Glast25::Front");
@@ -47,8 +52,8 @@ void Loader::go(const std::string & irfsName) {
       testResponse::loadIrfs();
       s_respIds["TEST"].push_back("testIrfs::Front");
       s_respIds["TEST"].push_back("testIrfs::Back");
-      s_respIds["TESTFRONT"].push_back("testIrfs::Front");
-      s_respIds["TESTBACK"].push_back("testIrfs::Back");
+      s_respIds["TESTF"].push_back("testIrfs::Front");
+      s_respIds["TESTB"].push_back("testIrfs::Back");
    } else {
       throw std::invalid_argument("Request for an invalid set of irfs named "
                                   + irfsName);
