@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Aug  6 14:56:05 PDT 2004
+irfs/irfUtil/src
+
+Modified Files:
+	Util.cxx 
+Log Message:
+static method to check for an expected exception
+    *
+------------------------------------------------------------
 User: jchiang  Fri Aug  6 14:56:04 PDT 2004
 irfs/irfUtil/irfUtil
 
