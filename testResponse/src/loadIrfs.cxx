@@ -14,8 +14,6 @@
 #include "irfInterface/IrfsFactory.h"
 #include "irfUtil/Util.h"
 
-#include "g25Response/../src/AeffGlast25.h"
-
 #include "Aeff.h"
 #include "Psf.h"
 #include "Edisp.h"
@@ -57,35 +55,6 @@ void loadIrfs() {
                 << eObj.what() << std::endl;
    } catch (...) {
       std::cout << "testResponse::loadIrfs:\n"
-                << "unknown exception" << std::endl;
-   }
-
-// Hybrid response functions
-
-   long hdu;
-   try {
-      irfUtil::Util::getCaldbFile("FRONT", "DETEFF", "GLAST25", aeffFile, hdu);
-      aeff = new g25Response::AeffGlast25(aeffFile, static_cast<int>(hdu));
-      double front_params[] = {3.78, 1.81, 0.8, 5e4, 0.4};
-      std::vector<double> frontParams(front_params, front_params+5);
-      psf = new Psf(frontParams);
-      edisp = new Edisp();
-      myFactory->addIrfs("Hybrid::Front",
-                         new irfInterface::Irfs(aeff, psf, edisp, 0));
-
-      irfUtil::Util::getCaldbFile("BACK", "DETEFF", "GLAST25", aeffFile, hdu);
-      aeff = new g25Response::AeffGlast25(aeffFile, static_cast<int>(hdu));
-      double back_params[] = {6.80, 4.03, 0.85, 2.75e4, 0.4};
-      std::vector<double> backParams(back_params, back_params+5);
-      psf = new Psf(backParams);
-      edisp = new Edisp();
-      myFactory->addIrfs("Hybrid::Back",
-                         new irfInterface::Irfs(aeff, psf, edisp, 1));
-   } catch (std::exception &eObj) {
-      std::cout << "testResponse::Hybrid irfs:\n"
-                << eObj.what() << std::endl;
-   } catch (...) {
-      std::cout << "testResponse::Hybrid Irfs:\n"
                 << "unknown exception" << std::endl;
    }
 }
