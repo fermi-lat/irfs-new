@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Oct  1 12:01:54 PDT 2004
+irfs/g25Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+use st_facilities
+    *
+------------------------------------------------------------
 User: jchiang  Fri Aug 13 11:32:51 PDT 2004
 irfs/g25Response/src
 
