@@ -2,6 +2,15 @@
 TAG
 Tag name: v0r6p3, operation: add
 Package: irfs
+User: jchiang  Tue Mar  1 09:31:06 2005
+Files:
+  irfs/src/mainpage.h  1.1.1.1
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: v0r6p3, operation: add
+Package: irfs
 User: jchiang  Tue Mar  1 09:31:00 2005
 Files:
   irfs/cmt/requirements  1.15
