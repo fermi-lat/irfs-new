@@ -1,0 +1,33 @@
+------------------------------------------------------------
+User: jchiang  Mon Jul 19 11:09:26 PDT 2004
+irfs/caldb
+
+Log Message:
+first import
+
+Status:
+
+Vendor Tag:	GLAST
+Release Tags:	v0
+		
+N irfs/caldb/.cvsignore
+N irfs/caldb/cmt/requirements
+N irfs/caldb/CALDB/caldb_DC1.tar
+N irfs/caldb/CALDB/caldb.indx
+N irfs/caldb/CALDB/data/glast/lat/bcf/ea/aeff_DC1.fits
+N irfs/caldb/CALDB/data/glast/lat/bcf/ea/aeff_lat.fits
+N irfs/caldb/CALDB/data/glast/lat/bcf/ea/aeff_all.root
+N irfs/caldb/CALDB/data/glast/lat/bcf/psf/psf_DC1.fits
+N irfs/caldb/CALDB/data/glast/lat/bcf/psf/psf_lat.fits
+N irfs/caldb/CALDB/data/glast/lat/bcf/psf/psf_thick_parameters.root
+N irfs/caldb/CALDB/data/glast/lat/bcf/psf/psf_thin_parameters.root
+N irfs/caldb/CALDB/data/glast/lat/bcf/edisp/edisp_DC1.fits
+N irfs/caldb/CALDB/data/glast/lat/bcf/edisp/redis_lat.fits
+N irfs/caldb/CALDB/data/glast/lat/bcf/edisp/edisp_thick_parameters.root
+N irfs/caldb/CALDB/data/glast/lat/bcf/edisp/edisp_thin_parameters.root
+N irfs/caldb/CALDB/software/tools/alias_config.fits
+N irfs/caldb/CALDB/software/tools/caldb.config
+
+No conflicts created by this import
+
+    *

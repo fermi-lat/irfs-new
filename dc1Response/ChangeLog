@@ -1,0 +1,31 @@
+------------------------------------------------------------
+User: jchiang  Mon Jul 19 11:10:44 PDT 2004
+irfs/dc1Response
+
+Log Message:
+first import
+
+Status:
+
+Vendor Tag:	GLAST
+Release Tags:	v0
+		
+N irfs/dc1Response/.cvsignore
+N irfs/dc1Response/cmt/requirements
+N irfs/dc1Response/src/AeffDC1.cxx
+N irfs/dc1Response/src/AeffDC1.h
+N irfs/dc1Response/src/DC1.cxx
+N irfs/dc1Response/src/DC1.h
+N irfs/dc1Response/src/EdispDC1.cxx
+N irfs/dc1Response/src/EdispDC1.h
+N irfs/dc1Response/src/PsfDC1.cxx
+N irfs/dc1Response/src/PsfDC1.h
+N irfs/dc1Response/src/loadIrfs.cxx
+N irfs/dc1Response/src/RootTable.h
+N irfs/dc1Response/src/RootTable.cxx
+N irfs/dc1Response/src/test/test.cxx
+N irfs/dc1Response/dc1Response/loadIrfs.h
+
+No conflicts created by this import
+
+    *

@@ -1,0 +1,30 @@
+------------------------------------------------------------
+User: jchiang  Mon Jul 19 11:07:17 PDT 2004
+irfs/irfInterface
+
+Log Message:
+first import
+
+Status:
+
+Vendor Tag:	GLAST
+Release Tags:	v0
+		
+N irfs/irfInterface/.cvsignore
+N irfs/irfInterface/cmt/requirements
+N irfs/irfInterface/src/IrfsFactory.cxx
+N irfs/irfInterface/src/test/test.cxx
+N irfs/irfInterface/src/test/Psf.h
+N irfs/irfInterface/src/test/Aeff.h
+N irfs/irfInterface/src/test/Edisp.h
+N irfs/irfInterface/irfInterface/IAeff.h
+N irfs/irfInterface/irfInterface/IEdisp.h
+N irfs/irfInterface/irfInterface/IPsf.h
+N irfs/irfInterface/irfInterface/IrfsFactory.h
+N irfs/irfInterface/irfInterface/Irfs.h
+N irfs/irfInterface/irfInterface/AcceptanceCone.h
+N irfs/irfInterface/doc/release.notes
+
+No conflicts created by this import
+
+    *
