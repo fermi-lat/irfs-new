@@ -1,0 +1,16 @@
+package irfLoader
+version v0
+
+author James Chiang <jchiang@slac.stanford.edu>
+
+# $Id$
+
+use STpolicy v1r*
+use dc1Response v0* irfs
+use g25Response v0* irfs
+
+apply_pattern ST_library option=" -no_share "
+
+private
+
+use cppunit v1r* IExternal
