@@ -19,7 +19,7 @@
 %include ../../../irfInterface/v0/irfInterface/Irfs.h
 %include ../../../irfInterface/v0/irfInterface/IrfsFactory.h
 %include ../../../irfInterface/v0/irfInterface/AcceptanceCone.h
-%include ../../../testResponse/v0/testResponse/loadIrfs.h
+%include ../../../testResponse/v0r1/testResponse/loadIrfs.h
 %template(DoubleVector) std::vector<double>;
 %template(StringVector) std::vector<std::string>;
 %template(IrfVector) std::vector<irfInterface::Irfs>;

@@ -27,6 +27,8 @@ LIBS = -L../$(BINDIR)/ -ltestResponseLib\
 	-L$(IRFUTILROOT)/$(BINDIR) -lirfUtilLib\
 	-L$(ASTROROOT)/$(BINDIR) -lastro\
 	-L$(TIPROOT)/$(BINDIR) -ltipLib\
+	-L$(ST_FACILITIESROOT)/$(BINDIR) -lst_facilitiesLib\
+	-L$(FACILITIESROOT)/$(BINDIR) -lfacilities\
 	-L$(CFITSIO_DIR)/lib -lcfitsio\
 	-L$(CLHEP_DIR)/1.8.0.0/lib -lCLHEP\
 	-L$(GLAST_EXT)/xerces/1.7.0/lib/ -lxerces-c1_7_0 -lpthread\
