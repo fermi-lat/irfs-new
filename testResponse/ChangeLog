@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Mar  1 09:27:57 PST 2005
+irfs/testResponse/src
+
+Modified Files:
+	loadIrfs.cxx mainpage.h 
+Log Message:
+correct typo in mainpage; clean up loadIrfs;remove old swig-related files
+    *
+------------------------------------------------------------
+User: jchiang  Tue Mar  1 09:27:57 PST 2005
 irfs/testResponse/python
 
 Removed Files:
