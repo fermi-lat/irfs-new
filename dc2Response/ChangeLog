@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Oct  1 12:04:00 PDT 2004
+irfs/dc2Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+use st_facilities
+    *
+------------------------------------------------------------
 User: jchiang  Sat Aug  7 07:44:47 PDT 2004
 irfs/dc2Response/src
 
