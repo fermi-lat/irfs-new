@@ -14,7 +14,5 @@ use f2c v*
 use astro v1r*
 use tip v1*
 
-macro_append ROOT_linkopts " $(ROOT_GUI_libs)"
-
 apply_pattern ST_library option=" -no_share "
 

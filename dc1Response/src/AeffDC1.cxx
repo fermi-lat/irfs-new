@@ -14,6 +14,7 @@
 #include "astro/SkyDir.h"
 
 #include "irfUtil/Util.h"
+#include "irfUtil/RootTable.h"
 
 #include "AeffDC1.h"
 
@@ -68,7 +69,7 @@ void AeffDC1::read_FITS_table() {
 }
 
 void AeffDC1::readAeffTable() {
-   m_aeff = new RootTable(m_filename, m_histName);
+   m_aeff = new irfUtil::RootTable(m_filename, m_histName);
 }
 
 double AeffDC1::value(double energy, 
