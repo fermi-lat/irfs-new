@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  01-Oct-04 v0r3    JC    remove functions now in st_facilities
   07-Aug-04 v0r2    JC    add expectedException; throw runtime_error 
                           in bilinear
   20-Jul-04 v0r1    JC    add RootTable
