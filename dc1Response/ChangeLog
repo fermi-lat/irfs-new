@@ -1,4 +1,16 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jul 20 16:52:37 PDT 2004
+irfs/dc1Response/src
+
+Modified Files:
+	AeffDC1.cxx AeffDC1.h 
+Removed Files:
+      Tag: v0
+	RootTable.cxx RootTable.h 
+Log Message:
+move RootTable to irfUtil
+    *
+------------------------------------------------------------
 User: jchiang  Tue Jul 20 16:52:36 PDT 2004
 irfs/dc1Response/cmt
 
