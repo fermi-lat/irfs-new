@@ -194,6 +194,11 @@ double Psf::angularIntegral(double energy, double theta,
                             double phi, double radius) const {
    (void)(phi);
    double scaledDev = radius*M_PI/180./sepMean(energy, theta*M_PI/180.);
+   if (scaledDev >= m_scaledDevs.back()) {
+      return 1.;
+   } else if (scaledDev <= m_scaledDevs.front()) {
+      return 0;
+   }
    return st_facilities::Util::interpolate(m_scaledDevs, m_cumDist, scaledDev);
 }
 
@@ -316,7 +321,7 @@ double Psf::scaledDist(double x) const {
 
 void Psf::computeCumulativeDist() {
    int npts(200);
-   double xstep = 5./(npts-1.);
+   double xstep = 6./(npts-1.);
    double xmin(1e-3);
    m_scaledDevs.clear();
    m_scaledDevs.reserve(npts);
