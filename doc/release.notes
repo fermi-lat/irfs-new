@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  16-Jan-04 v0r6p1  JC    dc1Response v0r2p2
   27-Nov-04 v0r6    JC    irfLoader v0r2 and irfInterface v0r1
   29-Oct-04 v0r5p1  JC    update packages using tip v2*
   01-Oct-04 v0r5    JC    use st_facilities
