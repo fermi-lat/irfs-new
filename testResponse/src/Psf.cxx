@@ -138,11 +138,11 @@ double Psf::value(double separation, double sepMean) const {
    double my_value;
    double x = separation/sepMean;
    if (separation != 0) {
-      my_value = x*pow((1. + 2.*x/(gamma-1.)), -gamma);
+      my_value = scaledDist(x)/sepMean;
 // Apply normalization and convert to per steradians.
       return my_value/2./M_PI/sin(separation)/m_psfNorm;
    } else {
-      my_value = pow((1. + 2.*x/(gamma-1.)), -gamma)/sepMean;
+      my_value = pow((1. + 2.*x/(gamma-1.)), -gamma)/sepMean/sepMean;
       return my_value/2./M_PI/m_psfNorm;
    }
    return 0;
@@ -332,6 +332,7 @@ void Psf::computeCumulativeDist() {
                             scaledDist(m_scaledDevs[i-1]))/2.);
    }
    m_psfNorm = m_cumDist.back();
+//   std::cerr << "m_psfNorm: " << m_psfNorm << std::endl;
    for (int i = 0; i < npts; i++) {
       m_cumDist[i] /= m_psfNorm;
    }

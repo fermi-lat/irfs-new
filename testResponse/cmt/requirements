@@ -16,4 +16,3 @@ use tip v1*
 use st_facilities v0*
 
 apply_pattern ST_library option=" -no_share "
-application test test/*.cxx
