@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Aug 25 13:33:16 PDT 2004
+irfs/testResponse/src
+
+Modified Files:
+	Psf.cxx Psf.h loadIrfs.cxx 
+Log Message:
+new form for the Psf
+    *
+------------------------------------------------------------
 User: jchiang  Wed Aug 25 13:33:15 PDT 2004
 irfs/testResponse/cmt
 
