@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jul 20 19:05:37 PDT 2004
+irfs/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+slightly refactored irfUtil; tagging v0r1
+    *
+------------------------------------------------------------
 User: jchiang  Mon Jul 19 11:14:28 PDT 2004
 irfs/cmt
 
