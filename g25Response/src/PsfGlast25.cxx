@@ -184,6 +184,7 @@ void PsfGlast25::fetchPsfParams(double energy, double inc,
    } catch (std::runtime_error & eObj) {
       if (!st_facilities::Util::expectedException(eObj, "Util::bilinear")) {
 //@todo find better default values for sigval1 and sigval2
+         std::cout << eObj.what() << std::endl;
          sig1val = 1;
       } else {
          throw;
@@ -195,6 +196,7 @@ void PsfGlast25::fetchPsfParams(double energy, double inc,
                                          m_sig2);
    } catch (std::runtime_error & eObj) {
       if (!st_facilities::Util::expectedException(eObj, "Util::bilinear")) {
+         std::cout << eObj.what() << std::endl;
          sig2val = 1;
       } else {
          throw;
@@ -203,9 +205,9 @@ void PsfGlast25::fetchPsfParams(double energy, double inc,
 
 // Simply set the weight using the upper bound energy
    std::vector<double>::const_iterator ie;
-   if (energy < *(m_energy.begin())) {
+   if (energy < m_energy.front()) {
       ie = m_energy.begin();
-   } else if (energy >= *(m_energy.end() - 1)) {
+   } else if (energy >= m_energy.back()) {
       ie = m_energy.end() - 1;
    } else {
       ie = std::upper_bound(m_energy.begin(), m_energy.end(), energy);
@@ -331,13 +333,13 @@ void PsfGlast25::computeAngularIntegrals
       }
 
       m_sigma.clear();
-      double sigmaMin = 0.;
+      double sigmaMin = 0.004;
 // The maximum sigma value in psf_lat.fits is actually about 27
 // degrees.
       double sigmaMax = 30.*M_PI/180.; 
-      double sigmaStep = (sigmaMax - sigmaMin)/(nsigma - 1.);
+      double sigmaStep = log(sigmaMax/sigmaMin)/(nsigma - 1.);
       for (unsigned int i = 0; i < nsigma; i++) {
-         m_sigma.push_back(sigmaStep*i + sigmaMin);
+         m_sigma.push_back(sigmaMin*exp(sigmaStep*i));
       }
    }
 // Fill m_angularIntegrals.
@@ -356,7 +358,7 @@ void PsfGlast25::computeAngularIntegrals
             m_angularIntegrals[indx] = 1.;
          } else {
             double denom = 1. - exp(-2/m_sigma[j]/m_sigma[j]);
-            double gauss_int;
+            double gauss_int(0);
             if (m_psi[i] == 0) {
                gauss_int = 0;
             } else {
@@ -374,7 +376,7 @@ void PsfGlast25::computeAngularIntegrals
                      + gauss_int/M_PI/m_sigma[j]/m_sigma[j])/denom;
             } else {
                m_angularIntegrals[indx] 
-                  =  gauss_int/M_PI/m_sigma[j]/m_sigma[j]/denom;
+                  = gauss_int/M_PI/m_sigma[j]/m_sigma[j]/denom;
             }
          }
       } // j
