@@ -57,9 +57,9 @@
   \theta_0 \equiv p_0({\tt McZDir} + 1)^2 + p_1
   \f]
   For front-converting events, we find
-  \f$(p_0, p_1, E_b, \delta) = (3.78, 1.81, 0.80, 5\times10^4)\f$, while
+  \f$(p_0, p_1, \delta, E_b) = (3.78, 1.81, 0.80, 5\times10^4)\f$, while
   for back-converting events, 
-  \f$(p_0, p_1, E_b, \delta) = (6.80, 4.03, 0.85, 2.75\times10^4)\f$.
+  \f$(p_0, p_1, \delta, E_b) = (6.80, 4.03, 0.85, 2.75\times10^4)\f$.
 
   Here are a sample of profile plots for various ranges of photon
   inclination:
