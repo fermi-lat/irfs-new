@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  29-Oct-04 v0r5p1  JC    update packages using tip v2*
   01-Oct-04 v0r5    JC    use st_facilities
   31-Aug-04 v0r4p2  JC    update dc1Response
   26-Aug-04 v0r4p1  JC    update testResponse

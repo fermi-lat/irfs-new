@@ -1,5 +1,5 @@
 package irfs
-version v0r5
+version v0r5p1
 
 author J. Chiang <jchiang@slac.stanford.edu>
 
@@ -9,12 +9,12 @@ author J. Chiang <jchiang@slac.stanford.edu>
 #use irfTests v0 irfs
 
 use irfInterface v0 irfs
-use irfUtil v0r3 irfs
+use irfUtil v0r3p1 irfs
 use irfLoader v0r1 irfs
 
-use g25Response v0r1 irfs
-use dc1Response v0r2 irfs
-use testResponse v0r3 irfs
+use g25Response v0r1p1 irfs
+use dc1Response v0r2p1 irfs
+use testResponse v0r3p1 irfs
 #use dc2Response v0 irfs
 #use egretResponse v0 irfs
 
