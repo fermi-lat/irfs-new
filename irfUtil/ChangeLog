@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Aug  3 19:51:00 PDT 2004
+irfs/irfUtil/src
+
+Modified Files:
+	Util.cxx 
+Log Message:
+throw runtime_error
+    *
+------------------------------------------------------------
 User: jchiang  Tue Jul 20 18:57:20 PDT 2004
 irfs/irfUtil/doc
 
