@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jan 11 07:08:04 PST 2005
+irfs/g25Response/src
+
+Modified Files:
+	PsfGlast25.cxx 
+Log Message:
+fix for high energy angular integrals
+    *
+------------------------------------------------------------
 User: jchiang  Fri Oct 29 22:05:04 PDT 2004
 irfs/g25Response/cmt
 
