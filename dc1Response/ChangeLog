@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sun Jan 16 17:34:48 PST 2005
+irfs/dc1Response/src
+
+Modified Files:
+	PsfDC1.cxx 
+Log Message:
+fix for dgaus8 warning when limits are too close
+    *
+------------------------------------------------------------
+User: jchiang  Sun Jan 16 17:34:48 PST 2005
 irfs/dc1Response/cmt
 
 Modified Files:
