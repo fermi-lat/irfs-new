@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan 31 09:19:41 PST 2005
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+enable swig build
+    *
+------------------------------------------------------------
 TAG
 Tag name: v0r2, operation: add
 Package: irfLoader
