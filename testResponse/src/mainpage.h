@@ -73,9 +73,9 @@
   Jean Ballet) in a slightly different context:
   
   \f[
-  \frac{dN}{dx} = p_0x\left[1 + \frac{2x}{\gamma-2}\right]^{-\gamma}
+  \frac{dN}{dx} = p_0x\left[1 + \frac{2x}{\gamma-1}\right]^{-\gamma}
   \f]
 
   The form for the coefficient of \f$x\f$-term inside the brackets
-  ensures that $dN/dx$ peaks at $x = 1$.
+  ensures that \f$dN/dx\$ peaks at \$x = 1\f$.
 */

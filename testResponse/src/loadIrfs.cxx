@@ -24,12 +24,6 @@ void loadIrfs() {
    irfInterface::IPsf *psf;
    irfInterface::IEdisp *edisp;
 
-   std::string aeffFile;
-   std::string psfFile;
-   std::string edispFile;
-   std::string caldbPath = std::string(::getenv("CALDBROOT"))
-      + "/CALDB/data/glast/lat/bcf/";
-
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();
 
