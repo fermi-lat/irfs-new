@@ -212,7 +212,9 @@ void PsfDC1::computeCumulativeDists() {
       std::vector<double> myDist;
       myDist.reserve(npts);
       myDist.push_back(0);
-      for (int j = 1; j < npts; j++) {
+      myDist.push_back(value(m_scaledAngles[1], m_pars[i])/2. 
+                       *(m_scaledAngles[1] - m_scaledAngles[0]));
+      for (int j = 2; j < npts; j++) {
          double delta = (value(m_scaledAngles[j], m_pars[i]) 
                          + value(m_scaledAngles[j-1], m_pars[i]))/2.
             *(m_scaledAngles[j] - m_scaledAngles[j-1]);
