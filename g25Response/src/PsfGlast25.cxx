@@ -175,17 +175,24 @@ void PsfGlast25::fetchPsfParams(double energy, double inc,
    try {
       sig1val 
          = irfUtil::Util::bilinear(m_energy, energy, m_theta, inc, m_sig1);
-   } catch(...) {
-      std::cerr << "Attempting to interpolate sig1." << std::endl;
-      throw;
-   }
+   } catch (std::runtime_error & eObj) {
+      if (!irfUtil::Util::expectedException(eObj, "Util::bilinear")) {
+//@todo find better default values for sigval1 and sigval2
+         sig1val = 1;
+      } else {
+         throw;
+      }
+   } 
    try {
       sig2val 
          = irfUtil::Util::bilinear(m_energy, energy, m_theta, inc, m_sig2);
-   } catch(...) {
-      std::cerr << "Attempting to interpolate sig2." << std::endl;
-      throw;
-   }
+   } catch (std::runtime_error & eObj) {
+      if (!irfUtil::Util::expectedException(eObj, "Util::bilinear")) {
+         sig2val = 1;
+      } else {
+         throw;
+      }
+   } 
 
 // Simply set the weight using the upper bound energy
    std::vector<double>::const_iterator ie;
@@ -248,10 +255,26 @@ PsfGlast25::angularIntegral(double energy, const astro::SkyDir &srcDir,
          frac1 = (1. - exp((mu-1.)/sig1/sig1))/(1. - exp(-2./sig1/sig1));
          frac2 = (1. - exp((mu-1.)/sig2/sig2))/(1. - exp(-2./sig2/sig2));
       } else {
-         frac1 = irfUtil::Util::bilinear(m_psi, psi, m_sigma, sig1,
-                                         m_angularIntegrals);
-         frac2 = irfUtil::Util::bilinear(m_psi, psi, m_sigma, sig2, 
-                                         m_angularIntegrals);
+         try {
+            frac1 = irfUtil::Util::bilinear(m_psi, psi, m_sigma, sig1,
+                                            m_angularIntegrals);
+         } catch (std::runtime_error & eObj) {
+            if (irfUtil::Util::expectedException(eObj, "Util::bilinear")) {
+               frac1 = 0;
+            } else {
+               throw;
+            }
+         }
+         try {
+            frac2 = irfUtil::Util::bilinear(m_psi, psi, m_sigma, sig2, 
+                                            m_angularIntegrals);
+         } catch (std::runtime_error & eObj) {
+            if (irfUtil::Util::expectedException(eObj, "Util::bilinear")) {
+               frac2 = 0;
+            } else {
+               throw;
+            }
+         }
       }
       return wt*frac1 + (1. - wt)*frac2;
    }

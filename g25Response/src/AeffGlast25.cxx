@@ -51,7 +51,18 @@ double AeffGlast25::value(double energy, double theta, double phi) const {
 
 double AeffGlast25::value(double energy, double inc) const {
    if (inc <= Glast25::incMax()) {
-      return irfUtil::Util::bilinear(m_energy, energy, m_theta, inc, m_aeff);
+      double my_value;
+      try {
+         my_value = irfUtil::Util::bilinear(m_energy, energy, 
+                                            m_theta, inc, m_aeff);
+      } catch (std::runtime_error & eObj) {
+         if (irfUtil::Util::expectedException(eObj, "Util::bilinear")) {
+            my_value = 0;
+         } else {
+            throw;
+         }
+      }
+      return my_value;
    } else {
       return 0;
    }
