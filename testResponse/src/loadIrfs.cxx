@@ -12,7 +12,6 @@
 #include <vector>
 
 #include "irfInterface/IrfsFactory.h"
-#include "irfUtil/Util.h"
 
 #include "Aeff.h"
 #include "Psf.h"

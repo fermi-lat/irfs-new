@@ -14,8 +14,6 @@
 
 #include "astro/SkyDir.h"
 
-#include "irfUtil/Util.h"
-
 #include "Aeff.h"
 
 namespace testResponse {
@@ -24,6 +22,7 @@ double Aeff::value(double energy,
                    const astro::SkyDir &srcDir, 
                    const astro::SkyDir &scZAxis,
                    const astro::SkyDir &scXAxis) const {
+   (void)(scXAxis);
    double theta = srcDir.difference(scZAxis)*180./M_PI;
    return value(energy, theta, 0);
 }

@@ -20,8 +20,9 @@
 #include "CLHEP/Geometry/Vector3D.h"
 
 #include "irfInterface/AcceptanceCone.h"
-#include "irfUtil/Util.h"
-#include "irfUtil/dgaus8.h"
+
+#include "st_facilities/FitsUtil.h"
+#include "st_facilities/dgaus8.h"
 
 #include "Psf.h"
 
@@ -171,16 +172,17 @@ void Psf::rescaleParams(std::vector<double> &pars, double scaleFactor) {
 void Psf::readEnergyScaling() {
    if (m_have_FITS_data) {
       std::string extName;
-      irfUtil::Util::getFitsHduName(m_filename, m_hdu, extName);
-      irfUtil::Util::getRecordVector(m_filename, extName, "McEnergy",
-                                     m_scaleEnergy);
-      irfUtil::Util::getRecordVector(m_filename, extName, "ScaleFactor",
-                                     m_scaleFactor);
+      st_facilities::FitsUtil::getFitsHduName(m_filename, m_hdu, extName);
+      st_facilities::FitsUtil::getRecordVector(m_filename, extName, "McEnergy",
+                                               m_scaleEnergy);
+      st_facilities::FitsUtil::getRecordVector(m_filename, extName, 
+                                               "ScaleFactor", m_scaleFactor);
    } else {
-      irfUtil::Util::getTableVector(m_filename, "PsfScale", "McEnergy",
-                                    m_scaleEnergy);
-      irfUtil::Util::getTableVector(m_filename, "PsfScale", "ScaleFactor",
-                                    m_scaleFactor);
+      st_facilities::FitsUtil::getTableVector(m_filename, "PsfScale", 
+                                              "McEnergy", m_scaleEnergy);
+                                              
+      st_facilities::FitsUtil::getTableVector(m_filename, "PsfScale",
+                                              "ScaleFactor", m_scaleFactor);
    }
 }
 

@@ -20,8 +20,10 @@
 #include "CLHEP/Geometry/Vector3D.h"
 
 #include "irfInterface/AcceptanceCone.h"
-#include "irfUtil/Util.h"
-#include "irfUtil/dgaus8.h"
+//#include "irfUtil/Util.h"
+//#include "irfUtil/dgaus8.h"
+#include "st_facilities/FitsUtil.h"
+#include "st_facilities/dgaus8.h"
 
 #include "PsfDC1.h"
 
@@ -173,16 +175,16 @@ void PsfDC1::rescaleParams(std::vector<double> &pars, double scaleFactor) {
 void PsfDC1::readEnergyScaling() {
    if (m_have_FITS_data) {
       std::string extName;
-      irfUtil::Util::getFitsHduName(m_filename, m_hdu, extName);
-      irfUtil::Util::getRecordVector(m_filename, extName, "McEnergy",
+      st_facilities::FitsUtil::getFitsHduName(m_filename, m_hdu, extName);
+      st_facilities::FitsUtil::getRecordVector(m_filename, extName, "McEnergy",
                                      m_scaleEnergy);
-      irfUtil::Util::getRecordVector(m_filename, extName, "ScaleFactor",
-                                     m_scaleFactor);
+      st_facilities::FitsUtil::getRecordVector(m_filename, extName, 
+                                               "ScaleFactor", m_scaleFactor);
    } else {
-      irfUtil::Util::getTableVector(m_filename, "PsfScale", "McEnergy",
-                                    m_scaleEnergy);
-      irfUtil::Util::getTableVector(m_filename, "PsfScale", "ScaleFactor",
-                                    m_scaleFactor);
+      st_facilities::FitsUtil::getTableVector(m_filename, "PsfScale", 
+                                              "McEnergy", m_scaleEnergy);
+      st_facilities::FitsUtil::getTableVector(m_filename, "PsfScale", 
+                                              "ScaleFactor", m_scaleFactor);
    }
 }
 
@@ -199,14 +201,14 @@ double PsfDC1::energyScaling(double energy) const {
 void PsfDC1::computeCumulativeDists() {
 // Prepare array of scaled angles.
    int npts(1000);            // Is this enough points?
-   double angle_min = 1e-4;   //
+//   double angle_min = 1e-4;   //
    double angle_max = 20.;    // Does this go out far enough?
-//   double angle_step = angle_max/(npts-1);
-   double angle_step = log(angle_max/angle_min)/(npts-1.);
+   double angle_step = angle_max/(npts-1);
+//   double angle_step = log(angle_max/angle_min)/(npts-1.);
    m_scaledAngles.reserve(npts);
    for (int i = 0; i < npts; i++) {
-//      m_scaledAngles.push_back(i*angle_step);
-      m_scaledAngles.push_back(angle_min*exp(i*angle_step));
+      m_scaledAngles.push_back(i*angle_step);
+//      m_scaledAngles.push_back(angle_min*exp(i*angle_step));
    }
 
 // Apply trapezoidal rule on this grid of points for each set of

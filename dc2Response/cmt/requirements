@@ -6,6 +6,7 @@ author James Chiang <jchiang@slac.stanford.edu>
 # $Id$
 
 use STpolicy v*
+use st_facilities v0r*
 use irfInterface v0* irfs
 use irfUtil v0* irfs
 use caldb v0* irfs

@@ -8,6 +8,7 @@ author James Chiang <jchiang@slac.stanford.edu>
 use STpolicy v*
 use irfInterface v0* irfs
 use irfUtil v0* irfs
+use st_facilities v0r*
 use caldb v0* irfs
 use CLHEP v* IExternal
 use f2c v*

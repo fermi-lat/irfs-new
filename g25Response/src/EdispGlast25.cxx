@@ -6,11 +6,12 @@
  * $Header$
  */
 
-#include <cmath>
 #include <cassert>
-#include <stdexcept>
-#include <sstream>
+#include <cmath>
+
 #include <algorithm>
+#include <sstream>
+#include <stdexcept>
 
 #include "CLHEP/Random/RandomEngine.h"
 #include "CLHEP/Random/JamesRandom.h"
@@ -18,7 +19,7 @@
 
 #include "astro/SkyDir.h"
 
-#include "irfUtil/Util.h"
+#include "st_facilities/FitsUtil.h"
 
 #include "EdispGlast25.h"
 
@@ -49,9 +50,11 @@ EdispGlast25::EdispGlast25(const std::string &filename, int hdu)
    }
 
    std::string extName;
-   irfUtil::Util::getFitsHduName(filename, hdu, extName);
-   irfUtil::Util::getRecordVector(filename, extName, "energy", m_energies);
-   irfUtil::Util::getRecordVector(filename, extName, "sigma", m_sigmas);
+   st_facilities::FitsUtil::getFitsHduName(filename, hdu, extName);
+   st_facilities::FitsUtil::getRecordVector(filename, extName, "energy", 
+                                            m_energies);
+   st_facilities::FitsUtil::getRecordVector(filename, extName, "sigma",
+                                            m_sigmas);
 }
 
 double EdispGlast25::value(double appEnergy,

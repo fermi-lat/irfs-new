@@ -19,11 +19,10 @@
 #include "CLHEP/Random/RandGauss.h"
 #include "CLHEP/Geometry/Vector3D.h"
 
+#include "st_facilities/dgaus8.h"
 #include "st_facilities/Util.h"
 
 #include "irfInterface/AcceptanceCone.h"
-#include "irfUtil/Util.h"
-#include "irfUtil/dgaus8.h"
 
 #include "Psf.h"
 

@@ -13,7 +13,8 @@
 
 #include "astro/SkyDir.h"
 
-#include "irfUtil/Util.h"
+#include "st_facilities/FitsUtil.h"
+
 #include "irfUtil/RootTable.h"
 
 #include "AeffDC1.h"
@@ -51,21 +52,24 @@ AeffDC1::~AeffDC1() {
 
 void AeffDC1::read_FITS_table() {
    std::string extName;
-   irfUtil::Util::getFitsHduName(m_filename, m_hdu, extName);
-   irfUtil::Util::getRecordVector(m_filename, extName, "energy_lo", m_energy);
+   st_facilities::FitsUtil::getFitsHduName(m_filename, m_hdu, extName);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "energy_lo", 
+                                            m_energy);
 
    std::vector<double> upper_bounds;
-   irfUtil::Util::getRecordVector(m_filename, extName, "energy_hi", 
-                                  upper_bounds);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "energy_hi", 
+                                            upper_bounds);
    m_energy.push_back( *(upper_bounds.end() - 1) );
 
-   irfUtil::Util::getRecordVector(m_filename, extName, "theta_lo", m_theta);
-   irfUtil::Util::getRecordVector(m_filename, extName, "theta_hi", 
-                                  upper_bounds);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "theta_lo",
+                                            m_theta);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "theta_hi", 
+                                            upper_bounds);
    m_theta.push_back( *(upper_bounds.end() - 1) );
 
    m_theta[0] = 0.;  // kludge until aeff_DC1.fits is fixed.
-   irfUtil::Util::getRecordVector(m_filename, extName, "effarea", m_aeffTable);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "effarea",
+                                            m_aeffTable);
 }
 
 void AeffDC1::readAeffTable() {

@@ -18,8 +18,9 @@
 
 #include "irfInterface/AcceptanceCone.h"
 
-#include "irfUtil/Util.h"
-#include "irfUtil/dgaus8.h"
+#include "st_facilities/dgaus8.h"
+#include "st_facilities/FitsUtil.h"
+#include "st_facilities/Util.h"
 
 #include "PsfGlast25.h"
 
@@ -159,12 +160,16 @@ double PsfGlast25::value(double separation, double energy,
 
 void PsfGlast25::readPsfData() {
    std::string extName;
-   irfUtil::Util::getFitsHduName(m_filename, m_hdu, extName);
-   irfUtil::Util::getRecordVector(m_filename, extName, "energy", m_energy);
-   irfUtil::Util::getRecordVector(m_filename, extName, "theta", m_theta);
-   irfUtil::Util::getRecordVector(m_filename, extName, "sig1", m_sig1);
-   irfUtil::Util::getRecordVector(m_filename, extName, "sig2", m_sig2);
-   irfUtil::Util::getRecordVector(m_filename, extName, "w", m_wt);
+   st_facilities::FitsUtil::getFitsHduName(m_filename, m_hdu, extName);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "energy",
+                                            m_energy);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "theta", 
+                                            m_theta);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "sig1",
+                                            m_sig1);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "sig2",
+                                            m_sig2);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "w", m_wt);
 }
 
 void PsfGlast25::fetchPsfParams(double energy, double inc, 
@@ -174,9 +179,10 @@ void PsfGlast25::fetchPsfParams(double energy, double inc,
    double sig1val, sig2val;
    try {
       sig1val 
-         = irfUtil::Util::bilinear(m_energy, energy, m_theta, inc, m_sig1);
+          = st_facilities::Util::bilinear(m_energy, energy, m_theta, inc,
+                                          m_sig1);
    } catch (std::runtime_error & eObj) {
-      if (!irfUtil::Util::expectedException(eObj, "Util::bilinear")) {
+      if (!st_facilities::Util::expectedException(eObj, "Util::bilinear")) {
 //@todo find better default values for sigval1 and sigval2
          sig1val = 1;
       } else {
@@ -185,9 +191,10 @@ void PsfGlast25::fetchPsfParams(double energy, double inc,
    } 
    try {
       sig2val 
-         = irfUtil::Util::bilinear(m_energy, energy, m_theta, inc, m_sig2);
+         = st_facilities::Util::bilinear(m_energy, energy, m_theta, inc, 
+                                         m_sig2);
    } catch (std::runtime_error & eObj) {
-      if (!irfUtil::Util::expectedException(eObj, "Util::bilinear")) {
+      if (!st_facilities::Util::expectedException(eObj, "Util::bilinear")) {
          sig2val = 1;
       } else {
          throw;
@@ -256,20 +263,22 @@ PsfGlast25::angularIntegral(double energy, const astro::SkyDir &srcDir,
          frac2 = (1. - exp((mu-1.)/sig2/sig2))/(1. - exp(-2./sig2/sig2));
       } else {
          try {
-            frac1 = irfUtil::Util::bilinear(m_psi, psi, m_sigma, sig1,
-                                            m_angularIntegrals);
+            frac1 = st_facilities::Util::bilinear(m_psi, psi, m_sigma, sig1,
+                                                  m_angularIntegrals);
          } catch (std::runtime_error & eObj) {
-            if (irfUtil::Util::expectedException(eObj, "Util::bilinear")) {
+            if (st_facilities::Util::expectedException(eObj, 
+                                                       "Util::bilinear")) {
                frac1 = 0;
             } else {
                throw;
             }
          }
          try {
-            frac2 = irfUtil::Util::bilinear(m_psi, psi, m_sigma, sig2, 
-                                            m_angularIntegrals);
+            frac2 = st_facilities::Util::bilinear(m_psi, psi, m_sigma, sig2, 
+                                                  m_angularIntegrals);
          } catch (std::runtime_error & eObj) {
-            if (irfUtil::Util::expectedException(eObj, "Util::bilinear")) {
+            if (st_facilities::Util::expectedException(eObj, 
+                                                       "Util::bilinear")) {
                frac2 = 0;
             } else {
                throw;
