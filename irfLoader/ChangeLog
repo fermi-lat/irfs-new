@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Nov 22 23:06:24 PST 2004
+irfs/irfLoader/python
+
+Added Files:
+	Makefile irfLoader.in psf_tests.py setup.py 
+Log Message:
+expose irfs to python, add test code for psfs
+    *
+------------------------------------------------------------
 User: jchiang  Mon Nov 22 23:00:07 PST 2004
 irfs/irfLoader/python
 
