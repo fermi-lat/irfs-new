@@ -9,9 +9,9 @@ int main() {
    delete myIrfs;
    myIrfs = myFactory->create("DC1::Back");
    delete myIrfs;
-   myIrfs = myFactory->create("DC1::Front_ROOT");
-   delete myIrfs;
-   myIrfs = myFactory->create("DC1::Back_ROOT");
-   delete myIrfs;
+//    myIrfs = myFactory->create("DC1::Front_ROOT");
+//    delete myIrfs;
+//    myIrfs = myFactory->create("DC1::Back_ROOT");
+//    delete myIrfs;
 }
 

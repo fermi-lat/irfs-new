@@ -34,29 +34,31 @@ void loadIrfs() {
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();
 
-// ROOT versions.
-   aeffFile = caldbPath + "ea/aeff_all.root";
+// Loading ROOT versions causes runtime errors on glast-ts, so we
+// skip them.
+// // ROOT versions.
+//    aeffFile = caldbPath + "ea/aeff_all.root";
 
-// Front
-   psfFile = caldbPath + "psf/psf_thin_parameters.root";
-   edispFile = caldbPath + "edisp/edisp_thin_parameters.root";
+// // Front
+//    psfFile = caldbPath + "psf/psf_thin_parameters.root";
+//    edispFile = caldbPath + "edisp/edisp_thin_parameters.root";
 
-   bool getFront(true);
-   aeff = new AeffDC1(aeffFile, getFront);
-   psf = new PsfDC1(psfFile);
-   edisp = new EdispDC1(edispFile);
-   myFactory->addIrfs("DC1::Front_ROOT",
-                      new irfInterface::Irfs(aeff, psf, edisp, 0));
+//    bool getFront(true);
+//    aeff = new AeffDC1(aeffFile, getFront);
+//    psf = new PsfDC1(psfFile);
+//    edisp = new EdispDC1(edispFile);
+//    myFactory->addIrfs("DC1::Front_ROOT",
+//                       new irfInterface::Irfs(aeff, psf, edisp, 0));
 
-// Back
-   psfFile = caldbPath + "psf/psf_thick_parameters.root";
-   edispFile = caldbPath + "edisp/edisp_thick_parameters.root";
+// // Back
+//    psfFile = caldbPath + "psf/psf_thick_parameters.root";
+//    edispFile = caldbPath + "edisp/edisp_thick_parameters.root";
 
-   aeff = new AeffDC1(aeffFile, !getFront);
-   psf = new PsfDC1(psfFile);
-   edisp = new EdispDC1(edispFile);
-   myFactory->addIrfs("DC1::Back_ROOT",
-                      new irfInterface::Irfs(aeff, psf, edisp, 1));
+//    aeff = new AeffDC1(aeffFile, !getFront);
+//    psf = new PsfDC1(psfFile);
+//    edisp = new EdispDC1(edispFile);
+//    myFactory->addIrfs("DC1::Back_ROOT",
+//                       new irfInterface::Irfs(aeff, psf, edisp, 1));
    
 // FITS file versions.
 
