@@ -39,7 +39,7 @@ void loadIrfs() {
       try {
          irfUtil::Util::getCaldbFile("FRONT", "DETEFF", "DC1", aeffFile, hdu);
          aeff = new Aeff(aeffFile, static_cast<int>(hdu));
-         double front_params[] = {3.78, 1.81, 0.8, 5e4, 0.4};
+         double front_params[] = {3.78, 1.81, 0.8, 5e4, 9.};
          std::vector<double> frontParams(front_params, front_params+5);
          psf = new Psf(frontParams);
          edisp = new Edisp();
@@ -48,7 +48,7 @@ void loadIrfs() {
 
          irfUtil::Util::getCaldbFile("BACK", "DETEFF", "DC1", aeffFile, hdu);
          aeff = new Aeff(aeffFile, static_cast<int>(hdu));
-         double back_params[] = {6.80, 4.03, 0.85, 2.75e4, 0.4};
+         double back_params[] = {6.80, 4.03, 0.85, 2.75e4, 9.};
          std::vector<double> backParams(back_params, back_params+5);
          psf = new Psf(backParams);
          edisp = new Edisp();
