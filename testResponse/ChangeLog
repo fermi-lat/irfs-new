@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Mar  1 09:27:57 PST 2005
+irfs/testResponse/python
+
+Removed Files:
+	Makefile testResponse.i 
+Log Message:
+correct typo in mainpage; clean up loadIrfs;remove old swig-related files
+    *
+------------------------------------------------------------
 User: jchiang  Wed Jan 12 17:08:06 PST 2005
 irfs/testResponse/src
 
