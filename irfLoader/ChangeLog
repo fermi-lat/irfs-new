@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Mar 16 23:06:40 PST 2005
+irfs/irfLoader/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+load irfs not more than once; tagging v0r2p1
+    *
+------------------------------------------------------------
+User: jchiang  Wed Mar 16 23:06:40 PST 2005
 irfs/irfLoader/cmt
 
 Modified Files:
