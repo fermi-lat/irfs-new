@@ -59,6 +59,9 @@ public:
                             const std::string & telescope = "GLAST",
                             const std::string & instrument = "LAT");
 
+   static bool expectedException(const std::exception & eObj,
+                                 const std::string & targetMessage);
+
 protected:
 
    Util() {}

@@ -75,6 +75,13 @@ double Util::bilinear(const std::vector<double> &xx, double x,
    return value;
 }
 
+bool Util::expectedException(const std::exception & eObj, 
+                             const std::string & targetMessage) {
+   std::string message(eObj.what());
+   return message.find_first_of(targetMessage.c_str()) 
+      != std::string::npos;
+}
+
 void Util::getTableVector(const std::string & filename,
                           const std::string & extName,
                           const std::string & columnName, 
