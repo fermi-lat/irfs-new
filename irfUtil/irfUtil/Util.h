@@ -52,12 +52,12 @@ public:
    static void getFitsColNames(const std::string & filename, int hdu,
                                std::vector<std::string> & columnNames);
 
-   static void Util::getCaldbFile(const std::string &detName, 
-                                  const std::string &respName,
-                                  const std::string &version,
-                                  std::string &filename, long &extnum,
-                                  const std::string & telescope = "GLAST",
-                                  const std::string & instrument = "LAT");
+   static void getCaldbFile(const std::string &detName, 
+                            const std::string &respName,
+                            const std::string &version,
+                            std::string &filename, long &extnum,
+                            const std::string & telescope = "GLAST",
+                            const std::string & instrument = "LAT");
 
 protected:
 
