@@ -10,8 +10,23 @@ use dc1Response v0* irfs
 use g25Response v0* irfs
 use testResponse v0* irfs
 
-apply_pattern ST_library option=" -no_share "
+apply_pattern package_include
+apply_pattern package_linkopts
+apply_pattern package_stamps
+
+macro_append cppflags "" Linux " -I../src -DTRAP_FPE " 
+macro source *.cxx WIN32 "*.h *.cxx"
+
+library irfLoader -no_share $(source)
+application test_irfLoader test/*.cxx
 
 private
 
 use cppunit v1r* IExternal
+
+use SwigPolicy v*
+
+path_remove PYTHONPATH irfLoader
+path_append PYTHONPATH $(IRFLOADERROOT)/$(BINDIR)
+
+apply_pattern swig_module name="irf_loader"
