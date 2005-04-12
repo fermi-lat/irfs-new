@@ -14,7 +14,7 @@ directions.
 # @file psf_tests.py
 # $Header$
 #
-import os, sys
+import os, sys, bisect
 import numarray as num
 import hippoplotter as plot
 import irf_loader
@@ -108,9 +108,50 @@ class PsfTests(object):
             nobs, nerr = self._SampleDist(sep)
             npred = self._Npred(sep)
             nt.addRow( (sep, npred, nobs, nerr, nobs-npred) )
-        
         return nt, display
-
+    def plot_rspgenIntegral(self, energy, inclination, phi=0, nsamp=2000):
+        rmin = 1e-2
+        rmax = 30.
+        npts = 20
+        rstep = num.log(rmax/rmin)/(npts-1)
+        radii = rmin*num.exp(rstep*num.arange(npts))
+        self._setPsf(energy, inclination, phi)
+        seps = []
+        srcDir = SkyDir(180, 0)
+        for i in range(nsamp):
+            appDir = self.psf.appDir(energy, srcDir, self.scZAxis,
+                                     self.scXAxis)
+            seps.append(appDir.difference(srcDir)*180./num.pi)
+        seps.sort()
+        fraction = num.arange(nsamp, type=num.Float)/nsamp
+        disp = plot.scatter(seps, fraction, xlog=1,
+                            xname='ROI radius', yname='enclosed Psf fraction',
+                            pointRep='Line', color='red')
+        disp.setTitle("%s: %i MeV, %.1f deg" %
+                      (self.irfs, energy, inclination))
+        npred = []
+        resids = []
+        for radius in radii:
+            npred.append(self.psf.angularIntegral(energy, inclination, phi,
+                                                  radius))
+            resids.append(num.abs((self._interpolate(seps, fraction, radius)
+                                   - npred[-1])/npred[-1]))
+        plot.scatter(radii, npred, pointRep='Line', oplot=1)
+        residplot = plot.scatter(radii, resids, 'ROI radius',
+                                 yname='abs(sim - npred)/npred',
+                                 xlog=1, ylog=1)
+        plot.hline(0)
+        residplot.setTitle("%s: %i MeV, %.1f deg" %
+                           (self.irfs, energy, inclination))
+        
+    def _interpolate(self, x, y, xval):
+        if xval > x[-1]:
+            return 1
+        indx = bisect.bisect(x, xval) - 1
+        yval = ( (xval - x[indx])/(x[indx+1] - x[indx])
+                 *(y[indx+1] - y[indx]) + y[indx] )
+        return yval
+    
 if __name__ == '__main__':
     seps = num.concatenate((num.arange(12, 19), num.arange(19, 21, 0.3),
                             num.arange(21, 25)))
@@ -125,6 +166,7 @@ if __name__ == '__main__':
         for energy in energies:
             for inclination in inclinations:
                 my_tests.plotResults(energy, inclination, plot_residuals=True)
+                my_tests.plot_rspgenIntegral(energy, inclination)
 
     irfs = ('testIrfs::Front', 'testIrfs::Back',
             'Glast25::Front', 'Glast25::Back',
