@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 12 18:07:54 PDT 2005
+irfs/irfLoader/python
+
+Removed Files:
+	Makefile irfLoader.in 
+Log Message:
+delete old swig build components
+    *
+------------------------------------------------------------
 User: jchiang  Mon Apr 11 17:03:52 PDT 2005
 irfs/irfLoader/python
 
