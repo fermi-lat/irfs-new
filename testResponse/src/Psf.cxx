@@ -178,16 +178,31 @@ double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
    if (sep_mean < m_sepMean.front() || sep_mean >= m_sepMean.back()) {
       return 0;
    }
+
    unsigned int isepMean = 
       std::upper_bound(m_sepMean.begin(), m_sepMean.end(), sep_mean) 
-      - m_sepMean.begin();
+      - m_sepMean.begin() - 1;
 
    unsigned int indx = ipsi*m_sepMean.size() + isepMean;
+
+   if (isepMean == m_sepMean.size() - 1) {
+      return psfIntegral(psi, sep_mean);
+   }
+
+// Interpolate in sepMean dimension.
    if (m_needIntegral[indx]) {
-      m_angularIntegral[indx] = psfIntegral(psi, sep_mean);
+      m_angularIntegral[indx] = psfIntegral(psi, m_sepMean[isepMean]);
       m_needIntegral[indx] = false;
    }
-   return m_angularIntegral[indx];                                            
+   if (m_needIntegral[indx+1]) {
+      m_angularIntegral[indx+1] = psfIntegral(psi, m_sepMean[isepMean+1]);
+      m_needIntegral[indx+1] = false;
+   }
+   double my_value = (sep_mean - m_sepMean[isepMean])
+      /(m_sepMean[isepMean+1] - m_sepMean[isepMean])
+      *(m_angularIntegral[indx+1] - m_angularIntegral[indx])
+      + m_angularIntegral[indx];
+   return my_value;
 }
 
 double Psf::angularIntegral(double energy, double theta, 
@@ -218,8 +233,8 @@ void Psf::computeAngularIntegrals
    }
    *m_acceptanceCone = *cones[0];
 
-   unsigned int npsi = 100;
-   unsigned int nsepMean = 1000;
+   unsigned int npsi = 1000;
+   unsigned int nsepMean = 200;
 
    if (!m_haveAngularIntegrals) {
 // Set up the array describing the separation between the center of
