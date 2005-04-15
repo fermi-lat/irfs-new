@@ -1,4 +1,27 @@
 ------------------------------------------------------------
+TAG
+Tag name: v0r4p2, operation: add
+Package: testResponse
+User: jchiang  Fri Apr 15 14:51:40 2005
+Files:
+  testResponse/.cvsignore  1.1.1.1
+  testResponse/ChangeLog  1.1.1.37
+  testResponse/cmt/requirements  1.11
+  testResponse/doc/release.notes  1.7
+  testResponse/doc/images/bestDirErr_fits.png  1.1
+  testResponse/src/loadIrfs.cxx  1.6
+  testResponse/src/Psf.cxx  1.7
+  testResponse/src/Aeff.cxx  1.3
+  testResponse/src/Edisp.cxx  1.1.1.1
+  testResponse/src/mainpage.h  1.3
+  testResponse/src/Aeff.h  1.2
+  testResponse/src/Edisp.h  1.1.1.1
+  testResponse/src/Psf.h  1.3
+  testResponse/src/test/test.cxx  1.2
+  testResponse/testResponse/loadIrfs.h  1.1.1.1
+
+    *
+------------------------------------------------------------
 User: jchiang  Fri Apr 15 14:51:18 PDT 2005
 irfs/testResponse/doc
 
