@@ -1,5 +1,5 @@
 package irfLoader
-version v0r2p2
+version v0r2p3
 
 author James Chiang <jchiang@slac.stanford.edu>
 
@@ -20,14 +20,13 @@ macro source *.cxx WIN32 "*.h *.cxx"
 library irfLoader -no_share $(source)
 application test_irfLoader test/*.cxx
 
+path_remove PYTHONPATH irfLoader
+path_append PYTHONPATH $(IRFLOADERROOT)/$(BINDIR)
+path_append PYTHONPATH $(IRFLOADERROOT)/python
+
 private
 
 use cppunit v1r* IExternal
 
 use SwigPolicy v*
-
-path_remove PYTHONPATH irfLoader
-path_append PYTHONPATH $(IRFLOADERROOT)/$(BINDIR)
-path_append PYTHONPATH $(IRFLOADERROOT)/python
-
 apply_pattern swig_module name="irf_loader"

@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  15-Apr-05 v0r2p3  JC    add psf_test.py scripts to test Psf integrals;
+                          move PYTHONPATH to public area in req file
   17-Mar-05 v0r2p2  JC    bug fix in Loader.cxx
   16-Mar-05 v0r2p1  JC    Ensure irfs get loaded not more than once
   27-Nov-04 v0r2    JC    Python module builds and tests
