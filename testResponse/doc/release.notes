@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  15-Apr-05 v0r4p2  JC    improve psf integral accuracy
   23-Mar-05 v0r4p1  JC    bounds checking in Psf angular integral
   01-Mar-05 v0r4    JC    added mainpage.h (still incomplete)
   29-Oct-04 v0r3p1  JC    use tip v2*
