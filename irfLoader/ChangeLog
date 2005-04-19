@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 19 06:48:52 PDT 2005
+irfs/irfLoader/python
+
+Modified Files:
+	psf_tests.py 
+Log Message:
+assess KS probability
+    *
+------------------------------------------------------------
 TAG
 Tag name: v0r2p3, operation: add
 Package: irfLoader
