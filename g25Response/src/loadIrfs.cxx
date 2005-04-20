@@ -32,6 +32,9 @@ void loadIrfs() {
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();
 
+   std::vector<std::string> irfsNames;
+   myFactory->getIrfsNames(irfsNames);
+
    std::string version("GLAST25");
 
    std::vector<std::string> hduNames;
@@ -40,38 +43,49 @@ void loadIrfs() {
    if (getenv("CALDB")) {
       long hdu;
       try {
-         irfUtil::Util::getCaldbFile("FRONT", "DETEFF", 
-                                     version, aeffFile, hdu);
-         aeff = new AeffGlast25(aeffFile, static_cast<int>(hdu));
-         irfUtil::Util::getCaldbFile("FRONT", "RPSF", version, psfFile, hdu);
-         psf = new PsfGlast25(psfFile, static_cast<int>(hdu));
-         irfUtil::Util::getCaldbFile("FRONT", "EREDIS", 
-                                     version, edispFile, hdu);
-         edisp = new EdispGlast25(edispFile, static_cast<int>(hdu));
-         myFactory->addIrfs("Glast25::Front", 
-                            new irfInterface::Irfs(aeff, psf, edisp, 0));
+         if ( !std::count(irfsNames.begin(), irfsNames.end(),
+                          "Glast25::Front") ) {
+            irfUtil::Util::getCaldbFile("FRONT", "DETEFF", 
+                                        version, aeffFile, hdu);
+            aeff = new AeffGlast25(aeffFile, static_cast<int>(hdu));
+            irfUtil::Util::getCaldbFile("FRONT", "RPSF", version, 
+                                        psfFile, hdu);
+            psf = new PsfGlast25(psfFile, static_cast<int>(hdu));
+            irfUtil::Util::getCaldbFile("FRONT", "EREDIS", 
+                                        version, edispFile, hdu);
+            edisp = new EdispGlast25(edispFile, static_cast<int>(hdu));
+            myFactory->addIrfs("Glast25::Front", 
+                               new irfInterface::Irfs(aeff, psf, edisp, 0));
+         }
          
-         irfUtil::Util::getCaldbFile("BACK", "DETEFF", version, aeffFile, hdu);
-         aeff = new AeffGlast25(aeffFile, static_cast<int>(hdu));
-         irfUtil::Util::getCaldbFile("BACK", "RPSF", version, psfFile, hdu);
-         psf = new PsfGlast25(psfFile, static_cast<int>(hdu));
-         irfUtil::Util::getCaldbFile("BACK", "EREDIS", 
-                                     version, edispFile, hdu);
-         edisp = new EdispGlast25(edispFile, static_cast<int>(hdu));
-         myFactory->addIrfs("Glast25::Back", 
-                            new irfInterface::Irfs(aeff, psf, edisp, 1));
-
-         irfUtil::Util::getCaldbFile("COMBINED", "DETEFF", 
-                                     version, aeffFile, hdu);
-         aeff = new AeffGlast25(aeffFile, static_cast<int>(hdu));
-         irfUtil::Util::getCaldbFile("COMBINED", "RPSF", 
-                                     version, psfFile, hdu);
-         psf = new PsfGlast25(psfFile, static_cast<int>(hdu));
-         irfUtil::Util::getCaldbFile("COMBINED", "EREDIS", 
-                                     version, edispFile, hdu);
-         edisp = new EdispGlast25(edispFile, static_cast<int>(hdu));
-         myFactory->addIrfs("Glast25::Combined", 
-                            new irfInterface::Irfs(aeff, psf, edisp, 2));
+         if ( !std::count(irfsNames.begin(), irfsNames.end(),
+                          "Glast25::Back") ) {
+            irfUtil::Util::getCaldbFile("BACK", "DETEFF", version,
+                                        aeffFile, hdu);
+            aeff = new AeffGlast25(aeffFile, static_cast<int>(hdu));
+            irfUtil::Util::getCaldbFile("BACK", "RPSF", version, psfFile, hdu);
+            psf = new PsfGlast25(psfFile, static_cast<int>(hdu));
+            irfUtil::Util::getCaldbFile("BACK", "EREDIS", 
+                                        version, edispFile, hdu);
+            edisp = new EdispGlast25(edispFile, static_cast<int>(hdu));
+            myFactory->addIrfs("Glast25::Back", 
+                               new irfInterface::Irfs(aeff, psf, edisp, 1));
+         }
+         
+         if ( !std::count(irfsNames.begin(), irfsNames.end(),
+                          "Glast25::Combined") ) {
+            irfUtil::Util::getCaldbFile("COMBINED", "DETEFF", 
+                                        version, aeffFile, hdu);
+            aeff = new AeffGlast25(aeffFile, static_cast<int>(hdu));
+            irfUtil::Util::getCaldbFile("COMBINED", "RPSF", 
+                                        version, psfFile, hdu);
+            psf = new PsfGlast25(psfFile, static_cast<int>(hdu));
+            irfUtil::Util::getCaldbFile("COMBINED", "EREDIS", 
+                                        version, edispFile, hdu);
+            edisp = new EdispGlast25(edispFile, static_cast<int>(hdu));
+            myFactory->addIrfs("Glast25::Combined", 
+                               new irfInterface::Irfs(aeff, psf, edisp, 2));
+         }
       } catch (std::invalid_argument &eObj) {
          std::cout << "IrfsFactory::addGlast25Irfs:\n"
                    << eObj.what() << std::endl;
