@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Apr 21 10:24:16 PDT 2005
+irfs/g25Response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+ensure development versions are only loaded when filenames are available
+    *
+------------------------------------------------------------
+User: jchiang  Thu Apr 21 10:24:16 PDT 2005
 irfs/g25Response/src
 
 Modified Files:
