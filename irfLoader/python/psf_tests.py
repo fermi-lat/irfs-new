@@ -18,8 +18,6 @@ import os, sys, bisect
 import numarray as num
 import hippoplotter as plot
 import irf_loader
-from Interpolator import Interpolator
-from ks import ks1, ks2
 
 irf_loader.Loader_go()
 
@@ -142,12 +140,10 @@ class PsfTests(object):
         residplot = plot.scatter(radii, resids, 'ROI radius',
                                  yname='abs(sim - npred)/npred',
                                  xlog=1, ylog=1)
-#        Npred = Interpolator(radii, npred)
-        ks_prob = ks2(npred, seps)
         plot.hline(0)
-        residplot.setTitle("%s: %i MeV, %.1f deg\n ks prob=%.2e" %
-                           (self.irfs, energy, inclination, ks_prob[1]))
-        return energy, inclination, ks_prob[1]
+        residplot.setTitle("%s: %i MeV, %.1f deg" %
+                           (self.irfs, energy, inclination))
+        
     def _interpolate(self, x, y, xval):
         if xval > x[-1]:
             return 1
@@ -160,24 +156,21 @@ if __name__ == '__main__':
     seps = num.concatenate((num.arange(12, 19), num.arange(19, 21, 0.3),
                             num.arange(21, 25)))
 
-    energies = (30, 50, 100, 300, 1000)#, 3e3, 1e4)
-    incs = (0, 5, 10, 20, 30)
-#    energies = (100,)
-#    incs = (0,)
+#    energies = (100, 300, 1000, 3e3, 1e4)
+#    incs = (0, 5, 10, 20)
+    energies = (100,)
+    incs = (0,)
 
-    nt = plot.newNTuple( ([], [], []), ('energy', 'inc', 'ks prob') )
-    plot.Scatter(nt, 'energy', 'ks prob')
-    plot.Scatter(nt, 'inc', 'ks prob')
     def createPlots(irfs, seps, energies, inclinations):
         my_tests = PsfTests(irfs, seps)
         for energy in energies:
             for inclination in inclinations:
                 my_tests.plotResults(energy, inclination, plot_residuals=True)
-                nt.addRow(my_tests.plot_rspgenIntegral(energy, inclination))
+                my_tests.plot_rspgenIntegral(energy, inclination)
 
-    irfs = ('testIrfs::Front',) # 'testIrfs::Back')
-#            'Glast25::Front', 'Glast25::Back',
-#            'DC1::Front', 'DC1::Back')
+    irfs = ('testIrfs::Front', 'testIrfs::Back',
+            'Glast25::Front', 'Glast25::Back',
+            'DC1::Front', 'DC1::Back')
 
     for irf in irfs:
         createPlots(irf, seps, energies, incs)
