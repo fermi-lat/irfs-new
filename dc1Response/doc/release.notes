@@ -5,7 +5,8 @@
   @verbatim
   $Id$
 
-  16-Jan-04 v0r2p2  JC    suppress warning from dgaus8
+  21-Apr-05 v0r2p3  JC    ensure irfs are loaded only once
+  16-Jan-05 v0r2p2  JC    suppress warning from dgaus8
   29-Oct-04 v0r2p1  JC    use tip v2*
   01-Oct-04 v0r2    JC    use st_facilities
   31-Aug-04 v0r1    JC    fix sampling of integral distribution in Psf
