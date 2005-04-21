@@ -33,35 +33,7 @@ void loadIrfs() {
 
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();
-
-// Loading ROOT versions causes runtime errors on glast-ts, so we
-// skip them.
-// // ROOT versions.
-//    aeffFile = caldbPath + "ea/aeff_all.root";
-
-// // Front
-//    psfFile = caldbPath + "psf/psf_thin_parameters.root";
-//    edispFile = caldbPath + "edisp/edisp_thin_parameters.root";
-
-//    bool getFront(true);
-//    aeff = new AeffDC1(aeffFile, getFront);
-//    psf = new PsfDC1(psfFile);
-//    edisp = new EdispDC1(edispFile);
-//    myFactory->addIrfs("DC1::Front_ROOT",
-//                       new irfInterface::Irfs(aeff, psf, edisp, 0));
-
-// // Back
-//    psfFile = caldbPath + "psf/psf_thick_parameters.root";
-//    edispFile = caldbPath + "edisp/edisp_thick_parameters.root";
-
-//    aeff = new AeffDC1(aeffFile, !getFront);
-//    psf = new PsfDC1(psfFile);
-//    edisp = new EdispDC1(edispFile);
-//    myFactory->addIrfs("DC1::Back_ROOT",
-//                       new irfInterface::Irfs(aeff, psf, edisp, 1));
    
-// FITS file versions.
-
    std::vector<std::string> irfsNames;
    myFactory->getIrfsNames(irfsNames);
 
@@ -80,7 +52,7 @@ void loadIrfs() {
             myFactory->addIrfs("DC1::Front",
                                new irfInterface::Irfs(aeff, psf, edisp, 0));
          }
-         if ( std::count(irfsNames.begin(), irfsNames.end(), "DC1::Back") ) {
+         if ( !std::count(irfsNames.begin(), irfsNames.end(), "DC1::Back") ) {
             irfUtil::Util::getCaldbFile("BACK", "DETEFF", "DC1",
                                         aeffFile, hdu);
             aeff = new AeffDC1(aeffFile, static_cast<int>(hdu));
@@ -102,7 +74,7 @@ void loadIrfs() {
    } else {
 // Front
       int npars(5);
-      if ( std::count(irfsNames.begin(), irfsNames.end(), "DC1::Front") ) {
+      if ( !std::count(irfsNames.begin(), irfsNames.end(), "DC1::Front") ) {
          hdu = 2;
          aeffFile = caldbPath + "aeff_DC1.fits";
          aeff = new AeffDC1(aeffFile, static_cast<int>(hdu));
