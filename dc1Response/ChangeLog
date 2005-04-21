@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Apr 21 10:53:03 PDT 2005
+irfs/dc1Response/src
+
+Modified Files:
+	loadIrfs.cxx 
+Log Message:
+repair check for irf existence
+    *
+------------------------------------------------------------
 User: jchiang  Tue Apr 19 18:48:09 PDT 2005
 irfs/dc1Response/src
 
