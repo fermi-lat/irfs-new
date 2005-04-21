@@ -114,27 +114,30 @@ void loadIrfs() {
    }
 
 // Add a set of irfs with 10% energy resolution.
-   hduNames.clear();
-   hduNames.push_back("Glast25::Front_10");
-   hduNames.push_back("Glast25::Back_10");
-   hduNames.push_back("Glast25::Combined_10");
-   for (int hdu = 2; hdu < 5; hdu++) {
-      aeff = new AeffGlast25(aeffFile, hdu);
-      psf = new PsfGlast25(psfFile, hdu);
-      edisp = new EdispGlast25(0.1);
-      myFactory->addIrfs(hduNames[hdu-2], 
-                         new irfInterface::Irfs(aeff, psf, edisp, 
-                                                irfID[hdu-2]));
-   }
+   if ( !std::count(irfsNames.begin(), irfsNames.end(),
+                    "Glast25::Front") ) {
+      hduNames.clear();
+      hduNames.push_back("Glast25::Front_10");
+      hduNames.push_back("Glast25::Back_10");
+      hduNames.push_back("Glast25::Combined_10");
+      for (int hdu = 2; hdu < 5; hdu++) {
+         aeff = new AeffGlast25(aeffFile, hdu);
+         psf = new PsfGlast25(psfFile, hdu);
+         edisp = new EdispGlast25(0.1);
+         myFactory->addIrfs(hduNames[hdu-2], 
+                            new irfInterface::Irfs(aeff, psf, edisp, 
+                                                   irfID[hdu-2]));
+      }
 
 // Add a set of irfs with a flat effective area
-   int hdu = 4;
-   aeff = new AeffGlast25(aeffFile, hdu, -1);
-   psf = new PsfGlast25(psfFile, hdu);
-   edisp = new EdispGlast25();
-   myFactory->addIrfs("Glast25::FlatAeff", 
-                      new irfInterface::Irfs(aeff, psf, edisp, irfID[hdu-2]));
-                                             
+      int hdu = 4;
+      aeff = new AeffGlast25(aeffFile, hdu, -1);
+      psf = new PsfGlast25(psfFile, hdu);
+      edisp = new EdispGlast25();
+      myFactory->addIrfs("Glast25::FlatAeff", 
+                         new irfInterface::Irfs(aeff, psf, edisp,
+                                                irfID[hdu-2]));
+   }
 }
 
 } // namespace g25Response
