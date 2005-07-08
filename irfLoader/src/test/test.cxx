@@ -83,7 +83,11 @@ void irfLoaderTests::use_IrfsFactory() {
    delete my_irfs;
    my_irfs = myFactory->create("Glast25::Front");
    delete my_irfs;
-   my_irfs = myFactory->create("Glast25::Front");
+   my_irfs = myFactory->create("Glast25::Back");
+   delete my_irfs;
+   my_irfs = myFactory->create("testIrfs::Front");
+   delete my_irfs;
+   my_irfs = myFactory->create("testIrfs::Back");
    delete my_irfs;
 }
 
