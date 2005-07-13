@@ -1,22 +1,4 @@
 ------------------------------------------------------------
-User: jchiang  Wed Jul 13 11:14:51 PDT 2005
-irfs/doc
-
-Modified Files:
-	release.notes 
-Log Message:
-tagging v0r7p2
-    *
-------------------------------------------------------------
-User: jchiang  Wed Jul 13 11:14:51 PDT 2005
-irfs/cmt
-
-Modified Files:
-	requirements 
-Log Message:
-tagging v0r7p2
-    *
-------------------------------------------------------------
 TAG
 Tag name: v0r7p2, operation: add
 Package: irfs
