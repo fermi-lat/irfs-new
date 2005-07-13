@@ -20,13 +20,6 @@ macro source *.cxx WIN32 "*.h *.cxx"
 library irfLoader -no_share $(source)
 application test_irfLoader test/*.cxx
 
-path_remove PYTHONPATH irfLoader
-path_append PYTHONPATH $(IRFLOADERROOT)/$(BINDIR)
-path_append PYTHONPATH $(IRFLOADERROOT)/python
-
 private
 
 use cppunit v1r* IExternal
-
-use SwigPolicy v*
-apply_pattern swig_module name="irf_loader"
