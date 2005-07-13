@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jul 13 10:15:39 PDT 2005
+irfs/irfLoader/src
+
+Removed Files:
+	irf_loader.in 
+Log Message:
+remove python module build
+    *
+------------------------------------------------------------
 User: jchiang  Wed Jul 13 10:15:38 PDT 2005
 irfs/irfLoader/cmt
 
