@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Aug 10 11:00:43 PDT 2005
+irfs/dc1Response/src
+
+Modified Files:
+	loadIrfs.cxx 
+Log Message:
+correct paths to fits files
+    *
+------------------------------------------------------------
 TAG
 Tag name: v0r2p4, operation: add
 Package: dc1Response
