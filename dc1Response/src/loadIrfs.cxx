@@ -77,11 +77,11 @@ void loadIrfs() {
       int npars(5);
       if ( !std::count(irfsNames.begin(), irfsNames.end(), "DC1::Front") ) {
          hdu = 2;
-         aeffFile = caldbPath + "aeff_DC1.fits";
+         aeffFile = caldbPath + "ea/aeff_DC1.fits";
          aeff = new AeffDC1(aeffFile, static_cast<int>(hdu));
-         psfFile = caldbPath + "psf_DC1.fits";
+         psfFile = caldbPath + "psf/psf_DC1.fits";
          psf = new PsfDC1(psfFile, hdu, npars);
-         edispFile = caldbPath + "edisp_DC1.fits";
+         edispFile = caldbPath + "edisp/edisp_DC1.fits";
          npars = 3;
          edisp = new EdispDC1(edispFile, hdu, npars);
          myFactory->addIrfs("DC1::Front",
