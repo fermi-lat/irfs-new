@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  13-Aug-05 v0r4    JC    add dc1aResponse
   13-Jul-05 v0r3    JC    remove python module build
   15-Apr-05 v0r2p3  JC    add psf_test.py scripts to test Psf integrals;
                           move PYTHONPATH to public area in req file
