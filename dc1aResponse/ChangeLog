@@ -1,0 +1,175 @@
+------------------------------------------------------------
+User: jchiang  Fri Aug 12 16:32:43 PDT 2005
+users/jchiang/dc1aResponse/src
+
+Modified Files:
+	loadIrfs.cxx 
+Log Message:
+update params to include background veto
+    *
+------------------------------------------------------------
+User: jchiang  Fri Aug 12 14:57:45 PDT 2005
+users/jchiang/dc1aResponse/src
+
+Modified Files:
+	Aeff.cxx loadIrfs.cxx 
+Log Message:
+use hyper-parameterization of eff area
+    *
+------------------------------------------------------------
+User: jchiang  Wed Aug  3 08:48:16 PDT 2005
+users/jchiang/dc1aResponse/src
+
+Modified Files:
+	Psf.cxx Psf.h 
+Log Message:
+compute m_p2 parameter in constructor
+    *
+------------------------------------------------------------
+User: jchiang  Tue Aug  2 11:16:33 PDT 2005
+users/jchiang/dc1aResponse/src
+
+Modified Files:
+	Psf.cxx 
+Log Message:
+kluge to deal with large angular separations
+    *
+------------------------------------------------------------
+User: jchiang  Mon Aug  1 13:18:47 PDT 2005
+users/jchiang/dc1aResponse
+
+Added Files:
+	.cvsignore 
+Log Message:
+add .cvsignore
+    *
+------------------------------------------------------------
+User: jchiang  Mon Aug  1 13:14:52 PDT 2005
+users/jchiang/dc1aResponse
+
+Log Message:
+initial import
+
+Status:
+
+Vendor Tag:	JC
+Release Tags:	v0
+		
+I users/jchiang/dc1aResponse/cmt/CVS
+N users/jchiang/dc1aResponse/cmt/Makefile
+N users/jchiang/dc1aResponse/cmt/rh9_gcc32.make
+N users/jchiang/dc1aResponse/cmt/setup.csh
+N users/jchiang/dc1aResponse/cmt/setup.sh
+N users/jchiang/dc1aResponse/cmt/requirements
+N users/jchiang/dc1aResponse/cmt/cleanup.csh
+N users/jchiang/dc1aResponse/cmt/cleanup.sh
+N users/jchiang/dc1aResponse/cmt/psf.dat
+N users/jchiang/dc1aResponse/cmt/aeff.dat
+N users/jchiang/dc1aResponse/cmt/edisp.dat
+I users/jchiang/dc1aResponse/cmt/MakeAll~
+N users/jchiang/dc1aResponse/cmt/MakeAll
+I users/jchiang/dc1aResponse/dc1aResponse/CVS
+N users/jchiang/dc1aResponse/dc1aResponse/loadIrfs.h
+I users/jchiang/dc1aResponse/doc/CVS
+N users/jchiang/dc1aResponse/doc/release.notes
+N users/jchiang/dc1aResponse/doc/Doxyfile
+N users/jchiang/dc1aResponse/doc/Makefile
+I users/jchiang/dc1aResponse/doc/images/CVS
+N users/jchiang/dc1aResponse/doc/images/bestDirErr_fits.png
+N users/jchiang/dc1aResponse/doc/doxy-html/doxygen.png
+N users/jchiang/dc1aResponse/doc/doxy-html/tree.js
+N users/jchiang/dc1aResponse/doc/doxy-html/main.html
+N users/jchiang/dc1aResponse/doc/doxy-html/files.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_aeff_8cxx-source.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_aeff_8h-source.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_edisp_8cxx-source.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_edisp_8h-source.html
+N users/jchiang/dc1aResponse/doc/doxy-html/load_irfs_8cxx-source.html
+N users/jchiang/dc1aResponse/doc/doxy-html/load_irfs_8h-source.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_psf_8cxx-source.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_psf_8h-source.html
+N users/jchiang/dc1aResponse/doc/doxy-html/release_8notes-source.html
+N users/jchiang/dc1aResponse/doc/doxy-html/test_8cxx-source.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_aeff_8cxx.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_aeff_8h.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_aeff_8cxx__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/_edisp_8cxx.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_aeff_8h__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/_edisp_8h.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_aeff_8h__dep__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/_edisp_8cxx__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/load_irfs_8cxx.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_edisp_8h__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/load_irfs_8h.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_edisp_8h__dep__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/load_irfs_8cxx__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/_psf_8cxx.html
+N users/jchiang/dc1aResponse/doc/doxy-html/load_irfs_8h__dep__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/_psf_8h.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_psf_8cxx__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/release_8notes.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_psf_8h__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/test_8cxx.html
+N users/jchiang/dc1aResponse/doc/doxy-html/_psf_8h__dep__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/annotated.html
+N users/jchiang/dc1aResponse/doc/doxy-html/test_8cxx__incl.png
+N users/jchiang/dc1aResponse/doc/doxy-html/functions.html
+N users/jchiang/dc1aResponse/doc/doxy-html/namespaces.html
+N users/jchiang/dc1aResponse/doc/doxy-html/namespacedc1a_response.html
+N users/jchiang/dc1aResponse/doc/doxy-html/classdc1a_response_1_1_aeff.html
+N users/jchiang/dc1aResponse/doc/doxy-html/classdc1a_response_1_1_aeff-members.html
+N users/jchiang/dc1aResponse/doc/doxy-html/classdc1a_response_1_1_edisp.html
+N users/jchiang/dc1aResponse/doc/doxy-html/classdc1a_response_1_1_edisp-members.html
+N users/jchiang/dc1aResponse/doc/doxy-html/classdc1a_response_1_1_psf_1_1_gint.html
+N users/jchiang/dc1aResponse/doc/doxy-html/classdc1a_response_1_1_psf_1_1_gint-members.html
+N users/jchiang/dc1aResponse/doc/doxy-html/classdc1a_response_1_1_psf_1_1_gint__coll__graph.png
+N users/jchiang/dc1aResponse/doc/doxy-html/classdc1a_response_1_1_psf.html
+N users/jchiang/dc1aResponse/doc/doxy-html/classdc1a_response_1_1_psf-members.html
+N users/jchiang/dc1aResponse/doc/doxy-html/classdc1a_response_1_1_psf__coll__graph.png
+N users/jchiang/dc1aResponse/doc/doxy-html/globals.html
+N users/jchiang/dc1aResponse/doc/doxy-html/namespacemembers.html
+N users/jchiang/dc1aResponse/doc/doxy-html/graph_legend.dot
+N users/jchiang/dc1aResponse/doc/doxy-html/graph_legend.png
+N users/jchiang/dc1aResponse/doc/doxy-html/graph_legend.html
+N users/jchiang/dc1aResponse/doc/doxy-html/doxygen.css
+N users/jchiang/dc1aResponse/doc/doxy-html/index.html
+N users/jchiang/dc1aResponse/doc/doxy-html/tree.html
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2blank.png
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2doc.png
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2folderclosed.png
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2folderopen.png
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2lastnode.png
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2link.png
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2mlastnode.png
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2mnode.png
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2node.png
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2plastnode.png
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2pnode.png
+N users/jchiang/dc1aResponse/doc/doxy-html/ftv2vertline.png
+I users/jchiang/dc1aResponse/src/CVS
+N users/jchiang/dc1aResponse/src/Edisp.cxx
+N users/jchiang/dc1aResponse/src/Aeff.cxx
+N users/jchiang/dc1aResponse/src/Aeff.h
+N users/jchiang/dc1aResponse/src/loadIrfs.cxx
+N users/jchiang/dc1aResponse/src/Edisp.h
+N users/jchiang/dc1aResponse/src/Psf.cxx
+N users/jchiang/dc1aResponse/src/Psf.h
+I users/jchiang/dc1aResponse/src/test/CVS
+N users/jchiang/dc1aResponse/src/test/test.cxx
+N users/jchiang/dc1aResponse/rh9_gcc32/dc1aResponse.make
+N users/jchiang/dc1aResponse/rh9_gcc32/dc1aResponsesetup.make
+N users/jchiang/dc1aResponse/rh9_gcc32/dc1aResponse_dependencies.make
+I users/jchiang/dc1aResponse/rh9_gcc32/Edisp.o
+I users/jchiang/dc1aResponse/rh9_gcc32/Aeff.o
+I users/jchiang/dc1aResponse/rh9_gcc32/loadIrfs.o
+I users/jchiang/dc1aResponse/rh9_gcc32/Psf.o
+I users/jchiang/dc1aResponse/rh9_gcc32/libdc1aResponse.a
+N users/jchiang/dc1aResponse/rh9_gcc32/dc1aResponse.stamp
+N users/jchiang/dc1aResponse/rh9_gcc32/test_dc1aResponse.make
+N users/jchiang/dc1aResponse/rh9_gcc32/test_dc1aResponse_dependencies.make
+I users/jchiang/dc1aResponse/rh9_gcc32/test.o
+I users/jchiang/dc1aResponse/rh9_gcc32/test_dc1aResponse.exe
+
+No conflicts created by this import
+
+    *
