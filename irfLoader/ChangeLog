@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Aug 13 11:48:17 PDT 2005
+irfs/irfLoader/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+test program bug fix; tagging v0r4p1
+    *
+------------------------------------------------------------
+User: jchiang  Sat Aug 13 11:48:17 PDT 2005
 irfs/irfLoader/doc
 
 Modified Files:
