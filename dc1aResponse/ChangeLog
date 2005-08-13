@@ -1,4 +1,51 @@
 ------------------------------------------------------------
+User: jchiang  Sat Aug 13 07:49:09 PDT 2005
+irfs/dc1aResponse
+
+Log Message:
+initial import (from users/jchiang)
+
+Status:
+
+Vendor Tag:	GLAST
+Release Tags:	v0
+		
+N irfs/dc1aResponse/.cvsignore
+N irfs/dc1aResponse/ChangeLog
+N irfs/dc1aResponse/cmt/requirements
+N irfs/dc1aResponse/doc/Doxyfile
+N irfs/dc1aResponse/doc/Makefile
+N irfs/dc1aResponse/doc/release.notes
+N irfs/dc1aResponse/doc/images/energy_scale_fit_examples.png
+N irfs/dc1aResponse/doc/images/energy_scale_normalization.png
+N irfs/dc1aResponse/doc/images/final_hyperparam.png
+N irfs/dc1aResponse/doc/images/p2_hyperparams.png
+N irfs/dc1aResponse/doc/images/panel1.png
+N irfs/dc1aResponse/doc/images/psf_fit_thick_0.png
+N irfs/dc1aResponse/doc/images/psf_fit_thick_1.png
+N irfs/dc1aResponse/doc/images/psf_fit_thick_2.png
+N irfs/dc1aResponse/doc/images/psf_fit_thick_3.png
+N irfs/dc1aResponse/doc/images/psf_fit_thin_0.png
+N irfs/dc1aResponse/doc/images/psf_fit_thin_1.png
+N irfs/dc1aResponse/doc/images/psf_fit_thin_2.png
+N irfs/dc1aResponse/doc/images/psf_fit_thin_3.png
+N irfs/dc1aResponse/doc/images/zeroth_order_scaling.png
+N irfs/dc1aResponse/dc1aResponse/loadIrfs.h
+N irfs/dc1aResponse/src/Aeff.cxx
+N irfs/dc1aResponse/src/Aeff.h
+N irfs/dc1aResponse/src/Edisp.cxx
+N irfs/dc1aResponse/src/Edisp.h
+N irfs/dc1aResponse/src/Psf.cxx
+N irfs/dc1aResponse/src/Psf.h
+N irfs/dc1aResponse/src/loadIrfs.cxx
+N irfs/dc1aResponse/src/psf_fit.h
+N irfs/dc1aResponse/src/mainpage.h
+N irfs/dc1aResponse/src/test/test.cxx
+
+No conflicts created by this import
+
+    *
+------------------------------------------------------------
 User: jchiang  Fri Aug 12 16:32:43 PDT 2005
 users/jchiang/dc1aResponse/src
 
