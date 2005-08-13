@@ -5,6 +5,7 @@
  */
 
 #include "dc1Response/loadIrfs.h"
+#include "dc1aResponse/loadIrfs.h"
 #include "g25Response/loadIrfs.h"
 #include "testResponse/loadIrfs.h"
 //#include "devResponse/loadIrfs.h"
@@ -16,12 +17,12 @@
 
 namespace {
 //   char * irf_names[] = {"DC1", "GLAST25", "TEST", "DEV"};
-   char * irf_names[] = {"DC1", "GLAST25", "TEST"};
+   char * irf_names[] = {"DC1", "DC1A", "GLAST25", "TEST"};
 }
 
 namespace irfLoader {
 
-std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names+3);
+std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names + 4);
 
 std::map<std::string, std::vector<std::string> > Loader::s_respIds;
 
@@ -71,6 +72,15 @@ void Loader::go(const std::string & irfsName) {
       s_respIds["TESTF"].push_back("testIrfs::Front");
       s_respIds["TESTB"].clear();
       s_respIds["TESTB"].push_back("testIrfs::Back");
+   } else if (irfsName == "DC1A" && !s_respIds.count("DC1A")) {
+      dc1aResponse::loadIrfs();
+      s_respIds["DC1A"].clear();
+      s_respIds["DC1A"].push_back("DC1A::Front");
+      s_respIds["DC1A"].push_back("DC1A::Back");
+      s_respIds["DC1AF"].clear();
+      s_respIds["DC1AF"].push_back("DC1A::Front");
+      s_respIds["DC1AB"].clear();
+      s_respIds["DC1AB"].push_back("DC1A::Back");
 //    } else if (irfsName == "DEV" && !s_respIds.count("DEV")) {
 //       devResponse::loadIrfs();
 //       s_respIds["DEV"].push_back("dev::Front");
