@@ -62,8 +62,6 @@ double Aeff::value(double energy,
 double Aeff::value(double energy, double theta, double phi) const {
    (void)(phi);
 
-   static double p2(m_params[8]);
-
    if (theta < 0) {
       std::ostringstream message;
       message << "dc1aResponse::Aeff::value(energy, theta, phi):\n"
@@ -78,6 +76,8 @@ double Aeff::value(double energy, double theta, double phi) const {
       return ( ::profile(mu)*m_params[0]/
                (1. + exp(-m_params[2]*log(energy/m_params[1]))) );
    } else {
+      const double & p2(m_params[8]);
+
       ::TwoLinear p0_func(m_params[0], m_params[1], m_params[2], m_params[3]);
       ::TwoLinear p1_func(m_params[4], m_params[4], m_params[6], m_params[7]);
       double mu(-cos(theta*M_PI/180.));
