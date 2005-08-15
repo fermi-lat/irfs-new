@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 15 13:22:35 PDT 2005
+irfs/dc1aResponse/src
+
+Modified Files:
+	psf_fit.h 
+Log Message:
+add Jean's explanation for p2-p1 correlation
+    *
+------------------------------------------------------------
 User: jchiang  Mon Aug 15 13:22:34 PDT 2005
 irfs/dc1aResponse/doc/images
 
