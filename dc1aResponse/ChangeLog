@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 15 14:01:23 PDT 2005
+irfs/dc1aResponse/src
+
+Modified Files:
+	Aeff.cxx 
+Log Message:
+clearer implementation of 9 parameter representation
+    *
+------------------------------------------------------------
 User: jchiang  Mon Aug 15 13:22:35 PDT 2005
 irfs/dc1aResponse/src
 
