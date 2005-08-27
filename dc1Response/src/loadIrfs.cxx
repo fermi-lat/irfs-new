@@ -29,8 +29,6 @@ void loadIrfs() {
    std::string aeffFile;
    std::string psfFile;
    std::string edispFile;
-   std::string caldbPath = std::string(::getenv("CALDBROOT"))
-      + "/CALDB/data/glast/lat/bcf/";
 
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();
@@ -73,6 +71,14 @@ void loadIrfs() {
                    << "unknown exception" << std::endl;
       }
    } else {
+      char * caldbroot = ::getenv("CALDBROOT");
+      std::string caldbPath;
+      if (caldbroot == 0) {
+         throw std::runtime_error("Please set your CALDB env var.");
+      } else {
+         caldbPath = std::string(caldbroot) + "/CALDB/data/glast/lat/bcf/";
+      }            
+
 // Front
       int npars(5);
       if ( !std::count(irfsNames.begin(), irfsNames.end(), "DC1::Front") ) {
