@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Aug 26 17:36:07 PDT 2005
+irfs/dc1Response/src
+
+Modified Files:
+	loadIrfs.cxx 
+Log Message:
+move getenv(CALDBROOT) to else block; tagging v0r2p6
+    *
+------------------------------------------------------------
+User: jchiang  Fri Aug 26 17:36:07 PDT 2005
 irfs/dc1Response/doc
 
 Modified Files:
