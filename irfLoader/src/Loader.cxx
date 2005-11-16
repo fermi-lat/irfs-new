@@ -38,15 +38,7 @@ void Loader::go(const std::string & irfsName) {
       s_respIds["DC1F"].push_back("DC1::Front");
       s_respIds["DC1B"].clear();
       s_respIds["DC1B"].push_back("DC1::Back");
-// These are deprecated in favor of "DC1" versions:
-      s_respIds["FRONT/BACK"].clear();
-      s_respIds["FRONT/BACK"].push_back("DC1::Front");
-      s_respIds["FRONT/BACK"].push_back("DC1::Back");
-      s_respIds["FRONT"].clear();
-      s_respIds["FRONT"].push_back("DC1::Front");
-      s_respIds["BACK"].clear();
-      s_respIds["BACK"].push_back("DC1::Back");
-   } else if (irfsName == "GLAST25" && !s_respIds.count("G25")) {
+   } else if (irfsName == "GLAST25") {
       g25Response::loadIrfs();
       s_respIds["G25"].clear();
       s_respIds["G25"].push_back("Glast25::Front");
@@ -55,15 +47,7 @@ void Loader::go(const std::string & irfsName) {
       s_respIds["G25F"].push_back("Glast25::Front");
       s_respIds["G25B"].clear();
       s_respIds["G25B"].push_back("Glast25::Back");
-// Deprecated:
-      s_respIds["GLAST25"].clear();
-      s_respIds["GLAST25"].push_back("Glast25::Front");
-      s_respIds["GLAST25"].push_back("Glast25::Back");
-      s_respIds["G25FRONT"].clear();
-      s_respIds["G25FRONT"].push_back("Glast25::Front");
-      s_respIds["G25BACK"].clear();
-      s_respIds["G25BACK"].push_back("Glast25::Back");
-   } else if (irfsName == "TEST" && !s_respIds.count("TEST")) {
+   } else if (irfsName == "TEST") {
       testResponse::loadIrfs();
       s_respIds["TEST"].clear();
       s_respIds["TEST"].push_back("testIrfs::Front");
@@ -72,7 +56,7 @@ void Loader::go(const std::string & irfsName) {
       s_respIds["TESTF"].push_back("testIrfs::Front");
       s_respIds["TESTB"].clear();
       s_respIds["TESTB"].push_back("testIrfs::Back");
-   } else if (irfsName == "DC1A" && !s_respIds.count("DC1A")) {
+   } else if (irfsName == "DC1A") {
       dc1aResponse::loadIrfs();
       s_respIds["DC1A"].clear();
       s_respIds["DC1A"].push_back("DC1A::Front");
