@@ -51,6 +51,7 @@ void IrfsFactory::addIrfs(const std::string & name, Irfs * irfs,
                 << "An Irfs object named " + name 
                 << " already exists and is being replaced."
                 << std::endl;
+      delete m_prototypes[name];
    }
    m_prototypes[name] = irfs;
 }
