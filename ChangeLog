@@ -2,6 +2,15 @@
 TAG
 Tag name: v0r8p4, operation: add
 Package: irfs
+User: jchiang  Thu Nov 17 14:42:31 2005
+Files:
+  irfs/cmt/requirements  1.28
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: v0r8p4, operation: add
+Package: irfs
 User: jchiang  Thu Nov 17 14:42:23 2005
 Files:
   irfs/.cvsignore  1.1.1.1
