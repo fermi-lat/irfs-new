@@ -8,9 +8,9 @@ author J. Chiang <jchiang@slac.stanford.edu>
 #use irfAnalysis v6 irfs
 #use irfTests v0 irfs
 
-use irfInterface v0r1p1 irfs
+use irfInterface v0r1p2 irfs
 use irfUtil v0r3p1 irfs
-use irfLoader v0r4p1 irfs
+use irfLoader v0r4p2 irfs
 
 use g25Response v0r1p4 irfs
 use dc1Response v0r2p6 irfs
