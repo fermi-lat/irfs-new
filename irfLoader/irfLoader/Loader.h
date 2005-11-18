@@ -48,6 +48,8 @@ public:
       return s_respIds;
    }
 
+   static void resetIrfs();
+
 protected:
 
    Loader() {}

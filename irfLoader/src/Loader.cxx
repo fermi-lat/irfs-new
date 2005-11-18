@@ -11,6 +11,7 @@
 //#include "devResponse/loadIrfs.h"
 
 #include <algorithm>
+#include <iostream>
 #include <stdexcept>
 
 #include "irfLoader/Loader.h"
@@ -101,6 +102,10 @@ void Loader::go(const std::vector<std::string> & irfsNames) {
 
 void Loader::go() {
    go(s_irfsNames);
+}
+
+void Loader::resetIrfs() {
+   s_respIds.clear();
 }
 
 } // namespace irfLoader
