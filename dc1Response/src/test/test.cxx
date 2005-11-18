@@ -9,9 +9,12 @@ int main() {
    delete myIrfs;
    myIrfs = myFactory->create("DC1::Back");
    delete myIrfs;
-   myIrfs = myFactory->create("DC1::Front_ROOT");
+
+// try loading again
+   dc1Response::loadIrfs();
+   myIrfs = myFactory->create("DC1::Front");
    delete myIrfs;
-   myIrfs = myFactory->create("DC1::Back_ROOT");
+   myIrfs = myFactory->create("DC1::Back");
    delete myIrfs;
 }
 

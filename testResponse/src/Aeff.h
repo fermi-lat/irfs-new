@@ -30,9 +30,16 @@ class Aeff : public irfInterface::IAeff {
 
 public:
 
-   Aeff(const std::string &filename, int hdu);
+   Aeff(std::vector<double> & params) : m_params(params) {}
 
-   virtual ~Aeff();
+   Aeff(double p0, double p1, double p2) {
+      m_params.clear();
+      m_params.push_back(p0);
+      m_params.push_back(p1);
+      m_params.push_back(p2);
+   }
+
+   virtual ~Aeff() {}
 
    virtual double value(double energy, 
                         const astro::SkyDir &srcDir, 
@@ -45,13 +52,8 @@ public:
 
 private:
 
-   std::string m_filename;
-   int m_hdu;
-   std::vector<double> m_energy;
-   std::vector<double> m_theta;
-   std::vector<double> m_aeffTable;
+   std::vector<double> m_params;
 
-   void read_FITS_table();
 };
 
 } // namespace testResponse
