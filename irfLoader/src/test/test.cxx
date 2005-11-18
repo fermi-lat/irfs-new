@@ -50,15 +50,14 @@ private:
 void irfLoaderTests::setUp() {
 // Tabula rasa
    IrfsFactory::delete_instance();
+   irfLoader::Loader::resetIrfs();
 }
 
 void irfLoaderTests::tearDown() {
 }
 
 void irfLoaderTests::initialization() {
-   CPPUNIT_ASSERT(Loader::irfsNames().size() == 0);
-   Loader::go();
-   CPPUNIT_ASSERT(Loader::irfsNames().size() == 2);
+   CPPUNIT_ASSERT(Loader::irfsNames().size() == 4);
 }
 
 void irfLoaderTests::load_single_irfs() {
@@ -85,7 +84,11 @@ void irfLoaderTests::use_IrfsFactory() {
    delete my_irfs;
    my_irfs = myFactory->create("Glast25::Front");
    delete my_irfs;
-   my_irfs = myFactory->create("Glast25::Front");
+   my_irfs = myFactory->create("Glast25::Back");
+   delete my_irfs;
+   my_irfs = myFactory->create("testIrfs::Front");
+   delete my_irfs;
+   my_irfs = myFactory->create("testIrfs::Back");
    delete my_irfs;
 }
 

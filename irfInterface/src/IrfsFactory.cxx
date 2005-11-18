@@ -34,7 +34,11 @@ Irfs * IrfsFactory::create(const std::string & name) const {
       = m_prototypes.find(name);
    if (itor == m_prototypes.end()) {
       std::string message("irfInterface::IrfsFactory::create: ");
-      message += "Cannot create Irfs object named " + name + ".";
+      message += "Cannot create Irfs object named " + name + ".\n";
+      message += "Valid names are\n";
+      for (itor = m_prototypes.begin(); itor != m_prototypes.end(); ++itor) {
+         message += itor->first + "\n";
+      }
       throw std::invalid_argument(message);
    } 
    return itor->second->clone();
@@ -47,6 +51,7 @@ void IrfsFactory::addIrfs(const std::string & name, Irfs * irfs,
                 << "An Irfs object named " + name 
                 << " already exists and is being replaced."
                 << std::endl;
+      delete m_prototypes[name];
    }
    m_prototypes[name] = irfs;
 }

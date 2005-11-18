@@ -55,7 +55,7 @@ public:
    virtual double operator()(double energy, 
                              const astro::SkyDir &srcDir, 
                              const astro::SkyDir &scZAxis,
-                             const astro::SkyDir &scXAxis) {
+                             const astro::SkyDir &scXAxis) const {
       return value(energy, srcDir, scZAxis, scXAxis);}
 
    virtual IAeff * clone() = 0;
