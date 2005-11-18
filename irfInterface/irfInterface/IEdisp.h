@@ -60,7 +60,7 @@ public:
                              double energy, 
                              const astro::SkyDir &srcDir, 
                              const astro::SkyDir &scZAxis,
-                             const astro::SkyDir &scXAxis) 
+                             const astro::SkyDir &scXAxis) const
       {return value(appEnergy, energy, srcDir, scZAxis, scXAxis);}
 
    /// Return a randomly chosen apparent photon energy in MeV drawn

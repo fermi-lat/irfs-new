@@ -101,13 +101,18 @@ void test_psf(int iargc, char * argv[]) {
    int npts(10000);
 
    int nn(0);
+   std::ofstream psf_file("psf.dat");
    for (int i = 0; i < npts; i++) {
       astro::SkyDir appDir = psf->appDir(energy, srcDir, scZAxis, scXAxis);
       double dist = appDir.difference(scZAxis);
+      psf_file << dist << "  "
+               << appDir.ra() << "  "
+               << appDir.dec() << std::endl;
       if (dist <= radius*M_PI/180.) {
          nn++;
       }
    }
+   psf_file.close();
    std::cerr << "total within " << radius << " degrees: " << nn << "\n"
              << "integral fraction: " << "\n"
              << psf->angularIntegral(energy, inclination, 0, radius) << "\n"

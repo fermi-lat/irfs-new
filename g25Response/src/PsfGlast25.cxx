@@ -18,8 +18,9 @@
 
 #include "irfInterface/AcceptanceCone.h"
 
-#include "irfUtil/Util.h"
-#include "irfUtil/dgaus8.h"
+#include "st_facilities/dgaus8.h"
+#include "st_facilities/FitsUtil.h"
+#include "st_facilities/Util.h"
 
 #include "PsfGlast25.h"
 
@@ -159,12 +160,16 @@ double PsfGlast25::value(double separation, double energy,
 
 void PsfGlast25::readPsfData() {
    std::string extName;
-   irfUtil::Util::getFitsHduName(m_filename, m_hdu, extName);
-   irfUtil::Util::getRecordVector(m_filename, extName, "energy", m_energy);
-   irfUtil::Util::getRecordVector(m_filename, extName, "theta", m_theta);
-   irfUtil::Util::getRecordVector(m_filename, extName, "sig1", m_sig1);
-   irfUtil::Util::getRecordVector(m_filename, extName, "sig2", m_sig2);
-   irfUtil::Util::getRecordVector(m_filename, extName, "w", m_wt);
+   st_facilities::FitsUtil::getFitsHduName(m_filename, m_hdu, extName);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "energy",
+                                            m_energy);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "theta", 
+                                            m_theta);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "sig1",
+                                            m_sig1);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "sig2",
+                                            m_sig2);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "w", m_wt);
 }
 
 void PsfGlast25::fetchPsfParams(double energy, double inc, 
@@ -174,24 +179,35 @@ void PsfGlast25::fetchPsfParams(double energy, double inc,
    double sig1val, sig2val;
    try {
       sig1val 
-         = irfUtil::Util::bilinear(m_energy, energy, m_theta, inc, m_sig1);
-   } catch(...) {
-      std::cerr << "Attempting to interpolate sig1." << std::endl;
-      throw;
-   }
+          = st_facilities::Util::bilinear(m_energy, energy, m_theta, inc,
+                                          m_sig1);
+   } catch (std::runtime_error & eObj) {
+      if (!st_facilities::Util::expectedException(eObj, "Util::bilinear")) {
+//@todo find better default values for sigval1 and sigval2
+         std::cout << eObj.what() << std::endl;
+         sig1val = 1;
+      } else {
+         throw;
+      }
+   } 
    try {
       sig2val 
-         = irfUtil::Util::bilinear(m_energy, energy, m_theta, inc, m_sig2);
-   } catch(...) {
-      std::cerr << "Attempting to interpolate sig2." << std::endl;
-      throw;
-   }
+         = st_facilities::Util::bilinear(m_energy, energy, m_theta, inc, 
+                                         m_sig2);
+   } catch (std::runtime_error & eObj) {
+      if (!st_facilities::Util::expectedException(eObj, "Util::bilinear")) {
+         std::cout << eObj.what() << std::endl;
+         sig2val = 1;
+      } else {
+         throw;
+      }
+   } 
 
 // Simply set the weight using the upper bound energy
    std::vector<double>::const_iterator ie;
-   if (energy < *(m_energy.begin())) {
+   if (energy < m_energy.front()) {
       ie = m_energy.begin();
-   } else if (energy >= *(m_energy.end() - 1)) {
+   } else if (energy >= m_energy.back()) {
       ie = m_energy.end() - 1;
    } else {
       ie = std::upper_bound(m_energy.begin(), m_energy.end(), energy);
@@ -248,10 +264,28 @@ PsfGlast25::angularIntegral(double energy, const astro::SkyDir &srcDir,
          frac1 = (1. - exp((mu-1.)/sig1/sig1))/(1. - exp(-2./sig1/sig1));
          frac2 = (1. - exp((mu-1.)/sig2/sig2))/(1. - exp(-2./sig2/sig2));
       } else {
-         frac1 = irfUtil::Util::bilinear(m_psi, psi, m_sigma, sig1,
-                                         m_angularIntegrals);
-         frac2 = irfUtil::Util::bilinear(m_psi, psi, m_sigma, sig2, 
-                                         m_angularIntegrals);
+         try {
+            frac1 = st_facilities::Util::bilinear(m_psi, psi, m_sigma, sig1,
+                                                  m_angularIntegrals);
+         } catch (std::runtime_error & eObj) {
+            if (st_facilities::Util::expectedException(eObj, 
+                                                       "Util::bilinear")) {
+               frac1 = 0;
+            } else {
+               throw;
+            }
+         }
+         try {
+            frac2 = st_facilities::Util::bilinear(m_psi, psi, m_sigma, sig2, 
+                                                  m_angularIntegrals);
+         } catch (std::runtime_error & eObj) {
+            if (st_facilities::Util::expectedException(eObj, 
+                                                       "Util::bilinear")) {
+               frac2 = 0;
+            } else {
+               throw;
+            }
+         }
       }
       return wt*frac1 + (1. - wt)*frac2;
    }
@@ -299,13 +333,13 @@ void PsfGlast25::computeAngularIntegrals
       }
 
       m_sigma.clear();
-      double sigmaMin = 0.;
+      double sigmaMin = 0.004;
 // The maximum sigma value in psf_lat.fits is actually about 27
 // degrees.
       double sigmaMax = 30.*M_PI/180.; 
-      double sigmaStep = (sigmaMax - sigmaMin)/(nsigma - 1.);
+      double sigmaStep = log(sigmaMax/sigmaMin)/(nsigma - 1.);
       for (unsigned int i = 0; i < nsigma; i++) {
-         m_sigma.push_back(sigmaStep*i + sigmaMin);
+         m_sigma.push_back(sigmaMin*exp(sigmaStep*i));
       }
    }
 // Fill m_angularIntegrals.
@@ -324,7 +358,7 @@ void PsfGlast25::computeAngularIntegrals
             m_angularIntegrals[indx] = 1.;
          } else {
             double denom = 1. - exp(-2/m_sigma[j]/m_sigma[j]);
-            double gauss_int;
+            double gauss_int(0);
             if (m_psi[i] == 0) {
                gauss_int = 0;
             } else {
@@ -342,7 +376,7 @@ void PsfGlast25::computeAngularIntegrals
                      + gauss_int/M_PI/m_sigma[j]/m_sigma[j])/denom;
             } else {
                m_angularIntegrals[indx] 
-                  =  gauss_int/M_PI/m_sigma[j]/m_sigma[j]/denom;
+                  = gauss_int/M_PI/m_sigma[j]/m_sigma[j]/denom;
             }
          }
       } // j

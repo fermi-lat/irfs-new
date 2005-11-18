@@ -19,9 +19,10 @@
 #include "CLHEP/Random/RandGauss.h"
 #include "CLHEP/Geometry/Vector3D.h"
 
+#include "st_facilities/dgaus8.h"
+#include "st_facilities/Util.h"
+
 #include "irfInterface/AcceptanceCone.h"
-#include "irfUtil/Util.h"
-#include "irfUtil/dgaus8.h"
 
 #include "Psf.h"
 
@@ -44,6 +45,7 @@ namespace testResponse {
 Psf::Psf(const std::vector<double> & psfParams) 
    : m_psfParams(psfParams), m_acceptanceCone(0), m_psfNorm(1.),
      m_haveAngularIntegrals(false) {
+   computeCumulativeDist();
 }
 
 Psf::~Psf() {
@@ -61,6 +63,8 @@ Psf::Psf(const Psf &rhs) : IPsf(rhs) {
          = new irfInterface::AcceptanceCone(*rhs.m_acceptanceCone);
    }
    m_psfNorm = rhs.m_psfNorm;
+   m_scaledDevs = rhs.m_scaledDevs;
+   m_cumDist = rhs.m_cumDist;
    m_psi = rhs.m_psi;
    m_sepMean = rhs.m_sepMean;
    m_angularIntegral = rhs.m_angularIntegral;
@@ -90,10 +94,9 @@ astro::SkyDir Psf::appDir(double energy,
    
    double inclination = srcDir.difference(scZAxis);
 
-   double xi = RandGauss::shoot();
-   double theta = sepMean(energy, inclination)*pow(10., xi*m_psfParams[4]);
+   double theta = sepMean(energy, inclination)*drawScaledDev();
 
-   xi = RandFlat::shoot();
+   double xi = RandFlat::shoot();
    double phi = 2.*M_PI*xi;
 
 // These might as well have been passed by value...
@@ -129,15 +132,17 @@ double Psf::value(double separation, double energy, double inc) const {
 }
 
 double Psf::value(double separation, double sepMean) const {
-   double logSigma = m_psfParams[4];
+   double gamma = m_psfParams[4];
 
    double my_value;
+   double x = separation/sepMean;
    if (separation != 0) {
-      double arg = log10(separation/sepMean);
-      my_value = 1./sqrt(2.*M_PI)/logSigma/separation
-         *exp(-arg*arg/logSigma/logSigma/2.);
-// Convert to per steradians.
+      my_value = scaledDist(x)/sepMean;
+// Apply normalization and convert to per steradians.
       return my_value/2./M_PI/sin(separation)/m_psfNorm;
+   } else {
+      my_value = pow((1. + 2.*x/(gamma-1.)), -gamma)/sepMean/sepMean;
+      return my_value/2./M_PI/m_psfNorm;
    }
    return 0;
 }
@@ -160,8 +165,6 @@ double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
    (void)(phi);
    if (!m_acceptanceCone || *m_acceptanceCone != *(acceptanceCones[0])) {
       computeAngularIntegrals(acceptanceCones);
-//      m_psfNorm = psfIntegral(0., 1e-4, 20.);
-      m_psfNorm = 2.30257;
       m_haveAngularIntegrals = true;
    }
    double psi = srcDir.difference(m_acceptanceCone->center());
@@ -175,25 +178,43 @@ double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
    if (sep_mean < m_sepMean.front() || sep_mean >= m_sepMean.back()) {
       return 0;
    }
+
    unsigned int isepMean = 
       std::upper_bound(m_sepMean.begin(), m_sepMean.end(), sep_mean) 
-      - m_sepMean.begin();
+      - m_sepMean.begin() - 1;
 
    unsigned int indx = ipsi*m_sepMean.size() + isepMean;
+
+   if (isepMean == m_sepMean.size() - 1) {
+      return psfIntegral(psi, sep_mean);
+   }
+
+// Interpolate in sepMean dimension.
    if (m_needIntegral[indx]) {
-      m_angularIntegral[indx] = psfIntegral(psi, sep_mean);
+      m_angularIntegral[indx] = psfIntegral(psi, m_sepMean[isepMean]);
       m_needIntegral[indx] = false;
    }
-   return m_angularIntegral[indx];                                            
+   if (m_needIntegral[indx+1]) {
+      m_angularIntegral[indx+1] = psfIntegral(psi, m_sepMean[isepMean+1]);
+      m_needIntegral[indx+1] = false;
+   }
+   double my_value = (sep_mean - m_sepMean[isepMean])
+      /(m_sepMean[isepMean+1] - m_sepMean[isepMean])
+      *(m_angularIntegral[indx+1] - m_angularIntegral[indx])
+      + m_angularIntegral[indx];
+   return my_value;
 }
 
 double Psf::angularIntegral(double energy, double theta, 
                             double phi, double radius) const {
    (void)(phi);
-   double sep_mean = sepMean(energy, theta*M_PI/180.);
-   double arg = log10(radius*M_PI/180./sep_mean)/sqrt(2.)/m_psfParams[4];
-   double integral = 1. - ::erfcc(arg)/2.;
-   return integral;
+   double scaledDev = radius*M_PI/180./sepMean(energy, theta*M_PI/180.);
+   if (scaledDev >= m_scaledDevs.back()) {
+      return 1.;
+   } else if (scaledDev <= m_scaledDevs.front()) {
+      return 0;
+   }
+   return st_facilities::Util::interpolate(m_scaledDevs, m_cumDist, scaledDev);
 }
 
 double Psf::sepMean(double energy, double inclination) const {
@@ -212,8 +233,8 @@ void Psf::computeAngularIntegrals
    }
    *m_acceptanceCone = *cones[0];
 
-   unsigned int npsi = 100;
-   unsigned int nsepMean = 1000;
+   unsigned int npsi = 1000;
+   unsigned int nsepMean = 200;
 
    if (!m_haveAngularIntegrals) {
 // Set up the array describing the separation between the center of
@@ -269,13 +290,13 @@ double Psf::psfIntegral(double psi, double sepMean, double roi_radius) {
 // Check if point is inside or outside the cone            
    if (psi < roi_radius) {
 // Integrate the first term...
-      s_gfunc = Gint(this, sepMean, m_psfParams[4]);
+      s_gfunc = Gint(this, sepMean);
       dgaus8_(&Psf::gfuncIntegrand, &mum, &one, 
               &err, &firstIntegral, &ierr);
    }
 
 // and the second.
-   s_gfunc = Gint(this, sepMean, m_psfParams[4], cp, sp, cr);
+   s_gfunc = Gint(this, sepMean, cp, sp, cr);
    double secondIntegral;
    dgaus8_(&Psf::gfuncIntegrand, &mup, &mum, 
            &err, &secondIntegral, &ierr);
@@ -306,6 +327,51 @@ double Psf::Gint::value(double mu) const {
       return 2.*phimin*my_value;
    }
    return 2.*M_PI*my_value;
+}
+
+double Psf::scaledDist(double x) const {
+   double gamma(m_psfParams[4]);
+   return x*pow(1. + 2.*x/(gamma-1.), -gamma);
+}
+
+void Psf::computeCumulativeDist() {
+   int npts(200);
+   double xstep = 6./(npts-1.);
+   double xmin(1e-3);
+   m_scaledDevs.clear();
+   m_scaledDevs.reserve(npts);
+   m_scaledDevs.push_back(xmin);
+   m_cumDist.clear();
+   m_cumDist.reserve(npts);
+   m_cumDist.push_back(0);
+   for (int i = 1; i < npts; i++) {
+      m_scaledDevs.push_back(xmin*pow(10., xstep*i));
+      m_cumDist.push_back(m_cumDist[i-1] + (m_scaledDevs[i]-m_scaledDevs[i-1])
+                          *(scaledDist(m_scaledDevs[i]) +
+                            scaledDist(m_scaledDevs[i-1]))/2.);
+   }
+   m_psfNorm = m_cumDist.back();
+//   std::cerr << "m_psfNorm: " << m_psfNorm << std::endl;
+   for (int i = 0; i < npts; i++) {
+      m_cumDist[i] /= m_psfNorm;
+   }
+}
+
+double Psf::drawScaledDev() const {
+   double xi = RandFlat::shoot();
+   double scaledDev(0);
+   try {
+      scaledDev 
+         = st_facilities::Util::interpolate(m_cumDist, m_scaledDevs, xi);
+   } catch (std::exception & eObj) {
+      if (st_facilities::Util::
+          expectedException(eObj, "abscissa value out-of-range")) {
+         scaledDev = 0;
+      } else {
+         throw;
+      }
+   }
+   return scaledDev;
 }
 
 } // namespace testResponse
