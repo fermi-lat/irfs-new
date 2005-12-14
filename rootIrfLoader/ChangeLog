@@ -1,4 +1,12 @@
 ------------------------------------------------------------
+TAG
+Tag name: ScienceToolsv6r2, operation: add
+Package: rootIrfLoader
+User: glast  Wed Dec 14 10:50:55 2005
+Files:
+
+    *
+------------------------------------------------------------
 User: jchiang  Sat Aug 13 08:24:08 PDT 2005
 irfs/rootIrfLoader
 
