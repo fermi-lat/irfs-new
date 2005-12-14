@@ -1,4 +1,12 @@
 ------------------------------------------------------------
+TAG
+Tag name: ScienceToolsv6r2, operation: add
+Package: dc1aResponse
+User: glast  Wed Dec 14 10:50:50 2005
+Files:
+
+    *
+------------------------------------------------------------
 User: jchiang  Mon Aug 15 14:01:23 PDT 2005
 irfs/dc1aResponse/src
 
