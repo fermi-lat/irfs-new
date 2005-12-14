@@ -2,6 +2,29 @@
 TAG
 Tag name: ScienceToolsv6r2, operation: add
 Package: dc1Response
+User: glast  Wed Dec 14 10:51:31 2005
+Files:
+  dc1Response/.cvsignore  1.1.1.1
+  dc1Response/ChangeLog  1.43
+  dc1Response/cmt/requirements  1.14
+  dc1Response/dc1Response/loadIrfs.h  1.1.1.1
+  dc1Response/doc/release.notes  1.10
+  dc1Response/src/AeffDC1.h  1.2
+  dc1Response/src/PsfDC1.cxx  1.6
+  dc1Response/src/EdispDC1.h  1.1.1.1
+  dc1Response/src/EdispDC1.cxx  1.1.1.1
+  dc1Response/src/DC1.cxx  1.2
+  dc1Response/src/loadIrfs.cxx  1.7
+  dc1Response/src/AeffDC1.cxx  1.3
+  dc1Response/src/PsfDC1.h  1.1.1.1
+  dc1Response/src/DC1.h  1.1.1.1
+  dc1Response/src/test/test.cxx  1.3
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: ScienceToolsv6r2, operation: add
+Package: dc1Response
 User: glast  Wed Dec 14 10:50:49 2005
 Files:
 

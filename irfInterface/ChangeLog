@@ -2,6 +2,29 @@
 TAG
 Tag name: ScienceToolsv6r2, operation: add
 Package: irfInterface
+User: glast  Wed Dec 14 10:51:17 2005
+Files:
+  irfInterface/.cvsignore  1.1.1.1
+  irfInterface/ChangeLog  1.13
+  irfInterface/cmt/requirements  1.5
+  irfInterface/doc/release.notes  1.4
+  irfInterface/irfInterface/IrfsFactory.h  1.1.1.1
+  irfInterface/irfInterface/IAeff.h  1.2
+  irfInterface/irfInterface/IEdisp.h  1.2
+  irfInterface/irfInterface/Irfs.h  1.1.1.1
+  irfInterface/irfInterface/IPsf.h  1.2
+  irfInterface/irfInterface/AcceptanceCone.h  1.1.1.1
+  irfInterface/src/IrfsFactory.cxx  1.3
+  irfInterface/src/test/Aeff.h  1.1.1.1
+  irfInterface/src/test/test.cxx  1.1.1.1
+  irfInterface/src/test/Psf.h  1.1.1.1
+  irfInterface/src/test/Edisp.h  1.1.1.1
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: ScienceToolsv6r2, operation: add
+Package: irfInterface
 User: glast  Wed Dec 14 10:50:53 2005
 Files:
 

@@ -2,6 +2,23 @@
 TAG
 Tag name: ScienceToolsv6r2, operation: add
 Package: irfLoader
+User: glast  Wed Dec 14 10:52:08 2005
+Files:
+  irfLoader/.cvsignore  1.1.1.1
+  irfLoader/ChangeLog  1.65
+  irfLoader/cmt/requirements  1.16
+  irfLoader/doc/release.notes  1.12
+  irfLoader/irfLoader/Loader.h  1.5
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Loader.cxx  1.10
+  irfLoader/src/test/test.cxx  1.6
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: ScienceToolsv6r2, operation: add
+Package: irfLoader
 User: glast  Wed Dec 14 10:50:53 2005
 Files:
 
