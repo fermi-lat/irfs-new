@@ -1,4 +1,12 @@
 ------------------------------------------------------------
+TAG
+Tag name: ScienceToolsv6r2, operation: add
+Package: caldb
+User: glast  Wed Dec 14 10:50:48 2005
+Files:
+
+    *
+------------------------------------------------------------
 User: jchiang  Wed Aug  4 11:35:11 PDT 2004
 irfs/caldb/CALDB/data/glast/lat/bcf/ea
 
