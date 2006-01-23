@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan 23 08:38:06 PST 2006
+irfs/dc1aResponse/src
+
+Modified Files:
+	Aeff.cxx 
+Log Message:
+fix typo in alternative Aeff imp
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceToolsv6r2, operation: add
 Package: dc1aResponse
