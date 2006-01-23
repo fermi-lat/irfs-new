@@ -79,7 +79,7 @@ double Aeff::value(double energy, double theta, double phi) const {
       const double & p2(m_params[8]);
 
       ::TwoLinear p0_func(m_params[0], m_params[1], m_params[2], m_params[3]);
-      ::TwoLinear p1_func(m_params[4], m_params[4], m_params[6], m_params[7]);
+      ::TwoLinear p1_func(m_params[4], m_params[5], m_params[6], m_params[7]);
       double mu(-cos(theta*M_PI/180.));
 
       double p0(p0_func(mu));
