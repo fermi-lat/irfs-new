@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan 30 23:42:50 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Aeff.cxx Aeff.h DC2.cxx DC2.h 
+Log Message:
+OGIP-based implementation
+    *
+------------------------------------------------------------
 User: jchiang  Mon Jan 30 23:42:49 PST 2006
 irfs/dc2Response/cmt
 
