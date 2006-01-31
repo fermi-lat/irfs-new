@@ -1,7 +1,7 @@
 /**
  * @file Aeff.h
  * @brief Aeff class declaration for DC2.
- * @author Johann Cohen-Tanugi
+ * @author J. Chiang
  *
  * $Header$
  */
@@ -18,16 +18,12 @@
 
 #include "DC2.h"
 
-namespace irfUtil {
-   class RootTable;
-}
-
 namespace dc2Response {
 
 /**
  * @class Aeff
  * @brief Aeff class implementation for DC2.
- * @author Johann Cohen-Tanugi
+ * @author J. Chiang
  *
  * $Header$
  */
@@ -36,12 +32,9 @@ class Aeff : public irfInterface::IAeff, public DC2 {
 
 public:
 
-   Aeff(const std::string &filename, bool getFront=true);
-   Aeff(const std::string &filename, int hdu);
+   Aeff(const std::string & filename, const std::string & extname);
 
-   virtual ~Aeff();
-
-   Aeff(const Aeff &rhs);
+   Aeff(const Aeff & rhs);
 
    virtual double value(double energy, 
                         const astro::SkyDir &srcDir, 
@@ -52,17 +45,15 @@ public:
 
    virtual Aeff * clone() {return new Aeff(*this);}
 
-   double AeffValueFromTable(const double energy, const double theta) const;
-
 private:
 
-   irfUtil::RootTable * m_aeff;
-   std::vector<double> m_aeffTable;
-   std::string m_histName;
+   std::vector< std::vector<double> > m_effArea;
+   std::vector<double> m_logElo;
+   std::vector<double> m_logEhi;
+   std::vector<double> m_logE;
+   std::vector<double> m_cosinc;
 
-   void readAeffTable();
-   void read_FITS_table();
-   int getAeffIndex(double energy, double theta) const;
+   void readData();
 
 };
 
