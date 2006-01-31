@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan 30 23:42:49 PST 2006
+irfs/dc2Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+OGIP-based implementation
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceToolsv6r2, operation: add
 Package: dc2Response
