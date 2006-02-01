@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Feb  1 15:07:29 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Psf.h 
+Log Message:
+adopt dc1a non-public interfaces for dc2
+    *
+------------------------------------------------------------
 User: jchiang  Mon Jan 30 23:42:50 PST 2006
 irfs/dc2Response/src
 
