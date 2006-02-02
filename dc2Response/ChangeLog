@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb  2 11:03:17 PST 2006
+irfs/dc2Response/python
+
+Removed Files:
+	Makefile dc2Response.i 
+Log Message:
+get rid of deprecated files
+    *
+------------------------------------------------------------
 User: jchiang  Wed Feb  1 17:18:22 PST 2006
 irfs/dc2Response/src
 
