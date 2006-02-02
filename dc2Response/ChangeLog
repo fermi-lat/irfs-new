@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Feb  1 17:18:22 PST 2006
+irfs/dc2Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add PsfScaling
+    *
+------------------------------------------------------------
 User: jchiang  Wed Feb  1 15:07:29 PST 2006
 irfs/dc2Response/src
 
