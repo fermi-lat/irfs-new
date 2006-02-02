@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Feb  1 17:18:22 PST 2006
+irfs/dc2Response/src
+
+Added Files:
+	PsfScaling.cxx PsfScaling.h 
+Log Message:
+add PsfScaling
+    *
+------------------------------------------------------------
+User: jchiang  Wed Feb  1 17:18:22 PST 2006
 irfs/dc2Response/cmt
 
 Modified Files:
