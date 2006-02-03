@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb  2 22:05:08 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Aeff.cxx Aeff.h Edisp.cxx Edisp.h 
+Log Message:
+start Edisp re-implementation
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb  2 11:03:17 PST 2006
 irfs/dc2Response/python
 
