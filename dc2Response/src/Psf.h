@@ -17,6 +17,8 @@
 
 namespace dc2Response {
 
+   class PsfScaling;
+
 /**
  * @class Psf
  *
@@ -35,7 +37,7 @@ public:
 
    virtual ~Psf();
 
-   Psf(const Psf &rhs);
+   Psf(const Psf & rhs);
 
    /// A member function returning the point-spread function value.
    /// @param appDir Apparent (reconstructed) photon direction.
@@ -43,11 +45,11 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
-   virtual double value(const astro::SkyDir &appDir, 
+   virtual double value(const astro::SkyDir & appDir, 
                         double energy, 
-                        const astro::SkyDir &srcDir, 
-                        const astro::SkyDir &scZAxis,
-                        const astro::SkyDir &scXAxis) const;
+                        const astro::SkyDir & srcDir, 
+                        const astro::SkyDir & scZAxis,
+                        const astro::SkyDir & scXAxis) const;
 
    virtual double value(double separation, double energy, double theta,
                         double phi) const;
@@ -74,15 +76,33 @@ public:
                                   double radius) const;
 
    virtual astro::SkyDir appDir(double energy,
-                                const astro::SkyDir &srcDir,
-                                const astro::SkyDir &scZAxis,
-                                const astro::SkyDir &scXAxis) const;
+                                const astro::SkyDir & srcDir,
+                                const astro::SkyDir & scZAxis,
+                                const astro::SkyDir & scXAxis) const;
 
    virtual Psf * clone() {
       return new Psf(*this);
    }
 
 private:
+
+   PsfScaling * m_psfScaling;
+
+   std::vector<double> m_psfParams;
+
+   irfInterface::AcceptanceCone * m_acceptanceCone;
+
+   std::vector<double> m_scaledDevs;
+
+   /// Cumulative distribution of scaledDeviations
+   std::vector<double> m_cumDist;
+   double m_psfNorm;
+
+   std::vector<double> m_psi;
+   std::vector<double> m_sepMean;
+   std::vector<double> m_angularIntegral;
+   std::vector<bool> m_needIntegral;
+   bool m_haveAngularIntegrals;
 
    /// Prevent compiler-generated version.
    Psf & operator=(const Psf &);
@@ -92,6 +112,8 @@ private:
    /// @param sep_mean Mean angular deviation (as a function of energy and
    ///        inclinations (radians)
    double value(double separation, double sep_mean) const;
+
+   void readData();
 
    /// @return The mean separation for a lognormal distribution of 
    ///         the psf.
@@ -105,28 +127,10 @@ private:
 
    double psfIntegral(double psi, double sepMean, double roi_radius=0);
 
-   std::vector<double> m_psfParams;
-
-   double m_p2;
-
-   irfInterface::AcceptanceCone * m_acceptanceCone;
-
-   std::vector<double> m_scaledDevs;
-
-   /// Cumulative distribution of scaledDeviations
-   std::vector<double> m_cumDist;
-   double m_psfNorm;
-
    void computeCumulativeDist();
    double scaledDist(double scaledDev) const;
    double p2(double p1) const;
    double drawScaledDev() const;
-
-   std::vector<double> m_psi;
-   std::vector<double> m_sepMean;
-   std::vector<double> m_angularIntegral;
-   std::vector<bool> m_needIntegral;
-   bool m_haveAngularIntegrals;
 
    /// Nested class that returns the integrand for the
    /// m_angularIntegrals

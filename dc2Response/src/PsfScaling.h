@@ -35,6 +35,17 @@ public:
    /// McZDir.
    PsfScaling(const std::vector<double> & pars);
 
+   PsfScaling(const PsfScaling & rhs) {
+      m_pars = rhs.m_pars;
+   }
+
+   PsfScaling & operator=(const PsfScaling & rhs) {
+      if (&rhs != this) {
+         m_pars = rhs.m_pars;
+      }
+      return *this;
+   }
+
    double operator()(double McEnergy, double McZDir, bool front) const;
 
 private:
