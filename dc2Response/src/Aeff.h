@@ -9,8 +9,6 @@
 #ifndef dc2Response_Aeff_h
 #define dc2Response_Aeff_h
 
-#include <cmath>
-
 #include <string>
 #include <vector>
 
@@ -35,6 +33,8 @@ public:
    Aeff(const std::string & filename, const std::string & extname);
 
    Aeff(const Aeff & rhs);
+
+   virtual ~Aeff() {}
 
    virtual double value(double energy, 
                         const astro::SkyDir &srcDir, 

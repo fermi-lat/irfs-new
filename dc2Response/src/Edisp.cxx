@@ -15,8 +15,6 @@
 #include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/RandGauss.h"
 
-#include "astro/SkyDir.h"
-
 #include "Edisp.h"
 
 namespace {
@@ -35,13 +33,9 @@ namespace {
 
 namespace dc2Response {
 
-Edisp::Edisp(const std::string &filename) : DC2(filename) {
-   normalizeDists();
-}
-     
-Edisp::Edisp(const std::string &filename, int hdu, int npars) 
-   : DC2(filename, hdu, npars) {
-   normalizeDists();
+Edisp::Edisp(const std::string & fitsfile, const std::string & extname) 
+   : DC2(filename, extname) {
+   readData();
 }
 
 double Edisp::value(double appEnergy,
@@ -71,12 +65,6 @@ double Edisp::value(double appEnergy, double energy,
       throw std::invalid_argument(message.str());
    }
 
-   if (theta < m_theta[m_theta.size()-1]) {
-      std::vector<double> pars = fitParams(energy, theta);
-      double x = appEnergy/energy;
-      double my_value = pars[0]*exp(-0.5*pow((x - pars[1])/pars[2], 2));
-      return my_value;
-   }
    return 0;
 }
 
@@ -87,7 +75,7 @@ double Edisp::appEnergy(double energy,
 // Inclination wrt spacecraft z-axis in degrees.
    double inc = srcDir.difference(scZAxis)*180./M_PI;
 
-   std::vector<double> pars = fitParams(energy, inc);
+   const std::vector<double> & pars = fitParams(energy, inc);
 
    double my_energy = (RandGauss::shoot()*pars[2] + pars[1])*energy;
 
@@ -99,9 +87,9 @@ double Edisp::appEnergy(double energy,
 }
 
 double Edisp::integral(double emin, double emax, double energy,
-                       const astro::SkyDir &srcDir, 
-                       const astro::SkyDir &scZAxis,
-                       const astro::SkyDir &scXAxis) const {
+                       const astro::SkyDir & srcDir, 
+                       const astro::SkyDir & scZAxis,
+                       const astro::SkyDir & scXAxis) const {
    (void)(scXAxis);
    double phi(0);
    double theta = srcDir.difference(scZAxis)*180./M_PI;
@@ -129,12 +117,7 @@ double Edisp::integral(double emin, double emax, double energy,
    return my_integral;
 }
 
-void Edisp::normalizeDists() {
-// Compute proper Gaussian function normalization for each set of
-// parameters.
-   for (unsigned int ipar = 0; ipar < m_pars.size(); ipar++) {
-      m_pars[ipar][0] = 1./sqrt(2.*M_PI)/m_pars[ipar][2];
-   }
+void Edisp::readData() {
 }
 
 } // namespace dc2Response

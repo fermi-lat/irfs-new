@@ -18,7 +18,7 @@ namespace dc2Response {
 /**
  * @class Edisp
  *
- * @brief A LAT energy dispersion class using the DC2 AllGamma data.
+ * @brief LAT energy dispersion for DC2 
  *
  * @author J. Chiang
  *
@@ -29,9 +29,7 @@ class Edisp : public irfInterface::IEdisp, public DC2 {
 
 public:
 
-   Edisp(const std::string &filename);
-
-   Edisp(const std::string &filename, int hdu, int npars);
+   Edisp(const std::string & fitsfile, cons std::string & extname);
 
    virtual ~Edisp() {}
 
@@ -82,7 +80,20 @@ public:
 
 private:
 
-   void normalizeDists();
+   /// @brief The parameters as a vector over bins in energy and
+   /// inclination.  If i is the inclination bin and k is the energy
+   /// bin, then the set of parameters for that bin are
+   /// m_pars.at(i*m_logE.size() + k).
+   std::vector< std::vector<double> > m_pars;
+
+   std::vector<double> m_logElo;
+   std::vector<double> m_logEhi;
+   std::vector<double> m_logE;
+   std::vector<double> m_cosinc;
+
+   void readData();
+
+   const std::vector<double> & fitParams(double McEnergy, double McZDir);
 
 };
 

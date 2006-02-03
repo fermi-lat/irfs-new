@@ -1,7 +1,7 @@
 /** 
  * @file Aeff.cxx
  * @brief Implementation for the DC2 effective Area class.
- * @author Johann Cohen-Tanugi
+ * @author J. Chiang
  * 
  * $Header$
  */
@@ -21,17 +21,17 @@
 
 namespace dc2Response {
 
+Aeff::Aeff(const std::string & filename, const std::string & extname) 
+   : DC2(filename, extname) {
+   readData();
+}
+
 Aeff::Aeff(const Aeff & rhs) : IAeff(rhs), DC2(rhs) {
    m_effArea = rhs.m_effArea;
    m_logElo = rhs.m_logElo;
    m_logEhi = rhs.m_logEhi;
    m_logE = rhs.m_logE;
    m_cosinc = rhs.m_cosinc;
-}
-
-Aeff::Aeff(const std::string & filename, const std::string & extname) 
-   : DC2(filename, extname) {
-   readData();
 }
 
 void Aeff::readData() {
