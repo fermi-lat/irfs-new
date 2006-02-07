@@ -35,6 +35,8 @@ public:
    /// McZDir.
    PsfScaling(const std::vector<double> & pars);
 
+   PsfScaling(const std::string & psfFile);
+
    PsfScaling(const PsfScaling & rhs) {
       m_pars = rhs.m_pars;
    }
@@ -46,7 +48,8 @@ public:
       return *this;
    }
 
-   double operator()(double McEnergy, double McZDir, bool front) const;
+   /// @return The energy scaling for the angular deviation in degrees
+   double operator()(double McEnergy, double McZDir, bool front=true) const;
 
 private:
 

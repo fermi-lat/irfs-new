@@ -15,6 +15,8 @@
 #include "irfInterface/IPsf.h"
 #include "irfInterface/AcceptanceCone.h"
 
+#include "DC2.h"
+
 namespace dc2Response {
 
    class PsfScaling;
@@ -29,7 +31,7 @@ namespace dc2Response {
  * $Header$
  */
 
-class Psf : public irfInterface::IPsf {
+class Psf : public irfInterface::IPsf, public DC2 {
 
 public:
 
@@ -88,7 +90,13 @@ private:
 
    PsfScaling * m_psfScaling;
 
-   std::vector<double> m_psfParams;
+   std::vector<double> m_sigma;
+   std::vector<double> m_gamma;
+
+   std::vector<double> m_logElo;
+   std::vector<double> m_logEhi;
+   std::vector<double> m_logE;
+   std::vector<double> m_cosinc;
 
    irfInterface::AcceptanceCone * m_acceptanceCone;
 
@@ -129,7 +137,6 @@ private:
 
    void computeCumulativeDist();
    double scaledDist(double scaledDev) const;
-   double p2(double p1) const;
    double drawScaledDev() const;
 
    /// Nested class that returns the integrand for the

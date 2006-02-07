@@ -25,8 +25,9 @@
 #include "irfInterface/AcceptanceCone.h"
 
 #include "Psf.h"
+#include "PsfScaling.h"
 
-//namespace dc2Response {
+namespace dc2Response {
 
 Psf::Gint Psf::s_gfunc;
 
@@ -42,7 +43,7 @@ Psf::~Psf() {
    delete m_psfScaling;
 }
 
-Psf::Psf(const Psf & rhs) : IPsf(rhs) {
+Psf::Psf(const Psf & rhs) : IPsf(rhs), DC2(rhs) {
    delete m_psfScaling;
    m_psfScaling = new PsfScaling(*rhs.m_psfScaling);
    m_psfParams = rhs.m_psfParams;
@@ -122,17 +123,17 @@ double Psf::value(double separation, double energy, double theta,
 
 double Psf::value(double separation, double sep_mean) const {
    double x = separation/sep_mean;
-   double my_value;
-   if (separation != 0) {
-      my_value = scaledDist(x)/sep_mean;
-// Apply normalization and convert to per steradians.
-//      return my_value/2./M_PI/sin(separation)/m_psfNorm;
-      return my_value/2./M_PI/separation/m_psfNorm;
-   } else {
-      double p1(m_psfParams[4]);
-      my_value = std::pow(1. + m_p2*x*x, -p1)/sep_mean/sep_mean;
-      return my_value/2./M_PI/m_psfNorm;
-   }
+//    double my_value;
+//    if (separation != 0) {
+//       my_value = scaledDist(x)/sep_mean;
+// // Apply normalization and convert to per steradians.
+// //      return my_value/2./M_PI/sin(separation)/m_psfNorm;
+//       return my_value/2./M_PI/separation/m_psfNorm;
+//    } else {
+//       double p1(m_psfParams[4]);
+//       my_value = std::pow(1. + m_p2*x*x, -p1)/sep_mean/sep_mean;
+//       return my_value/2./M_PI/m_psfNorm;
+//    }
    return 0;
 }
 
@@ -210,15 +211,40 @@ double Psf::angularIntegral(double energy, double theta,
 }
 
 void Psf::readData() {
-// read in the hyperparameters from the FITS file.
-// set m_psfScaling
+   m_psfScaling = new PsfScaling(m_filename);
+
+// Read in the hyperparameters from the FITS file.
+   tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
+
+   const tip::Table * psf = fileSvc.readTable(m_filename, m_extname);
+
+   tip::Table::ConstIterator it(psf->begin());
+   tip::ConstTableRecord & row(*it);
+
+   row["sigma"].get(m_sigma);
+   row["gamma"].get(m_gamma);
+
+   std::vector<double> elo, ehi;
+   row["energ_lo"].get(elo);
+   row["energ_hi"].get(ehi);
+
+   for (size_t k = 0; k < elo.size(); k++) {
+      m_logElo.push_back(std::log(elo.at(k)));
+      m_logEhi.push_back(std::log(ehi.at(k)));
+      m_logE.push_back((m_logElo.back() + m_logEhi.back())/2.);
+   }
+
+   std::vector<double> theta;
+   row["theta"].get(theta);
+
+   size_t indx(0);
+   for (size_t i = 0; i < theta.size(); i++) {
+      m_cosinc.push_back(std::cos(theta.at(i)));
+   }
+   delete psf;
 }
 
 double Psf::sepMean(double energy, double inclination) const {
-//    double mu = std::cos(inclination);
-//    double my_value = (m_psfParams[0]*(1. - mu)*(1. - mu) + m_psfParams[1])
-//       *std::pow((1./energy + 1./m_psfParams[3]), m_psfParams[2]);
-//    return my_value;
    return (*m_psfScaling)(energy, inclination*180./M_PI);
 }
 
@@ -328,14 +354,8 @@ double Psf::Gint::value(double mu) const {
 }
 
 double Psf::scaledDist(double x) const {
-   double p1(m_psfParams[4]);
-   return x*std::pow(1. + m_p2*x*x, -p1);
-}
-
-double Psf::p2(double p1) const {
-   double scale(m_psfParams.at(5));
-   double pref(m_psfParams.at(6));
-   return std::exp(scale*std::log(pref/std::log(p1)));
+//   double p1(m_psfParams[4]);
+//   return x*std::pow(1. + m_p2*x*x, -p1);
 }
 
 void Psf::computeCumulativeDist() {

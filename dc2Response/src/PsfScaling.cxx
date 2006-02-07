@@ -8,6 +8,9 @@
 
 #include <cmath>
 
+#include "tip/IFileSvc.h"
+#include "tip/Table.h"
+
 #include "PsfScaling.h"
 
 namespace {
@@ -20,6 +23,14 @@ namespace dc2Response {
 
 PsfScaling::PsfScaling(const std::vector<double> & pars) 
    : m_pars(pars) {}
+
+PsfScaling::PsfScaling(const std::string & psfFile) {
+   const tip::Table * table =
+      tip::IFileSvc::instance().readTable(psfFile, "PSF_SCALING_PARAMS");
+   tip::ConstTableRecord & row(*table->begin());
+   row["PSFSCALE"].get(m_pars);
+   delete table;
+}
 
 double PsfScaling::operator()(double McEnergy, double McZDir,
                               bool front) const {
@@ -35,7 +46,7 @@ double PsfScaling::operator()(double McEnergy, double McZDir,
       scaleFactor *= zfactor(McZDir)*std::sqrt(::sqr(m_pars[11]*t) +
                                                ::sqr(m_pars[12]));
    }
-   return scaleFactor;
+   return scaleFactor*180./M_PI;
 }
 
 double PsfScaling::powerLawScaling(double McEnergy) const {
