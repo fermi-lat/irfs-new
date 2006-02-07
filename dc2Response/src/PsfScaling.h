@@ -33,8 +33,10 @@ public:
    /// @param params The 13 parameters describing the functional
    /// dependence of the angular deviation scaling on McEnergy and
    /// McZDir.
-   PsfScaling(const std::vector<double> & pars);
+   PsfScaling(const std::vector<double> & pars, bool useFront=true);
 
+   /// @param psfFile FITS file containing the parameters in
+   /// PSF_SCALING_PARAMS binary table extension.
    PsfScaling(const std::string & psfFile);
 
    PsfScaling(const PsfScaling & rhs) {
@@ -49,12 +51,17 @@ public:
    }
 
    /// @return The energy scaling for the angular deviation in degrees
-   double operator()(double McEnergy, double McZDir, bool front=true) const;
+   /// @param McEnergy True photon energy
+   /// @param McZDir Negative of the projection of true photon direction 
+   ///        unit vector along the instrument axis.
+   double operator()(double McEnergy, double McZDir) const;
 
 private:
 
    /// @brief The 13 "parameters".
-   std::vector<double> m_pars;  
+   std::vector<double> m_pars;
+
+   bool m_useFront;
 
    double powerLawScaling(double McEnergy) const;
    double zfactor(double McZDir) const;

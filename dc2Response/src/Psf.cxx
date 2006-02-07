@@ -117,8 +117,15 @@ double Psf::value(double separation, double energy, double theta,
       throw std::invalid_argument(message.str());
    }
    (void)(phi);
-   double sep_mean(sepMean(energy, theta*M_PI/180.));
-   return value(separation*M_PI/180., sep_mean);
+   double delta(separation*M_PI/180./
+                (*m_psfScaling)(energy, cos(theta*M_PI/180.)));
+   double logE(std::log(energy));
+   double mu(std::cos(theta));
+   double sigma(st_facilities::Util::bilinear(m_sigma, m_logE, logE,
+                                              m_cosinc, mu);
+   double gamma(st_facilities::Util::bilinear(m_gamma, m_logE, logE,
+                                              m_cosinc, mu);
+   return 
 }
 
 double Psf::value(double separation, double sep_mean) const {
@@ -207,7 +214,6 @@ double Psf::angularIntegral(double energy, double theta,
       return 0;
    }
    return st_facilities::Util::interpolate(m_scaledDevs, m_cumDist, scaledDev);
-                                           
 }
 
 void Psf::readData() {
@@ -245,7 +251,7 @@ void Psf::readData() {
 }
 
 double Psf::sepMean(double energy, double inclination) const {
-   return (*m_psfScaling)(energy, inclination*180./M_PI);
+   return (*m_psfScaling)(energy, cos(inclination));
 }
 
 void Psf::computeAngularIntegrals

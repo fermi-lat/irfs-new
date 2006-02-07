@@ -21,23 +21,29 @@ namespace {
 
 namespace dc2Response {
 
-PsfScaling::PsfScaling(const std::vector<double> & pars) 
-   : m_pars(pars) {}
+PsfScaling::PsfScaling(const std::vector<double> & pars, bool useFront) 
+   : m_pars(pars), m_useFront(useFront) {}
 
 PsfScaling::PsfScaling(const std::string & psfFile) {
    const tip::Table * table =
       tip::IFileSvc::instance().readTable(psfFile, "PSF_SCALING_PARAMS");
    tip::ConstTableRecord & row(*table->begin());
    row["PSFSCALE"].get(m_pars);
+   std::string latClass;
+   table->getHeader()["LATCLASS"].get(latClass);
+   if (latClass.find("FRONT") != std::string::npos) {
+      m_useFront = true;
+   } else {
+      m_useFront = false;
+   }
    delete table;
 }
 
-double PsfScaling::operator()(double McEnergy, double McZDir,
-                              bool front) const {
+double PsfScaling::operator()(double McEnergy, double McZDir) const {
    double t(powerLawScaling(McEnergy));
    double x(trendline(McEnergy));
    double scaleFactor(1.);
-   if (front) {
+   if (m_useFront) {
       scaleFactor *= (m_pars[4]*x*x - m_pars[5]*x + m_pars[6]);
       scaleFactor *= zfactor(McZDir)*std::sqrt(::sqr(m_pars[7]*t) +
                                                ::sqr(m_pars[8]));
