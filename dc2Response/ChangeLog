@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Feb  6 17:12:02 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Psf.cxx Psf.h PsfScaling.cxx PsfScaling.h 
+Log Message:
+read in PSF scale factors from FITS file
+    *
+------------------------------------------------------------
+User: jchiang  Mon Feb  6 17:12:02 PST 2006
 irfs/dc2Response/cmt
 
 Modified Files:
