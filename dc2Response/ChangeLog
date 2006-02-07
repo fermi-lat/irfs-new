@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Feb  6 17:12:02 PST 2006
+irfs/dc2Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+read in PSF scale factors from FITS file
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb  2 22:34:07 PST 2006
 irfs/dc2Response/src
 
