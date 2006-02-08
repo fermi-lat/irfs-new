@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb  7 23:40:40 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Psf.cxx Psf.h 
+Log Message:
+a little more PSF implementation
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb  7 23:40:39 PST 2006
 irfs/dc2Response/cmt
 
