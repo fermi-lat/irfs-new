@@ -82,16 +82,16 @@ double Psf::value(double separation, double energy, double theta,
    double meanSeparation((*m_psfScaling)(energy, cos(theta*M_PI/180.)));
    double delta(separation/meanSeparation);
    double logE(std::log(energy));
-   double mu(std::cos(theta));
-   double sigma(st_facilities::Util::bilinear(m_logE, logE, m_cosinc, mu,
+   double mu(std::cos(theta*M_PI/180.));
+   double sigma(st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE,
                                               m_sigma));
-   double gamma(st_facilities::Util::bilinear(m_logE, logE, m_cosinc, mu,
+   double gamma(st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE,
                                               m_gamma));
    double psfNorm(st_facilities::Util::interpolate(s_gammas, s_psfNorms,
                                                    gamma));
    double x(delta/sigma);
-   return x*std::pow(1. + x*x/2./gamma, -gamma)/meanSeparation/2./M_PI
-      /(separation*M_PI/180.)/psfNorm;
+   return x*std::pow(1. + x*x/2./gamma, -gamma)/2./M_PI
+      /std::sin(separation*M_PI/180.)/sigma/(meanSeparation*M_PI/180.)/psfNorm;
 }
 
 astro::SkyDir Psf::appDir(double energy,
