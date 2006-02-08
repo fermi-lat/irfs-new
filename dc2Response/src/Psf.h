@@ -53,6 +53,13 @@ public:
                         const astro::SkyDir & scZAxis,
                         const astro::SkyDir & scXAxis) const;
 
+   /// Return the psf as a function of instrument coordinates.
+   /// @param separation Angle between apparent and true photon directions
+   ///        (degrees).
+   /// @param energy True photon energy (MeV).
+   /// @param theta True photon inclination angle (degrees).
+   /// @param phi True photon azimuthal angle measured wrt the instrument
+   ///            X-axis (degrees).
    virtual double value(double separation, double energy, double theta,
                         double phi) const;
 
@@ -98,82 +105,14 @@ private:
    std::vector<double> m_logE;
    std::vector<double> m_cosinc;
 
-   irfInterface::AcceptanceCone * m_acceptanceCone;
-
-   std::vector<double> m_scaledDevs;
-
-   /// Cumulative distribution of scaledDeviations
-   std::vector<double> m_cumDist;
-   double m_psfNorm;
-
-   std::vector<double> m_psi;
-   std::vector<double> m_sepMean;
-   std::vector<double> m_angularIntegral;
-   std::vector<bool> m_needIntegral;
-   bool m_haveAngularIntegrals;
-
-   /// Prevent compiler-generated version.
-   Psf & operator=(const Psf &);
-
-   /// @param separation Angle between true/source and apparent photon 
-   ///        directions in *radians*
-   /// @param sep_mean Mean angular deviation (as a function of energy and
-   ///        inclinations (radians)
-   double value(double separation, double sep_mean) const;
-
    void readData();
 
-   /// @return The mean separation for a lognormal distribution of 
-   ///         the psf.
-   /// @param energy True energy of the photon (MeV)
-   /// @param inclination Angle between source direction and spacecraft 
-   ///        z-axis (radians)
-   double sepMean(double energy, double inclination) const;
+   static std::vector<double> s_gammas;
+   static std::vector<double> s_psfNorms;
 
-   void computeAngularIntegrals
-   (const std::vector<irfInterface::AcceptanceCone *> & cones);
+   static double psfIntegrand(double * xx);
 
-   double psfIntegral(double psi, double sepMean, double roi_radius=0);
-
-   void computeCumulativeDist();
-   double scaledDist(double scaledDev) const;
-   double drawScaledDev() const;
-
-   /// Nested class that returns the integrand for the
-   /// m_angularIntegrals
-   class Gint {
-   public:
-      Gint() : m_psfObj(0) {}
-      Gint(Psf * psfObj, double sepMean) :
-         m_psfObj(psfObj), m_sepMean(sepMean),
-         m_doFirstTerm(true), m_cp(0), m_sp(0), m_cr(0) {}
-      Gint(Psf * psfObj, double sepMean, 
-           double cp, double sp, double cr) : 
-         m_psfObj(psfObj), m_sepMean(sepMean),
-         m_doFirstTerm(false), m_cp(cp), m_sp(sp), m_cr(cr) {}
-      virtual ~Gint() {}
-      double value(double mu) const;
-   private:
-      Psf * m_psfObj;
-      double m_sepMean;
-      bool m_doFirstTerm;
-      double m_cp;
-      double m_sp;
-      double m_cr;
-   };
-
-   /// A static object needed to compute the m_angularIntegrals using
-   /// the DGAUS8 integrator
-   static Gint s_gfunc;
-
-   /// A static member function to provide the interface to s_gfunc
-   /// that is required by DGAUS8
-   static double gfuncIntegrand(double *mu) {
-      return s_gfunc.value(*mu);
-   }
-
-   friend class Psf::Gint;
-
+   void computePsfNorms();
 };
 
 } // namespace dc2Response
