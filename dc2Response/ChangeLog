@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Feb  8 14:09:18 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Psf.cxx 
+Log Message:
+finally get normalization correct
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb  7 23:40:40 PST 2006
 irfs/dc2Response/src
 
