@@ -30,16 +30,24 @@
 #include "Psf.h"
 #include "PsfScaling.h"
 
+namespace {
+   double psfFunc(double x, double gamma) {
+      return x*std::pow(1. + x*x/2./gamma, -gamma);
+   }
+}
+
 namespace dc2Response {
 
 std::vector<double> Psf::s_gammas;
 std::vector<double> Psf::s_psfNorms;
+std::vector<double> Psf::s_lowerFractions;
 
 Psf::Psf(const std::string & fitsfile, const std::string & extname)
    : DC2(fitsfile, extname), m_psfScaling(0) {
    readData();
    if (s_gammas.empty()) {
       computePsfNorms();
+      computeLowerFractions();
    }
 }
 
@@ -79,49 +87,56 @@ double Psf::value(double separation, double energy, double theta,
       throw std::invalid_argument(message.str());
    }
    (void)(phi);
-   double meanSeparation((*m_psfScaling)(energy, cos(theta*M_PI/180.)));
-   double delta(separation/meanSeparation);
    double logE(std::log(energy));
    double mu(std::cos(theta*M_PI/180.));
-   double sigma(st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE,
-                                              m_sigma));
    double gamma(st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE,
                                               m_gamma));
    double psfNorm(st_facilities::Util::interpolate(s_gammas, s_psfNorms,
                                                    gamma));
-   double x(delta/sigma);
-   return x*std::pow(1. + x*x/2./gamma, -gamma)/2./M_PI
-      /std::sin(separation*M_PI/180.)/sigma/(meanSeparation*M_PI/180.)/psfNorm;
+   double meanSep(angularScale(energy, mu));
+   double x(separation/meanSep);
+   return ::psfFunc(x, gamma)/2./M_PI/std::sin(separation*M_PI/180.)
+      /(meanSep*M_PI/180.)/psfNorm;
+}
+
+double Psf::angularScale(double energy, double mu) const {
+   double logE(std::log(energy));
+   double scale((*m_psfScaling)(energy, mu));
+   double sigma(st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE,
+                                              m_sigma));
+   return scale*sigma;
 }
 
 astro::SkyDir Psf::appDir(double energy,
                           const astro::SkyDir & srcDir,
                           const astro::SkyDir & scZAxis,
                           const astro::SkyDir & ) const {
-   (void)(energy);
-   (void)(srcDir);
-   (void)(scZAxis);
-//    double inclination = srcDir.difference(scZAxis);
+   double mu(std::cos(srcDir.difference(scZAxis)));
+   double theta(drawOffset(energy, mu));
+             
+   double xi = RandFlat::shoot();
+   double phi = 2.*M_PI*xi;
 
-//    double theta = sepMean(energy, inclination)*drawScaledDev();
+// These might as well have been passed by value...
+   astro::SkyDir appDir = srcDir;
+   astro::SkyDir zAxis = scZAxis;
 
-//    double xi = RandFlat::shoot();
-//    double phi = 2.*M_PI*xi;
+// Create an arbitrary x-direction about which to perform the theta
+// rotation.
+   Hep3Vector srcVec(appDir());
+   Hep3Vector arbitraryVec(srcVec.x() + 1., srcVec.y() + 1., srcVec.z() + 1.);
+   Hep3Vector xVec = srcVec.cross(arbitraryVec.unit());
 
-// // These might as well have been passed by value...
-//    astro::SkyDir appDir = srcDir;
-//    astro::SkyDir zAxis = scZAxis;
+   appDir().rotate(theta, xVec).rotate(phi, srcVec);
 
-// // Create an arbitrary x-direction about which to perform the theta
-// // rotation.
-//    Hep3Vector srcVec(appDir());
-//    Hep3Vector arbitraryVec(srcVec.x() + 1., srcVec.y() + 1., srcVec.z() + 1.);
-//    Hep3Vector xVec = srcVec.cross(arbitraryVec.unit());
+   return appDir;
+}
 
-//    appDir().rotate(theta, xVec).rotate(phi, srcVec);
-
-//    return appDir;
-   return astro::SkyDir(0, 0);
+double Psf::drawOffset(double energy, double mu) const {
+   double logE(std::log(energy));
+   double gamma(st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE,
+                                              m_gamma));
+   return angularScale(energy, mu)*drawScaledDev(gamma);
 }
 
 double Psf::angularIntegral(double energy,
@@ -240,7 +255,7 @@ void Psf::readData() {
 
 void Psf::computePsfNorms() {
    size_t ngam(100);
-   double gmin(0.5);
+   double gmin(1.001);
    double gmax(5);
    double gstep(std::log(gmax/gmin)/(ngam - 1));
    double lowerLim(0);
@@ -255,9 +270,47 @@ void Psf::computePsfNorms() {
    }
 }
 
+double Psf::drawScaledDev(double gamma) const {
+   double xbreak(std::sqrt(2.*gamma));
+   double alpha(std::pow(2.*gamma, gamma));
+   double beta(2.*gamma - 1.);
+
+   double lowerFrac(st_facilities::Util::interpolate(s_gammas, 
+                                                     s_lowerFractions,
+                                                     gamma));
+   double x;
+//   while (true) {
+   double xi(RandFlat::shoot());
+      if (xi < lowerFrac) {
+         x = xbreak*std::sqrt(RandFlat::shoot());
+//          if (RandFlat::shoot() < ::psfFunc(x, gamma)/x) {
+//             return x;
+//          }
+      } else {
+         x = std::pow(alpha*(1. - RandFlat::shoot()), 1./(1. - beta));
+//          if (RandFlat::shoot() < 
+//              ::psfFunc(x, gamma)/(alpha*std::pow(x, -beta))) {
+//             return x;
+//          }
+      }
+//   }
+   return x;
+}
+
+void Psf::computeLowerFractions() {
+   std::vector<double>::const_iterator it;
+   s_lowerFractions.clear();
+   for (it = s_gammas.begin(); it != s_gammas.end(); ++it) {
+      double gamma = *it;
+      double lowerIntegral(gamma);
+      double upperIntegral(std::pow(2.*gamma, 2.*gamma - 1));
+      s_lowerFractions.push_back(lowerIntegral/(lowerIntegral+upperIntegral));
+   }
+}
+
 double Psf::psfIntegrand(double * xx) {
    const double & x(*xx);
-   return x*std::pow(1. + x*x/2./s_gammas.back(), -s_gammas.back());
+   return ::psfFunc(x, s_gammas.back());
 }
 
 } // namespace dc2Response

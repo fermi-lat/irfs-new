@@ -93,6 +93,14 @@ public:
       return new Psf(*this);
    }
 
+   double drawOffset(double energy, double mu) const;
+
+   double drawScaledDev(double gamma) const;
+
+   const std::vector<double> & lowerFracs() const {
+      return s_lowerFractions;
+   }
+
 private:
 
    PsfScaling * m_psfScaling;
@@ -107,12 +115,16 @@ private:
 
    void readData();
 
+   double angularScale(double energy, double mu) const;
+
    static std::vector<double> s_gammas;
    static std::vector<double> s_psfNorms;
+   static std::vector<double> s_lowerFractions;
 
    static double psfIntegrand(double * xx);
 
    void computePsfNorms();
+   void computeLowerFractions();
 };
 
 } // namespace dc2Response
