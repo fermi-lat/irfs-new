@@ -117,12 +117,19 @@ private:
 
    double angularScale(double energy, double mu) const;
 
+/// @bug This code is not thread-safe...will need to find an
+/// integrator that does not require static functions as its argument.
+   static double s_energy;
+   static double s_theta;
+   static double s_phi;
+   static const Psf * s_self;
+   static double coneIntegrand(double * offset);
+
    static std::vector<double> s_gammas;
    static std::vector<double> s_psfNorms;
    static std::vector<double> s_lowerFractions;
 
    static double psfIntegrand(double * xx);
-
    void computePsfNorms();
    void computeLowerFractions();
 };

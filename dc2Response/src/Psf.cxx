@@ -38,6 +38,10 @@ namespace {
 
 namespace dc2Response {
 
+double Psf::s_energy;
+double Psf::s_theta;
+double Psf::s_phi;
+const Psf * Psf::s_self(0);
 std::vector<double> Psf::s_gammas;
 std::vector<double> Psf::s_psfNorms;
 std::vector<double> Psf::s_lowerFractions;
@@ -206,18 +210,21 @@ double Psf::angularIntegral(double energy,
 
 double Psf::angularIntegral(double energy, double theta, 
                             double phi, double radius) const {
-   (void)(energy);
-   (void)(theta);
-   (void)(phi);
-   (void)(radius);
-//    double scaledDev = radius*M_PI/180./sepMean(energy, theta*M_PI/180.);
-//    if (scaledDev >= m_scaledDevs.back()) {
-//       return 1.;
-//    } else if (scaledDev <= m_scaledDevs.front()) {
-//       return 0;
-//    }
-//    return st_facilities::Util::interpolate(m_scaledDevs, m_cumDist, scaledDev);
-   return 0;
+   s_energy = energy;
+   s_theta = theta;
+   s_phi = phi;
+   s_self = this;
+   double integral;
+   double err(1e-5);
+   long ierr(0);
+   double zero(0);
+   dgaus8_(&coneIntegrand, &zero, &radius, &err, &integral, &ierr);
+   return integral;
+}
+
+double Psf::coneIntegrand(double * offset) {
+   return s_self->value(*offset, s_energy, s_theta, s_phi)
+      *std::sin(*offset*M_PI/180.)*2.*M_PI*M_PI/180.;
 }
 
 void Psf::readData() {
@@ -278,22 +285,22 @@ double Psf::drawScaledDev(double gamma) const {
    double lowerFrac(st_facilities::Util::interpolate(s_gammas, 
                                                      s_lowerFractions,
                                                      gamma));
-   double x;
-//   while (true) {
-   double xi(RandFlat::shoot());
+   double x(0);
+   while (true) {
+      double xi(RandFlat::shoot());
       if (xi < lowerFrac) {
          x = xbreak*std::sqrt(RandFlat::shoot());
-//          if (RandFlat::shoot() < ::psfFunc(x, gamma)/x) {
-//             return x;
-//          }
+         if (RandFlat::shoot() < ::psfFunc(x, gamma)/x) {
+            return x;
+         }
       } else {
-         x = std::pow(alpha*(1. - RandFlat::shoot()), 1./(1. - beta));
-//          if (RandFlat::shoot() < 
-//              ::psfFunc(x, gamma)/(alpha*std::pow(x, -beta))) {
-//             return x;
-//          }
+         x = xbreak*std::pow((1. - RandFlat::shoot()), 1./(1. - beta));
+         if (RandFlat::shoot() < 
+             ::psfFunc(x, gamma)/(alpha*std::pow(x, -beta))) {
+            return x;
+         }
       }
-//   }
+   }
    return x;
 }
 
@@ -302,8 +309,11 @@ void Psf::computeLowerFractions() {
    s_lowerFractions.clear();
    for (it = s_gammas.begin(); it != s_gammas.end(); ++it) {
       double gamma = *it;
+      double xbreak(std::sqrt(2.*gamma));
+      double alpha(std::pow(2.*gamma, gamma));
+      double beta(2.*gamma - 1.);
       double lowerIntegral(gamma);
-      double upperIntegral(std::pow(2.*gamma, 2.*gamma - 1));
+      double upperIntegral(alpha/(beta - 1.)*std::pow(xbreak, 1. - beta));
       s_lowerFractions.push_back(lowerIntegral/(lowerIntegral+upperIntegral));
    }
 }
