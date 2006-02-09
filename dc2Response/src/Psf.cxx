@@ -93,22 +93,26 @@ double Psf::value(double separation, double energy, double theta,
    (void)(phi);
    double logE(std::log(energy));
    double mu(std::cos(theta*M_PI/180.));
-   double gamma(st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE,
-                                              m_gamma));
-   double psfNorm(st_facilities::Util::interpolate(s_gammas, s_psfNorms,
-                                                   gamma));
+   double gam(gamma(logE, mu));
+   double psfNorm(st_facilities::Util::interpolate(s_gammas, s_psfNorms, gam));
    double meanSep(angularScale(energy, mu));
    double x(separation/meanSep);
-   return ::psfFunc(x, gamma)/2./M_PI/std::sin(separation*M_PI/180.)
+   return ::psfFunc(x, gam)/2./M_PI/std::sin(separation*M_PI/180.)
       /(meanSep*M_PI/180.)/psfNorm;
+}
+
+double Psf::gamma(double logE, double mu) const {
+   return st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE, m_gamma);
+}
+
+double Psf::sigma(double logE, double mu) const {
+   return st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE, m_sigma);
 }
 
 double Psf::angularScale(double energy, double mu) const {
    double logE(std::log(energy));
    double scale((*m_psfScaling)(energy, mu));
-   double sigma(st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE,
-                                              m_sigma));
-   return scale*sigma;
+   return scale*sigma(logE, mu);
 }
 
 astro::SkyDir Psf::appDir(double energy,
@@ -138,9 +142,7 @@ astro::SkyDir Psf::appDir(double energy,
 
 double Psf::drawOffset(double energy, double mu) const {
    double logE(std::log(energy));
-   double gamma(st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE,
-                                              m_gamma));
-   return angularScale(energy, mu)*drawScaledDev(gamma);
+   return angularScale(energy, mu)*drawScaledDev(gamma(logE, mu));
 }
 
 double Psf::angularIntegral(double energy,

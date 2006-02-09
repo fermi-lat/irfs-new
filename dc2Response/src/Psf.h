@@ -115,6 +115,9 @@ private:
 
    void readData();
 
+   double gamma(double energy, double mu) const;
+   double sigma(double energy, double mu) const;
+
    double angularScale(double energy, double mu) const;
 
 /// @bug This code is not thread-safe...will need to find an
