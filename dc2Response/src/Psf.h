@@ -115,6 +115,13 @@ private:
 
    std::vector<double> m_psi;
    std::vector<double> m_angScale;
+   std::vector<double> m_gamArray;
+
+   std::vector< std::vector<double> > m_angularIntegral;
+   std::vector< std::vector<bool> > m_needIntegral;
+   bool m_haveAngularIntegrals;
+
+   irfInterface::AcceptanceCone * m_acceptanceCone;
 
    void readData();
 

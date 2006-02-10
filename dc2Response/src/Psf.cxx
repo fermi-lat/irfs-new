@@ -173,40 +173,39 @@ double Psf::angularIntegral(double energy,
    if (psi >= m_psi.back()) {
       return 0;
    }
-   unsigned int ipsi = std::upper_bound(m_psi.begin(), m_psi.end(), psi) 
+   size_t ipsi = std::upper_bound(m_psi.begin(), m_psi.end(), psi) 
       - m_psi.begin();
       
    double mu = std::cos(theta*M_PI/180.);
-   double angScale = angularScale(energy, mu);b
+   double angScale = angularScale(energy, mu);
    if (angScale < m_angScale.front() || angScale >= m_angScale.back()) {
       return 0;
    }
+   size_t iang = std::upper_bound(m_angScale.begin(), m_angScale.end(),
+                                  angScale) - m_angScale.begin() - 1;
 
-   unsigned int isepMean = 
-      std::upper_bound(m_sepMean.begin(), m_sepMean.end(), sep_mean) 
-      - m_sepMean.begin() - 1;
+   double gamValue(gamma(energy, mu));
+   size_t igam = std::upper_bound(m_gamValues.begin(), m_gamValues.end(),
+                                  gamValue) - 1;
 
-//    unsigned int indx = ipsi*m_sepMean.size() + isepMean;
-
-//    if (isepMean == m_sepMean.size() - 1) {
-//       return psfIntegral(psi, sep_mean);
-//    }
-
-// // Interpolate in sepMean dimension.
-//    if (m_needIntegral[indx]) {
-//       m_angularIntegral[indx] = psfIntegral(psi, m_sepMean[isepMean]);
-//       m_needIntegral[indx] = false;
-//    }
-//    if (m_needIntegral[indx+1]) {
-//       m_angularIntegral[indx+1] = psfIntegral(psi, m_sepMean[isepMean+1]);
-//       m_needIntegral[indx+1] = false;
-//    }
-//    double my_value = (sep_mean - m_sepMean[isepMean])
-//       /(m_sepMean[isepMean+1] - m_sepMean[isepMean])
-//       *(m_angularIntegral[indx+1] - m_angularIntegral[indx])
-//       + m_angularIntegral[indx];
-//    return my_value;
-   return 0;
+   if (iang == m_angScale.size() - 1 || igam == m_gamValues.size() - 1) {
+      return psfIntegral(psi, angScale, gamValue);
+   }
+   std::vector<size_t> indices;
+   indices.push_back(iang*m_gamValues.size() + igam);
+   indices.push_back(iang*m_gamValues.size() + igam + 1);
+   indices.push_back((iang + 1)*m_gamValues.size() + igam);
+   indices.push_back((iang + 1)*m_gamValues.size() + igam + 1);
+   
+   for (size_t i = 0; i < 4; i++) {
+      size_t indx = indices.at(i);
+      if (m_needIntegral.at(ipsi).at(indx)) {
+         m_angularIntegral.at(ipsi).at(indx) =
+            psfIntegral(psi, m_angScale.at(iang), m_gamValue.at(igam));
+         m_needIntegral.at(ipsi).at(indx) = false;
+      }
+   }
+   return bilinear(m_angularIntegral.at(ipsi), angScale, gamValue, iang, igam);
 }
 
 double Psf::angularIntegral(double energy, double theta, 
@@ -333,12 +332,10 @@ void Psf::computeAngularIntegrals
    }
    *m_acceptanceCone = *cones[0];
 
-   size_t npsi = 500;
-   size_t nangles = 20;
-
    if (!m_haveAngularIntegrals) {
 // Set up the array describing the separation between the center of
 // the ROI and the source, m_psi
+      size_t npsi = 500;
       m_psi.clear();
       double psiMin = 0.;
 // Sources outside psiMax will be calculated as special cases:
@@ -351,6 +348,7 @@ void Psf::computeAngularIntegrals
 // The angular scale array should be logrithmically spaced because of
 // the strong energy dependence of the psf and will have a range given
 // by the extremal values of angularScale(energy, mu).
+      size_t nangles = 20;
       m_angScale.clear();
       double angScaleMin = angularScale(std::exp(m_logEhi.back()), 
                                         m_cosinc.front());
@@ -360,14 +358,38 @@ void Psf::computeAngularIntegrals
       for (size_t j = 0; j < nangles; j++) {
          m_angScale.push_back(angScaleMin*std::exp(angScaleStep*j));
       }
+
+// Create an ordered vector of gamma values spanning the range in the 
+// parameter vector.
+      double gmin(m_gamma.front());
+      double gmax(m_gamma.front());
+      for (size_t i = 0; i < m_gamma.size(); i++) {
+         if (m_gamma.at(i) < gmin) {
+            gmin = m_gamma.at(i);
+         }
+         if (m_gamma.at(i) > gmax) {
+            gmax = m_gamma.at(i);
+         }
+      }
+      size_t ngam(20);
+      double gstep((gmax - gmin)/(ngam - 1.));
+      m_gamValues.clear()
+      for (size_t i = 0; i < ngam; i++) {
+         m_gamValues.push_back(gmin + i*gstep);
+      }
    }
 
 // Fill m_angularIntegrals, i.e., set needIntegral flags to true for
-// lazy evaluation.   
-   size_t npts = m_psi.size()*m_angScale.size()*m_gamma.size();
-   m_angularIntegral.resize(npts);
-   m_needIntegral.clear()
-   m_needIntegral.resize(npts, true);
+// lazy evaluation.
+   m_angularIntegral.clear();
+   m_needIntegral.clear();
+   size_t npts(m_angScale.size()*m_gamValues.size());
+   for (size_t ipsi = 0; i < m_psi.size(); i++) {
+      std::vector<double> drow(npts, 0);
+      std::vector<bool> brow(npts, true);
+      m_angularIntegral.push_back(drow);
+      m_needIntegral.push_back(brow);
+   }
 }
 
 } // namespace dc2Response
