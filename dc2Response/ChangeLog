@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb  9 23:40:55 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Psf.cxx Psf.h 
+Log Message:
+a bit more angularIntegral work
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb  9 20:05:26 PST 2006
 irfs/dc2Response/src
 
