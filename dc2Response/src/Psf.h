@@ -115,13 +115,20 @@ private:
 
    std::vector<double> m_psi;
    std::vector<double> m_angScale;
-   std::vector<double> m_gamArray;
+   std::vector<double> m_gamValues;
 
    std::vector< std::vector<double> > m_angularIntegral;
    std::vector< std::vector<bool> > m_needIntegral;
    bool m_haveAngularIntegrals;
 
    irfInterface::AcceptanceCone * m_acceptanceCone;
+
+   double psfIntegral(double psi, double angScale, double gamValue) const {
+      return 0;}
+   double bilinear(double angScale, double gamValue, size_t ipsi,
+                   size_t iang, size_t radius) const {
+      return 0;
+   }
 
    void readData();
 

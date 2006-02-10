@@ -47,7 +47,7 @@ void Aeff::readData() {
 
    std::vector<double> elo, ehi;
    row["energ_lo"].get(elo);
-   row["ener_hi"].get(ehi);
+   row["energ_hi"].get(ehi);
 
    for (size_t k = 0; k < elo.size(); k++) {
       m_logElo.push_back(std::log(elo.at(k)));

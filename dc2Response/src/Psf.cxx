@@ -186,7 +186,7 @@ double Psf::angularIntegral(double energy,
 
    double gamValue(gamma(energy, mu));
    size_t igam = std::upper_bound(m_gamValues.begin(), m_gamValues.end(),
-                                  gamValue) - 1;
+                                  gamValue) - m_gamValues.begin() - 1;
 
    if (iang == m_angScale.size() - 1 || igam == m_gamValues.size() - 1) {
       return psfIntegral(psi, angScale, gamValue);
@@ -201,11 +201,11 @@ double Psf::angularIntegral(double energy,
       size_t indx = indices.at(i);
       if (m_needIntegral.at(ipsi).at(indx)) {
          m_angularIntegral.at(ipsi).at(indx) =
-            psfIntegral(psi, m_angScale.at(iang), m_gamValue.at(igam));
+            psfIntegral(psi, m_angScale.at(iang), m_gamValues.at(igam));
          m_needIntegral.at(ipsi).at(indx) = false;
       }
    }
-   return bilinear(m_angularIntegral.at(ipsi), angScale, gamValue, iang, igam);
+   return bilinear(angScale, gamValue, ipsi, iang, igam);
 }
 
 double Psf::angularIntegral(double energy, double theta, 
@@ -373,7 +373,7 @@ void Psf::computeAngularIntegrals
       }
       size_t ngam(20);
       double gstep((gmax - gmin)/(ngam - 1.));
-      m_gamValues.clear()
+      m_gamValues.clear();
       for (size_t i = 0; i < ngam; i++) {
          m_gamValues.push_back(gmin + i*gstep);
       }
@@ -384,7 +384,7 @@ void Psf::computeAngularIntegrals
    m_angularIntegral.clear();
    m_needIntegral.clear();
    size_t npts(m_angScale.size()*m_gamValues.size());
-   for (size_t ipsi = 0; i < m_psi.size(); i++) {
+   for (size_t ipsi = 0; ipsi < m_psi.size(); ipsi++) {
       std::vector<double> drow(npts, 0);
       std::vector<bool> brow(npts, true);
       m_angularIntegral.push_back(drow);
