@@ -113,6 +113,9 @@ private:
    std::vector<double> m_logE;
    std::vector<double> m_cosinc;
 
+   std::vector<double> m_psi;
+   std::vector<double> m_angScale;
+
    void readData();
 
    double gamma(double energy, double mu) const;
@@ -120,8 +123,12 @@ private:
 
    double angularScale(double energy, double mu) const;
 
+   void computeAngularIntegrals
+   (const std::vector<irfInterface::AcceptanceCone *> & cones);
+
 /// @bug This code is not thread-safe...will need to find an
-/// integrator that does not require static functions as its argument.
+/// integrator that does not require a static function as its
+/// argument.
    static double s_energy;
    static double s_theta;
    static double s_phi;

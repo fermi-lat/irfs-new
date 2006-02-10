@@ -163,29 +163,28 @@ double Psf::angularIntegral(double energy,
                             const std::vector<irfInterface::AcceptanceCone *> 
                             & acceptanceCones) {
    (void)(energy);
-   (void)(srcDir);
    (void)(theta);
    (void)(phi);
-   (void)(acceptanceCones);
-//    if (!m_acceptanceCone || *m_acceptanceCone != *(acceptanceCones[0])) {
-//       computeAngularIntegrals(acceptanceCones);
-//       m_haveAngularIntegrals = true;
-//    }
-//    double psi = srcDir.difference(m_acceptanceCone->center());
-//    if (psi >= m_psi.back()) {
-//       return 0;
-//    }
-//    unsigned int ipsi = std::upper_bound(m_psi.begin(), m_psi.end(), psi) 
-//       - m_psi.begin();
+   if (!m_acceptanceCone || *m_acceptanceCone != *(acceptanceCones[0])) {
+      computeAngularIntegrals(acceptanceCones);
+      m_haveAngularIntegrals = true;
+   }
+   double psi = srcDir.difference(m_acceptanceCone->center());
+   if (psi >= m_psi.back()) {
+      return 0;
+   }
+   unsigned int ipsi = std::upper_bound(m_psi.begin(), m_psi.end(), psi) 
+      - m_psi.begin();
       
-//    double sep_mean = sepMean(energy, theta*M_PI/180.);
-//    if (sep_mean < m_sepMean.front() || sep_mean >= m_sepMean.back()) {
-//       return 0;
-//    }
+   double mu = std::cos(theta*M_PI/180.);
+   double angScale = angularScale(energy, mu);b
+   if (angScale < m_angScale.front() || angScale >= m_angScale.back()) {
+      return 0;
+   }
 
-//    unsigned int isepMean = 
-//       std::upper_bound(m_sepMean.begin(), m_sepMean.end(), sep_mean) 
-//       - m_sepMean.begin() - 1;
+   unsigned int isepMean = 
+      std::upper_bound(m_sepMean.begin(), m_sepMean.end(), sep_mean) 
+      - m_sepMean.begin() - 1;
 
 //    unsigned int indx = ipsi*m_sepMean.size() + isepMean;
 
@@ -323,6 +322,52 @@ void Psf::computeLowerFractions() {
 double Psf::psfIntegrand(double * xx) {
    const double & x(*xx);
    return ::psfFunc(x, s_gammas.back());
+}
+
+void Psf::computeAngularIntegrals
+(const std::vector<irfInterface::AcceptanceCone *> & cones) {
+
+// Assume the first acceptance cone is the ROI; ignore the rest.
+   if (!m_acceptanceCone) {
+      m_acceptanceCone = new irfInterface::AcceptanceCone();
+   }
+   *m_acceptanceCone = *cones[0];
+
+   size_t npsi = 500;
+   size_t nangles = 20;
+
+   if (!m_haveAngularIntegrals) {
+// Set up the array describing the separation between the center of
+// the ROI and the source, m_psi
+      m_psi.clear();
+      double psiMin = 0.;
+// Sources outside psiMax will be calculated as special cases:
+      double psiMax = 60.*M_PI/180.;
+      double psiStep = (psiMax - psiMin)/(npsi - 1.);
+      for (size_t i = 0; i < npsi; i++) {
+         m_psi.push_back(psiStep*i + psiMin);
+      }
+
+// The angular scale array should be logrithmically spaced because of
+// the strong energy dependence of the psf and will have a range given
+// by the extremal values of angularScale(energy, mu).
+      m_angScale.clear();
+      double angScaleMin = angularScale(std::exp(m_logEhi.back()), 
+                                        m_cosinc.front());
+      double angScaleMax = angularScale(std::exp(m_logElo.front()), 
+                                        m_cosinc.back());
+      double angScaleStep = std::log(angScaleMax/angScaleMin)/(nangles - 1.);
+      for (size_t j = 0; j < nangles; j++) {
+         m_angScale.push_back(angScaleMin*std::exp(angScaleStep*j));
+      }
+   }
+
+// Fill m_angularIntegrals, i.e., set needIntegral flags to true for
+// lazy evaluation.   
+   size_t npts = m_psi.size()*m_angScale.size()*m_gamma.size();
+   m_angularIntegral.resize(npts);
+   m_needIntegral.clear()
+   m_needIntegral.resize(npts, true);
 }
 
 } // namespace dc2Response
