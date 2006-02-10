@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Feb 10 08:35:30 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Aeff.cxx Psf.cxx Psf.h 
+Log Message:
+declare some placeholder functions; fix Aeff parameter name
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb  9 23:40:55 PST 2006
 irfs/dc2Response/src
 
