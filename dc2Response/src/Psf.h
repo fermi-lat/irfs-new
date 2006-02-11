@@ -123,8 +123,11 @@ private:
 
    irfInterface::AcceptanceCone * m_acceptanceCone;
 
-   double psfIntegral(double psi, double angScale, double gamValue) const {
-      return 0;}
+   double psfIntegral(double psi, double angScale, double gamValue,
+                      double roi_radius=0);
+
+   double value(double separation, double angScale, double gam) const;
+
    double bilinear(double angScale, double gamValue, size_t ipsi,
                    size_t iang, size_t radius) const {
       return 0;
@@ -156,6 +159,42 @@ private:
    static double psfIntegrand(double * xx);
    void computePsfNorms();
    void computeLowerFractions();
+
+   /// Nested class that returns the integrand for the
+   /// m_angularIntegrals
+   class Gint {
+   public:
+      Gint() : m_psfObj(0) {}
+      Gint(Psf * psfObj, double angScale, double gamma) :
+         m_psfObj(psfObj), m_angScale(angScale), m_gamma(gamma),
+         m_doFirstTerm(true), m_cp(0), m_sp(0), m_cr(0) {}
+      Gint(Psf * psfObj, double angScale, double gamma,
+           double cp, double sp, double cr) : 
+         m_psfObj(psfObj), m_angScale(angScale), m_gamma(gamma),
+         m_doFirstTerm(false), m_cp(cp), m_sp(sp), m_cr(cr) {}
+      virtual ~Gint() {}
+      double value(double mu) const;
+   private:
+      Psf * m_psfObj;
+      double m_angScale;
+      double m_gamma;
+      bool m_doFirstTerm;
+      double m_cp;
+      double m_sp;
+      double m_cr;
+   };
+
+   /// A static object needed to compute the m_angularIntegrals using
+   /// the DGAUS8 integrator
+   static Gint s_gfunc;
+
+   /// A static member function to provide the interface to s_gfunc
+   /// that is required by DGAUS8
+   static double gfuncIntegrand(double *mu) {
+      return s_gfunc.value(*mu);
+   }
+
+   friend class Psf::Gint;
 };
 
 } // namespace dc2Response

@@ -101,6 +101,13 @@ double Psf::value(double separation, double energy, double theta,
       /(meanSep*M_PI/180.)/psfNorm;
 }
 
+double Psf::value(double separation, double angScale, double gam) const {
+   double psfNorm(st_facilities::Util::interpolate(s_gammas, s_psfNorms, gam));
+   double x(separation/angScale);
+   return ::psfFunc(x, gam)/2./M_PI/std::sin(separation*M_PI/180.)
+      /(angScale*M_PI/180.)/psfNorm;
+}
+
 double Psf::gamma(double logE, double mu) const {
    return st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE, m_gamma);
 }
@@ -390,6 +397,65 @@ void Psf::computeAngularIntegrals
       m_angularIntegral.push_back(drow);
       m_needIntegral.push_back(brow);
    }
+}
+
+double Psf::psfIntegral(double psi, double angScale, double gamValue,
+                        double roi_radius) {
+   if (roi_radius == 0) {
+      roi_radius = m_acceptanceCone->radius()*M_PI/180.;
+   }
+   double one = 1.;
+   double mup = cos(roi_radius + psi);
+   double mum = cos(roi_radius - psi);
+   
+   double cp = cos(psi);
+   double sp = sin(psi);
+   double cr = cos(roi_radius);
+
+   double err = 1e-5;
+   long ierr;
+   double firstIntegral = 0;
+
+// Check if point is inside or outside the cone            
+   if (psi < roi_radius) {
+// Integrate the first term...
+      s_gfunc = Gint(this, angScale, gamValue);
+      dgaus8_(&Psf::gfuncIntegrand, &mum, &one, 
+              &err, &firstIntegral, &ierr);
+   }
+
+// and the second.
+   s_gfunc = Gint(this, angScale, gamValue, cp, sp, cr);
+   double secondIntegral;
+   dgaus8_(&Psf::gfuncIntegrand, &mup, &mum, 
+           &err, &secondIntegral, &ierr);
+   
+   double my_integral;
+   if (psi < roi_radius) {
+      my_integral = firstIntegral + secondIntegral;
+   } else {
+      my_integral = secondIntegral;
+   }
+   return my_integral;
+}
+
+double Psf::Gint::value(double mu) const {
+   double theta = acos(mu);
+   double my_value = m_psfObj->value(theta, m_angScale, m_gamma);
+
+   if (!m_doFirstTerm) {
+      double phimin;
+      double arg = (m_cr - mu*m_cp)/sqrt(1. - mu*mu)/m_sp;
+      if (arg >= 1.) {
+         phimin = 0;
+      } else if (arg <= -1.) {
+         phimin = M_PI;
+      } else {
+         phimin = acos(arg);
+      }
+      return 2.*phimin*my_value;
+   }
+   return 2.*M_PI*my_value;
 }
 
 } // namespace dc2Response
