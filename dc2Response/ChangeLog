@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Feb 12 07:46:51 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Psf.cxx Psf.h 
+Log Message:
+implement copy constructor
+    *
+------------------------------------------------------------
 User: jchiang  Sat Feb 11 19:51:57 PST 2006
 irfs/dc2Response/src
 
