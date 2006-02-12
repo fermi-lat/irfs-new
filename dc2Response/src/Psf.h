@@ -129,9 +129,7 @@ private:
    double value(double separation, double angScale, double gam) const;
 
    double bilinear(double angScale, double gamValue, size_t ipsi,
-                   size_t iang, size_t radius) const {
-      return 0;
-   }
+                   size_t iang, size_t igam) const;
 
    void readData();
 

@@ -13,10 +13,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "CLHEP/Random/RandomEngine.h"
-#include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/RandFlat.h"
-#include "CLHEP/Random/RandGauss.h"
 #include "CLHEP/Geometry/Vector3D.h"
 
 #include "tip/IFileSvc.h"
@@ -46,8 +43,11 @@ std::vector<double> Psf::s_gammas;
 std::vector<double> Psf::s_psfNorms;
 std::vector<double> Psf::s_lowerFractions;
 
+Psf::Gint Psf::s_gfunc;
+
 Psf::Psf(const std::string & fitsfile, const std::string & extname)
-   : DC2(fitsfile, extname), m_psfScaling(0) {
+   : DC2(fitsfile, extname), m_psfScaling(0), m_haveAngularIntegrals(false),
+     m_acceptanceCone(0) {
    readData();
    if (s_gammas.empty()) {
       computePsfNorms();
@@ -94,16 +94,17 @@ double Psf::value(double separation, double energy, double theta,
    double logE(std::log(energy));
    double mu(std::cos(theta*M_PI/180.));
    double gam(gamma(logE, mu));
-   double psfNorm(st_facilities::Util::interpolate(s_gammas, s_psfNorms, gam));
-   double meanSep(angularScale(energy, mu));
-   double x(separation/meanSep);
-   return ::psfFunc(x, gam)/2./M_PI/std::sin(separation*M_PI/180.)
-      /(meanSep*M_PI/180.)/psfNorm;
+   double angScale(angularScale(energy, mu));
+   return value(separation, angScale, gam);
 }
 
 double Psf::value(double separation, double angScale, double gam) const {
    double psfNorm(st_facilities::Util::interpolate(s_gammas, s_psfNorms, gam));
    double x(separation/angScale);
+   if (separation == 0) {
+      return std::pow(1. + x*x/2./gam, -gam)/angScale/360./M_PI/M_PI
+         /(angScale*M_PI/180.)/psfNorm;
+   } 
    return ::psfFunc(x, gam)/2./M_PI/std::sin(separation*M_PI/180.)
       /(angScale*M_PI/180.)/psfNorm;
 }
@@ -119,7 +120,8 @@ double Psf::sigma(double logE, double mu) const {
 double Psf::angularScale(double energy, double mu) const {
    double logE(std::log(energy));
    double scale((*m_psfScaling)(energy, mu));
-   return scale*sigma(logE, mu);
+   double my_value = scale*sigma(logE, mu);
+   return my_value;
 }
 
 astro::SkyDir Psf::appDir(double energy,
@@ -169,8 +171,6 @@ double Psf::angularIntegral(double energy,
                             double phi, 
                             const std::vector<irfInterface::AcceptanceCone *> 
                             & acceptanceCones) {
-   (void)(energy);
-   (void)(theta);
    (void)(phi);
    if (!m_acceptanceCone || *m_acceptanceCone != *(acceptanceCones[0])) {
       computeAngularIntegrals(acceptanceCones);
@@ -191,7 +191,7 @@ double Psf::angularIntegral(double energy,
    size_t iang = std::upper_bound(m_angScale.begin(), m_angScale.end(),
                                   angScale) - m_angScale.begin() - 1;
 
-   double gamValue(gamma(energy, mu));
+   double gamValue(gamma(std::log(energy), mu));
    size_t igam = std::upper_bound(m_gamValues.begin(), m_gamValues.end(),
                                   gamValue) - m_gamValues.begin() - 1;
 
@@ -355,12 +355,20 @@ void Psf::computeAngularIntegrals
 // The angular scale array should be logrithmically spaced because of
 // the strong energy dependence of the psf and will have a range given
 // by the extremal values of angularScale(energy, mu).
-      size_t nangles = 20;
+      size_t nangles = 40;
       m_angScale.clear();
-      double angScaleMin = angularScale(std::exp(m_logEhi.back()), 
-                                        m_cosinc.front());
-      double angScaleMax = angularScale(std::exp(m_logElo.front()), 
-                                        m_cosinc.back());
+//       double angScaleMin = angularScale(std::exp(m_logE.back()), 
+//                                         m_cosinc.front());
+//       double angScaleMax = angularScale(std::exp(m_logE.front()), 
+//                                         m_cosinc.back());
+// There are zero values for sigma in Toby's psf parameter files
+// so we cannot rely on sensible values for the angularScale at the
+// expected limits of energy and inclination, so we are forced to
+// use ad hoc values.
+      double angScaleMin = 0.5*(*m_psfScaling)(std::exp(m_logE.back()),
+                                               m_cosinc.back());
+      double angScaleMax = (*m_psfScaling)(std::exp(m_logE.front()),
+                                           m_cosinc.front());
       double angScaleStep = std::log(angScaleMax/angScaleMin)/(nangles - 1.);
       for (size_t j = 0; j < nangles; j++) {
          m_angScale.push_back(angScaleMin*std::exp(angScaleStep*j));
@@ -378,7 +386,7 @@ void Psf::computeAngularIntegrals
             gmax = m_gamma.at(i);
          }
       }
-      size_t ngam(20);
+      size_t ngam(40);
       double gstep((gmax - gmin)/(ngam - 1.));
       m_gamValues.clear();
       for (size_t i = 0; i < ngam; i++) {
@@ -397,6 +405,22 @@ void Psf::computeAngularIntegrals
       m_angularIntegral.push_back(drow);
       m_needIntegral.push_back(brow);
    }
+}
+
+double Psf::bilinear(double angScale, double gam, size_t ipsi,
+                     size_t iang, size_t igam) const {
+   double tt = (gam - m_gamValues.at(igam))
+      /(m_gamValues.at(igam+1) - m_gamValues.at(igam));
+   double uu = (angScale - m_angScale.at(iang))
+      /(m_angScale.at(iang+1) - m_angScale.at(iang));
+   double y1 = m_angularIntegral.at(ipsi).at(iang*m_gamValues.size()+igam);
+   double y2 = m_angularIntegral.at(ipsi).at(iang*m_gamValues.size()+igam+1);
+   double y3 = m_angularIntegral.at(ipsi).at((iang+1)*m_gamValues.size()+igam);
+   double y4 = 
+      m_angularIntegral.at(ipsi).at((iang+1)*m_gamValues.size()+igam+1);
+   double value = (1. - tt)*(1. - uu)*y1 + tt*(1. - uu)*y2 
+      + tt*uu*y3 + (1. - tt)*uu*y4;
+   return value;
 }
 
 double Psf::psfIntegral(double psi, double angScale, double gamValue,
@@ -440,7 +464,7 @@ double Psf::psfIntegral(double psi, double angScale, double gamValue,
 }
 
 double Psf::Gint::value(double mu) const {
-   double theta = acos(mu);
+   double theta = acos(mu)*180./M_PI;
    double my_value = m_psfObj->value(theta, m_angScale, m_gamma);
 
    if (!m_doFirstTerm) {
@@ -457,5 +481,6 @@ double Psf::Gint::value(double mu) const {
    }
    return 2.*M_PI*my_value;
 }
+
 
 } // namespace dc2Response
