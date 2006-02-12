@@ -101,6 +101,13 @@ public:
       return s_lowerFractions;
    }
 
+protected:
+
+   /// Disable this.
+   Psf & operator=(const Psf & rhs) {
+      return *this;
+   }
+
 private:
 
    PsfScaling * m_psfScaling;
@@ -113,7 +120,7 @@ private:
    std::vector<double> m_logE;
    std::vector<double> m_cosinc;
 
-   std::vector<double> m_psi;
+   static std::vector<double> s_psi;
    std::vector<double> m_angScale;
    std::vector<double> m_gamValues;
 

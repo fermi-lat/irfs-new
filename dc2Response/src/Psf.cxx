@@ -42,6 +42,7 @@ const Psf * Psf::s_self(0);
 std::vector<double> Psf::s_gammas;
 std::vector<double> Psf::s_psfNorms;
 std::vector<double> Psf::s_lowerFractions;
+std::vector<double> Psf::s_psi;
 
 Psf::Gint Psf::s_gfunc;
 
@@ -62,9 +63,14 @@ Psf::~Psf() {
 Psf::Psf(const Psf & rhs) 
    : IPsf(rhs), DC2(rhs), m_sigma(rhs.m_sigma), m_gamma(rhs.m_gamma),
      m_logElo(rhs.m_logElo), m_logEhi(rhs.m_logEhi), m_logE(rhs.m_logE), 
-     m_cosinc(rhs.m_cosinc) {
+     m_cosinc(rhs.m_cosinc), m_angScale(rhs.m_angScale),
+     m_gamValues(rhs.m_angScale), m_angularIntegral(rhs.m_angularIntegral),
+     m_needIntegral(rhs.m_needIntegral),
+     m_haveAngularIntegrals(rhs.m_haveAngularIntegrals) {
    delete m_psfScaling;
    m_psfScaling = new PsfScaling(*rhs.m_psfScaling);
+   delete m_acceptanceCone;
+   m_acceptanceCone = new irfInterface::AcceptanceCone(*rhs.m_acceptanceCone);
 }
 
 double Psf::value(const astro::SkyDir & appDir, 
@@ -177,11 +183,11 @@ double Psf::angularIntegral(double energy,
       m_haveAngularIntegrals = true;
    }
    double psi = srcDir.difference(m_acceptanceCone->center());
-   if (psi >= m_psi.back()) {
+   if (psi >= s_psi.back()) {
       return 0;
    }
-   size_t ipsi = std::upper_bound(m_psi.begin(), m_psi.end(), psi) 
-      - m_psi.begin();
+   size_t ipsi = std::upper_bound(s_psi.begin(), s_psi.end(), psi) 
+      - s_psi.begin();
       
    double mu = std::cos(theta*M_PI/180.);
    double angScale = angularScale(energy, mu);
@@ -341,15 +347,16 @@ void Psf::computeAngularIntegrals
 
    if (!m_haveAngularIntegrals) {
 // Set up the array describing the separation between the center of
-// the ROI and the source, m_psi
-      size_t npsi = 500;
-      m_psi.clear();
-      double psiMin = 0.;
+// the ROI and the source, s_psi
+      if (s_psi.empty()) {
+         size_t npsi = 500;
+         double psiMin = 0.;
 // Sources outside psiMax will be calculated as special cases:
-      double psiMax = 60.*M_PI/180.;
-      double psiStep = (psiMax - psiMin)/(npsi - 1.);
-      for (size_t i = 0; i < npsi; i++) {
-         m_psi.push_back(psiStep*i + psiMin);
+         double psiMax = 60.*M_PI/180.;
+         double psiStep = (psiMax - psiMin)/(npsi - 1.);
+         for (size_t i = 0; i < npsi; i++) {
+            s_psi.push_back(psiStep*i + psiMin);
+         }
       }
 
 // The angular scale array should be logrithmically spaced because of
@@ -399,7 +406,7 @@ void Psf::computeAngularIntegrals
    m_angularIntegral.clear();
    m_needIntegral.clear();
    size_t npts(m_angScale.size()*m_gamValues.size());
-   for (size_t ipsi = 0; ipsi < m_psi.size(); ipsi++) {
+   for (size_t ipsi = 0; ipsi < s_psi.size(); ipsi++) {
       std::vector<double> drow(npts, 0);
       std::vector<bool> brow(npts, true);
       m_angularIntegral.push_back(drow);
