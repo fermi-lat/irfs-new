@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Feb 12 22:12:23 PST 2006
+irfs/dc2Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+re-implement loadIrfs; use log z-scaling for effective area
+    *
+------------------------------------------------------------
 User: jchiang  Sun Feb 12 18:41:20 PST 2006
 irfs/dc2Response/src
 
