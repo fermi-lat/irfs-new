@@ -9,6 +9,8 @@
 #ifndef dc2Response_Edisp_h
 #define dc2Response_Edisp_h
 
+#include <utility>
+
 #include "irfInterface/IEdisp.h"
 
 #include "DC2.h"
@@ -29,7 +31,7 @@ class Edisp : public irfInterface::IEdisp, public DC2 {
 
 public:
 
-   Edisp(const std::string & fitsfile, cons std::string & extname);
+   Edisp(const std::string & fitsfile, const std::string & extname);
 
    virtual ~Edisp() {}
 
@@ -80,20 +82,23 @@ public:
 
 private:
 
-   /// @brief The parameters as a vector over bins in energy and
-   /// inclination.  If i is the inclination bin and k is the energy
-   /// bin, then the set of parameters for that bin are
-   /// m_pars.at(i*m_logE.size() + k).
-   std::vector< std::vector<double> > m_pars;
+   std::vector<double> m_eBounds;
+   std::vector<double> m_muBounds;
 
-   std::vector<double> m_logElo;
-   std::vector<double> m_logEhi;
-   std::vector<double> m_logE;
-   std::vector<double> m_cosinc;
+   std::vector<double> m_rwidth;
+   std::vector<double> m_ltail;
+   std::vector<double> m_norms;
 
    void readData();
 
-   const std::vector<double> & fitParams(double McEnergy, double McZDir);
+   double value(double appEnergy, double energy) const;
+
+   void computeNorms();
+
+   static double s_rwidth;
+   static double s_ltail;
+
+   static double edispIntegrand(double * x);
 
 };
 
