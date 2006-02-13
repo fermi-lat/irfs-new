@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Feb 12 22:10:47 PST 2006
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add dc2Response
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceToolsv6r2, operation: add
 Package: irfLoader
