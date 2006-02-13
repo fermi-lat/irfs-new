@@ -5,11 +5,12 @@ author James Chiang <jchiang@slac.stanford.edu>
 
 # $Id$
 
-use STpolicy v1r*
-use dc1Response v0* irfs
-use dc1aResponse v0* irfs
-use g25Response v0* irfs
-use testResponse v0* irfs
+use STpolicy v*
+use dc1Response v* irfs
+use dc1aResponse v* irfs
+use dc2Response v* irfs
+use g25Response v* irfs
+use testResponse v* irfs
 
 apply_pattern package_include
 apply_pattern package_linkopts

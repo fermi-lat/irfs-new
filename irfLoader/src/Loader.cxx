@@ -6,9 +6,9 @@
 
 #include "dc1Response/loadIrfs.h"
 #include "dc1aResponse/loadIrfs.h"
+#include "dc2Response/loadIrfs.h"
 #include "g25Response/loadIrfs.h"
 #include "testResponse/loadIrfs.h"
-//#include "devResponse/loadIrfs.h"
 
 #include <algorithm>
 #include <iostream>
@@ -17,13 +17,12 @@
 #include "irfLoader/Loader.h"
 
 namespace {
-//   char * irf_names[] = {"DC1", "GLAST25", "TEST", "DEV"};
-   char * irf_names[] = {"DC1", "DC1A", "GLAST25", "TEST"};
+   char * irf_names[] = {"DC1", "DC1A", "DC2", "GLAST25", "TEST"};
 }
 
 namespace irfLoader {
 
-std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names + 4);
+std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names + 5);
 
 std::map<std::string, std::vector<std::string> > Loader::s_respIds;
 
@@ -66,12 +65,13 @@ void Loader::go(const std::string & irfsName) {
       s_respIds["DC1AF"].push_back("DC1A::Front");
       s_respIds["DC1AB"].clear();
       s_respIds["DC1AB"].push_back("DC1A::Back");
-//    } else if (irfsName == "DEV" && !s_respIds.count("DEV")) {
-//       devResponse::loadIrfs();
-//       s_respIds["DEV"].push_back("dev::Front");
-//       s_respIds["DEV"].push_back("dev::Back");
-//       s_respIds["DEVF"].push_back("dev::Front");
-//       s_respIds["DEVB"].push_back("dev::Back");
+   } else if (irfsName == "DC2" && !s_respIds.count("DC2")) {
+      dc2Response::loadIrfs();
+      s_respIds["DC2"].clear();
+      s_respIds["DC2"].push_back("DC2::FrontA");
+      s_respIds["DC2"].push_back("DC2::BackA");
+      s_respIds["DC2"].push_back("DC2::FrontB");
+      s_respIds["DC2"].push_back("DC2::BackB");
    } else {
       if (!s_respIds.count(irfsName)) {
          throw std::invalid_argument("Request to load an invalid set of irfs: "
