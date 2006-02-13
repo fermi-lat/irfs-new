@@ -34,6 +34,8 @@ namespace dc2Response {
 double Edisp::s_rwidth;
 double Edisp::s_ltail;
 
+std::vector<double> Edisp::s_xvals;
+
 Edisp::Edisp(const std::string & fitsfile, const std::string & extname) 
    : DC2(fitsfile, extname) {
    readData();
@@ -67,12 +69,8 @@ double Edisp::value(double appEnergy, double energy,
    }
 
    double mu(std::cos(theta*M_PI/180.));
+   size_t indx = parIndex(energy, mu);
 
-   size_t k = std::upper_bound(m_eBounds.begin(), m_eBounds.end(),
-                               energy) - m_eBounds.begin() - 1;
-   size_t i = std::upper_bound(m_muBounds.begin(), m_muBounds.end(),
-                               mu, ::reverse_cmp) - m_muBounds.begin() - 1;
-   size_t indx = i*(m_eBounds.size()-1) + k;
    double p1 = m_ltail.at(indx);
    double p2 = m_rwidth.at(indx);
    double norm = m_norms.at(indx);
@@ -85,30 +83,38 @@ double Edisp::appEnergy(double energy,
                         const astro::SkyDir & srcDir,
                         const astro::SkyDir & scZAxis,
                         const astro::SkyDir & ) const {
-   (void)(srcDir);
-   (void)(scZAxis);
-   return energy;
+   double mu(std::cos(srcDir.difference(scZAxis)));
+   size_t indx = parIndex(energy, mu);
+
+   float xi(RandFlat::shoot());
+
+   size_t j = std::upper_bound(m_cumDists.at(indx).begin(), 
+                                m_cumDists.at(indx).end(), xi)
+      - m_cumDists.at(indx).begin() - 1;
+   return energy*((xi - m_cumDists.at(indx).at(j))
+                  /(m_cumDists.at(indx).at(j+1) - m_cumDists.at(indx).at(j))
+                  *(s_xvals.at(j+1) - s_xvals.at(j)) + s_xvals.at(j))
+      + energy;
+}
+
+size_t Edisp::parIndex(double energy, double mu) const {
+   size_t k = std::upper_bound(m_eBounds.begin(), m_eBounds.end(),
+                               energy) - m_eBounds.begin() - 1;
+   size_t i = std::upper_bound(m_muBounds.begin(), m_muBounds.end(),
+                               mu, ::reverse_cmp) - m_muBounds.begin() - 1;
+   return i*(m_eBounds.size()-1) + k;
 }
 
 double Edisp::integral(double emin, double emax, double energy,
                        const astro::SkyDir & srcDir, 
                        const astro::SkyDir & scZAxis,
                        const astro::SkyDir & ) const {
-   (void)(emin);
-   (void)(emax);
-   (void)(energy);
-   (void)(srcDir);
-   (void)(scZAxis);
-//   double phi(0);
-//   double theta = srcDir.difference(scZAxis)*180./M_PI;
-   return 0;
+   return integral(emin, emax, energy,
+                   srcDir.difference(scZAxis)*180./M_PI, 0);
 }
    
 double Edisp::integral(double emin, double emax, double energy, 
                        double theta, double phi) const {
-   (void)(emin);
-   (void)(emax);
-   (void)(energy);
    (void)(phi);
    if (theta < 0) {
       std::ostringstream message;
@@ -118,8 +124,17 @@ double Edisp::integral(double emin, double emax, double energy,
               << "Value passed: " << theta;
       throw std::invalid_argument(message.str());
    }
-
-   return 0;
+   double mu(std::cos(theta*M_PI/180.));
+   size_t indx = parIndex(energy, mu);
+   s_rwidth = m_rwidth.at(indx);
+   s_ltail = m_ltail.at(indx);
+   double lowerLim((emin - energy)/energy);
+   double upperLim((emax - energy)/energy);
+   double err(1e-5);
+   double my_integral;
+   long ierr;
+   dgaus8_(&edispIntegrand, &lowerLim, &upperLim, &err, &my_integral, &ierr);
+   return m_norms.at(indx)*my_integral;
 }
 
 void Edisp::readData() {
@@ -145,22 +160,39 @@ void Edisp::readData() {
 
    delete edisp;
    
-   computeNorms();
+   computeCumulativeDists();
 }
 
-void Edisp::computeNorms() {
+void Edisp::computeCumulativeDists() {
+   size_t npts(100);
+   if (s_xvals.empty()) {
+      double xstep(2./(npts-1));
+      for (size_t j = 0; j < npts; j++) {
+         s_xvals.push_back(xstep*j - 1.);
+      }
+   }
    m_norms.clear();
    m_norms.reserve(m_rwidth.size());
+   m_cumDists.clear();
+   m_cumDists.reserve(m_rwidth.size());
    for (size_t i = 0; i < m_rwidth.size(); i++) {
       s_rwidth = m_rwidth.at(i);
       s_ltail = m_ltail.at(i);
-      double lowerLim(-1);
-      double upperLim(1);
+      double partialInt;
       double err(1e-5);
-      double edispNorm;
       long ierr;
-      dgaus8_(&edispIntegrand, &lowerLim, &upperLim, &err, &edispNorm, &ierr);
-      m_norms.push_back(1./edispNorm);
+      std::vector<float> row;
+      row.push_back(0);
+      for (size_t j = 1; j < npts; j++) {
+         dgaus8_(&edispIntegrand, &s_xvals.at(j-1), &s_xvals.at(j), 
+                 &err, &partialInt, &ierr);
+         row.push_back(row.back() + partialInt);
+      }
+      m_norms.push_back(1./row.back());
+      for (size_t j = 0; j < npts; j++) {
+         row.at(j) *= m_norms.back();
+      }
+      m_cumDists.push_back(row);
    }
 }
 

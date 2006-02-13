@@ -89,11 +89,16 @@ private:
    std::vector<double> m_ltail;
    std::vector<double> m_norms;
 
+   std::vector< std::vector<float> > m_cumDists;
+
    void readData();
 
    double value(double appEnergy, double energy) const;
 
-   void computeNorms();
+   size_t parIndex(double energy, double mu) const;
+
+   static std::vector<double> s_xvals;
+   void computeCumulativeDists();
 
    static double s_rwidth;
    static double s_ltail;
