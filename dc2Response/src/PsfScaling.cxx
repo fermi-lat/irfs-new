@@ -67,5 +67,4 @@ double PsfScaling::trendline(double McEnergy) const {
    return m_pars[2]*std::log10(McEnergy/100.) + m_pars[3];
 }
 
-
 } //namespace dc2Response

@@ -63,7 +63,11 @@ void Aeff::readData() {
       m_cosinc.push_back(std::cos(theta.at(i)));
       std::vector<double> row;
       for (size_t k = 0; k < m_logElo.size(); k++, indx++) {
-         row.push_back(effarea.at(indx)*1e4);  // convert to cm^2
+// convert to cm^2 and take log for inevitable extrapolations outside of grid
+         if (effarea.at(indx) <= 0) {
+            effarea.at(indx) = 1e-8;
+         }
+         row.push_back(std::log(effarea.at(indx)*1e4));  
       }
       m_effArea.push_back(row);
    }
@@ -101,7 +105,7 @@ double Aeff::value(double energy, double theta, double phi) const {
 
    double my_value = st_facilities::Util::bilinear(m_cosinc, mu,
                                                    m_logE, logE, m_effArea);
-   return my_value;
+   return std::exp(my_value);
 }
 
 } // namespace dc2Response

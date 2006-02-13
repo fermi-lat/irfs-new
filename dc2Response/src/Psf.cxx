@@ -67,10 +67,14 @@ Psf::Psf(const Psf & rhs)
      m_gamValues(rhs.m_angScale), m_angularIntegral(rhs.m_angularIntegral),
      m_needIntegral(rhs.m_needIntegral),
      m_haveAngularIntegrals(rhs.m_haveAngularIntegrals) {
-   delete m_psfScaling;
-   m_psfScaling = new PsfScaling(*rhs.m_psfScaling);
-   delete m_acceptanceCone;
-   m_acceptanceCone = new irfInterface::AcceptanceCone(*rhs.m_acceptanceCone);
+   if (rhs.m_psfScaling) {
+      m_psfScaling = new PsfScaling(*rhs.m_psfScaling);
+   }
+   if (rhs.m_acceptanceCone) {
+      m_acceptanceCone = 
+         new irfInterface::AcceptanceCone(rhs.m_acceptanceCone->center(),
+                                          rhs.m_acceptanceCone->radius());
+   }
 }
 
 double Psf::value(const astro::SkyDir & appDir, 
