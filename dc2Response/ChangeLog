@@ -1,4 +1,16 @@
 ------------------------------------------------------------
+User: jchiang  Mon Feb 13 13:34:37 PST 2006
+irfs/dc2Response/data
+
+Added Files:
+	edisp.fits effarea_sup04All-BACKA.fits 
+	effarea_sup04All-BACKB.fits effarea_sup04All-FRONTA.fits 
+	effarea_sup04All-FRONTB.fits psf_BACKA.fits psf_BACKB.fits 
+	psf_FRONTA.fits psf_FRONTB.fits 
+Log Message:
+add fits files, temporarily
+    *
+------------------------------------------------------------
 User: jchiang  Mon Feb 13 13:33:17 PST 2006
 irfs/dc2Response/data
 
