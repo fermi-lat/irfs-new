@@ -39,13 +39,13 @@ public:
    /// PSF_SCALING_PARAMS binary table extension.
    PsfScaling(const std::string & psfFile);
 
-   PsfScaling(const PsfScaling & rhs) {
-      m_pars = rhs.m_pars;
-   }
+   PsfScaling(const PsfScaling & rhs) 
+      : m_pars(rhs.m_pars), m_useFront(rhs.m_useFront) {}
 
    PsfScaling & operator=(const PsfScaling & rhs) {
       if (&rhs != this) {
          m_pars = rhs.m_pars;
+         m_useFront = rhs.m_useFront;
       }
       return *this;
    }
