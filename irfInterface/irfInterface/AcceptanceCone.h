@@ -62,6 +62,10 @@ public:
       return m_center.difference(dir)*180./M_PI < m_radius;
    }
 
+   AcceptanceCone * clone() {
+      return new AcceptanceCone(*this);
+   }
+
 private:
 
    astro::SkyDir m_center;
