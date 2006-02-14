@@ -71,9 +71,7 @@ Psf::Psf(const Psf & rhs)
       m_psfScaling = new PsfScaling(*rhs.m_psfScaling);
    }
    if (rhs.m_acceptanceCone) {
-      m_acceptanceCone = 
-         new irfInterface::AcceptanceCone(rhs.m_acceptanceCone->center(),
-                                          rhs.m_acceptanceCone->radius());
+      m_acceptanceCone = rhs.m_acceptanceCone->clone();
    }
 }
 
@@ -114,7 +112,7 @@ double Psf::value(double separation, double angScale, double gam) const {
    if (separation == 0) {
       return std::pow(1. + x*x/2./gam, -gam)/angScale/360./M_PI/M_PI
          /(angScale*M_PI/180.)/psfNorm;
-   } 
+   }
    return ::psfFunc(x, gam)/2./M_PI/std::sin(separation*M_PI/180.)
       /(angScale*M_PI/180.)/psfNorm;
 }
@@ -145,7 +143,7 @@ astro::SkyDir Psf::appDir(double energy,
                           const astro::SkyDir & scZAxis,
                           const astro::SkyDir & ) const {
    double mu(std::cos(srcDir.difference(scZAxis)));
-   double theta(drawOffset(energy, mu));
+   double theta(drawOffset(energy, mu)*2*M_PI/180.);
              
    double xi = RandFlat::shoot();
    double phi = 2.*M_PI*xi;
