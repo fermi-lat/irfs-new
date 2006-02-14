@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 14 00:22:35 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Psf.cxx 
+Log Message:
+convert to radians for rotation
+    *
+------------------------------------------------------------
 User: jchiang  Mon Feb 13 17:46:21 PST 2006
 irfs/dc2Response/src
 
