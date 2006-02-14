@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Feb 13 20:23:50 PST 2006
+irfs/irfInterface/irfInterface
+
+Modified Files:
+	AcceptanceCone.h 
+Log Message:
+add clone method
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceToolsv6r2, operation: add
 Package: irfInterface
