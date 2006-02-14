@@ -120,7 +120,9 @@ double Psf::value(double separation, double angScale, double gam) const {
 double Psf::gamma(double logE, double mu) const {
    double my_gamma = 
       st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE, m_gamma);
-   assert(my_gamma > 1);
+   if (my_gamma < s_gammas.front()) {
+      return s_gammas.front();
+   }
    return my_gamma;
 }
 

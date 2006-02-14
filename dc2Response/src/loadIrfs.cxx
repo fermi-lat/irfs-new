@@ -23,57 +23,94 @@
 namespace dc2Response {
 
 void loadIrfs() {
-   irfInterface::IAeff * aeff;
-   irfInterface::IPsf * psf;
-   irfInterface::IEdisp * edisp;
+   irfInterface::IAeff *aeff;
+   irfInterface::IPsf *psf;
+   irfInterface::IEdisp *edisp;
 
-   std::string dataPath(st_facilities::Env::getDataDir("dc2Response"));
+   std::string aeffFile;
+   std::string psfFile;
+   std::string edispFile;
 
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();
+   
+   std::vector<std::string> irfsNames;
+   myFactory->getIrfsNames(irfsNames);
 
-   std::string aeffFile = st_facilities::Env::
-      appendFileName(dataPath, "effarea_sup04All-FRONTA.fits");
-   std::string psfFile = st_facilities::Env::appendFileName(dataPath,
-                                                            "psf_FRONTA.fits");
-   std::string edispFile = st_facilities::Env::appendFileName(dataPath,
-                                                              "edisp.fits");
+   long hdu;
 
-   aeff = new Aeff(aeffFile, "EFFECTIVE AREA");
-   psf = new Psf(psfFile, "POINT SPREAD FUNCTION");
-   edisp = new Edisp(edispFile, "ENERGY REDISTRIBUTION");
-   myFactory->addIrfs("DC2::FrontA",
-                      new irfInterface::Irfs(aeff, psf, edisp, 0));
+   if (!std::count(irfsNames.begin(), irfsNames.end(), "DC2::FrontA")) {
+      irfUtil::Util::getCaldbFile("FRONTA", "EFF_AREA", "DC2",
+                                  aeffFile, hdu, "GLAST", "LAT",
+                                  "NONE", "2006-03-01", "00:00:00");
+      aeff = new Aeff(aeffFile, "EFFECTIVE AREA");
 
-   aeffFile = st_facilities::Env::
-      appendFileName(dataPath, "effarea_sup04All-BACKA.fits");
-   psfFile = st_facilities::Env::appendFileName(dataPath, "psf_BACKA.fits");
+      irfUtil::Util::getCaldbFile("FRONTA", "PSF", "DC2", 
+                                  psfFile, hdu, "GLAST", "LAT",
+                                  "NONE", "2006-03-01", "00:00:00");
+      psf = new Psf(psfFile, "POINT SPREAD FUNCTION");
 
-   aeff = new Aeff(aeffFile, "EFFECTIVE AREA");
-   psf = new Psf(psfFile, "POINT SPREAD FUNCTION");
-   edisp = new Edisp(edispFile, "ENERGY REDISTRIBUTION");
-   myFactory->addIrfs("DC2::BackA",
-                      new irfInterface::Irfs(aeff, psf, edisp, 1));
+      irfUtil::Util::getCaldbFile("FRONTA", "EDISP", "DC2",
+                                  edispFile, hdu, "GLAST", "LAT",
+                                  "NONE", "2006-03-01", "00:00:00");
+      edisp = new Edisp(edispFile, "ENERGY REDISTRIBUTION");
 
-   aeffFile = st_facilities::Env::
-      appendFileName(dataPath, "effarea_sup04All-FRONTB.fits");
-   psfFile = st_facilities::Env::appendFileName(dataPath, "psf_FRONTB.fits");
+      myFactory->addIrfs("DC2::FrontA",
+                         new irfInterface::Irfs(aeff, psf, edisp, 0));
+   }
 
-   aeff = new Aeff(aeffFile, "EFFECTIVE AREA");
-   psf = new Psf(psfFile, "POINT SPREAD FUNCTION");
-   edisp = new Edisp(edispFile, "ENERGY REDISTRIBUTION");
-   myFactory->addIrfs("DC2::FrontB",
-                      new irfInterface::Irfs(aeff, psf, edisp, 2));
+   if (!std::count(irfsNames.begin(), irfsNames.end(), "DC2::BackA")) {
+      irfUtil::Util::getCaldbFile("BACKA", "EFF_AREA", "DC2",
+                                  aeffFile, hdu, "GLAST", "LAT",
+                                  "NONE", "2006-03-01", "00:00:00");
+      aeff = new Aeff(aeffFile, "EFFECTIVE AREA");
 
-   aeffFile = st_facilities::Env::
-      appendFileName(dataPath, "effarea_sup04All-BACKB.fits");
-   psfFile = st_facilities::Env::appendFileName(dataPath, "psf_BACKB.fits");
+      irfUtil::Util::getCaldbFile("BACKA", "PSF", "DC2", 
+                                  psfFile, hdu, "GLAST", "LAT",
+                                  "NONE", "2006-03-01", "00:00:00");
+      psf = new Psf(psfFile, "POINT SPREAD FUNCTION");
 
-   aeff = new Aeff(aeffFile, "EFFECTIVE AREA");
-   psf = new Psf(psfFile, "POINT SPREAD FUNCTION");
-   edisp = new Edisp(edispFile, "ENERGY REDISTRIBUTION");
-   myFactory->addIrfs("DC2::BackB",
-                      new irfInterface::Irfs(aeff, psf, edisp, 3));
-}
+// There is only one energy dispersion file, so reuse existing guy.
+      edisp = new Edisp(edispFile, "ENERGY REDISTRIBUTION"); 
+
+      myFactory->addIrfs("DC2::BackA",
+                         new irfInterface::Irfs(aeff, psf, edisp, 1));
+   }
+
+   if (!std::count(irfsNames.begin(), irfsNames.end(), "DC2::FrontB")) {
+      irfUtil::Util::getCaldbFile("FRONTB", "EFF_AREA", "DC2",
+                                  aeffFile, hdu, "GLAST", "LAT",
+                                  "NONE", "2006-03-01", "00:00:00");
+      aeff = new Aeff(aeffFile, "EFFECTIVE AREA");
+
+      irfUtil::Util::getCaldbFile("FRONTB", "PSF", "DC2", 
+                                  psfFile, hdu, "GLAST", "LAT",
+                                  "NONE", "2006-03-01", "00:00:00");
+      psf = new Psf(psfFile, "POINT SPREAD FUNCTION");
+
+// There is only one energy dispersion file, so reuse existing guy.
+      edisp = new Edisp(edispFile, "ENERGY REDISTRIBUTION"); 
+
+      myFactory->addIrfs("DC2::FrontB",
+                         new irfInterface::Irfs(aeff, psf, edisp, 2));
+   }
+   if (!std::count(irfsNames.begin(), irfsNames.end(), "DC2::BackB")) {
+      irfUtil::Util::getCaldbFile("BACKB", "EFF_AREA", "DC2",
+                                  aeffFile, hdu, "GLAST", "LAT",
+                                  "NONE", "2006-03-01", "00:00:00");
+      aeff = new Aeff(aeffFile, "EFFECTIVE AREA");
+
+      irfUtil::Util::getCaldbFile("BACKB", "PSF", "DC2", 
+                                  psfFile, hdu, "GLAST", "LAT",
+                                  "NONE", "2006-03-01", "00:00:00");
+      psf = new Psf(psfFile, "POINT SPREAD FUNCTION");
+
+// There is only one energy dispersion file, so reuse existing guy.
+      edisp = new Edisp(edispFile, "ENERGY REDISTRIBUTION"); 
+
+      myFactory->addIrfs("DC2::BackB",
+                         new irfInterface::Irfs(aeff, psf, edisp, 3));
+   }
+}   
 
 } // namespace dc2Response

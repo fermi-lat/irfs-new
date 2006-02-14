@@ -23,4 +23,4 @@ macro_append cppflags "" Linux " -I../src -DTRAP_FPE "
 macro source "*.cxx" WIN32 "*.h *.cxx"
 
 library dc2Response -no_share $(source)
-#application test_dc2Response test/*.cxx
+application test_dc2Response test/*.cxx
