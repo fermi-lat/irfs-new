@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Feb 14 14:57:58 PST 2006
+irfs/irfUtil/irfUtil
+
+Modified Files:
+	Util.h 
+Log Message:
+generalize interface for DC2
+    *
+------------------------------------------------------------
+User: jchiang  Tue Feb 14 14:57:58 PST 2006
 irfs/irfUtil/cmt
 
 Modified Files:
