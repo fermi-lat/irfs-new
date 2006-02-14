@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 14 14:57:58 PST 2006
+irfs/irfUtil/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+generalize interface for DC2
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceToolsv6r2, operation: add
 Package: irfUtil
