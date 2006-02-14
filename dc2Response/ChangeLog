@@ -1,4 +1,16 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 14 15:05:19 PST 2006
+irfs/dc2Response/data
+
+Removed Files:
+	edisp.fits effarea_sup04All-BACKA.fits 
+	effarea_sup04All-BACKB.fits effarea_sup04All-FRONTA.fits 
+	effarea_sup04All-FRONTB.fits psf_BACKA.fits psf_BACKB.fits 
+	psf_FRONTA.fits psf_FRONTB.fits 
+Log Message:
+clean up temporary fits files; re-implement loadIrfs using CALDB
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 14 15:05:17 PST 2006
 irfs/dc2Response/cmt
 
