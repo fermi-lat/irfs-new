@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 14 14:59:53 PST 2006
+irfs/caldb/CALDB/data/glast/lat/bcf/psf
+
+Added Files:
+	psf_BACKA.fits psf_BACKB.fits psf_FRONTA.fits psf_FRONTB.fits 
+Log Message:
+add DC2 files; updated caldb.indx from Dave
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 14 14:59:52 PST 2006
 irfs/caldb/CALDB/data/glast/lat/bcf/edisp
 
