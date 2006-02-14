@@ -5,15 +5,12 @@ author James Chiang <jchiang@slac.stanford.edu>
 
 # $Id$
 
-use STpolicy v1r*
-use astro v1r*
+use STpolicy v*
+use astro v*
 use f2c v*
-use tip v2*
+use tip v*
+use cppunit v* IExternal
 
 macro_append ROOT_linkopts " $(ROOT_GUI_libs)"
 
 apply_pattern ST_library option=" -no_share *.c "
-
-private
-
-use cppunit v1r* IExternal

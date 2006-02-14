@@ -30,15 +30,15 @@ void Util::getCaldbFile(const std::string &detName,
                         const std::string &version,
                         std::string &filename, long &extnum,
                         const std::string & telescope,
-                        const std::string & instrument) {
-   std::string filter("NONE");
-   std::string date("2003-01-01");
-   std::string time("00:00:00");
+                        const std::string & instrument,
+                        const std::string & filter,
+                        const std::string & date,
+                        const std::string & time) {
    try {
       std::string expression = "VERSION.eq." + version;
       std::pair<std::string, int> calfile;
       HdCaldb caldb_obj(telescope, instrument);
-      calfile = caldb_obj(detName, respName, expression);
+      calfile = caldb_obj(detName, respName, expression, filter, date, time);
       filename = calfile.first;
       extnum = calfile.second + 1;
    } catch (...) {
