@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 14 15:05:20 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Psf.cxx loadIrfs.cxx 
+Log Message:
+clean up temporary fits files; re-implement loadIrfs using CALDB
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 14 15:05:19 PST 2006
 irfs/dc2Response/data
 
