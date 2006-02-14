@@ -102,7 +102,18 @@ size_t Edisp::parIndex(double energy, double mu) const {
                                energy) - m_eBounds.begin() - 1;
    size_t i = std::upper_bound(m_muBounds.begin(), m_muBounds.end(),
                                mu, ::reverse_cmp) - m_muBounds.begin() - 1;
-   return i*(m_eBounds.size()-1) + k;
+   if (i > m_muBounds.size() - 2) {
+      i = m_muBounds.size() - 2;
+   }
+   if (k > m_eBounds.size() - 2) {
+      k = m_eBounds.size() - 2;
+   }
+   size_t indx(i*(m_eBounds.size()-1) + k);
+   if (indx > m_cumDists.size() - 1) {
+      throw std::runtime_error("dc2Response::Edisp::parIndex: "
+                               "index out-of-range");
+   }
+   return indx;
 }
 
 double Edisp::integral(double emin, double emax, double energy,

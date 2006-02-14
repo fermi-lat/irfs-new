@@ -120,11 +120,17 @@ double Psf::value(double separation, double angScale, double gam) const {
 }
 
 double Psf::gamma(double logE, double mu) const {
-   return st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE, m_gamma);
+   double my_gamma = 
+      st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE, m_gamma);
+   assert(my_gamma > 1);
+   return my_gamma;
 }
 
 double Psf::sigma(double logE, double mu) const {
-   return st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE, m_sigma);
+   double my_sigma =
+      st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE, m_sigma);
+   assert(my_sigma > 0);
+   return my_sigma;
 }
 
 double Psf::angularScale(double energy, double mu) const {
@@ -345,9 +351,8 @@ void Psf::computeAngularIntegrals
 
 // Assume the first acceptance cone is the ROI; ignore the rest.
    if (!m_acceptanceCone) {
-      m_acceptanceCone = new irfInterface::AcceptanceCone();
+      m_acceptanceCone = cones.at(0)->clone();
    }
-   *m_acceptanceCone = *cones[0];
 
    if (!m_haveAngularIntegrals) {
 // Set up the array describing the separation between the center of
