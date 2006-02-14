@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 14 14:59:52 PST 2006
+irfs/caldb/CALDB/data/glast/lat/bcf/ea
+
+Added Files:
+	effarea_sup04All-BACKA.fits effarea_sup04All-BACKB.fits 
+	effarea_sup04All-FRONTA.fits effarea_sup04All-FRONTB.fits 
+Log Message:
+add DC2 files; updated caldb.indx from Dave
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 14 14:59:51 PST 2006
 irfs/caldb/CALDB
 
