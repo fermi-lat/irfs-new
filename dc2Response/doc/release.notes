@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  14-Feb-06 v1      JC    DC2 implementation
   29-Oct-04 v0r1p1  JC    use tip v2*
   01-Oct-04 v0r1    JC    use st_facilities
   20-Jul-04 v0      JC    initial version
