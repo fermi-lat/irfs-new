@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 14 23:05:27 PST 2006
+irfs/dc2Response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+copy constructor patch; tagging v1r0p1
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 14 23:05:26 PST 2006
 irfs/dc2Response/cmt
 
