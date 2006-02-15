@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Feb 15 06:47:31 PST 2006
+irfs/dc2Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+include algorithm in Edisp; tagging v1r0p3
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r0p2, operation: add
 Package: dc2Response
