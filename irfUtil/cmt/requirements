@@ -22,5 +22,5 @@ macro_prepend cflags "" Linux " -g -O "
 macro source *.cxx WIN32 "*.h *.cxx"
 
 library irfUtil -no_share $(source) *.c
-application test_irfUtil test/*.cxx
+#application test_irfUtil test/*.cxx
 
