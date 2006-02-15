@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 14 23:23:25 PST 2006
+irfs/dc2Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+include <algorithm> for windows; tagging v1r0p2
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r0p1, operation: add
 Package: dc2Response
