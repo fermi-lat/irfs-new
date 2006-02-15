@@ -1,12 +1,12 @@
 package irfInterface
-version v0r1p2
+version v0r1p3
 
 author James Chiang <jchiang@slac.stanford.edu>
 
 # $Id$
 
 use GlastPolicy v*
-use astro v1r*
+use astro v*
 
 apply_pattern package_include
 apply_pattern package_linkopts
@@ -20,4 +20,4 @@ application test_irfInterface test/*.cxx
 
 private
 
-use cppunit v1r* IExternal
+use cppunit v* IExternal
