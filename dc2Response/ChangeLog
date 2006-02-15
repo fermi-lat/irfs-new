@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Feb 15 06:47:32 PST 2006
+irfs/dc2Response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+include algorithm in Edisp; tagging v1r0p3
+    *
+------------------------------------------------------------
 User: jchiang  Wed Feb 15 06:47:31 PST 2006
 irfs/dc2Response/cmt
 
