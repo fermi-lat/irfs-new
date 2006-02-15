@@ -61,12 +61,13 @@ Psf::~Psf() {
 }
 
 Psf::Psf(const Psf & rhs) 
-   : IPsf(rhs), DC2(rhs), m_sigma(rhs.m_sigma), m_gamma(rhs.m_gamma),
-     m_logElo(rhs.m_logElo), m_logEhi(rhs.m_logEhi), m_logE(rhs.m_logE), 
-     m_cosinc(rhs.m_cosinc), m_angScale(rhs.m_angScale),
+   : IPsf(rhs), DC2(rhs), m_psfScaling(0), m_sigma(rhs.m_sigma),
+     m_gamma(rhs.m_gamma), m_logElo(rhs.m_logElo), m_logEhi(rhs.m_logEhi),
+     m_logE(rhs.m_logE), m_cosinc(rhs.m_cosinc), m_angScale(rhs.m_angScale),
      m_gamValues(rhs.m_angScale), m_angularIntegral(rhs.m_angularIntegral),
      m_needIntegral(rhs.m_needIntegral),
-     m_haveAngularIntegrals(rhs.m_haveAngularIntegrals) {
+     m_haveAngularIntegrals(rhs.m_haveAngularIntegrals), 
+     m_acceptanceCone(0) {
    if (rhs.m_psfScaling) {
       m_psfScaling = new PsfScaling(*rhs.m_psfScaling);
    }
@@ -122,6 +123,9 @@ double Psf::gamma(double logE, double mu) const {
       st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE, m_gamma);
    if (my_gamma < s_gammas.front()) {
       return s_gammas.front();
+   }
+   if (my_gamma > s_gammas.back()) {
+      return s_gammas.back();
    }
    return my_gamma;
 }
@@ -286,7 +290,7 @@ void Psf::readData() {
 void Psf::computePsfNorms() {
    size_t ngam(100);
    double gmin(1.001);
-   double gmax(5);
+   double gmax(10);
    double gstep(std::log(gmax/gmin)/(ngam - 1));
    double lowerLim(0);
    double upperLim(20);
