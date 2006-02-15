@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Feb 14 19:33:43 PST 2006
+irfs/irfUtil/src
+
+Removed Files:
+	dgaus8.c dgaus8.ph dgaus8.pp 
+Log Message:
+remove dgaus8; update req file
+    *
+------------------------------------------------------------
+User: jchiang  Tue Feb 14 19:33:43 PST 2006
 irfs/irfUtil/cmt
 
 Modified Files:
