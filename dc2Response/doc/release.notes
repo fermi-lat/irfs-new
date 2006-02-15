@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  15-Feb-06 v1r0p3  JC    include <algorithm> in Edisp.cxx
   14-Feb-06 v1r0p2  JC    include <algorithm> in loadIrfs.cxx for Windows
   14-Feb-06 v1r0p1  JC    Psf copy constructor patch
   14-Feb-06 v1      JC    DC2 implementation
