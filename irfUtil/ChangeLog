@@ -1,4 +1,38 @@
 ------------------------------------------------------------
+TAG
+Tag name: v0r4, operation: add
+Package: irfUtil
+User: jchiang  Tue Feb 14 18:07:52 2006
+Files:
+  irfUtil/.cvsignore  1.1.1.1
+  irfUtil/ChangeLog  1.25
+  irfUtil/cmt/requirements  1.8
+  irfUtil/doc/release.notes  1.5
+  irfUtil/irfUtil/RootTable.h  1.1
+  irfUtil/irfUtil/HdCaldb.h  1.1.1.1
+  irfUtil/irfUtil/dgaus8.h  1.1.1.1
+  irfUtil/irfUtil/Util.h  1.5
+  irfUtil/src/dgaus8.c  1.1.1.1
+  irfUtil/src/HDgtcalf_internal.pp  1.1.1.1
+  irfUtil/src/HDgtcalf_internal.h  1.1.1.1
+  irfUtil/src/HDgtcalf_standalone.c  1.1.1.1
+  irfUtil/src/HDgtcalf_internal.ph  1.1.1.1
+  irfUtil/src/Hdcal.h  1.1.1.1
+  irfUtil/src/HDgtcalf.c  1.1.1.1
+  irfUtil/src/HDgtcalf_standalone.h  1.1.1.1
+  irfUtil/src/HDgtcalf.pp  1.1.1.1
+  irfUtil/src/HdCaldb.cxx  1.1.1.1
+  irfUtil/src/HDgtcalf_internal.c  1.1.1.1
+  irfUtil/src/HDgtcalf.ph  1.1.1.1
+  irfUtil/src/HDgtcalf_standalone.ph  1.1.1.1
+  irfUtil/src/dgaus8.ph  1.1.1.1
+  irfUtil/src/Util.cxx  1.5
+  irfUtil/src/HDgtcalf_standalone.pp  1.1.1.1
+  irfUtil/src/RootTable.cxx  1.1
+  irfUtil/src/dgaus8.pp  1.1.1.1
+
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 14 17:59:18 PST 2006
 irfs/irfUtil/doc
 
