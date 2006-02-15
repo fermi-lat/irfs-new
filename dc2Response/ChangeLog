@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 14 23:23:27 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	loadIrfs.cxx 
+Log Message:
+include <algorithm> for windows; tagging v1r0p2
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 14 23:23:26 PST 2006
 irfs/dc2Response/doc
 
