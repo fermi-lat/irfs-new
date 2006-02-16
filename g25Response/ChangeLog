@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb 16 11:05:16 PST 2006
+irfs/g25Response/src
+
+Modified Files:
+	loadIrfs.cxx 
+Log Message:
+fail if caldb not set
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 16 11:05:15 PST 2006
 irfs/g25Response/cmt
 
