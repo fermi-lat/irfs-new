@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb 16 11:05:15 PST 2006
+irfs/g25Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+fail if caldb not set
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceToolsv6r2, operation: add
 Package: g25Response

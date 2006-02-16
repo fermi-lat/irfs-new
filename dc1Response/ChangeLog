@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb 16 11:02:00 PST 2006
+irfs/dc1Response/src
+
+Modified Files:
+	loadIrfs.cxx 
+Log Message:
+fail if CALDB is not set
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 16 11:01:59 PST 2006
 irfs/dc1Response/cmt
 
