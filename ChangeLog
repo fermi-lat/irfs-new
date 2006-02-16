@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb 16 07:49:24 PST 2006
+irfs/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+use v* since irfs is not used as a checkout package; tagging v0r9p2
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 16 07:49:23 PST 2006
 irfs/cmt
 
