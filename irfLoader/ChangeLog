@@ -1,4 +1,21 @@
 ------------------------------------------------------------
+TAG
+Tag name: v0r5p1, operation: add
+Package: irfLoader
+User: jchiang  Thu Feb 16 14:11:04 2006
+Files:
+  irfLoader/.cvsignore  1.1.1.1
+  irfLoader/ChangeLog  1.78
+  irfLoader/cmt/requirements  1.19
+  irfLoader/doc/release.notes  1.14
+  irfLoader/irfLoader/Loader.h  1.5
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Loader.cxx  1.12
+  irfLoader/src/test/test.cxx  1.8
+
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 16 14:01:40 PST 2006
 irfs/irfLoader/doc
 

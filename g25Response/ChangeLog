@@ -1,4 +1,27 @@
 ------------------------------------------------------------
+TAG
+Tag name: v0r1p5, operation: add
+Package: g25Response
+User: jchiang  Thu Feb 16 14:11:07 2006
+Files:
+  g25Response/.cvsignore  1.1.1.1
+  g25Response/ChangeLog  1.29
+  g25Response/cmt/requirements  1.10
+  g25Response/doc/release.notes  1.5
+  g25Response/g25Response/loadIrfs.h  1.1.1.1
+  g25Response/src/PsfGlast25.h  1.1.1.1
+  g25Response/src/AeffGlast25.h  1.1.1.1
+  g25Response/src/AeffGlast25.cxx  1.3
+  g25Response/src/loadIrfs.cxx  1.5
+  g25Response/src/Glast25.h  1.1.1.1
+  g25Response/src/PsfGlast25.cxx  1.4
+  g25Response/src/EdispGlast25.cxx  1.3
+  g25Response/src/EdispGlast25.h  1.1.1.1
+  g25Response/src/Glast25.cxx  1.1.1.1
+  g25Response/src/test/test.cxx  1.2
+
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 16 14:07:06 PST 2006
 irfs/g25Response/doc
 
