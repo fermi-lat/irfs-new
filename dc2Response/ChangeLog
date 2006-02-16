@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Feb 15 16:02:47 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Psf.cxx loadIrfs.cxx 
+Log Message:
+fix factor 2 error in simulated photon angular deviations
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r0p3, operation: add
 Package: dc2Response
