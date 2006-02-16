@@ -6,14 +6,14 @@ author James Chiang <jchiang@slac.stanford.edu>
 # $Id$
 
 use GlastPolicy v*
-use st_facilities v0r*
-use irfInterface v0* irfs
-use irfUtil v0* irfs
-use caldb v0* irfs
+use st_facilities v*
+use irfInterface v* irfs
+use irfUtil v* irfs
+use caldb v* irfs
 use CLHEP v* IExternal
 use f2c v*
-use astro v1r*
-use tip v2*
+use astro v*
+use tip v*
 
 apply_pattern package_include
 apply_pattern package_linkopts
