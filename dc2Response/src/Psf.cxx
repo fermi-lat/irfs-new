@@ -119,6 +119,11 @@ double Psf::value(double separation, double angScale, double gam) const {
 }
 
 double Psf::gamma(double logE, double mu) const {
+// Tabulated gammas from AllGamma fits are not reliable for
+// extrapolation, so force logE and mu to lie on or within grid
+// boundaries.
+   mu = std::max(std::min(m_cosinc.front(), mu), m_cosinc.back());
+   logE = std::max(std::min(m_logE.back(), logE), m_logE.front());
    double my_gamma = 
       st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE, m_gamma);
    if (my_gamma < s_gammas.front()) {
@@ -131,6 +136,11 @@ double Psf::gamma(double logE, double mu) const {
 }
 
 double Psf::sigma(double logE, double mu) const {
+// Tabulated sigmas from AllGamma fits are not reliable for
+// extrapolation, so force logE and mu to lie on or within grid
+// boundaries.
+   mu = std::max(std::min(m_cosinc.front(), mu), m_cosinc.back());
+   logE = std::max(std::min(m_logE.back(), logE), m_logE.front());
    double my_sigma =
       st_facilities::Util::bilinear(m_cosinc, mu, m_logE, logE, m_sigma);
    assert(my_sigma > 0);
