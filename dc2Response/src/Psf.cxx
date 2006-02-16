@@ -149,7 +149,7 @@ astro::SkyDir Psf::appDir(double energy,
                           const astro::SkyDir & scZAxis,
                           const astro::SkyDir & ) const {
    double mu(std::cos(srcDir.difference(scZAxis)));
-   double theta(drawOffset(energy, mu)*2*M_PI/180.);
+   double theta(drawOffset(energy, mu)*M_PI/180.);
              
    double xi = RandFlat::shoot();
    double phi = 2.*M_PI*xi;
