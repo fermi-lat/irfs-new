@@ -29,7 +29,7 @@ class irfLoaderTests : public CppUnit::TestFixture {
    CPPUNIT_TEST(initialization);
    CPPUNIT_TEST(load_single_irfs);
    CPPUNIT_TEST(use_IrfsFactory);
-   CPPUNIT_TEST_EXCEPTION(access_missing_irfs, std::invalid_argument);
+   CPPUNIT_TEST_EXCEPTION(access_missing_irfs, std::runtime_error);
 
    CPPUNIT_TEST_SUITE_END();
 
