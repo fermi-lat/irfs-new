@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb 16 11:01:59 PST 2006
+irfs/dc1Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+fail if CALDB is not set
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceToolsv6r2, operation: add
 Package: dc1Response
