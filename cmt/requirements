@@ -1,15 +1,22 @@
 package irfs
-version v0
+version v0r9p2
 
 author J. Chiang <jchiang@slac.stanford.edu>
 
 # $Id$
 
-use irfAnalysis v6 irfs
-use irfTests v0 irfs
-use irfInterface v0 irfs
+#use irfAnalysis v6 irfs
+#use irfTests v0 irfs
 
-use g25Response v0 irfs
-use dc1Response v0 irfs
-#use dc2Response v0 irfs
+use irfInterface v* irfs
+use irfUtil v* irfs
+use irfLoader v* irfs
+
+use g25Response v* irfs
+use dc1Response v* irfs
+use dc1aResponse v* irfs
+use testResponse v* irfs
+use dc2Response v* irfs
 #use egretResponse v0 irfs
+
+use caldb v* irfs

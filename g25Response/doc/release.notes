@@ -1,0 +1,18 @@
+/** 
+  @file release.notes
+  @brief package g25Response
+
+  @verbatim
+  $Id$
+
+  16-Feb-06 v0r1p5  JC    complain if CALDB not set
+  26-Apr-05 v0r1p4  JC    include <algorithm> in loadIrfs.cxxx
+  21-Apr-05 v0r1p3  JC    check if irfs have already been loaded
+  23-Jan-05 v0r1p2  JC    fix for psf integrals
+  29-Oct-04 v0r1p1  JC    use tip v2*
+  01-Oct-04 v0r1    JC    use st_facilities
+  07-Aug-04 v0r0p1  JC    handle bounds in bilinear interpolation differently
+  19-Jul-04 v0      JC    initial version
+ 
+  @endverbatim
+*/
