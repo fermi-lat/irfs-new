@@ -210,6 +210,10 @@ void Edisp::computeCumulativeDists() {
 
 double Edisp::edispIntegrand(double * xx) {
    double & x(*xx);
+   if (x/s_rwidth > 7.) { // This leads to a 0.1% error in the integrand value
+      double logf = s_ltail*std::log(1. + x) - x/s_rwidth;
+      return std::exp(logf);
+   }
    return std::pow(1. + x, s_ltail)/(1. + std::exp(x/s_rwidth));   
 }
 
