@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Feb 17 08:56:03 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Edisp.cxx 
+Log Message:
+allow for large arguments in energy dispersion integrand
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r0p5, operation: add
 Package: dc2Response
