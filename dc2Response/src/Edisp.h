@@ -9,6 +9,8 @@
 #ifndef dc2Response_Edisp_h
 #define dc2Response_Edisp_h
 
+#include <utility>
+
 #include "irfInterface/IEdisp.h"
 
 #include "DC2.h"
@@ -18,7 +20,7 @@ namespace dc2Response {
 /**
  * @class Edisp
  *
- * @brief A LAT energy dispersion class using the DC2 AllGamma data.
+ * @brief LAT energy dispersion for DC2 
  *
  * @author J. Chiang
  *
@@ -29,9 +31,7 @@ class Edisp : public irfInterface::IEdisp, public DC2 {
 
 public:
 
-   Edisp(const std::string &filename);
-
-   Edisp(const std::string &filename, int hdu, int npars);
+   Edisp(const std::string & fitsfile, const std::string & extname);
 
    virtual ~Edisp() {}
 
@@ -82,7 +82,28 @@ public:
 
 private:
 
-   void normalizeDists();
+   std::vector<double> m_eBounds;
+   std::vector<double> m_muBounds;
+
+   std::vector<double> m_rwidth;
+   std::vector<double> m_ltail;
+   std::vector<double> m_norms;
+
+   std::vector< std::vector<float> > m_cumDists;
+
+   void readData();
+
+   double value(double appEnergy, double energy) const;
+
+   size_t parIndex(double energy, double mu) const;
+
+   static std::vector<double> s_xvals;
+   void computeCumulativeDists();
+
+   static double s_rwidth;
+   static double s_ltail;
+
+   static double edispIntegrand(double * x);
 
 };
 

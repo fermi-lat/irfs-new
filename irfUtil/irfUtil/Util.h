@@ -26,38 +26,15 @@ public:
 
    virtual ~Util() {}
 
-   /// A zeroth order bilinear interpolater.
-   static double bilinear(const std::vector<double> &xx, double x,
-                          const std::vector<double> &yy, double y, 
-                          const std::vector<double> &z);
-
-   /// Get a vector of values from the specified extension and column.
-   static void getTableVector(const std::string & filename,
-                              const std::string & extName,
-                              const std::string & columnName,
-                              std::vector<double> & branchVector);
-
-   /// Get a vector from a given row of a record.
-   static void getRecordVector(const std::string & filename,
-                               const std::string & extName,
-                               const std::string & columnName,
-                               std::vector<double> & tableVector,
-                               int recordNum = 0);
-
-   /// Get the extension name of a FITS table HDU by extension number.
-   static void getFitsHduName(const std::string & filename, int hdu,
-                              std::string & hduName);
-
-   /// Get the column names for a FITS table HDU.
-   static void getFitsColNames(const std::string & filename, int hdu,
-                               std::vector<std::string> & columnNames);
-
-   static void Util::getCaldbFile(const std::string &detName, 
-                                  const std::string &respName,
-                                  const std::string &version,
-                                  std::string &filename, long &extnum,
-                                  const std::string & telescope = "GLAST",
-                                  const std::string & instrument = "LAT");
+   static void getCaldbFile(const std::string &detName, 
+                            const std::string &respName,
+                            const std::string &version,
+                            std::string &filename, long &extnum,
+                            const std::string & telescope = "GLAST",
+                            const std::string & instrument = "LAT",
+                            const std::string & filter = "NONE",
+                            const std::string & date = "2003-01-01",
+                            const std::string & time = "00:00:00");
 
 protected:
 

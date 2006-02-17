@@ -29,7 +29,7 @@ class irfLoaderTests : public CppUnit::TestFixture {
    CPPUNIT_TEST(initialization);
    CPPUNIT_TEST(load_single_irfs);
    CPPUNIT_TEST(use_IrfsFactory);
-   CPPUNIT_TEST_EXCEPTION(access_missing_irfs, std::invalid_argument);
+   CPPUNIT_TEST_EXCEPTION(access_missing_irfs, std::runtime_error);
 
    CPPUNIT_TEST_SUITE_END();
 
@@ -50,15 +50,14 @@ private:
 void irfLoaderTests::setUp() {
 // Tabula rasa
    IrfsFactory::delete_instance();
+   irfLoader::Loader::resetIrfs();
 }
 
 void irfLoaderTests::tearDown() {
 }
 
 void irfLoaderTests::initialization() {
-   CPPUNIT_ASSERT(Loader::irfsNames().size() == 0);
-   Loader::go();
-   CPPUNIT_ASSERT(Loader::irfsNames().size() == 2);
+   CPPUNIT_ASSERT(Loader::irfsNames().size() == 5);
 }
 
 void irfLoaderTests::load_single_irfs() {
@@ -74,6 +73,14 @@ void irfLoaderTests::load_single_irfs() {
                             std::string("Glast25::Front")) == names.end());
    CPPUNIT_ASSERT(std::find(names.begin(), names.end(), 
                             std::string("Glast25::Back")) == names.end());
+   CPPUNIT_ASSERT(std::find(names.begin(), names.end(), 
+                            std::string("DC2::FrontA")) == names.end());
+   CPPUNIT_ASSERT(std::find(names.begin(), names.end(), 
+                            std::string("DC2::BackA")) == names.end());
+   CPPUNIT_ASSERT(std::find(names.begin(), names.end(), 
+                            std::string("DC2::FrontB")) == names.end());
+   CPPUNIT_ASSERT(std::find(names.begin(), names.end(), 
+                            std::string("DC2::BackB")) == names.end());
 }
 
 void irfLoaderTests::use_IrfsFactory() {
@@ -85,12 +92,24 @@ void irfLoaderTests::use_IrfsFactory() {
    delete my_irfs;
    my_irfs = myFactory->create("Glast25::Front");
    delete my_irfs;
-   my_irfs = myFactory->create("Glast25::Front");
+   my_irfs = myFactory->create("Glast25::Back");
+   delete my_irfs;
+   my_irfs = myFactory->create("testIrfs::Front");
+   delete my_irfs;
+   my_irfs = myFactory->create("testIrfs::Back");
+   delete my_irfs;
+   my_irfs = myFactory->create("DC2::FrontA");
+   delete my_irfs;
+   my_irfs = myFactory->create("DC2::BackA");
+   delete my_irfs;
+   my_irfs = myFactory->create("DC2::FrontB");
+   delete my_irfs;
+   my_irfs = myFactory->create("DC2::BackB");
    delete my_irfs;
 }
 
 void irfLoaderTests::access_missing_irfs() {
-   Loader::go("DC2");
+   Loader::go("DEV");
 }
    
 int main() {

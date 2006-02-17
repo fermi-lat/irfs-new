@@ -16,8 +16,11 @@
 
 #include "irfInterface/IAeff.h"
 
-#include "RootTable.h"
 #include "DC1.h"
+
+namespace irfUtil {
+   class RootTable;
+}
 
 namespace dc1Response {
 
@@ -53,7 +56,7 @@ public:
 
 private:
 
-   RootTable * m_aeff;
+   irfUtil::RootTable * m_aeff;
    std::vector<double> m_aeffTable;
    std::string m_histName;
 
