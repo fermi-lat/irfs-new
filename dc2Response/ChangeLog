@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb 16 18:45:16 PST 2006
+irfs/dc2Response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+use cfitsio directly
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 16 18:45:13 PST 2006
 irfs/dc2Response/src
 
