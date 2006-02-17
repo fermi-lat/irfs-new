@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  16-Feb-06 v1r0p5  JC    use cfitsio to read PSFSCALE data.
   16-Feb-06 v1r0p4  JC    fix factor 2 error in appDir; restrict mu and logE
                           to lie within grid for PSF.
   15-Feb-06 v1r0p3  JC    include <algorithm> in Edisp.cxx
