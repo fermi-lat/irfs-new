@@ -76,6 +76,14 @@ void Loader::go(const std::string & irfsName) {
          s_respIds["DC2"].push_back("DC2::BackA");
          s_respIds["DC2"].push_back("DC2::FrontB");
          s_respIds["DC2"].push_back("DC2::BackB");
+         s_respIds["DC2FA"].clear();
+         s_respIds["DC2FA"].push_back("DC2::FrontA");
+         s_respIds["DC2BA"].clear();
+         s_respIds["DC2BA"].push_back("DC2::BackA");
+         s_respIds["DC2FB"].clear();
+         s_respIds["DC2FB"].push_back("DC2::FrontB");
+         s_respIds["DC2BB"].clear();
+         s_respIds["DC2BB"].push_back("DC2::BackB");
       } else {
          if (!s_respIds.count(irfsName)) {
             throw std::invalid_argument("Request for an invalid set of irfs: "
