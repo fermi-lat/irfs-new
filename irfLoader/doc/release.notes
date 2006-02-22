@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  21-Feb-06 v0r5p2  JC    add DC2 class A event analysis option
   16-Feb-06 v0r5p1  JC    improve CALDB failure message
   14-Feb-06 v0r5    JC    add dc2Response
   17-Nov-05 v0r4p3  JC    add method to erase IRF names, using in test program
