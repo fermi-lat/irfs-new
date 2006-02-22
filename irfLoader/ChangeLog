@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 21 22:41:18 PST 2006
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+allow class A only analysis
+    *
+------------------------------------------------------------
 User: jchiang  Mon Feb 20 12:31:19 PST 2006
 irfs/irfLoader/src
 
