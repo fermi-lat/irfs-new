@@ -216,6 +216,10 @@ double Psf::angularIntegral(double energy,
    double mu = std::cos(theta*M_PI/180.);
    double angScale = angularScale(energy, mu);
    if (angScale < m_angScale.front() || angScale >= m_angScale.back()) {
+//       std::cout << "angular scale outside bounds: " 
+//                 << angScale << "  "
+//                 << m_angScale.front() << "  "
+//                 << m_angScale.back() << std::endl;
       return 0;
    }
    size_t iang = std::upper_bound(m_angScale.begin(), m_angScale.end(),
@@ -395,8 +399,9 @@ void Psf::computeAngularIntegrals
 // so we cannot rely on sensible values for the angularScale at the
 // expected limits of energy and inclination, so we are forced to
 // use ad hoc values.
-      double angScaleMin = 0.5*(*m_psfScaling)(std::exp(m_logE.back()),
-                                               m_cosinc.back());
+//       double angScaleMin = 0.5*(*m_psfScaling)(std::exp(m_logE.back()),
+//                                                m_cosinc.back());
+      double angScaleMin(1e-3);
       double angScaleMax = (*m_psfScaling)(std::exp(m_logE.front()),
                                            m_cosinc.front());
       double angScaleStep = std::log(angScaleMax/angScaleMin)/(nangles - 1.);
