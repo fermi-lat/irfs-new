@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Feb 28 14:59:14 PST 2006
+irfs/dc2Response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+angular integral patch; tagging v1r0p7
+    *
+------------------------------------------------------------
+User: jchiang  Tue Feb 28 14:59:14 PST 2006
 irfs/dc2Response/cmt
 
 Modified Files:
