@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Fri Mar  3 09:46:46 PST 2006
+irfs/caldb/CALDB/data/glast/lat/bcf/ea
+
+Modified Files:
+	effarea_sup04All-BACKA.fits effarea_sup04All-BACKB.fits 
+	effarea_sup04All-FRONTA.fits effarea_sup04All-FRONTB.fits 
+Log Message:
+update using new eff area tables from Jean
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 16 09:26:07 PST 2006
 irfs/caldb/CALDB/data/glast/lat/bcf/psf
 
