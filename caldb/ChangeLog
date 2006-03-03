@@ -1,4 +1,40 @@
 ------------------------------------------------------------
+TAG
+Tag name: v0r1p1, operation: add
+Package: caldb
+User: jchiang  Fri Mar  3 09:54:01 2006
+Files:
+  caldb/.cvsignore  1.1.1.1
+  caldb/ChangeLog  1.17
+  caldb/CALDB/caldb.indx  1.3
+  caldb/CALDB/data/glast/lat/bcf/ea/effarea_sup04All-BACKB.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_lat.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_all.root  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/effarea_sup04All-FRONTB.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/effarea_sup04All-BACKA.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/effarea_sup04All-FRONTA.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_DC1.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/README  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_thin_parameters.root  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_DC1.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/redis_lat.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_thick_parameters.root  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_FRONTB.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_thick_parameters.root  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_BACKA.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_lat.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_BACKB.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_DC1.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_thin_parameters.root  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_FRONTA.fits  1.2
+  caldb/CALDB/software/tools/caldb.config  1.1.1.1
+  caldb/CALDB/software/tools/alias_config.fits  1.1.1.1
+  caldb/cmt/requirements  1.3
+  caldb/doc/release.notes  1.1
+
+    *
+------------------------------------------------------------
 User: jchiang  Fri Mar  3 09:53:38 PST 2006
 irfs/caldb/doc
 
