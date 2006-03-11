@@ -15,6 +15,27 @@
 #include <vector>
 #include <string>
 
+// The following is a snippet taken from the libApiExports.h file that 
+// was authored by Matt Langston.
+// The intent is to define for windows those classes we would like 
+// to export (or import) from the IrfsFactory dll. 
+#if (defined(_WIN32) && defined(_MSC_VER))
+# ifdef IRFS_DLL_EXPORTS
+#  undef  DLL_EXPORT_IRFS
+#  define DLL_EXPORT_IRFS __declspec(dllexport)
+# else
+#  undef  DLL_EXPORT_IRFS
+#  define DLL_EXPORT_IRFS __declspec(dllimport)
+# endif
+#else
+// The gcc compiler (i.e. the Linux/Unix compiler) exports the Universe
+// of symbols from a shared library, meaning that we can't control the
+// EVT of our shared libraries. We therefore just define the Symbol
+// Export Macro to expand to nothing.
+# undef  DLL_EXPORT_IRFS
+# define DLL_EXPORT_IRFS
+#endif
+
 #include "irfInterface/Irfs.h"
 
 namespace irfInterface {
@@ -29,7 +50,7 @@ namespace irfInterface {
  * $Header$
  */
 
-class IrfsFactory {
+class DLL_EXPORT_IRFS IrfsFactory {
 
 public:
 
@@ -41,14 +62,7 @@ public:
 
    static IrfsFactory * instance();
 
-   static void delete_instance() {
-      delete s_instance;
-      s_instance = 0;
-   }
-
-//    void readXml(const std::string &xmlFile);
-
-//    void writeXml(const std::string &outputFile);
+   static void delete_instance();
 
 protected:
 
