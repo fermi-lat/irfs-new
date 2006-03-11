@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Mar 10 21:34:03 PST 2006
+irfs/irfInterface/src
+
+Modified Files:
+	IrfsFactory.cxx 
+Log Message:
+another stab at making this a shared library
+    *
+------------------------------------------------------------
+User: jchiang  Fri Mar 10 21:34:03 PST 2006
 irfs/irfInterface/irfInterface
 
 Modified Files:
