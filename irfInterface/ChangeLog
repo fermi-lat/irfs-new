@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Mar 13 09:03:11 PST 2006
+irfs/irfInterface/irfInterface
+
+Modified Files:
+	IrfsFactory.h 
+Log Message:
+use st_facilities/libStApiExports
+    *
+------------------------------------------------------------
+User: jchiang  Mon Mar 13 09:03:11 PST 2006
 irfs/irfInterface/cmt
 
 Modified Files:
