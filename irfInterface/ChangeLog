@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Mar 13 09:03:11 PST 2006
+irfs/irfInterface/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+use st_facilities/libStApiExports
+    *
+------------------------------------------------------------
 User: jchiang  Fri Mar 10 21:34:03 PST 2006
 irfs/irfInterface/src
 
