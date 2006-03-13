@@ -9,8 +9,9 @@
 #include <iostream>
 #include <stdexcept>
 
-#define IRFS_DLL_EXPORTS
+#define ST_DLL_EXPORTS
 #include "irfInterface/IrfsFactory.h"
+#undef ST_DLL_EXPORTS
 
 namespace irfInterface {
 
