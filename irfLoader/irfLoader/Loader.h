@@ -14,6 +14,8 @@
 #include <string>
 #include <vector>
 
+#include "st_facilities/libStApiExports.h"
+
 namespace irfLoader {
 
 /**
@@ -22,7 +24,7 @@ namespace irfLoader {
  * $Header$
  */
 
-class Loader {
+class SCIENCETOOLS_API Loader {
 
 public:
 

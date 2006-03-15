@@ -17,7 +17,9 @@
 #include "g25Response/loadIrfs.h"
 #include "testResponse/loadIrfs.h"
 
+#define ST_DLL_EXPORTS
 #include "irfLoader/Loader.h"
+#undef ST_DLL_EXPORTS
 
 namespace {
    char * irf_names[] = {"DC1", "DC1A", "DC2", "GLAST25", "TEST"};
