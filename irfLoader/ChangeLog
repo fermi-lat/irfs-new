@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Mar 15 15:33:50 PST 2006
+irfs/irfLoader/src
+
+Modified Files:
+	Loader.cxx 
+Log Message:
+SCIENCTOOLS_API macro needed for observationSim dll
+    *
+------------------------------------------------------------
 User: jchiang  Wed Mar 15 15:33:49 PST 2006
 irfs/irfLoader/irfLoader
 
