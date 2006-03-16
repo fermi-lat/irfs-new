@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  15-Mar-06 v0r2    JC    convert to shared library
   14-Feb-06 v0r1p3  JC    add AcceptanceCone::clone()
   17-Nov-05 v0r1p2  JC    no need to use STpolicy; delete prototypes in 
                           IrfsFactory before replacing
