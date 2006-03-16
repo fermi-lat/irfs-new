@@ -66,6 +66,12 @@ private:
 
 };
 
+// Opaque wrappers for class static functions since linkage on windows for
+// symbols exported from dlls is all fouled up.
+void Loader_go();
+
+const std::map<std::string, std::vector<std::string> > & Loader_respIds();
+
 } // namespace irfLoader
 
 #endif // irfLoader_Loader_h

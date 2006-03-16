@@ -131,4 +131,12 @@ void Loader::resetIrfs() {
    s_respIds.clear();
 }
 
+void Loader_go() {
+   Loader::go();
+}
+
+const std::map<std::string, std::vector<std::string> > & Loader_respIds() {
+   return Loader::respIds();
+}
+
 } // namespace irfLoader
