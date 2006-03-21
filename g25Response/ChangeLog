@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Mar 21 13:40:55 PST 2006
+irfs/g25Response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+add using CLHEP:: ; tagging v0r1p6
+    *
+------------------------------------------------------------
+User: jchiang  Tue Mar 21 13:40:55 PST 2006
 irfs/g25Response/cmt
 
 Modified Files:
