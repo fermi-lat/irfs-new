@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Mar 21 13:40:56 PST 2006
+irfs/g25Response/src
+
+Modified Files:
+	EdispGlast25.cxx PsfGlast25.cxx 
+Log Message:
+add using CLHEP:: ; tagging v0r1p6
+    *
+------------------------------------------------------------
 User: jchiang  Tue Mar 21 13:40:55 PST 2006
 irfs/g25Response/doc
 
