@@ -14,10 +14,11 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "CLHEP/Random/RandomEngine.h"
-#include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/RandFlat.h"
 #include "CLHEP/Geometry/Vector3D.h"
+
+using CLHEP::RandFlat;
+using CLHEP::Hep3Vector;
 
 #include "irfInterface/AcceptanceCone.h"
 #include "st_facilities/FitsUtil.h"
