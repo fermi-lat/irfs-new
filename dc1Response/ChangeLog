@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Mar 21 13:26:15 PST 2006
+irfs/dc1Response/src
+
+Modified Files:
+	EdispDC1.cxx PsfDC1.cxx 
+Log Message:
+add using CLHEP:: ; tagging v0r2p8
+    *
+------------------------------------------------------------
+User: jchiang  Tue Mar 21 13:26:15 PST 2006
 irfs/dc1Response/doc
 
 Modified Files:
