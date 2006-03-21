@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Mar 21 13:44:06 PST 2006
+irfs/testResponse/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+add using CLHEP:: ; tagging v0r4p3
+    *
+------------------------------------------------------------
+User: jchiang  Tue Mar 21 13:44:06 PST 2006
 irfs/testResponse/cmt
 
 Modified Files:
