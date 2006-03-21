@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  21-Mar-06 v1r0p8  JC    add using CLHEP::
   28-Feb-06 v1r0p7  JC    klugey patch for angular integral error (at high
                           energies/small angular scales) found by Luis in
                           unbinned likelihood analyses

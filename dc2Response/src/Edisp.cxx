@@ -15,6 +15,8 @@
 
 #include "CLHEP/Random/RandFlat.h"
 
+using CLHEP::RandFlat;
+
 #include <tip/IFileSvc.h>
 #include <tip/Table.h>
 

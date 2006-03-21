@@ -3,7 +3,7 @@
 #include "dc2Response/loadIrfs.h"
 
 int main() {
-   try {
+//    try {
       dc2Response::loadIrfs();
       irfInterface::IrfsFactory * myFactory 
          = irfInterface::IrfsFactory::instance();
@@ -17,10 +17,10 @@ int main() {
       myIrfs = myFactory->create("DC2::BackB");
       delete myIrfs;
       std::exit(0);
-   } catch (std::exception & eObj) {
-      std::cout << eObj.what() << std::endl;
-   } catch (std::string & what) {
-      std::cout << what << std::endl;
-   }
-   std::exit(1);
+//    } catch (std::exception & eObj) {
+//       std::cout << eObj.what() << std::endl;
+//    } catch (std::string & what) {
+//       std::cout << what << std::endl;
+//    }
+//    std::exit(1);
 }

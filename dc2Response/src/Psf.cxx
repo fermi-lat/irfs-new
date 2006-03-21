@@ -16,6 +16,9 @@
 #include "CLHEP/Random/RandFlat.h"
 #include "CLHEP/Geometry/Vector3D.h"
 
+using CLHEP::RandFlat;
+using CLHEP::Hep3Vector;
+
 #include "tip/IFileSvc.h"
 #include "tip/Table.h"
 
