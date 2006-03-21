@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Mar 21 13:44:06 PST 2006
+irfs/testResponse/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add using CLHEP:: ; tagging v0r4p3
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceToolsv6r2, operation: add
 Package: testResponse
