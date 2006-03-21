@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Mar 21 13:26:15 PST 2006
+irfs/dc1Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add using CLHEP:: ; tagging v0r2p8
+    *
+------------------------------------------------------------
 TAG
 Tag name: v0r2p7, operation: add
 Package: dc1Response
