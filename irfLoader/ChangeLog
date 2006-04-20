@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Apr 20 08:03:49 PDT 2006
+irfs/irfLoader/irfLoader
+
+Modified Files:
+	Loader.h 
+Log Message:
+protect swig build from SCIENCETOOLS_API macro; tagging v0r6p2
+    *
+------------------------------------------------------------
+User: jchiang  Thu Apr 20 08:03:49 PDT 2006
 irfs/irfLoader/doc
 
 Modified Files:
