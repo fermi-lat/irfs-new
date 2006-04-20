@@ -20,6 +20,8 @@
 #include "CLHEP/Geometry/Vector3D.h"
 
 #include "irfInterface/AcceptanceCone.h"
+//#include "irfUtil/Util.h"
+//#include "irfUtil/dgaus8.h"
 #include "st_facilities/FitsUtil.h"
 #include "st_facilities/dgaus8.h"
 
@@ -332,6 +334,7 @@ void PsfDC1::computeAngularIntegrals
          for (int j = 0; j < m_nesteps; j++) {
             int indx = i*m_nesteps + j;
             m_needIntegral[ipar][indx] = true;
+//            performIntegral(ipar, i, j);
          } // j
       } // i
    } // ipar
@@ -353,8 +356,8 @@ void PsfDC1::performIntegral(int ipar, int ipsi, int jen) {
    int ie = ipar % (m_energy.size()-1);
    double energy = m_energy[ie]*pow(10., m_logestep*jen);
    double err = 1e-5;
-   long ierr(1);
-   double firstIntegral(0);
+   long ierr;
+   double firstIntegral = 0;
 
 // Check if point is inside or outside the cone            
    if (m_psi[ipsi] < roi_radius) {
@@ -362,26 +365,13 @@ void PsfDC1::performIntegral(int ipar, int ipsi, int jen) {
       s_gfunc = Gint(this, ipar, energy);
       dgaus8_(&PsfDC1::gfuncIntegrand, &mum, &one, 
               &err, &firstIntegral, &ierr);
-//       if (ierr == -1) {
-//          std::cout << "A = " << mum << ", B = " << one 
-//                    << ", firstIntegral = " << firstIntegral << std::endl;
-//       }
    }
 
 // and the second.
-   double secondIntegral(0);
-   double diff = fabs(mum - mup);
-   if (diff > 1e-15) {
-      s_gfunc = Gint(this, ipar, energy, cp, sp, cr);
-      ierr = 1;
-      dgaus8_(&PsfDC1::gfuncIntegrand, &mup, &mum, 
-              &err, &secondIntegral, &ierr);
-//       if (ierr == -1) {
-//          std::cout << "A = " << mup << ", B = " << mum
-//                    << ", secondIntegral = " << firstIntegral 
-//                    << ", abs(B - A) = " << diff << std::endl;
-//       }
-   }
+   s_gfunc = Gint(this, ipar, energy, cp, sp, cr);
+   double secondIntegral;
+   dgaus8_(&PsfDC1::gfuncIntegrand, &mup, &mum, 
+           &err, &secondIntegral, &ierr);
    
    if (m_psi[ipsi] < roi_radius) {
       m_angularIntegrals[ipar][indx] = firstIntegral + secondIntegral;
