@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Apr 20 08:03:08 PDT 2006
+irfs/irfInterface/irfInterface
+
+Modified Files:
+	IrfsFactory.h 
+Log Message:
+protect swig build from SCIENCETOOLS_API macro; tagging v0r2p1
+    *
+------------------------------------------------------------
+User: jchiang  Thu Apr 20 08:03:08 PDT 2006
 irfs/irfInterface/doc
 
 Modified Files:
