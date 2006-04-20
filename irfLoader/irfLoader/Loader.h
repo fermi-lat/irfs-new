@@ -21,10 +21,13 @@ namespace irfLoader {
 /**
  * @class Loader
  *
- * $Header$
  */
 
+#ifndef SWIG
 class SCIENCETOOLS_API Loader {
+#else
+class Loader {
+#endif
 
 public:
 
@@ -66,11 +69,13 @@ private:
 
 };
 
+#ifndef SWIG
 // Opaque wrappers for class static functions since linkage on windows for
 // symbols exported from dlls is all fouled up.
 void Loader_go();
 
 const std::map<std::string, std::vector<std::string> > & Loader_respIds();
+#endif
 
 } // namespace irfLoader
 
