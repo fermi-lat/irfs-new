@@ -28,10 +28,13 @@ namespace irfInterface {
  *
  * @author J. Chiang
  *
- * $Header$
  */
 
+#ifdef SWIG
 class SCIENCETOOLS_API IrfsFactory {
+#else
+class IrfsFactory {
+#endif
 
 public:
 
