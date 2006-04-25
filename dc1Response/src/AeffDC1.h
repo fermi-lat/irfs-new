@@ -52,12 +52,17 @@ public:
 
    virtual AeffDC1 * clone() {return new AeffDC1(*this);}
 
+   virtual double upperLimit() const;
+
    double AeffValueFromTable(const double energy, const double theta) const;
 
 private:
 
    irfUtil::RootTable * m_aeff;
    std::vector<double> m_aeffTable;
+
+   double m_aeffMax;
+
    std::string m_histName;
 
    void readAeffTable();

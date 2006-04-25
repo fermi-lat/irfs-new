@@ -50,6 +50,8 @@ public:
 
    virtual AeffGlast25 * clone() {return new AeffGlast25(*this);}
 
+   virtual double upperLimit() const;
+
 private:
 
    double value(double energy, double inclination) const;
@@ -59,8 +61,11 @@ private:
    double m_fudge;
 
    std::vector<double> m_energy;
+   std::vector<double> m_logEnergy;
    std::vector<double> m_theta;
    std::vector<double> m_aeff;
+
+   double m_aeffMax;
 
 };
 

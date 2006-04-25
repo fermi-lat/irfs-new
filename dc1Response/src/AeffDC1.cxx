@@ -23,6 +23,7 @@ namespace dc1Response {
 
 AeffDC1::AeffDC1(const AeffDC1 &rhs) : IAeff(rhs), DC1(rhs) {
    m_aeff = rhs.m_aeff;
+   m_aeffMax = rhs.m_aeffMax;
    if (m_have_FITS_data) {
       m_aeffTable = rhs.m_aeffTable;
    } else {
@@ -70,6 +71,13 @@ void AeffDC1::read_FITS_table() {
    m_theta[0] = 0.;  // kludge until aeff_DC1.fits is fixed.
    st_facilities::FitsUtil::getRecordVector(m_filename, extName, "effarea",
                                             m_aeffTable);
+
+   m_aeffMax = m_aeffTable.at(i);
+   for (size_t i=1; i < m_aeffTable.size(); i++) {
+      if (m_aeffMax < m_aeffTable.at(i)) {
+         m_aeffMax = m_aeffTable;
+      }
+   }
 }
 
 void AeffDC1::readAeffTable() {
