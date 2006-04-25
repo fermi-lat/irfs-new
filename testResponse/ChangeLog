@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 25 08:40:22 PDT 2006
+irfs/testResponse/src
+
+Modified Files:
+	Aeff.cxx Aeff.h 
+Log Message:
+Aeff::upperLimit()
+    *
+------------------------------------------------------------
 TAG
 Tag name: v0r4p3, operation: add
 Package: testResponse
