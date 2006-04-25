@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Apr 25 06:53:34 PDT 2006
+irfs/g25Response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+implement Aeff::upperLimit
+    *
+------------------------------------------------------------
+User: jchiang  Tue Apr 25 06:53:34 PDT 2006
 irfs/g25Response/src
 
 Modified Files:
