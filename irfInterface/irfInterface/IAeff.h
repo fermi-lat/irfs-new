@@ -60,6 +60,10 @@ public:
 
    virtual IAeff * clone() = 0;
 
+//    /// @return An absolute upper limit on the value of the effective
+//    /// area for all energies and directions (cm^2).
+//    virtual double upperLimit() const = 0;
+
 };
 
 } // namespace irfInterface
