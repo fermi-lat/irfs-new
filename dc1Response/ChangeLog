@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Apr 25 06:54:37 PDT 2006
+irfs/dc1Response/src
+
+Modified Files:
+	AeffDC1.cxx AeffDC1.h 
+Log Message:
+implement Aeff::upperLimit
+    *
+------------------------------------------------------------
+User: jchiang  Tue Apr 25 06:54:37 PDT 2006
 irfs/dc1Response/cmt
 
 Modified Files:
