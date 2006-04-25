@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 25 06:53:34 PDT 2006
+irfs/g25Response/src
+
+Modified Files:
+	AeffGlast25.cxx AeffGlast25.h 
+Log Message:
+implement Aeff::upperLimit
+    *
+------------------------------------------------------------
 User: jchiang  Tue Apr 25 06:53:33 PDT 2006
 irfs/g25Response/cmt
 
