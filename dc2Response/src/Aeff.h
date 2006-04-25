@@ -45,6 +45,8 @@ public:
 
    virtual Aeff * clone() {return new Aeff(*this);}
 
+   virtual double upperLimit() const;
+
 private:
 
    std::vector< std::vector<double> > m_effArea;
@@ -52,6 +54,7 @@ private:
    std::vector<double> m_logEhi;
    std::vector<double> m_logE;
    std::vector<double> m_cosinc;
+   double m_aeffMax;
 
    void readData();
 

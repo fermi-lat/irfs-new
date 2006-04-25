@@ -91,4 +91,8 @@ double Aeff::value(double energy, double theta, double phi) const {
    }
 }
 
+double Aeff::upperLimit() const {
+   return m_params.at(0);
+}
+
 } // namespace dc1aResponse

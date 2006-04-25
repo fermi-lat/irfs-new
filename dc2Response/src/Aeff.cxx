@@ -22,16 +22,14 @@
 namespace dc2Response {
 
 Aeff::Aeff(const std::string & filename, const std::string & extname) 
-   : DC2(filename, extname) {
+   : DC2(filename, extname), m_aeffMax(0) {
    readData();
 }
 
-Aeff::Aeff(const Aeff & rhs) : IAeff(rhs), DC2(rhs) {
-   m_effArea = rhs.m_effArea;
-   m_logElo = rhs.m_logElo;
-   m_logEhi = rhs.m_logEhi;
-   m_logE = rhs.m_logE;
-   m_cosinc = rhs.m_cosinc;
+Aeff::Aeff(const Aeff & rhs) 
+   : IAeff(rhs), DC2(rhs), m_effArea(rhs.m_effArea),
+     m_logElo(rhs.m_logElo), m_logEhi(rhs.m_logEhi),
+     m_logE(rhs.m_logE), m_cosinc(rhs.m_cosinc), m_aeffMax(rhs.m_aeffMax) {
 }
 
 void Aeff::readData() {
@@ -67,10 +65,14 @@ void Aeff::readData() {
          if (effarea.at(indx) <= 0) {
             effarea.at(indx) = 1e-8;
          }
+         if (effarea.at(indx) > m_aeffMax) {
+            m_aeffMax = effarea.at(indx);
+         }
          row.push_back(std::log(effarea.at(indx)*1e4));  
       }
       m_effArea.push_back(row);
    }
+   m_aeffMax *= 1e4; // convert to cm^2
    delete effArea;
 }
 
@@ -106,6 +108,10 @@ double Aeff::value(double energy, double theta, double phi) const {
    double my_value = st_facilities::Util::bilinear(m_cosinc, mu,
                                                    m_logE, logE, m_effArea);
    return std::exp(my_value);
+}
+
+double Aeff::upperLimit() const {
+   return m_aeffMax;
 }
 
 } // namespace dc2Response

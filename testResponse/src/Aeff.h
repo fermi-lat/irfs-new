@@ -49,6 +49,8 @@ public:
    virtual double value(double energy, double theta, double) const;
 
    virtual Aeff * clone() {return new Aeff(*this);}
+   
+   virtual double upperLimit() const;
 
 private:
 
