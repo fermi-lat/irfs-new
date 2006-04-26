@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  25-Apr-06 v0r5    JC    add Aeff::upperLimit
   16-Mar-06 v0r4p3  JC    add using CLHEP::
   15-Apr-05 v0r4p2  JC    improve psf integral accuracy
   23-Mar-05 v0r4p1  JC    bounds checking in Psf angular integral
