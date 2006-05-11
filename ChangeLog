@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 User: cohen  Thu May 11 13:33:00 PDT 2006
+irfs/dc2Response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+fix a small bug in the psf evaluation when separation=0, add some checks in the test executable
+
+    *
+------------------------------------------------------------
+User: cohen  Thu May 11 13:33:00 PDT 2006
 irfs/dc2Response/src
 
 Modified Files:
