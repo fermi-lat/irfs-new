@@ -114,7 +114,7 @@ double Psf::value(double separation, double angScale, double gam) const {
    double psfNorm(st_facilities::Util::interpolate(s_gammas, s_psfNorms, gam));
    double x(separation/angScale);
    if (separation == 0) {
-      return std::pow(1. + x*x/2./gam, -gam)/angScale/360./M_PI/M_PI
+      return std::pow(1. + x*x/2./gam, -gam)/angScale*90./M_PI/M_PI
          /(angScale*M_PI/180.)/psfNorm;
    }
    return ::psfFunc(x, gam)/2./M_PI/std::sin(separation*M_PI/180.)
