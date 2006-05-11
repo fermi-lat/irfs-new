@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: cohen  Thu May 11 13:33:00 PDT 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Psf.cxx 
+Log Message:
+fix a small bug in the psf evaluation when separation=0, add some checks in the test executable
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: v0r9p2, operation: add
 Package: irfs
