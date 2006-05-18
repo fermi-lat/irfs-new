@@ -16,7 +16,6 @@
 
 #include "irfInterface/IAeff.h"
 
-#include "RootTable.h"
 #include "DC1.h"
 
 namespace dc1Response {
@@ -33,13 +32,11 @@ class AeffDC1 : public irfInterface::IAeff, public DC1 {
 
 public:
 
-   /// Copy constructor
+   AeffDC1(const std::string &filename, int hdu);
+   virtual ~AeffDC1();
+
    AeffDC1(const AeffDC1 &rhs);
 
-   AeffDC1(const std::string &filename, bool getFront=true);
-   AeffDC1(const std::string &filename, int hdu);
-
-   virtual ~AeffDC1();
    virtual double value(double energy, 
                         const astro::SkyDir &srcDir, 
                         const astro::SkyDir &scZAxis,
@@ -49,15 +46,14 @@ public:
 
    virtual AeffDC1 * clone() {return new AeffDC1(*this);}
 
-   double AeffValueFromTable(const double energy, const double theta) const;
+   virtual double upperLimit() const;
 
 private:
 
-   RootTable * m_aeff;
    std::vector<double> m_aeffTable;
-   std::string m_histName;
 
-   void readAeffTable();
+   double m_aeffMax;
+
    void read_FITS_table();
    int getAeffIndex(double energy, double theta) const;
 

@@ -55,10 +55,14 @@ public:
    virtual double operator()(double energy, 
                              const astro::SkyDir &srcDir, 
                              const astro::SkyDir &scZAxis,
-                             const astro::SkyDir &scXAxis) {
+                             const astro::SkyDir &scXAxis) const {
       return value(energy, srcDir, scZAxis, scXAxis);}
 
    virtual IAeff * clone() = 0;
+
+   /// @return An absolute upper limit on the value of the effective
+   /// area for all energies and directions (cm^2).
+   virtual double upperLimit() const = 0;
 
 };
 

@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "irfInterface/IrfsFactory.h"
 #include "dc1Response/loadIrfs.h"
 
@@ -9,9 +11,22 @@ int main() {
    delete myIrfs;
    myIrfs = myFactory->create("DC1::Back");
    delete myIrfs;
-   myIrfs = myFactory->create("DC1::Front_ROOT");
+
+// try loading again
+   dc1Response::loadIrfs();
+   myIrfs = myFactory->create("DC1::Front");
    delete myIrfs;
-   myIrfs = myFactory->create("DC1::Back_ROOT");
+   myIrfs = myFactory->create("DC1::Back");
+   delete myIrfs;
+
+// access upper limit on aeff
+   std::cout << "Maximum effective areas:\n";
+   dc1Response::loadIrfs();
+   myIrfs = myFactory->create("DC1::Front");
+   std::cout << "Front: " << myIrfs->aeff()->upperLimit() << std::endl;
+   delete myIrfs;
+   myIrfs = myFactory->create("DC1::Back");
+   std::cout << "Back: " << myIrfs->aeff()->upperLimit() << std::endl;
    delete myIrfs;
 }
 
