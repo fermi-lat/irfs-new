@@ -64,7 +64,7 @@ public:
                              double energy, 
                              const astro::SkyDir &srcDir, 
                              const astro::SkyDir &scZAxis,
-                             const astro::SkyDir &scXAxis) {
+                             const astro::SkyDir &scXAxis) const {
       return value(appDir, energy, srcDir, scZAxis, scXAxis);}
 
    /// Angular integral of the PSF over the intersection of acceptance

@@ -10,21 +10,24 @@
 #ifndef irfLoader_Loader_h
 #define irfLoader_Loader_h
 
+#include <map>
 #include <string>
 #include <vector>
+
+#include "st_facilities/libStApiExports.h"
 
 namespace irfLoader {
 
 /**
  * @class Loader
- * @brief This class has Singleton-like behavior, but since it
- * comprises only static functions, the Singleton instance is never
- * explicitly accessed.
  *
- * $Header$
  */
 
+#ifndef SWIG
+class SCIENCETOOLS_API Loader {
+#else
 class Loader {
+#endif
 
 public:
 
@@ -44,24 +47,35 @@ public:
       return s_irfsNames;
    }
 
+   /// @return A reference to a map for common combinations of 
+   ///         response functions for use with a PIL entry.
+   static const std::map<std::string, std::vector<std::string> > & respIds() {
+      return s_respIds;
+   }
+
+   static void resetIrfs();
+
 protected:
 
-   Loader();
+   Loader() {}
 
    ~Loader() {}
 
-   static void create_instance() {
-      if (s_instance == 0) {
-         s_instance = new Loader();
-      }
-   }
-
 private:
 
-   static Loader * s_instance;
-
    static std::vector<std::string> s_irfsNames;
+
+   static std::map<std::string, std::vector<std::string> > s_respIds;
+
 };
+
+#ifndef SWIG
+// Opaque wrappers for class static functions since linkage on windows for
+// symbols exported from dlls is all fouled up.
+void Loader_go();
+
+const std::map<std::string, std::vector<std::string> > & Loader_respIds();
+#endif
 
 } // namespace irfLoader
 

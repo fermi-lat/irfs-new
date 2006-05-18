@@ -12,7 +12,10 @@
 #include <stdexcept>
 
 #include "astro/SkyDir.h"
-#include "irfUtil/Util.h"
+
+#include "st_facilities/FitsUtil.h"
+#include "st_facilities/Util.h"
+
 #include "AeffGlast25.h"
 
 namespace g25Response {
@@ -48,10 +51,27 @@ double AeffGlast25::value(double energy, double theta, double phi) const {
    return value(energy, theta);
 }
 
+double AeffGlast25::upperLimit() const {
+   return m_aeffMax;
+}
 
 double AeffGlast25::value(double energy, double inc) const {
    if (inc <= Glast25::incMax()) {
-      return irfUtil::Util::bilinear(m_energy, energy, m_theta, inc, m_aeff);
+      double my_value;
+      try {
+//          my_value = st_facilities::Util::bilinear(m_energy, energy, 
+//                                                   m_theta, inc, m_aeff);
+         double logEnergy = std::log(energy);
+         my_value = st_facilities::Util::bilinear(m_logEnergy, logEnergy, 
+                                                  m_theta, inc, m_aeff);
+      } catch (std::runtime_error & eObj) {
+         if (st_facilities::Util::expectedException(eObj, "Util::bilinear")) {
+            my_value = 0;
+         } else {
+            throw;
+         }
+      }
+      return my_value;
    } else {
       return 0;
    }
@@ -59,10 +79,25 @@ double AeffGlast25::value(double energy, double inc) const {
 
 void AeffGlast25::readAeffData() {
    std::string extName;
-   irfUtil::Util::getFitsHduName(m_filename, m_hdu, extName);
-   irfUtil::Util::getRecordVector(m_filename, extName, "energy", m_energy);
-   irfUtil::Util::getRecordVector(m_filename, extName, "theta", m_theta);
-   irfUtil::Util::getRecordVector(m_filename, extName, "aeff", m_aeff);
+   st_facilities::FitsUtil::getFitsHduName(m_filename, m_hdu, extName);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "energy", 
+                                            m_energy);
+   m_logEnergy.clear();
+   m_logEnergy.reserve(m_energy.size());
+   for (unsigned int i = 0; i < m_energy.size(); i++) {
+      m_logEnergy.push_back(std::log(m_energy[i]));
+   }
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "theta", 
+                                            m_theta);
+   st_facilities::FitsUtil::getRecordVector(m_filename, extName, "aeff", 
+                                            m_aeff);
+
+   m_aeffMax = m_aeff.at(0);
+   for (size_t i = 1; i < m_aeff.size(); i++) {
+      if (m_aeffMax < m_aeff.at(i)) {
+         m_aeffMax = m_aeff.at(i);
+      }
+   }
 }
 
 } // namespace g25Response

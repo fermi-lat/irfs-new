@@ -20,19 +20,7 @@ namespace testResponse {
 /**
  * @class Psf
  *
- * @brief An "idealized" LAT point-spread function class.  Following
- * what was found from the GR v4r2 AllGamma runs, we assume a
- * lognormal shape for the distribution of angular deviations.
- * The mean of the distribution is given by
- *
- * \f\[\log\psi_{\rm mean} = \log\left(\psi_0 (1/E + 1/p_3)^p_2\right),\f\]
- *
- * and the scale is the quadratic form
- *
- * \f\[ \psi_0 = p_0 (1 - \cos\theta)^2 + p_1, \f\]
- *
- * where \f$\theta\f$ is the inclination of the true photon direction
- * wrt the instrument axis.
+ * @brief An "idealized" LAT point-spread function class.
  *
  * @author J. Chiang
  *
@@ -124,6 +112,12 @@ private:
    irfInterface::AcceptanceCone * m_acceptanceCone;
 
    double m_psfNorm;
+   std::vector<double> m_scaledDevs;
+   std::vector<double> m_cumDist;
+
+   void computeCumulativeDist();
+   double scaledDist(double scaledDev) const;
+   double drawScaledDev() const;
 
    std::vector<double> m_psi;
    std::vector<double> m_sepMean;
@@ -136,19 +130,18 @@ private:
    class Gint {
    public:
       Gint() : m_psfObj(0) {}
-      Gint(Psf * psfObj, double sepMean, double logSigma) :
-         m_psfObj(psfObj), m_sepMean(sepMean), m_logSigma(logSigma),
+      Gint(Psf * psfObj, double sepMean) :
+         m_psfObj(psfObj), m_sepMean(sepMean), 
          m_doFirstTerm(true), m_cp(0), m_sp(0), m_cr(0) {}
-      Gint(Psf * psfObj, double sepMean, double logSigma,
+      Gint(Psf * psfObj, double sepMean, 
            double cp, double sp, double cr) : 
-         m_psfObj(psfObj), m_sepMean(sepMean), m_logSigma(logSigma),
+         m_psfObj(psfObj), m_sepMean(sepMean),
          m_doFirstTerm(false), m_cp(cp), m_sp(sp), m_cr(cr) {}
       virtual ~Gint() {}
       double value(double mu) const;
    private:
       Psf * m_psfObj;
       double m_sepMean;
-      double m_logSigma;
       bool m_doFirstTerm;
       double m_cp;
       double m_sp;

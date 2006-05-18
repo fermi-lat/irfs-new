@@ -36,6 +36,8 @@ public:
 
    virtual Aeff * clone() {return new Aeff(*this);}
 
+   virtual double upperLimit() const {return 0;}
+
 };
 
 #endif // irfInterface_Aeff_h
