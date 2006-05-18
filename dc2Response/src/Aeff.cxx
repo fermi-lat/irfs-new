@@ -1,80 +1,84 @@
 /** 
  * @file Aeff.cxx
  * @brief Implementation for the DC2 effective Area class.
- * @author Johann Cohen-Tanugi
+ * @author J. Chiang
  * 
  * $Header$
  */
 
 #include <cmath>
 
-#include <sstream>
 #include <stdexcept>
 
-#include "astro/SkyDir.h"
+#include "tip/IFileSvc.h"
+#include "tip/Table.h"
 
-#include "irfUtil/Util.h"
-#include "irfUtil/RootTable.h"
+#include "st_facilities/Util.h"
+
+#include "astro/SkyDir.h"
 
 #include "Aeff.h"
 
 namespace dc2Response {
 
-Aeff::Aeff(const Aeff &rhs) : IAeff(rhs), DC2(rhs) {
-   m_aeff = rhs.m_aeff;
-   if (m_have_FITS_data) {
-      m_aeffTable = rhs.m_aeffTable;
-   } else {
-      m_histName = rhs.m_histName;
-      readAeffTable();
+Aeff::Aeff(const std::string & filename, const std::string & extname) 
+   : DC2(filename, extname), m_aeffMax(0) {
+   readData();
+}
+
+Aeff::Aeff(const Aeff & rhs) 
+   : IAeff(rhs), DC2(rhs), m_effArea(rhs.m_effArea),
+     m_logElo(rhs.m_logElo), m_logEhi(rhs.m_logEhi),
+     m_logE(rhs.m_logE), m_cosinc(rhs.m_cosinc), m_aeffMax(rhs.m_aeffMax) {
+}
+
+void Aeff::readData() {
+   tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
+
+   const tip::Table * effArea = fileSvc.readTable(m_filename, m_extname);
+
+   tip::Table::ConstIterator it(effArea->begin());
+   tip::ConstTableRecord & row(*it);
+
+   std::vector<double> effarea;
+   row["effarea"].get(effarea);
+
+   std::vector<double> elo, ehi;
+   row["energ_lo"].get(elo);
+   row["energ_hi"].get(ehi);
+
+   for (size_t k = 0; k < elo.size(); k++) {
+      m_logElo.push_back(std::log(elo.at(k)));
+      m_logEhi.push_back(std::log(ehi.at(k)));
+      m_logE.push_back((m_logElo.back() + m_logEhi.back())/2.);
    }
-}
 
-Aeff::Aeff(const std::string &filename, bool getFront) 
-   : DC2(filename, false), m_aeff(0) {
-   if (getFront) {
-      m_histName = "lectf";
-   } else {
-      m_histName = "lectb";
+   std::vector<double> theta;
+   row["theta"].get(theta);
+
+   size_t indx(0);
+   for (size_t i = 0; i < theta.size(); i++) {
+      m_cosinc.push_back(std::cos(theta.at(i)));
+      std::vector<double> row;
+      for (size_t k = 0; k < m_logElo.size(); k++, indx++) {
+// convert to cm^2 and take log for inevitable extrapolations outside of grid
+         if (effarea.at(indx) <= 0) {
+            effarea.at(indx) = 1e-8;
+         }
+         if (effarea.at(indx) > m_aeffMax) {
+            m_aeffMax = effarea.at(indx);
+         }
+         row.push_back(std::log(effarea.at(indx)*1e4));  
+      }
+      m_effArea.push_back(row);
    }
-   readAeffTable();
-}
-
-Aeff::Aeff(const std::string &filename, int hdu) 
-   : DC2(filename, hdu), m_aeff(0) {
-   read_FITS_table();
-}
-
-Aeff::~Aeff() {
-   delete m_aeff;
-}
-
-void Aeff::read_FITS_table() {
-   std::string extName;
-   irfUtil::Util::getFitsHduName(m_filename, m_hdu, extName);
-   irfUtil::Util::getRecordVector(m_filename, extName, "energy_lo", m_energy);
-
-   std::vector<double> upper_bounds;
-   irfUtil::Util::getRecordVector(m_filename, extName, "energy_hi", 
-                                  upper_bounds);
-   m_energy.push_back( *(upper_bounds.end() - 1) );
-
-   irfUtil::Util::getRecordVector(m_filename, extName, "theta_lo", m_theta);
-   irfUtil::Util::getRecordVector(m_filename, extName, "theta_hi", 
-                                  upper_bounds);
-   m_theta.push_back( *(upper_bounds.end() - 1) );
-
-   m_theta[0] = 0.;  // kludge until aeff_DC2.fits is fixed.
-   irfUtil::Util::getRecordVector(m_filename, extName, "effarea", m_aeffTable);
-}
-
-void Aeff::readAeffTable() {
-   m_aeff = new irfUtil::RootTable(m_filename, m_histName);
+   m_aeffMax *= 1e4; // convert to cm^2
+   delete effArea;
 }
 
 double Aeff::value(double energy, 
-                   const astro::SkyDir &srcDir, 
-                   const astro::SkyDir &scZAxis,
+                   const astro::SkyDir & srcDir, 
+                   const astro::SkyDir & scZAxis,
                    const astro::SkyDir &) const {
 // Inclination wrt spacecraft z-axis in radians.
    double theta = srcDir.difference(scZAxis);
@@ -93,39 +97,21 @@ double Aeff::value(double energy, double theta, double phi) const {
       throw std::invalid_argument(message.str());
    }
 
-   double my_value;
+   double mu(std::cos(theta*M_PI/180.));
+   double logE(std::log(energy));
 
-   if (m_have_FITS_data) {
-      int indx = getAeffIndex(energy, theta);
-      if (indx >= 0) {
-         my_value = m_aeffTable[indx];
-      } else {
-         my_value = 0;
-      }
-   } else {
-// Convert to cm^2.
-      my_value = AeffValueFromTable(energy, theta*M_PI/180.)*1e4;
+   if (mu < m_cosinc.front() || mu > m_cosinc.back() || 
+       logE < m_logElo.front() || logE > m_logEhi.back()) {
+      return 0;
    }
-   return my_value;
-}
-   
-int Aeff::getAeffIndex(double energy, double theta) const {
-// Find the location of energy and inclination in grid boundary
-// arrays.
-   int ien, ith;
-   if (energy < *m_energy.begin() || energy >= *(m_energy.end() - 1)
-       || theta < *m_theta.begin() || theta >= *(m_theta.end() - 1)) {
-// Desired grid point is outside the valid range.
-      return -1;
-   }
-   ien = find_iterator(m_energy, energy) - m_energy.begin();
-   ith = find_iterator(m_theta, theta) - m_theta.begin();
-   int indx = ien*(m_theta.size()-1) + ith;
-   return indx;
+
+   double my_value = st_facilities::Util::bilinear(m_cosinc, mu,
+                                                   m_logE, logE, m_effArea);
+   return std::exp(my_value);
 }
 
-double Aeff::AeffValueFromTable(double energy, double theta) const {
-  return (*m_aeff)(energy, theta);
+double Aeff::upperLimit() const {
+   return m_aeffMax;
 }
 
 } // namespace dc2Response

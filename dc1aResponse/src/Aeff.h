@@ -50,6 +50,8 @@ public:
 
    virtual Aeff * clone() {return new Aeff(*this);}
 
+   virtual double upperLimit() const;
+
 private:
 
    std::vector<double> m_params;

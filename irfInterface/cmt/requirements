@@ -1,15 +1,26 @@
 package irfInterface
-version v0
+version v0r3p1
 
 author James Chiang <jchiang@slac.stanford.edu>
 
 # $Id$
 
-use STpolicy v1r*
-use astro v1r*
+use GlastPolicy v*
+use astro v*
+use st_facilities v*
 
-apply_pattern ST_library option=" -no_share "
+apply_pattern package_include
+apply_pattern package_linkopts
+apply_pattern package_stamps
+apply_pattern shared_library
+
+macro_append cppflags "" Linux " -I../src -DTRAP_FPE " 
+macro source *.cxx WIN32 "*.h *.cxx"
+
+#library irfInterface -no_share $(source)
+library irfInterface $(source)
+application test_irfInterface test/*.cxx
 
 private
 
-use cppunit v1r* IExternal
+use cppunit v* IExternal
