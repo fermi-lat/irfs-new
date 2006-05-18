@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu May 18 09:22:53 PDT 2006
+irfs/irfInterface/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+SCIENCETOOLS_API bug fix; tagging v0r3p1
+    *
+------------------------------------------------------------
 User: cohen  Thu May 11 13:33:00 PDT 2006
 irfs/dc2Response/src/test
 
