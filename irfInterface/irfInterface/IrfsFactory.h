@@ -30,7 +30,7 @@ namespace irfInterface {
  *
  */
 
-#ifdef SWIG
+#ifndef SWIG
 class SCIENCETOOLS_API IrfsFactory {
 #else
 class IrfsFactory {
