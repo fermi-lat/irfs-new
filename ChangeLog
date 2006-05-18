@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu May 18 09:22:54 PDT 2006
+irfs/irfInterface/irfInterface
+
+Modified Files:
+	IrfsFactory.h 
+Log Message:
+SCIENCETOOLS_API bug fix; tagging v0r3p1
+    *
+------------------------------------------------------------
+User: jchiang  Thu May 18 09:22:54 PDT 2006
 irfs/irfInterface/doc
 
 Modified Files:
