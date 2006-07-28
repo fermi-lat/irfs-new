@@ -2,7 +2,7 @@
 #include "irfInterface/IrfsFactory.h"
 #include "dc2Response/loadIrfs.h"
 
-void checkPsf(const irfInterface::Irfs * irf,float energy,float theta,float phi)
+void checkPsf(irfInterface::Irfs * irf,float energy,float theta,float phi)
 {
 
   //Check limit when the separation goes to 0, for which a special formula is needed

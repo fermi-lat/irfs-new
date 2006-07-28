@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  28-Jul-06 v1r1p1  JC    tag Johann's bug fix for Psf::value at zero 
+                          separation
   25-Apr-06 v1r1    JC    add Aeff::upperLimit
   21-Mar-06 v1r0p8  JC    add using CLHEP::
   28-Feb-06 v1r0p7  JC    klugey patch for angular integral error (at high
