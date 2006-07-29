@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Jul 28 19:30:59 PDT 2006
+irfs/dc2Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+include <cmath>; tagging v1r1p2
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r1p1, operation: add
 Package: dc2Response
