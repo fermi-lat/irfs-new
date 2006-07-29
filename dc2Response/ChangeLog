@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Jul 28 19:30:59 PDT 2006
+irfs/dc2Response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+include <cmath>; tagging v1r1p2
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jul 28 19:30:59 PDT 2006
 irfs/dc2Response/doc
 
 Modified Files:
