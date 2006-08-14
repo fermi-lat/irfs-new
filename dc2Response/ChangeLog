@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Aug 14 16:40:34 PDT 2006
+irfs/dc2Response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+implement irfInterface v1; tagging v2
+    *
+------------------------------------------------------------
+User: jchiang  Mon Aug 14 16:40:34 PDT 2006
 irfs/dc2Response/cmt
 
 Modified Files:
