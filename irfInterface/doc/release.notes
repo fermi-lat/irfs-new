@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  14-Aug-06 v1      JC    add time argument to IRFs component interfaces
   18-May-06 v0r3p1  JC    bug-fix: change #ifdef SWIG to #ifndef SWIG
   25-Apr-06 v0r3    JC    add virtual IAeff::upperLimit() = 0
   20-Apr-06 v0r2p1  JC    protect against exposing SCIENCETOOLS_API 
