@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 14 16:40:57 PDT 2006
+irfs/g25Response/src
+
+Modified Files:
+	AeffGlast25.cxx AeffGlast25.h EdispGlast25.cxx EdispGlast25.h 
+	PsfGlast25.cxx PsfGlast25.h 
+Log Message:
+implement irfInterface v1; tagging v1
+    *
+------------------------------------------------------------
 User: jchiang  Mon Aug 14 16:40:56 PDT 2006
 irfs/g25Response/doc
 
