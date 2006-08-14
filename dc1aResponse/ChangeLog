@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 14 16:40:16 PDT 2006
+irfs/dc1aResponse/src
+
+Modified Files:
+	Aeff.cxx Aeff.h Edisp.cxx Edisp.h Psf.cxx Psf.h 
+Log Message:
+implement irfInterface v1; tagging v1
+    *
+------------------------------------------------------------
 User: jchiang  Mon Aug 14 16:40:15 PDT 2006
 irfs/dc1aResponse/doc
 
