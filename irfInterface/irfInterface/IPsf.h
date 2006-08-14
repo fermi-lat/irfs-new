@@ -109,7 +109,7 @@ public:
                                 const astro::SkyDir &srcDir,
                                 const astro::SkyDir &scZAxis,
                                 const astro::SkyDir &scXAxis,
-                                double time) const = 0;
+                                double time=0) const = 0;
 
    virtual IPsf * clone() = 0;
 
