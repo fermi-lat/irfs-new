@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 14 15:50:14 PDT 2006
+irfs/irfInterface/irfInterface
+
+Modified Files:
+	IPsf.h 
+Log Message:
+provide default value for time argument
+    *
+------------------------------------------------------------
 User: jchiang  Mon Aug 14 12:34:40 PDT 2006
 irfs/irfInterface/src/test
 
