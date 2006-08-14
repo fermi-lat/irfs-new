@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  14-Aug-06 v1      JC    implement irfInterface v1
   25-Apr-06 v0r5    JC    add Aeff::upperLimit
   16-Mar-06 v0r4p3  JC    add using CLHEP::
   15-Apr-05 v0r4p2  JC    improve psf integral accuracy

@@ -53,14 +53,17 @@ namespace dc1aResponse {
 double Aeff::value(double energy, 
                    const astro::SkyDir &srcDir, 
                    const astro::SkyDir &scZAxis,
-                   const astro::SkyDir &scXAxis) const {
+                   const astro::SkyDir &scXAxis,
+                   double time) const {
    (void)(scXAxis);
    double theta = srcDir.difference(scZAxis)*180./M_PI;
-   return value(energy, theta, 0);
+   return value(energy, theta, 0, time);
 }
 
-double Aeff::value(double energy, double theta, double phi) const {
+double Aeff::value(double energy, double theta, double phi,
+                   double time) const {
    (void)(phi);
+   (void)(time);
 
    if (theta < 0) {
       std::ostringstream message;

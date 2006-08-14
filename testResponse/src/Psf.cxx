@@ -78,8 +78,9 @@ double Psf::value(const astro::SkyDir &appDir,
                   double energy, 
                   const astro::SkyDir &srcDir, 
                   const astro::SkyDir &scZAxis,
-                  const astro::SkyDir &) const {
-   
+                  const astro::SkyDir &,
+                  double time) const {
+   (void)(time);
 // Angle between photon and source directions in radians.
    double separation = appDir.difference(srcDir);
 
@@ -92,7 +93,9 @@ double Psf::value(const astro::SkyDir &appDir,
 astro::SkyDir Psf::appDir(double energy,
                           const astro::SkyDir &srcDir,
                           const astro::SkyDir &scZAxis,
-                          const astro::SkyDir &) const {
+                          const astro::SkyDir &,
+                          double time) const {
+   (void)(time);
    
    double inclination = srcDir.difference(scZAxis);
 
@@ -117,7 +120,7 @@ astro::SkyDir Psf::appDir(double energy,
 }
 
 double Psf::value(double separation, double energy, double theta,
-                  double phi) const {
+                  double phi, double time) const {
    if (theta < 0) {
       std::ostringstream message;
       message << "testResponse::Psf::value(...):\n"
@@ -126,6 +129,7 @@ double Psf::value(double separation, double energy, double theta,
       throw std::invalid_argument(message.str());
    }
    (void)(phi);
+   (void)(time);
    return value(separation*M_PI/180., energy, theta*M_PI/180.);
 }
 
@@ -154,17 +158,19 @@ double Psf::angularIntegral(double energy,
                             const astro::SkyDir &scZAxis,
                             const astro::SkyDir &,
                             const std::vector<irfInterface::AcceptanceCone *> 
-                            &acceptanceCones) {
+                            &acceptanceCones,
+                            double time) {
    double theta = srcDir.difference(scZAxis)*180./M_PI;
    static double phi;
-   return angularIntegral(energy, srcDir, theta, phi, acceptanceCones);
+   return angularIntegral(energy, srcDir, theta, phi, acceptanceCones, time);
 }
 
 double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
                             double theta, double phi, 
                             const std::vector<irfInterface::AcceptanceCone *> 
-                            &acceptanceCones) {
+                            &acceptanceCones, double time) {
    (void)(phi);
+   (void)(time);
    if (!m_acceptanceCone || *m_acceptanceCone != *(acceptanceCones[0])) {
       computeAngularIntegrals(acceptanceCones);
       m_haveAngularIntegrals = true;
@@ -208,8 +214,9 @@ double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
 }
 
 double Psf::angularIntegral(double energy, double theta, 
-                            double phi, double radius) const {
+                            double phi, double radius, double time) const {
    (void)(phi);
+   (void)(time);
    double scaledDev = radius*M_PI/180./sepMean(energy, theta*M_PI/180.);
    if (scaledDev >= m_scaledDevs.back()) {
       return 1.;

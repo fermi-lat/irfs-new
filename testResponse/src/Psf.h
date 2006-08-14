@@ -43,14 +43,16 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
+   /// @param time Photon arrival time (MET s)
    virtual double value(const astro::SkyDir &appDir, 
                         double energy, 
                         const astro::SkyDir &srcDir, 
                         const astro::SkyDir &scZAxis,
-                        const astro::SkyDir &scXAxis) const;
+                        const astro::SkyDir &scXAxis,
+                        double time=0) const;
 
    virtual double value(double separation, double energy, double theta,
-                        double phi) const;
+                        double phi, double time=0) const;
 
    /// Angular integral of the PSF over the intersection of acceptance
    /// cones.
@@ -60,21 +62,23 @@ public:
                    const astro::SkyDir &scZAxis,
                    const astro::SkyDir &scXAxis,
                    const std::vector<irfInterface::AcceptanceCone *> 
-                   &acceptanceCones);
+                   &acceptanceCones,
+                   double time=0);
 
    virtual double 
    angularIntegral(double energy, const astro::SkyDir &srcDir,
                    double theta, double phi, 
                    const std::vector<irfInterface::AcceptanceCone *> 
-                   &acceptanceCones);
+                   &acceptanceCones, double time=0);
 
    virtual double angularIntegral(double energy, double theta, double phi,
-                                  double radius) const;
+                                  double radius, double time=0) const;
 
    virtual astro::SkyDir appDir(double energy,
                                 const astro::SkyDir &srcDir,
                                 const astro::SkyDir &scZAxis,
-                                const astro::SkyDir &scXAxis) const;
+                                const astro::SkyDir &scXAxis, 
+                                double time=0) const;
 
    virtual Psf * clone() {return new Psf(*this);}
 

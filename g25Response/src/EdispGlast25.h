@@ -52,11 +52,13 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
+   /// @param time Photon arrival time (MET s)
    virtual double value(double appEnergy, 
                         double energy,
                         const astro::SkyDir& srcDir,
                         const astro::SkyDir& scZAxis,
-                        const astro::SkyDir& scXAxis) const;
+                        const astro::SkyDir& scXAxis,
+                        double time=0) const;
 
    /// Return the energy dispersion as a function of instrument
    /// coordinates.
@@ -66,15 +68,17 @@ public:
    ///        spacecraft z-axis (degrees).
    /// @param phi Azimuthal angle of true photon direction wrt the 
    ///        spacecraft x-axis (degrees).
+   /// @param time Photon arrival time (MET s)
    virtual double value(double appEnergy, double energy,
-                        double theta, double phi) const;
+                        double theta, double phi, double time=0) const;
 
    /// Return photon apparent energy drawn from the energy dispersion 
    /// function.
    virtual double appEnergy(double energy, 
                             const astro::SkyDir &srcDir,
                             const astro::SkyDir &scZAxis,
-                            const astro::SkyDir &scXAxis) const;
+                            const astro::SkyDir &scXAxis,
+                            double time=0) const;
 
    /// Return the integral of the energy dispersion function over
    /// the specified interval in apparent energy.
@@ -84,10 +88,12 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
+   /// @param time Photon arrival time (MET s)
    virtual double integral(double emin, double emax, double energy,
                            const astro::SkyDir &srcDir, 
                            const astro::SkyDir &scZAxis,
-                           const astro::SkyDir &scXAxis) const;
+                           const astro::SkyDir &scXAxis,
+                           double time=0) const;
 
    /// Return the integral of the energy dispersion function 
    /// using instrument coordinates.
@@ -97,8 +103,9 @@ public:
    /// @param theta True inclination angle (degrees).
    /// @param phi True azimuthal angle measured wrt the instrument
    ///            X-axis (degrees).
+   /// @param time Photon arrival time (MET s)
    virtual double integral(double emin, double emax, double energy, 
-                           double theta, double phi) const;
+                           double theta, double phi, double time=0) const;
 
    virtual EdispGlast25 * clone() {return new EdispGlast25(*this);}
 

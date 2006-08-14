@@ -41,12 +41,15 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
+   /// @param time Photon arrival time (MET s)
    virtual double value(double energy, 
                         const astro::SkyDir &srcDir, 
                         const astro::SkyDir &scZAxis,
-                        const astro::SkyDir &scXAxis) const;
+                        const astro::SkyDir &scXAxis,
+                        double time=0) const;
 
-   virtual double value(double energy, double theta, double) const;
+   virtual double value(double energy, double theta, double,
+                        double time=0) const;
 
    virtual AeffGlast25 * clone() {return new AeffGlast25(*this);}
 
