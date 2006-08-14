@@ -37,10 +37,12 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
+   /// @param time Photon arrival time (MET s).
    virtual double value(double energy, 
                         const astro::SkyDir &srcDir, 
                         const astro::SkyDir &scZAxis,
-                        const astro::SkyDir &scXAxis) const = 0;
+                        const astro::SkyDir &scXAxis,
+                        double time=0) const = 0;
 
    /// Return the effective area (cm^2) as a function of instrument 
    /// coordinates.
@@ -48,15 +50,18 @@ public:
    /// @param theta True inclination angle (degrees).
    /// @param phi True azimuthal angle measured wrt the instrument
    ///             X-axis (degrees).
-   virtual double value(double energy, double theta, double phi) const = 0;
+   /// @param time Photon arrival time (MET s).
+   virtual double value(double energy, double theta, double phi,
+                        double time=0) const = 0;
 
    /// This method is also virtual, in case the sub-classes wish to
    /// overload it.
    virtual double operator()(double energy, 
                              const astro::SkyDir &srcDir, 
                              const astro::SkyDir &scZAxis,
-                             const astro::SkyDir &scXAxis) const {
-      return value(energy, srcDir, scZAxis, scXAxis);}
+                             const astro::SkyDir &scXAxis,
+                             double time=0) const {
+      return value(energy, srcDir, scZAxis, scXAxis, time);}
 
    virtual IAeff * clone() = 0;
 

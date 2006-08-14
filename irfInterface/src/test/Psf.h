@@ -25,31 +25,35 @@ public:
                         double, 
                         const astro::SkyDir &,
                         const astro::SkyDir &,
-                        const astro::SkyDir &) const {return 0;}
+                        const astro::SkyDir &,
+                        double) const {return 0;}
 
    virtual double value(double, double, double, 
-                        double) const {return 0;}
+                        double, double) const {return 0;}
 
    virtual double angularIntegral(double,
                                   const astro::SkyDir &,
                                   const astro::SkyDir &,
                                   const astro::SkyDir &,
                                   const std::vector<irfInterface::AcceptanceCone *> 
-                                  &) {return 0;}
+                                  &,
+                                  double) {return 0;}
 
    virtual double angularIntegral(double,
                                   const astro::SkyDir &,
                                   double, double,
                                   const std::vector<irfInterface::AcceptanceCone *> 
-                                  &) {return 0;}
+                                  &,
+                                  double) {return 0;}
    
    virtual double angularIntegral(double, double, double,
-                                  double) const {return 0;}
+                                  double, double) const {return 0;}
 
    virtual astro::SkyDir appDir(double,
                                 const astro::SkyDir &,
                                 const astro::SkyDir &,
-                                const astro::SkyDir &) const {
+                                const astro::SkyDir &,
+                                double) const {
       return astro::SkyDir(0, 0);
    }
 
