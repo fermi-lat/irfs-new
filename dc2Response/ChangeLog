@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 14 16:40:34 PDT 2006
+irfs/dc2Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+implement irfInterface v1; tagging v2
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r1p2, operation: add
 Package: dc2Response
