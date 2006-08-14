@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 14 16:40:56 PDT 2006
+irfs/g25Response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+implement irfInterface v1; tagging v1
+    *
+------------------------------------------------------------
 User: jchiang  Mon Aug 14 16:40:55 PDT 2006
 irfs/g25Response/cmt
 
