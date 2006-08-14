@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 14 12:34:40 PDT 2006
+irfs/irfInterface/src/test
+
+Modified Files:
+	Aeff.h Edisp.h Psf.h 
+Log Message:
+update interfaces to include photon arrival time parameter
+    *
+------------------------------------------------------------
 User: jchiang  Mon Aug 14 12:34:39 PDT 2006
 irfs/irfInterface/irfInterface
 
