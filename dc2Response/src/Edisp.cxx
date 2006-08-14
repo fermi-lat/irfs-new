@@ -48,19 +48,21 @@ double Edisp::value(double appEnergy,
                     double energy, 
                     const astro::SkyDir &srcDir,
                     const astro::SkyDir &scZAxis,
-                    const astro::SkyDir &) const {
+                    const astro::SkyDir &,
+                    double time) const {
 // Inclination wrt spacecraft z-axis in degrees.
    double theta = srcDir.difference(scZAxis)*180./M_PI;
 
 // The azimuthal angle is not used by the DC2 irfs.
    double phi(0);
 
-   return value(appEnergy, energy, theta, phi);
+   return value(appEnergy, energy, theta, phi, time);
 }
 
 double Edisp::value(double appEnergy, double energy,
-                    double theta, double phi) const {
+                    double theta, double phi, double time) const {
    (void)(phi);
+   (void)(time);
 
    if (theta < 0) {
       std::ostringstream message;
@@ -85,7 +87,9 @@ double Edisp::value(double appEnergy, double energy,
 double Edisp::appEnergy(double energy,
                         const astro::SkyDir & srcDir,
                         const astro::SkyDir & scZAxis,
-                        const astro::SkyDir & ) const {
+                        const astro::SkyDir &,
+                        double time) const {
+   (void)(time);
    double mu(std::cos(srcDir.difference(scZAxis)));
    size_t indx = parIndex(energy, mu);
 
@@ -122,14 +126,16 @@ size_t Edisp::parIndex(double energy, double mu) const {
 double Edisp::integral(double emin, double emax, double energy,
                        const astro::SkyDir & srcDir, 
                        const astro::SkyDir & scZAxis,
-                       const astro::SkyDir & ) const {
+                       const astro::SkyDir &,
+                       double time) const {
    return integral(emin, emax, energy,
-                   srcDir.difference(scZAxis)*180./M_PI, 0);
+                   srcDir.difference(scZAxis)*180./M_PI, 0, time);
 }
    
 double Edisp::integral(double emin, double emax, double energy, 
-                       double theta, double phi) const {
+                       double theta, double phi, double time) const {
    (void)(phi);
+   (void)(time);
    if (theta < 0) {
       std::ostringstream message;
       message << "dc2Response::Edisp"

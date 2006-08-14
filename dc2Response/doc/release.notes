@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  14-Aug-06 v2      JC    implement irfInterface v1
   28-Jul-06 v1r1p2  JC    include <cmath> in test.cxx for windows
   28-Jul-06 v1r1p1  JC    tag Johann's bug fix for Psf::value at zero 
                           separation

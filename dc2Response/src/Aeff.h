@@ -39,9 +39,11 @@ public:
    virtual double value(double energy, 
                         const astro::SkyDir &srcDir, 
                         const astro::SkyDir &scZAxis,
-                        const astro::SkyDir &scXAxis) const;
+                        const astro::SkyDir &scXAxis, 
+                        double time=0) const;
 
-   virtual double value(double energy, double theta, double) const;
+   virtual double value(double energy, double theta, double,
+                        double time=0) const;
 
    virtual Aeff * clone() {return new Aeff(*this);}
 

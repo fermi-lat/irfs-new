@@ -79,15 +79,18 @@ void Aeff::readData() {
 double Aeff::value(double energy, 
                    const astro::SkyDir & srcDir, 
                    const astro::SkyDir & scZAxis,
-                   const astro::SkyDir &) const {
+                   const astro::SkyDir &,
+                   double time) const {
 // Inclination wrt spacecraft z-axis in radians.
    double theta = srcDir.difference(scZAxis);
    theta *= 180./M_PI;
-   return value(energy, theta, 0.);
+   return value(energy, theta, 0., time);
 }
 
-double Aeff::value(double energy, double theta, double phi) const {
+double Aeff::value(double energy, double theta, double phi,
+                   double time) const {
    (void)(phi);
+   (void)(time);
 
    if (theta < 0) {
       std::ostringstream message;
