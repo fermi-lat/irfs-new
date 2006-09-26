@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 User: burnett  Tue Sep 26 08:59:14 PDT 2006
+users/burnett/handoff_response/src/gen
+
+Modified Files:
+	IRF.h PointSpreadFunction.cxx PointSpreadFunction.h PsfPlots.h 
+	Root_base.h 
+Log Message:
+improve doxy stuff
+    *
+------------------------------------------------------------
+User: burnett  Tue Sep 26 08:59:14 PDT 2006
 users/burnett/handoff_response
 
 Modified Files:
