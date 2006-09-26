@@ -38,7 +38,7 @@ logE	sigma	gamma	accept	sigma	gamma	accept
 */
 class Reformat {
 public:
-    ///@param filename name of root file
+    ///@param filepath path to  root file
     ///@param out output stream
     Reformat(std::string filepath, std::ostream& out)
         :m_filepath(filepath)

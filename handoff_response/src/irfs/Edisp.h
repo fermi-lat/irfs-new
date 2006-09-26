@@ -35,11 +35,11 @@ public:
    virtual ~Edisp() {}
 
    /// A member function returning the energy dispersion function.
+   /// @param appEnergy measured photon energy in MeV.
    /// @param energy True photon energy in MeV.
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
-   /// @param time Photon arrival time (MET s)
    virtual double value(double appEnergy, 
                         double energy,
                         const astro::SkyDir &srcDir, 
@@ -62,7 +62,6 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
-   /// @param time Photon arrival time (MET s)
    virtual double integral(double emin, double emax, double energy,
                            const astro::SkyDir &srcDir, 
                            const astro::SkyDir &scZAxis,
@@ -76,7 +75,6 @@ public:
    /// @param theta True inclination angle (degrees).
    /// @param phi True azimuthal angle measured wrt the instrument
    ///            X-axis (degrees).
-   /// @param time Photon arrival time (MET s)
    virtual double integral(double emin, double emax, double energy, 
                            double theta, double phi) const;
 

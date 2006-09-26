@@ -1,4 +1,5 @@
 /** @file PointSpreadFunction.cxx
+@brief implementation of class PointSpreadFunction
 
 $Header$
 

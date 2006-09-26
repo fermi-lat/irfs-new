@@ -1,12 +1,13 @@
 /** @file mainpage.h
+@brief doxygen mainpage
+
  $Header$
-Mainpage for doxygen
 */
 /*! \mainpage package handoff_response
 
    \authors Toby Burnett
 
-  IRF analysis package
+  IRF analysis package, combining generation of the fit parameters, and an interface of the resulting functions to irfInterface
 
 
     <hr>

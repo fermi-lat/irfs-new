@@ -32,7 +32,10 @@ public:
         return buffer;
     }
 
-    /// @return angular bin number
+    /**
+        @param zdir cos(theta)
+        @return angular bin number
+    */
     int angle_bin(double zdir){
         return static_cast<int>( (zdir+1.0)/0.1);
     }
@@ -44,7 +47,9 @@ public:
         return buffer;
     }
 
-    /// @return energy bin number
+    /** @param energy energy in MeV
+        @return energy bin number
+    */
     int energy_bin(double energy){
         double logestart(logemin+0.5*logedelta);
         return static_cast<int>((log10(energy)-logestart+0.5*logedelta)/logedelta);

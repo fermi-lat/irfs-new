@@ -1,4 +1,5 @@
 /** @file PointSpreadFunction.h
+@brief declaration of class PointSpreadFunction
 
 $Header$
 

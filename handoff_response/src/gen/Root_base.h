@@ -1,4 +1,5 @@
 /** @file Root_base.h"
+@brief declare class Root_base
 
 $Header$
 

@@ -1,11 +1,14 @@
 /** @file PsfPlots.h
+    @brief declare class PsfPlots
+
+    $Header$
 */
 #ifndef IRF_PsfPlots_h
 #define IRF_PsfPlots_h
 
 
 class IrfAnalysis;
-class TH2F;
+
 
 #include "PointSpreadFunction.h"
 #include <vector>
