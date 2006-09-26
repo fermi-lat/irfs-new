@@ -1,0 +1,81 @@
+------------------------------------------------------------
+User: burnett  Tue Sep 26 01:33:17 PDT 2006
+users/burnett/handoff_response
+
+Log Message:
+initial import
+
+Status:
+
+Vendor Tag:	THB
+Release Tags:	v0
+		
+N users/burnett/handoff_response/.cvsignore
+N users/burnett/handoff_response/cmt/.cvsignore
+N users/burnett/handoff_response/cmt/NMake
+N users/burnett/handoff_response/cmt/requirements
+N users/burnett/handoff_response/data/parameters.root
+N users/burnett/handoff_response/doc/release.notes
+N users/burnett/handoff_response/handoff_response/IrfEval.h
+N users/burnett/handoff_response/handoff_response/loadIrfs.h
+N users/burnett/handoff_response/src/loadIrfs.cxx
+N users/burnett/handoff_response/src/mainpage.h
+N users/burnett/handoff_response/src/gen/Dispersion.cxx
+N users/burnett/handoff_response/src/gen/Dispersion.h
+N users/burnett/handoff_response/src/gen/EffectiveArea.cxx
+N users/burnett/handoff_response/src/gen/EffectiveArea.h
+N users/burnett/handoff_response/src/gen/IRF.cxx
+N users/burnett/handoff_response/src/gen/IRF.h
+N users/burnett/handoff_response/src/gen/IrfAnalysis.cxx
+N users/burnett/handoff_response/src/gen/IrfAnalysis.h
+N users/burnett/handoff_response/src/gen/IrfEval.cxx
+N users/burnett/handoff_response/src/gen/MyAnalysis.cxx
+N users/burnett/handoff_response/src/gen/MyAnalysis.h
+N users/burnett/handoff_response/src/gen/PointSpreadFunction.cxx
+N users/burnett/handoff_response/src/gen/PointSpreadFunction.h
+N users/burnett/handoff_response/src/gen/PsfPlots.cxx
+N users/burnett/handoff_response/src/gen/PsfPlots.h
+N users/burnett/handoff_response/src/gen/Root_base.h
+N users/burnett/handoff_response/src/gen/Setup.cxx
+N users/burnett/handoff_response/src/gen/Setup.h
+N users/burnett/handoff_response/src/gen/TreeWrapper.cxx
+N users/burnett/handoff_response/src/gen/TreeWrapper.h
+N users/burnett/handoff_response/src/gen/makeirf/irf.cxx
+N users/burnett/handoff_response/src/gen/prune/prune.cxx
+N users/burnett/handoff_response/src/gen/reformat/reformat.cxx
+N users/burnett/handoff_response/src/irfs/Aeff.cxx
+N users/burnett/handoff_response/src/irfs/Aeff.h
+N users/burnett/handoff_response/src/irfs/Edisp.cxx
+N users/burnett/handoff_response/src/irfs/Edisp.h
+N users/burnett/handoff_response/src/irfs/IrfLoader.cxx
+N users/burnett/handoff_response/src/irfs/IrfLoader.h
+N users/burnett/handoff_response/src/irfs/Psf.cxx
+N users/burnett/handoff_response/src/irfs/Psf.h
+N users/burnett/handoff_response/src/test/test.cxx
+N users/burnett/handoff_response/VC8debug/BuildLog.htm
+N users/burnett/handoff_response/VC8debug/handoff_response.dll
+N users/burnett/handoff_response/VC8debug/handoff_response.lib
+N users/burnett/handoff_response/VC8debug/handoff_response.shstamp
+N users/burnett/handoff_response/VC8debug/handoff_response.stamp
+N users/burnett/handoff_response/VC8debug/makeirf.ilk
+N users/burnett/handoff_response/VC8debug/makeirf.pdb
+N users/burnett/handoff_response/VC8debug/prune.ilk
+N users/burnett/handoff_response/VC8debug/prune.pdb
+N users/burnett/handoff_response/VC8debug/reformat.ilk
+N users/burnett/handoff_response/VC8debug/reformat.pdb
+N users/burnett/handoff_response/VC8debug/test_handoff_response.ilk
+N users/burnett/handoff_response/VC8debug/test_handoff_response.pdb
+N users/burnett/handoff_response/VC8debug/handoff_response/BuildLog.htm
+N users/burnett/handoff_response/VC8debug/handoff_response/vc70.idb
+N users/burnett/handoff_response/VC8debug/makeirf/BuildLog.htm
+N users/burnett/handoff_response/VC8debug/makeirf/vc70.idb
+N users/burnett/handoff_response/VC8debug/prune/BuildLog.htm
+N users/burnett/handoff_response/VC8debug/prune/vc70.idb
+N users/burnett/handoff_response/VC8debug/reformat/BuildLog.htm
+N users/burnett/handoff_response/VC8debug/reformat/vc70.idb
+N users/burnett/handoff_response/VC8debug/test_handoff_response/BuildLog.htm
+N users/burnett/handoff_response/VC8debug/test_handoff_response/vc70.idb
+
+No conflicts created by this import
+
+    *
