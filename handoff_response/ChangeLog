@@ -1,5 +1,16 @@
 ------------------------------------------------------------
 User: burnett  Sun Oct  8 14:50:44 PDT 2006
+users/burnett/handoff_response/src/irfs
+
+Modified Files:
+	IrfLoader.cxx IrfLoader.h 
+Added Files:
+	RootEval.cxx RootEval.h 
+Log Message:
+documentation; bug fixes; define abstract base class for interpreting files.
+    *
+------------------------------------------------------------
+User: burnett  Sun Oct  8 14:50:44 PDT 2006
 users/burnett/handoff_response/src/gen
 
 Modified Files:
