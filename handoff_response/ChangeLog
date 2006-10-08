@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Sun Oct  8 14:50:44 PDT 2006
+users/burnett/handoff_response/cmt
+
+Modified Files:
+	alias.bat 
+Log Message:
+documentation; bug fixes; define abstract base class for interpreting files.
+    *
+------------------------------------------------------------
 User: burnett  Tue Sep 26 08:59:14 PDT 2006
 users/burnett/handoff_response/cmt
 
