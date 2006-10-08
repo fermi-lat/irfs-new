@@ -19,7 +19,7 @@
 #include "tip/IFileSvc.h"
 #include "tip/Table.h"
 
-#include "st_facilities/FitsUtil.h"
+#include "irfUtil/Util.h"
 
 #include "DC1.h"
 
@@ -60,11 +60,10 @@ void DC1::readFitParams() {
 
    if (m_have_FITS_data) {
       std::vector< std::vector<double> > my_params(m_npars);
-      st_facilities::FitsUtil::getFitsHduName(m_filename, m_hdu,
-                                              extensionName);
-      st_facilities::FitsUtil::getFitsColNames(m_filename, m_hdu, colNames);
+      irfUtil::Util::getFitsHduName(m_filename, m_hdu, extensionName);
+      irfUtil::Util::getFitsColNames(m_filename, m_hdu, colNames);
       for (int icol = 0; icol < m_npars; icol++) {
-         st_facilities::FitsUtil::getRecordVector(m_filename, extensionName, 
+         irfUtil::Util::getRecordVector(m_filename, extensionName, 
                          colNames[icol], my_params[icol]);
       }
       int nrows = my_params[0].size();
@@ -138,16 +137,13 @@ int DC1::getParamsIndex(double energy, double inc) const {
 void DC1::readGridBoundaries() {
    if (m_have_FITS_data) {
       std::string extName;
-      st_facilities::FitsUtil::getFitsHduName(m_filename, m_hdu, extName);
-      st_facilities::FitsUtil::getRecordVector(m_filename, extName, "theta",
-                                               m_theta);
-      st_facilities::FitsUtil::getRecordVector(m_filename, extName, "energy",
-                                               m_energy);
+      irfUtil::Util::getFitsHduName(m_filename, m_hdu, extName);
+      irfUtil::Util::getRecordVector(m_filename, extName, "theta", m_theta);
+      irfUtil::Util::getRecordVector(m_filename, extName, "energy", m_energy);
    } else {
-      st_facilities::FitsUtil::getTableVector(m_filename, "thetaGrid", "theta",
-                                              m_theta);
-      st_facilities::FitsUtil::getTableVector(m_filename, "energyGrid",
-                                              "energy", m_energy);
+      irfUtil::Util::getTableVector(m_filename, "thetaGrid", "theta", m_theta);
+      irfUtil::Util::getTableVector(m_filename, "energyGrid", "energy", 
+                                    m_energy);
    }
 }
 

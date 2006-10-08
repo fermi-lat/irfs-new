@@ -1,29 +1,17 @@
 package irfLoader
-version v0r6p2
+version v0r1
 
 author James Chiang <jchiang@slac.stanford.edu>
 
 # $Id$
 
-use STpolicy v*
-use dc1Response v* irfs
-use dc1aResponse v* irfs
-use dc2Response v* irfs
-use g25Response v* irfs
-use testResponse v* irfs
+use STpolicy v1r*
+use dc1Response v0* irfs
+use g25Response v0* irfs
+use testResponse v0* irfs
 
-apply_pattern package_include
-apply_pattern package_linkopts
-apply_pattern package_stamps
-apply_pattern shared_library
-
-macro_append cppflags "" Linux " -I../src -DTRAP_FPE " 
-macro source *.cxx WIN32 "*.h *.cxx"
-
-#library irfLoader -no_share $(source)
-library irfLoader $(source)
-application test_irfLoader test/*.cxx
+apply_pattern ST_library option=" -no_share "
 
 private
 
-use cppunit v* IExternal
+use cppunit v1r* IExternal

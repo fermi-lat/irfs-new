@@ -11,9 +11,9 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "CLHEP/Random/RandomEngine.h"
+#include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/RandGauss.h"
-
-using CLHEP::RandGauss;
 
 #include "astro/SkyDir.h"
 
@@ -48,21 +48,19 @@ double EdispDC1::value(double appEnergy,
                        double energy, 
                        const astro::SkyDir &srcDir,
                        const astro::SkyDir &scZAxis,
-                       const astro::SkyDir &, 
-                       double time) const {
+                       const astro::SkyDir &) const {
 // Inclination wrt spacecraft z-axis in degrees.
    double theta = srcDir.difference(scZAxis)*180./M_PI;
 
 // The azimuthal angle is not used by the DC1 irfs.
    double phi(0);
 
-   return value(appEnergy, energy, theta, phi, time);
+   return value(appEnergy, energy, theta, phi);
 }
 
 double EdispDC1::value(double appEnergy, double energy,
-                       double theta, double phi, double time) const {
+                       double theta, double phi) const {
    (void)(phi);
-   (void)(time);
 
    if (theta < 0) {
       std::ostringstream message;
@@ -85,9 +83,7 @@ double EdispDC1::value(double appEnergy, double energy,
 double EdispDC1::appEnergy(double energy,
                            const astro::SkyDir &srcDir,
                            const astro::SkyDir &scZAxis,
-                           const astro::SkyDir &, 
-                           double time) const {
-   (void)(time);
+                           const astro::SkyDir &) const {
 // Inclination wrt spacecraft z-axis in degrees.
    double inc = srcDir.difference(scZAxis)*180./M_PI;
 
@@ -105,19 +101,16 @@ double EdispDC1::appEnergy(double energy,
 double EdispDC1::integral(double emin, double emax, double energy,
                           const astro::SkyDir &srcDir, 
                           const astro::SkyDir &scZAxis,
-                          const astro::SkyDir &scXAxis, 
-                          double time) const {
+                          const astro::SkyDir &scXAxis) const {
    (void)(scXAxis);
-   (void)(time);
    double phi(0);
    double theta = srcDir.difference(scZAxis)*180./M_PI;
    return integral(emin, emax, energy, theta, phi);
 }
    
 double EdispDC1::integral(double emin, double emax, double energy, 
-                          double theta, double phi, double time) const {
+                          double theta, double phi) const {
    (void)(phi);
-   (void)(time);
    if (theta < 0) {
       std::ostringstream message;
       message << "dc1Response::EdispDC1"

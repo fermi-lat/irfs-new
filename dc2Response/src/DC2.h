@@ -26,6 +26,14 @@ namespace dc2Response {
 
 class DC2 {
 
+public:
+
+   virtual ~DC2() {}
+
+   /// Return the maximum allowed value of the source inclination wrt
+   /// the instrument z-axis (in degrees).
+   double incMax();
+
 protected:
 
    /// There is no reason to create an object directly from this
@@ -33,17 +41,37 @@ protected:
    /// to the sub-classes).
    DC2() {}
 
-   DC2(const std::string & filename, const std::string & extname);
+   DC2(const std::string &filename, bool havePars=true);
+
+   /// Use this constructor for psf and edisp FITS files.
+   DC2(const std::string &filename, int hdu, int npars);
+
+   /// Use this constructor for aeff FITS files.
+   DC2(const std::string &filename, int hdu);
 
    DC2(const DC2 &rhs);
 
    std::string m_filename;
-   std::string m_extname;
+
+   int m_hdu;
+   int m_npars;
+   bool m_have_FITS_data;
+
+   std::vector< std::vector<double> > m_pars;
+   std::vector<double> m_theta;
+   std::vector<double> m_energy;
+
+   void readFitParams();
+   void readGridBoundaries();
+
+   const std::vector<double> &fitParams(double energy, 
+                                        double inclination) const;
+   int getParamsIndex(double energy, double inclination) const;
 
    /// Return the iterator pointing to the element just below or equal
    /// to the target value.
-   static std::vector<double>::const_iterator
-   find_iterator(const std::vector<double> & gridValues, double target);
+   std::vector<double>::const_iterator
+   find_iterator(const std::vector<double> &gridValues, double target) const;
 
 };
 

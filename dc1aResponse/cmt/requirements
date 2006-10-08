@@ -1,19 +1,19 @@
 package dc1aResponse
-version v1
+version v0r1
 
 author James Chiang <jchiang@slac.stanford.edu>
 
 # $Id$
 
 use GlastPolicy v*
-use irfInterface v* irfs
-use irfUtil v* irfs
-use caldb v* irfs
+use irfInterface v0* irfs
+use irfUtil v0* irfs
+use caldb v0* irfs
 use CLHEP v* IExternal
 use f2c v*
-use astro v*
-use tip v*
-use st_facilities v*
+use astro v1r*
+use tip v2*
+use st_facilities v0*
 
 apply_pattern package_include
 apply_pattern package_linkopts

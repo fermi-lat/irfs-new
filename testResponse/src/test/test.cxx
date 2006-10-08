@@ -73,8 +73,6 @@ void test_aeff() {
               << aeff->value(energy, theta, phi) << std::endl;
    }
    outfile.close();
-
-   std::cout << "Max. effective area: " << aeff->upperLimit() << std::endl;
 }
 
 void test_psf(int iargc, char * argv[]) {

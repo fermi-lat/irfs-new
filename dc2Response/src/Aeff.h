@@ -1,13 +1,15 @@
 /**
  * @file Aeff.h
  * @brief Aeff class declaration for DC2.
- * @author J. Chiang
+ * @author Johann Cohen-Tanugi
  *
  * $Header$
  */
   
 #ifndef dc2Response_Aeff_h
 #define dc2Response_Aeff_h
+
+#include <cmath>
 
 #include <string>
 #include <vector>
@@ -16,12 +18,16 @@
 
 #include "DC2.h"
 
+namespace irfUtil {
+   class RootTable;
+}
+
 namespace dc2Response {
 
 /**
  * @class Aeff
  * @brief Aeff class implementation for DC2.
- * @author J. Chiang
+ * @author Johann Cohen-Tanugi
  *
  * $Header$
  */
@@ -30,35 +36,33 @@ class Aeff : public irfInterface::IAeff, public DC2 {
 
 public:
 
-   Aeff(const std::string & filename, const std::string & extname);
+   Aeff(const std::string &filename, bool getFront=true);
+   Aeff(const std::string &filename, int hdu);
 
-   Aeff(const Aeff & rhs);
+   virtual ~Aeff();
 
-   virtual ~Aeff() {}
+   Aeff(const Aeff &rhs);
 
    virtual double value(double energy, 
                         const astro::SkyDir &srcDir, 
                         const astro::SkyDir &scZAxis,
-                        const astro::SkyDir &scXAxis, 
-                        double time=0) const;
+                        const astro::SkyDir &scXAxis) const;
 
-   virtual double value(double energy, double theta, double,
-                        double time=0) const;
+   virtual double value(double energy, double theta, double) const;
 
    virtual Aeff * clone() {return new Aeff(*this);}
 
-   virtual double upperLimit() const;
+   double AeffValueFromTable(const double energy, const double theta) const;
 
 private:
 
-   std::vector< std::vector<double> > m_effArea;
-   std::vector<double> m_logElo;
-   std::vector<double> m_logEhi;
-   std::vector<double> m_logE;
-   std::vector<double> m_cosinc;
-   double m_aeffMax;
+   irfUtil::RootTable * m_aeff;
+   std::vector<double> m_aeffTable;
+   std::string m_histName;
 
-   void readData();
+   void readAeffTable();
+   void read_FITS_table();
+   int getAeffIndex(double energy, double theta) const;
 
 };
 

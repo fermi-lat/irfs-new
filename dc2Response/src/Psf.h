@@ -10,6 +10,7 @@
 #define dc2Response_Psf_h
 
 #include <string>
+#include <valarray>
 #include <vector>
 
 #include "irfInterface/IPsf.h"
@@ -19,12 +20,10 @@
 
 namespace dc2Response {
 
-   class PsfScaling;
-
 /**
  * @class Psf
  *
- * @brief A LAT point-spread function class for DC2.
+ * @brief A LAT point-spread function class using the DC2 AllGamma data.
  *
  * @author J. Chiang
  *
@@ -35,11 +34,13 @@ class Psf : public irfInterface::IPsf, public DC2 {
 
 public:
 
-   Psf(const std::string & fitsfile, const std::string & extname);
+   Psf(const std::string &filename);
+
+   Psf(const std::string &filename, int hdu, int npars);
 
    virtual ~Psf();
 
-   Psf(const Psf & rhs);
+   Psf(const Psf &rhs);
 
    /// A member function returning the point-spread function value.
    /// @param appDir Apparent (reconstructed) photon direction.
@@ -47,147 +48,116 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
-   /// @param time Photon arrival time (MET s)
-   virtual double value(const astro::SkyDir & appDir, 
+   virtual double value(const astro::SkyDir &appDir, 
                         double energy, 
-                        const astro::SkyDir & srcDir, 
-                        const astro::SkyDir & scZAxis,
-                        const astro::SkyDir & scXAxis, 
-                        double time=0) const;
+                        const astro::SkyDir &srcDir, 
+                        const astro::SkyDir &scZAxis,
+                        const astro::SkyDir &scXAxis) const;
 
-   /// Return the psf as a function of instrument coordinates.
-   /// @param separation Angle between apparent and true photon directions
-   ///        (degrees).
-   /// @param energy True photon energy (MeV).
-   /// @param theta True photon inclination angle (degrees).
-   /// @param phi True photon azimuthal angle measured wrt the instrument
-   ///            X-axis (degrees).
-   /// @param time Photon arrival time (MET s)
    virtual double value(double separation, double energy, double theta,
-                        double phi, double time=0) const;
+                        double phi) const;
 
    /// Angular integral of the PSF over the intersection of acceptance
    /// cones.
    virtual double 
    angularIntegral(double energy,
-                   const astro::SkyDir & srcDir,
-                   const astro::SkyDir & scZAxis,
-                   const astro::SkyDir & scXAxis,
+                   const astro::SkyDir &srcDir,
+                   const astro::SkyDir &scZAxis,
+                   const astro::SkyDir &scXAxis,
                    const std::vector<irfInterface::AcceptanceCone *> 
-                   & acceptanceCones,
-                   double time=0);
+                   &acceptanceCones);
 
    virtual double 
-   angularIntegral(double energy,
-                   const astro::SkyDir & srcDir,
-                   double theta, 
-                   double phi, 
+   angularIntegral(double energy, const astro::SkyDir &srcDir,
+                   double theta, double phi, 
                    const std::vector<irfInterface::AcceptanceCone *> 
-                   & acceptanceCones, double time=0);
+                   &acceptanceCones);
 
    virtual double angularIntegral(double energy, double theta, double phi,
-                                  double radius, double time=0) const;
+                                  double radius) const;
 
    virtual astro::SkyDir appDir(double energy,
-                                const astro::SkyDir & srcDir,
-                                const astro::SkyDir & scZAxis,
-                                const astro::SkyDir & scXAxis,
-                                double time=0) const;
+                                const astro::SkyDir &srcDir,
+                                const astro::SkyDir &scZAxis,
+                                const astro::SkyDir &scXAxis) const;
 
-   virtual Psf * clone() {
-      return new Psf(*this);
-   }
-
-   double drawOffset(double energy, double mu) const;
-
-   double drawScaledDev(double gamma) const;
-
-   const std::vector<double> & lowerFracs() const {
-      return s_lowerFractions;
-   }
-
-protected:
-
-   /// Disable this.
-   Psf & operator=(const Psf & rhs) {
-      return *this;
-   }
+   virtual Psf * clone() {return new Psf(*this);}
 
 private:
 
-   PsfScaling * m_psfScaling;
+   /// Prevent compiler-generated version.
+   Psf & operator=(const Psf &);
 
-   std::vector<double> m_sigma;
-   std::vector<double> m_gamma;
+   /// @param separation Angle between true/source and apparent photon 
+   ///        directions in *radians*
+   /// @param energy True photon energy (MeV)
+   /// @param inclination Angle between source direction and spacecraft
+   ///        z-axis (degrees)
+   double value(double separation, double energy, double inclination) const;
 
-   std::vector<double> m_logElo;
-   std::vector<double> m_logEhi;
-   std::vector<double> m_logE;
-   std::vector<double> m_cosinc;
+   /// This implements the Perugia parameterization of the PSF
+   /// distributions.
+   double value(double scaledAngle, std::vector<double> &pars) const;
 
-   static std::vector<double> s_psi;
-   std::vector<double> m_angScale;
-   std::vector<double> m_gamValues;
+   void readEnergyScaling();
+   double energyScaling(double energy) const;
 
-   std::vector< std::vector<double> > m_angularIntegral;
-   std::vector< std::vector<bool> > m_needIntegral;
+   /// Compute cumulative distributions for each set of the PSF
+   /// parameters and ensure that the normalization is correct for
+   /// each.
+   void computeCumulativeDists();
+   std::vector<double> m_scaledAngles;
+   std::vector< std::vector<double> > m_cumulativeDists;
+
+   /// Rescale the fit parameters for Claudia's implementation to
+   /// ensure proper normalization.  This is called from
+   /// computeCumulativeDists().
+   void rescaleParams(std::vector<double> &pars, double scaleFactor);
+   
+   std::vector<double> m_scaleEnergy;
+   std::vector<double> m_scaleFactor;
+
    bool m_haveAngularIntegrals;
+
+   /// Variables for subdividing the energy intervals used by the
+   /// m_pars grid.  These are necessary in order to apply the energy
+   /// scaling with sufficient resolution for the angular integrals.
+   int m_nesteps;
+   double m_logestep;
 
    irfInterface::AcceptanceCone * m_acceptanceCone;
 
-   double psfIntegral(double psi, double angScale, double gamValue,
-                      double roi_radius=0);
+   std::vector<double> m_psi;
 
-   double value(double separation, double angScale, double gam) const;
+   /// The dimensions of this vector of valarrays will be
+   /// m_pars.size() x (m_psi.size() x m_nesteps)
+   std::vector< std::valarray<double> > m_angularIntegrals;
 
-   double bilinear(double angScale, double gamValue, size_t ipsi,
-                   size_t iang, size_t igam) const;
+   std::vector< std::vector<bool> > m_needIntegral;
 
-   void readData();
+   void 
+   computeAngularIntegrals(const std::vector<irfInterface::AcceptanceCone*> &);
 
-   double gamma(double energy, double mu) const;
-   double sigma(double energy, double mu) const;
-
-   double angularScale(double energy, double mu) const;
-
-   void computeAngularIntegrals
-   (const std::vector<irfInterface::AcceptanceCone *> & cones);
-
-/// @bug This code is not thread-safe...will need to find an
-/// integrator that does not require a static function as its
-/// argument.
-   static double s_energy;
-   static double s_theta;
-   static double s_phi;
-   static const Psf * s_self;
-   static double coneIntegrand(double * offset);
-
-   static std::vector<double> s_gammas;
-   static std::vector<double> s_psfNorms;
-   static std::vector<double> s_lowerFractions;
-
-   static double psfIntegrand(double * xx);
-   void computePsfNorms();
-   void computeLowerFractions();
+   void performIntegral(int ipar, int ipsi, int jen);
 
    /// Nested class that returns the integrand for the
    /// m_angularIntegrals
    class Gint {
    public:
-      Gint() : m_psfObj(0) {}
-      Gint(Psf * psfObj, double angScale, double gamma) :
-         m_psfObj(psfObj), m_angScale(angScale), m_gamma(gamma),
+      Gint() {}
+      Gint(Psf *psfObj, int ipar, double energy) :
+         m_psfObj(psfObj), m_ipar(ipar), m_energy(energy),
          m_doFirstTerm(true), m_cp(0), m_sp(0), m_cr(0) {}
-      Gint(Psf * psfObj, double angScale, double gamma,
+      Gint(Psf *psfObj, int ipar, double energy, 
            double cp, double sp, double cr) : 
-         m_psfObj(psfObj), m_angScale(angScale), m_gamma(gamma),
+         m_psfObj(psfObj), m_ipar(ipar), m_energy(energy), 
          m_doFirstTerm(false), m_cp(cp), m_sp(sp), m_cr(cr) {}
       virtual ~Gint() {}
       double value(double mu) const;
    private:
-      Psf * m_psfObj;
-      double m_angScale;
-      double m_gamma;
+      Psf *m_psfObj;
+      int m_ipar;
+      double m_energy;
       bool m_doFirstTerm;
       double m_cp;
       double m_sp;
@@ -205,6 +175,7 @@ private:
    }
 
    friend class Psf::Gint;
+
 };
 
 } // namespace dc2Response

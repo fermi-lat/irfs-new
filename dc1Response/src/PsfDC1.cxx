@@ -14,15 +14,14 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "CLHEP/Random/RandomEngine.h"
+#include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/RandFlat.h"
 #include "CLHEP/Geometry/Vector3D.h"
 
-using CLHEP::RandFlat;
-using CLHEP::Hep3Vector;
-
 #include "irfInterface/AcceptanceCone.h"
-#include "st_facilities/FitsUtil.h"
-#include "st_facilities/dgaus8.h"
+#include "irfUtil/Util.h"
+#include "irfUtil/dgaus8.h"
 
 #include "PsfDC1.h"
 
@@ -73,8 +72,7 @@ double PsfDC1::value(const astro::SkyDir &appDir,
                      double energy, 
                      const astro::SkyDir &srcDir, 
                      const astro::SkyDir &scZAxis,
-                     const astro::SkyDir &,
-                     double time) const {
+                     const astro::SkyDir &) const {
    
 // Angle between photon and source directions in radians.
    double separation = appDir.difference(srcDir);
@@ -83,7 +81,7 @@ double PsfDC1::value(const astro::SkyDir &appDir,
    double inc = srcDir.difference(scZAxis)*180./M_PI;
 
    if (inc < m_theta[m_theta.size()-1]) {
-      return value(separation, energy, inc, time);
+      return value(separation, energy, inc);
    }
    return 0;
 }
@@ -91,10 +89,8 @@ double PsfDC1::value(const astro::SkyDir &appDir,
 astro::SkyDir PsfDC1::appDir(double energy,
                              const astro::SkyDir &srcDir,
                              const astro::SkyDir &scZAxis,
-                             const astro::SkyDir &,
-                             double time) const {
+                             const astro::SkyDir &) const {
    
-   (void)(time);
    double inclination = srcDir.difference(scZAxis)*180./M_PI;
 
    int ipar = getParamsIndex(energy, inclination);
@@ -126,7 +122,7 @@ astro::SkyDir PsfDC1::appDir(double energy,
 }
 
 double PsfDC1::value(double separation, double energy, double theta,
-                     double phi, double time) const {
+                     double phi) const {
    if (theta < 0) {
       std::ostringstream message;
       message << "dc1Response::PsfDC1::value(...):\n"
@@ -135,7 +131,6 @@ double PsfDC1::value(double separation, double energy, double theta,
       throw std::invalid_argument(message.str());
    }
    (void)(phi);
-   (void)(time);
    return value(separation*M_PI/180., energy, theta);
 }
 
@@ -178,16 +173,16 @@ void PsfDC1::rescaleParams(std::vector<double> &pars, double scaleFactor) {
 void PsfDC1::readEnergyScaling() {
    if (m_have_FITS_data) {
       std::string extName;
-      st_facilities::FitsUtil::getFitsHduName(m_filename, m_hdu, extName);
-      st_facilities::FitsUtil::getRecordVector(m_filename, extName, "McEnergy",
+      irfUtil::Util::getFitsHduName(m_filename, m_hdu, extName);
+      irfUtil::Util::getRecordVector(m_filename, extName, "McEnergy",
                                      m_scaleEnergy);
-      st_facilities::FitsUtil::getRecordVector(m_filename, extName, 
-                                               "ScaleFactor", m_scaleFactor);
+      irfUtil::Util::getRecordVector(m_filename, extName, "ScaleFactor",
+                                     m_scaleFactor);
    } else {
-      st_facilities::FitsUtil::getTableVector(m_filename, "PsfScale", 
-                                              "McEnergy", m_scaleEnergy);
-      st_facilities::FitsUtil::getTableVector(m_filename, "PsfScale", 
-                                              "ScaleFactor", m_scaleFactor);
+      irfUtil::Util::getTableVector(m_filename, "PsfScale", "McEnergy",
+                                    m_scaleEnergy);
+      irfUtil::Util::getTableVector(m_filename, "PsfScale", "ScaleFactor",
+                                    m_scaleFactor);
    }
 }
 
@@ -204,14 +199,14 @@ double PsfDC1::energyScaling(double energy) const {
 void PsfDC1::computeCumulativeDists() {
 // Prepare array of scaled angles.
    int npts(1000);            // Is this enough points?
-//   double angle_min = 1e-4;   //
+   double angle_min = 1e-4;   //
    double angle_max = 20.;    // Does this go out far enough?
-   double angle_step = angle_max/(npts-1);
-//   double angle_step = log(angle_max/angle_min)/(npts-1.);
+//   double angle_step = angle_max/(npts-1);
+   double angle_step = log(angle_max/angle_min)/(npts-1.);
    m_scaledAngles.reserve(npts);
    for (int i = 0; i < npts; i++) {
-      m_scaledAngles.push_back(i*angle_step);
-//      m_scaledAngles.push_back(angle_min*exp(i*angle_step));
+//      m_scaledAngles.push_back(i*angle_step);
+      m_scaledAngles.push_back(angle_min*exp(i*angle_step));
    }
 
 // Apply trapezoidal rule on this grid of points for each set of
@@ -247,19 +242,18 @@ PsfDC1::angularIntegral(double energy,
                         const astro::SkyDir &scZAxis,
                         const astro::SkyDir &,
                         const std::vector<irfInterface::AcceptanceCone *> 
-                        &acceptanceCones, double time) {
+                        &acceptanceCones) {
    double theta = srcDir.difference(scZAxis)*180./M_PI;
    static double phi;
-   return angularIntegral(energy, srcDir, theta, phi, acceptanceCones, time);
+   return angularIntegral(energy, srcDir, theta, phi, acceptanceCones);
 }
 
 double
 PsfDC1::angularIntegral(double energy, const astro::SkyDir & srcDir,
                         double theta, double phi, 
                         const std::vector<irfInterface::AcceptanceCone *> 
-                        &acceptanceCones, double time) {
+                        &acceptanceCones) {
    (void)(phi);
-   (void)(time);
    if (!m_acceptanceCone || *m_acceptanceCone != *(acceptanceCones[0])) {
       computeAngularIntegrals(acceptanceCones);
       m_haveAngularIntegrals = true;
@@ -281,9 +275,8 @@ PsfDC1::angularIntegral(double energy, const astro::SkyDir & srcDir,
 }
 
 double PsfDC1::angularIntegral(double energy, double theta, 
-                               double phi, double radius, double time) const {
+                               double phi, double radius) const {
    (void)(phi);
-   (void)(time);
    int ipar = getParamsIndex(energy, theta);
    radius *= M_PI/180.;
    radius /= energyScaling(energy);
@@ -339,6 +332,7 @@ void PsfDC1::computeAngularIntegrals
          for (int j = 0; j < m_nesteps; j++) {
             int indx = i*m_nesteps + j;
             m_needIntegral[ipar][indx] = true;
+//            performIntegral(ipar, i, j);
          } // j
       } // i
    } // ipar
@@ -360,8 +354,8 @@ void PsfDC1::performIntegral(int ipar, int ipsi, int jen) {
    int ie = ipar % (m_energy.size()-1);
    double energy = m_energy[ie]*pow(10., m_logestep*jen);
    double err = 1e-5;
-   long ierr(1);
-   double firstIntegral(0);
+   long ierr;
+   double firstIntegral = 0;
 
 // Check if point is inside or outside the cone            
    if (m_psi[ipsi] < roi_radius) {
@@ -369,26 +363,13 @@ void PsfDC1::performIntegral(int ipar, int ipsi, int jen) {
       s_gfunc = Gint(this, ipar, energy);
       dgaus8_(&PsfDC1::gfuncIntegrand, &mum, &one, 
               &err, &firstIntegral, &ierr);
-//       if (ierr == -1) {
-//          std::cout << "A = " << mum << ", B = " << one 
-//                    << ", firstIntegral = " << firstIntegral << std::endl;
-//       }
    }
 
 // and the second.
-   double secondIntegral(0);
-   double diff = fabs(mum - mup);
-   if (diff > 1e-15) {
-      s_gfunc = Gint(this, ipar, energy, cp, sp, cr);
-      ierr = 1;
-      dgaus8_(&PsfDC1::gfuncIntegrand, &mup, &mum, 
-              &err, &secondIntegral, &ierr);
-//       if (ierr == -1) {
-//          std::cout << "A = " << mup << ", B = " << mum
-//                    << ", secondIntegral = " << firstIntegral 
-//                    << ", abs(B - A) = " << diff << std::endl;
-//       }
-   }
+   s_gfunc = Gint(this, ipar, energy, cp, sp, cr);
+   double secondIntegral;
+   dgaus8_(&PsfDC1::gfuncIntegrand, &mup, &mum, 
+           &err, &secondIntegral, &ierr);
    
    if (m_psi[ipsi] < roi_radius) {
       m_angularIntegrals[ipar][indx] = firstIntegral + secondIntegral;
