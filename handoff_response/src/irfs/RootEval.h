@@ -12,7 +12,6 @@
 #include <string>
 
 class TFile;
-class TH2F;
 
 namespace handoff_response {
 
@@ -43,15 +42,16 @@ public:
 
 private:
 
-    TH2F* setupHist( std::string name);
     double * psf_par(double energy, double costh);
 
     double * disp_par(double energy, double costh);
 
     TFile* m_f;
-    TH2F* m_aeff;
-    TH2F* m_sigma, *m_gcore, *m_gtail; // psf parameters
-    TH2F* m_dnorm, *m_rwidth, *m_ltail;// dispersion parameters
+    class Table; ///< nested class manages table lookup
+    Table* setupHist( std::string name);
+    Table* m_aeff;
+    Table* m_sigma, *m_gcore, *m_gtail; // psf parameters
+    Table* m_dnorm, *m_rwidth, *m_ltail;// dispersion parameters
 
 };
 
