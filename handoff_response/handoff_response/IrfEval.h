@@ -9,39 +9,65 @@
 
 #include <string>
 
-class TFile;
-class TH2F;
-
 namespace handoff_response {
 
+/** @class IrfEval
+    @brief Evaluate the functions
+
+
+*/
 class IrfEval {
 public:
-    IrfEval(std::string filename, std::string eventtype);
-    ~IrfEval();
 
-    double aeff(double energy, double theta=0, double phi=0);
+    /** @brief ctor
+        @param filename name of the file to open
+        @param eventclass name of the event class - expect to be of the form name/front, or name/back
 
-    double aeffmax();
 
-    double psf(double delta, double energy, double theta=0, double phi=0);
+    */
+    virtual ~IrfEval(){};
 
-    double dispersion(double emeas, double energy, double theta=0, double phi=0);
+    /** effective area
+        @param energy energy in MeV
+        @param theta polar angle in degrees
+        @param phi   azimuthal angle in degrees
 
-    std::string name()const{return m_type;}
+    */
+    virtual double aeff(double energy, double theta=0, double phi=0)=0;
 
+    virtual double aeffmax()=0;
+
+    /** Point spread function, differential in solid angle
+        @param delta  deviation from incoming direction, in degrees
+        @param energy energy in MeV
+        @param theta polar angle in degrees
+        @param phi   azimuthal angle in degrees
+
+    */
+    virtual double psf(double delta, double energy, double theta=0, double phi=0)=0;
+
+    /** Energy dispesion function, differential in energy
+        @param emeas measured energy in MeV
+        @param energy actual energy in MeV
+        @param theta polar angle in degrees
+        @param phi   azimuthal angle in degrees
+
+    */
+    virtual double dispersion(double emeas, double energy, double theta=0, double phi=0)=0;
+
+    const std::string& eventClass()const{return m_type;}
+
+    bool isFront()const{return m_front;}
+
+protected:
+
+    IrfEval(const std::string & eventclass); ///< default for subclasses only
 private:
-
-    TH2F* setupHist( std::string name);
-    double * psf_par(double energy, double costh);
-
-    double * disp_par(double energy, double costh);
-
-    TFile* m_f;
-    bool m_front;
     std::string m_type;
-    TH2F* m_aeff;
-    TH2F* m_sigma, *m_gcore, *m_gtail; // psf parameters
-    TH2F* m_dnorm, *m_rwidth, *m_ltail;// dispersion parameters
+
+    bool m_front;
+
+
 
 };
 

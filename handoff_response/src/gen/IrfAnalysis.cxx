@@ -54,8 +54,10 @@ double IrfAnalysis::aeff_per_event()
     
     // correct limits
     if( m_minlogE<1.5) m_minlogE=1.25;  // can be pretty small
-    if( m_maxlogE>5.20) m_maxlogE=5.25; // 180 GeV
-    if( m_maxlogE>5.50) m_maxlogE=5.56; // 360 GeV 
+    
+    if(      m_maxlogE>5.50) m_maxlogE=5.56; // 360 GeV 
+    else if( m_maxlogE>5.20) m_maxlogE=5.25; // 180 GeV
+
     double log_energy_range(m_maxlogE-m_minlogE); 
 
     return  generated_area 

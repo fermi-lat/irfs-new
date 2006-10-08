@@ -15,10 +15,11 @@
 #include "TCanvas.h"
 
 #include <cmath>
+#include <iomanip>
 
 namespace {
 
-    double ebinfactor(2), anglebinfactor(5);
+    double ebinfactor(8), anglebinfactor(2);
 }
 
 EffectiveArea::EffectiveArea( IrfAnalysis& irf, std::ostream& log)
@@ -35,21 +36,28 @@ EffectiveArea::EffectiveArea( IrfAnalysis& irf, std::ostream& log)
 void EffectiveArea::fill(double energy, double costheta, bool front)
 {
     m_hist->Fill( ::log10(energy), ::fabs(costheta));
+
 }
 
 void EffectiveArea::summarize()
 {
-    out() << "\nEffective area histogram has " << m_hist->GetEntries() << " entries"
-        << std::cout;
+    m_norm= m_irf.aeff_per_event()*ebinfactor*anglebinfactor;
+    double maxbin = m_hist->GetMaximum();
+    out() << "\nEffective area histogram has " 
+        << m_hist->GetEntries() << " entries."
+        << std::endl;
+    out() << "\tNormalizion is " << std::setprecision(6) << (m_norm*1e4) 
+        << " cm^2/event: Maximum bin has " << maxbin 
+        << " entries, for " << (maxbin*m_norm) << " m^2"<< std::endl;
     m_hist->GetXaxis()->CenterTitle();
     m_hist->GetYaxis()->CenterTitle();
     m_hist->GetZaxis()->CenterTitle();
 #if 0 // this screws it up?
     m_hist->GetXaxis()->SetLabelOffset(2.0);
     m_hist->GetYaxis()->SetLabelOffset(2.0);
-    m_hist->Scale(m_irf.aeff_per_event()*ebinfactor*anglebinfactor);
-    m_hist->Write(); // update in the output file
 #endif
+    m_hist->Scale(m_norm);
+    m_hist->Write(); // update in the output file
 
 }
 
@@ -70,13 +78,11 @@ void EffectiveArea::writeFitParameters(std::string outputFile, std::string treen
     TTree* tree = new TTree((treename+"-aeff").c_str(), (treename+" aeff").c_str());
 
 
-    // convert the histogram into vectors for log energy, cost(theta) and the values.
-
-
-
 }
 void EffectiveArea::fillParameterTables()
 {
-    m_hist->Scale(m_irf.aeff_per_event()*ebinfactor*anglebinfactor);
+#if 0
+    m_hist->Scale(m_norm);
     m_hist->Write(); // update in the output file
+#endif
 }

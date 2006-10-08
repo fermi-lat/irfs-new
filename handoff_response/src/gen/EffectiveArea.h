@@ -35,6 +35,7 @@ private:
     IrfAnalysis& m_irf;
     std::ostream * m_log;
     std::ostream& out() {return *m_log;}
+    double m_norm; ///< area per event in histogram
 
     TH2F* m_hist;  ///< the 2-d histogram that we manage
 };
