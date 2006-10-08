@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Sun Oct  8 16:11:15 PDT 2006
+users/burnett/handoff_response/src/irfs
+
+Modified Files:
+	RootEval.cxx RootEval.h 
+Log Message:
+encapsulate table management, start on using TGraph2D
+    *
+------------------------------------------------------------
 User: burnett  Sun Oct  8 14:50:44 PDT 2006
 users/burnett/handoff_response/src/irfs
 
