@@ -32,8 +32,8 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,int set, std::ostream& log)
 : IRF(output_folder, std::string(set==1? "front":"back")+".root")
 , m_set(set)
 , m_log(&log)
-, m_nruns(0)
 , m_setname( m_set==1? "front":"back")
+, m_nruns(0)
 , m_minlogE(1.25), m_maxlogE(5.25) // default
 {
     current_time(out()); // add time to log file
@@ -105,7 +105,7 @@ case 2: out() << "back events"; break;
         , fitzdir("CTBBestZDir")
 
         , Tkr1FirstLayer("Tkr1FirstLayer")
-        , VtxAngle("VtxAngle")
+  //      , VtxAngle("VtxAngle")
         , EvtRun("EvtRun" ) // to count runs
         ;
     int lastrun(0), selected(0);
@@ -141,7 +141,7 @@ case 2: out() << "back events"; break;
         // choose one of the following
         double measured_energy=CTBBestEnergy, 
             mc_energy = McEnergy,
-            ratio =measured_energy/mc_energy,
+            //ratio =measured_energy/mc_energy,
             dsp = measured_energy/mc_energy-1;
 #if 1
         m_psf->fill(diff, McEnergy, McZDir, front);
@@ -280,9 +280,9 @@ void IrfAnalysis::tabulate(std::string filename)
 
     int i=0;
     for( TreeWrapper::Iterator it = mytree.begin(); it!=mytree.end(); ++it, ++i){
-        double energy = IRF::eCenter(it.index()%8);
+     //   double energy = IRF::eCenter(it.index()%8);
         p[0].push_back(fitpar[0]* aeff_per_event() );
-        for( int j=1; j<fitpar.size(); ++j) p[j].push_back(fitpar[j]);
+        for(unsigned int j=1; j<fitpar.size(); ++j) p[j].push_back(fitpar[j]);
 
 #if 0 // just columns here, check input data
         out() << (i) << "\t";
@@ -300,7 +300,7 @@ void IrfAnalysis::tabulate(std::string filename)
 
     out() << std::setprecision(4);
 
-    for( int j = 0; j< names.size(); ++j){
+    for(unsigned int j = 0; j< names.size(); ++j){
         out() << "\n" << names[j] << std::endl;
         for( int k=0; k<energy_bins; ++k){ // energy bins as columns
             out() << enames[k];

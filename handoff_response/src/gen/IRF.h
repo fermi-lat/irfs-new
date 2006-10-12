@@ -42,7 +42,7 @@ public:
 
     const char* energy_cut(int j){
         static char buffer[256];
-        double logecenter=logemin+logedelta*(j+0.5), ecenter=pow(10.0, logecenter);
+        double logecenter=logemin+logedelta*(j+0.5); 
         sprintf(buffer, "abs(McLogEnergy-%f)<%f", logecenter, logedelta/2);
         return buffer;
     }

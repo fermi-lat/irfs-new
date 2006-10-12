@@ -121,7 +121,7 @@ void Dispersion::Hist::summarize(std::ostream & out)
 {
     using std::setw; using std::setprecision;
 
-    int n( entries() );
+    int n= static_cast<int>( entries() );
     out  
         << setprecision(3) << std::right << std::fixed
         << setw(30) << m_h->GetTitle() 
@@ -198,7 +198,7 @@ Dispersion::~Dispersion()
 {}
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void Dispersion::fill(double diff, double energy, double costheta, bool front)
+void Dispersion::fill(double diff, double energy, double costheta, bool/* front*/)
 {
     int z_bin = m_irf.angle_bin( costheta );     if( z_bin>= m_irf.angle_bins) return;
     int e_bin = m_irf.energy_bin(energy);        if( e_bin<0 || e_bin>= m_irf.energy_bins )return;

@@ -19,7 +19,7 @@
 
 namespace {
 
-    double ebinfactor(8), anglebinfactor(2);
+    int ebinfactor(8), anglebinfactor(2);
 }
 
 EffectiveArea::EffectiveArea( IrfAnalysis& irf, std::ostream& log)

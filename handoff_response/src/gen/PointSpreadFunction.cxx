@@ -35,11 +35,11 @@ namespace {
 
     inline double sqr(double x){return x*x;}
 
-    double psf_base(double u, double sigma, double gamma)
+    double psf_base(double u, double /* sigma*/, double gamma)
     {
         return (1-1./gamma) * pow(1+u/gamma, -gamma);
     }
-    double psf_base_integral(double u,double sigma, double gamma){
+    double psf_base_integral(double u,double /* sigma*/, double gamma){
         return 1- pow(1+u/gamma, 1-gamma);
     }
     double psf_function( double * x, double * p)
@@ -194,7 +194,7 @@ void PointSpreadFunction::summarize()
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-double PointSpreadFunction::scaleFactor(double energy,double zdir, bool thin)
+double PointSpreadFunction::scaleFactor(double energy,double /* zdir*/, bool thin)
 {
     // following numbers determined empirically to roughly 
     // make the 68% containment radius be 1.0 independent of energy
