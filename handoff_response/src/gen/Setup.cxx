@@ -10,6 +10,7 @@ $Header$
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 #include <direct.h> // for chdir
 
 
