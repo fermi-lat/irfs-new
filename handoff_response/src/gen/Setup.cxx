@@ -16,8 +16,10 @@ $Header$
  #include <direct.h> // for chdir
 #else
 # include <unistd.h>
- int _chdir( const char*d){return chdir(d);}
- char *_ getcwd(  char *buffer,   int maxlen ){return getcwd(buffer, maxlen);}
+namespace {
+    int _chdir( const char * d){return ::chdir(d);}
+    char * _getcwd(  char * buffer,   size_t maxlen ){return ::getcwd(buffer, maxlen);}
+}
 #endif
 
 namespace{
@@ -30,15 +32,15 @@ Setup::Setup(int argc, char* argv[])
 :m_root( std::string(argc>1? argv[1] : ::getenv(envvar.c_str())) )
 {
     char oldcwd[128], newcwd[128];
-    ::_getcwd(oldcwd, sizeof(oldcwd));
+    _getcwd(oldcwd, sizeof(oldcwd));
 
     std::cout << "Current working directory: " << oldcwd << std::endl;
 
-    if( ::_chdir(m_root.c_str()) !=0 ){
+    if( _chdir(m_root.c_str()) !=0 ){
         throw std::runtime_error("Setup: could not find folder " +m_root);
     }
     // save current working directory.
-    ::_getcwd(newcwd, sizeof(newcwd));
+    _getcwd(newcwd, sizeof(newcwd));
     std::cout << "switched to " << newcwd << std::endl;
     m_root = newcwd; 
     std::string filename( setupfile );
