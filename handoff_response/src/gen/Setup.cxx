@@ -9,14 +9,15 @@ $Header$
 
 #include <fstream>
 #include <iostream>
+#include <iterator>
 #include <sstream>
 #include <stdexcept>
 #ifdef WIN32
  #include <direct.h> // for chdir
- int chdir( const char*d){return _chdir(d);}
- char *getcwd(  char *buffer,   int maxlen ){return _getcwd(buffer, maxlen);}
 #else
 # include <unistd.h>
+ int _chdir( const char*d){return chdir(d);}
+ char *_ getcwd(  char *buffer,   int maxlen ){return getcwd(buffer, maxlen);}
 #endif
 
 namespace{
@@ -29,11 +30,11 @@ Setup::Setup(int argc, char* argv[])
 :m_root( std::string(argc>1? argv[1] : ::getenv(envvar.c_str())) )
 {
     char oldcwd[128], newcwd[128];
-    getcwd(oldcwd, sizeof(oldcwd));
+    ::_getcwd(oldcwd, sizeof(oldcwd));
 
     std::cout << "Current working directory: " << oldcwd << std::endl;
 
-    if( chdir(m_root.c_str()) !=0 ){
+    if( ::_chdir(m_root.c_str()) !=0 ){
         throw std::runtime_error("Setup: could not find folder " +m_root);
     }
     // save current working directory.
