@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Thu Oct 12 08:23:25 PDT 2006
+irfs/handoff_response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+bug fix; tagging
+    *
+------------------------------------------------------------
+User: burnett  Thu Oct 12 08:23:25 PDT 2006
 irfs/handoff_response/cmt
 
 Modified Files:
