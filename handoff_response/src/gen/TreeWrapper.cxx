@@ -11,6 +11,7 @@
 #include "TKey.h"
 #include "TString.h"
 #include "TLeaf.h"
+#include <stdexcept>
 
 TreeWrapper* TreeWrapper::s_instance=0;
 #ifdef WIN32
