@@ -31,7 +31,7 @@ double Psf::value(const astro::SkyDir & appDir,
                   double energy, 
                   const astro::SkyDir & srcDir, 
                   const astro::SkyDir & scZAxis,
-                  const astro::SkyDir &
+                  const astro::SkyDir &, double
                   ) const 
 {
     // Angle between photon and source directions in radians.
@@ -44,7 +44,7 @@ double Psf::value(const astro::SkyDir & appDir,
 }
 
 double Psf::value(double separation, double energy, double theta,
-                  double phi) const 
+                  double phi, double) const 
 {
     if (theta < 0) {
         std::ostringstream message;
@@ -60,7 +60,7 @@ double Psf::value(double separation, double energy, double theta,
 astro::SkyDir Psf::appDir(double energy,
                           const astro::SkyDir & srcDir,
                           const astro::SkyDir & scZAxis,
-                          const astro::SkyDir &) const 
+                          const astro::SkyDir &, double) const 
 {
     return astro::SkyDir();
 }
@@ -71,7 +71,7 @@ double Psf::angularIntegral(double energy,
                             const astro::SkyDir & scZAxis,
                             const astro::SkyDir &,
                             const std::vector<irfInterface::AcceptanceCone *> 
-                            & acceptanceCones) 
+                            & acceptanceCones, double) 
 {
     return 0;
 }
@@ -81,13 +81,13 @@ double Psf::angularIntegral(double energy,
                             double theta, 
                             double phi, 
                             const std::vector<irfInterface::AcceptanceCone *> 
-                            & acceptanceCones) 
+                            & acceptanceCones, double) 
 { 
     return 0;
 }
 
 double Psf::angularIntegral(double energy, double theta, 
-                            double phi, double radius) const 
+                            double phi, double radius, double) const 
 {
 
     double integral(0);

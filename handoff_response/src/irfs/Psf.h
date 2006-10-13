@@ -47,7 +47,8 @@ public:
                         double energy, 
                         const astro::SkyDir & srcDir, 
                         const astro::SkyDir & scZAxis,
-                        const astro::SkyDir & scXAxis) const;
+                        const astro::SkyDir & scXAxis,
+                        double time=0) const;
 
    /// Return the psf as a function of instrument coordinates.
    /// @param separation Angle between apparent and true photon directions
@@ -57,7 +58,8 @@ public:
    /// @param phi True photon azimuthal angle measured wrt the instrument
    ///            X-axis (degrees).
    virtual double value(double separation, double energy, double theta,
-                        double phi) const;
+                        double phi,
+                        double time=0) const;
 
    /// Angular integral of the PSF over the intersection of acceptance
    /// cones.
@@ -67,7 +69,8 @@ public:
                    const astro::SkyDir & scZAxis,
                    const astro::SkyDir & scXAxis,
                    const std::vector<irfInterface::AcceptanceCone *> 
-                   & acceptanceCones);
+                   & acceptanceCones,
+                   double time=0);
 
    virtual double 
    angularIntegral(double energy,
@@ -75,15 +78,18 @@ public:
                    double theta, 
                    double phi, 
                    const std::vector<irfInterface::AcceptanceCone *> 
-                   & acceptanceCones);
+                   & acceptanceCones,
+                   double time=0);
 
    virtual double angularIntegral(double energy, double theta, double phi,
-                                  double radius) const;
+                                  double radius,
+                                  double time=0) const;
 
    virtual astro::SkyDir appDir(double energy,
                                 const astro::SkyDir & srcDir,
                                 const astro::SkyDir & scZAxis,
-                                const astro::SkyDir & scXAxis
+                                const astro::SkyDir & scXAxis,
+                                double time=0
                                 ) const;
    virtual Psf * clone() {return new Psf(*this);}
 

@@ -30,11 +30,12 @@ application test_handoff_response -s=test $(source)
 
 
 macro handoff_response_cppflags  ""\
-  Linux "-I ../src -g -pedantic "\
+#  Linux "-I ../src -g -pedantic "\
+  Linux "-I ../src -g  "\
   WIN32 " /I ..\src /wd4800 /wd4305"
 
 macro_append ROOT_libs ""\
-  Linux " -lTreePlayer -lProof -lGX11 "\
+  Linux " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread"\
   WIN32 " libHist.lib libGraf.lib libGpad.lib "
 
 macro source "*.cxx" WIN32 "*.cxx *.h"

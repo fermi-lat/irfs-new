@@ -25,7 +25,7 @@ Aeff::Aeff(handoff_response::IrfEval* eval): m_eval(eval)
 double Aeff::value(double energy, 
                    const astro::SkyDir & srcDir, 
                    const astro::SkyDir & scZAxis,
-                   const astro::SkyDir &) const 
+                   const astro::SkyDir &, double) const 
 {
     // Inclination wrt spacecraft z-axis in radians.
     double theta = srcDir.difference(scZAxis);
@@ -33,7 +33,7 @@ double Aeff::value(double energy,
     return value(energy, theta, 0.);
 }
 
-double Aeff::value(double energy, double theta, double phi) const {
+double Aeff::value(double energy, double theta, double phi, double) const {
 
     return m_eval->aeff(energy, theta, phi);
 }
