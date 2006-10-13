@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Oct 13 11:36:55 PDT 2006
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+update interfaces; add needed libraries on linux; comment out -pedantic flag in req file
+    *
+------------------------------------------------------------
 TAG
 Tag name: v0r1p5, operation: add
 Package: handoff_response
