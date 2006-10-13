@@ -1,5 +1,5 @@
 package handoff_response
-version v0r1p3
+version v0r1p6
 
 author Toby Burnett <tburnett@u.washington.edu>
 
@@ -28,9 +28,7 @@ library handoff_response -no_share \
 
 application test_handoff_response -s=test $(source)
 
-
 macro handoff_response_cppflags  ""\
-#  Linux "-I ../src -g -pedantic "\
   Linux "-I ../src -g  "\
   WIN32 " /I ..\src /wd4800 /wd4305"
 
