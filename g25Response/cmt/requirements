@@ -1,5 +1,5 @@
 package g25Response
-version v1
+version v0r1p5
 
 author James Chiang <jchiang@slac.stanford.edu>
 
@@ -18,11 +18,9 @@ use tip v*
 apply_pattern package_include
 apply_pattern package_linkopts
 apply_pattern package_stamps
-apply_pattern shared_library
 
 macro_append cppflags "" Linux " -I../src -DTRAP_FPE " 
 macro source *.cxx WIN32 "*.h *.cxx"
 
-#library g25Response -no_share $(source) *.c
-library g25Response $(source) *.c
+library g25Response -no_share $(source) *.c
 application test_g25Response test/*.cxx

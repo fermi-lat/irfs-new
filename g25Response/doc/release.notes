@@ -5,9 +5,6 @@
   @verbatim
   $Id$
 
-  14-Aug-06 v1      JC    implement irfInterface v1
-  25-Apr-06 v0r2    JC    add Aeff::upperLimit()
-  21-Mar-06 v0r1p6  JC    add using CLHEP::
   16-Feb-06 v0r1p5  JC    complain if CALDB not set
   26-Apr-05 v0r1p4  JC    include <algorithm> in loadIrfs.cxxx
   21-Apr-05 v0r1p3  JC    check if irfs have already been loaded
