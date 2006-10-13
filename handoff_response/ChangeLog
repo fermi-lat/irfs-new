@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Oct 13 11:36:56 PDT 2006
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	Aeff.cxx Aeff.h Edisp.cxx Edisp.h Psf.cxx Psf.h 
+Log Message:
+update interfaces; add needed libraries on linux; comment out -pedantic flag in req file
+    *
+------------------------------------------------------------
 User: jchiang  Fri Oct 13 11:36:55 PDT 2006
 irfs/handoff_response/cmt
 
