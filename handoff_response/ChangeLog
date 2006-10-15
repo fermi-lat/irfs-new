@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Sun Oct 15 16:55:48 PDT 2006
+irfs/handoff_response/src/gen/makeirf
+
+Modified Files:
+	irf.cxx 
+Log Message:
+docs
+    *
+------------------------------------------------------------
 TAG
 Tag name: v0r1p6, operation: add
 Package: handoff_response
