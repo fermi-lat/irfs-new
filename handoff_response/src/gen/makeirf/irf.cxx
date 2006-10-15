@@ -41,3 +41,14 @@ int main(int argc, char* argv[]){
     }
     return ret;
 }
+
+/** @page makeirf The makeirf application
+
+This application creates the irfs, and expects a single argument, to a folder containing two files:
+
+- setup.txt
+- goodEvent.root
+
+The first is processed by the Setup class to extract values for the log file. 
+
+*/

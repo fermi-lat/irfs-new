@@ -40,6 +40,7 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
+   /// @param time   MET
    virtual double value(double appEnergy, 
                         double energy,
                         const astro::SkyDir &srcDir, 
@@ -65,6 +66,7 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
+   /// @param time   MET
    virtual double integral(double emin, double emax, double energy,
                            const astro::SkyDir &srcDir, 
                            const astro::SkyDir &scZAxis,
@@ -79,6 +81,7 @@ public:
    /// @param theta True inclination angle (degrees).
    /// @param phi True azimuthal angle measured wrt the instrument
    ///            X-axis (degrees).
+   /// @param time   MET
    virtual double integral(double emin, double emax, double energy, 
                            double theta, double phi,
                            double time=0) const;

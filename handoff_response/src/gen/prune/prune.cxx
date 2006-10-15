@@ -38,3 +38,18 @@ int main(int argc, char* argv[]){
     }
     return ret;
 }
+
+/** @page prune The prune application
+
+Use the Setup class to process arguments, which are assumed to be just a path to a folder containing a 
+file "setup.txt". 
+
+Expect this to define three parameters:
+
+- the full path to the original ROOT file
+- a list of cuts to apply
+- a list of tuple names to enable
+
+The created file is "goodEvent.root" in the same folder.
+
+*/
