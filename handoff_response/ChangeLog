@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Sun Oct 15 16:55:48 PDT 2006
+irfs/handoff_response/src/gen/prune
+
+Modified Files:
+	prune.cxx 
+Log Message:
+docs
+    *
+------------------------------------------------------------
+User: burnett  Sun Oct 15 16:55:48 PDT 2006
 irfs/handoff_response/src/gen/makeirf
 
 Modified Files:
