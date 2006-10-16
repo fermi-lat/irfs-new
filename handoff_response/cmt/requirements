@@ -13,6 +13,7 @@ use ROOT v* IExternal
 use CLHEP v* IExternal
 use astro v*
 use cppunit v* IExternal
+use st_facilities v*
 
 apply_pattern package_include
 apply_pattern package_linkopts
@@ -38,7 +39,6 @@ macro_append ROOT_libs ""\
   WIN32 " libHist.lib libGraf.lib libGpad.lib "
 
 macro source "*.cxx" WIN32 "*.cxx *.h"
-
 
 # prune input data set and create subset
 application prune -s=gen/prune $(source)

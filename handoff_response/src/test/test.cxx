@@ -64,6 +64,7 @@ void HandoffResponseTests::psf_zero_separation() {
    
    for (std::vector<std::string>::const_iterator name = m_irfNames.begin();
         name != m_irfNames.end(); ++name) {
+      std::cout << *name << ": \n";
       irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
       const irfInterface::IPsf & psf(*myIrfs->psf());
       for (theta = 0; theta < 70; theta += 5.) {
@@ -141,7 +142,9 @@ void HandoffResponseTests::psf_normalization() {
             integral *= 2.*M_PI;
             std::cout << *energy << "  " 
                       << *theta << "  "
-                      << integral << std::endl;
+                      << integral << "  "
+                      << psf.angularIntegral(*energy, *theta, phi, 70.) 
+                      << std::endl;
          }
       }
 
@@ -152,8 +155,8 @@ void HandoffResponseTests::psf_normalization() {
 
 int main() {
 #ifdef TRAP_FPE
-    // Add floating point exception traps.
-    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
+// Add floating point exception traps.
+//    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
 
    handoff_response::loadIrfs();

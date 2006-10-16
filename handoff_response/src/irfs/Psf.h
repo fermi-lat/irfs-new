@@ -9,13 +9,15 @@
 #ifndef handoff_Psf_h
 #define handoff_Psf_h
 
-#include "handoff_response/IrfEval.h"
-
 #include <string>
 #include <vector>
 
-#include "irfInterface/IPsf.h"
 #include "irfInterface/AcceptanceCone.h"
+
+#include "handoff_response/IrfEval.h"
+
+#include "IPsf.h"
+
 namespace handoff_response{
 
 /**
@@ -27,7 +29,8 @@ namespace handoff_response{
  *
  */
 
-class Psf : public irfInterface::IPsf {
+//class Psf : public irfInterface::IPsf {
+class Psf : public IPsf {
 
 public:
 
@@ -84,10 +87,6 @@ public:
                    & acceptanceCones,
                    double time=0);
 
-   virtual double angularIntegral(double energy, double theta, double phi,
-                                  double radius,
-                                  double time=0) const;
-
    virtual astro::SkyDir appDir(double energy,
                                 const astro::SkyDir & srcDir,
                                 const astro::SkyDir & scZAxis,
@@ -106,7 +105,8 @@ protected:
 
 private:
 
-    handoff_response::IrfEval* m_eval;
+   handoff_response::IrfEval* m_eval;
+
 };
 
 }
