@@ -19,13 +19,7 @@ namespace handoff_response {
 class IrfEval {
 public:
 
-    /** @brief ctor
-        @param filename name of the file to open
-        @param eventclass name of the event class - expect to be of the form name/front, or name/back
-
-
-    */
-    virtual ~IrfEval(){};
+     virtual ~IrfEval(){};
 
     /** effective area
         @param energy energy in MeV
@@ -61,7 +55,10 @@ public:
 
 protected:
 
-    IrfEval(const std::string & eventclass); ///< default for subclasses only
+    /** @brief ctor
+        @param eventclass name of the event class - expect to be of the form name/front, or name/back
+    */
+   IrfEval(const std::string & eventclass); ///< default for subclasses only
 private:
     std::string m_type;
 

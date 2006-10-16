@@ -29,6 +29,9 @@ public:
     /** @brief ctor 
         @param parameterfile file containing parameter tables
         @param eventclass name of event class to select
+        
+        Depending on the type of the file (currently only ROOT) it invokes an appropriate
+        IrfEval subclass.
     */
     IrfLoader(const std::string & parameterfile, const std::string & eventclass);
     ~IrfLoader();
