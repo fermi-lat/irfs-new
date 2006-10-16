@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Oct 16 15:40:58 PDT 2006
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+add temporary IPsf class with default implementation of angularIntegral
+    *
+------------------------------------------------------------
+User: jchiang  Mon Oct 16 15:40:58 PDT 2006
 irfs/handoff_response/src/irfs
 
 Modified Files:
