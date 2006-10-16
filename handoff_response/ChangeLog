@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Oct 16 13:25:20 PDT 2006
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+make unit test more rigorous
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r0, operation: add
 Package: handoff_response
