@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Oct 16 14:17:36 PDT 2006
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+turn on floating point exception trapping; test various energies and inclinations
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r0p1, operation: add
 Package: handoff_response
