@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Oct 16 13:25:21 PDT 2006
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	Psf.cxx Psf.h 
+Log Message:
+make unit test more rigorous
+    *
+------------------------------------------------------------
 User: jchiang  Mon Oct 16 13:25:20 PDT 2006
 irfs/handoff_response/cmt
 
