@@ -12,6 +12,7 @@ use irfInterface v* irfs
 use ROOT v* IExternal
 use CLHEP v* IExternal
 use astro v*
+use cppunit v* IExternal
 
 apply_pattern package_include
 apply_pattern package_linkopts

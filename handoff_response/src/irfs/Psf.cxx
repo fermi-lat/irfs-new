@@ -1,7 +1,7 @@
 /** 
 * @file Psf.cxx
 * @brief Implementation for the  point-spread function class.
-* @author J. Chiang
+* @author 
 * 
 * $Header$
 */
@@ -16,16 +16,11 @@
 
 using namespace handoff_response;
 
+Psf::Psf() : m_eval(0) { }
 
-
-Psf::Psf()
-{
-}
 Psf::Psf(handoff_response::IrfEval* eval):m_eval(eval){}
 
-Psf::~Psf() 
-{}
-
+Psf::~Psf() {}
 
 double Psf::value(const astro::SkyDir & appDir, 
                   double energy, 

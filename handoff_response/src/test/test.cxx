@@ -1,91 +1,130 @@
 /**
 * @file test.cxx
 * @brief Test program for handoff
-* @author J. Chiang
+* @author 
 *
 * $Header$
 */
 
 #include <cmath>
+
 #include <iostream>
+
+#include <cppunit/ui/text/TextTestRunner.h>
+#include <cppunit/extensions/HelperMacros.h>
+
 #include "irfInterface/IrfsFactory.h"
+
 #include "handoff_response/loadIrfs.h"
 
-void checkPsf(irfInterface::Irfs * irf, float energy, float theta, float phi) {
+class HandoffResponseTests : public CppUnit::TestFixture {
 
-    // Check limit when the separation goes to 0, for which a special
-    // formula is needed
-    double value0=irf->psf()->value(0.,energy,theta,phi);
-    double value1=irf->psf()->value(0.00001,energy,theta,phi);
-    std::cout<<"values at 0 and close to it: "<<value0<<" "<<value1<<std::endl;
+   CPPUNIT_TEST_SUITE(HandoffResponseTests);
 
-    // Check that the integral is correctly normalized to 1
-    //float max = 50; //degrees
-    float max = 15; //degrees
-    float step=0.001;//degrees
-    float Integral=0.;
-    int run=0;
-    while(run*step<max){
-        float delta=run*step;
-        float psfval = irf->psf()->value(delta,energy,theta,phi);
-#if 1
-        Integral += psfval*std::sin(delta*M_PI/180.);
-#else
-          Integral += psfval* (delta*M_PI/180.);
-#endif
-        run++;
-    }
-    Integral*=step*M_PI/180.;//step in radians
-    Integral*=2*M_PI;//No dependance on phi
-    std::cout<<"Integral from 0 to 50 degrees : "<<Integral<<std::endl;
+   CPPUNIT_TEST(psf_zero_separation);
+   CPPUNIT_TEST(psf_normalization);
+
+   CPPUNIT_TEST_SUITE_END();
+
+public:
+
+   void setUp();
+   void tearDown();
+
+   void psf_zero_separation();
+   void psf_normalization();
+
+private:
+
+   irfInterface::IrfsFactory * m_irfsFactory;
+   std::vector<std::string> m_irfNames;
+
 };
 
-int main(int argc, char* argv[]) {
-    float energy=1000.;//MeV
-    float theta=0.*M_PI/180.;
-    float phi=0.*M_PI/180.;  
-    switch (argc){
-   case 2 :
-       energy=std::atof(argv[1]);
-       break;
-   case 3 :
-       energy=std::atof(argv[1]);
-       theta=std::atof(argv[2])*M_PI/180.;
-       break;
-   case 4 :
-       energy=std::atof(argv[1]);
-       theta=std::atof(argv[2])*M_PI/180.;
-       phi=std::atof(argv[3])*M_PI/180.;
-       break;
-   default :
-       break;
-    }
+void HandoffResponseTests::setUp() {
+   m_irfsFactory = irfInterface::IrfsFactory::instance();
+   m_irfsFactory->getIrfsNames(m_irfNames);
+}
 
-    try {
-        handoff_response::loadIrfs();
-        irfInterface::IrfsFactory * myFactory  = irfInterface::IrfsFactory::instance();
-        irfInterface::Irfs * myIrfs(0);
-        double totalAeff(0);
+void HandoffResponseTests::tearDown() {
+   m_irfNames.clear();
+}
 
-        std::vector<std::string> names;
-        myFactory->getIrfsNames(names);
+void HandoffResponseTests::psf_zero_separation() {
+   double energy(1e3);
+   double theta(0);
+   double phi(0);
 
-        std::cout << "Tests are run at e = "<< energy << " MeV"<< std::endl;
-        for( std::vector<std::string>::const_iterator it = names.begin(); it!=names.end(); ++it){
-            const std::string& name = *it;
-            myIrfs = myFactory->create(name);
-            std::cout << name <<": " << myIrfs->aeff()->upperLimit() << std::endl;
-            totalAeff += myIrfs->aeff()->upperLimit();
-            checkPsf(myIrfs,energy,theta,phi);
-            delete myIrfs;
+   double delta_sep(1e-4);
+   double tol(1e-3);
+   
+   for (std::vector<std::string>::const_iterator name = m_irfNames.begin();
+        name != m_irfNames.end(); ++name) {
+      irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
+      const irfInterface::IPsf & psf(*myIrfs->psf());
+      for (theta = 0; theta < 70; theta += 5.) {
+         double value0(psf.value(0, energy, theta, phi));
+         double value1(psf.value(delta_sep, energy, theta, phi));
+//         if (std::fabs((value0 - value1)/value0) >= tol) {
+            std::cout << "theta = " << theta << ": "
+                      << "psf value at 0 = " << value0 << "  "
+                      << "psf value at 1e-4 = " << value1 << std::endl;
+//         }
+         CPPUNIT_ASSERT(std::fabs((value0 - value1)/value0) < tol);
+      }
+   }
+}
 
-        }
-        std::cout << "Total: " << totalAeff << std::endl;
-        std::exit(0);
-    } catch (std::exception & eObj) {
-        std::cout << eObj.what() << std::endl;
-    } catch (std::string & what) {
-        std::cout << what << std::endl;
-    }
-    std::exit(1);
+void HandoffResponseTests::psf_normalization() {
+   double energy(1e3);
+   double theta(0);
+   double phi(0);
+
+   double tol(1e-2);
+
+   std::vector<double> psi;
+   double psimin(0);
+   double psimax(90);
+   size_t npsi(1000);
+   double dpsi((psimax - psimin)/(npsi-1));
+   for (size_t i = 0; i < npsi; i++) {
+      psi.push_back(i*dpsi + psimin);
+   }
+
+   std::cout << "psf integral values: \n";
+   for (std::vector<std::string>::const_iterator name = m_irfNames.begin();
+        name != m_irfNames.end(); ++name) {
+      irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
+      const irfInterface::IPsf & psf(*myIrfs->psf());
+      
+      std::vector<double> psf_values;
+      for (size_t i = 0; i < psi.size(); i++) {
+         psf_values.push_back(psf.value(psi.at(i), energy, theta, phi));
+      }
+
+      double integral(0);
+      for (size_t i = 0; i < psi.size() - 1; i++) {
+         integral += ((psf_values.at(i)*std::sin(psi.at(i)*M_PI/180.) + 
+                       psf_values.at(i+1)*std::sin(psi.at(i+1)*M_PI/180.))/2.
+                      *dpsi*M_PI/180.);
+      }
+      integral *= 2.*M_PI;
+      std::cout << *name << ": " << integral << std::endl;
+
+      CPPUNIT_ASSERT(std::fabs(integral - 1.) < tol);
+   }
+}
+
+
+int main() {
+   handoff_response::loadIrfs();
+
+   CppUnit::TextTestRunner runner;
+   runner.addTest(HandoffResponseTests::suite());
+   bool result(runner.run());
+   if (result) {
+      return 0;
+   } else {
+      return 1;
+   }
 }

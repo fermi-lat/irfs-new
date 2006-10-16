@@ -1,7 +1,7 @@
 /**
  * @file Psf.h
  * @brief Psf class declaration.
- * @author J. Chiang
+ * @author
  *
  * $Header$
  */
@@ -21,9 +21,9 @@ namespace handoff_response{
 /**
  * @class Psf
  *
- * @brief declare IPsf subclass for handoff point spread function
+ * @brief 
  *
- * @author J. Chiang
+ * @author 
  *
  */
 
@@ -31,7 +31,8 @@ class Psf : public irfInterface::IPsf {
 
 public:
 
-    Psf(handoff_response::IrfEval * eval);
+   Psf(handoff_response::IrfEval * eval);
+
    Psf(); 
 
    virtual ~Psf();
@@ -43,7 +44,7 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
-   /// @param time   MET
+   /// @param time MET
    virtual double value(const astro::SkyDir & appDir, 
                         double energy, 
                         const astro::SkyDir & srcDir, 
@@ -58,7 +59,7 @@ public:
    /// @param theta True photon inclination angle (degrees).
    /// @param phi True photon azimuthal angle measured wrt the instrument
    ///            X-axis (degrees).
-   /// @param time   MET
+   /// @param time MET
    virtual double value(double separation, double energy, double theta,
                         double phi,
                         double time=0) const;
@@ -91,8 +92,8 @@ public:
                                 const astro::SkyDir & srcDir,
                                 const astro::SkyDir & scZAxis,
                                 const astro::SkyDir & scXAxis,
-                                double time=0
-                                ) const;
+                                double time=0) const;
+
    virtual Psf * clone() {return new Psf(*this);}
 
 
