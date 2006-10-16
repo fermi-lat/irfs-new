@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Oct 16 09:09:31 PDT 2006
+irfs/handoff_response/cmt
+
+Removed Files:
+	NMake 
+Log Message:
+remove superfluous NMake file
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1, operation: add
 Package: handoff_response
