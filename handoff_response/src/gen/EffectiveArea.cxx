@@ -81,8 +81,8 @@ void EffectiveArea::writeFitParameters(std::string outputFile, std::string treen
 }
 void EffectiveArea::fillParameterTables()
 {
-#if 0
-    m_hist->Scale(m_norm);
+#if 1
+   // m_hist->Scale(m_norm);
     m_hist->Write(); // update in the output file
 #endif
 }

@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
         logfile << "Cuts:          " << s[1] << std::endl;
 
         std::string folder(s.root());
-        bool make_plots(false);
+        bool make_plots(true);
 #if 1 //front
         IrfAnalysis front(folder, 1, logfile);
         front.fit(make_plots, "../parameters.root");
