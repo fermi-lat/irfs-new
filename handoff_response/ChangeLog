@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: burnett  Sun Oct 15 21:06:38 PDT 2006
+irfs/handoff_response/data
+
+Modified Files:
+	parameters.root 
+Added Files:
+	names.txt 
+Log Message:
+fix aeff, generate ps files by default.
+    *
+------------------------------------------------------------
 User: burnett  Sun Oct 15 16:55:48 PDT 2006
 irfs/handoff_response/src/irfs
 
