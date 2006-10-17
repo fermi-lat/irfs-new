@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Tue Oct 17 10:18:45 PDT 2006
+irfs/handoff_response/src
+
+Modified Files:
+	loadIrfs.cxx 
+Log Message:
+fix normalization of psf
+    *
+------------------------------------------------------------
+User: burnett  Tue Oct 17 10:18:45 PDT 2006
 irfs/handoff_response/src/irfs
 
 Modified Files:
