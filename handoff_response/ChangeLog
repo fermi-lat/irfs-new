@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Oct 16 17:07:47 PDT 2006
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	RootEval.cxx 
+Log Message:
+throw exception when solid angle normalization parameters are zero, causing floating point errors
+    *
+------------------------------------------------------------
 User: jchiang  Mon Oct 16 15:40:58 PDT 2006
 irfs/handoff_response/src/test
 
