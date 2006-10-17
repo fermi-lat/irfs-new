@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct 17 10:24:56 PDT 2006
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	Psf.cxx Psf.h 
+Log Message:
+use default implementation for appDir
+    *
+------------------------------------------------------------
 User: burnett  Tue Oct 17 10:18:45 PDT 2006
 irfs/handoff_response/src
 
