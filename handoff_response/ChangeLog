@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct 17 15:12:23 PDT 2006
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	Edisp.cxx 
+Log Message:
+some commented out code that actually does something sensible
+    *
+------------------------------------------------------------
 User: jchiang  Tue Oct 17 14:53:09 PDT 2006
 irfs/handoff_response/src/test
 
