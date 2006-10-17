@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Tue Oct 17 10:18:45 PDT 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	PointSpreadFunction.cxx PointSpreadFunction.h 
+Log Message:
+fix normalization of psf
+    *
+------------------------------------------------------------
+User: burnett  Tue Oct 17 10:18:45 PDT 2006
 irfs/handoff_response/data
 
 Modified Files:
