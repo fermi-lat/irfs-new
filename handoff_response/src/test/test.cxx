@@ -81,6 +81,7 @@ void HandoffResponseTests::psf_zero_separation() {
          }
          CPPUNIT_ASSERT(std::fabs((value0 - value1)/value0) < tol);
       }
+      delete myIrfs;
    }
 }
 
@@ -203,12 +204,13 @@ void HandoffResponseTests::edisp_normalization() {
               theta != thetas.end(); ++theta) {
             double integral(edisp.integral(elower, eupper, *energy,
                                            *theta, phi));
-           if (std::fabs(integral - 1.) >= tol) {
+            if (std::fabs(integral - 1.) >= tol) {
                std::cout << *energy << "     "
                          << *theta  << "          "
                          << integral << std::endl;
                integralFailures = true;
             }
+//            CPPUNIT_ASSERT(std::fabs(integral - 1.) < tol);
          }
       }
       CPPUNIT_ASSERT(!integralFailures);
