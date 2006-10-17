@@ -13,6 +13,7 @@ $Header$
 #include "TH2F.h"
 #include "TGraph2D.h" 
 
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <cmath>
@@ -28,8 +29,8 @@ public:
     , m_graph(new TGraph2D(hist))
     {
       //  std::cout << "Loading " << hist->GetTitle() << std::endl;
-        double check= value(3.0, 0.85);
-        double check2= value(3.0, 0.85);// second fails?
+//         double check= value(3.0, 0.85);
+//         double check2= value(3.0, 0.85);// second fails?
     }
 
     double value(double logenergy, double costh);
@@ -71,7 +72,7 @@ RootEval::RootEval(std::string filename, std::string eventtype)
 RootEval::~RootEval(){ delete m_f;}
 
 
-double RootEval::aeff(double energy, double theta, double phi)
+double RootEval::aeff(double energy, double theta, double /*phi*/)
 {
     static double factor(1e4); // from m^2 to cm&2
     double costh(cos(theta*M_PI/180));
@@ -84,13 +85,14 @@ double RootEval::aeffmax()
     return m_aeff->maximum();
 }
 
-double RootEval::psf(double delta, double energy, double theta, double phi)
+double RootEval::psf(double delta, double energy, double theta, double /*phi*/)
 {
     double costh(cos(theta*M_PI/180));
     return PointSpreadFunction::function(&delta, psf_par(energy, costh));           
 }
 
-double RootEval::dispersion(double emeas, double energy, double theta, double phi)
+double RootEval::dispersion(double emeas, double energy, double theta, 
+                            double /*phi*/)
 {
     double costh(cos(theta*M_PI/180));
     return Dispersion::function(&emeas, disp_par(energy,costh));
@@ -112,6 +114,14 @@ double * RootEval::psf_par(double energy, double costh)
     par[1] = m_sigma->value(loge,costh) * PointSpreadFunction::scaleFactor(energy, zdir, isFront());
     par[2] = m_gcore->value(loge,costh);
     par[3] = m_gtail->value(loge,costh);
+    if (par[1] == 0 || par[2] == 0) {
+       std::ostringstream message;
+       message << "handoff_response::RootEval: psf parameters are zero in " 
+               << "when computing solid angle normalization:\n"
+               << "par[1] = " << par[1] << "\n"
+               << "par[2] = " << par[2] << std::endl;
+       throw std::runtime_error(message.str());
+    }
     par[0] = 1.0/(2.*M_PI * par[1] * par[1]); // solid angle normalization (not using fit)
     if( par[3]==0) par[3]=par[2];
     return par;

@@ -81,8 +81,6 @@ void HandoffResponseTests::psf_zero_separation() {
 }
 
 void HandoffResponseTests::psf_normalization() {
-//    double energy(1e3);
-//    double theta(0);
    double phi(0);
 
    double tol(1e-2);
@@ -90,7 +88,7 @@ void HandoffResponseTests::psf_normalization() {
    std::vector<double> psi;
    double psimin(1e-4);
    double psimax(90);
-   size_t npsi(10000);
+   size_t npsi(1000);
    double dpsi(std::log(psimax/psimin)/(npsi-1));
    psi.push_back(0);
    for (size_t i = 0; i < npsi; i++) {
@@ -114,8 +112,11 @@ void HandoffResponseTests::psf_normalization() {
    for (size_t i = 0; i < nth; i++) {
       thetas.push_back(i*dth + thmin);
    }
+//    thetas.push_back(70);
 
    std::cout << "psf integral values: \n";
+//    m_irfNames.clear();
+//    m_irfNames.push_back("full/front");
    for (std::vector<std::string>::const_iterator name = m_irfNames.begin();
         name != m_irfNames.end(); ++name) {
       std::cout << *name << ": \n";
@@ -156,7 +157,7 @@ void HandoffResponseTests::psf_normalization() {
 int main() {
 #ifdef TRAP_FPE
 // Add floating point exception traps.
-//    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
+   feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
 
    handoff_response::loadIrfs();
