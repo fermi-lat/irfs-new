@@ -11,13 +11,14 @@
 
 #include "handoff_response/IrfEval.h"
 
-#include "irfInterface/IEdisp.h"
+#include "IEdisp.h"
 
 #include <utility>
 
 #include <vector>
 
-namespace handoff_response{
+namespace handoff_response {
+
 /**
  * @class Edisp
  *
@@ -26,11 +27,11 @@ namespace handoff_response{
  *
  */
 
-class Edisp : public irfInterface::IEdisp {
+class Edisp : public IEdisp {
 
 public:
 
-    Edisp(handoff_response::IrfEval* eval);
+   Edisp(handoff_response::IrfEval* eval);
 
    virtual ~Edisp() {}
 
@@ -51,40 +52,6 @@ public:
    virtual double value(double appEnergy, double energy,
                         double theta, double phi,
                         double time=0) const;
-
-   virtual double appEnergy(double energy, 
-                            const astro::SkyDir &srcDir,
-                            const astro::SkyDir &scZAxis,
-                            const astro::SkyDir &scXAxis,
-                            double time=0) const;
-
-   /// Return the integral of the energy dispersion function over
-   /// the specified interval in apparent energy.
-   /// @param emin Apparent energy lower bound (MeV)
-   /// @param emax Apparent energy upper bound (MeV)
-   /// @param energy True photon energy (MeV)
-   /// @param srcDir True photon direction.
-   /// @param scZAxis Spacecraft z-axis.
-   /// @param scXAxis Spacecraft x-axis.
-   /// @param time   MET
-   virtual double integral(double emin, double emax, double energy,
-                           const astro::SkyDir &srcDir, 
-                           const astro::SkyDir &scZAxis,
-                           const astro::SkyDir &scXAxis,
-                           double time=0) const;
-
-   /// Return the integral of the energy dispersion function 
-   /// using instrument coordinates.
-   /// @param emin Apparent energy lower bound (MeV)
-   /// @param emax Apparent energy upper bound (MeV)
-   /// @param energy True photon energy (MeV).
-   /// @param theta True inclination angle (degrees).
-   /// @param phi True azimuthal angle measured wrt the instrument
-   ///            X-axis (degrees).
-   /// @param time   MET
-   virtual double integral(double emin, double emax, double energy, 
-                           double theta, double phi,
-                           double time=0) const;
 
    virtual Edisp * clone() {return new Edisp(*this);}
 

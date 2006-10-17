@@ -45,7 +45,6 @@ public:
    virtual double angularIntegral(double energy, double theta, double phi,
                                   double radius, double time=0) const;
 
-//protected:
 private:
 
    static double s_energy;

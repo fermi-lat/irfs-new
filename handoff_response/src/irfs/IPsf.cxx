@@ -8,6 +8,7 @@
  */
 
 #include <cmath>
+#include <algorithm>
 
 #include "CLHEP/Random/RandFlat.h"
 #include "CLHEP/Geometry/Vector3D.h"
@@ -18,7 +19,6 @@
 
 #include "IPsf.h"
 
-#include <algorithm>
 namespace handoff_response {
 
 double IPsf::s_energy(1e3);

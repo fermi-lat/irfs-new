@@ -28,6 +28,8 @@ class HandoffResponseTests : public CppUnit::TestFixture {
    CPPUNIT_TEST(psf_zero_separation);
    CPPUNIT_TEST(psf_normalization);
 
+   CPPUNIT_TEST(edisp_normalization);
+
    CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -37,6 +39,8 @@ public:
 
    void psf_zero_separation();
    void psf_normalization();
+
+   void edisp_normalization();
 
 private:
 
@@ -154,10 +158,63 @@ void HandoffResponseTests::psf_normalization() {
 //             CPPUNIT_ASSERT(std::fabs(angInt - 1.) < tol);
          }
       }
+      delete myIrfs;
    }
    CPPUNIT_ASSERT(!integralFailures);
 }
 
+void HandoffResponseTests::edisp_normalization() {
+
+   std::vector<double> energies;
+   double emin(30);
+   double emax(1.7e5);
+   size_t nee(10);
+   double dee(std::log(emax/emin)/(nee-1));
+   for (size_t i = 0; i < nee; i++) {
+      energies.push_back(emin*std::exp(i*dee));
+   }
+
+   std::vector<double> thetas;
+   double thmin(0);
+   double thmax(70);
+   size_t nth(8);
+   double dth((thmax - thmin)/(nth-1));
+   for (size_t i = 0; i < nth; i++) {
+      thetas.push_back(i*dth + thmin);
+   }
+
+   double phi(0);
+
+   double tol(1e-2);
+
+   bool integralFailures(false);
+   std::cout << "Energy dispersion integral values that fail 1% tolerance: \n"
+             << "energy  inclination  integral \n";
+
+   for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
+        name != m_irfNames.end(); ++name) {
+      irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
+      const irfInterface::IEdisp & edisp(*myIrfs->edisp());
+      for (std::vector<double>::const_iterator energy(energies.begin());
+           energy != energies.end(); ++energy) {
+         double elower(*energy/10.);
+         double eupper(*energy*10.);
+         for (std::vector<double>::const_iterator theta(thetas.begin());
+              theta != thetas.end(); ++theta) {
+            double integral(edisp.integral(elower, eupper, *energy,
+                                           *theta, phi));
+           if (std::fabs(integral - 1.) >= tol) {
+               std::cout << *energy << "     "
+                         << *theta  << "          "
+                         << integral << std::endl;
+               integralFailures = true;
+            }
+         }
+      }
+      CPPUNIT_ASSERT(!integralFailures);
+      delete myIrfs;
+   }
+}
 
 int main() {
 #ifdef TRAP_FPE
