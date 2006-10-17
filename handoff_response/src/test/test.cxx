@@ -64,18 +64,18 @@ void HandoffResponseTests::psf_zero_separation() {
    
    for (std::vector<std::string>::const_iterator name = m_irfNames.begin();
         name != m_irfNames.end(); ++name) {
-      std::cout << *name << ": \n";
       irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
       const irfInterface::IPsf & psf(*myIrfs->psf());
       for (theta = 0; theta < 70; theta += 5.) {
          double value0(psf.value(0, energy, theta, phi));
          double value1(psf.value(delta_sep, energy, theta, phi));
-//         if (std::fabs((value0 - value1)/value0) >= tol) {
+         if (std::fabs((value0 - value1)/value0) >= tol) {
+            std::cout << *name << ": \n";
             std::cout << "theta = " << theta << ": "
                       << "psf value at 0 = " << value0 << "  "
                       << "psf value at 1e-4 = " << value1 << std::endl;
-//         }
-//         CPPUNIT_ASSERT(std::fabs((value0 - value1)/value0) < tol);
+         }
+         CPPUNIT_ASSERT(std::fabs((value0 - value1)/value0) < tol);
       }
    }
 }
@@ -112,11 +112,12 @@ void HandoffResponseTests::psf_normalization() {
    for (size_t i = 0; i < nth; i++) {
       thetas.push_back(i*dth + thmin);
    }
-//    thetas.push_back(70);
 
-   std::cout << "psf integral values: \n";
-//    m_irfNames.clear();
-//    m_irfNames.push_back("full/front");
+   std::cout << "PSF integral values that fail 1% tolerance: \n"
+             << "energy  inclination  integral est.  angularIntegral\n";
+
+   bool integralFailures(false);
+
    for (std::vector<std::string>::const_iterator name = m_irfNames.begin();
         name != m_irfNames.end(); ++name) {
       std::cout << *name << ": \n";
@@ -141,16 +142,20 @@ void HandoffResponseTests::psf_normalization() {
                   *(psi.at(i+1) - psi.at(i))*M_PI/180.;
             }
             integral *= 2.*M_PI;
-            std::cout << *energy << "  " 
-                      << *theta << "  "
-                      << integral << "  "
-                      << psf.angularIntegral(*energy, *theta, phi, 70.) 
-                      << std::endl;
+            double angInt(psf.angularIntegral(*energy, *theta, phi, 70.));
+            if (std::fabs(integral - 1.) >= tol) { 
+               std::cout << *energy  << "      " 
+                         << *theta   << "           "
+                         << integral << "        "
+                         << angInt << std::endl;
+               integralFailures = true;
+            }
+//             CPPUNIT_ASSERT(std::fabs(integral - 1.) < tol);
+//             CPPUNIT_ASSERT(std::fabs(angInt - 1.) < tol);
          }
       }
-
-//      CPPUNIT_ASSERT(std::fabs(integral - 1.) < tol);
    }
+   CPPUNIT_ASSERT(!integralFailures);
 }
 
 
