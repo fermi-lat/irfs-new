@@ -25,12 +25,13 @@
 #include <stdexcept>
 #include <vector>
 
+#if 0 
+#include "TPaletteAxis.h" 
 namespace {
-#ifdef WIN32
-//#include "TPaletteAxis.h" 
-//TPaletteAxis junk; 
-#endif
+  TPaletteAxis junk; 
 }
+#endif
+
 namespace handoff_response{
 
     /** @class RootEventClassList

@@ -31,7 +31,7 @@ public:
       //  std::cout << "Loading " << hist->GetTitle() << std::endl;
         double check = value(3.0, 0.85);
         double check2 = value(3.0, 0.85);// second fails?
-        if (!check == check2) {
+        if (check != check2) {
            throw std::runtime_error("RootEval::Table: value method error");
         }
     }
@@ -63,8 +63,7 @@ RootEval::RootEval(std::string filename, std::string eventtype)
 {
     if( m_f==0) throw std::invalid_argument("RootEval: could not open ROOT file "+filename);
 
-    m_aeff=setupHist( "aeff");
-    //       std::cout << "Aeff: " << m_aeff->GetEntries() << " found entries" << std::endl;
+    m_aeff  = setupHist("aeff");
     m_sigma = setupHist("sigma");
     m_gcore = setupHist("gcore");
     m_gtail = setupHist("gtail");
@@ -121,12 +120,19 @@ double * RootEval::psf_par(double energy, double costh)
        std::ostringstream message;
        message << "handoff_response::RootEval: psf parameters are zero in " 
                << "when computing solid angle normalization:\n"
-               << "par[1] = " << par[1] << "\n"
-               << "par[2] = " << par[2] << std::endl;
+               << "\tenergy = " << energy << "\n"
+               << "\tcosth  = " << zdir   << "\n"
+               << "\tpar[1] = " << par[1] << "\n"
+               << "\tpar[2] = " << par[2] << std::endl;
+       std::cerr << message.str() << std::endl;
        throw std::runtime_error(message.str());
     }
-    par[0] = 1.0/(2.*M_PI * par[1] * par[1]); // solid angle normalization (not using fit)
     if( par[3]==0) par[3]=par[2];
+    // manage normalization by replacing normalization parameter for current set of parameters
+    par[0]=1;
+    static double theta_max(50); // how to set this? Too high.
+    double norm = PointSpreadFunction::integral(&theta_max,par);
+    par[0] = 1./norm/(2.*M_PI * par[1] * par[1]); // solid angle normalization 
     return par;
 }
 

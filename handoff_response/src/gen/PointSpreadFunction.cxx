@@ -21,12 +21,8 @@ namespace {
     static int nbins=50;
 
     // specify fit function
-#if 1
     static const char* pnames[]={"pnorm", "sigma", "gcore","gtail"};
-#else
-    static const char* pnames[]={"pnorm", "sigma", "gamma"};
-#endif
-    static double pinit[]={1,     0.3,  2.5,  2.0};
+    static double pinit[]={1,     0.3,  2.5,  2.5};
     static double pmin[]= {0.01,  0.15, 1.0,  1.5};
     static double pmax[]= {50.,   2.0,  5.0,  5.0};
 
@@ -40,7 +36,7 @@ namespace {
         return (1-1./gamma) * pow(1+u/gamma, -gamma);
     }
     double psf_base_integral(double u,double /* sigma*/, double gamma){
-        return 1- pow(1+u/gamma, 1-gamma);
+        return u>1e3? 1 : 1- pow(1+u/gamma, 1-gamma);
     }
     double psf_function( double * x, double * p)
     {
@@ -70,16 +66,12 @@ namespace {
         double  sigma = p[1], gamma = p[2];
         double u = ::pow(10., 2* (*x))/2/sqr(sigma);
         //double r = ::pow(10., 2* (*x))/2/sqr(sigma), u=r*r/2.;
-#if 0
-        return p[0]*psf_base(u, sigma, gamma);
-#else
         double  gamma_tail = p[3]; // reduce the exponent for tail
         return u<u_break
             ? p[0] * psf_base(u, sigma, gamma)
             : p[0]  * psf_base(u_break,sigma, gamma) 
                     * psf_base(u,      sigma, gamma_tail) 
                     / psf_base(u_break,sigma, gamma_tail);
-#endif
     }
 
     TH1F* cumulative_hist(TH1F& h)
@@ -100,7 +92,7 @@ namespace {
 
 
 
-// external version
+// external versions
 double PointSpreadFunction::function(double* x, double *p)
 {
     double  sigma = p[1], gamma = p[2];
@@ -113,6 +105,23 @@ double PointSpreadFunction::function(double* x, double *p)
         / psf_base(u_break,sigma, gamma_tail);
 }
 
+double PointSpreadFunction::integral(double* x, double *par)
+{
+    double sigma = par[1], gamma = par[2];
+    double u = 0.5* sqr((*x)/sigma);
+    double  gamma_tail = par[3]; // reduce the exponent for tail
+    if( u< u_break) {
+        return par[0]*psf_base_integral(u,sigma,gamma);
+    }
+    double gtail = par[3];
+    return par[0]*
+        (
+        psf_base_integral(u_break, sigma, gamma)
+        + psf_base(u_break,sigma, gamma)/psf_base(u_break,sigma, gtail)
+        *(psf_base_integral(u,      sigma, gtail)
+        -psf_base_integral(u_break,sigma, gtail))
+        );
+}
 const char* PointSpreadFunction::parname(int i){return pnames[i];}
 int PointSpreadFunction::npars(){return sizeof(pnames)/sizeof(void*);}
 
@@ -123,11 +132,8 @@ PointSpreadFunction::PointSpreadFunction(std::string histname,
                                          
 : m_hist( new TH1F(histname.c_str(),  title.c_str(),  nbins, xmin, xmax))
 //, m_fitfunc(TF1("psf-fit", psf_function, -1.5, 1.5, npars()))
-#if 0 // old function
-, m_fitfunc(TF1("psf-fit", psf_function, fitrange[0], fitrange[1], npars()))
-#else
+
 , m_fitfunc(TF1("psf-fit", psf_with_tail, fitrange[0], fitrange[1], npars()))
-#endif
 , m_count(0)
 , m_log(& log)
 {
@@ -174,12 +180,6 @@ void PointSpreadFunction::summarize()
                 // fit was done -- summarize the parameters
                 out() << std::setw(10) <<  std::setprecision(3) << params[j];
             }
-#if 0 // not needed with tail managed now?
-            // examine the prediction of the fit beyond the fit interval, and compare with actual
-            double predtail = 1-psf_integral(&fitrange[1], &params[1]);
-            out() << std::setw(10) <<  std::setprecision(3) << predtail*100;
-            out() << std::setw(10) <<  std::setprecision(3) << m_tail*100;
-#endif
 
         }else{
             out() << std::setw(8) << "--" << std::setw(10) << "--";
@@ -251,8 +251,8 @@ void PointSpreadFunction::fit(std::string opts)
         h.SetBinContent(k, y/  jacobian); 
         h.SetBinError(k, dy/ jacobian);
     }
+    m_fitfunc.SetParameters(pinit);
     if( m_count > min_entries ) {
-        m_fitfunc.SetParameters(pinit);
         h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
     }
 

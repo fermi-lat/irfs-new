@@ -18,6 +18,7 @@
 
 #include "IPsf.h"
 
+#include <algorithm>
 namespace handoff_response {
 
 double IPsf::s_energy(1e3);

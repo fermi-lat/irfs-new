@@ -47,6 +47,8 @@ public:
     /// access to the function itself
     static double function(double* delta, double* par);
 
+    /// the integral of the function
+    static double integral(double* delta, double* par);
 
     double entries()const{return m_count;}
 
