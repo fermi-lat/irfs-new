@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  16-Oct-06 v1r0p2 JC     throw exception in RootEval for zero parameter 
+                          values in psf normalization.
   16-Oct-06 v1r0p1 JC     make unit tests more rigorous
   16-Oct-06 v1r0   THB    mainpage improvement; encapsulate ROOT
   15-Oct-06 v1     THB    Fix generation code, replace root file with IRF proposal
