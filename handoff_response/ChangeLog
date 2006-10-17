@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Mon Oct 16 20:48:39 PDT 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx PsfPlots.cxx 
+Log Message:
+proper costheta limit
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r0p2, operation: add
 Package: handoff_response
