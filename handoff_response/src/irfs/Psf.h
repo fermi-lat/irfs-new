@@ -87,14 +87,7 @@ public:
                    & acceptanceCones,
                    double time=0);
 
-   virtual astro::SkyDir appDir(double energy,
-                                const astro::SkyDir & srcDir,
-                                const astro::SkyDir & scZAxis,
-                                const astro::SkyDir & scXAxis,
-                                double time=0) const;
-
    virtual Psf * clone() {return new Psf(*this);}
-
 
 protected:
 

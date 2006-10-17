@@ -50,13 +50,6 @@ double Psf::value(double separation, double energy, double theta,
     return m_eval->psf(separation*M_PI/180., energy, theta, phi);
 }
 
-astro::SkyDir Psf::appDir(double ,
-                          const astro::SkyDir & ,
-                          const astro::SkyDir & ,
-                          const astro::SkyDir &, double) const {
-   return astro::SkyDir();
-}
-
 double Psf::angularIntegral(double ,
                             const astro::SkyDir & ,
                             const astro::SkyDir & ,
