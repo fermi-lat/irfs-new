@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct 17 10:51:01 PDT 2006
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+refactor unit tests
+    *
+------------------------------------------------------------
 User: jchiang  Tue Oct 17 10:24:56 PDT 2006
 irfs/handoff_response/src/irfs
 
