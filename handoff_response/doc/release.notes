@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  17-Oct-06 v1r0p3 JC     add Edisp defaults for appEnergy and integral;
+                          update unit tests.
   16-Oct-06 v1r0p2 JC     throw exception in RootEval for zero parameter 
                           values in psf normalization.
   16-Oct-06 v1r0p1 JC     make unit tests more rigorous
