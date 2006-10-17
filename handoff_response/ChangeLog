@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Oct 17 14:53:09 PDT 2006
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+IEdisp w/ appEnergy and integral default imps; update unit tests
+    *
+------------------------------------------------------------
+User: jchiang  Tue Oct 17 14:53:09 PDT 2006
 irfs/handoff_response/src/irfs
 
 Modified Files:
