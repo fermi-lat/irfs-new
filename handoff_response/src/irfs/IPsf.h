@@ -33,17 +33,32 @@ class IPsf : public irfInterface::IPsf {
     
 public:
 
+   IPsf();
+
+   virtual astro::SkyDir appDir(double energy,
+                                const astro::SkyDir & srcDir,
+                                const astro::SkyDir & scZAxis,
+                                const astro::SkyDir & scXAxis,
+                                double time=0) const;
+
    /// Angular integral of the PSF in instrument coordinates. 
    virtual double angularIntegral(double energy, double theta, double phi,
                                   double radius, double time=0) const;
 
-protected:
+//protected:
+private:
 
    static double s_energy;
    static double s_theta;
    static double s_phi;
    static const IPsf * s_self;
    static double coneIntegrand(double * offset);
+   static void setStaticVariables(double energy, double theta, double phi,
+                                  const IPsf * self);
+
+   static std::vector<double> s_psi_values;
+
+   void fill_psi_values();
 
 };
 

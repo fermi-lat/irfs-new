@@ -29,8 +29,11 @@ public:
     , m_graph(new TGraph2D(hist))
     {
       //  std::cout << "Loading " << hist->GetTitle() << std::endl;
-//         double check= value(3.0, 0.85);
-//         double check2= value(3.0, 0.85);// second fails?
+        double check = value(3.0, 0.85);
+        double check2 = value(3.0, 0.85);// second fails?
+        if (!check == check2) {
+           throw std::runtime_error("RootEval::Table: value method error");
+        }
     }
 
     double value(double logenergy, double costh);
