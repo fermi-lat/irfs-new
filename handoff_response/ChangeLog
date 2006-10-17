@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Tue Oct 17 10:18:45 PDT 2006
+irfs/handoff_response/data
+
+Modified Files:
+	parameters.root 
+Log Message:
+fix normalization of psf
+    *
+------------------------------------------------------------
 User: jchiang  Tue Oct 17 06:50:26 PDT 2006
 irfs/handoff_response/src/irfs
 
