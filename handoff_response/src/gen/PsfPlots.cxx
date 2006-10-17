@@ -126,7 +126,7 @@ void PsfPlots::fillParameterTables()
         std::string name(PointSpreadFunction::parname(i));
         TH2F* h2 = new TH2F(name.c_str(), (name+";log energy; costheta").c_str() 
         ,IRF::energy_bins, IRF::logemin, IRF::logemin+IRF::energy_bins*IRF::logedelta
-        ,IRF::angle_bins,  0.3, 1.0
+        ,IRF::angle_bins,  1.0-IRF::angle_bins* IRF::deltaCostheta, 1.0
         );
         std::vector<double> pars;
 
