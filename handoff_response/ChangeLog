@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Tue Oct 17 18:23:35 PDT 2006
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+improve test output a little :-)
+    *
+------------------------------------------------------------
 User: jchiang  Tue Oct 17 17:07:23 PDT 2006
 irfs/handoff_response/src/gen
 
