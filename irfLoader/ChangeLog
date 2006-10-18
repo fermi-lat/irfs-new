@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Oct 18 12:44:45 PDT 2006
+irfs/irfLoader/src
+
+Modified Files:
+	Loader.cxx 
+Log Message:
+wire in handoff_response
+    *
+------------------------------------------------------------
+User: jchiang  Wed Oct 18 12:44:45 PDT 2006
 irfs/irfLoader/cmt
 
 Modified Files:
