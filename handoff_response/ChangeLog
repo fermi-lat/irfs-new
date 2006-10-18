@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Wed Oct 18 10:30:50 PDT 2006
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	RootEval.cxx 
+Log Message:
+fix dispersion calculation
+    *
+------------------------------------------------------------
+User: burnett  Wed Oct 18 10:30:50 PDT 2006
 irfs/handoff_response/src/gen
 
 Modified Files:
