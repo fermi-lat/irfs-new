@@ -134,7 +134,7 @@ double * RootEval::psf_par(double energy, double costh)
     if( par[3]==0) par[3]=par[2];
     // manage normalization by replacing normalization parameter for current set of parameters
     par[0]=1;
-    static double theta_max(50); // how to set this? Too high.
+    static double theta_max(90); // how to set this? Too high.
     double norm = PointSpreadFunction::integral(&theta_max,par);
     par[0] = 1./norm/(2.*M_PI * par[1] * par[1]); // solid angle normalization 
     return par;

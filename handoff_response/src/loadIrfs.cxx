@@ -25,7 +25,7 @@
 #include <stdexcept>
 #include <vector>
 
-#if 0 
+#if 0
 #include "TPaletteAxis.h" 
 namespace {
   TPaletteAxis junk; 
