@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Oct 17 22:44:45 PDT 2006
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+ensure Aeff::upperLimit returns in cm^2; move assert to test all irf types
+    *
+------------------------------------------------------------
+User: jchiang  Tue Oct 17 22:44:45 PDT 2006
 irfs/handoff_response/src/irfs
 
 Modified Files:
