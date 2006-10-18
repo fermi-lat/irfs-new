@@ -40,14 +40,14 @@ macro_append ROOT_libs ""\
 
 macro source "*.cxx" WIN32 "*.cxx *.h"
 
-## prune input data set and create subset
-#application prune -s=gen/prune $(source)
-#
-## run the irf generation analysis
-#application makeirf -s=gen/makeirf $(source) 
-#
-## make a file with 0-66 degree summary of acceptance and psf for sensitivity
-#application reformat -s=gen/reformat $(source)
-#
-## convenient setup alias using DOSKEY for Windows version
-#setup_script alias
+# prune input data set and create subset
+application prune -s=gen/prune $(source)
+
+# run the irf generation analysis
+application makeirf -s=gen/makeirf $(source) 
+
+# make a file with 0-66 degree summary of acceptance and psf for sensitivity
+application reformat -s=gen/reformat $(source)
+
+# convenient setup alias using DOSKEY for Windows version
+setup_script alias
