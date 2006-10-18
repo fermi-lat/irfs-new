@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct 17 17:07:23 PDT 2006
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+uncomment req file apps
+    *
+------------------------------------------------------------
 User: jchiang  Tue Oct 17 17:06:26 PDT 2006
 irfs/handoff_response/src/gen
 
