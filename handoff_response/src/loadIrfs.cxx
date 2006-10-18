@@ -78,17 +78,37 @@ void loadIrfs(const std::string& name)
     irfInterface::IrfsFactory * myFactory = irfInterface::IrfsFactory::instance();
 
     // assuming each evenclass has a front and a back, add them to the factory
-    int i(0);
+//     int i(0);
+//     for( std::vector<std::string>::const_iterator it = classnames.begin();
+//         it!=classnames.end(); ++it,++i){
+//         const std::string& eventclass= *it;
+//         if(verbose) std::cout << "Loading irfs for event class "<< eventclass << std::endl;
+        
+//         IrfLoader front(filename, eventclass+"/front");
+//         myFactory->addIrfs(eventclass+"/front", front.irfs(i), 2*i);
+
+//         IrfLoader back(filename, eventclass+"/back");
+//         myFactory->addIrfs(eventclass+"/back", back.irfs(i+1), 2*i+1);
+//     }
+
+// JC: event classes within each set of IRFs have to be unique within
+// that set of IRFs, and the event class is given by the
+// irfInterface::Irfs::irfID() function and set in the Irfs constructor:
+// Irfs(IAeff *aeff, IPsf *psf, IEdisp *edisp, int irfID),
+// Front vs Back constitute two separate classes, so the argument to
+// IrfLoader::irfs() must be different for each. 
     for( std::vector<std::string>::const_iterator it = classnames.begin();
-        it!=classnames.end(); ++it,++i){
+        it!=classnames.end(); ++it){
         const std::string& eventclass= *it;
         if(verbose) std::cout << "Loading irfs for event class "<< eventclass << std::endl;
         
+        int i(0);
+
         IrfLoader front(filename, eventclass+"/front");
-        myFactory->addIrfs(eventclass+"/front", front.irfs(i), 2*i);
+        myFactory->addIrfs(eventclass+"/front", front.irfs(i), verbose);
 
         IrfLoader back(filename, eventclass+"/back");
-        myFactory->addIrfs(eventclass+"/back", back.irfs(i), 2*i+1);
+        myFactory->addIrfs(eventclass+"/back", back.irfs(i+1), verbose);
     }
     if(verbose) std::cout << "done" << std::endl;
 }   
