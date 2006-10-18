@@ -38,8 +38,7 @@ double Edisp::value(double appEnergy,
 
 double Edisp::value(double appEnergy, double energy,
                     double theta, double phi, double) const {
-  double x((appEnergy - energy)/energy);
-  return m_eval->dispersion(x, energy, theta, phi)/energy;
+  return m_eval->dispersion(appEnergy, energy, theta, phi);
 //    double sigma(energy/10.);
 //    double de(appEnergy - energy);
 //    return std::exp(-de*de/2./sigma/sigma)/std::sqrt(2.*M_PI)/sigma;
