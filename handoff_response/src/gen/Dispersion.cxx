@@ -46,7 +46,7 @@ Dispersion::Hist::Hist(std::string id, std::string title)
 {
     static std::string axistitles(";fit/generated-1");
     m_h = new TH1F(id.c_str(), (title+axistitles).c_str(),  50, -1., 1.);
-    m_h->Sumw2(); // just to make error bars
+//    m_h->Sumw2(); // just to make error bars
 
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -62,6 +62,10 @@ void Dispersion::Hist::fit(std::string opts)
     // add overflow to last bin for display
     int nbins ( h.GetNbinsX() );
     h.SetBinContent(nbins, h.GetBinContent(nbins) +h.GetBinContent(nbins+1));
+
+    // rescale to unit
+    h.Sumw2();
+    h.Scale(1./h.GetEntries());
 
     TF1* f1 = new TF1("f1",function,fitrange[0],fitrange[1]);
     for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++) {
