@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Oct 17 17:07:23 PDT 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx 
+Log Message:
+uncomment req file apps
+    *
+------------------------------------------------------------
+User: jchiang  Tue Oct 17 17:07:23 PDT 2006
 irfs/handoff_response/cmt
 
 Modified Files:
