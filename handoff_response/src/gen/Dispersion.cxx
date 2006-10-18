@@ -37,7 +37,7 @@ double Dispersion::function(double * x, double * p)
 {
    double arg(*x/p[2]);
    if (arg > 40) {
-      return p[0]*pow(1 + *x, p[1]);
+      return p[0]*pow(1 + *x, p[1])*exp(-arg);
    }
    return p[0]*pow(1+*x,p[1])/(1+exp(*x/p[2]));
 }
