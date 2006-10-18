@@ -65,6 +65,8 @@ public:
 
         static bool s_logy; ///< determine if log y
         static int  s_minEntries; ///< minimum number of entries to fit
+        static int  s_bins; ///< number of bins in fit histogram
+        static double s_histrange[2]; ///< range for the fit histogram
 
         static void summaryTitle(std::ostream& out=std::cout);
     private:

@@ -20,7 +20,7 @@ $Header$
 #include <cassert>
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//                Disperion::Hist
+//                Dispersion::Hist
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 // specify fit function -- this devised by Riccardo Rando
 const char* Dispersion::Hist::function="[0]*pow(1+x,[1])/(1+exp(x/[2]))";
@@ -31,22 +31,26 @@ double      Dispersion::Hist::pmax[]  ={1e6,    50,      0.5};
 double      Dispersion::Hist::fitrange[]={-0.4, 0.5};
 bool        Dispersion::Hist::s_logy = true;
 int         Dispersion::Hist::s_minEntries( 10);
+int         Dispersion::Hist::s_bins(50);
+double      Dispersion::Hist::s_histrange[2] = {-1., 1.};
 int Dispersion::Hist::npars(){return sizeof(pnames)/sizeof(const char*);}
 
 double Dispersion::function(double * x, double * p)
 {
+    double ret(0);
    double arg(*x/p[2]);
    if (arg > 40.) {
-      return p[0]*pow(1 + *x, p[1])*exp(-arg);
+      ret = p[0]*pow(1 + *x, p[1])*exp(-arg);
+   }else{
+    ret= p[0]*pow(1+*x,p[1])/(1+exp(*x/p[2]));
    }
-   return p[0]*pow(1+*x,p[1])/(1+exp(*x/p[2]));
+   return ret;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Dispersion::Hist::Hist(std::string id, std::string title)
 {
     static std::string axistitles(";fit/generated-1");
-    m_h = new TH1F(id.c_str(), (title+axistitles).c_str(),  50, -1., 1.);
-//    m_h->Sumw2(); // just to make error bars
+    m_h = new TH1F(id.c_str(), (title+axistitles).c_str(),  s_bins, s_histrange[0], s_histrange[1]);
 
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -65,7 +69,8 @@ void Dispersion::Hist::fit(std::string opts)
 
     // rescale to unit
     h.Sumw2();
-    h.Scale(1./h.GetEntries());
+    double binsize((s_histrange[1]-s_histrange[0])/s_bins );
+    h.Scale(1./binsize/h.GetEntries());
 
     TF1* f1 = new TF1("f1",function,fitrange[0],fitrange[1]);
     for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++) {

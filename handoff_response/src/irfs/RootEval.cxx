@@ -74,6 +74,8 @@ RootEval::RootEval(std::string filename, std::string eventtype)
     m_dnorm = setupHist("dnorm");
     m_rwidth= setupHist("rwidth");
     m_ltail = setupHist("ltail");
+
+
 }
 RootEval::~RootEval(){ delete m_f;}
 
@@ -100,8 +102,9 @@ double RootEval::psf(double delta, double energy, double theta, double /*phi*/)
 double RootEval::dispersion(double emeas, double energy, double theta, 
                             double /*phi*/)
 {
-    double costh(cos(theta*M_PI/180));
-    return Dispersion::function(&emeas, disp_par(energy,costh));
+    double costh(cos(theta*M_PI/180)), x(emeas/energy-1);
+    double ret = Dispersion::function(&x, disp_par(energy,costh));
+    return ret/energy;
 }
 
 RootEval::Table* RootEval::setupHist( std::string name)
@@ -147,8 +150,8 @@ double * RootEval::disp_par(double energy, double costh)
     if( costh==1.0) costh = 0.9999;
     ///@todo: check limits, flag invalid if beyond.
     par[0] = m_dnorm->value(loge,costh);
-    par[1] = m_rwidth->value(loge,costh);
-    par[2] = m_ltail->value(loge,costh);
+    par[1] = m_ltail->value(loge,costh);
+    par[2] = m_rwidth->value(loge,costh);
     return par;
 }
 
