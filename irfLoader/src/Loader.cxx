@@ -16,18 +16,19 @@
 #include "dc2Response/loadIrfs.h"
 #include "g25Response/loadIrfs.h"
 #include "testResponse/loadIrfs.h"
+#include "handoff_response/loadIrfs.h"
 
 #define ST_DLL_EXPORTS
 #include "irfLoader/Loader.h"
 #undef ST_DLL_EXPORTS
 
 namespace {
-   char * irf_names[] = {"DC1", "DC1A", "DC2", "GLAST25", "TEST"};
+   char * irf_names[] = {"DC1", "DC1A", "DC2", "GLAST25", "TEST", "HANDOFF"};
 }
 
 namespace irfLoader {
 
-std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names + 5);
+std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names + 6);
 
 std::map<std::string, std::vector<std::string> > Loader::s_respIds;
 
@@ -89,6 +90,11 @@ void Loader::go(const std::string & irfsName) {
          s_respIds["DC2_A"].clear();
          s_respIds["DC2_A"].push_back("DC2::FrontA");
          s_respIds["DC2_A"].push_back("DC2::BackA");
+      } else if (irfsName == "HANDOFF" && !s_respIds.count("HANDOFF")) {
+         handoff_response::loadIrfs();
+         s_respIds["HANDOFF"].clear();
+         s_respIds["HANDOFF"].push_back("standard/front");
+         s_respIds["HANDOFF"].push_back("standard/back");
       } else {
          if (!s_respIds.count(irfsName)) {
             throw std::invalid_argument("Request for an invalid set of irfs: "

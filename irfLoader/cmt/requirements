@@ -11,6 +11,7 @@ use dc1aResponse v* irfs
 use dc2Response v* irfs
 use g25Response v* irfs
 use testResponse v* irfs
+use handoff_response v* irfs
 
 apply_pattern package_include
 apply_pattern package_linkopts
