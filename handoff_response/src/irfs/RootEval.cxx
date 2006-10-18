@@ -21,6 +21,10 @@ $Header$
 #include <iostream>
 
 using namespace handoff_response;
+#include "TPaletteAxis.h"
+namespace {
+     TPaletteAxis dummy;
+}
 
 class RootEval::Table{
 public:

@@ -1,5 +1,5 @@
 package handoff_response
-version v1r0p3
+version v1r0p4
 
 author Toby Burnett <tburnett@u.washington.edu>
 
@@ -32,11 +32,11 @@ application test_handoff_response -s=test $(source)
 
 macro handoff_response_cppflags  ""\
   Linux "-I ../src -g  "\
-  WIN32 " /I ..\src /wd4800 /wd4305"
+  WIN32 " /I ..\src /wd4800 /wd4305 /wd4258"
 
 macro_append ROOT_libs ""\
-  Linux " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread"\
-  WIN32 " libHist.lib libGraf.lib libGpad.lib "
+  Linux " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread -lHistPainter"\
+  WIN32 " libHist.lib libGraf.lib libGpad.lib libHistPainter.lib"
 
 macro source "*.cxx" WIN32 "*.cxx *.h"
 
