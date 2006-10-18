@@ -61,7 +61,8 @@ namespace handoff_response{
 
 void loadIrfs(const std::string& name) 
 {
-    bool verbose(true);
+//    bool verbose(true);
+   bool verbose(false);
 
     std::string filename(name);
     // if no filename supplied, assume default

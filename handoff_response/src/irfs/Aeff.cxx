@@ -39,6 +39,6 @@ double Aeff::value(double energy, double theta, double phi, double) const {
 }
 
 double Aeff::upperLimit() const {
-    return m_eval->aeffmax();
+    return m_eval->aeffmax()*1e4;
 }
 

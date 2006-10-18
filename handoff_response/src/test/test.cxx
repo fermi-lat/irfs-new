@@ -194,6 +194,7 @@ void HandoffResponseTests::edisp_normalization() {
 
    for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
         name != m_irfNames.end(); ++name) {
+      std::cout << *name << ": \n";
       irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
       const irfInterface::IEdisp & edisp(*myIrfs->edisp());
       for (std::vector<double>::const_iterator energy(energies.begin());
@@ -213,9 +214,9 @@ void HandoffResponseTests::edisp_normalization() {
 //            CPPUNIT_ASSERT(std::fabs(integral - 1.) < tol);
          }
       }
-      CPPUNIT_ASSERT(!integralFailures);
       delete myIrfs;
    }
+   CPPUNIT_ASSERT(!integralFailures);
 }
 
 int main() {
