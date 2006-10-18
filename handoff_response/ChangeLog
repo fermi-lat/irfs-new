@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct 17 17:06:26 PDT 2006
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add missing factor
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r0p3, operation: add
 Package: handoff_response
