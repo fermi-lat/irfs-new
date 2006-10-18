@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Wed Oct 18 10:30:50 PDT 2006
+irfs/handoff_response/data
+
+Modified Files:
+	parameters.root 
+Log Message:
+fix dispersion calculation
+    *
+------------------------------------------------------------
 User: jchiang  Tue Oct 17 22:44:45 PDT 2006
 irfs/handoff_response/src/test
 
