@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  19-Oct-06 v0r6p3  JC    wire in handoff_response
   20-Apr-06 v0r6p2  JC    protect against exposing SCIENCETOOLS_API macro
                           to swig build
   15-Mar-06 v0r6p1  JC    would be nice to be able to move a tag
