@@ -49,21 +49,3 @@ double Psf::value(double separation, double energy, double theta,
     // (back to radians)
     return m_eval->psf(separation*M_PI/180., energy, theta, phi);
 }
-
-double Psf::angularIntegral(double ,
-                            const astro::SkyDir & ,
-                            const astro::SkyDir & ,
-                            const astro::SkyDir &,
-                            const std::vector<irfInterface::AcceptanceCone *> 
-                            & , double) {
-    return 0;
-}
-
-double Psf::angularIntegral(double , 
-                            const astro::SkyDir & ,
-                            double , 
-                            double , 
-                            const std::vector<irfInterface::AcceptanceCone *> 
-                            & , double) { 
-    return 0;
-}

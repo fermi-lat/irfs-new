@@ -67,26 +67,6 @@ public:
                         double phi,
                         double time=0) const;
 
-   /// Angular integral of the PSF over the intersection of acceptance
-   /// cones.
-   virtual double 
-   angularIntegral(double energy,
-                   const astro::SkyDir & srcDir,
-                   const astro::SkyDir & scZAxis,
-                   const astro::SkyDir & scXAxis,
-                   const std::vector<irfInterface::AcceptanceCone *> 
-                   & acceptanceCones,
-                   double time=0);
-
-   virtual double 
-   angularIntegral(double energy,
-                   const astro::SkyDir & srcDir,
-                   double theta, 
-                   double phi, 
-                   const std::vector<irfInterface::AcceptanceCone *> 
-                   & acceptanceCones,
-                   double time=0);
-
    virtual Psf * clone() {return new Psf(*this);}
 
 protected:

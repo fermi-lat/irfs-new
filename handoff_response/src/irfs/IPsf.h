@@ -45,6 +45,26 @@ public:
    virtual double angularIntegral(double energy, double theta, double phi,
                                   double radius, double time=0) const;
 
+   /// Angular integral of the PSF over the intersection of acceptance
+   /// cones.
+   virtual double 
+   angularIntegral(double energy,
+                   const astro::SkyDir & srcDir,
+                   const astro::SkyDir & scZAxis,
+                   const astro::SkyDir & scXAxis,
+                   const std::vector<irfInterface::AcceptanceCone *> 
+                   & acceptanceCones,
+                   double time=0);
+
+   virtual double 
+   angularIntegral(double energy,
+                   const astro::SkyDir & srcDir,
+                   double theta, 
+                   double phi, 
+                   const std::vector<irfInterface::AcceptanceCone *> 
+                   & acceptanceCones,
+                   double time=0);
+
 private:
 
    static double s_energy;
@@ -58,6 +78,14 @@ private:
    static std::vector<double> s_psi_values;
 
    void fill_psi_values();
+
+   static double s_cp;
+   static double s_sp;
+   static double s_cr;
+
+   static double psfIntegrand1(double * mu);
+
+   static double psfIntegrand2(double * mu);
 
 };
 

@@ -17,6 +17,8 @@
 
 #include "st_facilities/dgaus8.h"
 
+#include "irfInterface/AcceptanceCone.h"
+
 #include "IPsf.h"
 
 namespace handoff_response {
@@ -25,6 +27,10 @@ double IPsf::s_energy(1e3);
 double IPsf::s_theta(0);
 double IPsf::s_phi(0);
 const IPsf * IPsf::s_self(0);
+
+double IPsf::s_cp(0);
+double IPsf::s_sp(0);
+double IPsf::s_cr(0);
 
 std::vector<double> IPsf::s_psi_values;
 
@@ -118,6 +124,75 @@ void IPsf::fill_psi_values() {
    for (size_t i = 0; i < npsi; i++) {
       s_psi_values.push_back(psi_min*std::exp(dpsi*i));
    }
+}
+
+double IPsf::angularIntegral(double energy,
+                             const astro::SkyDir & srcDir,
+                             const astro::SkyDir & scZAxis,
+                             const astro::SkyDir & scXAxis,
+                             const std::vector<irfInterface::AcceptanceCone *> 
+                             & acceptanceCones,
+                             double time) {
+   (void)(scXAxis);
+   double theta(srcDir.difference(scZAxis)*180./M_PI);
+   double phi(0);
+   return angularIntegral(energy, srcDir, theta, phi, acceptanceCones, time);
+}
+
+double IPsf::angularIntegral(double energy,
+                             const astro::SkyDir & srcDir,
+                             double theta, 
+                             double phi, 
+                             const std::vector<irfInterface::AcceptanceCone *> 
+                             & acceptanceCones,
+                             double time) {
+   (void)(time);
+
+   setStaticVariables(energy, theta, phi, this);
+   
+   const irfInterface::AcceptanceCone & roiCone(*acceptanceCones.front());
+   double roi_radius(roiCone.radius()*M_PI/180.);
+   double psi(srcDir.difference(roiCone.center()));
+   
+   double one(1.);
+   double mup(std::cos(roi_radius + psi));
+   double mum(std::cos(roi_radius - psi));
+   
+   s_cp = std::cos(psi);
+   s_sp = std::sin(psi);
+   s_cr = std::cos(roi_radius);
+
+   double err(1e-5);
+   long ierr(0);
+
+   double firstIntegral(0);
+   if (psi < roi_radius) {
+      dgaus8_(&psfIntegrand1, &mum, &one, &err, &firstIntegral, &ierr);
+   }
+   
+   double secondIntegral(0);
+   dgaus8_(&psfIntegrand2, &mup, &mum, &err, &secondIntegral, &ierr);
+
+   return firstIntegral + secondIntegral;
+}
+
+double IPsf::psfIntegrand1(double * mu) {
+   double sep(std::acos(*mu)*180./M_PI);
+   return 2.*M_PI*s_self->value(sep, s_energy, s_theta, s_phi);
+}
+
+double IPsf::psfIntegrand2(double * mu) {
+   double sep(std::acos(*mu)*180./M_PI);
+   double phimin(0);
+   double arg((s_cr - *mu*s_cp)/std::sqrt(1. - *mu*(*mu))/s_sp);
+   if (arg >= 1.) {
+      phimin = 0;
+   } else if (arg <= -1.) {
+      phimin = M_PI;
+   } else {
+      phimin = std::acos(arg);
+   }
+   return 2.*phimin*s_self->value(sep, s_energy, s_theta, s_phi);
 }
 
 } // namespace handoff_response
