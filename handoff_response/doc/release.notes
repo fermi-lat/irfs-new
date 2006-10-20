@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  20-Oct-06 v1r1   THB    tagging yet another preliminary version, with interpolation and PSF integral
   19-Oct-06 v1r0p5 JC     tagging preliminary version for Service Challenge
                           test runs with gtobssim
   17-Oct-06 v1r0p4 THB    fix ROOT warning that disfigured output; start PSF integral test at 100 MeV for now
