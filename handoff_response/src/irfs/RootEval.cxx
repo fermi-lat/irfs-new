@@ -9,9 +9,10 @@ $Header$
 #include "../gen/PointSpreadFunction.h"
 #include "../gen/Dispersion.h"
 
+#include "Bilinear.h"
+
 #include "TFile.h"
 #include "TH2F.h"
-#include "TGraph2D.h" 
 
 #include <sstream>
 #include <stdexcept>
@@ -19,6 +20,7 @@ $Header$
 #include <cmath>
 #include <iomanip>
 #include <iostream>
+#include <vector>
 
 using namespace handoff_response;
 #include "TPaletteAxis.h"
@@ -30,43 +32,70 @@ class RootEval::Table{
 public:
     Table(TH2F* hist)
     : m_hist(hist)
-    , m_graph(new TGraph2D(hist))
+    , m_interpolator(0)
     {
-      //  std::cout << "Loading " << hist->GetTitle() << std::endl;
-        double check = value(3.0, 0.85);
-        double check2 = value(3.0, 0.85);// second fails?
-        if (check != check2) {
-           throw std::runtime_error("RootEval::Table: value method error");
+        binArray( 0, 10, hist->GetXaxis(), m_energy_axis);
+        binArray(-1.0,1.00, hist->GetYaxis(), m_angle_axis);
+#if 0
+        std::cout << "energy bins: ";
+        std::copy(m_energy_axis.begin(), m_energy_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
+        std::cout << std::endl;
+
+        std::cout << "angle bins: ";
+        std::copy(m_angle_axis.begin(), m_angle_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
+        std::cout << std::endl;
+#endif
+        for(Bilinear::const_iterator iy = m_angle_axis.begin(); iy!=m_angle_axis.end(); ++iy){
+            float costh ( *iy );
+            if(costh==1.0) costh=0.999; // avoid edge in histgram
+            for(Bilinear::const_iterator ix = m_energy_axis.begin(); ix!= m_energy_axis.end(); ++ix){
+                float loge ( *ix );
+                int bin ( hist->FindBin(loge,costh) );
+                double value ( static_cast<float>(hist->GetBinContent(bin)));
+                m_data_array.push_back(value);
+            }
         }
+
+        m_interpolator = new Bilinear(m_energy_axis, m_angle_axis, m_data_array);
+
     }
 
+    ~Table(){ delete m_interpolator; }
     double value(double logenergy, double costh);
     
     double maximum() { return m_hist->GetMaximum(); }
 private:
+    /// Fill vector array with the bin edges in a ROOT TAxis, with extra ones for the overflow bins
+    void binArray(double low_limit, double high_limit, TAxis* axis, std::vector<float>& array)
+    {
+        array.push_back(low_limit);
+        int nbins(axis->GetNbins());
+        for(int i = 1; i<nbins+1; ++i){
+            array.push_back(axis->GetBinCenter(i));
+        }
+        array.push_back(high_limit);
+        
+    }
     TH2F* m_hist;
-    TGraph2D* m_graph;
+    std::vector<float> m_energy_axis, m_angle_axis, m_data_array;
+    Bilinear* m_interpolator;
+
 };
 double RootEval::Table::value(double logenergy, double costh)
 {
-#if 1
+#if 0  // non-interpolating for tests
     int bin= m_hist->FindBin(logenergy, costh);
     return m_hist->GetBinContent(bin);
 #else
-    if( costh> 0.95) costh=0.95;
-    double ret = m_graph->Interpolate(logenergy,costh);
-    //std::cout << "interpolate: " << logenergy<<", "<< costh << "-->"<< ret << std::endl;
-    return ret;
+    return (*m_interpolator)(logenergy, costh);
 #endif
 }
 
 
-RootEval::RootEval(std::string filename, std::string eventtype)
+RootEval::RootEval(TFile* f, std::string eventtype)
 : IrfEval(eventtype)
-, m_f(new TFile(filename.c_str(), "READONLY"))
+, m_f(f)
 {
-    if( m_f==0) throw std::invalid_argument("RootEval: could not open ROOT file "+filename);
-
     m_aeff  = setupHist("aeff");
     m_sigma = setupHist("sigma");
     m_gcore = setupHist("gcore");
@@ -99,10 +128,19 @@ double RootEval::psf(double delta, double energy, double theta, double /*phi*/)
     return PointSpreadFunction::function(&delta, psf_par(energy, costh));           
 }
 
+double RootEval::psf_integral(double delta, double energy, double theta, double /*phi*/)
+{
+    double costh(cos(theta*M_PI/180));
+    double * par ( psf_par(energy,costh) );
+        
+    return PointSpreadFunction::integral(&delta, par)*(2.*M_PI * par[1] * par[1]);           
+}
+
 double RootEval::dispersion(double emeas, double energy, double theta, 
                             double /*phi*/)
 {
     double costh(cos(theta*M_PI/180)), x(emeas/energy-1);
+    if( x<-0.9 ) return 0;
     double ret = Dispersion::function(&x, disp_par(energy,costh));
     return ret/energy;
 }
@@ -155,4 +193,17 @@ double * RootEval::disp_par(double energy, double costh)
     return par;
 }
 
+
+void RootEval::createMap(std::string filename, std::map<std::string,handoff_response::IrfEval*>& evals)
+{
+    TFile* file= new TFile(filename.c_str(), "readonly");
+    if( !file->IsOpen() ) { throw std::invalid_argument("Could not load the file "+filename);}
+    TList * keys = file->GetListOfKeys();
+    for( int i = 0; i< keys->GetEntries(); ++i){
+        std::string eventclass ( keys->At(i)->GetName() );
+
+        evals[eventclass+"/front"]=new RootEval(file, eventclass+"/front");
+        evals[eventclass+"/back"]=new RootEval(file, eventclass+"/back");
+    }
+}
 

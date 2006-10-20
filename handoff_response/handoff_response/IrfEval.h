@@ -40,6 +40,15 @@ public:
     */
     virtual double psf(double delta, double energy, double theta=0, double phi=0)=0;
 
+    /** Integral of the Point spread function, to the angle delta
+        @param delta  deviation from incoming direction, in degrees
+        @param energy energy in MeV
+        @param theta polar angle in degrees
+        @param phi   azimuthal angle in degrees
+
+    */
+    virtual double psf_integral(double delta, double energy, double theta=0, double phi=0)=0;
+
     /** Energy dispesion function, differential in energy
         @param emeas measured energy in MeV
         @param energy actual energy in MeV

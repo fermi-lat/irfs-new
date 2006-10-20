@@ -38,13 +38,13 @@ int Dispersion::Hist::npars(){return sizeof(pnames)/sizeof(const char*);}
 double Dispersion::function(double * x, double * p)
 {
     double ret(0);
-   double arg(*x/p[2]);
-   if (arg > 40.) {
-      ret = p[0]*pow(1 + *x, p[1])*exp(-arg);
-   }else{
-    ret= p[0]*pow(1+*x,p[1])/(1+exp(*x/p[2]));
-   }
-   return ret;
+    double arg(*x/p[2]);
+    if (arg > 40.) {
+        ret = p[0]*pow(1 + *x, p[1])*exp(-arg);
+    }else{
+        ret= p[0]*pow(1+*x,p[1])/(1+exp(*x/p[2]));
+    }
+    return ret;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Dispersion::Hist::Hist(std::string id, std::string title)
@@ -272,9 +272,9 @@ void Dispersion::fillParameterTables()
         std::string name(Hist::pnames[i]);
 
         TH2F* h2 = new TH2F(name.c_str(), (name+";log energy; costheta").c_str() 
-        ,IRF::energy_bins, IRF::logemin, IRF::logemin+IRF::energy_bins*IRF::logedelta
-        ,IRF::angle_bins,  1.0-IRF::angle_bins* IRF::deltaCostheta, 1.0
-        );
+            ,IRF::energy_bins, IRF::logemin, IRF::logemin+IRF::energy_bins*IRF::logedelta
+            ,IRF::angle_bins,  1.0-IRF::angle_bins* IRF::deltaCostheta, 1.0
+            );
         std::vector<double> pars;
 
         int index(0);

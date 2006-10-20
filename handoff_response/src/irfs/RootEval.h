@@ -10,6 +10,7 @@
 #include "handoff_response/IrfEval.h"
 
 #include <string>
+#include <map>
 
 class TFile;
 
@@ -24,11 +25,12 @@ class RootEval : public IrfEval {
 public:
 
     /** @brief ctor
-        @param filename name of the root file to open
+        @param file  ROOT file
         @param eventclass name of the event class
 
     */
-    RootEval(std::string filename, std::string eventclass);
+    RootEval(TFile* file, std::string eventclass);
+
     virtual ~RootEval();
 
     virtual double aeff(double energy, double theta=0, double phi=0);
@@ -36,8 +38,12 @@ public:
     virtual double aeffmax();
 
     virtual double psf(double delta, double energy, double theta=0, double phi=0);
+    virtual double psf_integral(double delta, double energy, double theta, double phi=0);
+
 
     virtual double dispersion(double emeas, double energy, double theta=0, double phi=0);
+
+    static void RootEval::createMap(std::string filename, std::map<std::string,handoff_response::IrfEval*>& evals);
 
 
 private:

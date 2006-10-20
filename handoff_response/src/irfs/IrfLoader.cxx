@@ -20,28 +20,29 @@ using namespace handoff_response;
 
 
 
-IrfLoader::IrfLoader(const std::string & filename, const std::string & eventclass) 
+IrfLoader::IrfLoader(const std::string & filename) 
 {
     if( filename.find(".root")>0){
-        m_irfeval= new handoff_response::RootEval( filename, eventclass);
-    }else{
+        handoff_response::RootEval::createMap( filename, m_evals );
+   }else{
         throw std::invalid_argument("IrfLoader: cannot process file "+filename
             +". Only ROOT files are currently supported.");
     }
 
 }
-
 IrfLoader::~IrfLoader()
 {
     // should we delete the IrfEval guy? Maybe not.
 }
 
-irfInterface::Irfs * IrfLoader::irfs(int index)
-{
 
-    irfInterface::IAeff* aeff = new Aeff(m_irfeval);
-    irfInterface::IPsf* psf = new Psf(m_irfeval);
-    irfInterface::IEdisp* disp = new Edisp(m_irfeval);
+irfInterface::Irfs * IrfLoader::irfs(std::string name , int index)
+{
+    IrfEval* eval = m_evals[name];
+
+    irfInterface::IAeff* aeff = new Aeff(eval);
+    irfInterface::IPsf* psf = new Psf(eval);
+    irfInterface::IEdisp* disp = new Edisp(eval);
 
     return new irfInterface::Irfs( aeff, psf, disp, index);
 }

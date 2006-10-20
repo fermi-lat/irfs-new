@@ -14,56 +14,18 @@
 #include "irfs/IrfLoader.h"
 
 
-// ROOT
-#include "TDirectory.h"
-#include "TFile.h"
-#include "TKey.h"
-#include "TList.h"
-
 #include <iostream>
 #include <string>
 #include <stdexcept>
 #include <vector>
 
-#if 0
-#include "TPaletteAxis.h" 
-namespace {
-  TPaletteAxis junk; 
-}
-#endif
 
 namespace handoff_response{
 
-    /** @class RootEventClassList
-    @brief helper class to extract the class names from a ROOT file
-
-    Encapsulate the ROOT dependence here to easily allow for eventual support of a CALDB option
-
-    */
-    class RootEventClassList : public std::vector<std::string> {
-    public:
-        RootEventClassList(std::string filename)
-        {
-            TFile* file= new TFile(filename.c_str(), "readonly");
-            if( !file->IsOpen() ) { throw std::invalid_argument("Could not load the file "+filename);}
-            TList * keys = file->GetListOfKeys();
-            for( int i = 0; i< keys->GetEntries(); ++i){
-                std::string eventclass ( keys->At(i)->GetName() );
-                
-                push_back(eventclass);
-            }
-        }
-
-    private:
-    };
-
     
 
-void loadIrfs(const std::string& name) 
+void loadIrfs(const std::string& name, bool verbose) 
 {
-//    bool verbose(true);
-   bool verbose(false);
-
     std::string filename(name);
     // if no filename supplied, assume default
     if( filename.empty()){
@@ -72,45 +34,26 @@ void loadIrfs(const std::string& name)
     }
 
     // get the list of names found in the file
-    RootEventClassList classnames(filename);
+    IrfLoader loader(filename);
 
     // the factory to add our IRFs to
     irfInterface::IrfsFactory * myFactory = irfInterface::IrfsFactory::instance();
 
-    // assuming each evenclass has a front and a back, add them to the factory
-//     int i(0);
-//     for( std::vector<std::string>::const_iterator it = classnames.begin();
-//         it!=classnames.end(); ++it,++i){
-//         const std::string& eventclass= *it;
-//         if(verbose) std::cout << "Loading irfs for event class "<< eventclass << std::endl;
-        
-//         IrfLoader front(filename, eventclass+"/front");
-//         myFactory->addIrfs(eventclass+"/front", front.irfs(i), 2*i);
-
-//         IrfLoader back(filename, eventclass+"/back");
-//         myFactory->addIrfs(eventclass+"/back", back.irfs(i+1), 2*i+1);
-//     }
-
-// JC: event classes within each set of IRFs have to be unique within
+// event classes within each set of IRFs have to be unique within
 // that set of IRFs, and the event class is given by the
 // irfInterface::Irfs::irfID() function and set in the Irfs constructor:
 // Irfs(IAeff *aeff, IPsf *psf, IEdisp *edisp, int irfID),
 // Front vs Back constitute two separate classes, so the argument to
 // IrfLoader::irfs() must be different for each. 
-    for( std::vector<std::string>::const_iterator it = classnames.begin();
-        it!=classnames.end(); ++it){
-        const std::string& eventclass= *it;
+
+    int id(0);
+    for( IrfLoader::const_iterator it = loader.begin(); it!=loader.end(); ++it){
+        const std::string& eventclass= it->first;
+
         if(verbose) std::cout << "Loading irfs for event class "<< eventclass << std::endl;
         
-        int i(0);
-
-        IrfLoader front(filename, eventclass+"/front");
-        myFactory->addIrfs(eventclass+"/front", front.irfs(i), verbose);
-
-        IrfLoader back(filename, eventclass+"/back");
-        myFactory->addIrfs(eventclass+"/back", back.irfs(i+1), verbose);
+        myFactory->addIrfs(eventclass, loader.irfs(eventclass,id++), verbose);
     }
-    if(verbose) std::cout << "done" << std::endl;
 }   
 
 }

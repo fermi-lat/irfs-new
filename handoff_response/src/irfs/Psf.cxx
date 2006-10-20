@@ -27,7 +27,8 @@ double Psf::value(const astro::SkyDir & appDir,
                   double energy, 
                   const astro::SkyDir & srcDir, 
                   const astro::SkyDir & scZAxis,
-                  const astro::SkyDir &, double) const {
+                  const astro::SkyDir &, double) const 
+{
     // Angle between photon and source directions in radians.
     double separation = appDir.difference(srcDir);
 
@@ -38,7 +39,8 @@ double Psf::value(const astro::SkyDir & appDir,
 }
 
 double Psf::value(double separation, double energy, double theta,
-                  double phi, double) const {
+                  double phi, double) const 
+{
     if (theta < 0) {
         std::ostringstream message;
         message << "handoff::Psf::value(...):\n"
@@ -49,3 +51,15 @@ double Psf::value(double separation, double energy, double theta,
     // (back to radians)
     return m_eval->psf(separation*M_PI/180., energy, theta, phi);
 }
+
+
+double Psf::angularIntegral(double energy, double theta, 
+                            double phi, double radius, double time) const 
+{
+#if 0 // enable to check
+    double integral = IPsf::angularIntegral(energy, theta,phi, radius, time);
+#endif
+    double check =  m_eval->psf_integral(radius*M_PI/180., energy, theta, phi);
+    return check;    
+}
+

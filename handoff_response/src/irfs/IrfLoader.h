@@ -9,6 +9,7 @@
 #define handoff_response_IrfLoader_h
 
 #include <string>
+#include <map>
 
 namespace handoff_response {class IrfEval;}
 namespace irfInterface { class Irfs;}
@@ -20,7 +21,7 @@ namespace handoff_response {
  * @brief load irfs from parameter file, create an Irfs object
 
  This is a wrapper around an IrfEval object, which interprets a file containing the
- tabular information.
+ tabular information for perhaps several response functions
  *
  */
 
@@ -28,22 +29,26 @@ class IrfLoader {
 public:
     /** @brief ctor 
         @param parameterfile file containing parameter tables
-        @param eventclass name of event class to select
         
         Depending on the type of the file (currently only ROOT) it invokes an appropriate
         IrfEval subclass.
     */
-    IrfLoader(const std::string & parameterfile, const std::string & eventclass);
+    IrfLoader(const std::string & parameterfile);
     ~IrfLoader();
+
+    typedef std::map<std::string, handoff_response::IrfEval*>::const_iterator const_iterator;
 
     /**@brief return pointer to an Irfs object
     @param index index to assign--should be unique, but not enforced
     */
-    irfInterface::Irfs * irfs(int index=0);
+    irfInterface::Irfs * irfs(std::string name, int index=0);
+
+    const_iterator begin()const{return m_evals.begin();}
+    const_iterator end()const{return m_evals.end();}
 
 private:
 
-    handoff_response::IrfEval* m_irfeval;
+    std::map<std::string, handoff_response::IrfEval*> m_evals;
 
 };
 
