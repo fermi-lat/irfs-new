@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Fri Oct 20 11:18:24 PDT 2006
+irfs/handoff_response/src
+
+Modified Files:
+	loadIrfs.cxx 
+Log Message:
+implement tabular interpolation; refactor ROOT dependence to all be in RootEval; implement PSF integral with analytic expression
+    *
+------------------------------------------------------------
+User: burnett  Fri Oct 20 11:18:24 PDT 2006
 irfs/handoff_response/src/irfs
 
 Modified Files:
