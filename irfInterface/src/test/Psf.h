@@ -17,47 +17,26 @@ class Psf : public irfInterface::IPsf {
 
 public:
 
-   Psf() {}
+   Psf(double maxSep=10);
 
    virtual ~Psf() {}
 
-   virtual double value(const astro::SkyDir &, 
-                        double, 
-                        const astro::SkyDir &,
-                        const astro::SkyDir &,
-                        const astro::SkyDir &,
-                        double) const {return 0;}
+   virtual double value(const astro::SkyDir & appDir, 
+                        double energy, 
+                        const astro::SkyDir & srcDir,
+                        const astro::SkyDir & scZAxis,
+                        const astro::SkyDir & scXAxis,
+                        double time) const;
 
-   virtual double value(double, double, double, 
-                        double, double) const {return 0;}
-
-   virtual double angularIntegral(double,
-                                  const astro::SkyDir &,
-                                  const astro::SkyDir &,
-                                  const astro::SkyDir &,
-                                  const std::vector<irfInterface::AcceptanceCone *> 
-                                  &,
-                                  double) {return 0;}
-
-   virtual double angularIntegral(double,
-                                  const astro::SkyDir &,
-                                  double, double,
-                                  const std::vector<irfInterface::AcceptanceCone *> 
-                                  &,
-                                  double) {return 0;}
-   
-   virtual double angularIntegral(double, double, double,
-                                  double, double) const {return 0;}
-
-   virtual astro::SkyDir appDir(double,
-                                const astro::SkyDir &,
-                                const astro::SkyDir &,
-                                const astro::SkyDir &,
-                                double) const {
-      return astro::SkyDir(0, 0);
-   }
+   virtual double value(double sep, double energy, double theta, 
+                        double phi, double time=0) const;
 
    virtual IPsf * clone() {return new Psf(*this);}
+
+private:
+   
+   double m_maxSep;
+   double m_value;
 };
 
 #endif // irfInterface_Psf_h

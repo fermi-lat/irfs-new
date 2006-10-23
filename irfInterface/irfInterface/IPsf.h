@@ -33,6 +33,8 @@ class IPsf {
     
 public:
 
+   IPsf();
+
    virtual ~IPsf() {}
 
    /// Pure virtual method to define the interface for the member
@@ -69,7 +71,8 @@ public:
                              const astro::SkyDir &scZAxis,
                              const astro::SkyDir &scXAxis,
                              double time=0) const {
-      return value(appDir, energy, srcDir, scZAxis, scXAxis, time);}
+      return value(appDir, energy, srcDir, scZAxis, scXAxis, time);
+   }
 
    /// Angular integral of the PSF over the intersection of acceptance
    /// cones.
@@ -79,7 +82,7 @@ public:
                                   const astro::SkyDir &scXAxis,
                                   const std::vector<AcceptanceCone *> 
                                   &acceptanceCones,
-                                  double time=0) = 0;
+                                  double time=0);
 
    /// Angular integral of the PSF in instrument coordinates.
    /// @param energy True photon energy (MeV)
@@ -94,14 +97,14 @@ public:
                                   double theta, double phi,
                                   const std::vector<AcceptanceCone *> 
                                   &acceptanceCones,
-                                  double time=0) = 0;
+                                  double time=0);
    
    /// Angular integral of the PSF in instrument coordinates.  This
    /// method is equivalent to a call to the previous version of
    /// angularIntegral for which a single AcceptanceCone is centered
    /// on the srcDir.
    virtual double angularIntegral(double energy, double theta, double phi,
-                                  double radius, double time=0) const = 0;
+                                  double radius, double time=0) const;
 
    /// Return a random apparent photon direction drawn from the
    /// PSF distribution.
@@ -109,9 +112,32 @@ public:
                                 const astro::SkyDir &srcDir,
                                 const astro::SkyDir &scZAxis,
                                 const astro::SkyDir &scXAxis,
-                                double time=0) const = 0;
+                                double time=0) const;
 
    virtual IPsf * clone() = 0;
+
+private:
+
+   static double s_energy;
+   static double s_theta;
+   static double s_phi;
+   static double s_time;
+   static const IPsf * s_self;
+   static double coneIntegrand(double * offset);
+   static void setStaticVariables(double energy, double theta, double phi,
+                                  double time, const IPsf * self);
+
+   static std::vector<double> s_psi_values;
+
+   void fill_psi_values();
+
+   static double s_cp;
+   static double s_sp;
+   static double s_cr;
+
+   static double psfIntegrand1(double * mu);
+
+   static double psfIntegrand2(double * mu);
 
 };
 

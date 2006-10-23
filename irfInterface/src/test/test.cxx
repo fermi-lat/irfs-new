@@ -16,6 +16,9 @@
 #include <cppunit/ui/text/TextTestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "astro/SkyDir.h"
+
+#include "irfInterface/AcceptanceCone.h"
 #include "irfInterface/IrfsFactory.h"
 
 #include "Aeff.h"
@@ -32,6 +35,8 @@ class irfInterfaceTests : public CppUnit::TestFixture {
    CPPUNIT_TEST(test_create);
    CPPUNIT_TEST_EXCEPTION(test_creation_failure, std::invalid_argument);
    CPPUNIT_TEST(test_getIrfsNames);
+   CPPUNIT_TEST(psf_normalization);
+   CPPUNIT_TEST(psf_integral);
 
    CPPUNIT_TEST_SUITE_END();
 
@@ -44,6 +49,8 @@ public:
    void test_create();
    void test_creation_failure();
    void test_getIrfsNames();
+   void psf_normalization();
+   void psf_integral();
 
 private:
 
@@ -102,6 +109,49 @@ void irfInterfaceTests::test_getIrfsNames() {
    }
 }
 
+void irfInterfaceTests::psf_normalization() {
+   double energy(100);
+   double theta(0);
+   double phi(0);
+   double maxSep(10);
+
+   Psf psf(maxSep);
+   double tol(1e-4);
+
+   double integral(psf.angularIntegral(energy, theta, phi, maxSep));
+   CPPUNIT_ASSERT(std::fabs(integral - 1.) < tol);
+
+   double radius(maxSep/2);
+   integral = psf.angularIntegral(100., 0., 0., radius);
+   double value(2.*M_PI*(1. - std::cos(radius*M_PI/180.))
+                *psf.value(radius, energy, theta, phi));
+   CPPUNIT_ASSERT(std::fabs(integral - value) < tol);
+}
+
+void irfInterfaceTests::psf_integral() {
+   double energy(1000);
+   double theta(0);
+   double phi(0);
+
+   double tol(1e-4);
+
+   astro::SkyDir srcDir(0, 0);
+   astro::SkyDir roiCenter(10, 0);
+   double theta_roi(15);
+   AcceptanceCone roiCone(roiCenter, theta_roi);
+   std::vector<AcceptanceCone *> cones;
+   cones.push_back(&roiCone);
+   double maxSep(theta_roi - roiCenter.difference(srcDir)*180./M_PI);
+
+   Psf psf(maxSep);
+   double integral(psf.angularIntegral(energy, srcDir, theta, phi, cones));
+
+   // @todo replace this with a stringent test
+   Psf psf2(2.*maxSep);
+   integral = psf2.angularIntegral(energy, srcDir, theta, phi, cones);
+   
+   CPPUNIT_ASSERT(std::fabs(integral - 1.) != tol);
+}
    
 int main() {
    CppUnit::TextTestRunner runner;
