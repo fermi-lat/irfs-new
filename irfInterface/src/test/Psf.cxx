@@ -1,4 +1,5 @@
 /**
+ * @file Psf.cxx
  * @brief Simple Psf to perform simple checks of IPsf default member functions.
  * @author J. Chiang
  *
@@ -9,7 +10,7 @@
 
 #include "Psf.h"
 
-Psf::Psf(double maxSep) : IPsf(), m_maxSep(maxSep) {
+Psf::Psf(double maxSep) : irfInterface::IPsf(), m_maxSep(maxSep) {
    m_value = 1./2./M_PI/(1. - std::cos(m_maxSep*M_PI/180.));
 }
 

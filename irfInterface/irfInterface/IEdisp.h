@@ -41,9 +41,9 @@ public:
    /// @param time Photon arrival time (MET s).
    virtual double value(double appEnergy,
                         double energy, 
-                        const astro::SkyDir &srcDir, 
-                        const astro::SkyDir &scZAxis,
-                        const astro::SkyDir &scXAxis, 
+                        const astro::SkyDir & srcDir, 
+                        const astro::SkyDir & scZAxis,
+                        const astro::SkyDir & scXAxis, 
                         double time=0) const = 0;
 
    /// Return the energy dispersion as a function of instrument
@@ -61,19 +61,19 @@ public:
    /// overload it.
    virtual double operator()(double appEnergy,
                              double energy, 
-                             const astro::SkyDir &srcDir, 
-                             const astro::SkyDir &scZAxis,
-                             const astro::SkyDir &scXAxis,
+                             const astro::SkyDir & srcDir, 
+                             const astro::SkyDir & scZAxis,
+                             const astro::SkyDir & scXAxis,
                              double time=0) const
       {return value(appEnergy, energy, srcDir, scZAxis, scXAxis, time);}
 
    /// Return a randomly chosen apparent photon energy in MeV drawn
    /// from the energy dispersion function.
    virtual double appEnergy(double energy,
-                            const astro::SkyDir &srcDir,
-                            const astro::SkyDir &scZAxis,
-                            const astro::SkyDir &scXAxis,
-                            double time=0) const = 0;
+                            const astro::SkyDir & srcDir,
+                            const astro::SkyDir & scZAxis,
+                            const astro::SkyDir & scXAxis,
+                            double time=0) const;
 
    /// Return the integral of the energy dispersion function over
    /// the specified interval in apparent energy.
@@ -85,10 +85,10 @@ public:
    /// @param scXAxis Spacecraft x-axis.
    /// @param time Photon arrival time (MET s).
    virtual double integral(double emin, double emax, double energy,
-                           const astro::SkyDir &srcDir, 
-                           const astro::SkyDir &scZAxis,
-                           const astro::SkyDir &scXAxis,
-                           double time=0) const = 0;
+                           const astro::SkyDir & srcDir, 
+                           const astro::SkyDir & scZAxis,
+                           const astro::SkyDir & scXAxis,
+                           double time=0) const;
 
    /// Return the integral of the energy dispersion function 
    /// using instrument coordinates.
@@ -100,10 +100,20 @@ public:
    ///             X-axis (degrees).
    /// @param time Photon arrival time (MET s).
    virtual double integral(double emin, double emax, double energy, 
-                           double theta, double phi, double time=0) const = 0;
+                           double theta, double phi, double time=0) const;
 
    virtual IEdisp * clone() = 0;
 
+private:
+
+   static double s_energy;
+   static double s_theta;
+   static double s_phi;
+   static double s_time;
+   static const IEdisp * s_self;
+   static double edispIntegrand(double * appEnergy);
+   static void setStaticVariables(double energy, double theta, double phi,
+                                  double time, const IEdisp * self);
 };
 
 } // namespace irfInterface

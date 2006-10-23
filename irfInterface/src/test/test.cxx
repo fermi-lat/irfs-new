@@ -37,6 +37,7 @@ class irfInterfaceTests : public CppUnit::TestFixture {
    CPPUNIT_TEST(test_getIrfsNames);
    CPPUNIT_TEST(psf_normalization);
    CPPUNIT_TEST(psf_integral);
+   CPPUNIT_TEST(edisp_normalization);
 
    CPPUNIT_TEST_SUITE_END();
 
@@ -51,6 +52,7 @@ public:
    void test_getIrfsNames();
    void psf_normalization();
    void psf_integral();
+   void edisp_normalization();
 
 private:
 
@@ -146,11 +148,30 @@ void irfInterfaceTests::psf_integral() {
    Psf psf(maxSep);
    double integral(psf.angularIntegral(energy, srcDir, theta, phi, cones));
 
-   // @todo replace this with a stringent test
+// @todo replace this with a stringent test
    Psf psf2(2.*maxSep);
    integral = psf2.angularIntegral(energy, srcDir, theta, phi, cones);
    
    CPPUNIT_ASSERT(std::fabs(integral - 1.) != tol);
+}
+
+void irfInterfaceTests::edisp_normalization() {
+   double theta(0);
+   double phi(0);
+   double time(0);
+
+   Edisp edisp;
+
+   double e0(100.);
+   double emax(1000);
+   double emin(0);
+
+   double tol(1e-4);
+   double integral(edisp.integral(emin, e0, e0, theta, phi, time));
+   CPPUNIT_ASSERT(std::fabs(integral - 0.5) < tol);
+
+   integral = edisp.integral(emin, emax, e0, theta, phi, time);
+   CPPUNIT_ASSERT(std::fabs(integral - 1) < tol);
 }
    
 int main() {
