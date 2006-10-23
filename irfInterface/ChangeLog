@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Oct 23 13:06:44 PDT 2006
+irfs/irfInterface/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add default implementation for IPsf member functions
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1, operation: add
 Package: irfInterface
