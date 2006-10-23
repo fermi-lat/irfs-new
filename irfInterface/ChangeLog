@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Oct 23 14:01:06 PDT 2006
+irfs/irfInterface/irfInterface
+
+Modified Files:
+	IEdisp.h 
+Log Message:
+add default implementations for energy dispersion
+    *
+------------------------------------------------------------
 User: jchiang  Mon Oct 23 13:06:45 PDT 2006
 irfs/irfInterface/src/test
 
