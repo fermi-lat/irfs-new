@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  23-Oct-06 v1r1    JC    add default implementations for 
+                          IPsf::angularIntegral(...),  IPsf::appDir(...),
+                          IEdisp::integral(...), IEdisp::appEnergy(...);
   14-Aug-06 v1      JC    add time argument to IRFs component interfaces
   18-May-06 v0r3p1  JC    bug-fix: change #ifdef SWIG to #ifndef SWIG
   25-Apr-06 v0r3    JC    add virtual IAeff::upperLimit() = 0
