@@ -1,5 +1,16 @@
 ------------------------------------------------------------
 User: jchiang  Mon Oct 23 14:01:06 PDT 2006
+irfs/irfInterface/src/test
+
+Modified Files:
+	Edisp.h Psf.cxx test.cxx 
+Added Files:
+	Edisp.cxx 
+Log Message:
+add default implementations for energy dispersion
+    *
+------------------------------------------------------------
+User: jchiang  Mon Oct 23 14:01:06 PDT 2006
 irfs/irfInterface/src
 
 Added Files:
