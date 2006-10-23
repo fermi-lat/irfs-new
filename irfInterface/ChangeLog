@@ -1,4 +1,31 @@
 ------------------------------------------------------------
+TAG
+Tag name: v1r1, operation: add
+Package: irfInterface
+User: jchiang  Mon Oct 23 16:43:09 2006
+Files:
+  irfInterface/.cvsignore  1.1.1.1
+  irfInterface/ChangeLog  1.55
+  irfInterface/cmt/requirements  1.15
+  irfInterface/doc/release.notes  1.11
+  irfInterface/irfInterface/IrfsFactory.h  1.5
+  irfInterface/irfInterface/IAeff.h  1.5
+  irfInterface/irfInterface/IEdisp.h  1.4
+  irfInterface/irfInterface/Irfs.h  1.1.1.1
+  irfInterface/irfInterface/IPsf.h  1.5
+  irfInterface/irfInterface/AcceptanceCone.h  1.2
+  irfInterface/src/IPsf.cxx  1.1
+  irfInterface/src/IrfsFactory.cxx  1.5
+  irfInterface/src/IEdisp.cxx  1.1
+  irfInterface/src/test/Psf.cxx  1.2
+  irfInterface/src/test/Aeff.h  1.3
+  irfInterface/src/test/test.cxx  1.3
+  irfInterface/src/test/Psf.h  1.3
+  irfInterface/src/test/Edisp.h  1.3
+  irfInterface/src/test/Edisp.cxx  1.1
+
+    *
+------------------------------------------------------------
 User: jchiang  Mon Oct 23 16:42:44 PDT 2006
 irfs/irfInterface/doc
 
