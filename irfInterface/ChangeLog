@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Oct 23 13:06:45 PDT 2006
+irfs/irfInterface/src
+
+Added Files:
+	IPsf.cxx 
+Log Message:
+add default implementation for IPsf member functions
+    *
+------------------------------------------------------------
+User: jchiang  Mon Oct 23 13:06:45 PDT 2006
 irfs/irfInterface/irfInterface
 
 Modified Files:
