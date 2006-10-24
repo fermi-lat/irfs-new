@@ -6,6 +6,7 @@
 * $Header$
 */
 
+#include <cassert>
 #include <cmath>
 
 #include <stdexcept>
@@ -56,10 +57,11 @@ double Psf::value(double separation, double energy, double theta,
 double Psf::angularIntegral(double energy, double theta, 
                             double phi, double radius, double time) const 
 {
-#if 0 // enable to check
-    double integral = IPsf::angularIntegral(energy, theta,phi, radius, time);
-#endif
     double check =  m_eval->psf_integral(radius*M_PI/180., energy, theta, phi);
-    return check;    
+#if 0 // enable to test
+    double integral = IPsf::angularIntegral(energy, theta, phi, radius, time);
+    assert(std::fabs(check - integral) < 1e-2);
+#endif
+    return check;
 }
 

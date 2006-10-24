@@ -69,9 +69,9 @@ public:
 
 
    virtual double 
-       angularIntegral(double energy, double theta, 
-                             double phi, double radius, double time=0)const;
-
+   angularIntegral(double energy, double theta, 
+                   double phi, double radius, double time=0)const;
+   
    virtual Psf * clone() {return new Psf(*this);}
 
 protected:
