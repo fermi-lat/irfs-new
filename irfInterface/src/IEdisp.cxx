@@ -96,8 +96,77 @@ double IEdisp::integral(double emin, double emax, double energy,
    return integral;
 }
 
+double IEdisp::meanAppEnergy(double energy,
+                             const astro::SkyDir & srcDir, 
+                             const astro::SkyDir & scZAxis,
+                             const astro::SkyDir & scXAxis,
+                             double time) const {
+   (void)(scXAxis);
+   double theta(srcDir.difference(scZAxis)*180./M_PI);
+   static double phi(0);
+   return meanAppEnergy(energy, theta, phi, time);
+}
+
+double IEdisp::meanAppEnergy(double energy, double theta, double phi,
+                             double time) const {
+   setStaticVariables(energy, theta, phi, time, this);
+   double integral;
+   double emin(0);
+   double emax(energy*10.);
+   double err(1e-5);
+   long ierr(0);
+   dgaus8_(&meanEnergyIntegrand, &emin, &emax, &err, &integral, &ierr);
+
+// The energy dispersion is not guarranteed to be properly normalized.
+   double normalization;
+   dgaus8_(&edispIntegrand, &emin, &emax, &err, &normalization, &ierr);
+   
+   return integral/normalization;
+}
+
+double IEdisp::meanTrueEnergy(double appEnergy,
+                              const astro::SkyDir & srcDir, 
+                              const astro::SkyDir & scZAxis,
+                              const astro::SkyDir & scXAxis,
+                              double time) const {
+   (void)(scXAxis);
+   double theta(srcDir.difference(scZAxis)*180./M_PI);
+   static double phi(0);
+   return meanTrueEnergy(appEnergy, theta, phi, time);
+}
+
+double IEdisp::meanTrueEnergy(double appEnergy, double theta, double phi,
+                              double time) const {
+   setStaticVariables(appEnergy, theta, phi, time, this);
+   double integral;
+   double emin(0);
+   double emax(appEnergy*10.);
+   double err(1e-5);
+   long ierr(0);
+   dgaus8_(&meanTrueEnergyIntegrand, &emin, &emax, &err, &integral, &ierr);
+
+// The energy dispersion is not guarranteed to be properly normalized.
+   double normalization;
+   dgaus8_(&trueEnergyIntegrand, &emin, &emax, &err, &normalization, &ierr);
+   
+//   return integral/normalization;
+   return integral;
+}
+
 double IEdisp::edispIntegrand(double * appEnergy) {
    return s_self->value(*appEnergy, s_energy, s_theta, s_phi, s_time);
+}
+
+double IEdisp::meanEnergyIntegrand(double * appEnergy) {
+   return *appEnergy*edispIntegrand(appEnergy);
+}
+
+double IEdisp::trueEnergyIntegrand(double * energy) {
+   return s_self->value(s_energy, *energy, s_theta, s_phi, s_time);
+}
+
+double IEdisp::meanTrueEnergyIntegrand(double * energy) {
+   return *energy*trueEnergyIntegrand(energy);
 }
 
 void IEdisp::setStaticVariables(double energy, double theta, double phi,
