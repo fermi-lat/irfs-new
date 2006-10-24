@@ -5,17 +5,14 @@
 *
 * $Header$
 */
-#include "Edisp.h"
-
-#include "handoff_response/IrfEval.h"
-#include "astro/SkyDir.h"
 
 #include <cmath>
 
-#include <algorithm>
-#include <iostream>
-#include <stdexcept>
-#include <sstream>
+#include "astro/SkyDir.h"
+
+#include "handoff_response/IrfEval.h"
+
+#include "Edisp.h"
 
 using namespace handoff_response;
 
@@ -43,4 +40,3 @@ double Edisp::value(double appEnergy, double energy,
 //    double de(appEnergy - energy);
 //    return std::exp(-de*de/2./sigma/sigma)/std::sqrt(2.*M_PI)/sigma;
 }
-

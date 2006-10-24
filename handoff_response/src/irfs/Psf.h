@@ -13,12 +13,11 @@
 #include <vector>
 
 #include "irfInterface/AcceptanceCone.h"
-
-#include "handoff_response/IrfEval.h"
-
-#include "IPsf.h"
+#include "irfInterface/IPsf.h"
 
 namespace handoff_response{
+
+   class IrfEval;
 
 /**
  * @class Psf
@@ -29,8 +28,7 @@ namespace handoff_response{
  *
  */
 
-//class Psf : public irfInterface::IPsf {
-class Psf : public IPsf {
+class Psf : public irfInterface::IPsf {
 
 public:
 

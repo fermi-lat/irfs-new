@@ -9,15 +9,11 @@
 #ifndef handoff_Edisp_h
 #define handoff_Edisp_h
 
-#include "handoff_response/IrfEval.h"
-
-#include "IEdisp.h"
-
-#include <utility>
-
-#include <vector>
+#include "irfInterface/IEdisp.h"
 
 namespace handoff_response {
+
+   class IrfEval;
 
 /**
  * @class Edisp
@@ -27,7 +23,7 @@ namespace handoff_response {
  *
  */
 
-class Edisp : public IEdisp {
+class Edisp : public irfInterface::IEdisp {
 
 public:
 

@@ -12,6 +12,8 @@
 #include <stdexcept>
 #include <sstream>
 
+#include "handoff_response/IrfEval.h"
+
 #include "irfInterface/AcceptanceCone.h"
 
 #include "Psf.h"
@@ -55,7 +57,7 @@ double Psf::value(double separation, double energy, double theta,
 
 
 double Psf::angularIntegral(double energy, double theta, 
-                            double phi, double radius, double time) const 
+                            double phi, double radius, double /*time*/) const 
 {
     double check =  m_eval->psf_integral(radius*M_PI/180., energy, theta, phi);
 #if 0 // enable to test
