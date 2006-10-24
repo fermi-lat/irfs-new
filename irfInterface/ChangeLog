@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Oct 24 07:43:16 PDT 2006
+irfs/irfInterface/src
+
+Modified Files:
+	IEdisp.cxx 
+Log Message:
+add member functions to IEdisp for calculating ad hoc energy corrections
+    *
+------------------------------------------------------------
+User: jchiang  Tue Oct 24 07:43:16 PDT 2006
 irfs/irfInterface/irfInterface
 
 Modified Files:

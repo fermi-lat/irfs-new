@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct 24 07:44:10 PDT 2006
+irfs/handoff_response/handoff_response
+
+Modified Files:
+	loadIrfs.h 
+Log Message:
+make test actually do something usefule
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r1, operation: add
 Package: handoff_response
