@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct 24 10:24:55 PDT 2006
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	Edisp.cxx Edisp.h Psf.cxx Psf.h 
+Removed Files:
+	IEdisp.cxx IEdisp.h IPsf.cxx IPsf.h 
+Log Message:
+use default implementations in irfInteface
+    *
+------------------------------------------------------------
 User: jchiang  Tue Oct 24 07:44:10 PDT 2006
 irfs/handoff_response/src/irfs
 
