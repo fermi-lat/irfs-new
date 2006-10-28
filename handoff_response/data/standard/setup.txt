@@ -1,0 +1,13 @@
+#file name(s) to find the allgamma data for extraction by the prune application
+F:/condor/allgamma/allgamma_v9r13_mod*.root
+
+# handoff analysis standard cuts
+(GltWord&10)>0 && (GltWord!=35) # trigger condition w/ throttle
+&& (FilterStatus_HI==0) # onboard filter 
+&& CTBCORE>0.1  &&  CTBBestEnergyProb>0.1 &&  CTBSummedCTBGAM>0.5
+
+#list of names to put into the pruned file
+@../names.txt
+
+
+
