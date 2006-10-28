@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Sat Oct 28 09:44:30 PDT 2006
+irfs/handoff_response/data
+
+Modified Files:
+	parameters.root 
+Log Message:
+remove explict dependencies of the evaluation on the parameter names, and count for each source. Fully implement the Rando mods to account for the tails.
+    *
+------------------------------------------------------------
 User: jchiang  Tue Oct 24 10:24:55 PDT 2006
 irfs/handoff_response/src/irfs
 
