@@ -61,7 +61,14 @@ public:
     }
 
     ~Table(){ delete m_interpolator; }
-    double value(double logenergy, double costh);
+    /** @brief lookup a value from the table
+        @param logenergy log10(energy)
+        @param costh    cos(theta)
+        @param interpolate [true] if true, make linear interpolation. Otherwise take value for given cell
+
+
+    */
+    double value(double logenergy, double costh, bool interpolate=true);
     
     double maximum() { return m_hist->GetMaximum(); }
 private:
@@ -81,14 +88,15 @@ private:
     Bilinear* m_interpolator;
 
 };
-double RootEval::Table::value(double logenergy, double costh)
+double RootEval::Table::value(double logenergy, double costh, bool interpolate)
 {
-#if 0  // non-interpolating for tests
+    if( interpolate) return (*m_interpolator)(logenergy, costh);
+
+    // non-interpolating: look up value for the bin 
+
     int bin= m_hist->FindBin(logenergy, costh);
     return m_hist->GetBinContent(bin);
-#else
-    return (*m_interpolator)(logenergy, costh);
-#endif
+
 }
 
 
@@ -198,12 +206,14 @@ double * RootEval::psf_par(double energy, double costh)
 
 double * RootEval::disp_par(double energy, double costh)
 {
+    static bool interpolate(false);//<----- wire in non-interpolation
     static double par[10];
     double loge(::log10(energy));
+
     if( costh==1.0) costh = 0.9999;
-    ///@todo: check limits, flag invalid if beyond.
+
     for( int i = 0; i< m_dispTables.size(); ++i){
-        par[i] = m_dispTables[i]->value(loge,costh);
+        par[i] = m_dispTables[i]->value(loge,costh, interpolate);
     }
     return par;
 }

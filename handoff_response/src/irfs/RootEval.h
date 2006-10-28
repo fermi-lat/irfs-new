@@ -61,8 +61,7 @@ private:
     std::vector<Table*> m_psfTables;
 
     Table* m_aeff;
-    Table* m_sigma, *m_gcore, *m_gtail; // psf parameters
-    Table* m_dnorm, *m_rwidth, *m_ltail;// dispersion parameters
+
 
 };
 

@@ -177,8 +177,8 @@ void HandoffResponseTests::edisp_normalization() {
 
    std::vector<double> thetas;
    double thmin(0);
-   double thmax(70);
-   size_t nth(8);
+   double thmax(60);
+   size_t nth(6);
    double dth((thmax - thmin)/(nth-1));
    for (size_t i = 0; i < nth; i++) {
       thetas.push_back(i*dth + thmin);
@@ -189,7 +189,7 @@ void HandoffResponseTests::edisp_normalization() {
    double tol(1e-2);
 
    bool integralFailures(false);
-   std::cout << "Energy dispersion integral values that fail 1% tolerance: \n"
+   std::cout << "Energy dispersion integral values that fail 2% tolerance: \n"
              << "energy  inclination  integral \n";
 
    for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
