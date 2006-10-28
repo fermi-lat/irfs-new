@@ -102,46 +102,6 @@ public:
    virtual double integral(double emin, double emax, double energy, 
                            double theta, double phi, double time=0) const;
 
-   /// @return Mean apparent photon energy (MeV)
-   /// @param energy True photon energy (MeV)
-   /// @param srcDir True photon direction.
-   /// @param scZAxis Spacecraft z-axis.
-   /// @param scXAxis Spacecraft x-axis.
-   /// @param time Photon arrival time (MET s).
-   virtual double meanAppEnergy(double energy,
-                                const astro::SkyDir & srcDir, 
-                                const astro::SkyDir & scZAxis,
-                                const astro::SkyDir & scXAxis,
-                                double time=0) const;
-
-   /// @return Mean apparent photon energy (MeV)
-   /// @param energy True photon energy (MeV)
-   /// @param theta True inclination angle (degrees)
-   /// @param phi True azimuthal angle wrt instrument x-axis (degrees)
-   /// @param time Photon arrival time (MET s)
-   virtual double meanAppEnergy(double energy, double theta, double phi,
-                                double time=0) const;
-
-   /// @return Mean true photon energy (MeV)
-   /// @param appEnergy Measured photon energy (MeV)
-   /// @param srcDir True photon direction.
-   /// @param scZAxis Spacecraft z-axis.
-   /// @param scXAxis Spacecraft x-axis.
-   /// @param time Photon arrival time (MET s).
-   virtual double meanTrueEnergy(double appEnergy,
-                                 const astro::SkyDir & srcDir, 
-                                 const astro::SkyDir & scZAxis,
-                                 const astro::SkyDir & scXAxis,
-                                 double time=0) const;
-
-   /// @return Mean true photon energy (MeV)
-   /// @param appEnergy Measured photon energy (MeV)
-   /// @param theta True inclination angle (degrees)
-   /// @param phi True azimuthal angle wrt instrument x-axis (degrees)
-   /// @param time Photon arrival time (MET s)
-   virtual double meanTrueEnergy(double appEnergy, double theta, double phi,
-                                 double time=0) const;
-
    virtual IEdisp * clone() = 0;
 
 private:
@@ -152,9 +112,6 @@ private:
    static double s_time;
    static const IEdisp * s_self;
    static double edispIntegrand(double * appEnergy);
-   static double meanEnergyIntegrand(double * appEnergy);
-   static double trueEnergyIntegrand(double * energy);
-   static double meanTrueEnergyIntegrand(double * energy);
    static void setStaticVariables(double energy, double theta, double phi,
                                   double time, const IEdisp * self);
 };
