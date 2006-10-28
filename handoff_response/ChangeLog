@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Sat Oct 28 09:44:30 PDT 2006
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+remove explict dependencies of the evaluation on the parameter names, and count for each source. Fully implement the Rando mods to account for the tails.
+    *
+------------------------------------------------------------
+User: burnett  Sat Oct 28 09:44:30 PDT 2006
 irfs/handoff_response/src/irfs
 
 Modified Files:
