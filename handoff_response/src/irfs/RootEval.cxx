@@ -97,17 +97,27 @@ RootEval::RootEval(TFile* f, std::string eventtype)
 , m_f(f)
 {
     m_aeff  = setupHist("aeff");
-    m_sigma = setupHist("sigma");
-    m_gcore = setupHist("gcore");
-    m_gtail = setupHist("gtail");
-    m_dnorm = setupHist("dnorm");
-    m_rwidth= setupHist("rwidth");
-    m_ltail = setupHist("ltail");
+    setupParameterTables(PointSpreadFunction::pnames, m_psfTables);
 
+    double psftest = psf(1000, 1000, 0.);
 
+    setupParameterTables(Dispersion::Hist::pnames, m_dispTables);
+#if 0
+    std::cout << "Test dispersion at 1000 MeV" << std::endl;
+    for( double e(500); e<1500; e*=1.05) {
+        std::cout << e << "\t" <<  dispersion(e, 1000, 0.) << std::endl;
+    }
+#endif
 }
 RootEval::~RootEval(){ delete m_f;}
 
+void RootEval::setupParameterTables(const std::vector<std::string>& names, std::vector<Table*>&tables)
+{
+    for( std::vector<std::string>::const_iterator it (names.begin()); it!=names.end(); ++it){
+        const std::string& name(*it);
+        tables.push_back(setupHist(name));
+    }
+}
 
 double RootEval::aeff(double energy, double theta, double /*phi*/)
 {
@@ -158,9 +168,14 @@ double * RootEval::psf_par(double energy, double costh)
     static double zdir(1.0); // not used
     double loge(::log10(energy));
     if( costh==1.0) costh = 0.9999;
-    par[1] = m_sigma->value(loge,costh) * PointSpreadFunction::scaleFactor(energy, zdir, isFront());
-    par[2] = m_gcore->value(loge,costh);
-    par[3] = m_gtail->value(loge,costh);
+
+    for( int i = 1; i< m_psfTables.size(); ++i){
+        par[i] = m_psfTables[i]->value(loge,costh);
+    }
+
+    // rescale the sigma value after interpolation
+    par[1]*=PointSpreadFunction::scaleFactor(energy, zdir, isFront());
+
     if (par[1] == 0 || par[2] == 0) {
        std::ostringstream message;
        message << "handoff_response::RootEval: psf parameters are zero in " 
@@ -172,7 +187,7 @@ double * RootEval::psf_par(double energy, double costh)
        std::cerr << message.str() << std::endl;
        throw std::runtime_error(message.str());
     }
-    if( par[3]==0) par[3]=par[2];
+
     // manage normalization by replacing normalization parameter for current set of parameters
     par[0]=1;
     static double theta_max(90); // how to set this? Too high.
@@ -183,13 +198,13 @@ double * RootEval::psf_par(double energy, double costh)
 
 double * RootEval::disp_par(double energy, double costh)
 {
-    static double par[3];
+    static double par[10];
     double loge(::log10(energy));
     if( costh==1.0) costh = 0.9999;
     ///@todo: check limits, flag invalid if beyond.
-    par[0] = m_dnorm->value(loge,costh);
-    par[1] = m_ltail->value(loge,costh);
-    par[2] = m_rwidth->value(loge,costh);
+    for( int i = 0; i< m_dispTables.size(); ++i){
+        par[i] = m_dispTables[i]->value(loge,costh);
+    }
     return par;
 }
 

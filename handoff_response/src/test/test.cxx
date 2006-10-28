@@ -219,13 +219,13 @@ void HandoffResponseTests::edisp_normalization() {
    CPPUNIT_ASSERT(!integralFailures);
 }
 
-int main() {
+int main(int argc, char* argv[]) {
 #ifdef TRAP_FPE
 // Add floating point exception traps.
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
 
-   handoff_response::loadIrfs();
+   handoff_response::loadIrfs(argc>1? argv[1]: "");
 
    CppUnit::TextTestRunner runner;
    runner.addTest(HandoffResponseTests::suite());

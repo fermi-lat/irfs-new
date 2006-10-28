@@ -168,9 +168,9 @@ void IrfAnalysis::fit(bool make_plots, std::string parfile, std::string output_t
    m_disp->summarize();
    m_aeff->summarize();
 
-   if(make_plots) m_psf->draw(std::string(output_file_root()+m_filename_root+"_psf."+output_type));
-   if(make_plots) m_disp->draw(std::string(output_file_root()+m_filename_root+"_disp."+output_type));
-   if(make_plots) m_aeff->draw(std::string(output_file_root()+m_filename_root+"_aeff."+output_type));
+   if(make_plots) m_psf->draw(std::string(output_file_root()+m_setname+"_psf."+output_type));
+   if(make_plots) m_disp->draw(std::string(output_file_root()+m_setname+"_disp."+output_type));
+   if(make_plots) m_aeff->draw(std::string(output_file_root()+m_setname+"_aeff."+output_type));
    if( !parfile.empty()) {
         writeFitParameters( output_file_root() +parfile);
       //  tabulate(output_file_root() +parfile,  m_setname);
@@ -217,8 +217,8 @@ void IrfAnalysis::writeFitParameters(std::string outputFile)
     int disp_npars=Dispersion::Hist::npars();
     std::vector<double> disp_params(disp_npars);
 
-    for( int i=1; i< disp_npars; ++i){
-        tree->Branch(Dispersion::Hist::pnames[i],
+    for( int i=0; i< disp_npars; ++i){
+        tree->Branch(Dispersion::Hist::pnames[i].c_str(),
             &disp_params[i], (std::string(Dispersion::Hist::pnames[i])+"/D").c_str());
     }
 

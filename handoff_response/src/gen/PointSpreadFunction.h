@@ -49,8 +49,10 @@ public:
 
     /// the integral of the function
     static double integral(double* delta, double* par);
-
     double entries()const{return m_count;}
+
+    ///! list of names
+    static std::vector<std::string> pnames;
 
     static const char* parname(int i);
     static int npars();

@@ -54,8 +54,8 @@ public:
         double entries()const;
 
         double parameter(int n)const;
-        static const char* function;
-        static const char* pnames[];
+       // static const char* pnames[];
+        static std::vector<std::string> pnames;
         static double      pinit[];
         static double      pmin[];
         static double      pmax[];

@@ -23,27 +23,27 @@ $Header$
 //                Dispersion::Hist
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
 // specify fit function -- this devised by Riccardo Rando
-const char* Dispersion::Hist::function="[0]*pow(1+x,[1])/(1+exp(x/[2]))";
-const char* Dispersion::Hist::pnames[]={"dnorm", "ltail", "rwidth"};
-double      Dispersion::Hist::pinit[] ={1,      20,      0.02};
-double      Dispersion::Hist::pmin[]  ={0.,      2,      0.005};
-double      Dispersion::Hist::pmax[]  ={1e6,    50,      0.5};
-double      Dispersion::Hist::fitrange[]={-0.4, 0.5};
-bool        Dispersion::Hist::s_logy = true;
-int         Dispersion::Hist::s_minEntries( 10);
-int         Dispersion::Hist::s_bins(50);
-double      Dispersion::Hist::s_histrange[2] = {-1., 1.};
-int Dispersion::Hist::npars(){return sizeof(pnames)/sizeof(const char*);}
+static const char* names[]=         {"dnorm","ltail", "rwidth", "nr2", "lt2",  "rt2"};
 
+double    Dispersion::Hist::pinit[] ={0.5,     20,     0.02,     1e4,   4.0,    0.2};
+double    Dispersion::Hist::pmin[]  ={0.,      2,      0.005,    0.0,   1.0,    0.005};
+double    Dispersion::Hist::pmax[]  ={20,      50,     0.5 ,     1e6,   50,     0.5};
+double    Dispersion::Hist::fitrange[]={-0.8, 1.0};
+bool      Dispersion::Hist::s_logy = true;
+int       Dispersion::Hist::s_minEntries( 10);
+int       Dispersion::Hist::s_bins(75);
+double    Dispersion::Hist::s_histrange[2] = {-1., 2.};
+
+std::vector<std::string>
+          Dispersion::Hist::pnames(names, names+sizeof(names)/sizeof(const char*));
+int       Dispersion::Hist::npars(){return pnames.size();}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 double Dispersion::function(double * x, double * p)
 {
-    double ret(0);
-    double arg(*x/p[2]);
-    if (arg > 40.) {
-        ret = p[0]*pow(1 + *x, p[1])*exp(-arg);
-    }else{
-        ret= p[0]*pow(1+*x,p[1])/(1+exp(*x/p[2]));
-    }
+    double ret(0), arg(*x/p[2]), xp1(1.+*x);
+    ret =   p[0]*pow(xp1,p[1]) *( arg>40? exp(-arg) : 1/(1+exp(arg)) );
+    ret +=  p[3]*pow(xp1,p[4]) * exp(-xp1/p[5]); // for tails
     return ret;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,10 +72,10 @@ void Dispersion::Hist::fit(std::string opts)
     double binsize((s_histrange[1]-s_histrange[0])/s_bins );
     h.Scale(1./binsize/h.GetEntries());
 
-    TF1* f1 = new TF1("f1",function,fitrange[0],fitrange[1]);
-    for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++) {
+    TF1* f1 = new TF1("f1",Dispersion::function,fitrange[0],fitrange[1], npars());
+    for (unsigned int i = 0; i < npars(); i++) {
         f1->SetParLimits(i, pmin[i], pmax[i]);
-        f1->SetParName(i, pnames[i]);
+        f1->SetParName(i, pnames[i].c_str());
     }
     f1->SetParameters(pinit);
 

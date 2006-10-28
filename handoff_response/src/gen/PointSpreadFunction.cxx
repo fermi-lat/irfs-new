@@ -15,13 +15,15 @@ $Header$
 #include <iomanip>
 
 
+
+
 namespace {
     // histogram prameters
     static double xmin=-1.0, xmax=1.0; 
     static int nbins=50;
 
     // specify fit function
-    static const char* pnames[]={"pnorm", "sigma", "gcore","gtail"};
+    static const char* names[]={"pnorm", "sigma", "gcore","gtail"};
     static double pinit[]={1,     0.3,  2.5,  2.5};
     static double pmin[]= {0.01,  0.15, 1.0,  1.5};
     static double pmax[]= {50.,   2.0,  5.0,  5.0};
@@ -91,7 +93,6 @@ namespace {
 }// anon namespace
 
 
-
 // external versions
 double PointSpreadFunction::function(double* x, double *p)
 {
@@ -122,8 +123,11 @@ double PointSpreadFunction::integral(double* x, double *par)
         -psf_base_integral(u_break,sigma, gtail))
         );
 }
-const char* PointSpreadFunction::parname(int i){return pnames[i];}
-int PointSpreadFunction::npars(){return sizeof(pnames)/sizeof(void*);}
+const char* PointSpreadFunction::parname(int i){return names[i];}
+int PointSpreadFunction::npars(){return sizeof(names)/sizeof(void*);}
+
+std::vector<std::string>
+      PointSpreadFunction::pnames(names, names+npars());
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PointSpreadFunction::PointSpreadFunction(std::string histname, 
@@ -131,8 +135,6 @@ PointSpreadFunction::PointSpreadFunction(std::string histname,
                                          std::ostream& log)
                                          
 : m_hist( new TH1F(histname.c_str(),  title.c_str(),  nbins, xmin, xmax))
-//, m_fitfunc(TF1("psf-fit", psf_function, -1.5, 1.5, npars()))
-
 , m_fitfunc(TF1("psf-fit", psf_with_tail, fitrange[0], fitrange[1], npars()))
 , m_count(0)
 , m_log(& log)
@@ -141,7 +143,7 @@ PointSpreadFunction::PointSpreadFunction(std::string histname,
 
     for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++) {
         m_fitfunc.SetParLimits(i, pmin[i], pmax[i]);
-        m_fitfunc.SetParName(i, pnames[i]);
+        m_fitfunc.SetParName(i, pnames[i].c_str());
     }
 
     m_fitfunc.SetLineWidth(1);

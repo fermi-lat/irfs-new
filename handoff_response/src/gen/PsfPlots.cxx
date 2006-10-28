@@ -122,7 +122,7 @@ void PsfPlots::fillParameterTables()
     // binning according to energy and costheta bins 
     // (skip norm, the first one)
 
-    for( int i = 1; i< PointSpreadFunction::npars(); ++i){
+    for( int i = 0; i< PointSpreadFunction::npars(); ++i){
         std::string name(PointSpreadFunction::parname(i));
         TH2F* h2 = new TH2F(name.c_str(), (name+";log energy; costheta").c_str() 
         ,IRF::energy_bins, IRF::logemin, IRF::logemin+IRF::energy_bins*IRF::logedelta

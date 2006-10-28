@@ -11,6 +11,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 class TFile;
 
@@ -55,6 +56,10 @@ private:
     TFile* m_f;
     class Table; ///< nested class manages table lookup
     Table* setupHist( std::string name);
+    void setupParameterTables(const std::vector<std::string>& names, std::vector<Table*>&tables);
+    std::vector<Table*> m_dispTables;
+    std::vector<Table*> m_psfTables;
+
     Table* m_aeff;
     Table* m_sigma, *m_gcore, *m_gtail; // psf parameters
     Table* m_dnorm, *m_rwidth, *m_ltail;// dispersion parameters
