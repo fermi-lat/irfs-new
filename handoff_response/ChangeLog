@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Sat Oct 28 16:14:05 PDT 2006
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	RootEval.cxx RootEval.h 
+Log Message:
+relax dispersion integral check to 2%; turn off interpolation with dispersion parameter lookup
+    *
+------------------------------------------------------------
 User: burnett  Sat Oct 28 09:51:39 PDT 2006
 irfs/handoff_response/data/standard
 
