@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Oct 29 14:54:14 PST 2006
+irfs/dc2Response/src
+
+Modified Files:
+	Edisp.cxx 
+Log Message:
+protect against large arg values
+    *
+------------------------------------------------------------
 TAG
 Tag name: v2, operation: add
 Package: dc2Response
