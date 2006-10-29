@@ -81,7 +81,11 @@ double Edisp::value(double appEnergy, double energy,
    double norm = m_norms.at(indx);
 
    double x((appEnergy - energy)/energy);
-   return norm*std::pow(1. + x, p1)/(1. + std::exp(x/p2))/energy;
+   double arg(x/p2);
+   if (arg > 40) {
+      norm*std::pow(1. + x, p1)*std::exp(-arg)/energy;
+   }
+   return norm*std::pow(1. + x, p1)/(1. + std::exp(arg))/energy;
 }
 
 double Edisp::appEnergy(double energy,
