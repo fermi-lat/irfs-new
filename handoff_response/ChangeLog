@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct 31 17:35:18 PST 2006
+irfs/handoff_response/src
+
+Modified Files:
+	loadIrfs.cxx 
+Log Message:
+pass context specific message if env var is not set
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r2, operation: add
 Package: handoff_response
