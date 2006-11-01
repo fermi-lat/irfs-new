@@ -29,7 +29,11 @@ void loadIrfs(const std::string& name, bool verbose)
     std::string filename(name);
     // if no filename supplied, assume default
     if( filename.empty()){
-        std::string path(::getenv("HANDOFF_RESPONSEROOT"));
+       char * rootPath = ::getenv("HANDOFF_RESPONSEROOT");
+       if (rootPath == 0) {
+          throw std::runtime_error("HANDOFF_RESPONSEROOT not set");
+       }
+        std::string path(rootPath);
         filename = path+"/data/parameters.root";
     }
 
