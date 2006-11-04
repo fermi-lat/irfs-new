@@ -29,8 +29,16 @@ namespace{
 }
 
 Setup::Setup(int argc, char* argv[])
-:m_root( std::string(argc>1? argv[1] : ::getenv(envvar.c_str())) )
+//:m_root( std::string(argc>1? argv[1] : ::getenv(envvar.c_str())) )
 {
+
+   char * envvarvalue = ::getenv(envvar.c_str());
+   if (envvarvalue == 0) {
+      throw std::runtime_error("Environment variable " + envvar 
+                               + " is not set");
+   }
+   m_root = std::string(argc>1? argv[1] : envvarvalue);
+
     char oldcwd[128], newcwd[128];
     _getcwd(oldcwd, sizeof(oldcwd));
 
