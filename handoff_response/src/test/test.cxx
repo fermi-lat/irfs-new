@@ -17,6 +17,8 @@
 #include <cppunit/ui/text/TextTestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "astro/SkyDir.h"
+
 #include "irfInterface/IrfsFactory.h"
 
 #include "handoff_response/loadIrfs.h"
@@ -30,6 +32,8 @@ class HandoffResponseTests : public CppUnit::TestFixture {
 
    CPPUNIT_TEST(edisp_normalization);
 
+   CPPUNIT_TEST(edisp_sampling);
+
    CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -41,6 +45,7 @@ public:
    void psf_normalization();
 
    void edisp_normalization();
+   void edisp_sampling();
 
 private:
 
@@ -168,7 +173,7 @@ void HandoffResponseTests::edisp_normalization() {
 
    std::vector<double> energies;
    double emin(30);
-   double emax(1.7e5);
+   double emax(3e5);
    size_t nee(10);
    double dee(std::log(emax/emin)/(nee-1));
    for (size_t i = 0; i < nee; i++) {
@@ -217,6 +222,49 @@ void HandoffResponseTests::edisp_normalization() {
       delete myIrfs;
    }
    CPPUNIT_ASSERT(!integralFailures);
+}
+
+void HandoffResponseTests::edisp_sampling() {
+// Just exercise the energy dispersion sampling to look for floating
+// point exceptions.
+   std::vector<double> energies;
+   double emin(30);
+   double emax(3e5);
+   size_t nee(10);
+   double dee(std::log(emax/emin)/(nee-1));
+   for (size_t i = 0; i < nee; i++) {
+      energies.push_back(emin*std::exp(i*dee));
+   }
+
+   std::vector<double> thetas;
+   double thmin(0);
+   double thmax(60);
+   size_t nth(6);
+   double dth((thmax - thmin)/(nth-1));
+   for (size_t i = 0; i < nth; i++) {
+      thetas.push_back(i*dth + thmin);
+   }
+
+   size_t nsamp(100);
+
+   astro::SkyDir zAxis(0, 0);
+   astro::SkyDir xAxis(90, 0);
+
+   for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
+        name != m_irfNames.end(); ++name) {
+      irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
+      const irfInterface::IEdisp & edisp(*myIrfs->edisp());
+      for (std::vector<double>::const_iterator theta(thetas.begin());
+           theta != thetas.end(); ++theta) {
+         astro::SkyDir srcDir(0, *theta);
+         for (std::vector<double>::const_iterator energy(energies.begin());
+              energy != energies.end(); ++energy) {
+            for (size_t j = 0; j < nsamp; j++) {
+               edisp.appEnergy(*energy, srcDir, zAxis, xAxis);
+            }
+         }
+      }
+   }
 }
 
 int main(int argc, char* argv[]) {
