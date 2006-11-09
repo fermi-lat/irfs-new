@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Thu Nov  9 11:10:23 PST 2006
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	RootEval.cxx 
+Log Message:
+limit energy value for dispersion parameters
+    *
+------------------------------------------------------------
 User: jchiang  Sat Nov  4 14:58:53 PST 2006
 irfs/handoff_response/src/gen
 
