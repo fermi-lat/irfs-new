@@ -5,7 +5,8 @@
   @verbatim
   $Id$
 
-  28-Oct-06 v1r2p1 THB    Bug fix for large energy in dispersion function parameter lookup
+  09-Nov-06 v1r2p2 JC     protect against small energies
+  09-Nov-06 v1r2p1 THB    Bug fix for large energy in dispersion function parameter lookup
   28-Oct-06 v1r2   THB    Integrals moved to base irf classs; dispersion tails fit; no interpolation with dispersion
   20-Oct-06 v1r1   THB    tagging yet another preliminary version, with interpolation and PSF integral
   19-Oct-06 v1r0p5 JC     tagging preliminary version for Service Challenge
