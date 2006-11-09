@@ -18,9 +18,9 @@ $Header$
 
 
 namespace {
-    // histogram prameters
-    static double xmin=-1.0, xmax=1.0; 
-    static int nbins=50;
+    // histogram parameters
+    static double xmin=-1.0, xmax=1.5; 
+    static int nbins=75;
 
     // specify fit function
     static const char* names[]={"pnorm", "sigma", "gcore","gtail"};
@@ -28,7 +28,7 @@ namespace {
     static double pmin[]= {0.01,  0.15, 1.0,  1.5};
     static double pmax[]= {50.,   2.0,  5.0,  5.0};
 
-    static double fitrange[] = {-1.0, 2.0};
+    static double fitrange[] = {-1.0, 1.5};
     static double u_break (10.0); 
 
     inline double sqr(double x){return x*x;}
