@@ -228,7 +228,7 @@ void HandoffResponseTests::edisp_sampling() {
 // Just exercise the energy dispersion sampling to look for floating
 // point exceptions.
    std::vector<double> energies;
-   double emin(30);
+   double emin(10);
    double emax(3e5);
    size_t nee(10);
    double dee(std::log(emax/emin)/(nee-1));

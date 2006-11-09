@@ -98,6 +98,9 @@ double RootEval::Table::value(double logenergy, double costh, bool interpolate)
     if( logenergy>= maxloge ) {
         logenergy = maxloge;
     }
+    if (logenergy <= m_energy_axis.at(1)) {    // use first bin if necessary
+       logenergy = m_energy_axis.at(1);        // why isn't m_energy_axis.at(0)
+    }                                          // the first bin?
     int bin= m_hist->FindBin(logenergy, costh);
     return m_hist->GetBinContent(bin);
 
