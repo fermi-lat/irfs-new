@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Thu Nov  9 11:20:10 PST 2006
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+tagging after dispersion function lookup energy fix
+    *
+------------------------------------------------------------
 User: burnett  Thu Nov  9 11:14:24 PST 2006
 irfs/handoff_response/src/gen
 
