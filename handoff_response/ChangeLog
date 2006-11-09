@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Thu Nov  9 11:14:24 PST 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx 
+Log Message:
+protect divide by zero if invalid parameter
+    *
+------------------------------------------------------------
 User: burnett  Thu Nov  9 11:10:23 PST 2006
 irfs/handoff_response/src/irfs
 
