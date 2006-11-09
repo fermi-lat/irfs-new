@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Nov  9 14:13:13 PST 2006
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+add test code to exercise below energy bounds and kluge
+    *
+------------------------------------------------------------
+User: jchiang  Thu Nov  9 14:13:13 PST 2006
 irfs/handoff_response/src/irfs
 
 Modified Files:
