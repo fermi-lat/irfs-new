@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Nov 15 23:39:59 PST 2006
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+one should not jigger the unit tests to make things pass
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r2p2, operation: add
 Package: handoff_response
