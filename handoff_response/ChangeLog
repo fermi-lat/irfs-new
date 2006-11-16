@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: burnett  Thu Nov 16 15:04:36 PST 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	EffectiveArea.cxx EffectiveArea.h IRF.cxx IRF.h 
+	IrfAnalysis.cxx IrfAnalysis.h MyAnalysis.cxx MyAnalysis.h 
+	PsfPlots.cxx Setup.cxx Setup.h 
+Log Message:
+development stage for support of multiple allgamma data sets
+    *
+------------------------------------------------------------
 User: jchiang  Wed Nov 15 23:39:59 PST 2006
 irfs/handoff_response/src/test
 
