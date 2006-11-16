@@ -19,7 +19,8 @@
 
 namespace {
 
-    int ebinfactor(8), anglebinfactor(2);
+    int ebinfactor(8), anglebinfactor(4);
+    std::vector<MyAnalysis::Normalization>::const_iterator s_iter;
 }
 
 EffectiveArea::EffectiveArea( IrfAnalysis& irf, std::ostream& log)
@@ -30,12 +31,23 @@ EffectiveArea::EffectiveArea( IrfAnalysis& irf, std::ostream& log)
         , (std::string("Effective area for ")+irf.name()+"; logE; cos(theta); effective area (m^2)").c_str()
         ,ebinfactor*IRF::energy_bins, IRF::logemin, IRF::logemin+IRF::energy_bins*IRF::logedelta
         , anglebinfactor*IRF::angle_bins, 0.2, 1.0);
+
+    // setup normalization entry.
+    s_iter = irf.normalization().begin();
+    m_count = s_iter->entries();
 }
 
 
-void EffectiveArea::fill(double energy, double costheta, bool front)
+void EffectiveArea::fill(double energy, double costheta, bool front, int total)
 {
-    m_hist->Fill( ::log10(energy), ::fabs(costheta));
+    if( total> m_count) {
+
+        ++s_iter; if(s_iter==m_irf.normalization().end() )throw std::runtime_error("invalid normaliztion data");
+        m_count = s_iter->entries();
+        std::cout << "using new all-gamma run" << std::endl;
+    }
+    double loge(::log10(energy)), costh(::fabs(costheta));
+    m_hist->Fill( loge, ::fabs(costheta));
 
 }
 

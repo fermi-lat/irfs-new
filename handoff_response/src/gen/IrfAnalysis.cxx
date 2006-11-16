@@ -21,7 +21,12 @@ namespace{
     inline static double sqr(double x){return x*x;}
 
     // wire in the number of generated events per run
+#if 0
     int events_per_run(5000);
+#else
+    int events_per_run(2500);  // when SLAC goes to 562 GeV 
+    ///@todo: make this dynamic, or from a data base
+#endif
     double costheta_range( 1.0);
     double generated_area( 6.0); 
 }
@@ -55,7 +60,8 @@ double IrfAnalysis::aeff_per_event()
     // correct limits
     if( m_minlogE<1.5) m_minlogE=1.25;  // can be pretty small
     
-    if(      m_maxlogE>5.50) m_maxlogE=5.56; // 360 GeV 
+    if(      m_maxlogE>5.70) m_maxlogE=5.75; // 562 GeV 
+    else if( m_maxlogE>5.50) m_maxlogE=5.56; // 360 GeV 
     else if( m_maxlogE>5.20) m_maxlogE=5.25; // 180 GeV
 
     double log_energy_range(m_maxlogE-m_minlogE); 
@@ -67,6 +73,18 @@ double IrfAnalysis::aeff_per_event()
 
 }
 
+double IrfAnalysis::aeff_per_event(double loge, double costh)
+{
+
+    const std::vector<Normalization>& normdata = normalization();
+    double r(0);
+
+    for( std::vector<Normalization>::const_iterator it=normdata.begin(); it!=normdata.end(); ++it){
+        if( it->in_range(loge) ) r+= it->m_events;
+    }
+    return r;
+
+}
 //__________________________________________________________________________
 void IrfAnalysis::project() 
 {
@@ -108,10 +126,10 @@ case 2: out() << "back events"; break;
   //      , VtxAngle("VtxAngle")
         , EvtRun("EvtRun" ) // to count runs
         ;
-    int lastrun(0), selected(0);
+    int lastrun(0), selected(0), total(0);
     m_minlogE=1e6, m_maxlogE=0;
     double minzdir(1), maxzdir(-1);
-    for( TreeWrapper::Iterator it = mytree.begin(); it!=mytree.end(); ++it) {
+    for( TreeWrapper::Iterator it = mytree.begin(); it!=mytree.end(); ++it, ++total) {
         if( EvtRun != lastrun ) { ++m_nruns; lastrun = EvtRun;}
         double logE( log10(McEnergy) );
         if( logE< m_minlogE) m_minlogE = logE;
@@ -149,7 +167,7 @@ case 2: out() << "back events"; break;
         m_psf->fill(diff, CTBBestEnergy, McZDir, front);
 #endif
         m_disp->fill(dsp, mc_energy, McZDir, front);
-        m_aeff->fill( mc_energy, McZDir, front);
+        m_aeff->fill( mc_energy, McZDir, front, total);
     }
     out() << "\nFound " << m_nruns <<" run numbers" 
         << " and " << selected<< "/" <<  mytree.size() << " events" <<  std::endl;
@@ -161,13 +179,15 @@ case 2: out() << "back events"; break;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void IrfAnalysis::fit(bool make_plots, std::string parfile, std::string output_type)
 {
+#if 0 // temporary to concentrate on effective area
    m_psf->fit(); 
    m_disp->fit();
 
    m_psf->summarize();
    m_disp->summarize();
+#endif
    m_aeff->summarize();
-
+#if 0
    if(make_plots) m_psf->draw(std::string(output_file_root()+m_setname+"_psf."+output_type));
    if(make_plots) m_disp->draw(std::string(output_file_root()+m_setname+"_disp."+output_type));
    if(make_plots) m_aeff->draw(std::string(output_file_root()+m_setname+"_aeff."+output_type));
@@ -175,6 +195,7 @@ void IrfAnalysis::fit(bool make_plots, std::string parfile, std::string output_t
         writeFitParameters( output_file_root() +parfile);
       //  tabulate(output_file_root() +parfile,  m_setname);
    }
+#endif
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void IrfAnalysis::writeFitParameters(std::string outputFile)

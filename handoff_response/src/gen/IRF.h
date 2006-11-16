@@ -102,6 +102,7 @@ public:
 
     void setName(std::string name){m_name = name;}
 
+
 private:
 
     int m_ebins, m_abins;

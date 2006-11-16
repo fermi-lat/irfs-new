@@ -32,6 +32,9 @@ public:
     */
     double aeff_per_event();
 
+    double aeff_per_event(double loge, double costh);
+
+
     /**@brief write out fit parameters to the ROOT file, tabular TTree
     do both psf and dispersion 
     */

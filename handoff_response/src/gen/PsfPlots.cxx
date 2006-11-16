@@ -99,8 +99,8 @@ void PsfPlots::draw(const std::string &ps_filename ) {
     TCanvas c;
 
     for( int abin=0; abin<= m_irf.angle_bins; ++abin){
-        int rows=2;
-        m_irf.divideCanvas(c,m_irf.energy_bins/rows,rows, 
+        int rows=3;
+        m_irf.divideCanvas(c,(m_irf.energy_bins+1)/rows,rows, 
             std::string("Plots from ") +m_irf.summary_filename());
         for(int ebin=0; ebin<m_irf.energy_bins; ++ebin){
             c.cd(ebin+1);

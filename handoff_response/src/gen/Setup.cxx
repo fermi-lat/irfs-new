@@ -28,13 +28,13 @@ namespace{
         , setupfile("setup.txt"); // file name to read and parse
 }
 
-Setup::Setup(int argc, char* argv[])
-//:m_root( std::string(argc>1? argv[1] : ::getenv(envvar.c_str())) )
+Setup::Setup(int argc, char* argv[], bool verbose)
+: m_verbose(verbose)
 {
 
    char * envvarvalue = ::getenv(envvar.c_str());
-   if (envvarvalue == 0) {
-      throw std::runtime_error("Environment variable " + envvar 
+   if (argc ==1 && envvarvalue == 0) {
+       throw std::runtime_error(std::string(argv[0])+": no command line argument and the environment variable " + envvar 
                                + " is not set");
    }
    m_root = std::string(argc>1? argv[1] : envvarvalue);
@@ -64,7 +64,7 @@ void Setup::readnames(std::string filename)
     std::string line, current_entry;
     while( setupfile ){
         std::getline(setupfile, line);
-        //std::cout << "line: " << line << std::endl;
+        if(m_verbose) std::cout << "line: " << line << std::endl;
         if( line.empty()) { // flag to swithch
             if( !current_entry.empty() ){
                 push_back(current_entry);

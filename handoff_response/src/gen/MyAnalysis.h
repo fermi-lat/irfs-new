@@ -21,7 +21,7 @@ class TTree;
 class MyAnalysis : public Root_base {
 public:
 
-    MyAnalysis(std::string summary_root_filename="");
+    MyAnalysis(std::string summary_root_filename="", std::string cut_filename="");
     ~MyAnalysis();
 
     void open_input_file(std::string filename="");
@@ -34,12 +34,38 @@ public:
     TTree& tree(){return *m_tree;}
 
     /// @brief apply cuts and select the branch names.
-    void makeCutTree(const std::string& cuts, const std::vector<std::string>& branchnames, std::string filename);
+    void makeCutTree(const std::string& cuts, const std::vector<std::string>& branchnames);
 
     void current_time(std::ostream& out=std::cout);
 
     static std::string s_input_filename;
 
+    /** @class MyAnalysis::Normalization
+        @brief information allowing normalization for effective area
+
+        */
+    class Normalization {
+    public:
+        /** 
+        @param events number of events initially generated
+        @param logemin minimum log10(McEnergy)
+        @param logemax maxiumum log10(McEnergy)
+        @param entries number of events found in the file after cuts
+        */
+        Normalization(int events, double logemin, double logemax, int entries)
+            :m_events(events)
+            ,m_low(logemin)
+            ,m_high(logemax)
+            ,m_entries(entries)
+        {}
+        bool in_range(double loge)const{return loge>m_low && loge<=m_high;} 
+        int entries()const{return m_entries;}
+        double density()const{return (m_high-m_low)/m_events;}
+        int m_events, m_entries;
+        double  m_low, m_high;
+    };
+
+    const std::vector<Normalization>& normalization()const{return m_norm;}
 private:
 
     std::string  m_summary_filename;
@@ -50,6 +76,9 @@ private:
     //! the  tree that will be analyzed
     TTree* m_tree;
     TChain* m_input_tree;
+    TFile* m_out;
+
+    std::vector<Normalization> m_norm;
 };
 
 #endif

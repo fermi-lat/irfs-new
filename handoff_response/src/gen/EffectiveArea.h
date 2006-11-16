@@ -21,7 +21,7 @@ public:
     EffectiveArea( IrfAnalysis& irf, std::ostream& log=std::cout);
     ~EffectiveArea();
 
-    void fill(double energy, double costheta, bool front);
+    void fill(double energy, double costheta, bool front, int count=0);
 
     void summarize();
 
@@ -36,6 +36,7 @@ private:
     std::ostream * m_log;
     std::ostream& out() {return *m_log;}
     double m_norm; ///< area per event in histogram
+    int m_count;  ///< keep track of fill
 
     TH2F* m_hist;  ///< the 2-d histogram that we manage
 };

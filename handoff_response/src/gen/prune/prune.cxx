@@ -27,10 +27,11 @@ int main(int argc, char* argv[]){
         s.parse_list(s[2], names);
         //std::copy(names.begin(), names.end(), std::ostream_iterator<std::string>(std::cout, "\n\t"));  std::cout << std::endl;
 
-        MyAnalysis copier(s[0]); // makes a copy of the good gammas
         std::string cut_filename( "goodEvent.root" );
 
-        copier.makeCutTree( s[1], names, cut_filename);
+        MyAnalysis copier(s[0], cut_filename); // makes a copy of the good gammas
+
+        copier.makeCutTree( s[1], names);
 
     }catch( const std::exception& e){
         std::cerr << "Caught exception "<< e.what() << std::endl;

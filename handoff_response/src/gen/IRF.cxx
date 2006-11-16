@@ -17,7 +17,7 @@
 double IRF::logemin   = 1.25;  // low side of first bin
 #if 1
 double IRF::logedelta = 0.5;  // 2 per decade
-int    IRF::energy_bins = 8;  // number of bins
+int    IRF::energy_bins = 9;  // number of bins  
 int    IRF::angle_bins = 8;
 double IRF::deltaCostheta = 0.1; // angular bin size
 #else
