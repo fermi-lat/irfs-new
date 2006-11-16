@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Thu Nov 16 15:04:37 PST 2006
+irfs/handoff_response/src/gen/prune
+
+Modified Files:
+	prune.cxx 
+Log Message:
+development stage for support of multiple allgamma data sets
+    *
+------------------------------------------------------------
+User: burnett  Thu Nov 16 15:04:37 PST 2006
 irfs/handoff_response/src/gen/makeirf
 
 Modified Files:
