@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: burnett  Fri Nov 17 21:50:26 PST 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	EffectiveArea.cxx EffectiveArea.h IRF.cxx IRF.h 
+	IrfAnalysis.cxx IrfAnalysis.h MyAnalysis.h 
+Log Message:
+combining multiple runs now seems to work.
+    *
+------------------------------------------------------------
 User: burnett  Thu Nov 16 15:04:37 PST 2006
 irfs/handoff_response/src/gen/prune
 
