@@ -13,14 +13,32 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TCanvas.h"
+#include "TAxis.h"
 
 #include <cmath>
 #include <iomanip>
 
 namespace {
-
+#if 1
     int ebinfactor(8), anglebinfactor(4);
+#else
+    int ebinfactor(1), anglebinfactor(1);
+#endif
     std::vector<MyAnalysis::Normalization>::const_iterator s_iter;
+
+       /// Fill vector array with the bin centers from ta TH2F
+    void binCenters( TH2F* hist, std::vector<std::pair<float,float> >& array)
+    {
+        TAxis* xaxis = hist->GetXaxis();
+        TAxis* yaxis = hist->GetYaxis();
+        int nbinsx(xaxis->GetNbins()), nbinsy(yaxis->GetNbins());
+        for(int i = 1; i<nbinsx+1; ++i){
+            for( int j=1; j<nbinsy+1; ++j){
+                array.push_back(std::make_pair(xaxis->GetBinCenter(i),yaxis->GetBinCenter(j)));
+            }
+        }
+    }
+
 }
 
 EffectiveArea::EffectiveArea( IrfAnalysis& irf, std::ostream& log)
@@ -32,45 +50,76 @@ EffectiveArea::EffectiveArea( IrfAnalysis& irf, std::ostream& log)
         ,ebinfactor*IRF::energy_bins, IRF::logemin, IRF::logemin+IRF::energy_bins*IRF::logedelta
         , anglebinfactor*IRF::angle_bins, 0.2, 1.0);
 
+    binCenters( m_hist, m_bins);
     // setup normalization entry.
     s_iter = irf.normalization().begin();
     m_count = s_iter->entries();
+    m_numerator =  new TH2F("aeff_numerator"
+        , (std::string("Effective area for ")+irf.name()+"; logE; cos(theta); effective area (m^2)").c_str()
+        ,ebinfactor*IRF::energy_bins, IRF::logemin, IRF::logemin+IRF::energy_bins*IRF::logedelta
+        , anglebinfactor*IRF::angle_bins, 0.2, 1.0);
+
+    m_denominator = new TH2F("aeff_denominator"
+        , (std::string("Effective area for ")+irf.name()+"; logE; cos(theta); effective area (m^2)").c_str()
+        ,ebinfactor*IRF::energy_bins, IRF::logemin, IRF::logemin+IRF::energy_bins*IRF::logedelta
+        , anglebinfactor*IRF::angle_bins, 0.2, 1.0);
+
 }
 
 
 void EffectiveArea::fill(double energy, double costheta, bool front, int total)
 {
-    if( total> m_count) {
-
-        ++s_iter; if(s_iter==m_irf.normalization().end() )throw std::runtime_error("invalid normaliztion data");
-        m_count = s_iter->entries();
-        std::cout << "using new all-gamma run" << std::endl;
-    }
+    if( total> m_count) updateNorm();
+        
     double loge(::log10(energy)), costh(::fabs(costheta));
     m_hist->Fill( loge, ::fabs(costheta));
 
 }
 
+void EffectiveArea::updateNorm(bool done)
+{
+    // add to the numerator and denominator arrays
+    for( std::vector<Fpair>::const_iterator it = m_bins.begin(); it!=m_bins.end(); ++it) {
+        float loge ( it->first )
+            , costh( it->second )
+            , d( s_iter->value(loge, costh) )
+            , count( m_hist->GetBinContent(m_hist->FindBin(loge, costh)) );
+        if( count>0 && d>0) {
+            m_numerator->Fill( loge, costh, d);
+            m_denominator->Fill(loge,costh, d*d/count);
+        }
+    }
+    m_hist->Reset();
+    ++s_iter; 
+    if( done ){
+
+        m_count=0;//throw std::runtime_error("invalid normalization data");
+        double factor( IRF::s_generated_area/IRF::logedelta/IRF::deltaCostheta*ebinfactor*anglebinfactor);
+        for( std::vector<Fpair>::const_iterator it = m_bins.begin(); it!=m_bins.end(); ++it) {
+            float loge ( it->first )
+                , costh( it->second );
+            int bin( m_hist->FindBin(loge, costh));
+            float numerator(  m_numerator->GetBinContent(bin))
+                , denominator(m_denominator->GetBinContent(bin));
+
+            if( denominator==0) continue;
+            m_hist->SetBinContent( bin, factor* numerator/denominator);
+            m_hist->SetBinError(bin, factor/sqrt(denominator));
+
+        }
+        m_numerator->Write(); // to look at
+        m_denominator->Write(); // needs to be inverted, sqrt taken for errors
+        m_hist->Write();
+
+    }
+    else{
+        m_count = s_iter->entries();
+    }
+}
 void EffectiveArea::summarize()
 {
-    m_norm= m_irf.aeff_per_event()*ebinfactor*anglebinfactor;
-    double maxbin = m_hist->GetMaximum();
-    out() << "\nEffective area histogram has " 
-        << m_hist->GetEntries() << " entries."
-        << std::endl;
-    out() << "\tNormalizion is " << std::setprecision(6) << (m_norm*1e4) 
-        << " cm^2/event: Maximum bin has " << maxbin 
-        << " entries, for " << (maxbin*m_norm) << " m^2"<< std::endl;
-    m_hist->GetXaxis()->CenterTitle();
-    m_hist->GetYaxis()->CenterTitle();
-    m_hist->GetZaxis()->CenterTitle();
-#if 0 // this screws it up?
-    m_hist->GetXaxis()->SetLabelOffset(2.0);
-    m_hist->GetYaxis()->SetLabelOffset(2.0);
-#endif
-    m_hist->Scale(m_norm);
-    m_hist->Write(); // update in the output file
-
+    //make the quotient now
+    updateNorm(true);
 }
 
 void EffectiveArea::draw(const std::string &ps_filename)

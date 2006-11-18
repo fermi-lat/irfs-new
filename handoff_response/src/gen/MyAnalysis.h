@@ -47,20 +47,21 @@ public:
     class Normalization {
     public:
         /** 
-        @param events number of events initially generated
+        @param generated number of events initially generated
         @param logemin minimum log10(McEnergy)
         @param logemax maxiumum log10(McEnergy)
         @param entries number of events found in the file after cuts
         */
-        Normalization(int events, double logemin, double logemax, int entries)
-            :m_events(events)
+        Normalization(int generated, double logemin, double logemax, int entries)
+            :m_events(generated)
             ,m_low(logemin)
             ,m_high(logemax)
             ,m_entries(entries)
         {}
-        bool in_range(double loge)const{return loge>m_low && loge<=m_high;} 
+        bool in_range(double loge, double costh)const{return loge>m_low && loge<=m_high && costh>0 && costh<=1;} 
         int entries()const{return m_entries;}
-        double density()const{return (m_high-m_low)/m_events;}
+        int generated()const{return m_events;}
+        double value(double loge, double costh)const{ return in_range(loge, costh) ? m_events/(m_high-m_low) : 0;} 
         int m_events, m_entries;
         double  m_low, m_high;
     };

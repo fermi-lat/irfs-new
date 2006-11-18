@@ -30,7 +30,10 @@ public:
     void writeFitParameters(std::string outputFile, std::string treename);
 
     void fillParameterTables();
+
+    
 private:
+    void updateNorm(bool done=false);
 
     IrfAnalysis& m_irf;
     std::ostream * m_log;
@@ -39,6 +42,9 @@ private:
     int m_count;  ///< keep track of fill
 
     TH2F* m_hist;  ///< the 2-d histogram that we manage
+    TH2F* m_numerator, *m_denominator; ///< for normalization with multiple runs
+    typedef std::pair<float,float> Fpair;
+    std::vector< Fpair > m_bins;
 };
 
 #endif

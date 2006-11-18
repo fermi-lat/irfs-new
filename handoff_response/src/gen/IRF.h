@@ -90,6 +90,8 @@ public:
 
     // public stuff
     
+    static double s_generated_area;
+
     // define energy bins
     static double logemin, logedelta;
     static int energy_bins;

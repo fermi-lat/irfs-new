@@ -13,6 +13,8 @@
 
 #include <cmath>
 
+double IRF::s_generated_area(6.0);
+
 // defines binning 
 double IRF::logemin   = 1.25;  // low side of first bin
 #if 1

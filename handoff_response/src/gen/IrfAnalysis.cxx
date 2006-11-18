@@ -73,18 +73,8 @@ double IrfAnalysis::aeff_per_event()
 
 }
 
-double IrfAnalysis::aeff_per_event(double loge, double costh)
-{
 
-    const std::vector<Normalization>& normdata = normalization();
-    double r(0);
 
-    for( std::vector<Normalization>::const_iterator it=normdata.begin(); it!=normdata.end(); ++it){
-        if( it->in_range(loge) ) r+= it->m_events;
-    }
-    return r;
-
-}
 //__________________________________________________________________________
 void IrfAnalysis::project() 
 {

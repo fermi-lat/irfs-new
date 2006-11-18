@@ -29,10 +29,10 @@ public:
     void fit(bool make_plots=false, std::string parfile="", std::string output_type="ps");
 
     /** @return the acceptance per event per energy-angle bin, in m^2 * sr.
+     **deprecated**
     */
     double aeff_per_event();
 
-    double aeff_per_event(double loge, double costh);
 
 
     /**@brief write out fit parameters to the ROOT file, tabular TTree
