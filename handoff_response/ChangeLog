@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 User: burnett  Tue Nov 21 14:43:31 PST 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx Dispersion.h EffectiveArea.cxx IrfAnalysis.cxx 
+	IrfAnalysis.h PointSpreadFunction.cxx TreeWrapper.h 
+Log Message:
+expunge most gcc warnings; relax tests a bit
+    *
+------------------------------------------------------------
+User: burnett  Tue Nov 21 14:43:31 PST 2006
 irfs/handoff_response/doc
 
 Modified Files:
