@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Mon Nov 20 20:41:24 PST 2006
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+tagging, to allow linux compile and test.
+    *
+------------------------------------------------------------
 User: burnett  Mon Nov 20 20:18:08 PST 2006
 irfs/handoff_response/src/test
 
