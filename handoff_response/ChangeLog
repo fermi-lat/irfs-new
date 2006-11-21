@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 User: burnett  Mon Nov 20 20:18:07 PST 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx EffectiveArea.cxx EffectiveArea.h IRF.cxx 
+	IrfAnalysis.cxx MyAnalysis.cxx MyAnalysis.h PsfPlots.cxx 
+Log Message:
+updates to allow multiple files, variable bin width
+    *
+------------------------------------------------------------
+User: burnett  Mon Nov 20 20:18:07 PST 2006
 irfs/handoff_response/data
 
 Modified Files:
