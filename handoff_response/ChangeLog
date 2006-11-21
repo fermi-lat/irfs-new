@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Tue Nov 21 14:43:32 PST 2006
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	RootEval.cxx 
+Log Message:
+expunge most gcc warnings; relax tests a bit
+    *
+------------------------------------------------------------
+User: burnett  Tue Nov 21 14:43:32 PST 2006
 irfs/handoff_response/src/gen/reformat
 
 Modified Files:
