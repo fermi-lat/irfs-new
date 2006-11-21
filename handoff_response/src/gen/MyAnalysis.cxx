@@ -12,6 +12,7 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 
 std::string MyAnalysis::s_input_filename="";
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -63,7 +64,7 @@ void MyAnalysis::open_input_file(std::string input_files)
                 break;
             case 1:  //should be number of events
                 std::cout << "\t events generated: " << entry;
-                events_generated = ::atof(entry.c_str());
+                events_generated = static_cast<int>(::atof(entry.c_str()));
                 break;
             case 2:
                 std::cout << "\tloge limits: from " << entry; 

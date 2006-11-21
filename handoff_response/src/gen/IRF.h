@@ -109,10 +109,10 @@ private:
 
     int m_ebins, m_abins;
 
-    std::string  m_summary_filename;
     // folder to put output files
     std::string m_output_file_root;
 
+    std::string  m_summary_filename;
  
     // limits used in the draw phase
     double m_ymin, m_ymax;

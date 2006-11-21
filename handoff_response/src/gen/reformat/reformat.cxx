@@ -81,9 +81,9 @@ public:
        
         int j(0);
         for(TreeWrapper::Iterator it=tree.begin(first); it!=tree.end(); ++it,++j){
-            int i( it.index());
+            //int i( it.index());
     //        out() << i<< "\t" << sigma << "\t" << gamma << "\t" << aeff<< std::endl;
-            double loge = m_table[j][0], checklog(log10(energy));
+          //  double loge = m_table[j][0], checklog(log10(energy));
             m_table[j].push_back(sigma);
             m_table[j].push_back(gamma);
             static double delta_costheta(0.1);
@@ -110,8 +110,8 @@ private:
     std::stringstream m_title1, m_title2;
     std::vector<std::vector<double> >m_table;
     std::ostream& out(){return *m_out;}
-    std::string m_filename;
     std::string m_filepath;
+    std::string m_filename;
     std::ostream* m_out;
 };
 

@@ -54,9 +54,9 @@ public:
         */
         Normalization(int generated, double logemin, double logemax, int entries)
             :m_events(generated)
+            ,m_entries(entries)
             ,m_low(logemin)
             ,m_high(logemax)
-            ,m_entries(entries)
         {}
         bool in_range(double loge, double costh)const{return loge>m_low && loge<=m_high && costh>0 && costh<=1;} 
         int entries()const{return m_entries;}

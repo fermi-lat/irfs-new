@@ -5,7 +5,7 @@
   @verbatim
   $Id$
 
-  20-Nov-06 v1r3   THB    Add 160 M low energy events to 60 M new SLAC. 
+  21-Nov-06 v1r3p1 THB    Add 160 M low energy events to 60 M new SLAC. 
   09-Nov-06 v1r2p2 JC     protect against small energies
   09-Nov-06 v1r2p1 THB    Bug fix for large energy in dispersion function parameter lookup
   28-Oct-06 v1r2   THB    Integrals moved to base irf classs; dispersion tails fit; no interpolation with dispersion
