@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Mon Nov 20 20:18:07 PST 2006
+irfs/handoff_response/src/gen/reformat
+
+Modified Files:
+	reformat.cxx 
+Log Message:
+updates to allow multiple files, variable bin width
+    *
+------------------------------------------------------------
+User: burnett  Mon Nov 20 20:18:07 PST 2006
 irfs/handoff_response/src/gen/makeirf
 
 Modified Files:
