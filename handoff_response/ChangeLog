@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Tue Nov 21 14:43:31 PST 2006
+irfs/handoff_response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+expunge most gcc warnings; relax tests a bit
+    *
+------------------------------------------------------------
+User: burnett  Tue Nov 21 14:43:31 PST 2006
 irfs/handoff_response/cmt
 
 Modified Files:
