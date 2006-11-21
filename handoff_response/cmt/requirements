@@ -1,5 +1,5 @@
 package handoff_response
-version v1r2p2
+version v1r3
 
 author Toby Burnett <tburnett@u.washington.edu>
 
@@ -13,6 +13,7 @@ use ROOT v* IExternal
 use CLHEP v* IExternal
 use astro v*
 use cppunit v* IExternal
+use python v* IExternal
 use st_facilities v*
 
 apply_pattern package_include
