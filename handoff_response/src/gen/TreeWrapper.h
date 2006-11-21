@@ -64,8 +64,8 @@ public:
         bool operator!=(const Iterator& other){return m_rec!= other.m_rec;}
         size_t index()const{ return m_rec;} ///< @return entry number
     private:
-        size_t m_rec;
         TTree* m_tree;
+        size_t m_rec;
     };
 
     size_t size()const; ///< @return number of entries in the tree

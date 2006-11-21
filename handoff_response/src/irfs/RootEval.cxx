@@ -114,7 +114,7 @@ RootEval::RootEval(TFile* f, std::string eventtype)
     m_aeff  = setupHist("aeff");
     setupParameterTables(PointSpreadFunction::pnames, m_psfTables);
 
-    double psftest = psf(1000, 1000, 0.);
+    //double psftest = psf(1000, 1000, 0.);
 
     setupParameterTables(Dispersion::Hist::pnames, m_dispTables);
 #if 0
@@ -184,7 +184,7 @@ double * RootEval::psf_par(double energy, double costh)
     double loge(::log10(energy));
     if( costh==1.0) costh = 0.9999;
 
-    for( int i = 1; i< m_psfTables.size(); ++i){
+    for( unsigned int i = 1; i< m_psfTables.size(); ++i){
         par[i] = m_psfTables[i]->value(loge,costh);
     }
 
@@ -219,7 +219,7 @@ double * RootEval::disp_par(double energy, double costh)
 
     if( costh==1.0) costh = 0.9999;
 
-    for( int i = 0; i< m_dispTables.size(); ++i){
+    for( unsigned int i = 0; i< m_dispTables.size(); ++i){
         par[i] = m_dispTables[i]->value(loge,costh, interpolate);
     }
     return par;

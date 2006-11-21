@@ -101,7 +101,6 @@ case 2: out() << "back events"; break;
     TreeWrapper mytree(&tree()); // sets current TTree
     TreeWrapper::Leaf // create TLeaf-wrappers from the current TTree 
         McEnergy("McEnergy")
-        , EvtEnergyCorr("EvtEnergyCorr")
         , CTBBestEnergy("CTBBestEnergy")
 
         , McXDir("McXDir")

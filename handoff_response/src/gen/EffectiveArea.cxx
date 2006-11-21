@@ -73,7 +73,7 @@ EffectiveArea::EffectiveArea( IrfAnalysis& irf, std::ostream& log)
 
 }
 
-void EffectiveArea::fill(double energy, double costheta, bool front, int total)
+void EffectiveArea::fill(double energy, double costheta, bool front, int /*total*/)
 {
     double loge(::log10(energy)), costh(::fabs(costheta));
     m_hist->Fill( loge, ::fabs(costheta));
@@ -94,7 +94,7 @@ void EffectiveArea::summarize()
     // setup loop over normalization entries
     std::vector<MyAnalysis::Normalization>::const_iterator norm_iter= m_irf.normalization().begin();
     for( ; norm_iter != m_irf.normalization().end(); ++norm_iter){
-        double count = norm_iter->entries();
+        //unused double count = norm_iter->entries();
 
         // add to the denominator array
         for( std::vector<FloatPair>::const_iterator it = bins.begin(); it!=bins.end(); ++it) {

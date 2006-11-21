@@ -36,7 +36,8 @@ double    Dispersion::Hist::s_histrange[2] = {-1., 2.};
 
 std::vector<std::string>
           Dispersion::Hist::pnames(names, names+sizeof(names)/sizeof(const char*));
-int       Dispersion::Hist::npars(){return pnames.size();}
+unsigned int
+          Dispersion::Hist::npars(){return pnames.size();}
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 double Dispersion::function(double * x, double * p)

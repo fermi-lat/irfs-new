@@ -51,14 +51,14 @@ private:
     Dispersion* m_disp; ///< manage energy dispersion plots
     EffectiveArea* m_aeff; ///< manage the effective area plot
     int m_set;  ///< all, front, back
-    std::string m_setname; ///< describe the data set
-
-    std::string m_classname; ///<event class, derived from folder name
     std::ostream * m_log;
-    std::ostream& out() {return *m_log;}
+    std::string m_setname; ///< describe the data set
+    std::string m_classname; ///<event class, derived from folder name
 
     int m_nruns; ///< number of runs found
     double m_minlogE, m_maxlogE; ///< minimum, maximum logE found
+
+    std::ostream& out() {return *m_log;}
 
 };
 

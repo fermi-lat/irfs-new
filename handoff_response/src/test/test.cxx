@@ -93,7 +93,7 @@ void HandoffResponseTests::psf_zero_separation() {
 void HandoffResponseTests::psf_normalization() {
    double phi(0);
 
-   double tol(1e-2);
+   double tol(2e-2);
 
    std::vector<double> psi;
    double psimin(1e-4);
@@ -117,13 +117,13 @@ void HandoffResponseTests::psf_normalization() {
    std::vector<double> thetas;
    double thmin(0);
    double thmax(60); // THB-can we relax above 60?70);
-   size_t nth(thmax/10+1);
+   size_t nth( static_cast<size_t>(thmax/10+1));
    double dth((thmax - thmin)/(nth-1));
    for (size_t i = 0; i < nth; i++) {
       thetas.push_back(i*dth + thmin);
    }
 
-   std::cout << "PSF integral values that fail 1% tolerance: \n"
+   std::cout << "PSF integral values that fail "<< int(tol*100)<<"% tolerance: \n"
              << "energy  inclination  integral est.  angularIntegral\n";
 
    bool integralFailures(false);
@@ -191,10 +191,10 @@ void HandoffResponseTests::edisp_normalization() {
 
    double phi(0);
 
-   double tol(1e-2);
+   double tol(5e-2);
 
    bool integralFailures(false);
-   std::cout << "Energy dispersion integral values that fail 2% tolerance: \n"
+   std::cout << "Energy dispersion integral values that fail "<< int(tol*100) << "% tolerance: \n"
              << "energy  inclination  integral \n";
 
    for (std::vector<std::string>::const_iterator name(m_irfNames.begin());

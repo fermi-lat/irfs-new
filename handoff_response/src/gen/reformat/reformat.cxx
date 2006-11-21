@@ -48,7 +48,7 @@ public:
         set_logE();  
         
         // infer class name from last element of full path
-        int k = filepath.find_last_of('\\');
+        unsigned int k = filepath.find_last_of('\\');
         if( k == std::string::npos )  k = filepath.find_last_of('/');
         std::string classname = filepath.substr(k+1);
 
@@ -77,7 +77,8 @@ public:
         m_title2 << "\tsigma\tgamma\taccept";
   //      out() << "parameters for set "<< setname << std::endl;
         
-        TreeWrapper::Leaf energy("energy"), sigma("sigma"), aeff("aeff"), gamma("gcore");
+        TreeWrapper::Leaf //energy("energy")
+             sigma("sigma"), aeff("aeff"), gamma("gcore");
        
         int j(0);
         for(TreeWrapper::Iterator it=tree.begin(first); it!=tree.end(); ++it,++j){

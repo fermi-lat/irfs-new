@@ -61,7 +61,7 @@ public:
         static double      pmax[];
         static double      fitrange[2];
 
-        static int npars();
+        static unsigned int npars();
 
         static bool s_logy; ///< determine if log y
         static int  s_minEntries; ///< minimum number of entries to fit

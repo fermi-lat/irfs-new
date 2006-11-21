@@ -110,7 +110,6 @@ double PointSpreadFunction::integral(double* x, double *par)
 {
     double sigma = par[1], gamma = par[2];
     double u = 0.5* sqr((*x)/sigma);
-    double  gamma_tail = par[3]; // reduce the exponent for tail
     if( u< u_break) {
         return par[0]*psf_base_integral(u,sigma,gamma);
     }
