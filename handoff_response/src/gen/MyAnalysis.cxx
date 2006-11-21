@@ -130,10 +130,10 @@ void MyAnalysis::makeCutTree(const std::string& cuts, const std::vector<std::str
         norm->Branch("logemax", &logemax, "logemax/D");
         norm->Branch("entries", &entries, "entries/I");
         for( std::vector<Normalization>::const_iterator it = m_norm.begin(); it!=m_norm.end(); ++it){
-            generated = it->m_events;
-            logemin   = it->m_low;
-            logemax   = it->m_high;
-            entries   = it->m_entries;
+            generated = it->generated();
+            logemin   = it->logemin();
+            logemax   = it->logemax();
+            entries   = it->entries();
             norm->Fill();
         }
         norm->Write();

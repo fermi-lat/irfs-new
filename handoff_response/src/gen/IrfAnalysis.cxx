@@ -169,15 +169,12 @@ case 2: out() << "back events"; break;
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void IrfAnalysis::fit(bool make_plots, std::string parfile, std::string output_type)
 {
-#if 0 // temporary to concentrate on effective area
    m_psf->fit(); 
    m_disp->fit();
 
    m_psf->summarize();
    m_disp->summarize();
-#endif
    m_aeff->summarize();
-#if 0
    if(make_plots) m_psf->draw(std::string(output_file_root()+m_setname+"_psf."+output_type));
    if(make_plots) m_disp->draw(std::string(output_file_root()+m_setname+"_disp."+output_type));
    if(make_plots) m_aeff->draw(std::string(output_file_root()+m_setname+"_aeff."+output_type));
@@ -185,7 +182,6 @@ void IrfAnalysis::fit(bool make_plots, std::string parfile, std::string output_t
         writeFitParameters( output_file_root() +parfile);
       //  tabulate(output_file_root() +parfile,  m_setname);
    }
-#endif
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void IrfAnalysis::writeFitParameters(std::string outputFile)

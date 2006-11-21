@@ -116,8 +116,8 @@ void HandoffResponseTests::psf_normalization() {
 
    std::vector<double> thetas;
    double thmin(0);
-   double thmax(70);
-   size_t nth(8);
+   double thmax(60); // THB-can we relax above 60?70);
+   size_t nth(thmax/10+1);
    double dth((thmax - thmin)/(nth-1));
    for (size_t i = 0; i < nth; i++) {
       thetas.push_back(i*dth + thmin);
@@ -228,7 +228,7 @@ void HandoffResponseTests::edisp_sampling() {
 // Just exercise the energy dispersion sampling to look for floating
 // point exceptions.
    std::vector<double> energies;
-   double emin(10);
+   double emin(1e5); //(10);
    double emax(3e5);
    size_t nee(10);
    double dee(std::log(emax/emin)/(nee-1));
@@ -260,7 +260,14 @@ void HandoffResponseTests::edisp_sampling() {
          for (std::vector<double>::const_iterator energy(energies.begin());
               energy != energies.end(); ++energy) {
             for (size_t j = 0; j < nsamp; j++) {
-               edisp.appEnergy(*energy, srcDir, zAxis, xAxis);
+                try{
+                    edisp.appEnergy(*energy, srcDir, zAxis, xAxis);
+                }catch(const std::exception& e){
+                    std::cerr << "caught sampling error, "
+                        << (*energy)<<", "<<srcDir.dec() <<", " 
+                        << zAxis.dec() << ", " <<xAxis.dec()  << std::endl;
+                    throw;
+                }
             }
          }
       }

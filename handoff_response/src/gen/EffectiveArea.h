@@ -33,18 +33,25 @@ public:
 
     
 private:
-    void updateNorm(bool done=false);
+    class Bins {
+    public:
+        Bins();
+        const std::vector<double>& energy_bins()const{return m_energy_bin_edges;}
+        const std::vector<double>& angle_bins()const{return m_angle_bin_edges;}
+        double binsize(double loge, double costh)const;
+    private:
+        std::vector<double> m_energy_bin_edges;
+        std::vector<double> m_angle_bin_edges;
+        double m_ebreak; // apply multplier only below this
+        int m_ebinfactor, m_anglebinfactor, m_ebinhigh; // multipliers
+    }m_bins;
 
     IrfAnalysis& m_irf;
     std::ostream * m_log;
     std::ostream& out() {return *m_log;}
-    double m_norm; ///< area per event in histogram
-    int m_count;  ///< keep track of fill
 
     TH2F* m_hist;  ///< the 2-d histogram that we manage
-    TH2F* m_numerator, *m_denominator; ///< for normalization with multiple runs
-    typedef std::pair<float,float> Fpair;
-    std::vector< Fpair > m_bins;
+    typedef std::pair<float,float> FloatPair;
 };
 
 #endif

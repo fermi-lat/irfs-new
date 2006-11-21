@@ -17,7 +17,7 @@ int main(int argc, char* argv[]){
     int ret=0;
     try {
 
-        Setup s(argc, argv, true);  // will cd to current folder.
+        Setup s(argc, argv, false);  // will cd to current folder.
 
         MyAnalysis::s_input_filename = "goodEvent.root";
         std::ofstream logfile("log.txt");
@@ -26,12 +26,12 @@ int main(int argc, char* argv[]){
         logfile << "Cuts:          " << s[1] << std::endl;
 
         std::string folder(s.root());
-        bool make_plots(false);
+        bool make_plots(true);
 #if 1 //front
         IrfAnalysis front(folder, 1, logfile);
         front.fit(make_plots, "../parameters.root");
 #endif
-#if 0// back
+#if 1// back
         IrfAnalysis back(folder,  2, logfile);
         back.fit(make_plots,  "../parameters.root");
 #endif

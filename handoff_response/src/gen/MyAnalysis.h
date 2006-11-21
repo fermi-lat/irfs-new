@@ -61,7 +61,10 @@ public:
         bool in_range(double loge, double costh)const{return loge>m_low && loge<=m_high && costh>0 && costh<=1;} 
         int entries()const{return m_entries;}
         int generated()const{return m_events;}
+        double logemin()const{return m_low;}
+        double logemax()const{return m_high;}
         double value(double loge, double costh)const{ return in_range(loge, costh) ? m_events/(m_high-m_low) : 0;} 
+    private:
         int m_events, m_entries;
         double  m_low, m_high;
     };

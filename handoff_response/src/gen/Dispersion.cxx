@@ -277,10 +277,11 @@ void Dispersion::fillParameterTables()
             );
         std::vector<double> pars;
 
+        ///@todo: put this indexing into a object
         int index(0);
         for( HistList::iterator it = m_hists.begin(); it!=m_hists.end(); ++it, ++index){
             it->getFitPars(pars);
-            double costheta = 0.95 - 0.1*(index/IRF::angle_bins);
+            double costheta = 0.95 - 0.1*(index/IRF::energy_bins);
             double logenergy = log10(IRF::eCenter(index));
 
             h2->Fill(logenergy, costheta, pars[i]);

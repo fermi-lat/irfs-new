@@ -29,6 +29,7 @@ int    IRF::angle_bins = 12;
 double IRF::deltaCostheta = 0.05; // angular bin size
 #endif
 
+
 IRF::IRF(std::string output_folder, std::string summary_root_filename)
 : m_output_file_root(output_folder)
 , m_summary_filename( std::string( !output_folder.empty()? output_folder+   "/": "")+summary_root_filename)
