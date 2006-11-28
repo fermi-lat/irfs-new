@@ -93,7 +93,7 @@ void HandoffResponseTests::psf_zero_separation() {
 void HandoffResponseTests::psf_normalization() {
    double phi(0);
 
-   double tol(2e-2);
+   double tol(1e-2);
 
    std::vector<double> psi;
    double psimin(1e-4);
@@ -191,7 +191,7 @@ void HandoffResponseTests::edisp_normalization() {
 
    double phi(0);
 
-   double tol(5e-2);
+   double tol(1e-2);
 
    bool integralFailures(false);
    std::cout << "Energy dispersion integral values that fail "<< int(tol*100) << "% tolerance: \n"
