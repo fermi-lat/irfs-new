@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Tue Nov 28 09:36:54 PST 2006
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+1% gdd
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r3p2, operation: add
 Package: handoff_response
