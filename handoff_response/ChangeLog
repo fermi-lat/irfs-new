@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Sat Dec  2 12:59:25 PST 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	EffectiveArea.cxx Setup.cxx 
+Log Message:
+convert to using python to interpret parameters, via the package embed_python
+    *
+------------------------------------------------------------
+User: burnett  Sat Dec  2 12:59:25 PST 2006
 irfs/handoff_response/cmt
 
 Modified Files:
