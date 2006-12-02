@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Sat Dec  2 12:59:25 PST 2006
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+convert to using python to interpret parameters, via the package embed_python
+    *
+------------------------------------------------------------
 User: jchiang  Tue Nov 28 09:36:54 PST 2006
 irfs/handoff_response/src/test
 
