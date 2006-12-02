@@ -73,9 +73,9 @@ EffectiveArea::EffectiveArea( IrfAnalysis& irf, std::ostream& log)
 
 }
 
-void EffectiveArea::fill(double energy, double costheta, bool front, int /*total*/)
+void EffectiveArea::fill(double energy, double costheta, bool /*front*/, int /*total*/)
 {
-    double loge(::log10(energy)), costh(::fabs(costheta));
+    double loge(::log10(energy));
     m_hist->Fill( loge, ::fabs(costheta));
 }
 
@@ -121,11 +121,13 @@ void EffectiveArea::draw(const std::string &ps_filename)
 
 void EffectiveArea::writeFitParameters(std::string outputFile, std::string treename)
 {
+#if 0 // ???
     // Create or update the new Root file.
     TFile* file = new TFile(outputFile.c_str(), "UPDATE");
 
     // Create the TTree.
     TTree* tree = new TTree((treename+"-aeff").c_str(), (treename+" aeff").c_str());
+#endif
 }
 
 void EffectiveArea::fillParameterTables()

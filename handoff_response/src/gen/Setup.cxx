@@ -6,6 +6,7 @@ $Header$
 */
 
 #include "Setup.h"
+#include "embed_python/Module.h"
 
 #include <fstream>
 #include <iostream>
@@ -25,7 +26,7 @@ namespace {
 namespace{
     std::string 
         envvar("output_file_root") //here to look if no command-ine arg
-        , setupfile("setup.txt"); // file name to read and parse
+        , setupfile("setup"); // file name to read and parse
 }
 
 Setup::Setup(int argc, char* argv[], bool verbose)
@@ -51,9 +52,20 @@ Setup::Setup(int argc, char* argv[], bool verbose)
     _getcwd(newcwd, sizeof(newcwd));
     std::cout << "switched to " << newcwd << std::endl;
     m_root = newcwd; 
-    std::string filename( setupfile );
-
+#if 0
+    // text file implementation
+    std::string filename( setupfile+".txt" );
     readnames(filename);
+#else
+    // python implementation: expect to find file setup.py in the current path, 
+    // defines three string attributes: files, cuts, and names
+    embed_python::Module pys("", setupfile, true);
+    std::string list;
+    pys.getValue("files", list); push_back(list);
+    pys.getValue("cuts",  list); push_back(list);
+    pys.getValue("names", list); push_back(list);
+    
+#endif
 }
 void Setup::readnames(std::string filename)
 {

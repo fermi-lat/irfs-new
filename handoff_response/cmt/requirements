@@ -14,6 +14,7 @@ use CLHEP v* IExternal
 use astro v*
 use cppunit v* IExternal
 use st_facilities v*
+use embed_python v*
 
 apply_pattern package_include
 apply_pattern package_linkopts
