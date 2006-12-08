@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Dec  7 17:07:51 PST 2006
+irfs/handoff_response/src/fits
+
+Added Files:
+	IrfTable.cxx IrfTable.h IrfTableMap.cxx IrfTableMap.h aeff.tpl 
+Log Message:
+add classes to support root to fits conversion
+    *
+------------------------------------------------------------
 User: jchiang  Thu Dec  7 17:07:50 PST 2006
 irfs/handoff_response/cmt
 
