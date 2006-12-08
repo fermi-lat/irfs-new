@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Fri Dec  8 12:17:24 PST 2006
+irfs/handoff_response/src/fits
+
+Modified Files:
+	IrfTable.cxx 
+Added Files:
+	FitsFile.cxx FitsFile.h 
+Log Message:
+add FitsFile class for writing binary tables
+    *
+------------------------------------------------------------
 User: jchiang  Fri Dec  8 12:17:23 PST 2006
 irfs/handoff_response/data
 
