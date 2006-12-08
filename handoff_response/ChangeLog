@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Dec  8 13:15:31 PST 2006
+irfs/handoff_response/src/fits/make_aeff
+
+Modified Files:
+	make_aeff.cxx 
+Log Message:
+add templates for psf, edisp; add FitsFile::setGrid; write psf, edisp FITS files
+    *
+------------------------------------------------------------
+User: jchiang  Fri Dec  8 13:15:31 PST 2006
 irfs/handoff_response/src/fits
 
 Modified Files:
