@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Dec  7 19:14:33 PST 2006
+irfs/handoff_response/data
+
+Added Files:
+	aeff.tpl 
+Log Message:
+mv template file; use st_facilities::Env
+    *
+------------------------------------------------------------
 User: jchiang  Thu Dec  7 17:07:51 PST 2006
 irfs/handoff_response/src/fits/test_fitsconv
 
