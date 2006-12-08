@@ -32,8 +32,8 @@ IrfTable::IrfTable(TH2F * table) {
    }
 
    m_values.clear();
-   for (size_t j = 0; j < m_yaxis.size(); j++) {
-      for (size_t i = 0; i < m_xaxis.size(); i++) {
+   for (size_t j = 0; j < m_yaxis.size()-1; j++) {
+      for (size_t i = 0; i < m_xaxis.size()-1; i++) {
          m_values.push_back(table->GetBinContent(i, j));
       }
    }
