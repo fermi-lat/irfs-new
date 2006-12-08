@@ -46,8 +46,6 @@ private:
 
    std::vector<std::string> m_keys;
 
-   std::string dataPath() const;
-
    void readTableNames(TDirectory * section);
 
 };

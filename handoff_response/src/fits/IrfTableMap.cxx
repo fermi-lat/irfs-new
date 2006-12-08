@@ -16,13 +16,18 @@
 
 #include "facilities/Util.h"
 
+#include "st_facilities/Env.h"
+
 #include "IrfTableMap.h"
 
 namespace handoff_response {
 
 IrfTableMap::IrfTableMap(const std::string & irfTables,
                          const std::string & inputfile) {
-   std::string infile(dataPath() + "/" + inputfile);
+   std::string infile = 
+      st_facilities::Env::appendFileName(
+         st_facilities::Env::getDataDir("handoff_response"), inputfile);
+
    TFile * rootfile(new TFile(infile.c_str()));
 
    std::vector<std::string> tokens;
@@ -64,14 +69,6 @@ const IrfTable & IrfTableMap::operator[](const std::string & tablename) const {
       throw std::runtime_error("Table named " + tablename + " not found.");
    }
    return table->second;
-}
-
-std::string IrfTableMap::dataPath() const {
-   char * root_path = ::getenv("HANDOFF_RESPONSEROOT");
-   if (!root_path) {
-      throw std::runtime_error("HANDOFF_RESPONSEROOT env var is not set.");
-   }
-   return std::string(root_path) + "/data";
 }
 
 } //namespace handoff_response
