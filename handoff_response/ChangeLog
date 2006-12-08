@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Dec  8 13:15:31 PST 2006
+irfs/handoff_response/src/fits
+
+Modified Files:
+	FitsFile.cxx FitsFile.h 
+Log Message:
+add templates for psf, edisp; add FitsFile::setGrid; write psf, edisp FITS files
+    *
+------------------------------------------------------------
 User: jchiang  Fri Dec  8 13:15:30 PST 2006
 irfs/handoff_response/data
 
