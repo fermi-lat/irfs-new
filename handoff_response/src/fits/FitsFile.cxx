@@ -13,6 +13,7 @@
 #include <stdexcept>
 
 #include "st_facilities/Env.h"
+#include "st_facilities/FitsUtil.h"
 #include "st_facilities/Util.h"
 
 #include "tip/IFileSvc.h"
@@ -33,7 +34,8 @@ namespace handoff_response {
 FitsFile::FitsFile(const std::string & outfile, 
                    const std::string & extname,
                    const std::string & templateFile,
-                   size_t numRows) : m_fptr(0), m_numRows(numRows) {
+                   size_t numRows) 
+   : m_fptr(0), m_numRows(numRows), m_outfile(outfile) {
    createFile(outfile, extname, templateFile);
    int status(0);
    std::string filename(outfile + "[" + extname +"]");
@@ -47,6 +49,7 @@ FitsFile::~FitsFile() throw() {
       fits_close_file(m_fptr, &status);
       fitsReportError(status, "FitsFile::~FitsFile");
       m_fptr = 0;
+      st_facilities::FitsUtil::writeChecksums(m_outfile);
    } catch (std::exception & eObj) {
       std::cout << eObj.what() << std::endl;
    } catch (...) {
@@ -70,6 +73,27 @@ void FitsFile::setVectorData(const std::string & fieldname,
                   &const_cast<std::vector<double> &>(data)[0],
                   &status);
    fitsReportError(status, "FitsFile::setVectorData");
+}
+
+void FitsFile::setGrid(const std::vector<double> & logEs,
+                       const std::vector<double> & mus) {
+   std::vector<double> elo;
+   std::vector<double> ehi;
+   for (size_t k = 0; k < logEs.size()-1; k++) {
+      elo.push_back(std::pow(10., logEs.at(k)));
+      ehi.push_back(std::pow(10., logEs.at(k+1)));
+   }
+   setVectorData("ENERG_LO", elo);
+   setVectorData("ENERG_HI", ehi);
+
+   std::vector<double> mulo;
+   std::vector<double> muhi;
+   for (size_t k = 0; k < mus.size()-1; k++) {
+      mulo.push_back(mus.at(k));
+      muhi.push_back(mus.at(k+1));
+   }
+   setVectorData("CTHETA_LO", mulo);
+   setVectorData("CTHETA_HI", muhi);
 }
 
 int FitsFile::fieldNum(const std::string & fieldName) const {

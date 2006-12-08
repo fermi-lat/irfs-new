@@ -42,11 +42,16 @@ public:
                       const std::vector<double> & data,
                       size_t row=1);
 
+   void setGrid(const std::vector<double> & logEs,
+                const std::vector<double> & mus);
+
 private:
 
    fitsfile * m_fptr;
 
    size_t m_numRows;
+
+   std::string m_outfile;
 
    std::vector<std::string> m_fieldNames;
 

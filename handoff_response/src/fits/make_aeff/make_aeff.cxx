@@ -20,32 +20,25 @@ using handoff_response::FitsFile;
 int main() {
    try {
       IrfTableMap front("standard::front");
-      FitsFile aeff_file("aeff.fits", "EFFECTIVE AREA", "aeff.tpl");
 
-      std::vector<double> elo;
-      std::vector<double> ehi;
-      
-      const std::vector<double> & loge(front["aeff"].xaxis());
-      for (size_t k = 0; k < loge.size()-1; k++) {
-         elo.push_back(std::pow(10., loge.at(k)));
-         ehi.push_back(std::pow(10., loge.at(k+1)));
-      }
+      FitsFile aeff("aeff.fits", "EFFECTIVE AREA", "aeff.tpl");
+      aeff.setGrid(front["aeff"].xaxis(), front["aeff"].yaxis());
+      aeff.setVectorData("EFFAREA", front["aeff"].values());
 
-      aeff_file.setVectorData("ENERG_LO", elo);
-      aeff_file.setVectorData("ENERG_HI", ehi);
-      
-      std::vector<double> ctlo;
-      std::vector<double> cthi;
-      const std::vector<double> & costheta(front["aeff"].yaxis());
-      for (size_t i = 0; i < costheta.size()-1; i++) {
-         ctlo.push_back(costheta.at(i));
-         cthi.push_back(costheta.at(i+1));
-      }
+      FitsFile psf("psf.fits", "POINT SPREAD FUNCTION", "psf.tpl");
+      psf.setGrid(front["pnorm"].xaxis(), front["pnorm"].yaxis());
+      psf.setVectorData("PNORM", front["pnorm"].values());
+      psf.setVectorData("SIGMA", front["sigma"].values());
+      psf.setVectorData("GCORE", front["gcore"].values());
+      psf.setVectorData("GTAIL", front["gtail"].values());
 
-      aeff_file.setVectorData("CTHETA_LO", ctlo);
-      aeff_file.setVectorData("CTHETA_HI", cthi);
-
-      aeff_file.setVectorData("EFFAREA", front["aeff"].values());
+      FitsFile edisp("edisp.fits", "ENERGY DISPERSION", "edisp.tpl");
+      edisp.setGrid(front["dnorm"].xaxis(), front["dnorm"].yaxis());
+      edisp.setVectorData("LTAIL", front["ltail"].values());
+      edisp.setVectorData("RWIDTH", front["rwidth"].values());
+      edisp.setVectorData("NR2", front["nr2"].values());
+      edisp.setVectorData("LT2", front["lt2"].values());
+      edisp.setVectorData("RT2", front["rt2"].values());
 
    } catch (std::exception & eobj) {
       std::cout << eobj.what() << std::endl;
