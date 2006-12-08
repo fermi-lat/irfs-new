@@ -94,7 +94,7 @@ void FitsFile::createFile(const std::string & outfile,
    }
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
 
-   fileSvc.createFile(outfile, templateFile);
+   fileSvc.createFile(outfile, tplFile);
    tip::Table * table = fileSvc.editTable(outfile, extname);
    table->setNumRecords(m_numRows);
 
