@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Dec  8 12:20:21 PST 2006
+irfs/handoff_response/src/fits
+
+Modified Files:
+	FitsFile.cxx 
+Log Message:
+use template file in data subdir
+    *
+------------------------------------------------------------
 User: jchiang  Fri Dec  8 12:17:24 PST 2006
 irfs/handoff_response/src/fits/make_aeff
 
