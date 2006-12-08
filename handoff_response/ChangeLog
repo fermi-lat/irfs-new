@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Dec  7 23:44:11 PST 2006
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add temporary make_aeff app
+    *
+------------------------------------------------------------
 User: jchiang  Thu Dec  7 23:43:07 PST 2006
 irfs/handoff_response/src/fits/make_aeff
 
