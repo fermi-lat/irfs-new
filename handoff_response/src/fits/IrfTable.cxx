@@ -20,20 +20,20 @@ IrfTable::IrfTable(TH2F * table) {
    TAxis * xx = table->GetXaxis();
    int nbins(xx->GetNbins() + 2);
    m_xaxis.clear();
-   for (int i = 0; i < nbins; i++) {
+   for (int i = 1; i < nbins; i++) {
       m_xaxis.push_back(xx->GetBinLowEdge(i));
    }
 
    TAxis * yy = table->GetYaxis();
    nbins = yy->GetNbins() + 2;
    m_yaxis.clear();
-   for (int i = 0; i < nbins; i++) {
+   for (int i = 1; i < nbins; i++) {
       m_yaxis.push_back(yy->GetBinLowEdge(i));
    }
 
    m_values.clear();
-   for (size_t j = 0; j < m_yaxis.size()-1; j++) {
-      for (size_t i = 0; i < m_xaxis.size()-1; i++) {
+   for (size_t j = 1; j < m_yaxis.size(); j++) {
+      for (size_t i = 1; i < m_xaxis.size(); i++) {
          m_values.push_back(table->GetBinContent(i, j));
       }
    }
