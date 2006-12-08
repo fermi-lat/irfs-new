@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Dec  8 12:17:24 PST 2006
+irfs/handoff_response/src/fits/make_aeff
+
+Modified Files:
+	make_aeff.cxx 
+Log Message:
+add FitsFile class for writing binary tables
+    *
+------------------------------------------------------------
+User: jchiang  Fri Dec  8 12:17:24 PST 2006
 irfs/handoff_response/src/fits
 
 Modified Files:
