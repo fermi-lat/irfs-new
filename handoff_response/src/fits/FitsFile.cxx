@@ -16,10 +16,8 @@
 #include "st_facilities/FitsUtil.h"
 #include "st_facilities/Util.h"
 
-#include "tip/IFileSvc.h"
-#include "tip/Table.h"
-
 #include "FitsFile.h"
+#include "IrfTable.h"
 
 namespace {
    void toUpper(std::string & name) {
@@ -35,7 +33,7 @@ FitsFile::FitsFile(const std::string & outfile,
                    const std::string & extname,
                    const std::string & templateFile,
                    size_t numRows) 
-   : m_fptr(0), m_numRows(numRows), m_outfile(outfile) {
+   : m_fptr(0), m_numRows(numRows), m_outfile(outfile), m_extname(extname) {
    createFile(outfile, extname, templateFile);
    int status(0);
    std::string filename(outfile + "[" + extname +"]");
@@ -73,6 +71,10 @@ void FitsFile::setVectorData(const std::string & fieldname,
                   &const_cast<std::vector<double> &>(data)[0],
                   &status);
    fitsReportError(status, "FitsFile::setVectorData");
+}
+
+void FitsFile::setGrid(const IrfTable & table) {
+   setGrid(table.xaxis(), table.yaxis());
 }
 
 void FitsFile::setGrid(const std::vector<double> & logEs,

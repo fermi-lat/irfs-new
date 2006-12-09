@@ -14,7 +14,12 @@
 
 #include "fitsio.h"
 
+#include "tip/IFileSvc.h"
+#include "tip/Table.h"
+
 namespace handoff_response {
+
+class IrfTable;
 
 /**
  * @class FitsFile
@@ -42,8 +47,20 @@ public:
                       const std::vector<double> & data,
                       size_t row=1);
 
+   void setGrid(const IrfTable & table);
+
    void setGrid(const std::vector<double> & logEs,
                 const std::vector<double> & mus);
+
+   template<class Type>
+   void setKeyword(const std::string & keyword,
+                   const Type & value) const {
+      tip::Table * hdu = 
+         tip::IFileSvc::instance().editTable(m_outfile, m_extname);
+      tip::Header & header = hdu->getHeader();
+      header[keyword].set(value);
+      delete hdu;
+   }
 
 private:
 
@@ -52,6 +69,8 @@ private:
    size_t m_numRows;
 
    std::string m_outfile;
+
+   std::string m_extname;
 
    std::vector<std::string> m_fieldNames;
 
