@@ -25,7 +25,6 @@ int    IRF::energy_bins = int((logemax-logemin)/logedelta);  // number of bins
 int    IRF::angle_bins = 8;
 double IRF::deltaCostheta = 0.1; // angular bin size
 
-
 IRF::IRF(std::string output_folder, std::string summary_root_filename)
 : m_output_file_root(output_folder)
 , m_summary_filename( std::string( !output_folder.empty()? output_folder+   "/": "")+summary_root_filename)
@@ -38,9 +37,8 @@ IRF::IRF(std::string output_folder, std::string summary_root_filename)
     py.getValue("Bins.logemax", logemax);
     py.getValue("Bins.logedelta", logedelta);
     energy_bins = int((logemax-logemin)/logedelta);
-    angle_bins = int(py["Bins.angle_bins"]);
+  //  angle_bins = int(py["Bins.angle_bins"]);
     deltaCostheta = py["Bins.deltaCostheta"];
-#if 1
     
     // get file information from input description 
     // first, file list
@@ -53,8 +51,8 @@ IRF::IRF(std::string output_folder, std::string summary_root_filename)
     py.getList("Data.logemax", logemaxes);
     for( int i=0; i<generated.size(); ++i){
       normalization().push_back(Normalization(generated[i], logemins[i], logemaxes[i]));
+      std::cout << "Generated: " << generated[i] << std::endl;
     }
-#endif
 
     m_ebins = energy_bins;
     m_abins = angle_bins;

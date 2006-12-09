@@ -29,13 +29,6 @@ MyAnalysis::MyAnalysis()
     std::cout << "Reading from " << m_files.size() << " filelists" << std::endl;
 
     // then set of info
-    std::vector<double> generated, logemins, logemaxes;
-    py.getList("Data.generated", generated);
-    py.getList("Data.logemin", logemins);
-    py.getList("Data.logemax", logemaxes);
-    for( int i=0; i<generated.size(); ++i){
-        normalization().push_back(Normalization(generated[i], logemins[i], logemaxes[i]));
-    }
     py.getValue("Prune.cuts", m_cuts);
     py.getValue("Prune.fileName", m_summary_filename);
     py.getList("Prune.branchNames", m_branchNames);
@@ -61,16 +54,7 @@ void MyAnalysis::open_input_file()
 
     // reprocessing the original file 
     m_input_tree->Add(m_summary_filename.c_str());
-#if 0
-    TChain norms("norm");
-    norms.Add(s_input_filename.c_str());
-    if( norms.GetEntries()==0) throw std::invalid_argument("MyAnalysis::open_input_file -- did not find the normaliztion data");
-    TreeWrapper tnorm(&norms);
-    TreeWrapper::Leaf generated("generated"), logemin("logemin"), logemax("logemax");
-    for( TreeWrapper::Iterator it = tnorm.begin(); it!=tnorm.end(); ++it){
-        m_norm.push_back(Normalization(generated, logemin, logemax));
-    }
-#endif
+
 
     if( m_input_tree==0 || m_input_tree->GetEntries()==0) {
         std::cerr << "Did not find tree \"" << tree_name << "\" in the input file" << std::endl;
@@ -108,28 +92,6 @@ void MyAnalysis::makeCutTree()
     m_tree->Write(); // save it
     std::cout << "Wrote " << m_tree->GetEntries() << " events to file " << m_summary_filename << std::endl;
 
-    // now create and save the normalization tuple
-
-    if( m_norm.size()>0) {
-        TTree*  norm = new TTree("norm", "normalization");
-        int generated; 
-        double logemin,logemax;
-
-        norm->Branch("generated",&generated, "generated/I");
-        norm->Branch("logemin", &logemin, "logemin/D");
-        norm->Branch("logemax", &logemax, "logemax/D");
-        for( std::vector<Normalization>::const_iterator it = m_norm.begin(); it!=m_norm.end(); ++it){
-            generated = it->generated();
-            logemin   = it->logemin();
-            logemax   = it->logemax();
-            norm->Fill();
-        }
-        norm->Write();
-
-        std::cout << "Wrote " << m_norm.size() << " entries to the normalization tuple" << std::endl;
-    }else{
-        std::cout << "No normalization info: tuple not created"<< std::endl;
-    }
 }
 
 #include <time.h>

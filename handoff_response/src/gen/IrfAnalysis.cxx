@@ -20,9 +20,6 @@ $Header$
 namespace{
     inline static double sqr(double x){return x*x;}
 
-
-    double costheta_range( 1.0);
-    double generated_area( 6.0); 
 }
 
 

@@ -21,24 +21,29 @@
 
 namespace {
 
-       /// Fill vector array with the bin centers from ta TH2F
-    void binCenters( TH2F* hist, std::vector<std::pair<float,float> >& array)
+       /// Fill vector array with the bin centers and areas from the TH2F
+    class BinInfo{
+    public: BinInfo(double x, double y, double area):m_x(x),m_y(y),m_area(area){}
+            double x()const{return m_x;}
+            double y()const{return m_y;}
+            double area()const{return m_area;}
+    private:
+        double m_x, m_y, m_area;
+    };
+    void binCenters( TH2F* hist, std::vector<BinInfo >& info)
     {
         TAxis* xaxis = hist->GetXaxis();
         TAxis* yaxis = hist->GetYaxis();
         int nbinsx(xaxis->GetNbins()), nbinsy(yaxis->GetNbins());
         for(int i = 1; i<nbinsx+1; ++i){
             for( int j=1; j<nbinsy+1; ++j){
-                array.push_back(std::make_pair(xaxis->GetBinCenter(i),yaxis->GetBinCenter(j)));
+                info.push_back(BinInfo(xaxis->GetBinCenter(i),yaxis->GetBinCenter(j), 
+                   xaxis->GetBinWidth(i)*yaxis->GetBinWidth(j) ));
             }
         }
     }
 }
 EffectiveArea::Bins::Bins()
-: m_ebreak(4.25)
-, m_ebinfactor(4)
-, m_anglebinfactor(4)
-, m_ebinhigh(2)
 {
 
     embed_python::Module& py = *(Setup::instance()->py());
@@ -46,18 +51,7 @@ EffectiveArea::Bins::Bins()
     py.getList("EffectiveAreaBins.angle_bin_edges",  m_angle_bin_edges);    
 
 }
-void EffectiveArea::Bins::initialize()
-{
-    embed_python::Module& py= *Setup::instance()->py();
-    
-}
 
-double EffectiveArea::Bins::binsize(double loge, double) const{
-
-    return IRF::deltaCostheta * IRF::logedelta 
-        / ( loge<m_ebreak? m_ebinfactor :m_ebinhigh)
-        / m_anglebinfactor;
-}
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //                 EffectiveArea 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -66,8 +60,6 @@ EffectiveArea::EffectiveArea( IrfAnalysis& irf, std::ostream& log)
 : m_irf(irf)
 , m_log(&log)
 {
-
-    m_bins.initialize();
 
     m_hist = new TH2F("aeff"
         , (std::string("Effective area for ")+irf.name()+"; logE; cos(theta); effective area (m^2)").c_str()
@@ -85,8 +77,8 @@ void EffectiveArea::fill(double energy, double costheta, bool /*front*/, int /*t
 
 void EffectiveArea::summarize()
 {
-    // make nice list of the bin centers for iteration below
-    std::vector< FloatPair > bins;
+    // make nice list of the bin centers and areas for iteration below
+    std::vector< BinInfo> bins;
     binCenters( m_hist, bins);
 
     // create histogram to fill with normalization per bin: it depends on the generated 
@@ -101,14 +93,24 @@ void EffectiveArea::summarize()
         //unused double count = norm_iter->entries();
 
         // add to the denominator array
-        for( std::vector<FloatPair>::const_iterator it = bins.begin(); it!=bins.end(); ++it) {
-            float loge ( it->first )
-                , costh( it->second )
-                , d( norm_iter->value(loge, costh)*m_bins.binsize(loge,costh) );
+        for( std::vector<BinInfo>::const_iterator it = bins.begin(); it!=bins.end(); ++it) {
+            float loge ( it->x() )
+                , costh( it->y() )
+                , d( norm_iter->value(loge, costh)* (*it).area() );
             denomhist->Fill(loge,costh, d);
         }
     }
     double factor( IRF::s_generated_area );
+
+    double maxbin ( m_hist->GetBinContent(m_hist->FindBin(3.0, 0.95))), 
+        denom( denomhist->GetBinContent(denomhist->FindBin(3.0, 0.95))), 
+        norm(factor/denom);
+    out() << "\nEffective area histogram has " 
+        << m_hist->GetEntries() << " entries."
+        << std::endl;
+    out() << "\tNormalization is " << std::setprecision(6) << (norm*1e4) 
+        << " cm^2/event: 1 GeV normal bin has " << int(maxbin) 
+        << " entries, for " << (maxbin*norm) << " m^2"<< std::endl;
     m_hist->Sumw2();
     m_hist->Divide(denomhist);
     m_hist->Scale(factor);
@@ -126,7 +128,7 @@ void EffectiveArea::summarize()
 void EffectiveArea::draw(const std::string &ps_filename)
 {
     TCanvas c;
-    m_hist->Draw("colz");
+    m_hist->Draw("surf1");
     c.Print(ps_filename.c_str());
 }
 

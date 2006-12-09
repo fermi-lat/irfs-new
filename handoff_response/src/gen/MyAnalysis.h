@@ -59,7 +59,7 @@ public:
         double logemax()const{return m_high;}
         double value(double loge, double costh)const{ return in_range(loge, costh) ? m_events/(m_high-m_low) : 0;} 
     private:
-        int m_events, m_entries;
+        int m_events;
         double  m_low, m_high;
     };
 

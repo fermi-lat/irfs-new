@@ -36,15 +36,11 @@ private:
     class Bins {
     public:
         Bins();
-        void initialize(); ///< get stuff from setup.py file
         const std::vector<double>& energy_bins()const{return m_energy_bin_edges;}
         const std::vector<double>& angle_bins()const{return m_angle_bin_edges;}
-        double binsize(double loge, double costh)const;
     private:
         std::vector<double> m_energy_bin_edges;
         std::vector<double> m_angle_bin_edges;
-        double m_ebreak; // apply multplier only below this
-        int m_ebinfactor, m_anglebinfactor, m_ebinhigh; // multipliers
     }m_bins;
 
     IrfAnalysis& m_irf;
@@ -52,7 +48,6 @@ private:
     std::ostream& out() {return *m_log;}
 
     TH2F* m_hist;  ///< the 2-d histogram that we manage
-    typedef std::pair<float,float> FloatPair;
 };
 
 #endif

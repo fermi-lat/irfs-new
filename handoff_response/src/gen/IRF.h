@@ -84,7 +84,7 @@ public:
     void set_ymax(double y){ m_ymax=y;}
 
     // public stuff
-    
+  
     static double s_generated_area;
 
     // define energy bins
@@ -99,7 +99,6 @@ public:
 
     void setName(std::string name){m_name = name;}
 
- 
 
 
 private:
