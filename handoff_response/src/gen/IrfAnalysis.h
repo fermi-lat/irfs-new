@@ -28,12 +28,6 @@ public:
     /// do the fits, optionally make plots and write out parameters to a root file
     void fit(bool make_plots=false, std::string parfile="", std::string output_type="ps");
 
-    /** @return the acceptance per event per energy-angle bin, in m^2 * sr.
-     **deprecated**
-    */
-    double aeff_per_event();
-
-
 
     /**@brief write out fit parameters to the ROOT file, tabular TTree
     do both psf and dispersion 

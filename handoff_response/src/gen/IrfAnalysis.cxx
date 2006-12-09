@@ -20,13 +20,7 @@ $Header$
 namespace{
     inline static double sqr(double x){return x*x;}
 
-    // wire in the number of generated events per run
-#if 0
-    int events_per_run(5000);
-#else
-    int events_per_run(2500);  // when SLAC goes to 562 GeV 
-    ///@todo: make this dynamic, or from a data base
-#endif
+
     double costheta_range( 1.0);
     double generated_area( 6.0); 
 }
@@ -53,33 +47,10 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,int set, std::ostream& log)
 }
 
 //__________________________________________________________________________
-double IrfAnalysis::aeff_per_event()
-{
-    double  total_generated ( m_nruns * events_per_run ) ;
-    
-    // correct limits
-    if( m_minlogE<1.5) m_minlogE=1.25;  // can be pretty small
-    
-    if(      m_maxlogE>5.70) m_maxlogE=5.75; // 562 GeV 
-    else if( m_maxlogE>5.50) m_maxlogE=5.56; // 360 GeV 
-    else if( m_maxlogE>5.20) m_maxlogE=5.25; // 180 GeV
-
-    double log_energy_range(m_maxlogE-m_minlogE); 
-
-    return  generated_area 
-        * log_energy_range/IRF::logedelta // IRF::energy_bins 
-        * costheta_range/IRF::deltaCostheta 
-        / total_generated;   
-
-}
-
-
-
-//__________________________________________________________________________
 void IrfAnalysis::project() 
 {
 
-//    open_input_file();
+    open_input_file();
     TFile*   m_hist_file= new TFile(summary_filename().c_str(), "recreate"); // for the histograms
     std::cout << " writing irf summary plots to " << summary_filename() << std::endl;
     out() << " writing irf summary plots to " << summary_filename() << std::endl;
@@ -112,7 +83,6 @@ case 2: out() << "back events"; break;
         , fitzdir("CTBBestZDir")
 
         , Tkr1FirstLayer("Tkr1FirstLayer")
-  //      , VtxAngle("VtxAngle")
         , EvtRun("EvtRun" ) // to count runs
         ;
     int lastrun(0), selected(0), total(0);
@@ -203,13 +173,14 @@ void IrfAnalysis::writeFitParameters(std::string outputFile)
     // Create the TTree.
     TTree* tree = new TTree("parameters", "table of parameter values");
 
-    double entries, aeff;
+    double entries;
+    //double  aeff;
     double energy, anglebin;
 
     tree->Branch("energy",   &energy,  "energy/D");
     tree->Branch("anglebin", &anglebin,"anglebin/D");
     tree->Branch("entries",  &entries, "entries/D"); 
-    tree->Branch("aeff",     &aeff,    "aeff/D");
+    //tree->Branch("aeff",     &aeff,    "aeff/D");
 
     // make branches to store psf fit parameters
     int psf_npars=PointSpreadFunction::npars();
@@ -237,7 +208,7 @@ void IrfAnalysis::writeFitParameters(std::string outputFile)
         (*psf_it).getFitPars(psf_params);
         (*disp_it).getFitPars(disp_params);
         entries = (*psf_it).entries();
-        aeff = entries* aeff_per_event();
+      //  aeff = entries* aeff_per_event();
         anglebin = index/IRF::angle_bins;
         energy = IRF::eCenter(index++);
 
@@ -287,7 +258,11 @@ void IrfAnalysis::tabulate(std::string filename)
     int i=0;
     for( TreeWrapper::Iterator it = mytree.begin(); it!=mytree.end(); ++it, ++i){
      //   double energy = IRF::eCenter(it.index()%8);
+#if 0// obsolete--fix if use this again!        
         p[0].push_back(fitpar[0]* aeff_per_event() );
+#else
+        throw std::runtime_error("need to implement aeff per event");
+#endif
         for(unsigned int j=1; j<fitpar.size(); ++j) p[j].push_back(fitpar[j]);
 
 #if 0 // just columns here, check input data

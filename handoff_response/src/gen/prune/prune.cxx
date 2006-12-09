@@ -22,16 +22,9 @@ int main(int argc, char* argv[]){
 
         Setup s(argc, argv);
 
-        //std::cout << "\nstrings: " << std::endl;   s.dump(std::cout);  std::cout << "\nNames: \n\t";
-        std::vector<std::string> names;
-        s.parse_list(s[2], names);
-        //std::copy(names.begin(), names.end(), std::ostream_iterator<std::string>(std::cout, "\n\t"));  std::cout << std::endl;
+        MyAnalysis copier; // makes a copy of the good gammas
 
-        std::string cut_filename( "goodEvent.root" );
-
-        MyAnalysis copier(s[0], cut_filename); // makes a copy of the good gammas
-
-        copier.makeCutTree( s[1], names);
+        copier.makeCutTree();
 
     }catch( const std::exception& e){
         std::cerr << "Caught exception "<< e.what() << std::endl;

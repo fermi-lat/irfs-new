@@ -20,8 +20,14 @@ $Header$
 #include <iomanip>
 
 namespace {
+#if 1 // log-scale plots to see tails
     double ymin = 1e-6, ymax=1.;
     bool ylog(true);
+#else // linear to emphasize integral
+    double ymin = 0, ymax=0.5;
+    bool ylog(false);
+
+#endif
 }
 
 

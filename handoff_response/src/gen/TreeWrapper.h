@@ -9,6 +9,7 @@
 #define TreeWrapper_h
 
 #include <string>
+#include <vector>
 
 // forward declarations: interface does not need any ROOT declarations
 class TTree;
@@ -93,8 +94,8 @@ private:
     TTree* findTree(std::string treename);
 
     TFile* m_file;  ///< the file: zero if not owned (i.e., opened)
-    TTree* m_tree;  ///< the tree
-
+    TTree* m_tree;  ///< the current tree
+    std::vector<Leaf> m_leaf_list; ///< allow updating leaf pointers
     static TreeWrapper* s_instance; // most recent instance
 };
 

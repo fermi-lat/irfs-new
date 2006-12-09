@@ -18,6 +18,17 @@ TreeWrapper* TreeWrapper::s_instance=0;
 TTree dummy; // for linking bug?
 #endif
 
+namespace {
+    bool flag (false) ;
+    class Watcher : public TObject {
+    public:
+        bool Notify(){flag = true; 
+        return true;
+        }
+    }s_watcher;
+}// namespace
+
+
 TreeWrapper::TreeWrapper(std::string filename, std::string treename, std::string filter)
 : m_file( new TFile(filename.c_str(),"readonly"))
 {
@@ -49,6 +60,8 @@ TreeWrapper::TreeWrapper(TTree* tree)
 , m_tree(tree)
 {
     s_instance = this;
+    // if this is really a TChain, we want to be notified if there is a new TTree
+    tree->SetNotify(&s_watcher);
 }
 
 TreeWrapper::~TreeWrapper()
@@ -89,6 +102,7 @@ TreeWrapper::Leaf TreeWrapper::leaf(std::string name)
     if(leaf==0) throw std::invalid_argument(
         std::string("TreeWrapper: Leaf name ")+name+" not found");
     m_tree->SetBranchStatus(name.c_str(), 1);
+    
     return TreeWrapper::Leaf(leaf);
 }
 
@@ -100,7 +114,7 @@ TreeWrapper::Iterator::Iterator(TTree* tree, int rec)
 }
 
 TreeWrapper::Iterator TreeWrapper::Iterator::operator++(){ 
-    m_tree->GetEntry(++m_rec);  
+    int read =m_tree->GetEntry(++m_rec);  
     return *this;
 }
 // post-iterator

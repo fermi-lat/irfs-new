@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+namespace embed_python { class Module; }
 
 /** @class Setup
     @brief read in and parse a setup file
@@ -25,21 +26,17 @@ public:
     /// @return the path to the folder with the setup file
     const std::string& root()const{return m_root;}
 
-    /// @brief parse a comma-delimited list
-    static void parse_list(const std::string& input, std::vector<std::string>& output);
 
+    static Setup* instance();
+    embed_python::Module* py(){return m_py;}
 
-    void dump(std::ostream& log=std::cout);
 private:
-    void readnames(std::string filename);
-
-    /// remove  anything following a #
-    static std::string strip_comment(std::string input);
-  
-    static std::string strip_blanks(std::string input);
   
     std::string m_root;
     bool m_verbose;
+    embed_python::Module* m_py;
+
+    static Setup* s_instance;
 };
 
 #endif

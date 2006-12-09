@@ -28,8 +28,8 @@ static const char* names[]=         {"dnorm","ltail", "rwidth", "nr2", "lt2",  "
 double    Dispersion::Hist::pinit[] ={0.5,     20,     0.02,     1e4,   4.0,    0.2};
 double    Dispersion::Hist::pmin[]  ={0.,      2,      0.005,    0.0,   1.0,    0.005};
 double    Dispersion::Hist::pmax[]  ={20,      50,     0.5 ,     1e6,   50,     0.5};
-double    Dispersion::Hist::fitrange[]={-0.8, 1.0};
-bool      Dispersion::Hist::s_logy = true;
+double    Dispersion::Hist::fitrange[]={-0.8, 1.5};
+bool      Dispersion::Hist::s_logy = false;
 int       Dispersion::Hist::s_minEntries( 10);
 int       Dispersion::Hist::s_bins(75);
 double    Dispersion::Hist::s_histrange[2] = {-1., 2.};

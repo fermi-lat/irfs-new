@@ -16,29 +16,26 @@ class TTree;
 
 #include <string>
 #include <iostream>
+#include <vector>
 
 
-class MyAnalysis : public Root_base {
+class MyAnalysis : public Root_base 
+{
 public:
 
-    MyAnalysis(std::string summary_root_filename="", std::string cut_filename="");
+    MyAnalysis();
     ~MyAnalysis();
 
-    void open_input_file(std::string filename="");
+    void open_input_file();
 
-    std::string output_file_root(){
-        return std::string(::getenv("output_file_root"))+"/";
-    }    
 
-    std::string input_filename();
     TTree& tree(){return *m_tree;}
 
     /// @brief apply cuts and select the branch names.
-    void makeCutTree(const std::string& cuts, const std::vector<std::string>& branchnames);
+    void makeCutTree();
 
     void current_time(std::ostream& out=std::cout);
 
-    static std::string s_input_filename;
 
     /** @class MyAnalysis::Normalization
         @brief information allowing normalization for effective area
@@ -50,16 +47,13 @@ public:
         @param generated number of events initially generated
         @param logemin minimum log10(McEnergy)
         @param logemax maxiumum log10(McEnergy)
-        @param entries number of events found in the file after cuts
         */
-        Normalization(int generated, double logemin, double logemax, int entries)
+        Normalization(int generated, double logemin, double logemax)
             :m_events(generated)
-            ,m_entries(entries)
             ,m_low(logemin)
             ,m_high(logemax)
         {}
         bool in_range(double loge, double costh)const{return loge>m_low && loge<=m_high && costh>0 && costh<=1;} 
-        int entries()const{return m_entries;}
         int generated()const{return m_events;}
         double logemin()const{return m_low;}
         double logemax()const{return m_high;}
@@ -70,9 +64,13 @@ public:
     };
 
     const std::vector<Normalization>& normalization()const{return m_norm;}
+    std::vector<Normalization>& normalization() {return m_norm;}
+    const std::vector<std::string> files() const {return m_files;}
+    std::vector<std::string> files(){return m_files;}
 private:
 
     std::string  m_summary_filename;
+    std::string m_cuts;
 
     //! the input file with the TTree
     TFile* m_file;
@@ -82,7 +80,9 @@ private:
     TChain* m_input_tree;
     TFile* m_out;
 
-    std::vector<Normalization> m_norm;
+    std::vector<std::string> m_files; ///< input file description (for TChain)
+    std::vector<std::string> m_branchNames; ///< branches to keep in prune
+    std::vector<Normalization> m_norm;///< normalization information 
 };
 
 #endif

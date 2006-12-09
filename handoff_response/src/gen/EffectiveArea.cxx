@@ -7,6 +7,8 @@
 #include "EffectiveArea.h"
 #include "IRF.h"
 #include "IrfAnalysis.h"
+#include "Setup.h"
+#include "embed_python/Module.h"
 
 #include "TH2F.h"
 #include "TFile.h"
@@ -34,36 +36,38 @@ namespace {
 }
 EffectiveArea::Bins::Bins()
 : m_ebreak(4.25)
-, m_ebinfactor(8)
+, m_ebinfactor(4)
 , m_anglebinfactor(4)
 , m_ebinhigh(2)
 {
-    double loge(   IRF::logemin)
-        ,  emax(   IRF::logemin+IRF::energy_bins*IRF::logedelta)
-        ,  edelta( IRF::logedelta )
-        ,  factor( m_ebinfactor) ;
-    // x axis, with
-    for( ; loge< emax+edelta/2; loge+= edelta/factor){
-        if(loge>= m_ebreak) factor=m_ebinhigh;
-        m_energy_bin_edges.push_back(loge);
-    }
-    double angledelta(IRF::deltaCostheta / m_anglebinfactor);
-    for(double costh(0.2); costh<1.01; costh+=angledelta) {
-        m_angle_bin_edges.push_back(costh);
-    }
+
+    embed_python::Module& py = *(Setup::instance()->py());
+    py.getList("EffectiveAreaBins.energy_bin_edges", m_energy_bin_edges);
+    py.getList("EffectiveAreaBins.angle_bin_edges",  m_angle_bin_edges);    
+
+}
+void EffectiveArea::Bins::initialize()
+{
+    embed_python::Module& py= *Setup::instance()->py();
     
 }
+
 double EffectiveArea::Bins::binsize(double loge, double) const{
 
     return IRF::deltaCostheta * IRF::logedelta 
         / ( loge<m_ebreak? m_ebinfactor :m_ebinhigh)
         / m_anglebinfactor;
 }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//                 EffectiveArea 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 EffectiveArea::EffectiveArea( IrfAnalysis& irf, std::ostream& log)
 : m_irf(irf)
 , m_log(&log)
 {
+
+    m_bins.initialize();
 
     m_hist = new TH2F("aeff"
         , (std::string("Effective area for ")+irf.name()+"; logE; cos(theta); effective area (m^2)").c_str()
@@ -109,7 +113,14 @@ void EffectiveArea::summarize()
     m_hist->Divide(denomhist);
     m_hist->Scale(factor);
     denomhist->Write(); 
+    m_hist->GetXaxis()->SetTitleOffset(1.5);
+    m_hist->GetYaxis()->SetTitleOffset(1.5);
     m_hist->Write();
+
+    // make acceptance plot (all angles for now)
+    // (projection only works if all bins have same size)
+    TH1D* accept = m_hist->ProjectionX("accept");
+    accept->Write();
 }
 
 void EffectiveArea::draw(const std::string &ps_filename)

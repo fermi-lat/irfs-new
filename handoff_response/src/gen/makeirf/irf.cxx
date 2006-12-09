@@ -19,11 +19,7 @@ int main(int argc, char* argv[]){
 
         Setup s(argc, argv, false);  // will cd to current folder.
 
-        MyAnalysis::s_input_filename = "goodEvent.root";
         std::ofstream logfile("log.txt");
-
-        logfile << "Original file: " << s[0] << std::endl;
-        logfile << "Cuts:          " << s[1] << std::endl;
 
         std::string folder(s.root());
         bool make_plots(true);

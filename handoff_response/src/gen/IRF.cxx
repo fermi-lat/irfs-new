@@ -10,6 +10,8 @@
 #include "TDatime.h"
 #include "TROOT.h"
 #include "TCanvas.h"
+#include "Setup.h"
+#include "embed_python/Module.h"
 
 #include <cmath>
 
@@ -17,17 +19,11 @@ double IRF::s_generated_area(6.0);
 
 // defines binning 
 double IRF::logemin   = 1.25;  // low side of first bin
-#if 1
-double IRF::logedelta = 0.5;  // 2 per decade
-int    IRF::energy_bins = 9;  // number of bins  
+double IRF::logemax   = 5.75;  // high side of last bin
+double IRF::logedelta = 0.25;  // 4 per decade
+int    IRF::energy_bins = int((logemax-logemin)/logedelta);  // number of bins  
 int    IRF::angle_bins = 8;
 double IRF::deltaCostheta = 0.1; // angular bin size
-#else
-double IRF::logedelta = 0.25;  // 4 per decade
-int    IRF::energy_bins = 16;  // number of bins
-int    IRF::angle_bins = 12;
-double IRF::deltaCostheta = 0.05; // angular bin size
-#endif
 
 
 IRF::IRF(std::string output_folder, std::string summary_root_filename)
@@ -36,6 +32,30 @@ IRF::IRF(std::string output_folder, std::string summary_root_filename)
 , m_ymin(0)
 , m_ymax(1)
 {
+
+    embed_python::Module& py = *(Setup::instance()->py());
+    py.getValue("Bins.logemin", logemin);
+    py.getValue("Bins.logemax", logemax);
+    py.getValue("Bins.logedelta", logedelta);
+    energy_bins = int((logemax-logemin)/logedelta);
+    angle_bins = int(py["Bins.angle_bins"]);
+    deltaCostheta = py["Bins.deltaCostheta"];
+#if 1
+    
+    // get file information from input description 
+    // first, file list
+    py.getList("Data.files", files());
+
+    // then set of info
+    std::vector<double> generated, logemins, logemaxes;
+    py.getList("Data.generated", generated);
+    py.getList("Data.logemin", logemins);
+    py.getList("Data.logemax", logemaxes);
+    for( int i=0; i<generated.size(); ++i){
+      normalization().push_back(Normalization(generated[i], logemins[i], logemaxes[i]));
+    }
+#endif
+
     m_ebins = energy_bins;
     m_abins = angle_bins;
     for( int i=0; i<=angle_bins; ++i){ angles.push_back( int(acos(1.-deltaCostheta*i)*180/M_PI+0.5)); }

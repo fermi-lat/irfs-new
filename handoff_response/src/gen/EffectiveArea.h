@@ -36,6 +36,7 @@ private:
     class Bins {
     public:
         Bins();
+        void initialize(); ///< get stuff from setup.py file
         const std::vector<double>& energy_bins()const{return m_energy_bin_edges;}
         const std::vector<double>& angle_bins()const{return m_angle_bin_edges;}
         double binsize(double loge, double costh)const;

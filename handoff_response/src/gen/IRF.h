@@ -72,12 +72,7 @@ public:
     */
     size_t ident(int ebin, int abin){ return abin<m_abins? ebin + abin* (m_ebins) : m_ebins*m_abins+ebin; }
     size_t size(){return m_ebins*(m_abins+1);}
-#if 0
-    bool fileExists(){
-        TFile f(summary_filename().c_str());
-        return f.IsOpen();
-    }
-#endif
+
     std::string output_file_root(){
         std::string ret( m_output_file_root.empty()? "" : m_output_file_root+ "/");
         return ret; //m_output_file_root + "/";
@@ -93,7 +88,7 @@ public:
     static double s_generated_area;
 
     // define energy bins
-    static double logemin, logedelta;
+    static double logemin, logemax, logedelta;
     static int energy_bins;
 
     // define angle bins
@@ -103,6 +98,8 @@ public:
     std::string name()const{ return m_name;}
 
     void setName(std::string name){m_name = name;}
+
+ 
 
 
 private:
