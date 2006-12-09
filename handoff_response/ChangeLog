@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Dec  8 22:10:20 PST 2006
+irfs/handoff_response/src/fits
+
+Modified Files:
+	FitsFile.cxx FitsFile.h 
+Log Message:
+add setKeyword and setGrid member functions
+    *
+------------------------------------------------------------
 User: jchiang  Fri Dec  8 22:08:21 PST 2006
 irfs/handoff_response/data
 
