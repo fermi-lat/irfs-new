@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Dec  8 22:10:21 PST 2006
+irfs/handoff_response/src/fits/make_aeff
+
+Modified Files:
+	make_aeff.cxx 
+Log Message:
+add setKeyword and setGrid member functions
+    *
+------------------------------------------------------------
 User: jchiang  Fri Dec  8 22:10:20 PST 2006
 irfs/handoff_response/src/fits
 
