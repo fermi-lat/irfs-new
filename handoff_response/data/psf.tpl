@@ -37,6 +37,7 @@ TUNIT7  = '        '           /
 TTYPE8  = 'GTAIL   '           /                                               
 TFORM8  = '1728E   '           /                                               
 TUNIT8  = '        '           /                                               
+LATCLASS= '        '
 TELESCOP= 'GLAST   '           /                                               
 INSTRUME= 'LAT     '           /                                               
 HDUCLASS= 'OGIP    '           /                                               

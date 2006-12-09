@@ -43,6 +43,7 @@ TUNIT9  = '        '           /
 TTYPE10 = 'RT2     '           /                                               
 TFORM10 = '1728E   '           /                                               
 TUNIT10 = '        '           /                                               
+LATCLASS= '        '
 TELESCOP= 'GLAST   '           /                                               
 INSTRUME= 'LAT     '           /                                               
 HDUCLASS= 'OGIP    '           /                                               

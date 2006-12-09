@@ -33,6 +33,7 @@ TTYPE6  = 'STAT_MIN'           /
 TFORM6  = '1728E   '           /                                               
 TUNIT6  = 'm2      '           /                                               
 TDIM6   = '( 54, 32)'          /                                               
+LATCLASS= '        '
 TELESCOP= 'GLAST   '           /                                               
 INSTRUME= 'LAT     '           /                                               
 HDUCLASS= 'OGIP    '           /                                               
