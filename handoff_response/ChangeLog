@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Fri Dec  8 20:19:10 PST 2006
+irfs/handoff_response/src/gen/makeirf
+
+Modified Files:
+	irf.cxx 
+Log Message:
+massive changes to support new python interface for setting parametesr
+    *
+------------------------------------------------------------
+User: burnett  Fri Dec  8 20:19:10 PST 2006
 irfs/handoff_response/src/gen
 
 Modified Files:
