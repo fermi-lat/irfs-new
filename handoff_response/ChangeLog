@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Fri Dec  8 20:18:26 PST 2006
+irfs/handoff_response/python
+
+Added Files:
+	IRFdefault.py 
+Log Message:
+initial commit of python script that sets various defaults.
+    *
+------------------------------------------------------------
 User: burnett  Fri Dec  8 20:14:54 PST 2006
 irfs/handoff_response/python
 
