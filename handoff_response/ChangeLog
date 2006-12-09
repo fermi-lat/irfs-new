@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 User: burnett  Sat Dec  9 13:30:00 PST 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	EffectiveArea.cxx EffectiveArea.h IRF.cxx IRF.h 
+	IrfAnalysis.cxx MyAnalysis.cxx MyAnalysis.h 
+Log Message:
+supporting new python interface
+    *
+------------------------------------------------------------
+User: burnett  Sat Dec  9 13:30:00 PST 2006
 irfs/handoff_response/python
 
 Modified Files:
