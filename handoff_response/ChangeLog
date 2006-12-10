@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Sun Dec 10 11:25:21 PST 2006
+irfs/handoff_response/src/gen/prune
+
+Modified Files:
+	prune.cxx 
+Log Message:
+factor bin-handling into new class
+    *
+------------------------------------------------------------
+User: burnett  Sun Dec 10 11:25:21 PST 2006
 irfs/handoff_response/src/gen/makeirf
 
 Modified Files:
