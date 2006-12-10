@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Sat Dec  9 22:10:02 PST 2006
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+refactor, encapsulate binning
+    *
+------------------------------------------------------------
 User: burnett  Sat Dec  9 13:30:00 PST 2006
 irfs/handoff_response/src/gen
 
