@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Sun Dec 10 15:11:47 PST 2006
+irfs/handoff_response/src/fits
+
+Modified Files:
+	FitsFile.cxx 
+Log Message:
+a small windows-only change to allow build.
+    *
+------------------------------------------------------------
 User: burnett  Sun Dec 10 11:25:21 PST 2006
 irfs/handoff_response/src/gen/prune
 
