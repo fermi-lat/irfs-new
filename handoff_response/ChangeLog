@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Sat Dec  9 22:10:03 PST 2006
+irfs/handoff_response/data
+
+Removed Files:
+	names.txt 
+Log Message:
+refactor, encapsulate binning
+    *
+------------------------------------------------------------
+User: burnett  Sat Dec  9 22:10:03 PST 2006
 irfs/handoff_response/src/gen/makeirf
 
 Modified Files:
