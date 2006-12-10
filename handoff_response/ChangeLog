@@ -1,4 +1,16 @@
 ------------------------------------------------------------
+User: burnett  Sun Dec 10 11:25:21 PST 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx Dispersion.h IrfAnalysis.cxx IrfAnalysis.h 
+	MyAnalysis.cxx MyAnalysis.h PsfPlots.cxx PsfPlots.h 
+Added Files:
+	IrfBinner.cxx IrfBinner.h 
+Log Message:
+factor bin-handling into new class
+    *
+------------------------------------------------------------
 User: burnett  Sat Dec  9 22:10:03 PST 2006
 irfs/handoff_response/data/standard
 
