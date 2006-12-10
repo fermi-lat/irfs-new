@@ -5,7 +5,6 @@
 */
 
 #include "EffectiveArea.h"
-#include "IRF.h"
 #include "IrfAnalysis.h"
 #include "Setup.h"
 #include "embed_python/Module.h"
@@ -88,7 +87,7 @@ void EffectiveArea::summarize()
     denomhist->SetNameTitle("aeff_denom","aeff denominator");
 
     // setup loop over normalization entries
-    std::vector<MyAnalysis::Normalization>::const_iterator norm_iter= m_irf.normalization().begin();
+    std::vector<IrfAnalysis::Normalization>::const_iterator norm_iter= m_irf.normalization().begin();
     for( ; norm_iter != m_irf.normalization().end(); ++norm_iter){
         //unused double count = norm_iter->entries();
 
@@ -100,7 +99,7 @@ void EffectiveArea::summarize()
             denomhist->Fill(loge,costh, d);
         }
     }
-    double factor( IRF::s_generated_area );
+    double factor( m_irf.generate_area() );
 
     double maxbin ( m_hist->GetBinContent(m_hist->FindBin(3.0, 0.95))), 
         denom( denomhist->GetBinContent(denomhist->FindBin(3.0, 0.95))), 
@@ -122,6 +121,7 @@ void EffectiveArea::summarize()
     // make acceptance plot (all angles for now)
     // (projection only works if all bins have same size)
     TH1D* accept = m_hist->ProjectionX("accept");
+    accept->Scale(2*M_PI/(m_bins.angle_bins().size()-1));
     accept->Write();
 }
 
@@ -134,13 +134,6 @@ void EffectiveArea::draw(const std::string &ps_filename)
 
 void EffectiveArea::writeFitParameters(std::string outputFile, std::string treename)
 {
-#if 0 // ???
-    // Create or update the new Root file.
-    TFile* file = new TFile(outputFile.c_str(), "UPDATE");
-
-    // Create the TTree.
-    TTree* tree = new TTree((treename+"-aeff").c_str(), (treename+" aeff").c_str());
-#endif
 }
 
 void EffectiveArea::fillParameterTables()

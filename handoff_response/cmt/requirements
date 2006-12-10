@@ -1,5 +1,5 @@
 package handoff_response
-version v1r3p2
+version v2r0
 
 author Toby Burnett <tburnett@u.washington.edu>
 
@@ -21,20 +21,25 @@ apply_pattern package_include
 apply_pattern package_linkopts
 apply_pattern package_stamps
 
-macro_append cppflags "" Linux " -I../src -DTRAP_FPE " 
+path_prepend PYTHONPATH $(HANDOFF_RESPONSEROOT)/python
+
+private
+
 macro source "*.cxx" WIN32 "*.h *.cxx"
+macro pysource "" WIN32 "*.py"
 
 library handoff_response -no_share \
   -s=../handoff_response $(source)\
   -s=../src  $(source)\
   -s=gen $(source)\
   -s=irfs $(source)\
+  -s=../python $(pysource)\
   -s=fits $(source)
 
 application test_handoff_response -s=test $(source)
 
 macro handoff_response_cppflags  ""\
-  Linux "-I ../src -g  "\
+  Linux "-I ../src -g   -DTRAP_FPE "\
   WIN32 " /I ..\src /wd4800 /wd4305 /wd4258"
 
 macro_append ROOT_libs ""\
@@ -50,7 +55,7 @@ application prune -s=gen/prune $(source)
 application makeirf -s=gen/makeirf $(source) 
 
 # make a file with 0-66 degree summary of acceptance and psf for sensitivity
-application reformat -s=gen/reformat $(source)
+#application reformat -s=gen/reformat $(source)
 
 application test_fitsconv -s=fits/test_fitsconv $(source)
 

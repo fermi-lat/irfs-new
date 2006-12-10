@@ -19,17 +19,15 @@ int main(int argc, char* argv[]){
 
         Setup s(argc, argv, false);  // will cd to current folder.
 
-        std::ofstream logfile("log.txt");
-
         std::string folder(s.root());
         bool make_plots(true);
 #if 1 //front
-        IrfAnalysis front(folder, 1, logfile);
-        front.fit(make_plots, "../parameters.root");
+        IrfAnalysis front(folder, 1);
+        front.fit(make_plots);
 #endif
 #if 1// back
-        IrfAnalysis back(folder,  2, logfile);
-        back.fit(make_plots,  "../parameters.root");
+        IrfAnalysis back(folder,  2);
+        back.fit(make_plots);
 #endif
     }catch( const std::exception& e){
         std::cerr << "Caught exception "<< e.what() << std::endl;

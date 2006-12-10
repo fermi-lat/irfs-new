@@ -15,11 +15,9 @@ namespace embed_python { class Module; }
 /** @class Setup
     @brief read in and parse a setup file
 
-    A setup file is a set of strings, delimited by blank line(s)
-    A line starting with a # character is ignored
-    If a # character appears anywhere else, it and the characters following are ignored
+
 */
-class Setup : public std::vector<std::string> {
+class Setup  {
 public:
 
     Setup(int argc, char* argv[], bool verbose=false);

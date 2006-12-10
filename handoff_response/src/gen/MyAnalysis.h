@@ -13,6 +13,7 @@ $Header$
 class TChain;
 class TFile;
 class TTree;
+class TCanvas;
 
 #include <string>
 #include <iostream>
@@ -28,7 +29,6 @@ public:
 
     void open_input_file();
 
-
     TTree& tree(){return *m_tree;}
 
     /// @brief apply cuts and select the branch names.
@@ -36,37 +36,12 @@ public:
 
     void current_time(std::ostream& out=std::cout);
 
+    /// divide a canvas
+    void divideCanvas(TCanvas & c, int nx, int ny, std::string top_title) ;
 
-    /** @class MyAnalysis::Normalization
-        @brief information allowing normalization for effective area
+    const std::string& summary_filename()const{return m_summary_filename;}
 
-        */
-    class Normalization {
-    public:
-        /** 
-        @param generated number of events initially generated
-        @param logemin minimum log10(McEnergy)
-        @param logemax maxiumum log10(McEnergy)
-        */
-        Normalization(int generated, double logemin, double logemax)
-            :m_events(generated)
-            ,m_low(logemin)
-            ,m_high(logemax)
-        {}
-        bool in_range(double loge, double costh)const{return loge>m_low && loge<=m_high && costh>0 && costh<=1;} 
-        int generated()const{return m_events;}
-        double logemin()const{return m_low;}
-        double logemax()const{return m_high;}
-        double value(double loge, double costh)const{ return in_range(loge, costh) ? m_events/(m_high-m_low) : 0;} 
-    private:
-        int m_events;
-        double  m_low, m_high;
-    };
 
-    const std::vector<Normalization>& normalization()const{return m_norm;}
-    std::vector<Normalization>& normalization() {return m_norm;}
-    const std::vector<std::string> files() const {return m_files;}
-    std::vector<std::string> files(){return m_files;}
 private:
 
     std::string  m_summary_filename;
@@ -82,7 +57,7 @@ private:
 
     std::vector<std::string> m_files; ///< input file description (for TChain)
     std::vector<std::string> m_branchNames; ///< branches to keep in prune
-    std::vector<Normalization> m_norm;///< normalization information 
+
 };
 
 #endif

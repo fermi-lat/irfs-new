@@ -6,7 +6,6 @@ $Header$
 
 #include "Dispersion.h"
 
-#include "IRF.h"
 #include "IrfAnalysis.h"
 
 #include "TH1F.h"
@@ -192,17 +191,17 @@ Dispersion::Dispersion( IrfAnalysis& irf, std::ostream& log)
 , m_log(&log)
 {
     m_hists.resize(irf.size());
-    for (int ebin = 0; ebin < irf.energy_bins; ++ebin) {
-        for (int abin = 0; abin <= irf.angle_bins; ++abin) {
+    for (int ebin = 0; ebin < irf.energy_bins(); ++ebin) {
+        for (int abin = 0; abin <= irf.angle_bins(); ++abin) {
             int id = irf.ident(ebin,abin);
             std::ostringstream title;
             title << (int)(irf.eCenter(ebin)+0.5) << " MeV," ;
-            if ( abin < irf.angle_bins ) {
+            if ( abin < irf.angle_bins() ) {
                 title << irf.angles[abin] << "-"<< irf.angles[abin+1] << " degrees";
             }else {
-                title <<  irf.angles[0] << "-"<< irf.angles[irf.angle_bins-2] << " degrees";
+                title <<  irf.angles[0] << "-"<< irf.angles[irf.angle_bins()-2] << " degrees";
             }
-            m_hists[id] = Hist(IRF::hist_name(abin,ebin,"dsp"),title.str());
+            m_hists[id] = Hist(IrfAnalysis::hist_name(abin,ebin,"dsp"),title.str());
         }
     }
 }
@@ -213,15 +212,15 @@ Dispersion::~Dispersion()
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void Dispersion::fill(double diff, double energy, double costheta, bool/* front*/)
 {
-    int z_bin = m_irf.angle_bin( costheta );     if( z_bin>= m_irf.angle_bins) return;
-    int e_bin = m_irf.energy_bin(energy);        if( e_bin<0 || e_bin>= m_irf.energy_bins )return;
+    int z_bin = m_irf.angle_bin( costheta );     if( z_bin>= m_irf.angle_bins()) return;
+    int e_bin = m_irf.energy_bin(energy);        if( e_bin<0 || e_bin>= m_irf.energy_bins() )return;
 
     int id =  m_irf.ident(e_bin, z_bin);
     m_hists[id].fill(diff);
 
     // set special combined hist, accumulate all but last bins of angles
-    if( z_bin< m_irf.angle_bins-2) {
-        m_hists[m_irf.ident(e_bin, m_irf.angle_bins)].fill(diff);
+    if( z_bin< m_irf.angle_bins()-2) {
+        m_hists[m_irf.ident(e_bin, m_irf.angle_bins())].fill(diff);
     }
 }
 
@@ -247,11 +246,11 @@ void Dispersion::draw(const std::string &ps_filename ) {
 
     TCanvas c;
 
-    for( int abin=0; abin<= m_irf.angle_bins; ++abin){
+    for( int abin=0; abin<= m_irf.angle_bins(); ++abin){
         int rows=3;
-        m_irf.divideCanvas(c,(m_irf.energy_bins+1)/rows,rows, 
+        m_irf.divideCanvas(c,(m_irf.energy_bins()+1)/rows,rows, 
             std::string("Plots from ") +m_irf.summary_filename());
-        for(int ebin=0; ebin<m_irf.energy_bins; ++ebin){
+        for(int ebin=0; ebin<m_irf.energy_bins(); ++ebin){
             c.cd(ebin+1);
             gPad->SetRightMargin(0.02);
             gPad->SetTopMargin(0.03);
@@ -259,7 +258,7 @@ void Dispersion::draw(const std::string &ps_filename ) {
         }
         std::cout << "Printing page #" << (abin+1) << std::endl; 
         if( abin==0) c.Print( (ps_filename+"(").c_str());
-        else if (abin<m_irf.angle_bins) c.Print(ps_filename.c_str());
+        else if (abin<m_irf.angle_bins()) c.Print(ps_filename.c_str());
         else c.Print( (ps_filename+")").c_str());
     }
 }
@@ -271,19 +270,26 @@ void Dispersion::fillParameterTables()
 
     for( int i = 0; i< Hist::npars(); ++i){
         std::string name(Hist::pnames[i]);
-
+#if 1
         TH2F* h2 = new TH2F(name.c_str(), (name+";log energy; costheta").c_str() 
-            ,IRF::energy_bins, IRF::logemin, IRF::logemin+IRF::energy_bins*IRF::logedelta
-            ,IRF::angle_bins,  1.0-IRF::angle_bins* IRF::deltaCostheta, 1.0
+            ,m_irf.energy_bins(), &*m_irf.energy_bin_edges().begin() //IrfAnalysis::logemin, IrfAnalysis::logemin+m_irf.energy_bins()*IrfAnalysis::logedelta
+            ,m_irf.angle_bins(), &*m_irf.angle_bin_edges().begin() //  1.0-IrfAnalysis::angle_bins* IrfAnalysis::deltaCostheta, 1.0
             );
+#else
+        TH2F* h2 = new TH2F(name.c_str(), (name+";log energy; costheta").c_str() 
+            ,m_irf.energy_bins(), IrfAnalysis::logemin, IrfAnalysis::logemin+m_irf.energy_bins()*IrfAnalysis::logedelta
+            ,m_irf.angle_bins(),  1.0-m_irf.angle_bins()* IrfAnalysis::deltaCostheta, 1.0
+            );
+
+#endif
         std::vector<double> pars;
 
         ///@todo: put this indexing into a object
         int index(0);
         for( HistList::iterator it = m_hists.begin(); it!=m_hists.end(); ++it, ++index){
             it->getFitPars(pars);
-            double costheta = 0.95 - 0.1*(index/IRF::energy_bins);
-            double logenergy = log10(IRF::eCenter(index));
+            double costheta = 0.95 - 0.1*(index/m_irf.energy_bins());
+            double logenergy = log10(m_irf.eCenter(index % m_irf.energy_bins()));
 
             h2->Fill(logenergy, costheta, pars[i]);
         }
