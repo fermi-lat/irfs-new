@@ -11,6 +11,13 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#ifdef WIN32
+#include <locale>
+namespace{
+    std::locale loc("usa");
+}
+#include <cmath>
+#endif
 
 #include "st_facilities/Env.h"
 #include "st_facilities/FitsUtil.h"
@@ -22,7 +29,11 @@
 namespace {
    void toUpper(std::string & name) {
       for (std::string::iterator it = name.begin(); it != name.end(); ++it) {
+#ifndef WIN32
          *it = std::toupper(*it);
+#else
+          *it = std::toupper(*it, loc);
+#endif
       }
    }
 } // anonymous namespace
