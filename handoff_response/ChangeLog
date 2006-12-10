@@ -1,4 +1,16 @@
 ------------------------------------------------------------
+User: burnett  Sat Dec  9 22:10:03 PST 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx EffectiveArea.cxx IrfAnalysis.cxx IrfAnalysis.h 
+	MyAnalysis.cxx MyAnalysis.h PsfPlots.cxx Setup.h 
+Removed Files:
+	IRF.cxx IRF.h 
+Log Message:
+refactor, encapsulate binning
+    *
+------------------------------------------------------------
 User: burnett  Sat Dec  9 22:10:02 PST 2006
 irfs/handoff_response/python
 
