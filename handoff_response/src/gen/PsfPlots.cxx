@@ -33,21 +33,22 @@ namespace {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PsfPlots::PsfPlots( IrfAnalysis& irf, std::ostream& log)
 : m_irf(irf)
+, m_binner(irf.binner())
 , m_log(&log)
 {
 
-    m_hists.resize(irf.size());
-    for (int ebin = 0; ebin < irf.energy_bins(); ++ebin) {
-        for (int abin = 0; abin <= irf.angle_bins(); ++abin) {
-            int id = irf.ident(ebin,abin);
+    m_hists.resize(binner().size());
+    for (int ebin = 0; ebin < binner().energy_bins(); ++ebin) {
+        for (int abin = 0; abin <= binner().angle_bins(); ++abin) {
+            int id = binner().ident(ebin,abin);
             std::ostringstream title;
-            title << (int)(irf.eCenter(ebin)+0.5) << " MeV," ;
-            if ( abin < irf.angle_bins() ) {
-                title << irf.angles[abin] << "-"<< irf.angles[abin+1] << " degrees";
+            title << (int)(binner().eCenter(ebin)+0.5) << " MeV," ;
+            if ( abin < binner().angle_bins() ) {
+                title << binner().angle(abin) << "-"<< binner().angle(abin+1) << " degrees";
             }else {
-                title <<  irf.angles[0] << "-"<< irf.angles[irf.angle_bins()-2] << " degrees";
+                title <<  binner().angle(0) << "-"<< binner().angle(binner().angle_bins()-2) << " degrees";
             }
-            m_hists[id]=PointSpreadFunction(IrfAnalysis::hist_name(abin, ebin, "psf")
+            m_hists[id]=PointSpreadFunction(IrfBinner::hist_name(abin, ebin, "psf")
                 , title.str(), log);
         }
     }
@@ -59,17 +60,17 @@ PsfPlots::~PsfPlots()
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void PsfPlots::fill(double angle_diff, double energy, double costheta, bool front)
 {
-    int z_bin = m_irf.angle_bin( costheta );     if( z_bin>= m_irf.angle_bins()) return;
-    int e_bin = m_irf.energy_bin(energy);        if( e_bin<0 || e_bin>= m_irf.energy_bins() )return;
+    int z_bin = binner().angle_bin( costheta );     if( z_bin>= binner().angle_bins()) return;
+    int e_bin = binner().energy_bin(energy);        if( e_bin<0 || e_bin>= binner().energy_bins() )return;
 
-    int id =  m_irf.ident(e_bin, z_bin);
+    int id =  binner().ident(e_bin, z_bin);
     double scaled_delta =angle_diff/PointSpreadFunction::scaleFactor(energy, costheta, front);
 
     m_hists[id].fill(scaled_delta);
 
     // set special combined hist, accumulate all but last bins of angles
-    if( z_bin< m_irf.angle_bins()-2) {
-        m_hists[m_irf.ident(e_bin, m_irf.angle_bins())].fill(scaled_delta);
+    if( z_bin< binner().angle_bins()-2) {
+        m_hists[binner().ident(e_bin, binner().angle_bins())].fill(scaled_delta);
     }
 
 }
@@ -103,19 +104,19 @@ void PsfPlots::draw(const std::string &ps_filename ) {
 
     TCanvas c;
 
-    for( int abin=0; abin<= m_irf.angle_bins(); ++abin){
+    for( int abin=0; abin<= binner().angle_bins(); ++abin){
         int rows=3;
-        m_irf.divideCanvas(c,(m_irf.energy_bins()+1)/rows,rows, 
+        m_irf.divideCanvas(c,(binner().energy_bins()+1)/rows,rows, 
             std::string("Plots from ") +m_irf.summary_filename());
-        for(int ebin=0; ebin<m_irf.energy_bins(); ++ebin){
+        for(int ebin=0; ebin<binner().energy_bins(); ++ebin){
             c.cd(ebin+1);
             gPad->SetRightMargin(0.02);
             gPad->SetTopMargin(0.03);
-            m_hists[m_irf.ident(ebin,abin)].draw(ymin, ymax, ylog);
+            m_hists[binner().ident(ebin,abin)].draw(ymin, ymax, ylog);
         }
         std::cout << "Printing page #" << (abin+1) << std::endl; 
         if( abin==0) c.Print( (ps_filename+"(").c_str());
-        else if (abin<m_irf.angle_bins()) c.Print(ps_filename.c_str());
+        else if (abin<binner().angle_bins()) c.Print(ps_filename.c_str());
         else c.Print( (ps_filename+")").c_str());
     }
 }
@@ -129,24 +130,18 @@ void PsfPlots::fillParameterTables()
 
     for( int i = 0; i< PointSpreadFunction::npars(); ++i){
         std::string name(PointSpreadFunction::parname(i));
-#if 0
         TH2F* h2 = new TH2F(name.c_str(), (name+";log energy; costheta").c_str() 
-        ,m_irf.energy_bins(), IrfAnalysis::logemin, IrfAnalysis::logemin+m_irf.energy_bins()*IrfAnalysis::logedelta
-        ,m_irf.angle_bins(),  1.0-m_irf.angle_bins()* IrfAnalysis::deltaCostheta, 1.0
+            ,binner().energy_bins(), &*binner().energy_bin_edges().begin()
+            ,binner().angle_bins(),  &*binner().angle_bin_edges().begin()
         );
-#else
-        TH2F* h2 = new TH2F(name.c_str(), (name+";log energy; costheta").c_str() 
-            ,m_irf.energy_bins(), &*m_irf.energy_bin_edges().begin()
-            ,m_irf.angle_bins(),  &*m_irf.angle_bin_edges().begin()
-        );
-#endif
+
         std::vector<double> pars;
 
         int index(0);
         for( PSFlist::iterator it = m_hists.begin(); it!=m_hists.end(); ++it, ++index){
             it->getFitPars(pars);
-            double costheta = 0.95 - 0.1*(index/m_irf.energy_bins());
-            double logenergy = log10(m_irf.eCenter(index % m_irf.energy_bins()));
+            double costheta = 0.95 - 0.1*(index/binner().energy_bins());
+            double logenergy = log10(binner().eCenter(index % binner().energy_bins()));
 
             h2->Fill(logenergy, costheta, pars[i]);
         }

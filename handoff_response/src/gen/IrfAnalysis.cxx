@@ -10,7 +10,6 @@ $Header$
 #include "Dispersion.h"
 #include "EffectiveArea.h"
 #include "TreeWrapper.h"
-#include "Setup.h"
 #include "embed_python/Module.h"
 
 #include "CLHEP/Geometry/Vector3D.h"
@@ -28,35 +27,24 @@ namespace{
 
 
 //__________________________________________________________________________
-IrfAnalysis::IrfAnalysis(std::string output_folder,int set) 
-: m_filename_root(output_folder+"/")
+IrfAnalysis::IrfAnalysis(std::string output_folder,int set, embed_python::Module& py) 
+: MyAnalysis(py)
+, m_binner(py)  // initilize the binner
+, m_filename_root(output_folder+"/")
 , m_outputfile(std::string(set==1? "front":"back")+".root")
 , m_set(set)
 , m_setname( m_set==1? "front":"back")
-, m_nruns(0)
-, m_minlogE(1.25), m_maxlogE(5.25) // default
 {
 
-    embed_python::Module& py = *(Setup::instance()->py());
     std::string logfile;
 
     py.getValue("className", m_classname);    
     py.getValue("logFile", logfile);
     m_log = logfile.empty()? &std::cout : new std::ofstream(logfile.c_str(),std::ios_base::app);
 
+
     py.getValue("parameterFile", m_parameterFile);
 
-    // get the angle and energy bin edges
-    py.getList("Bins.angle_bin_edges", m_angle_bin_edges);
-    py.getList("Bins.energy_bin_edges", m_energy_bin_edges);
-    m_ebins = m_energy_bin_edges.size()-1;
-    m_abins = m_angle_bin_edges.size()-1;
-
-    for( std::vector<double>::reverse_iterator i =m_angle_bin_edges.rbegin(); i!=m_angle_bin_edges.rend(); ++i){
-        angles.push_back( int( acos(*i) * 180/M_PI+0.5)); 
-    }
-
-    // then set of info
     py.getValue("Data.generate_area", m_generate_area);
     std::vector<double> generated, logemins, logemaxes;
     py.getList("Data.generated", generated);
@@ -64,7 +52,6 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,int set)
     py.getList("Data.logemax", logemaxes);
     for( int i=0; i<generated.size(); ++i){
       normalization().push_back(Normalization(generated[i], logemins[i], logemaxes[i]));
-      std::cout << "Generated: " << generated[i] << std::endl;
     }
 
     setName(m_classname+"/"+m_setname); // for access by the individual guys
@@ -113,14 +100,15 @@ case 2: out() << "back events"; break;
         , Tkr1FirstLayer("Tkr1FirstLayer")
         , EvtRun("EvtRun" ) // to count runs
         ;
-    int lastrun(0), selected(0), total(0);
-    m_minlogE=1e6, m_maxlogE=0;
+    int lastrun(0), selected(0), total(0), nruns(0);
+    double minlogE(1e6), maxlogE(0);
     double minzdir(1), maxzdir(-1);
+
     for( TreeWrapper::Iterator it = mytree.begin(); it!=mytree.end(); ++it, ++total) {
-        if( EvtRun != lastrun ) { ++m_nruns; lastrun = EvtRun;}
+        if( EvtRun != lastrun ) { ++nruns; lastrun = EvtRun;}
         double logE( log10(McEnergy) );
-        if( logE< m_minlogE) m_minlogE = logE;
-        if( logE > m_maxlogE) m_maxlogE = logE;
+        if( logE< minlogE) minlogE = logE;
+        if( logE > maxlogE) maxlogE = logE;
         if( McZDir< minzdir) minzdir = McZDir;
         if( McZDir> maxzdir) maxzdir = McZDir;
 
@@ -156,9 +144,9 @@ case 2: out() << "back events"; break;
         m_disp->fill(dsp, mc_energy, McZDir, front);
         m_aeff->fill( mc_energy, McZDir, front, total);
     }
-    out() << "\nFound " << m_nruns <<" run numbers" 
+    out() << "\nFound " << nruns <<" run numbers" 
         << " and " << selected<< "/" <<  mytree.size() << " events" <<  std::endl;
-    out() << "Log energy range: " << m_minlogE << " to " << m_maxlogE << std::endl;
+    out() << "Log energy range: " << minlogE << " to " << maxlogE << std::endl;
     out() << "McZDir range: " << minzdir << " to " << maxzdir << std::endl;
 
     m_hist_file->Write();

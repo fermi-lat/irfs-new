@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 class IrfAnalysis;
+class IrfBinner;
 class TH1F;
 class TH2F;
 
@@ -76,9 +77,12 @@ public:
     typedef std::vector<Hist> HistList;
     const HistList& hists()const{return m_hists;}
 
+    const IrfBinner& binner(){return m_binner;}
+
 private:
 
     IrfAnalysis& m_irf;
+    const IrfBinner& m_binner;
     typedef std::vector<Hist> HistList;
     HistList m_hists; // simple histogram lookukp
     std::ostream * m_log;

@@ -7,9 +7,6 @@
 #include "TFile.h"
 #include "TCanvas.h"
 #include "TPaveLabel.h"
-
-#include "Setup.h"
-
 #include <cmath>
 #include <sstream>
 #include <iostream>
@@ -19,13 +16,11 @@
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-MyAnalysis::MyAnalysis()
+MyAnalysis::MyAnalysis(embed_python::Module& py)
 :m_out(0)
 {
     // get file information from input description 
     // first, file list
-
-    embed_python::Module& py = *(Setup::instance()->py());
 
 
     py.getList("Data.files", m_files);

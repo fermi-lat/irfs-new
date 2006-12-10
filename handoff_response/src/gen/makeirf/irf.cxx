@@ -19,14 +19,15 @@ int main(int argc, char* argv[]){
 
         Setup s(argc, argv, false);  // will cd to current folder.
 
+
         std::string folder(s.root());
         bool make_plots(true);
 #if 1 //front
-        IrfAnalysis front(folder, 1);
+        IrfAnalysis front(folder, 1, *s.py());
         front.fit(make_plots);
 #endif
 #if 1// back
-        IrfAnalysis back(folder,  2);
+        IrfAnalysis back(folder,  2, *s.py());
         back.fit(make_plots);
 #endif
     }catch( const std::exception& e){

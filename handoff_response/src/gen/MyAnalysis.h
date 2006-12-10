@@ -15,6 +15,8 @@ class TFile;
 class TTree;
 class TCanvas;
 
+namespace embed_python { class Module;}
+
 #include <string>
 #include <iostream>
 #include <vector>
@@ -24,7 +26,7 @@ class MyAnalysis : public Root_base
 {
 public:
 
-    MyAnalysis();
+    MyAnalysis(embed_python::Module& py);
     ~MyAnalysis();
 
     void open_input_file();

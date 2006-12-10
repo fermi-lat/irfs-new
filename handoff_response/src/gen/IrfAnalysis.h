@@ -5,12 +5,13 @@ $Header$
 */
 
 #include "MyAnalysis.h"
-
+#include "IrfBinner.h"
 #include <string>
 
 class PsfPlots;
 class Dispersion;
 class EffectiveArea;
+namespace embed_python { class Module;}
 
 /** @class IrfAnalysis
     @brief Manage fits to binned data, both PSF and dispersion
@@ -21,7 +22,7 @@ class IrfAnalysis : public MyAnalysis{
 public:
     /// @param folder where to find data file, to put analysis files
     /// @param set 0,1,2 for all, front, back events
-    IrfAnalysis(std::string folder, int set=1); 
+    IrfAnalysis(std::string folder, int set, embed_python::Module& py); 
     
     void project();
 
@@ -40,55 +41,12 @@ public:
     void tabulate(std::string filename);
 
 
-    /// arrays of bin edges
-    const std::vector<double>& energy_bin_edges()const{return m_energy_bin_edges;}
-    const std::vector<double>& angle_bin_edges()const{return m_angle_bin_edges;}
-
-    size_t energy_bins()const{return m_ebins;}
-    size_t angle_bins()const{return m_abins;}
-
-    int angle_bin(double zdir){
-        double delta(m_angle_bin_edges[1]-m_angle_bin_edges[0]);
-        return static_cast<int>( (zdir+1.0)/delta);
-    }
-    /** @param energy energy in MeV
-        @return energy bin number
-
-        @todo: allow variable bins
-    */
-    int energy_bin(double energy){
-        double logemin(m_energy_bin_edges[0])
-            ,  logedelta(m_energy_bin_edges[1] -logemin)
-            ,  logestart(logemin+0.5*logedelta);
-        return static_cast<int>((log10(energy)-logestart+0.5*logedelta)/logedelta);
-    }
-
-    // define angles in degrees for labels
-    std::vector<int> angles;
+    const IrfBinner& binner()const{return m_binner;}
 
     std::string name()const{ return m_name;}
 
     void setName(std::string name){m_name = name;}
 
-    double eCenter(int j)const{
-        double loge_mean( 0.5*(m_energy_bin_edges[j] + m_energy_bin_edges[j+1]) );
-        return pow(10.0, loge_mean);
-    }
-
-    static const char *  hist_name(int i, int j, std::string base="h") {
-        std::stringstream t; t << base << i <<"_" << j;
-        static char buffer[16];
-        ::strncpy(buffer,  t.str().c_str(), sizeof(buffer));
-        return buffer;
-    }
-
-    /**
-    these two functions define indexing in the vector arrays of histogram pointers
-    */
-    size_t ident(int ebin, int abin){ 
-        return abin<m_abins? ebin + abin* (m_ebins) : m_ebins*m_abins+ebin; 
-    }
-    size_t size(){return m_ebins*(m_abins+1);}
 
     /** @class IrfAnalysis::Normalization
         @brief information allowing normalization for effective area
@@ -126,13 +84,9 @@ public:
 
 private:
 
-    std::vector<double> m_angle_bin_edges, m_energy_bin_edges;
-
+    IrfBinner m_binner;
     std::vector<Normalization> m_norm;///< normalization information 
     double m_generate_area;
-
-    size_t m_ebins, m_abins;
-
     std::string m_name;
     std::string m_filename_root;
     
@@ -140,13 +94,10 @@ private:
     Dispersion* m_disp; ///< manage energy dispersion plots
     EffectiveArea* m_aeff; ///< manage the effective area plot
     int m_set;  ///< all, front, back
+
     std::ostream * m_log;
     std::string m_setname; ///< describe the data set
     std::string m_classname; ///<event class, derived from folder name
-
-    int m_nruns; ///< number of runs found
-    double m_minlogE, m_maxlogE; ///< minimum, maximum logE found
-
     std::ostream& out() {return *m_log;}
 
     std::string m_parameterFile;
@@ -154,7 +105,6 @@ private:
  
     const std::string& output_file_root()const{return m_filename_root;}
     std::string m_outputfile;
- 
  
  
 };

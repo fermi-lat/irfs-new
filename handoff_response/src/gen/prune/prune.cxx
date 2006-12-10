@@ -22,7 +22,7 @@ int main(int argc, char* argv[]){
 
         Setup s(argc, argv);
 
-        MyAnalysis copier; // makes a copy of the good gammas
+        MyAnalysis copier(*s.py()); // makes a copy of the good gammas
 
         copier.makeCutTree();
 
