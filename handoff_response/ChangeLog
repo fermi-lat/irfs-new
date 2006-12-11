@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Mon Dec 11 15:49:13 PST 2006
+irfs/handoff_response/python
+
+Modified Files:
+	IRFdefault.py 
+Log Message:
+linux fixes
+    *
+------------------------------------------------------------
+User: burnett  Mon Dec 11 15:49:13 PST 2006
 irfs/handoff_response/doc
 
 Modified Files:
