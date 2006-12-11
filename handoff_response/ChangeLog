@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Mon Dec 11 15:49:14 PST 2006
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx EffectiveArea.cxx IrfAnalysis.cxx IrfBinner.h 
+Log Message:
+linux fixes
+    *
+------------------------------------------------------------
 User: burnett  Mon Dec 11 15:49:13 PST 2006
 irfs/handoff_response/python
 
