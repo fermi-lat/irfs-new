@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Mon Dec 11 11:21:19 PST 2006
+irfs/handoff_response/python
+
+Modified Files:
+	IRFdefault.py 
+Log Message:
+make the python a little clearer: tag
+    *
+------------------------------------------------------------
 User: burnett  Sun Dec 10 15:13:29 PST 2006
 irfs/handoff_response/data
 
