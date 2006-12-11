@@ -22,7 +22,7 @@ public:
     size_t angle_bins()const{return m_abins;}
 
     /**
-        @param cos(theta)
+        @param zdir cos(theta)
         @return angle bin
     */
     int angle_bin(double zdir)const;
@@ -34,6 +34,7 @@ public:
     */
     int energy_bin(double energy)const;
 
+    /// energy (MeV) 
     double eCenter(int j)const; 
 
      /**

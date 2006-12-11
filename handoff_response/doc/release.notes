@@ -5,7 +5,7 @@
   @verbatim
   $Id$
 
-  09-dec-06 v2r0   THB    Redesign to use embedded python module to set parameters
+  11-dec-06 v2r0p1 THB    Redesign to use embedded python module to set parameters
   21-Nov-06 v1r3p2 THB    Add 160 M low energy events to 60 M new SLAC. 
   09-Nov-06 v1r2p2 JC     protect against small energies
   09-Nov-06 v1r2p1 THB    Bug fix for large energy in dispersion function parameter lookup

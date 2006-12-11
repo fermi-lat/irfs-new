@@ -132,7 +132,7 @@ void EffectiveArea::draw(const std::string &ps_filename)
     c.Print(ps_filename.c_str());
 }
 
-void EffectiveArea::writeFitParameters(std::string outputFile, std::string treename)
+void EffectiveArea::writeFitParameters(std::string /*outputFile*/, std::string /*treename*/)
 {
 }
 

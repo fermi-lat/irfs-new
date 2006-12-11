@@ -194,8 +194,8 @@ Dispersion::Dispersion( IrfAnalysis& irf, std::ostream& log)
 , m_log(&log)
 {
     m_hists.resize(binner().size());
-    for (int ebin = 0; ebin < binner().energy_bins(); ++ebin) {
-        for (int abin = 0; abin <= binner().angle_bins(); ++abin) {
+    for (size_t ebin = 0; ebin < binner().energy_bins(); ++ebin) {
+        for (size_t abin = 0; abin <= binner().angle_bins(); ++abin) {
             int id = binner().ident(ebin,abin);
             std::ostringstream title;
             title << (int)(binner().eCenter(ebin)+0.5) << " MeV," ;
@@ -215,8 +215,8 @@ Dispersion::~Dispersion()
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void Dispersion::fill(double diff, double energy, double costheta, bool/* front*/)
 {
-    int z_bin = binner().angle_bin( costheta );     if( z_bin>= binner().angle_bins()) return;
-    int e_bin = binner().energy_bin(energy);        if( e_bin<0 || e_bin>= binner().energy_bins() )return;
+    size_t z_bin = binner().angle_bin( costheta );     if( z_bin>= binner().angle_bins()) return;
+    size_t e_bin = binner().energy_bin(energy);        if( e_bin<0 || e_bin>= binner().energy_bins() )return;
 
     int id =  binner().ident(e_bin, z_bin);
     m_hists[id].fill(diff);
@@ -249,11 +249,11 @@ void Dispersion::draw(const std::string &ps_filename ) {
 
     TCanvas c;
 
-    for( int abin=0; abin<= binner().angle_bins(); ++abin){
+    for( size_t abin=0; abin<= binner().angle_bins(); ++abin){
         int rows=3;
         m_irf.divideCanvas(c,(binner().energy_bins()+1)/rows,rows, 
             std::string("Plots from ") +m_irf.summary_filename());
-        for(int ebin=0; ebin<binner().energy_bins(); ++ebin){
+        for(size_t ebin=0; ebin<binner().energy_bins(); ++ebin){
             c.cd(ebin+1);
             gPad->SetRightMargin(0.02);
             gPad->SetTopMargin(0.03);
@@ -271,7 +271,7 @@ void Dispersion::fillParameterTables()
     // make a set of 2-d histograms with values of the fit parameters
     // binning according to energy and costheta bins
 
-    for( int i = 0; i< Hist::npars(); ++i){
+    for( size_t i = 0; i< Hist::npars(); ++i){
         std::string name(Hist::pnames[i]);
         TH2F* h2 = new TH2F(name.c_str(), (name+";log energy; costheta").c_str() 
             ,binner().energy_bins(), &*binner().energy_bin_edges().begin() 

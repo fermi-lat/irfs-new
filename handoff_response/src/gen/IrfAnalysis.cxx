@@ -20,6 +20,7 @@ $Header$
 #include <iomanip>
 #include <fstream>
 #include <ios>
+#include <stdexcept>
 namespace{
     inline static double sqr(double x){return x*x;}
 
@@ -31,9 +32,9 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,int set, embed_python::Module
 : MyAnalysis(py)
 , m_binner(py)  // initilize the binner
 , m_filename_root(output_folder+"/")
-, m_outputfile(std::string(set==1? "front":"back")+".root")
 , m_set(set)
 , m_setname( m_set==1? "front":"back")
+, m_outputfile(std::string(set==1? "front":"back")+".root")
 {
 
     std::string logfile;
@@ -50,8 +51,8 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,int set, embed_python::Module
     py.getList("Data.generated", generated);
     py.getList("Data.logemin", logemins);
     py.getList("Data.logemax", logemaxes);
-    for( int i=0; i<generated.size(); ++i){
-      normalization().push_back(Normalization(generated[i], logemins[i], logemaxes[i]));
+    for( size_t i=0; i<generated.size(); ++i){
+      normalization().push_back(Normalization(static_cast<int>(generated[i]), logemins[i], logemaxes[i]));
     }
 
     setName(m_classname+"/"+m_setname); // for access by the individual guys
