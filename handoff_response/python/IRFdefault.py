@@ -10,6 +10,47 @@ print 'loading setup from %s ' % os.getcwd()
 className = p[len(p)-1]
 print 'eventClass is %s' % className
 
+    
+class Prune(object):
+    """
+    information for the prune step
+    """
+    fileName = 'goodEvent.root' # file to create
+    branchNames ="""
+        EvtRun    EvtEnergyCorr 
+        McEnergy  McXDir  McYDir  McZDir   
+        McXDirErr   McYDirErr  McZDirErr   
+        McTkr1DirErr  McDirErr  
+        GltWord   FilterStatus_HI 
+        Tkr1FirstLayer  
+        CTBCORE  CTBSummedCTBGAM  CTBBest*
+        """.split()  # specify branch names to include
+    cuts='(GltWord&10)>0 && (GltWord!=35) && (FilterStatus_HI==0) && CTBBestEnergyProb>0.1 && CTBCORE>0.1'
+
+class Data(object):
+    files=['../all/'+Prune.fileName] # use pruned file in event class all by default
+    # these correspond to the three runs at SLAC and UW
+    generate_area = 6.0
+    generated=[60e6,150e6, 97e6]
+    logemin = [1.25, 1.25, 1.0]
+    logemax = [5.75, 4.25, 2.75]
+    
+
+# define additional cuts based on event class: these are exclusive, add up to class 'all'
+additionalCuts = {
+    'all': '',
+    'classA': '&&CTBSummedCTBGAM>=0.5 && CTBCORE>=0.8',
+    'classB': '&&CTBSummedCTBGAM>=0.5 && CTBCORE>=0.5 && CTBCORE<0.8',
+    'classC': '&&CTBSummedCTBGAM>=0.5 && CTBCORE<0.5',
+    'classD': '&&CTBSummedCTBGAM>=0.1 && CTBSummedCTBGAM<0.5',
+    'classF': '&&CTBSummedCTBGAM<0.1',
+    'standard': '&&CTBSummedCTBGAM>0.5'
+    }
+if className in additionalCuts.keys():
+    Prune.cuts += additionalCuts[className]
+else: print 'Event class "%s" not recognized: using cuts for class all' %className
+   
+  
 import numarray as num
 
 #define default binning as attributes of object Bins
@@ -48,47 +89,8 @@ class EffectiveAreaBins(Bins):
     anglebinfactor=4 # bins multiplier
     angle_bin_edges = num.arange(Bins.angle_bins*anglebinfactor+1)*Bins.deltaCostheta/anglebinfactor+Bins.cthmin
 
-# a small list just for determining the IRF functions
-names="""
- EvtRun    EvtEnergyCorr 
- McEnergy  McXDir  McYDir  McZDir   
- McXDirErr   McYDirErr  McZDirErr   
- McTkr1DirErr  McDirErr  
- GltWord   FilterStatus_HI 
- Tkr1FirstLayer  
- CTBCORE  CTBSummedCTBGAM  CTBBest*
- """
-    
-class Prune(object):
-    fileName = 'goodEvent.root' # file to create
-    branchNames =names.split()  # specify branch names to include
-    cuts='(GltWord&10)>0 && (GltWord!=35) && (FilterStatus_HI==0) && CTBBestEnergyProb>0.1 && CTBCORE>0.1'
-    
-class Data(object):
-    files=['../all/'+Prune.fileName] # use pruned file in event class all by default
-    # these correspond to the three runs at SLAC and UW
-    generate_area = 6.0
-    generated=[60e6,150e6, 97e6]
-    logemin = [1.25, 1.25, 1.0]
-    logemax = [5.75, 4.25, 2.75]
-
-      
 
 
-# define additional cuts based on event class: these are exclusive, add up to class 'all'
-additionalCuts = {
-    'all': '',
-    'classA': '&&CTBSummedCTBGAM>=0.5 && CTBCORE>=0.8',
-    'classB': '&&CTBSummedCTBGAM>=0.5 && CTBCORE>=0.5 && CTBCORE<0.8',
-    'classC': '&&CTBSummedCTBGAM>=0.5 && CTBCORE<0.5',
-    'classD': '&&CTBSummedCTBGAM>=0.1 && CTBSummedCTBGAM<0.5',
-    'classF': '&&CTBSummedCTBGAM<0.1',
-    'standard': '&&CTBSummedCTBGAM>0.5'
-    }
-if className in additionalCuts.keys():
-    Prune.cuts += additionalCuts[className]
-else: print 'Event class "%s" not recognized: using cuts for class all' %className
-   
 # where to write the output parameter tables - disable if null
 parameterFile = '../parameters.root'
 
