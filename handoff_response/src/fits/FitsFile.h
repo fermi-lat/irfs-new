@@ -35,6 +35,7 @@ public:
    FitsFile(const std::string & outfile, 
             const std::string & extname, 
             const std::string & templateFile,
+            bool newFile=true,
             size_t numRows=1);
 
    ~FitsFile() throw();
@@ -76,7 +77,8 @@ private:
 
    void createFile(const std::string & outfile, 
                    const std::string & extname,
-                   const std::string & templateFile);
+                   const std::string & templateFile,
+                   bool newFile);
 
    int fieldNum(const std::string & fieldName) const;
 

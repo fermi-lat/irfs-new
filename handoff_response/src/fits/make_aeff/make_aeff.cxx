@@ -47,5 +47,17 @@ int main() {
       std::cout << eobj.what() << std::endl;
    }
 
+   try {
+      double scaling_pars[] = {5.8e-2, 3.77e-4, 9.6e-2, 1.3e-3, -0.8};
+      std::vector<double> scalingPars(scaling_pars, scaling_pars + 5);
+      
+      bool newFile;
+      FitsFile psfScaling("psf.fits", "PSF_SCALING_PARAMS", "psf.tpl", 
+                          newFile=false);
+      psfScaling.setVectorData("PSFSCALE", scalingPars);
+   } catch (std::exception & eobj) {
+      std::cout << eobj.what() << std::endl;
+   } 
+
    return 0;
 }

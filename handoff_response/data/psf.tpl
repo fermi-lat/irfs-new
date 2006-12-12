@@ -63,3 +63,25 @@ CVSD0001= '01/03/2006'         /
 CVST0001= '00:00:00'           /                                               
 CDES0001= 'GLAST LAT point spread function' /                    
 END
+
+XTENSION =             BINTABLE / Binary table extension
+BITPIX   =                    8 / Bits per pixel
+NAXIS    =                    2 / Required value
+NAXIS1   =                   40 / Number of bytes per row
+NAXIS2   =                    1 / Number of rows
+PCOUNT   =                    0 / Normally 0 (no varying arrays)
+GCOUNT   =                    1 / Required value
+TFIELDS  =                    1 / Number of columns in table
+EXTNAME  =   PSF_SCALING_PARAMS / Extension name
+TELESCOP =                GLAST / Telescope or mission name
+INSTRUME =                  LAT / Instrument name
+FILTER   =                      / Instrument filter in use (if any)
+HDUCLASS =                 OGIP / Format confirms to OGIP standard
+HDUCLAS1 =             RESPONSE / Extension contains response data
+HDUCLAS2 =            PSFPARAMS / Extension contains response matrix
+HDUVERS  =                1.2.0 / Version number of the format
+HISTORY  $Id$
+LATCLASS = 'FRONTA'             / Event class described by this data
+TTYPE1   = 'PSFSCALE'           / PSF energy scaling parameters
+TFORM1   = 5E                   / Data format of this field
+END

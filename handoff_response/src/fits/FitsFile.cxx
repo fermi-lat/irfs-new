@@ -13,8 +13,8 @@
 #include <stdexcept>
 #ifdef WIN32
 #include <locale>
-namespace{
-    std::locale loc("usa");
+namespace {
+   std::locale loc("usa");
 }
 #include <cmath>
 #endif
@@ -32,7 +32,7 @@ namespace {
 #ifndef WIN32
          *it = std::toupper(*it);
 #else
-          *it = std::toupper(*it, loc);
+         *it = std::toupper(*it, loc);
 #endif
       }
    }
@@ -43,9 +43,9 @@ namespace handoff_response {
 FitsFile::FitsFile(const std::string & outfile, 
                    const std::string & extname,
                    const std::string & templateFile,
-                   size_t numRows) 
+                   bool newFile, size_t numRows) 
    : m_fptr(0), m_numRows(numRows), m_outfile(outfile), m_extname(extname) {
-   createFile(outfile, extname, templateFile);
+   createFile(outfile, extname, templateFile, newFile);
    int status(0);
    std::string filename(outfile + "[" + extname +"]");
    fits_open_file(&m_fptr, filename.c_str(), READWRITE, &status);
@@ -122,16 +122,19 @@ int FitsFile::fieldNum(const std::string & fieldName) const {
 
 void FitsFile::createFile(const std::string & outfile, 
                           const std::string & extname,
-                          const std::string & templateFile) {
+                          const std::string & templateFile,
+                          bool newFile) {
    std::string tplFile = 
       st_facilities::Env::appendFileName(
          st_facilities::Env::getDataDir("handoff_response"), templateFile);
-   if (st_facilities::Util::fileExists(outfile)) {
+   if (newFile && st_facilities::Util::fileExists(outfile)) {
       std::remove(outfile.c_str());
    }
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
 
-   fileSvc.createFile(outfile, tplFile);
+   if (newFile) {
+      fileSvc.createFile(outfile, tplFile);
+   }
    tip::Table * table = fileSvc.editTable(outfile, extname);
    table->setNumRecords(m_numRows);
 
