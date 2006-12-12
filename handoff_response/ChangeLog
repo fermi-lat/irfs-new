@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Dec 11 22:19:03 PST 2006
+irfs/handoff_response/src/fits/make_aeff
+
+Modified Files:
+	make_aeff.cxx 
+Log Message:
+add psf scale factor parameters to psf.fits
+    *
+------------------------------------------------------------
+User: jchiang  Mon Dec 11 22:19:03 PST 2006
 irfs/handoff_response/src/fits
 
 Modified Files:
