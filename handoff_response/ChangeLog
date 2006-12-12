@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Dec 11 22:19:03 PST 2006
+irfs/handoff_response/src/fits
+
+Modified Files:
+	FitsFile.cxx FitsFile.h 
+Log Message:
+add psf scale factor parameters to psf.fits
+    *
+------------------------------------------------------------
+User: jchiang  Mon Dec 11 22:19:03 PST 2006
 irfs/handoff_response/data
 
 Modified Files:
