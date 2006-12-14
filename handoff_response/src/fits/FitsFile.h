@@ -75,10 +75,10 @@ private:
 
    std::vector<std::string> m_fieldNames;
 
-   void createFile(const std::string & outfile, 
-                   const std::string & extname,
-                   const std::string & templateFile,
-                   bool newFile);
+   void prepareFile(const std::string & outfile, 
+                    const std::string & extname,
+                    const std::string & templateFile,
+                    bool newFile);
 
    int fieldNum(const std::string & fieldName) const;
 

@@ -45,7 +45,7 @@ FitsFile::FitsFile(const std::string & outfile,
                    const std::string & templateFile,
                    bool newFile, size_t numRows) 
    : m_fptr(0), m_numRows(numRows), m_outfile(outfile), m_extname(extname) {
-   createFile(outfile, extname, templateFile, newFile);
+   prepareFile(outfile, extname, templateFile, newFile);
    int status(0);
    std::string filename(outfile + "[" + extname +"]");
    fits_open_file(&m_fptr, filename.c_str(), READWRITE, &status);
@@ -120,21 +120,23 @@ int FitsFile::fieldNum(const std::string & fieldName) const {
    return 0;
 }
 
-void FitsFile::createFile(const std::string & outfile, 
-                          const std::string & extname,
-                          const std::string & templateFile,
-                          bool newFile) {
-   std::string tplFile = 
-      st_facilities::Env::appendFileName(
-         st_facilities::Env::getDataDir("handoff_response"), templateFile);
-   if (newFile && st_facilities::Util::fileExists(outfile)) {
-      std::remove(outfile.c_str());
-   }
-   tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
+void FitsFile::prepareFile(const std::string & outfile, 
+                           const std::string & extname,
+                           const std::string & templateFile,
+                           bool newFile) {
 
+   tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
+   
    if (newFile) {
+      if (st_facilities::Util::fileExists(outfile)) {
+         std::remove(outfile.c_str());
+      }
+      std::string tplFile = 
+         st_facilities::Env::appendFileName(
+            st_facilities::Env::getDataDir("handoff_response"), templateFile);
       fileSvc.createFile(outfile, tplFile);
    }
+
    tip::Table * table = fileSvc.editTable(outfile, extname);
    table->setNumRecords(m_numRows);
 
