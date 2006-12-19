@@ -1,4 +1,34 @@
 ------------------------------------------------------------
+User: dsmith  Tue Dec 19 08:16:59 PST 2006
+irfs
+
+Log Message:
+
+
+Status:
+
+Vendor Tag:	GLAST
+Release Tags:	v0r9p2
+		
+U irfs/.cvsignore
+C irfs/ChangeLog
+C irfs/doc/release.notes
+N irfs/cmt/cleanup.sh
+N irfs/cmt/Makefile
+N irfs/cmt/setup.csh
+N irfs/cmt/rh9_gcc32.make
+N irfs/cmt/cleanup.csh
+C irfs/cmt/requirements
+N irfs/cmt/setup.sh
+U irfs/src/mainpage.h
+
+3 conflicts created by this import.
+Use the following command to help the merge:
+
+	cvs checkout -jGLAST:yesterday -jGLAST irfs
+
+    *
+------------------------------------------------------------
 User: jchiang  Thu May 18 09:22:54 PDT 2006
 irfs/irfInterface/irfInterface
 
