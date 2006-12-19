@@ -5,6 +5,38 @@
   @verbatim
   $Id$
 
+  16-Feb-06 v0r9p2  JC    since this is not used as a checkout package,
+                          use v* for version numbers
+  15-Feb-06 v0r9p1  JC    v1r0p3 dc2Response
+  14-Feb-06 v0r9    JC    v0r1p3 irfs/irfInterface, v0r4 irfs/irfUtil,
+                          v1 irfs/dc2Response, v0r1 irfs/caldb,
+                          v0r5 irfs/irfLoader 
+  17-Nov-05 v0r8p5  JC    irfLoader v0r4p3
+  17-Nov-05 v0r8p4  JC    irfInterface v0r1p2; irfLoader v0r4p2
+  26-Aug-05 v0r8p3  JC    dc1Response v0r2p6
+  13-Aug-05 v0r8p2  JC    irfLoader v0r4p1
+  13-Aug-05 v0r8p1  JC    irfLoader v0r4
+  13-Aug-05 v0r8    JC    dc1aResponse v0, dc1Response v0r2p5
+  13-Jul-05 v0r7p3  JC    irfLoader v0r3
+  26-Apr-05 v0r7p2  JC    dc1Response v0r2p4; g25Response v0r1p4
+  21-Apr-05 v0r7p1  JC    dc1Response v0r2p3; g25Response v0r1p3
+  15-Apr-05 v0r7    JC    irfLoader v0r2p3; testResponse v0r4p2
+  23-Mar-05 v0r6p7  JC    testResponse v0r4p1
+  22-Mar-05 v0r6p6  JC    irfInterface v0r1p1
+  17-Mar-05 v0r6p5  JC    irfLoader v0r2p2
+  16-Mar-05 v0r6p4  JC    irfLoader v0r2p1
+  01-Mar-05 v0r6p3  JC    testResponse v0r4
+  23-Jan-05 v0r6p2  JC    g25Response v0r1p2
+  16-Jan-05 v0r6p1  JC    dc1Response v0r2p2
+  27-Nov-04 v0r6    JC    irfLoader v0r2 and irfInterface v0r1
+  29-Oct-04 v0r5p1  JC    update packages using tip v2*
+  01-Oct-04 v0r5    JC    use st_facilities
+  31-Aug-04 v0r4p2  JC    update dc1Response
+  26-Aug-04 v0r4p1  JC    update testResponse
+  20-Aug-04 v0r4    JC    added testResponse; updates to irfLoader
+  07-Aug-04 v0r3    JC    updates to dc1Response, g25Response, irfUtil
+  23-Jul-04 v0r2    JC    added irfLoader package
+  20-Jul-04 v0r1    JC    refactored irfUtil
   16-Jul-04 v0      JC    initial version
  
   @endverbatim
