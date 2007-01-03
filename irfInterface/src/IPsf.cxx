@@ -130,23 +130,45 @@ double IPsf::angularIntegral(double energy,
                              const astro::SkyDir & srcDir,
                              const astro::SkyDir & scZAxis,
                              const astro::SkyDir & scXAxis,
-                             const std::vector<irfInterface::AcceptanceCone *> 
+                             const std::vector<AcceptanceCone *> 
                              & acceptanceCones,
                              double time) {
+   return psfIntegral(this, energy, srcDir, scZAxis, scXAxis, acceptanceCones,
+                      time);
+}
+
+double IPsf::angularIntegral(double energy, 
+                             const astro::SkyDir & srcDir,
+                             double theta, double phi,
+                             const std::vector<AcceptanceCone *> 
+                             & acceptanceCones,
+                             double time) {
+   return psfIntegral(this, energy, srcDir, theta, phi, acceptanceCones, time);
+}
+
+double IPsf::psfIntegral(IPsf * self,
+                         double energy,
+                         const astro::SkyDir & srcDir,
+                         const astro::SkyDir & scZAxis,
+                         const astro::SkyDir & scXAxis,
+                         const std::vector<irfInterface::AcceptanceCone *> 
+                         & acceptanceCones,
+                         double time) {
    (void)(scXAxis);
    double theta(srcDir.difference(scZAxis)*180./M_PI);
    double phi(0);
-   return angularIntegral(energy, srcDir, theta, phi, acceptanceCones, time);
+   return psfIntegral(self, energy, srcDir, theta, phi, acceptanceCones, time);
 }
 
-double IPsf::angularIntegral(double energy,
-                             const astro::SkyDir & srcDir,
-                             double theta, 
-                             double phi, 
-                             const std::vector<irfInterface::AcceptanceCone *> 
-                             & acceptanceCones,
-                             double time) {
-   setStaticVariables(energy, theta, phi, time, this);
+double IPsf::psfIntegral(IPsf * self,
+                         double energy,
+                         const astro::SkyDir & srcDir,
+                         double theta, 
+                         double phi, 
+                         const std::vector<irfInterface::AcceptanceCone *> 
+                         & acceptanceCones,
+                         double time) {
+   setStaticVariables(energy, theta, phi, time, self);
    
    const irfInterface::AcceptanceCone & roiCone(*acceptanceCones.front());
    double roi_radius(roiCone.radius()*M_PI/180.);

@@ -77,11 +77,11 @@ public:
    /// Angular integral of the PSF over the intersection of acceptance
    /// cones.
    virtual double angularIntegral(double energy,
-                                  const astro::SkyDir &srcDir,
-                                  const astro::SkyDir &scZAxis,
-                                  const astro::SkyDir &scXAxis,
+                                  const astro::SkyDir & srcDir,
+                                  const astro::SkyDir & scZAxis,
+                                  const astro::SkyDir & scXAxis,
                                   const std::vector<AcceptanceCone *> 
-                                  &acceptanceCones,
+                                  & acceptanceCones,
                                   double time=0);
 
    /// Angular integral of the PSF in instrument coordinates.
@@ -115,6 +115,31 @@ public:
                                 double time=0) const;
 
    virtual IPsf * clone() = 0;
+
+   /// Angular integral of the PSF over the intersection of acceptance
+   /// cones.
+   static double psfIntegral(IPsf * self, double energy,
+                             const astro::SkyDir & srcDir,
+                             const astro::SkyDir & scZAxis,
+                             const astro::SkyDir & scXAxis,
+                             const std::vector<AcceptanceCone *> 
+                             & acceptanceCones, double time=0);
+
+   /// Angular integral of the PSF in instrument coordinates.
+   /// @param self Pointer to IPsf object.
+   /// @param energy True photon energy (MeV)
+   /// @param srcDir True photon direction.
+   /// @param theta True photon inclination wrt Spacecraft z-axis (degrees)
+   /// @param phi True photon azimuth wrt SC x-axis (degrees)
+   /// @param acceptanceCones Acceptance cones that define the domain of
+   ///        the Psf angular integrals
+   /// @param time Photon arrival time (MET s).
+   static double psfIntegral(IPsf * self, 
+                             double energy, 
+                             const astro::SkyDir & srcDir,
+                             double theta, double phi,
+                             const std::vector<AcceptanceCone *> 
+                             & acceptanceCones, double time=0);
 
 private:
 

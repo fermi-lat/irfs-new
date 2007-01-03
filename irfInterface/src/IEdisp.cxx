@@ -79,16 +79,30 @@ double IEdisp::integral(double emin, double emax, double energy,
                         const astro::SkyDir & srcDir,
                         const astro::SkyDir & scZAxis,
                         const astro::SkyDir & scXAxis, double time) const {
-   (void)(scXAxis);
-   double theta(srcDir.difference(scZAxis)*180./M_PI);
-   double phi(0);
-   return integral(emin, emax, energy, theta, phi, time);
+   return edispIntegral(this, emin, emax, energy, srcDir, scZAxis, 
+                        scXAxis, time);
 }
-
 
 double IEdisp::integral(double emin, double emax, double energy,
                         double theta, double phi, double time) const {
-   setStaticVariables(energy, theta, phi, time, this);
+   return edispIntegral(this, emin, emax, energy, theta, phi, time);
+}
+
+double IEdisp::edispIntegral(const IEdisp * self,
+                             double emin, double emax, double energy,
+                             const astro::SkyDir & srcDir,
+                             const astro::SkyDir & scZAxis,
+                             const astro::SkyDir & scXAxis, double time) {
+   (void)(scXAxis);
+   double theta(srcDir.difference(scZAxis)*180./M_PI);
+   double phi(0);
+   return edispIntegral(self, emin, emax, energy, theta, phi, time);
+}
+
+double IEdisp::edispIntegral(const IEdisp * self, double emin, double emax,
+                             double energy, double theta, double phi, 
+                             double time) {
+   setStaticVariables(energy, theta, phi, time, self);
    double integral;
    double err(1e-5);
    long ierr(0);
@@ -139,8 +153,9 @@ double IEdisp::meanTrueEnergy(double appEnergy, double theta, double phi,
                               double time) const {
    setStaticVariables(appEnergy, theta, phi, time, this);
    double integral;
-   double emin(0);
-   double emax(appEnergy*10.);
+//   double emin(0);
+   double emin(30);
+   double emax(std::min(1.76e5, appEnergy*10.));
    double err(1e-5);
    long ierr(0);
    dgaus8_(&meanTrueEnergyIntegrand, &emin, &emax, &err, &integral, &ierr);
@@ -149,8 +164,8 @@ double IEdisp::meanTrueEnergy(double appEnergy, double theta, double phi,
    double normalization;
    dgaus8_(&trueEnergyIntegrand, &emin, &emax, &err, &normalization, &ierr);
    
-//   return integral/normalization;
-   return integral;
+   return integral/normalization;
+//   return integral;
 }
 
 double IEdisp::edispIntegrand(double * appEnergy) {

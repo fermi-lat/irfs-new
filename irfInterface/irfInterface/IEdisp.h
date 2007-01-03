@@ -144,6 +144,37 @@ public:
 
    virtual IEdisp * clone() = 0;
 
+   /// Return the integral of the energy dispersion function over
+   /// the specified interval in apparent energy.
+   /// @param self Pointer to IEdisp object.
+   /// @param emin Apparent energy lower bound (MeV)
+   /// @param emax Apparent energy upper bound (MeV)
+   /// @param energy True photon energy (MeV)
+   /// @param srcDir True photon direction.
+   /// @param scZAxis Spacecraft z-axis.
+   /// @param scXAxis Spacecraft x-axis.
+   /// @param time Photon arrival time (MET s).
+   static double edispIntegral(const IEdisp * self, double emin, double emax,
+                               double energy,
+                               const astro::SkyDir & srcDir, 
+                               const astro::SkyDir & scZAxis,
+                               const astro::SkyDir & scXAxis,
+                               double time=0);
+
+   /// Return the integral of the energy dispersion function 
+   /// using instrument coordinates.
+   /// @param self Pointer to IEdisp object.
+   /// @param emin Apparent energy lower bound (MeV)
+   /// @param emax Apparent energy upper bound (MeV)
+   /// @param energy True photon energy (MeV).
+   /// @param theta True inclination angle (degrees).
+   /// @param phi True azimuthal angle measured wrt the instrument
+   ///             X-axis (degrees).
+   /// @param time Photon arrival time (MET s).
+   static double edispIntegral(const IEdisp * self, double emin, double emax,
+                               double energy, double theta, double phi, 
+                               double time);
+
 private:
 
    static double s_energy;
