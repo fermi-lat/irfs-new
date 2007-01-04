@@ -40,6 +40,8 @@ public:
 
    ~FitsFile() throw();
 
+   void close();
+
    const std::vector<std::string> & fieldNames() const {
       return m_fieldNames;
    }
@@ -47,6 +49,10 @@ public:
    void setVectorData(const std::string & fieldname,
                       const std::vector<double> & data,
                       size_t row=1);
+
+   void setTableData(const std::string & fieldname,
+                     const std::vector<double> & data,
+                     size_t row=1);
 
    void setGrid(const IrfTable & table);
 
@@ -75,6 +81,8 @@ private:
 
    std::vector<std::string> m_fieldNames;
 
+   std::string m_tdim;
+
    void prepareFile(const std::string & outfile, 
                     const std::string & extname,
                     const std::string & templateFile,
@@ -83,6 +91,8 @@ private:
    int fieldNum(const std::string & fieldName) const;
 
    void fitsReportError(int status, const std::string & routine) const;
+
+   void setDateKeyword();
 
 };
 

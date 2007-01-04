@@ -54,15 +54,27 @@ FitsFile::FitsFile(const std::string & outfile,
 
 FitsFile::~FitsFile() throw() {
    try {
-      int status(0);
-      fits_close_file(m_fptr, &status);
-      fitsReportError(status, "FitsFile::~FitsFile");
-      m_fptr = 0;
-      st_facilities::FitsUtil::writeChecksums(m_outfile);
+      if (m_fptr) {
+         close();
+      }
    } catch (std::exception & eObj) {
       std::cout << eObj.what() << std::endl;
    } catch (...) {
    }
+}
+
+void FitsFile::close() {
+   int status(0);
+   fits_close_file(m_fptr, &status);
+   fitsReportError(status, "FitsFile::~FitsFile");
+   m_fptr = 0;
+   st_facilities::FitsUtil::writeChecksums(m_outfile);
+   setDateKeyword();
+}
+
+void FitsFile::setDateKeyword() {
+   std::string date(st_facilities::Util::currentTime().getGregorianDate());
+   setKeyword("DATE", date);
 }
 
 void FitsFile::setVectorData(const std::string & fieldname,
@@ -82,6 +94,16 @@ void FitsFile::setVectorData(const std::string & fieldname,
                   &const_cast<std::vector<double> &>(data)[0],
                   &status);
    fitsReportError(status, "FitsFile::setVectorData");
+}
+
+void FitsFile::setTableData(const std::string & fieldname,
+                            const std::vector<double> & data,
+                            size_t row) {
+   setVectorData(fieldname, data, row);
+   int colnum = fieldNum(fieldname);
+   std::ostringstream tdimkey;
+   tdimkey << "TDIM" << colnum;
+   setKeyword(tdimkey.str(), m_tdim);
 }
 
 void FitsFile::setGrid(const IrfTable & table) {
@@ -107,6 +129,11 @@ void FitsFile::setGrid(const std::vector<double> & logEs,
    }
    setVectorData("CTHETA_LO", mulo);
    setVectorData("CTHETA_HI", muhi);
+
+   std::ostringstream tdim;
+   tdim << "(" << elo.size() << ", "
+        << mulo.size() << ")";
+   m_tdim = tdim.str();
 }
 
 int FitsFile::fieldNum(const std::string & fieldName) const {
