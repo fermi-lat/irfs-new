@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Jan  4 11:45:50 PST 2007
+irfs/handoff_response/src/fits
+
+Modified Files:
+	FitsFile.cxx FitsFile.h 
+Log Message:
+update implementation based on Jean's comments
+    *
+------------------------------------------------------------
 User: jchiang  Thu Jan  4 11:45:02 PST 2007
 irfs/handoff_response/data
 
