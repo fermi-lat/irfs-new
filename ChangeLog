@@ -1,4 +1,17 @@
 ------------------------------------------------------------
+TAG
+Tag name: v0r9p3, operation: add
+Package: irfs
+User: jchiang  Thu Jan  4 09:19:44 2007
+Files:
+  irfs/.cvsignore  1.1.1.1
+  irfs/ChangeLog  1.102
+  irfs/cmt/requirements  1.33
+  irfs/doc/release.notes  1.30
+  irfs/src/mainpage.h  1.1.1.1
+
+    *
+------------------------------------------------------------
 User: jchiang  Thu Jan  4 09:19:24 PST 2007
 irfs/doc
 
