@@ -23,10 +23,7 @@
 namespace handoff_response {
 
 IrfTableMap::IrfTableMap(const std::string & irfTables,
-                         const std::string & inputfile) {
-   std::string infile = 
-      st_facilities::Env::appendFileName(
-         st_facilities::Env::getDataDir("handoff_response"), inputfile);
+                         const std::string & infile) {
 
    TFile * rootfile(new TFile(infile.c_str()));
 
