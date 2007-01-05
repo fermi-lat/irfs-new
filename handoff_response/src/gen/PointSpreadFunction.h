@@ -70,6 +70,8 @@ private:
     double m_quant[2]; // for 68,95% quantiles
     double m_tail;     // fraction in tail beyond fit range
 
+    void reorder_parameters();
+    void setFitPars(double * pars, double * pmin, double * pmax);
 };
 
 #endif

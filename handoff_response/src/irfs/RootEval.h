@@ -46,7 +46,6 @@ public:
 
     static void RootEval::createMap(std::string filename, std::map<std::string,handoff_response::IrfEval*>& evals);
 
-
 private:
 
     double * psf_par(double energy, double costh);

@@ -22,6 +22,8 @@
 #include "irfInterface/IrfsFactory.h"
 
 #include "handoff_response/loadIrfs.h"
+// #include "dc1aResponse/loadIrfs.h"
+// #include "dc2Response/loadIrfs.h"
 
 class HandoffResponseTests : public CppUnit::TestFixture {
 
@@ -31,7 +33,6 @@ class HandoffResponseTests : public CppUnit::TestFixture {
    CPPUNIT_TEST(psf_normalization);
 
    CPPUNIT_TEST(edisp_normalization);
-
    CPPUNIT_TEST(edisp_sampling);
 
    CPPUNIT_TEST_SUITE_END();
@@ -123,7 +124,8 @@ void HandoffResponseTests::psf_normalization() {
       thetas.push_back(i*dth + thmin);
    }
 
-   std::cout << "PSF integral values that fail "<< int(tol*100)<<"% tolerance: \n"
+   std::cout << "PSF integral values that fail "
+             << int(tol*100) << "% tolerance: \n"
              << "energy  inclination  integral est.  angularIntegral\n";
 
    bool integralFailures(false);
@@ -148,11 +150,11 @@ void HandoffResponseTests::psf_normalization() {
             double integral(0);
             for (size_t i = 0; i < psi.size() - 1; i++) {
                integral += ((psf_values.at(i)*std::sin(psi.at(i)*M_PI/180.) + 
-                       psf_values.at(i+1)*std::sin(psi.at(i+1)*M_PI/180.))/2.)
+                        psf_values.at(i+1)*std::sin(psi.at(i+1)*M_PI/180.))/2.)
                   *(psi.at(i+1) - psi.at(i))*M_PI/180.;
             }
             integral *= 2.*M_PI;
-            double angInt(psf.angularIntegral(*energy, *theta, phi, 70.));
+            double angInt(psf.angularIntegral(*energy, *theta, phi, psimax));
             if (std::fabs(integral - 1.) >= tol) { 
                std::cout << *energy  << "      " 
                          << *theta   << "           "
@@ -280,7 +282,9 @@ int main(int argc, char* argv[]) {
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
 
-   handoff_response::loadIrfs(argc>1? argv[1]: "");
+   handoff_response::loadIrfs(argc > 1 ? argv[1]: "");
+//    dc1aResponse::loadIrfs();
+//    dc2Response::loadIrfs();
 
    CppUnit::TextTestRunner runner;
    runner.addTest(HandoffResponseTests::suite());

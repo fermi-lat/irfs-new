@@ -150,15 +150,17 @@ double RootEval::aeffmax()
 double RootEval::psf(double delta, double energy, double theta, double /*phi*/)
 {
     double costh(cos(theta*M_PI/180));
-    return PointSpreadFunction::function(&delta, psf_par(energy, costh));           
+    return PointSpreadFunction::function(&delta, psf_par(energy, costh));
 }
 
-double RootEval::psf_integral(double delta, double energy, double theta, double /*phi*/)
+double RootEval::psf_integral(double delta, double energy, double theta,
+                              double /*phi*/)
 {
     double costh(cos(theta*M_PI/180));
-    double * par ( psf_par(energy,costh) );
-        
-    return PointSpreadFunction::integral(&delta, par)*(2.*M_PI * par[1] * par[1]);           
+    double * par(psf_par(energy, costh));
+    double value = 
+       PointSpreadFunction::integral(&delta, par)*(2.*M_PI*par[2]*par[2]);
+    return value;
 }
 
 double RootEval::dispersion(double emeas, double energy, double theta, 
@@ -174,40 +176,55 @@ RootEval::Table* RootEval::setupHist( std::string name)
 {
     std::string fullname(eventClass()+"/"+name);
     TH2F* h2 = (TH2F*)m_f->GetObjectChecked((fullname).c_str(), "TH2F");
-    if( h2==0) throw std::invalid_argument("RootEvalr: could not find plot "+fullname);
+    if (h2==0) {
+       throw std::invalid_argument("RootEval: could not find plot "+fullname);
+    }
     return new Table(h2);
 }
+
 double * RootEval::psf_par(double energy, double costh)
 {
-    static double par[4];
-    static double zdir(1.0); // not used
+    static double par[5];
     double loge(::log10(energy));
-    if( costh==1.0) costh = 0.9999;
+    if (costh == 1.0) {  // Why is this necessary?
+       costh = 0.9999;
+    }
 
-    for( unsigned int i = 1; i< m_psfTables.size(); ++i){
-        par[i] = m_psfTables[i]->value(loge,costh);
+    for (unsigned int i = 0; i < m_psfTables.size(); ++i) {
+       par[i] = m_psfTables[i]->value(loge,costh);
     }
 
     // rescale the sigma value after interpolation
-    par[1]*=PointSpreadFunction::scaleFactor(energy, zdir, isFront());
+    static double zdir(1.0);
+    par[2] *= PointSpreadFunction::scaleFactor(energy, zdir, isFront());
 
-    if (par[1] == 0 || par[2] == 0) {
+    if (par[2] == 0 || par[3] == 0 || par[4] == 0) {
        std::ostringstream message;
-       message << "handoff_response::RootEval: psf parameters are zero in " 
+       message << "handoff_response::RootEval: psf parameters are zero "
                << "when computing solid angle normalization:\n"
                << "\tenergy = " << energy << "\n"
                << "\tcosth  = " << zdir   << "\n"
-               << "\tpar[1] = " << par[1] << "\n"
-               << "\tpar[2] = " << par[2] << std::endl;
+               << "\tpar[2] = " << par[2] << "\n"
+               << "\tpar[3] = " << par[3] << "\n"
+               << "\tpar[4] = " << par[4] << std::endl;
        std::cerr << message.str() << std::endl;
        throw std::runtime_error(message.str());
     }
 
-    // manage normalization by replacing normalization parameter for current set of parameters
-    par[0]=1;
-    static double theta_max(90); // how to set this? Too high.
-    double norm = PointSpreadFunction::integral(&theta_max,par);
-    par[0] = 1./norm/(2.*M_PI * par[1] * par[1]); // solid angle normalization 
+    static double theta_max(M_PI/2.);
+
+    double total(par[0] + par[1]);
+    par[0] /= total;
+    par[1] /= total;
+
+// Ensure that the Psf integrates to unity (using, unfortunately, small
+// angle approx).
+    double norm = PointSpreadFunction::integral(&theta_max, par);
+
+// solid angle normalization (par[2] is sigma).
+    par[0] /= norm*2.*M_PI*par[2]*par[2];
+    par[1] /= norm*2.*M_PI*par[2]*par[2];
+
     return par;
 }
 
@@ -238,4 +255,3 @@ void RootEval::createMap(std::string filename, std::map<std::string,handoff_resp
         evals[eventclass+"/back"]=new RootEval(file, eventclass+"/back");
     }
 }
-
