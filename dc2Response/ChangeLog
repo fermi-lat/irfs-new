@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan  8 13:23:52 PST 2007
+irfs/dc2Response/src
+
+Modified Files:
+	Edisp.cxx Psf.cxx 
+Log Message:
+set interpolation grid z values correctly
+    *
+------------------------------------------------------------
 User: jchiang  Sun Oct 29 14:54:14 PST 2006
 irfs/dc2Response/src
 
