@@ -241,20 +241,22 @@ double Psf::angularIntegral(double energy,
    if (iang == m_angScale.size() - 1 || igam == m_gamValues.size() - 1) {
       return psfIntegral(psi, angScale, gamValue);
    }
-   std::vector<size_t> indices;
-   indices.push_back(iang*m_gamValues.size() + igam);
-   indices.push_back(iang*m_gamValues.size() + igam + 1);
-   indices.push_back((iang + 1)*m_gamValues.size() + igam);
-   indices.push_back((iang + 1)*m_gamValues.size() + igam + 1);
-   
-   for (size_t i = 0; i < 4; i++) {
-      size_t indx = indices.at(i);
-      if (m_needIntegral.at(ipsi).at(indx)) {
-         m_angularIntegral.at(ipsi).at(indx) =
-            psfIntegral(psi, m_angScale.at(iang), m_gamValues.at(igam));
-         m_needIntegral.at(ipsi).at(indx) = false;
+
+   size_t is[2] = {iang, iang + 1};
+   size_t ig[2] = {igam, igam + 1};
+
+   for (size_t i(0); i < 2; i++) {
+      for (size_t j(0); j < 2; j++) {
+         size_t indx(is[i]*m_gamValues.size() + ig[j]);
+         if (m_needIntegral.at(ipsi).at(indx)) {
+            m_angularIntegral.at(ipsi).at(indx) =
+               psfIntegral(psi, m_angScale.at(is[i]),
+                           m_gamValues.at(ig[j]));
+            m_needIntegral.at(ipsi).at(indx) = false;
+         }
       }
    }
+
    return bilinear(angScale, gamValue, ipsi, iang, igam);
 }
 
