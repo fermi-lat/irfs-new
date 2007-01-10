@@ -109,7 +109,7 @@ double RootEval::Table::value(double logenergy, double costh, bool interpolate)
 
 RootEval::RootEval(TFile* f, std::string eventtype)
 : IrfEval(eventtype)
-, m_f(f)
+  , m_f(f), m_loge_last(0), m_costh_last(0)
 {
     m_aeff  = setupHist("aeff");
     setupParameterTables(PointSpreadFunction::pnames, m_psfTables);
@@ -172,6 +172,17 @@ double RootEval::dispersion(double emeas, double energy, double theta,
     return ret/energy;
 }
 
+void RootEval::getPsfPars(double energy, double inclination, 
+                          std::map<std::string, double> & params) {
+   params.clear();
+   double mu(cos(inclination*M_PI/180.));
+   double * pars(psf_par(energy, mu));
+   const std::vector<std::string> & parnames(PointSpreadFunction::pnames);
+   for (size_t i(0); i < parnames.size(); i++) {
+      params[parnames.at(i)] = pars[i];
+   }
+}
+
 RootEval::Table* RootEval::setupHist( std::string name)
 {
     std::string fullname(eventClass()+"/"+name);
@@ -189,6 +200,13 @@ double * RootEval::psf_par(double energy, double costh)
     if (costh == 1.0) {  // Why is this necessary?
        costh = 0.9999;
     }
+
+    if (loge == m_loge_last && costh == m_costh_last) {
+       return par;
+    }
+
+    m_loge_last = loge;
+    m_costh_last = costh;
 
     for (unsigned int i = 0; i < m_psfTables.size(); ++i) {
        par[i] = m_psfTables[i]->value(loge,costh);

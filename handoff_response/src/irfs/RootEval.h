@@ -46,6 +46,14 @@ public:
 
     static void RootEval::createMap(std::string filename, std::map<std::string,handoff_response::IrfEval*>& evals);
 
+   /// @brief Expose parameters for caching PSF integrals in
+   /// handoff_response::Psf class.
+   /// @param True energy (MeV)
+   /// @param True incident photon inclination (wrt z-axis) (degrees)
+   /// @param params map of parameter values with parameter name / value pairs
+   void getPsfPars(double energy, double inclination,
+                   std::map<std::string, double> & params);
+
 private:
 
     double * psf_par(double energy, double costh);
@@ -61,6 +69,8 @@ private:
 
     Table* m_aeff;
 
+   double m_loge_last;
+   double m_costh_last;
 
 };
 
