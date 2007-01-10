@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jan  9 21:08:10 PST 2007
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	Psf.cxx Psf.h RootEval.cxx RootEval.h 
+Log Message:
+faster psf integral implementation
+    *
+------------------------------------------------------------
 User: jchiang  Fri Jan  5 13:43:04 PST 2007
 irfs/handoff_response/src/fits/make_aeff
 
