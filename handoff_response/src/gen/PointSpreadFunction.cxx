@@ -128,13 +128,11 @@ std::vector<std::string>
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PointSpreadFunction::PointSpreadFunction(std::string histname, 
-                                         std::string title,
-                                         std::ostream& log)
+                                         std::string title)
                                          
 : m_hist( new TH1F(histname.c_str(),  title.c_str(),  nbins, xmin, xmax))
 , m_fitfunc(TF1("psf-fit", psf_with_tail, fitrange[0], fitrange[1], npars()))
 , m_count(0)
-, m_log(& log)
 {
     hist().GetXaxis()->SetTitle("log10(scaled deviation)");
 
@@ -158,38 +156,49 @@ void PointSpreadFunction::fill(double scaled_delta, double weight)
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void PointSpreadFunction::summarize()
+void PointSpreadFunction::summary_title(std::ostream & out)
+{
+    out << 
+        "\n                 Title             count     68%       95%       chi2 " ;
+    for( std::vector<std::string>::const_iterator it = pnames.begin(); it!=pnames.end(); ++it){
+        out << std::setw(10) << (*it) ;
+    }
+    out << std::endl;
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void PointSpreadFunction::summarize(std::ostream & out)
 {
 
-    out() << std::setw(30)<<  hist().GetTitle()  
+    out << std::setw(30)<<  hist().GetTitle()  
         << std::setw(10) <<  m_count;
     if( m_count>0 ) { 
         static double probSum[2]={0.68, 0.95}; // for defining quantiles
         double quant[2];
         hist().GetQuantiles(2,quant, probSum);
-        out() <<std::left << "     ";
-        out() << std::setw(10) <<  std::setprecision(3) << pow(10.,m_quant[0])
-            << std::setw(10) <<  std::setprecision(3) << pow(10.,m_quant[1]) ;
+        out <<std::left << "     ";
+        out << std::fixed; // for trailing zeros?
+        out << std::setw(10) <<  std::setprecision(2) << pow(10.,m_quant[0])
+            << std::setw(10) <<  std::setprecision(2) << pow(10.,m_quant[1]) ;
         std::vector<double> params;
         getFitPars(params);
         if( params[0]>0) { 
-            out() << std::setw(10) <<  std::setprecision(4) << m_fitfunc.GetChisquare();
+            out << std::setw(10) <<  std::setprecision(1) << m_fitfunc.GetChisquare();
 
-            for( int j=1; j< npars(); ++j){
+            for( int j=0; j< npars(); ++j){
                 // fit was done -- summarize the parameters
-                out() << std::setw(10) <<  std::setprecision(3) << params[j];
+                out << std::setw(10) <<  std::setprecision(3) << params[j];
             }
 
         }else{
-            out() << std::setw(8) << "--" << std::setw(10) << "--";
+            out << std::setw(8) << "--" << std::setw(10) << "--";
         }
 
-        out() << std::right;
+        out << std::right;
     }else{
-        out() << std::setw(9) << "--" << std::setw(10) << "--" 
+        out << std::setw(9) << "--" << std::setw(10) << "--" 
             << std::setw(10) << "--" << std::setw(10) << "--";
     }
-    out() << std::endl;
+    out << std::endl;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

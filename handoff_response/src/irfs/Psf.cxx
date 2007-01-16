@@ -11,6 +11,7 @@
 
 #include <stdexcept>
 #include <sstream>
+#include <algorithm>
 
 #include "st_facilities/dgaus8.h"
 

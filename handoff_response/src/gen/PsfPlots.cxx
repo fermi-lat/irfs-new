@@ -49,7 +49,7 @@ PsfPlots::PsfPlots( IrfAnalysis& irf, std::ostream& log)
                 title <<  binner().angle(0) << "-"<< binner().angle(binner().angle_bins()-2) << " degrees";
             }
             m_hists[id]=PointSpreadFunction(IrfBinner::hist_name(abin, ebin, "psf")
-                , title.str(), log);
+                , title.str());
         }
     }
 }
@@ -79,13 +79,10 @@ void PsfPlots::fill(double angle_diff, double energy, double costheta, bool fron
 void PsfPlots::summarize()
 {
     // summarize psf plot contents, fit 
-    out() << 
-        "\n                 Title             count      68%       95%       chi2" 
-        << "     sigma     gcore      gtail"
-        << std::endl;
     //          32 MeV, 0-37 degrees       675     0.643     0.538"
+    PointSpreadFunction::summary_title(out());
     for( PSFlist::iterator it = m_hists.begin(); it!=m_hists.end(); ++it){
-        (*it).summarize();
+        (*it).summarize(out());
     }
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
