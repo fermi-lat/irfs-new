@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Mon Jan 15 17:31:11 PST 2007
+irfs/handoff_response/src/gen
+
+Modified Files:
+	PointSpreadFunction.cxx PointSpreadFunction.h PsfPlots.cxx 
+Log Message:
+compile on windows; fix tabular log output to show all PSF parameters.
+    *
+------------------------------------------------------------
 User: jchiang  Fri Jan 12 13:53:24 PST 2007
 irfs/handoff_response/src/fits/test_fitsconv
 
