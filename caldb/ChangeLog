@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan 17 17:36:29 PST 2007
+irfs/caldb/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+standardize CALDB configuration
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan 17 17:36:29 PST 2007
 irfs/caldb/CALDB/data/glast/lat
 
 Added Files:
