@@ -27,7 +27,7 @@ public:
    virtual void loadIrfs() const;
 
    virtual std::string name() const {
-      return "testResponse";
+      return "TEST";
    }
 
 };
