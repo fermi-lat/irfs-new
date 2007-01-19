@@ -14,13 +14,16 @@ use f2c v*
 use astro v*
 use tip v*
 use st_facilities v*
+use irfLoader v* irfs
 
 apply_pattern package_include
 apply_pattern package_linkopts
 apply_pattern package_stamps
+apply_pattern shared_library
 
 macro_append cppflags "" Linux " -I../src -DTRAP_FPE " 
 macro source *.cxx WIN32 "*.h *.cxx"
 
-library testResponse -no_share $(source) *.c
+#library testResponse -no_share $(source) *.c
+library testResponse $(source) *.c
 application test_testResponse test/*.cxx
