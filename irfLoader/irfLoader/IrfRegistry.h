@@ -37,10 +37,19 @@ public:
    void registerLoader(IrfLoader * irfLoader);
 
    void registerEventClasses(const std::string & name,
-                             const std::vector<std::string> & classNameList);
+                             const std::vector<std::string> & classList);
 
    void loadIrfs(const std::string & irfsName);
 
+   std::vector<std::string> irfNames() const;
+
+   const std::vector<std::string> & 
+   operator[](const std::string & respName) const;
+   
+   const std::map<std::string, std::vector<std::string> > & respIds() const {
+      return m_respIds;
+   }
+   
 protected:
 
    IrfRegistry() {}
@@ -51,7 +60,7 @@ private:
 
    std::map<std::string, IrfLoader *> m_irfLoaders;
 
-   std::map<std::string, std::vector<std::string> > m_irfIds; 
+   std::map<std::string, std::vector<std::string> > m_respIds; 
 
 };
 

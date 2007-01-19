@@ -15,8 +15,9 @@
 #include "dc1aResponse/loadIrfs.h"
 #include "dc2Response/loadIrfs.h"
 #include "g25Response/loadIrfs.h"
-#include "testResponse/loadIrfs.h"
 #include "handoff_response/loadIrfs.h"
+
+#include "irfLoader/IrfRegistry.h"
 
 #define ST_DLL_EXPORTS
 #include "irfLoader/Loader.h"
@@ -33,6 +34,7 @@ std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names + 6);
 std::map<std::string, std::vector<std::string> > Loader::s_respIds;
 
 void Loader::go(const std::string & irfsName) {
+   irfLoader::IrfRegistry & registry(*irfLoader::IrfRegistry::instance());
    try {
 // @todo Replace this switch with polymorphism or find a way to
 // dispatch the desired function call using a map.
@@ -55,14 +57,8 @@ void Loader::go(const std::string & irfsName) {
          s_respIds["G25B"].clear();
          s_respIds["G25B"].push_back("Glast25::Back");
       } else if (irfsName == "TEST" && !s_respIds.count("TEST")) {
-         testResponse::loadIrfs();
-         s_respIds["TEST"].clear();
-         s_respIds["TEST"].push_back("testIrfs::Front");
-         s_respIds["TEST"].push_back("testIrfs::Back");
-         s_respIds["TESTF"].clear();
-         s_respIds["TESTF"].push_back("testIrfs::Front");
-         s_respIds["TESTB"].clear();
-         s_respIds["TESTB"].push_back("testIrfs::Back");
+         registry.loadIrfs("testResponse");
+         s_respIds["TEST"] = registry["TEST"];
       } else if (irfsName == "DC1A" && !s_respIds.count("DC1A")) {
          dc1aResponse::loadIrfs();
          s_respIds["DC1A"].clear();

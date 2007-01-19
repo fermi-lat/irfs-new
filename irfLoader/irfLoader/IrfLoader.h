@@ -11,6 +11,8 @@
 #ifndef irfLoader_IrfLoader_h
 #define irfLoader_IrfLoader_h
 
+#include <string>
+
 namespace irfLoader {
 
 /**
