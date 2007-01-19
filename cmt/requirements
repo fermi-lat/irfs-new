@@ -17,6 +17,16 @@ use dc1Response v* irfs
 use dc1aResponse v* irfs
 use testResponse v* irfs
 use dc2Response v* irfs
+use handoff_response v* irfs
 #use egretResponse v0 irfs
+
+apply_pattern package_include
+apply_pattern package_linkopts
+apply_pattern package_stamps
+
+macro_append cppflags "" Linux " -I../src -DTRAP_FPE " 
+macro source *.cxx WIN32 "*.h *.cxx"
+
+library irfs -no_share $(source) *.c
 
 use caldb v* irfs
