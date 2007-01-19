@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Jan 19 08:22:36 PST 2007
+irfs/testResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+move to new irfLoader framerwork
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 19 08:22:36 PST 2007
 irfs/testResponse/src
 
 Modified Files:
