@@ -91,10 +91,6 @@ void irfLoaderTests::load_single_irfs() {
                             std::string("DC2::FrontB")) == names.end());
    CPPUNIT_ASSERT(std::find(names.begin(), names.end(), 
                             std::string("DC2::BackB")) == names.end());
-   CPPUNIT_ASSERT(std::find(names.begin(), names.end(), 
-                            std::string("standard/front")) == names.end());
-   CPPUNIT_ASSERT(std::find(names.begin(), names.end(), 
-                            std::string("standard/back")) == names.end());
 }
 
 void irfLoaderTests::use_IrfsFactory() {
@@ -108,10 +104,6 @@ void irfLoaderTests::use_IrfsFactory() {
    delete my_irfs;
    my_irfs = myFactory->create("Glast25::Back");
    delete my_irfs;
-   my_irfs = myFactory->create("testIrfs::Front");
-   delete my_irfs;
-   my_irfs = myFactory->create("testIrfs::Back");
-   delete my_irfs;
    my_irfs = myFactory->create("DC2::FrontA");
    delete my_irfs;
    my_irfs = myFactory->create("DC2::BackA");
@@ -119,10 +111,6 @@ void irfLoaderTests::use_IrfsFactory() {
    my_irfs = myFactory->create("DC2::FrontB");
    delete my_irfs;
    my_irfs = myFactory->create("DC2::BackB");
-   delete my_irfs;
-   my_irfs = myFactory->create("standard/front");
-   delete my_irfs;
-   my_irfs = myFactory->create("standard/back");
    delete my_irfs;
 }
 

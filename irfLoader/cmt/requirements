@@ -15,7 +15,6 @@ use dc1Response v* irfs
 use dc1aResponse v* irfs
 use dc2Response v* irfs
 use g25Response v* irfs
-use handoff_response v* irfs
 
 apply_pattern ST_library option=" *.c"
 apply_pattern shared_st_library

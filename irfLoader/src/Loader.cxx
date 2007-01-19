@@ -15,7 +15,6 @@
 #include "dc1aResponse/loadIrfs.h"
 #include "dc2Response/loadIrfs.h"
 #include "g25Response/loadIrfs.h"
-#include "handoff_response/loadIrfs.h"
 
 #include "irfLoader/IrfRegistry.h"
 
@@ -24,17 +23,16 @@
 #undef ST_DLL_EXPORTS
 
 namespace {
-   char * irf_names[] = {"DC1", "DC1A", "DC2", "GLAST25", "TEST", "HANDOFF"};
+   char * irf_names[] = {"DC1", "DC1A", "DC2", "GLAST25"};
 }
 
 namespace irfLoader {
 
-std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names + 6);
+std::vector<std::string> Loader::s_irfsNames(::irf_names, ::irf_names + 4);
 
 std::map<std::string, std::vector<std::string> > Loader::s_respIds;
 
 void Loader::go(const std::string & irfsName) {
-   irfLoader::IrfRegistry & registry(*irfLoader::IrfRegistry::instance());
    try {
 // @todo Replace this switch with polymorphism or find a way to
 // dispatch the desired function call using a map.
@@ -56,9 +54,6 @@ void Loader::go(const std::string & irfsName) {
          s_respIds["G25F"].push_back("Glast25::Front");
          s_respIds["G25B"].clear();
          s_respIds["G25B"].push_back("Glast25::Back");
-      } else if (irfsName == "TEST" && !s_respIds.count("TEST")) {
-         registry.loadIrfs("testResponse");
-         s_respIds["TEST"] = registry["TEST"];
       } else if (irfsName == "DC1A" && !s_respIds.count("DC1A")) {
          dc1aResponse::loadIrfs();
          s_respIds["DC1A"].clear();
@@ -86,11 +81,6 @@ void Loader::go(const std::string & irfsName) {
          s_respIds["DC2_A"].clear();
          s_respIds["DC2_A"].push_back("DC2::FrontA");
          s_respIds["DC2_A"].push_back("DC2::BackA");
-      } else if (irfsName == "HANDOFF" && !s_respIds.count("HANDOFF")) {
-         handoff_response::loadIrfs();
-         s_respIds["HANDOFF"].clear();
-         s_respIds["HANDOFF"].push_back("standard/front");
-         s_respIds["HANDOFF"].push_back("standard/back");
       } else {
          if (!s_respIds.count(irfsName)) {
             throw std::invalid_argument("Request for an invalid set of irfs: "
@@ -126,6 +116,14 @@ void Loader::go(const std::vector<std::string> & irfsNames) {
 }
 
 void Loader::go() {
+   irfLoader::IrfRegistry & registry(*irfLoader::IrfRegistry::instance());
+   std::vector<std::string> names(registry.irfNames());
+//   std::cout << "Loadable irfs: " << std::endl;
+   for (size_t i(0); i < names.size(); i++) {
+//      std::cout << names.at(i) << std::endl;
+      s_respIds[names.at(i)] = registry[names.at(i)];
+      registry.loadIrfs(names.at(i));
+   }
    go(s_irfsNames);
 }
 

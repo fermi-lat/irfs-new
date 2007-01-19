@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "irfInterface/IrfsFactory.h"
+
 #include "irfLoader/IrfLoader.h"
 #include "irfLoader/IrfRegistry.h"
 
@@ -20,7 +22,12 @@ public:
    }
 
    virtual void loadIrfs() const {
-//      std::cout << "running loadIrfs" << std::endl;
+      IrfRegistry & registry(*IrfRegistry::instance());
+      std::vector<std::string> names(registry[name()]);
+      for (size_t i(0); i < names.size(); i++) {
+         irfInterface::IrfsFactory::
+            instance()->addIrfs(name() + "::" +names.at(i), 0, false);
+      }
    }
    
    virtual std::string name() const {
