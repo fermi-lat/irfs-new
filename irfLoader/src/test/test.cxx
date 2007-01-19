@@ -67,7 +67,7 @@ void irfLoaderTests::tearDown() {
 }
 
 void irfLoaderTests::initialization() {
-   CPPUNIT_ASSERT(Loader::irfsNames().size() == 6);
+   CPPUNIT_ASSERT(Loader::irfsNames().size() == 4);
 }
 
 void irfLoaderTests::load_single_irfs() {
