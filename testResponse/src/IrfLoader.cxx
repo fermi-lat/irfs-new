@@ -9,13 +9,11 @@
 #include "irfLoader/IrfLoaderFactory.h"
 #include "irfLoader/IrfRegistry.h"
 
-#include "IrfLoader.h"
+#include "testResponse/IrfLoader.h"
 
 namespace testResponse {
 
 void load_irfs();
-
-irfLoader::IrfLoaderFactory<IrfLoader> loaderFactory;
 
 void IrfLoader::registerEventClasses() const {
    irfLoader::IrfRegistry & registry(*irfLoader::IrfRegistry::instance());
