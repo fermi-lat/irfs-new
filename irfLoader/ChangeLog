@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Jan 19 08:21:41 PST 2007
+irfs/irfLoader/src
+
+Modified Files:
+	IrfRegistry.cxx Loader.cxx 
+Log Message:
+move testResponse into new framework
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 19 08:21:41 PST 2007
 irfs/irfLoader/irfLoader
 
 Modified Files:
