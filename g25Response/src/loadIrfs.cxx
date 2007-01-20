@@ -21,7 +21,7 @@
 
 namespace g25Response {
 
-void loadIrfs() {
+void load_irfs() {
    std::string aeffFile;
    std::string psfFile;
    std::string edispFile;
