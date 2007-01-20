@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Jan 20 12:36:05 PST 2007
+irfs/g25Response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+add IrfLoader
+    *
+------------------------------------------------------------
+User: jchiang  Sat Jan 20 12:36:05 PST 2007
 irfs/g25Response/src
 
 Modified Files:
