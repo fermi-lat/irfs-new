@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Jan 20 12:31:10 PST 2007
+irfs/dc1aResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+add IrfLoader
+    *
+------------------------------------------------------------
+User: jchiang  Sat Jan 20 12:31:10 PST 2007
 irfs/dc1aResponse/src
 
 Modified Files:
