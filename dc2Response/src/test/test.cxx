@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
    }
 
    try {
-      dc2Response::loadIrfs();
+      dc2Response::load_irfs();
       irfInterface::IrfsFactory * myFactory 
          = irfInterface::IrfsFactory::instance();
       irfInterface::Irfs * myIrfs(0);
