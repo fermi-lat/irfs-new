@@ -27,17 +27,15 @@ class IrfRegistry {
 
 public:
 
-   static IrfRegistry * instance() {
-      if (s_instance == 0) {
-         s_instance = new IrfRegistry();
-      }
-      return s_instance;
-   }
+   static IrfRegistry * instance();
 
    void registerLoader(IrfLoader * irfLoader);
 
    void registerEventClasses(const std::string & name,
                              const std::vector<std::string> & classList);
+
+   void registerEventClasses(const std::string & name,
+                             const char ** class_list); 
 
    void loadIrfs(const std::string & irfsName);
 

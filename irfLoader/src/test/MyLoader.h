@@ -26,7 +26,7 @@ public:
       std::vector<std::string> names(registry[name()]);
       for (size_t i(0); i < names.size(); i++) {
          irfInterface::IrfsFactory::
-            instance()->addIrfs(name() + "::" +names.at(i), 0, false);
+            instance()->addIrfs(name() + "::" + names.at(i), 0, false);
       }
    }
    

@@ -11,10 +11,7 @@ use st_stream v*
 use tip v*
 use facilities v*
 use st_facilities v*
-use dc1Response v* irfs
-use dc1aResponse v* irfs
-use dc2Response v* irfs
-use g25Response v* irfs
+use irfInterface v* irfs
 
 apply_pattern ST_library option=" *.c"
 apply_pattern shared_st_library

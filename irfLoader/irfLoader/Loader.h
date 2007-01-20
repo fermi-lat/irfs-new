@@ -42,11 +42,6 @@ public:
    /// @param irfsName The name of the desired irfs
    static void go(const std::string & irfsName);
 
-   /// Access to the names of the available irfs.
-   static const std::vector<std::string> & irfsNames() {
-      return s_irfsNames;
-   }
-
    /// @return A reference to a map for common combinations of 
    ///         response functions for use with a PIL entry.
    static const std::map<std::string, std::vector<std::string> > & respIds() {
@@ -62,8 +57,6 @@ protected:
    ~Loader() {}
 
 private:
-
-   static std::vector<std::string> s_irfsNames;
 
    static std::map<std::string, std::vector<std::string> > s_respIds;
 
