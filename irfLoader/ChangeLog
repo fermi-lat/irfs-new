@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Jan 20 12:26:31 PST 2007
+irfs/irfLoader/irfLoader
+
+Modified Files:
+	IrfRegistry.h Loader.h 
+Log Message:
+factor out final dependencies
+    *
+------------------------------------------------------------
+User: jchiang  Sat Jan 20 12:26:31 PST 2007
 irfs/irfLoader/cmt
 
 Modified Files:
