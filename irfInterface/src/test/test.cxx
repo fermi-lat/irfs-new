@@ -24,6 +24,7 @@
 #include "Aeff.h"
 #include "Psf.h"
 #include "Edisp.h"
+#include "MyIrfLoader.h"
 
 using namespace irfInterface;
 
@@ -38,6 +39,7 @@ class irfInterfaceTests : public CppUnit::TestFixture {
    CPPUNIT_TEST(psf_normalization);
    CPPUNIT_TEST(psf_integral);
    CPPUNIT_TEST(edisp_normalization);
+   CPPUNIT_TEST(test_IrfRegistry);
 
    CPPUNIT_TEST_SUITE_END();
 
@@ -53,6 +55,7 @@ public:
    void psf_normalization();
    void psf_integral();
    void edisp_normalization();
+   void test_IrfRegistry();
 
 private:
 
@@ -174,6 +177,19 @@ void irfInterfaceTests::edisp_normalization() {
    CPPUNIT_ASSERT(std::fabs(integral - 1) < tol);
 }
    
+void irfInterfaceTests::test_IrfRegistry() {
+   IrfRegistry & registry(IrfRegistry::instance());
+   registry.registerLoader(new MyIrfLoader());
+
+   registry.loadIrfs("my_classes");
+
+   char * class_names[] = {"FrontA", "BackA", "FrontB", "BackB"};
+   const std::vector<std::string> & classes(registry["my_classes"]);
+   for (size_t i(0); i < classes.size(); i++) {
+      CPPUNIT_ASSERT(classes.at(i) == class_names[i]);
+   }
+}
+
 int main() {
    CppUnit::TextTestRunner runner;
    
