@@ -1,6 +1,6 @@
 /**
  * @file IrfLoader.h
- * @brief Concrete derived class of irfLoader::IrfLoader
+ * @brief Concrete derived class of irfInterface::IrfLoader
  * @author J. Chiang
  *
  * $Header$
@@ -9,16 +9,16 @@
 #ifndef g25Response_IrfLoader_h
 #define g25Response_IrfLoader_h
 
-#include "irfLoader/IrfLoader.h"
+#include "irfInterface/IrfLoader.h"
 
 namespace g25Response {
 
 /**
  * @class IrfLoader
- * @brief Concrete derived class of irfLoader::IrfLoader
+ * @brief Concrete derived class of irfInterface::IrfLoader
  */
 
-class IrfLoader : public irfLoader::IrfLoader {
+class IrfLoader : public irfInterface::IrfLoader {
 
 public:
 

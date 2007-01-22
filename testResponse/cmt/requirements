@@ -14,7 +14,6 @@ use f2c v*
 use astro v*
 use tip v*
 use st_facilities v*
-use irfLoader v* irfs
 
 apply_pattern package_include
 apply_pattern package_linkopts

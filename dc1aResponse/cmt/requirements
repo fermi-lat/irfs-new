@@ -8,7 +8,6 @@ author James Chiang <jchiang@slac.stanford.edu>
 use GlastPolicy v*
 use irfInterface v* irfs
 use irfUtil v* irfs
-use irfLoader v* irfs
 use caldb v* irfs
 use CLHEP v* IExternal
 use f2c v*

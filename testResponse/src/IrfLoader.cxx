@@ -1,13 +1,12 @@
 /**
  * @file IrfLoader.cxx
- * @brief Concrete implementation of irfLoader/IrfLoader
+ * @brief Concrete implementation of irfInterface/IrfLoader
  * @author J. Chiang
  *
  * $Header$
  */
 
-#include "irfLoader/IrfLoaderFactory.h"
-#include "irfLoader/IrfRegistry.h"
+#include "irfInterface/IrfRegistry.h"
 
 #include "testResponse/IrfLoader.h"
 
@@ -16,11 +15,9 @@ namespace testResponse {
 void load_irfs();
 
 void IrfLoader::registerEventClasses() const {
-   irfLoader::IrfRegistry & registry(*irfLoader::IrfRegistry::instance());
-   std::vector<std::string> classNames;
-   classNames.push_back("testIrfs::Front");
-   classNames.push_back("testIrfs::Back");
-   registry.registerEventClasses("TEST", classNames);
+   irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
+   const char * class_names[] = {"testIrfs::Front", "testIrfs::Back"};
+   registry.registerEventClasses("TEST", class_names);
 }
 
 void IrfLoader::loadIrfs() const {

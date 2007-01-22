@@ -14,9 +14,7 @@
 
 #include "irfInterface/IrfsFactory.h"
 #include "irfInterface/AcceptanceCone.h"
-
-#include "irfLoader/IrfLoaderFactory.h"
-#include "irfLoader/Loader.h"
+#include "irfInterface/IrfRegistry.h"
 
 #include "testResponse/IrfLoader.h"
 
@@ -25,8 +23,10 @@ void test_aeff();
 void test_edisp();
 
 int main(int iargc, char * argv[]) {
-   irfLoader::IrfLoaderFactory<testResponse::IrfLoader> foo;
-   irfLoader::Loader::go();
+   irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
+   registry.registerLoader(new testResponse::IrfLoader());
+   registry.loadIrfs("TEST");
+
    test_psf(iargc, argv);
    test_aeff();
    test_edisp();

@@ -9,16 +9,16 @@
 #ifndef dc1Response_IrfLoader_h
 #define dc1Response_IrfLoader_h
 
-#include "irfLoader/IrfLoader.h"
+#include "irfInterface/IrfLoader.h"
 
 namespace dc1Response {
 
 /**
  * @class IrfLoader
- * @brief Concrete derived class of irfLoader::IrfLoader
+ * @brief Concrete derived class of irfInterface::IrfLoader
  */
 
-class IrfLoader : public irfLoader::IrfLoader {
+class IrfLoader : public irfInterface::IrfLoader {
 
 public:
 
