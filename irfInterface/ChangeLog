@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sun Jan 21 16:02:58 PST 2007
+irfs/irfInterface/src
+
+Added Files:
+	IrfRegistry.cxx 
+Log Message:
+add IrfLoader base class and IrfRegistry (from irfLoader)
+    *
+------------------------------------------------------------
+User: jchiang  Sun Jan 21 16:02:58 PST 2007
 irfs/irfInterface/irfInterface
 
 Added Files:
