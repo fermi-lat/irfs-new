@@ -46,11 +46,7 @@ public:
 
    /// @return A reference to a map for common combinations of 
    ///         response functions for use with a PIL entry.
-   static const std::map<std::string, std::vector<std::string> > & respIds() {
-      return s_respIds;
-   }
-
-   static void resetIrfs();
+   static const std::map<std::string, std::vector<std::string> > & respIds();
 
 protected:
 
@@ -59,8 +55,6 @@ protected:
    ~Loader() {}
 
 private:
-
-   static std::map<std::string, std::vector<std::string> > s_respIds;
 
    static Registrar * s_registrar;
 

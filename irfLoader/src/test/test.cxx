@@ -50,7 +50,6 @@ private:
 void irfLoaderTests::setUp() {
 // Tabula rasa
    IrfsFactory::delete_instance();
-   irfLoader::Loader::resetIrfs();
    irfInterface::IrfRegistry::instance().registerLoader(new MyLoader());
 }
 

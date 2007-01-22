@@ -7,6 +7,7 @@
 #include <cstdlib>
 
 #include <algorithm>
+#include <iostream>
 #include <stdexcept>
 
 #include "irfInterface/IrfRegistry.h"
@@ -21,13 +22,10 @@ namespace irfLoader {
 
 Registrar * Loader::s_registrar(new Registrar());
 
-std::map<std::string, std::vector<std::string> > Loader::s_respIds;
-
 void Loader::go(const std::string & name) {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
    std::vector<std::string> irfNames(registry.irfNames());
    if (std::find(irfNames.begin(), irfNames.end(), name) != irfNames.end()) {
-      s_respIds[name] = registry[name];
       registry.loadIrfs(name);
    } else {
       throw std::invalid_argument("Invalid IRF named " + name + ".");
@@ -45,13 +43,14 @@ void Loader::go() {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
    std::vector<std::string> names(registry.irfNames());
    for (size_t i(0); i < names.size(); i++) {
-      s_respIds[names.at(i)] = registry[names.at(i)];
+      for (size_t j(0); j < registry[names.at(i)].size(); j++) {
+      }
       registry.loadIrfs(names.at(i));
    }
 }
 
-void Loader::resetIrfs() {
-   s_respIds.clear();
+const std::map<std::string, std::vector<std::string> > & Loader::respIds() {
+   return irfInterface::IrfRegistry::instance().respIds();
 }
 
 void Loader_go() {
