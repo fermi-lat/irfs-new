@@ -18,6 +18,8 @@
 
 namespace irfLoader {
 
+   class Registrar;
+
 /**
  * @class Loader
  *
@@ -59,6 +61,8 @@ protected:
 private:
 
    static std::map<std::string, std::vector<std::string> > s_respIds;
+
+   static Registrar * s_registrar;
 
 };
 

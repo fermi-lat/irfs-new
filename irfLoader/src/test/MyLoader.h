@@ -4,25 +4,26 @@
 #include <iostream>
 
 #include "irfInterface/IrfsFactory.h"
-
-#include "irfLoader/IrfLoader.h"
-#include "irfLoader/IrfRegistry.h"
+#include "irfInterface/IrfLoader.h"
+#include "irfInterface/IrfRegistry.h"
 
 namespace irfLoader {
 
-class MyLoader : public IrfLoader {
+class MyLoader : public irfInterface::IrfLoader {
 
 public:
 
    virtual void registerEventClasses() const {
-      IrfRegistry & registry(*IrfRegistry::instance());
+      irfInterface::IrfRegistry & registry = 
+         irfInterface::IrfRegistry::instance();
       char * class_names[] = {"FrontA", "BackA", "FrontB", "BackB"};
       std::vector<std::string> classNames(class_names, class_names + 4);
       registry.registerEventClasses(name(), classNames);
    }
 
    virtual void loadIrfs() const {
-      IrfRegistry & registry(*IrfRegistry::instance());
+      irfInterface::IrfRegistry & registry = 
+         irfInterface::IrfRegistry::instance();
       std::vector<std::string> names(registry[name()]);
       for (size_t i(0); i < names.size(); i++) {
          irfInterface::IrfsFactory::

@@ -17,25 +17,19 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "irfInterface/IrfsFactory.h"
+#include "irfInterface/IrfRegistry.h"
 
 #include "irfLoader/Loader.h"
-#include "irfLoader/IrfLoaderFactory.h"
-
 #include "MyLoader.h"
 
 using irfInterface::IrfsFactory;
 using namespace irfLoader;
 
-irfLoader::IrfLoaderFactory<MyLoader> loaderFactory;
-
 class irfLoaderTests : public CppUnit::TestFixture {
 
    CPPUNIT_TEST_SUITE(irfLoaderTests);
-
    CPPUNIT_TEST(load_single_irfs);
    CPPUNIT_TEST_EXCEPTION(access_missing_irfs, std::invalid_argument);
-
-   CPPUNIT_TEST(test_IrfRegistry);
 
    CPPUNIT_TEST_SUITE_END();
 
@@ -57,6 +51,7 @@ void irfLoaderTests::setUp() {
 // Tabula rasa
    IrfsFactory::delete_instance();
    irfLoader::Loader::resetIrfs();
+   irfInterface::IrfRegistry::instance().registerLoader(new MyLoader());
 }
 
 void irfLoaderTests::tearDown() {
@@ -79,18 +74,6 @@ void irfLoaderTests::load_single_irfs() {
 
 void irfLoaderTests::access_missing_irfs() {
    Loader::go("DEV");
-}
-
-void irfLoaderTests::test_IrfRegistry() {
-   irfLoader::IrfRegistry & registry(*irfLoader::IrfRegistry::instance());
-
-   registry.loadIrfs("my_classes");
-
-   char * class_names[] = {"FrontA", "BackA", "FrontB", "BackB"};
-   const std::vector<std::string> & classes(registry["my_classes"]);
-   for (size_t i(0); i < classes.size(); i++) {
-      CPPUNIT_ASSERT(classes.at(i) == class_names[i]);
-   }
 }
    
 int main() {
