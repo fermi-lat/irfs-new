@@ -185,7 +185,7 @@ void irfInterfaceTests::test_IrfRegistry() {
 
    char * class_names[] = {"FrontA", "BackA", "FrontB", "BackB"};
    const std::vector<std::string> & classes(registry["my_classes"]);
-   for (size_t i(0); i < classes.size(); i++) {
+   for (size_t i(0); i < 4; i++) {
       CPPUNIT_ASSERT(classes.at(i) == class_names[i]);
    }
 }

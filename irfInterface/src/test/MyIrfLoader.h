@@ -16,7 +16,7 @@ public:
 
    virtual void registerEventClasses() const {
       IrfRegistry & registry(IrfRegistry::instance());
-      char * class_names[] = {"FrontA", "BackA", "FrontB", "BackB"};
+      const char * class_names[] = {"FrontA", "BackA", "FrontB", "BackB"};
       std::vector<std::string> classNames(class_names, class_names + 4);
       registry.registerEventClasses(name(), classNames);
    }

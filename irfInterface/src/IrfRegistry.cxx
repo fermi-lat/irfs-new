@@ -30,20 +30,12 @@ void IrfRegistry::registerLoader(IrfLoader * irfLoader) {
 
 void IrfRegistry::
 registerEventClasses(const std::string & name,
-                     const char ** class_list) {
-   size_t nclasses(sizeof(class_list)/sizeof(void*));
-   std::vector<std::string> classList(class_list, class_list + nclasses);
-   m_respIds[name] = classList;
-}
-
-void IrfRegistry::
-registerEventClasses(const std::string & name,
                      const std::vector<std::string> & classList) {
    m_respIds[name] = classList;
 }
 
 void IrfRegistry::
-registerEventClasses(const std::string & name, const std::string & className) {
+registerEventClass(const std::string & name, const std::string & className) {
    std::vector<std::string> classList(1, className);
    m_respIds[name] = classList;
 }

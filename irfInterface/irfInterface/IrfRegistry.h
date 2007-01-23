@@ -32,13 +32,10 @@ public:
    void registerLoader(IrfLoader * irfInterface);
 
    void registerEventClasses(const std::string & name,
-                             const char ** class_list); 
-
-   void registerEventClasses(const std::string & name,
                              const std::vector<std::string> & classList);
 
-   void registerEventClasses(const std::string & name,
-                             const std::string & className);
+   void registerEventClass(const std::string & name,
+                           const std::string & className);
 
    void loadIrfs(const std::string & irfsName);
 
