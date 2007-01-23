@@ -17,7 +17,8 @@ void load_irfs();
 void IrfLoader::registerEventClasses() const {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
    const char * class_names[] = {"testIrfs::Front", "testIrfs::Back"};
-   registry.registerEventClasses("TEST", class_names);
+   std::vector<std::string> classNames(class_names, class_names + 2);
+   registry.registerEventClasses("TEST", classNames);
 }
 
 void IrfLoader::loadIrfs() const {
