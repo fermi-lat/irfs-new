@@ -16,10 +16,11 @@ void load_irfs();
 
 void IrfLoader::registerEventClasses() const {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
-   const char * class_list[] = {"DC1::Front", "DC1::Back"};
-   registry.registerEventClasses("DC1", class_list);
-   registry.registerEventClasses("DC1F", "DC1::Front");
-   registry.registerEventClasses("DC1B", "DC1::Back");
+   const char * class_names[] = {"DC1::Front", "DC1::Back"};
+   std::vector<std::string> classNames(class_names, class_names + 2);
+   registry.registerEventClasses("DC1", classNames);
+   registry.registerEventClass("DC1F", "DC1::Front");
+   registry.registerEventClass("DC1B", "DC1::Back");
 }
 
 void IrfLoader::loadIrfs() const {

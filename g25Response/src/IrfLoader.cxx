@@ -16,10 +16,11 @@ void load_irfs();
 
 void IrfLoader::registerEventClasses() const {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
-   const char * class_list[] = {"Glast25::Front", "Glast25::Back"};
-   registry.registerEventClasses("G25", class_list);
-   registry.registerEventClasses("G25F", "Glast25::Front");
-   registry.registerEventClasses("G25B", "Glast25::Back");
+   const char * class_names[] = {"Glast25::Front", "Glast25::Back"};
+   std::vector<std::string> classNames(class_names, class_names + 2);
+   registry.registerEventClasses("G25", classNames);
+   registry.registerEventClass("G25F", "Glast25::Front");
+   registry.registerEventClass("G25B", "Glast25::Back");
 }
 
 void IrfLoader::loadIrfs() const {
