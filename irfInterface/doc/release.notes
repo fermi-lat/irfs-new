@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  29-Jan-07 v2      JC    add IrfRegistry, IrfLoader, expose default 
+                          implementations for IPsf::angularIntegral as
+                          static functions
   23-Oct-06 v1r1    JC    add default implementations for 
                           IPsf::angularIntegral(...),  IPsf::appDir(...),
                           IEdisp::integral(...), IEdisp::appEnergy(...);

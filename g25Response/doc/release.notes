@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  29-Jan-07 v2      JC    implement irfInterface v2
   14-Aug-06 v1      JC    implement irfInterface v1
   25-Apr-06 v0r2    JC    add Aeff::upperLimit()
   21-Mar-06 v0r1p6  JC    add using CLHEP::
