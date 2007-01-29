@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Jan 29 13:22:13 PST 2007
+irfs/irfLoader/src
+
+Modified Files:
+	Registrar.cxx 
+Log Message:
+comment out handoff_response
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 29 13:22:13 PST 2007
 irfs/irfLoader/cmt
 
 Modified Files:
