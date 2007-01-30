@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jan 30 08:31:17 PST 2007
+irfs/handoff_response/python
+
+Modified Files:
+	IRFdefault.py 
+Log Message:
+add code to allow for overlapping bins in angle and energy
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3, operation: add
 Package: handoff_response
