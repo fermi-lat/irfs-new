@@ -39,8 +39,14 @@ Setup::Setup(int argc, char* argv[], bool verbose)
     s_instance = this;
    char * envvarvalue = ::getenv(envvar.c_str());
    if (argc ==1 && envvarvalue == 0) {
-       throw std::runtime_error(std::string(argv[0])+": no command line argument and the environment variable " + envvar 
-                               + " is not set");
+//        throw std::runtime_error(std::string(argv[0])+": no command line argument and the environment variable " + envvar 
+//                                + " is not set");
+
+// Use current working directory if output_file_root env var is not
+// set and no command line argument is given.
+      char value[128];
+      _getcwd(value, sizeof(value));
+      envvarvalue = value;
    }
    m_root = std::string(argc>1? argv[1] : envvarvalue);
 
