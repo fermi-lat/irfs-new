@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Jan 29 17:16:26 PST 2007
+irfs/handoff_response/data
+
+Modified Files:
+	aeff.tpl edisp.tpl parameters.root psf.tpl 
+Log Message:
+add FITS reading access; update template files; use irfInterface::IrfLoader, IrfRegistry
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 29 17:16:26 PST 2007
 irfs/handoff_response/cmt
 
 Modified Files:
