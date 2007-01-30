@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  30-Jan-07 v3r1   JC     Allow for overlapping angle and energy bins
   29-Jan-07 v3     JC     Add FITS reading capability; update tpl files;
                           use irfInterface::IrfLoader, IrfRegistry
   11-dec-06 v2r0p1 THB    Redesign to use embedded python module to set parameters
