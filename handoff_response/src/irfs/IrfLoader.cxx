@@ -15,6 +15,7 @@
 
 #include <stdexcept>
 #include "RootEval.h"
+#include "FitsEval.h"
 
 using namespace handoff_response;
 
@@ -22,13 +23,12 @@ using namespace handoff_response;
 
 IrfLoader::IrfLoader(const std::string & filename) 
 {
-    if( filename.find(".root")>0){
-        handoff_response::RootEval::createMap( filename, m_evals );
-   }else{
-        throw std::invalid_argument("IrfLoader: cannot process file "+filename
-            +". Only ROOT files are currently supported.");
-    }
-
+   std::string::size_type pos(filename.find(".root"));
+   if (pos != std::string::npos) {
+      RootEval::createMap(filename, m_evals);
+   } else { // assume filename is a class name and retrieve FITS files.
+      FitsEval::createMap(filename, m_evals);
+   }
 }
 IrfLoader::~IrfLoader()
 {

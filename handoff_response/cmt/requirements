@@ -62,7 +62,7 @@ application makeirf -s=gen/makeirf $(source)
 
 application test_fitsconv -s=fits/test_fitsconv $(source)
 
-application make_aeff -s=fits/make_aeff $(source)
+application make_fits -s=fits/make_fits $(source)
 
 # convenient setup alias using DOSKEY for Windows version
 setup_script alias

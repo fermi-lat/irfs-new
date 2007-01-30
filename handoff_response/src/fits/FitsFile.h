@@ -69,6 +69,12 @@ public:
       delete hdu;
    }
 
+   void setClassName(const std::string & className);
+
+   const std::map<std::string, std::string> & cbdValues() const {
+      return m_cbdValues;
+   }
+
 private:
 
    fitsfile * m_fptr;
@@ -83,12 +89,16 @@ private:
 
    std::string m_tdim;
 
+   std::map<std::string, std::string> m_cbdValues;
+
    void prepareFile(const std::string & outfile, 
                     const std::string & extname,
                     const std::string & templateFile,
                     bool newFile);
 
    int fieldNum(const std::string & fieldName) const;
+
+   void readBoundaryKeywords(const tip::Table * table);
 
    void fitsReportError(int status, const std::string & routine) const;
 

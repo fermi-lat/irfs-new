@@ -6,18 +6,14 @@
  * $Header$
  */
 
+#include <cctype>
+#include <cmath>
+#include <cstdio>
 #include <cstdlib>
 
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#ifdef WIN32
-#include <locale>
-namespace {
-   std::locale loc("usa");
-}
-#include <cmath>
-#endif
 
 #include "st_facilities/Env.h"
 #include "st_facilities/FitsUtil.h"
@@ -29,11 +25,7 @@ namespace {
 namespace {
    void toUpper(std::string & name) {
       for (std::string::iterator it = name.begin(); it != name.end(); ++it) {
-#ifndef WIN32
          *it = std::toupper(*it);
-#else
-         *it = std::toupper(*it, loc);
-#endif
       }
    }
 } // anonymous namespace
@@ -172,7 +164,48 @@ void FitsFile::prepareFile(const std::string & outfile,
       ::toUpper(m_fieldNames.at(i));
    }
 
+   readBoundaryKeywords(table);
+
    delete table;
+}
+
+void FitsFile::readBoundaryKeywords(const tip::Table * table) {
+   const char * cbd_keys[] = {"CBD10001", "CBD20001", "CBD30001", 
+                              "CBD40001", "CBD50001", "CBD60001", 
+                              "CBD70001", "CBD80001", "CBD90001",
+                              NULL};
+   const tip::Header & header(table->getHeader());
+
+   std::vector< std::pair<std::string, std::string> > keyvals;
+   header.get(cbd_keys, keyvals);
+   for (size_t i(0); i < keyvals.size(); i++) {
+      m_cbdValues[keyvals.at(i).first] = keyvals.at(i).second;
+   }
+}
+
+void FitsFile::setClassName(const std::string & className) {
+   std::string keyValue("CLASS(" + className + ")");
+
+   std::vector<std::string> emptyKeys;
+
+   std::map<std::string, std::string>::iterator it(m_cbdValues.begin());
+   for ( ; it != m_cbdValues.end(); ++it) {
+      if (it->second.find("CLASS") != std::string::npos) {
+         setKeyword(it->first, keyValue);
+         it->second = keyValue;
+         return;
+      }
+      if (it->second == "NONE") {
+         emptyKeys.push_back(it->first);
+      }
+   }
+
+   if (!emptyKeys.empty()) {
+      setKeyword(emptyKeys.at(0), keyValue);
+   } else {
+      throw std::runtime_error("No more remaining CBD keywords to "
+                               "contain the event class name.");
+   }
 }
 
 void FitsFile::fitsReportError(int status, const std::string & routine) const {

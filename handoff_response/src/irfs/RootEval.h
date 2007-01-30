@@ -13,9 +13,13 @@
 #include <map>
 #include <vector>
 
+class TAxis;
 class TFile;
+class TH2F;
 
 namespace handoff_response {
+
+   class Bilinear;
 
 /** @class RootEval
     @brief Subclass of IrfEval -- Evaluate the functions from a ROOT file
@@ -31,6 +35,8 @@ public:
 
     */
     RootEval(TFile* file, std::string eventclass);
+
+   RootEval(const std::string & eventClass) : IrfEval(eventClass), m_f(0) {}
 
     virtual ~RootEval();
 
@@ -54,20 +60,56 @@ public:
    void getPsfPars(double energy, double inclination,
                    std::map<std::string, double> & params);
 
+protected:
+
+   /// @brief nested class manages table lookup
+   class Table {
+   public:
+      Table(TH2F * hist);
+
+      ~Table();
+      
+      /// @brief lookup a value from the table
+      /// @param logenergy log10(energy)
+      /// @param costh cos(theta)
+      /// @param interpolate [true] if true, make linear
+      /// interpolation. Otherwise take value for given cell
+      double value(double logenergy, double costh, bool interpolate=true);
+    
+      double maximum();
+
+   private:
+
+      TH2F * m_hist;
+
+      std::vector<float> m_energy_axis; 
+      std::vector<float> m_angle_axis;
+      std::vector<float> m_data_array;
+
+      Bilinear * m_interpolator;
+
+      /// Fill vector array with the bin edges in a ROOT TAxis, with
+      /// extra ones for the overflow bins
+      void binArray(double low_limit, double high_limit, 
+                    TAxis * axis, std::vector<float> & array);
+   }; // class Table
+   
+   TFile * m_f;
+
+   Table * m_aeff;
+
+   std::vector<Table *> m_dispTables;
+
+   std::vector<Table *> m_psfTables;
+
 private:
 
     double * psf_par(double energy, double costh);
 
     double * disp_par(double energy, double costh);
 
-    TFile* m_f;
-    class Table; ///< nested class manages table lookup
     Table* setupHist( std::string name);
     void setupParameterTables(const std::vector<std::string>& names, std::vector<Table*>&tables);
-    std::vector<Table*> m_dispTables;
-    std::vector<Table*> m_psfTables;
-
-    Table* m_aeff;
 
    double m_loge_last;
    double m_costh_last;

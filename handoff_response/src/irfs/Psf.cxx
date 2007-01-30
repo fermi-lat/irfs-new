@@ -107,10 +107,10 @@ double Psf::s_cp;
 double Psf::s_sp;
 double Psf::s_cr;
 
-Psf::Psf() : m_eval(0) {}
+Psf::Psf() : m_eval(0), m_acceptanceCone(0) {}
 
 Psf::Psf(handoff_response::IrfEval * eval) 
-   : m_eval(eval), m_haveAngularIntegrals(false) {}
+   : m_eval(eval), m_haveAngularIntegrals(false), m_acceptanceCone(0) {}
 
 Psf::~Psf() {
    delete m_acceptanceCone;

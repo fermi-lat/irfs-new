@@ -247,7 +247,7 @@ void HandoffResponseTests::edisp_sampling() {
       thetas.push_back(i*dth + thmin);
    }
 
-   size_t nsamp(100);
+   size_t nsamp(20);
 
    astro::SkyDir zAxis(0, 0);
    astro::SkyDir xAxis(90, 0);
@@ -282,9 +282,9 @@ int main(int argc, char* argv[]) {
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
 
-   handoff_response::loadIrfs(argc > 1 ? argv[1]: "");
-//    dc1aResponse::loadIrfs();
-//    dc2Response::loadIrfs();
+   handoff_response::load_irfs(argc > 1 ? argv[1]: "");
+//    dc1aResponse::load_irfs();
+//    dc2Response::load_irfs();
 
    CppUnit::TextTestRunner runner;
    runner.addTest(HandoffResponseTests::suite());

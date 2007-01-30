@@ -28,9 +28,8 @@ namespace {
      TPaletteAxis dummy;
 }
 
-class RootEval::Table{
-public:
-    Table(TH2F* hist)
+
+RootEval::Table::Table(TH2F* hist)
     : m_hist(hist)
     , m_interpolator(0)
     {
@@ -60,20 +59,11 @@ public:
 
     }
 
-    ~Table(){ delete m_interpolator; }
-    /** @brief lookup a value from the table
-        @param logenergy log10(energy)
-        @param costh    cos(theta)
-        @param interpolate [true] if true, make linear interpolation. Otherwise take value for given cell
-
-
-    */
-    double value(double logenergy, double costh, bool interpolate=true);
+RootEval::Table::~Table(){ delete m_interpolator; }
     
-    double maximum() { return m_hist->GetMaximum(); }
-private:
-    /// Fill vector array with the bin edges in a ROOT TAxis, with extra ones for the overflow bins
-    void binArray(double low_limit, double high_limit, TAxis* axis, std::vector<float>& array)
+double RootEval::Table::maximum() { return m_hist->GetMaximum(); }
+
+void RootEval::Table::binArray(double low_limit, double high_limit, TAxis* axis, std::vector<float>& array)
     {
         array.push_back(low_limit);
         int nbins(axis->GetNbins());
@@ -83,11 +73,7 @@ private:
         array.push_back(high_limit);
         
     }
-    TH2F* m_hist;
-    std::vector<float> m_energy_axis, m_angle_axis, m_data_array;
-    Bilinear* m_interpolator;
 
-};
 double RootEval::Table::value(double logenergy, double costh, bool interpolate)
 {
     if( interpolate) return (*m_interpolator)(logenergy, costh);
