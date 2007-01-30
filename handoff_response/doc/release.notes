@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  30-Jan-07 v3r1p1 JC     use cwd in Setup.cxx if output_file_root not set
+                          and argc==1
   30-Jan-07 v3r1   JC     Allow for overlapping angle and energy bins
   29-Jan-07 v3     JC     Add FITS reading capability; update tpl files;
                           use irfInterface::IrfLoader, IrfRegistry
