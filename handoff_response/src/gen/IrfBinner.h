@@ -43,6 +43,10 @@ public:
     size_t ident(int ebin, int abin)const ;
     size_t size()const {return m_ebins*(m_abins+1);}
 
+   /// return bin id or -1 if out-of-bounds (used by overlapping bins
+   /// algorithm)
+   int hist_id(int ebin, int abin) const;
+
     /** 
         the bin edge angles in degress, for forming labels
     */
@@ -51,7 +55,15 @@ public:
     /** create histogram id based on the ident
     */
     static const char *  hist_name(int i, int j, std::string base="h"); 
- 
+
+   /// number of over-lapping bins to smooth out parameters
+   int energyOverLap() const {
+      return m_energyOverLap;
+   }
+
+   int angleOverLap() const {
+      return m_angleOverLap;
+   } 
 
 private:
      std::vector<double> m_angle_bin_edges, m_energy_bin_edges;
@@ -62,4 +74,7 @@ private:
     size_t m_ebins, m_abins;
 
     std::string m_name;
+
+   int m_energyOverLap;
+   int m_angleOverLap;
 };

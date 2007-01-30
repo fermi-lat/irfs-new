@@ -218,8 +218,21 @@ void Dispersion::fill(double diff, double energy, double costheta, bool/* front*
     size_t z_bin = binner().angle_bin( costheta );     if( z_bin>= binner().angle_bins()) return;
     size_t e_bin = binner().energy_bin(energy);        if( e_bin<0 || e_bin>= binner().energy_bins() )return;
 
-    int id =  binner().ident(e_bin, z_bin);
-    m_hists[id].fill(diff);
+//     int id =  binner().ident(e_bin, z_bin);
+//     m_hists[id].fill(diff);
+
+// use over-lapping bins if da, de are non-zero:
+    int da(binner().energyOverLap());
+    int de(binner().angleOverLap());
+    for (int eoffset(-de); eoffset < de + 1; eoffset++) {
+      for (int aoffset(-da); aoffset < da + 1; aoffset++) {
+         int indx(binner().hist_id(e_bin + eoffset, z_bin + aoffset));
+         if (indx >= 0) {
+            m_hists[indx].fill(diff);
+         }
+      }
+   }
+    
 
     // set special combined hist, accumulate all but last bins of angles
     if( z_bin< binner().angle_bins()-2) {

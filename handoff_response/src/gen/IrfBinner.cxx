@@ -12,8 +12,10 @@ $Header$
 
 #include <cmath>
 #include <sstream>
+#include <stdexcept>
 
-IrfBinner::IrfBinner(embed_python::Module& py)
+IrfBinner::IrfBinner(embed_python::Module& py) 
+   : m_energyOverLap(0), m_angleOverLap(0)
 {
     // get the angle and energy bin edges
     py.getList("Bins.angle_bin_edges", m_angle_bin_edges);
@@ -23,6 +25,13 @@ IrfBinner::IrfBinner(embed_python::Module& py)
 
     for( std::vector<double>::reverse_iterator i =m_angle_bin_edges.rbegin(); i!=m_angle_bin_edges.rend(); ++i){
         m_angles.push_back( int( acos(*i) * 180/M_PI+0.5)); 
+    }
+
+    try {
+       py.getValue("Bins.energy_overlap", m_energyOverLap);
+       py.getValue("Bins.angle_overlap", m_angleOverLap);
+    } catch (std::invalid_argument &) {
+       // use defaults
     }
 }
 
@@ -44,6 +53,14 @@ int IrfBinner::energy_bin(double energy)const
 size_t IrfBinner::ident(int ebin, int abin)const 
 { 
     return abin<m_abins? ebin + abin* (m_ebins) : m_ebins*m_abins+ebin; 
+}
+
+int IrfBinner::hist_id(int ebin, int abin) const {
+   if (ebin < 0 || ebin >= static_cast<int>(energy_bins()) || 
+       abin < 0 || abin >= static_cast<int>(angle_bins())) {
+      return -1;
+   }
+   return ident(ebin, abin);
 }
 
 double IrfBinner::eCenter(int j)const{

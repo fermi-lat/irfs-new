@@ -66,6 +66,9 @@ class Bins(object):
     angle_bins = int((1-cthmin)/deltaCostheta)
     
     angle_bin_edges = num.arange(angle_bins+1)*deltaCostheta+cthmin
+
+    energy_overlap = 0  # no overlap with adjacent bins
+    angle_overlap = 0
     
     
 class EffectiveAreaBins(Bins):
