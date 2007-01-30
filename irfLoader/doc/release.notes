@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  29-Jan-07 v1r0p1  JC    add handoff_response back in
   29-Jan-07 v1      JC    implement IrfRegistry scheme from irfInteface
   19-Oct-06 v0r6p3  JC    wire in handoff_response
   20-Apr-06 v0r6p2  JC    protect against exposing SCIENCETOOLS_API macro
