@@ -228,13 +228,15 @@ double Psf::angularIntegral(double energy,
 }
 
 double Psf::angularIntegral(double sigma, double gamma, size_t ipsi) {
+   if (sigma < sigmas.front() || sigma > sigmas.back() ||
+       gamma < gammas.front() || gamma > gammas.back()) {
+      return psfIntegral(psis.at(ipsi), sigma, gamma);
+   }
+
    size_t isig(std::upper_bound(sigmas.begin(), sigmas.end(), sigma)
                - sigmas.begin() - 1);
    size_t igam(std::upper_bound(gammas.begin(), gammas.end(), gamma)
                - gammas.begin() - 1);
-   if (isig == sigmas.size() - 1 || igam == gammas.size() - 1) {
-      return psfIntegral(psis.at(ipsi), sigma, gamma);
-   }
 
    size_t is[2] = {isig, isig + 1};
    size_t ig[2] = {igam, igam + 1};
