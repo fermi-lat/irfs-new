@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Feb 10 21:19:46 PST 2007
+irfs/irfInterface/src
+
+Modified Files:
+	IEdisp.cxx IPsf.cxx 
+Log Message:
+use Dgaus8 instead of dgaus8_; tagging v2r0p1
+    *
+------------------------------------------------------------
+User: jchiang  Sat Feb 10 21:19:46 PST 2007
 irfs/irfInterface/doc
 
 Modified Files:
