@@ -1,5 +1,5 @@
 package handoff_response
-version v3r1p2
+version v3r1p3
 
 author Toby Burnett <tburnett@u.washington.edu>
 author J. Chiang <jchiang@slac.stanford.edu>
@@ -60,7 +60,7 @@ application makeirf -s=gen/makeirf $(source)
 # make a file with 0-66 degree summary of acceptance and psf for sensitivity
 #application reformat -s=gen/reformat $(source)
 
-application test_fitsconv -s=fits/test_fitsconv $(source)
+#application test_fitsconv -s=fits/test_fitsconv $(source)
 
 application make_fits -s=fits/make_fits $(source)
 

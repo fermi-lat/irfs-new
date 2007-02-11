@@ -13,7 +13,7 @@
 #include <sstream>
 #include <algorithm>
 
-#include "st_facilities/dgaus8.h"
+#include "st_facilities/Dgaus8.h"
 
 #include "irfs/RootEval.h"
 #include "gen/PointSpreadFunction.h"
@@ -307,12 +307,14 @@ double Psf::psfIntegral(double psi, double sigma, double gamma) {
 
    double firstIntegral(0);
    if (psi < roi_radius) {
-      dgaus8_(&psfIntegrand1, &mum, &one, &err, &firstIntegral, &ierr);
+      firstIntegral = 
+         st_facilities::Dgaus8::integrate(&psfIntegrand1, mum, one, err, ierr);
    }
    
    double secondIntegral(0);
-   dgaus8_(&psfIntegrand2, &mup, &mum, &err, &secondIntegral, &ierr);
-
+   secondIntegral =
+      st_facilities::Dgaus8::integrate(&psfIntegrand2, mup, mum, err, ierr);
+   
    return firstIntegral + secondIntegral;
 }
 

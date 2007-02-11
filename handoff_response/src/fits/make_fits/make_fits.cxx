@@ -43,7 +43,6 @@ void createFitsFiles(const std::string & rootClassName,
    FitsFile aeff("aeff_" + latclass + ".fits", "EFFECTIVE AREA", "aeff.tpl");
    aeff.setGrid(irfTables["aeff"]);
    aeff.setTableData("EFFAREA", irfTables["aeff"].values());
-//   aeff.setKeyword("LATCLASS", latclass);
    aeff.setClassName(latclass);
    aeff.close();
 
@@ -59,7 +58,6 @@ void createFitsFiles(const std::string & rootClassName,
    psf.setTableData("SIGMA", irfTables["sigma"].values());
    psf.setTableData("GCORE", irfTables["gcore"].values());
    psf.setTableData("GTAIL", irfTables["gtail"].values());
-//    psf.setKeyword("LATCLASS", latclass);
    psf.setClassName(latclass);
    psf.close();
    
@@ -81,7 +79,6 @@ void createFitsFiles(const std::string & rootClassName,
    edisp.setTableData("NR2", irfTables["nr2"].values());
    edisp.setTableData("LT2", irfTables["lt2"].values());
    edisp.setTableData("RT2", irfTables["rt2"].values());
-//    edisp.setKeyword("LATCLASS", latclass);
    edisp.setClassName(latclass);
    edisp.close();
 }
