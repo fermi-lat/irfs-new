@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Feb 13 12:39:09 PST 2007
+irfs/irfInterface/src
+
+Modified Files:
+	IEdisp.cxx IPsf.cxx 
+Log Message:
+LoseDoze changes; tagging v2r0p2
+    *
+------------------------------------------------------------
+User: jchiang  Tue Feb 13 12:39:09 PST 2007
 irfs/irfInterface/doc
 
 Modified Files:
