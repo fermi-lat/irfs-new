@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Feb 13 12:45:33 PST 2007
+irfs/handoff_response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+LoseDoze required changes
+    *
+------------------------------------------------------------
+User: jchiang  Tue Feb 13 12:45:33 PST 2007
 irfs/handoff_response/cmt
 
 Modified Files:
