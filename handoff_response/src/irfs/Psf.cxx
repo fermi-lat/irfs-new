@@ -13,7 +13,7 @@
 #include <sstream>
 #include <algorithm>
 
-#include "st_facilities/Dgaus8.h"
+#include "st_facilities/GaussianQuadrature.h"
 
 #include "irfs/RootEval.h"
 #include "gen/PointSpreadFunction.h"
@@ -308,12 +308,14 @@ double Psf::psfIntegral(double psi, double sigma, double gamma) {
    double firstIntegral(0);
    if (psi < roi_radius) {
       firstIntegral = 
-         st_facilities::Dgaus8::integrate(&psfIntegrand1, mum, one, err, ierr);
+         st_facilities::GaussianQuadrature::integrate(&psfIntegrand1, mum,
+                                                      one, err, ierr);
    }
    
    double secondIntegral(0);
    secondIntegral =
-      st_facilities::Dgaus8::integrate(&psfIntegrand2, mup, mum, err, ierr);
+      st_facilities::GaussianQuadrature::integrate(&psfIntegrand2, mup, mum, 
+                                                   err, ierr);
    
    return firstIntegral + secondIntegral;
 }

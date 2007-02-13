@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  13-Feb-07 v3r1p4 JC     Dgaus8 -> GaussianQuadrature
   10-Feb-07 v3r1p3 JC     use Dgaus8 instead of dgaus8
   02-Feb-07 v3r1p2 JC     upload corrected set of "standard" parameters.root
   30-Jan-07 v3r1p1 JC     use cwd in Setup.cxx if output_file_root not set
