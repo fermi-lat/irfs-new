@@ -13,7 +13,7 @@
 
 #include "astro/SkyDir.h"
 
-#include "st_facilities/Dgaus8.h"
+#include "st_facilities/GaussianQuadrature.h"
 
 #include "irfInterface/IEdisp.h"
 
@@ -106,8 +106,9 @@ double IEdisp::edispIntegral(const IEdisp * self, double emin, double emax,
    double integral;
    double err(1e-5);
    long ierr(0);
-   integral = st_facilities::Dgaus8::integrate(&edispIntegrand, emin, emax, 
-                                               err, ierr);
+   integral = 
+      st_facilities::GaussianQuadrature::integrate(&edispIntegrand, emin,
+                                                   emax, err, ierr);
    return integral;
 }
 
@@ -130,13 +131,15 @@ double IEdisp::meanAppEnergy(double energy, double theta, double phi,
    double emax(energy*10.);
    double err(1e-5);
    long ierr(0);
-   integral = st_facilities::Dgaus8::integrate(&meanEnergyIntegrand, emin, 
-                                               emax, err, ierr);
+   integral = 
+      st_facilities::GaussianQuadrature::integrate(&meanEnergyIntegrand, emin, 
+                                                   emax, err, ierr);
 
 // The energy dispersion is not guarranteed to be properly normalized.
    double normalization;
-   normalization = st_facilities::Dgaus8::integrate(&edispIntegrand, emin, 
-                                                    emax, err, ierr);
+   normalization = 
+      st_facilities::GaussianQuadrature::integrate(&edispIntegrand, emin, 
+                                                   emax, err, ierr);
    
    return integral/normalization;
 }
@@ -161,13 +164,15 @@ double IEdisp::meanTrueEnergy(double appEnergy, double theta, double phi,
    double emax(std::min(1.76e5, appEnergy*10.));
    double err(1e-5);
    long ierr(0);
-   integral = st_facilities::Dgaus8::integrate(&meanTrueEnergyIntegrand, 
-                                               emin, emax, err, ierr);
+   integral = 
+      st_facilities::GaussianQuadrature::integrate(&meanTrueEnergyIntegrand, 
+                                                   emin, emax, err, ierr);
 
 // The energy dispersion is not guarranteed to be properly normalized.
    double normalization;
-   normalization = st_facilities::Dgaus8::integrate(&trueEnergyIntegrand, 
-                                                    emin, emax, err, ierr);
+   normalization = 
+      st_facilities::GaussianQuadrature::integrate(&trueEnergyIntegrand, 
+                                                   emin, emax, err, ierr);
    
    return integral/normalization;
 }
