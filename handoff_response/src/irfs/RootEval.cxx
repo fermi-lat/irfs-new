@@ -145,7 +145,7 @@ double RootEval::psf_integral(double delta, double energy, double theta,
     double costh(cos(theta*M_PI/180));
     double * par(psf_par(energy, costh));
     double value = 
-       PointSpreadFunction::integral(&delta, par)*(2.*M_PI*par[2]*par[2]);
+       PointSpreadFunction::integral(&delta, par)*(2.*M_PI*par[1]*par[1]);
     return value;
 }
 
@@ -200,34 +200,29 @@ double * RootEval::psf_par(double energy, double costh)
 
     // rescale the sigma value after interpolation
     static double zdir(1.0);
-    par[2] *= PointSpreadFunction::scaleFactor(energy, zdir, isFront());
+    par[1] *= PointSpreadFunction::scaleFactor(energy, zdir, isFront());
 
-    if (par[2] == 0 || par[3] == 0 || par[4] == 0) {
+    if (par[1] == 0 || par[2] == 0 || par[3] == 0) {
        std::ostringstream message;
        message << "handoff_response::RootEval: psf parameters are zero "
                << "when computing solid angle normalization:\n"
                << "\tenergy = " << energy << "\n"
                << "\tcosth  = " << zdir   << "\n"
+               << "\tpar[1] = " << par[1] << "\n"
                << "\tpar[2] = " << par[2] << "\n"
-               << "\tpar[3] = " << par[3] << "\n"
-               << "\tpar[4] = " << par[4] << std::endl;
+               << "\tpar[3] = " << par[3] << std::endl;
        std::cerr << message.str() << std::endl;
        throw std::runtime_error(message.str());
     }
 
     static double theta_max(M_PI/2.);
 
-    double total(par[0] + par[1]);
-    par[0] /= total;
-    par[1] /= total;
-
 // Ensure that the Psf integrates to unity (using, unfortunately, small
 // angle approx).
     double norm = PointSpreadFunction::integral(&theta_max, par);
 
-// solid angle normalization (par[2] is sigma).
-    par[0] /= norm*2.*M_PI*par[2]*par[2];
-    par[1] /= norm*2.*M_PI*par[2]*par[2];
+// solid angle normalization (par[1] is sigma).
+    par[0] /= norm*2.*M_PI*par[1]*par[1];
 
     return par;
 }

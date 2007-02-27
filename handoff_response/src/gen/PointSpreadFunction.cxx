@@ -20,12 +20,13 @@ namespace {
     static int nbins=75;
 
     // specify fit function
-    static const char* names[] = {"ncore", "ntail", "sigma", "gcore","gtail"};
-    static double pinit[] = {1,    1,    0.5,  2.5, 1.5};
-    static double pmin[] =  {0.01, 0.01, 0.15, 1.0, 1.0};
-    static double pmax[] =  {10.,  10.,  2.0,  5.0, 5.0};
+    static const char* names[] = {"ncore", "sigma", "gcore","gtail"};
+    static double pinit[] = {1,    0.5,  2.5, 1.5};
+    static double pmin[] =  {0.01, 0.15, 1.0, 1.0};
+    static double pmax[] =  {10.,  2.0,  5.0, 5.0};
 
     static double fitrange[] = {xmin, xmax};
+    static double ub = 10.;  // revisit this choice of ub
     static int min_entries=10; // minimum number of entries to fit
 
     inline double sqr(double x){return x*x;}
@@ -50,10 +51,11 @@ namespace {
     double psf_with_tail(double * logx, double * p)
     {
        double ncore(p[0]);
-       double ntail(p[1]);
-       double sigma(p[2]);
-       double gcore(p[3]);
-       double gtail(p[4]);
+       double sigma(p[1]);
+       double gcore(p[2]);
+       double gtail(p[3]);
+       double ntail = ncore*(psf_base(ub, sigma, gcore)
+                             /psf_base(ub, sigma, gtail));
        double r = pow(10., (*logx))/sigma;
        double u = r*r/2.;
        return (ncore*psf_base(u, sigma, gcore) +
@@ -63,10 +65,11 @@ namespace {
     double psf_integral(double * logx, double * p)
     {
        double ncore(p[0]);
-       double ntail(p[1]);
-       double sigma(p[2]);
-       double gcore(p[3]);
-       double gtail(p[4]);
+       double sigma(p[1]);
+       double gcore(p[2]);
+       double gtail(p[3]);
+       double ntail = ncore*(psf_base(ub, sigma, gcore)
+                             /psf_base(ub, sigma, gtail));
        double r = pow(10., (*logx))/sigma;
        double u = r*r/2.;
        return (ncore*psf_base_integral(u, sigma, gcore) + 
@@ -96,10 +99,11 @@ namespace {
 double PointSpreadFunction::function(double * x, double * p)
 {
    double ncore(p[0]);
-   double ntail(p[1]);
-   double sigma(p[2]);
-   double gcore(p[3]);
-   double gtail(p[4]);
+   double sigma(p[1]);
+   double gcore(p[2]);
+   double gtail(p[3]);
+   double ntail = ncore*(psf_base(ub, sigma, gcore)
+                         /psf_base(ub, sigma, gtail));
    double r = *x/sigma;
    double u = r*r/2.;
    return (ncore*psf_base(u, sigma, gcore) +
@@ -109,10 +113,11 @@ double PointSpreadFunction::function(double * x, double * p)
 double PointSpreadFunction::integral(double * x, double * p)
 {
    double ncore(p[0]);
-   double ntail(p[1]);
-   double sigma(p[2]);
-   double gcore(p[3]);
-   double gtail(p[4]);
+   double sigma(p[1]);
+   double gcore(p[2]);
+   double gtail(p[3]);
+   double ntail = ncore*(psf_base(ub, sigma, gcore)
+                         /psf_base(ub, sigma, gtail));
    double r = *x/sigma;
    double u = r*r/2.;
    return (ncore*psf_base_integral(u, sigma, gcore) + 
@@ -263,34 +268,6 @@ void PointSpreadFunction::fit(std::string opts)
     if( m_count > min_entries ) {
         h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
     }
-    reorder_parameters();
-
-// // Try to fit in stages in order to regularize the parameters
-//     double pass1_init[] = {   1, 0, 0.5,  2.5, 1.5};
-//     double pass1_min[]  = {0.01, 0, 0.15, 1.0, 1.5};
-//     double pass1_max[]  = { 10., 0, 2.0,  5.0, 1.5};
-//     setFitPars(pass1_init, pass1_min, pass1_max);
-//     m_fitfunc.SetRange(-1.0, 0.5);
-
-//     if (m_count > min_entries) {
-//        h.Fit(&m_fitfunc, opts.c_str()); // fit only specified range
-//     }
-
-//     std::vector<double> pass1_fit;
-//     getFitPars(pass1_fit);
-//     double ncore(pass1_fit.at(0));
-//     double sigma(pass1_fit.at(2));
-//     double gcore(pass1_fit.at(3));
-
-//     double pass2_init[] = {ncore/2., ncore/2., sigma, gcore, gcore};
-//     double pass2_min[] =  { 0.01,  0.01,  0.15,   1.0,   1.0};
-//     double pass2_max[] =  {  10.,   10.,   2.0,   5.0,   5.0};
-//     setFitPars(pass2_init, pass2_min, pass2_max);
-//     m_fitfunc.SetRange(-1.0, 1.5);
-
-//     if (m_count > min_entries) {
-//        h.Fit(&m_fitfunc, opts.c_str()); // fit only specified range
-//     }
 }
 
 void PointSpreadFunction::setFitPars(double * pars, double * pmin,
@@ -299,22 +276,6 @@ void PointSpreadFunction::setFitPars(double * pars, double * pmin,
       m_fitfunc.SetParLimits(i, pmin[i], pmax[i]);
    }
    m_fitfunc.SetParameters(pars);
-}
-
-void PointSpreadFunction::reorder_parameters() {
-   std::vector<double> pars;
-   getFitPars(pars);
-// set gcore to be the larger value
-   if (pars.at(3) < pars.at(4)) {
-      ::swap(pars.at(3), pars.at(4));
-      ::swap(pars.at(0), pars.at(1));
-   }
-// except for gamma >= 4
-   if (pars.at(3) >= 4) {
-      ::swap(pars.at(3), pars.at(4));
-      ::swap(pars.at(0), pars.at(1));
-   }
-   m_fitfunc.SetParameters(&pars[0]);
 }
  
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
