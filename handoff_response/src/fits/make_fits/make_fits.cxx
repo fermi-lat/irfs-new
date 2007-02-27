@@ -51,10 +51,6 @@ void createFitsFiles(const std::string & rootClassName,
    FitsFile psf(psf_file, "RPSF", "psf.tpl");
    psf.setGrid(irfTables["ncore"]);
    psf.setTableData("NCORE", irfTables["ncore"].values());
-//    psf.setTableData("NTAIL", irfTables["ntail"].values());
-   psf.setTableData("NTAIL", irfTables["ncore"].values());
-//    psf.setTableData("SCORE", irfTables["score"].values());
-//    psf.setTableData("STAIL", irfTables["stail"].values());
    psf.setTableData("SIGMA", irfTables["sigma"].values());
    psf.setTableData("GCORE", irfTables["gcore"].values());
    psf.setTableData("GTAIL", irfTables["gtail"].values());
