@@ -4,6 +4,8 @@
 $Header$
 */
 
+#include "st_facilities/GaussianQuadrature.h"
+
 #include "Dispersion.h"
 
 #include "IrfAnalysis.h"
@@ -17,6 +19,13 @@ $Header$
 #include <cmath>
 #include <iomanip>
 #include <cassert>
+
+namespace {
+   static double disp_pars[10];
+   double dispfunc(double * x) {
+      return Dispersion::function(x, disp_pars);
+   }
+}
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //                Dispersion::Hist
@@ -176,12 +185,25 @@ void Dispersion::Hist::draw()const
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void Dispersion::Hist::getFitPars(std::vector<double>& params)const
 {
-    params.resize(npars());
+    params.resize(npars(), 0);
     TF1* f1 = m_h->GetFunction("f1");
-    if( f1==0 ){ // no fit, just return default
+    if( f1==0 ){ 
+// no fit, just return default (Why are the pinit numbers the correct
+// defaults?)
         copy(pinit, pinit+npars(), params.begin());
     }else {
-        f1->GetParameters(&params[0]);
+        f1->GetParameters(disp_pars);
+// Ensure the integral is properly normalized.
+        double error(1e-5);
+        long ier;
+        double norm = 
+           st_facilities::GaussianQuadrature::integrate(dispfunc, -1, 10.,
+                                                        error, ier);
+        for (size_t i(0); i < npars(); i++) {
+           params.at(i) = disp_pars[i];
+        }
+        params.at(0) /= norm;
+        params.at(3) /= norm;
     }
 }
 

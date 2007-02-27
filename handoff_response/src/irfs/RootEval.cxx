@@ -22,10 +22,17 @@ $Header$
 #include <iostream>
 #include <vector>
 
+#include "st_facilities/GaussianQuadrature.h"
+
 using namespace handoff_response;
 #include "TPaletteAxis.h"
 namespace {
      TPaletteAxis dummy;
+
+   static double * disp_pars;
+   double dispfunc(double * x) {
+      return Dispersion::function(x, disp_pars);
+   }
 }
 
 
@@ -227,7 +234,16 @@ double * RootEval::psf_par(double energy, double costh)
 }
 
 double * RootEval::disp_par(double energy, double costh) {
-    static bool interpolate(false);
+    bool interpolate(false);
+
+    char * foo;
+    if (foo = ::getenv("INTERPOLATE_EDISP")) {
+       if (std::string(foo) == "true") {
+          interpolate = true;
+       } else {
+          interpolate = false;
+       }
+    }
 
     static double par[10];
     double loge(::log10(energy));
@@ -239,6 +255,15 @@ double * RootEval::disp_par(double energy, double costh) {
     for (unsigned int i=0; i < m_dispTables.size(); ++i) {
         par[i] = m_dispTables[i]->value(loge, costh, interpolate);
     }
+
+// // integrate to set normalization
+//     disp_pars = par;
+//     double error(1e-5);
+//     long ier;
+//     double norm(st_facilities::GaussianQuadrature::integrate(dispfunc, -1,
+//                                                              10, error, ier));
+//     par[0] /= norm;
+//     par[3] /= norm;
     return par;
 }
 
