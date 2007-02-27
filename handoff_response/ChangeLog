@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Feb 27 13:16:28 PST 2007
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx 
+Log Message:
+ensure energy dispersion is properly normalized; add temporary option for interpolating on energy dispersion parameters
+    *
+------------------------------------------------------------
+User: jchiang  Tue Feb 27 13:16:28 PST 2007
 irfs/handoff_response/data
 
 Modified Files:
