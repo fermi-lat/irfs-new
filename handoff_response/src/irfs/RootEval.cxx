@@ -56,7 +56,6 @@ RootEval::Table::Table(TH2F* hist)
         }
 
         m_interpolator = new Bilinear(m_energy_axis, m_angle_axis, m_data_array);
-
     }
 
 RootEval::Table::~Table(){ delete m_interpolator; }
@@ -227,20 +226,21 @@ double * RootEval::psf_par(double energy, double costh)
     return par;
 }
 
-double * RootEval::disp_par(double energy, double costh)
-{
-    static bool interpolate(false);//<----- wire in non-interpolation
+double * RootEval::disp_par(double energy, double costh) {
+    static bool interpolate(false);
+
     static double par[10];
     double loge(::log10(energy));
 
-    if( costh==1.0) costh = 0.9999;
+    if (costh == 1.0) {
+       costh = 0.9999;
+    }
 
-    for( unsigned int i = 0; i< m_dispTables.size(); ++i){
-        par[i] = m_dispTables[i]->value(loge,costh, interpolate);
+    for (unsigned int i=0; i < m_dispTables.size(); ++i) {
+        par[i] = m_dispTables[i]->value(loge, costh, interpolate);
     }
     return par;
 }
-
 
 void RootEval::createMap(std::string filename, std::map<std::string,handoff_response::IrfEval*>& evals)
 {

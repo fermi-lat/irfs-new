@@ -36,7 +36,8 @@ public:
     */
     RootEval(TFile* file, std::string eventclass);
 
-   RootEval(const std::string & eventClass) : IrfEval(eventClass), m_f(0) {}
+   RootEval(const std::string & eventClass) 
+      : IrfEval(eventClass), m_f(0) {}
 
     virtual ~RootEval();
 
@@ -109,7 +110,8 @@ private:
     double * disp_par(double energy, double costh);
 
     Table* setupHist( std::string name);
-    void setupParameterTables(const std::vector<std::string>& names, std::vector<Table*>&tables);
+    void setupParameterTables(const std::vector<std::string>& names, 
+                              std::vector<Table*>&tables);
 
    double m_loge_last;
    double m_costh_last;
