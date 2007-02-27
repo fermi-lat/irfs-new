@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Feb 26 19:26:39 PST 2007
+irfs/handoff_response/src/gen
+
+Modified Files:
+	PointSpreadFunction.cxx 
+Log Message:
+reduce number of psf params
+    *
+------------------------------------------------------------
 User: jchiang  Mon Feb 26 19:26:06 PST 2007
 irfs/handoff_response/src/fits/make_fits
 
