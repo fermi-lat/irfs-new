@@ -69,8 +69,8 @@ void PsfPlots::fill(double angle_diff, double energy, double costheta, bool fron
 //     m_hists[id].fill(scaled_delta);
 
 // use over-lapping bins if da, de are non-zero:
-    int da(binner().energyOverLap());
-    int de(binner().angleOverLap());
+    int da(binner().psfEnergyOverLap());
+    int de(binner().psfAngleOverLap());
     for (int eoffset(-de); eoffset < de + 1; eoffset++) {
       for (int aoffset(-da); aoffset < da + 1; aoffset++) {
          int indx(binner().hist_id(e_bin + eoffset, z_bin + aoffset));

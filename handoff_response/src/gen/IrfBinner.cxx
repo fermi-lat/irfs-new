@@ -15,7 +15,8 @@ $Header$
 #include <stdexcept>
 
 IrfBinner::IrfBinner(embed_python::Module& py) 
-   : m_energyOverLap(0), m_angleOverLap(0)
+   : m_edispEnergyOverLap(0), m_edispAngleOverLap(0),
+     m_psfEnergyOverLap(0), m_psfAngleOverLap(0)
 {
     // get the angle and energy bin edges
     py.getList("Bins.angle_bin_edges", m_angle_bin_edges);
@@ -28,8 +29,15 @@ IrfBinner::IrfBinner(embed_python::Module& py)
     }
 
     try {
-       py.getValue("Bins.energy_overlap", m_energyOverLap);
-       py.getValue("Bins.angle_overlap", m_angleOverLap);
+       py.getValue("Bins.edisp_energy_overlap", m_edispEnergyOverLap);
+       py.getValue("Bins.edisp_angle_overlap", m_edispAngleOverLap);
+    } catch (std::invalid_argument &) {
+       // use defaults
+    }
+
+    try {
+       py.getValue("Bins.psf_energy_overlap", m_psfEnergyOverLap);
+       py.getValue("Bins.psf_angle_overlap", m_psfAngleOverLap);
     } catch (std::invalid_argument &) {
        // use defaults
     }

@@ -56,13 +56,24 @@ public:
     */
     static const char *  hist_name(int i, int j, std::string base="h"); 
 
-   /// number of over-lapping bins to smooth out parameters
-   int energyOverLap() const {
-      return m_energyOverLap;
+   /// number of over-lapping bins to smooth out parameters for energy
+   /// dispersion fits
+   int edispEnergyOverLap() const {
+      return m_edispEnergyOverLap;
    }
 
-   int angleOverLap() const {
-      return m_angleOverLap;
+   int edispAngleOverLap() const {
+      return m_edispAngleOverLap;
+   } 
+
+   /// number of over-lapping bins to smooth out parameters for
+   /// point spread function fits
+   int psfEnergyOverLap() const {
+      return m_psfEnergyOverLap;
+   }
+
+   int psfAngleOverLap() const {
+      return m_psfAngleOverLap;
    } 
 
 private:
@@ -75,6 +86,9 @@ private:
 
     std::string m_name;
 
-   int m_energyOverLap;
-   int m_angleOverLap;
+   int m_edispEnergyOverLap;
+   int m_edispAngleOverLap;
+
+   int m_psfEnergyOverLap;
+   int m_psfAngleOverLap;
 };

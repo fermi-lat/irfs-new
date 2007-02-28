@@ -244,8 +244,8 @@ void Dispersion::fill(double diff, double energy, double costheta, bool/* front*
 //     m_hists[id].fill(diff);
 
 // use over-lapping bins if da, de are non-zero:
-    int da(binner().energyOverLap());
-    int de(binner().angleOverLap());
+    int da(binner().edispEnergyOverLap());
+    int de(binner().edispAngleOverLap());
     for (int eoffset(-de); eoffset < de + 1; eoffset++) {
       for (int aoffset(-da); aoffset < da + 1; aoffset++) {
          int indx(binner().hist_id(e_bin + eoffset, z_bin + aoffset));

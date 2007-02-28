@@ -33,6 +33,16 @@ FitsEval::FitsEval(const std::string & className,
    readPsf();
 }
 
+FitsEval::~FitsEval() {
+   delete m_aeff;
+   for (size_t i(0); i < m_dispTables.size(); i++) {
+      delete m_dispTables.at(i);
+   }
+   for (size_t i(0); i < m_psfTables.size(); i++) {
+      delete m_psfTables.at(i);
+   }
+}
+
 void FitsEval::readAeff() {
    FitsTable aeff(aeffFile(), "EFFECTIVE AREA");
    m_aeff = new Table(aeff.tableData("EFFAREA"));

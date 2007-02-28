@@ -26,6 +26,8 @@ public:
 
    FitsEval(const std::string & className, const std::string & section);
 
+   virtual ~FitsEval();
+
    static void createMap(const std::string & className, 
                          std::map<std::string, IrfEval *> & evals);
 
