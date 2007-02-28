@@ -67,9 +67,13 @@ class Bins(object):
     
     angle_bin_edges = num.arange(angle_bins+1)*deltaCostheta+cthmin
 
-    energy_overlap = 0  # no overlap with adjacent bins
-    angle_overlap = 0
-    
+    # no overlap with adjacent bins for energy dispersion fits
+    edisp_energy_overlap = 0  
+    edisp_angle_overlap = 0
+
+    # no overlap with adjacent bins for psf fits
+    psf_energy_overlap = 0  
+    psf_angle_overlap = 0
     
 class EffectiveAreaBins(Bins):
     """
