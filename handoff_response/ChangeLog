@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Mar  1 15:06:44 PST 2007
+irfs/handoff_response/data
+
+Modified Files:
+	parameters.root 
+Log Message:
+update with parameters.root using 2 bin overlap in energy dispersion
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 27 23:32:36 PST 2007
 irfs/handoff_response/src/irfs
 
