@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Mar  1 22:17:13 PST 2007
+irfs/irfInterface/src
+
+Modified Files:
+	IrfRegistry.cxx 
+Log Message:
+refactor IrfRegistry; tagging v2r0p3
+    *
+------------------------------------------------------------
+User: jchiang  Thu Mar  1 22:17:13 PST 2007
 irfs/irfInterface/doc
 
 Modified Files:
