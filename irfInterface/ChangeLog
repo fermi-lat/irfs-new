@@ -1,4 +1,35 @@
 ------------------------------------------------------------
+TAG
+Tag name: v2r0p4, operation: add
+Package: irfInterface
+User: jchiang  Fri Mar  2 07:55:55 2007
+Files:
+  irfInterface/.cvsignore  1.1.1.1
+  irfInterface/ChangeLog  1.84
+  irfInterface/cmt/requirements  1.20
+  irfInterface/doc/release.notes  1.16
+  irfInterface/irfInterface/IrfsFactory.h  1.5
+  irfInterface/irfInterface/IAeff.h  1.5
+  irfInterface/irfInterface/IEdisp.h  1.6
+  irfInterface/irfInterface/Irfs.h  1.1.1.1
+  irfInterface/irfInterface/IPsf.h  1.6
+  irfInterface/irfInterface/IrfRegistry.h  1.2
+  irfInterface/irfInterface/IrfLoader.h  1.1
+  irfInterface/irfInterface/AcceptanceCone.h  1.2
+  irfInterface/src/IPsf.cxx  1.4
+  irfInterface/src/IrfsFactory.cxx  1.5
+  irfInterface/src/IEdisp.cxx  1.5
+  irfInterface/src/IrfRegistry.cxx  1.3
+  irfInterface/src/test/Psf.cxx  1.2
+  irfInterface/src/test/MyIrfLoader.h  1.3
+  irfInterface/src/test/Aeff.h  1.3
+  irfInterface/src/test/test.cxx  1.5
+  irfInterface/src/test/Psf.h  1.3
+  irfInterface/src/test/Edisp.h  1.3
+  irfInterface/src/test/Edisp.cxx  1.1
+
+    *
+------------------------------------------------------------
 User: jchiang  Fri Mar  2 07:42:23 PST 2007
 irfs/irfInterface/doc
 
