@@ -6,6 +6,11 @@
  * $Header$
  */
 
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+
 #include "irfInterface/IrfRegistry.h"
 
 #include "dc1Response/IrfLoader.h"
@@ -28,6 +33,16 @@ Registrar::Registrar() {
    registry.registerLoader(new g25Response::IrfLoader());
    registry.registerLoader(new handoff_response::MyIrfLoader());
    registry.registerLoader(new testResponse::IrfLoader());
+
+//    typedef std::map<std::string, std::vector<std::string> > RespIdMap_t;
+//    const RespIdMap_t & respIds(registry.respIds());
+//    for (RespIdMap_t::const_iterator it(respIds.begin());
+//         it != respIds.end(); ++it) {
+//       std::cout << it->first << "\n";
+//       for (size_t i(0); i < it->second.size(); i++) {
+//          std::cout << it->second.at(i) << std::endl;
+//       }
+//    }
 }
 
 } // namespace irfLoader

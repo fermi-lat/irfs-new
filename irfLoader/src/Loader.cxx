@@ -43,8 +43,8 @@ void Loader::go() {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
    std::vector<std::string> names(registry.irfNames());
    for (size_t i(0); i < names.size(); i++) {
-      for (size_t j(0); j < registry[names.at(i)].size(); j++) {
-      }
+//       for (size_t j(0); j < registry[names.at(i)].size(); j++) {
+//       }
       registry.loadIrfs(names.at(i));
    }
 }
