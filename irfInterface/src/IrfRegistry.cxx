@@ -25,7 +25,6 @@ IrfRegistry & IrfRegistry::instance() {
 
 void IrfRegistry::registerLoader(IrfLoader * irfLoader) {
    m_irfLoaders[irfLoader->name()] = irfLoader;
-   irfLoader->registerEventClasses();
 }
 
 void IrfRegistry::
@@ -43,6 +42,7 @@ registerEventClass(const std::string & name, const std::string & className) {
 void IrfRegistry::loadIrfs(const std::string & irfsName) {
    if (m_irfLoaders.find(irfsName) != m_irfLoaders.end()) {
       m_irfLoaders[irfsName]->loadIrfs();
+      m_irfLoaders[irfsName]->registerEventClasses();
    } else {
       throw std::runtime_error("IrfRegistry::loadIrfs: Cannot load IRFs named "
                                + irfsName);
