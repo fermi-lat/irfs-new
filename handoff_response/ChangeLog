@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Mar  1 19:33:45 PST 2007
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	FitsTable.cxx 
+Log Message:
+ROOT incantation to ensure labeled object is does not exist prior to creating it
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r2, operation: add
 Package: handoff_response
