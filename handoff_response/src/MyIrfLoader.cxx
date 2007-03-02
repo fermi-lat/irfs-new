@@ -17,11 +17,13 @@ void MyIrfLoader::registerEventClasses() const {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
    const char * class_names[] = {"standard/front", "standard/back"};
    std::vector<std::string> classNames(class_names, class_names + 2);
+   classNames.at(0) = m_className + "/front";
+   classNames.at(1) = m_className + "/back";
    registry.registerEventClasses("HANDOFF", classNames);
 }
 
 void MyIrfLoader::loadIrfs() const {
-   load_irfs();
+   m_className = load_irfs();
 }
 
 } // namespace handoff_response

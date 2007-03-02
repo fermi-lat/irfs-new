@@ -30,6 +30,10 @@ public:
       return "HANDOFF";
    }
 
+private:
+
+   std::string m_className;
+
 };
 
 } // namespace handoff_response

@@ -32,14 +32,14 @@ namespace {
 
 namespace handoff_response {
 
-void load_irfs(const std::string & name, bool verbose) {
+std::string load_irfs(const std::string & name, bool verbose) {
    std::string filename(name);
 
    IrfLoader * loader(0);
    
    if (::useFits()) {
-// hardwire class "standard" for now
-      filename = "standard";
+// The USE_FITS env var should be set to the class name.
+      filename = ::getenv("USE_FITS");
    } else if (filename.empty()) { // assume default
       char * rootPath = ::getenv("HANDOFF_RESPONSEROOT");
       if (rootPath == 0) {
@@ -50,9 +50,8 @@ void load_irfs(const std::string & name, bool verbose) {
    }
    loader = new IrfLoader(filename);
    
-// the factory to add our IRFs to
-   irfInterface::IrfsFactory * myFactory =
-      irfInterface::IrfsFactory::instance();
+// The factory to add our IRFs to
+   irfInterface::IrfsFactory* myFactory(irfInterface::IrfsFactory::instance());
    
 // event classes within each set of IRFs have to be unique within
 // that set of IRFs, and the event class is given by the
@@ -71,6 +70,11 @@ void load_irfs(const std::string & name, bool verbose) {
        myFactory->addIrfs(eventclass, loader->irfs(eventclass, id), verbose);
     }
     delete loader;
+
+    if (::useFits()) {
+       return filename;
+    }
+    return "";
 }
 
 } // namespace handoff_response
