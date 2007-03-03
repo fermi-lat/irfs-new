@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Mar  3 10:20:55 PST 2007
+irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+enable custom IRFs; tagging v3r3
+    *
+------------------------------------------------------------
+User: jchiang  Sat Mar  3 10:20:55 PST 2007
 irfs/handoff_response/src
 
 Modified Files:
