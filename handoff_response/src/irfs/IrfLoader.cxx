@@ -19,8 +19,6 @@
 
 using namespace handoff_response;
 
-
-
 IrfLoader::IrfLoader(const std::string & filename) 
 {
    std::string::size_type pos(filename.find(".root"));

@@ -7,6 +7,7 @@
  */
 
 #include <cmath>
+#include <cstdlib>
 
 #include <iostream>
 #include <stdexcept>
@@ -94,12 +95,15 @@ void readClassNames(const std::string & rootfile,
 int main(int iargc, char * argv[]) {
    try {
       std::string rootfile;
-      if (iargc == 1) { /// use default input filename
-         char * rootpath = ::getenv("HANDOFF_RESPONSEROOT");
-         if (rootpath == 0) {
-            throw std::runtime_error("HANDOFF_RESPONSEROOT not set");
-         }
-         rootfile = rootpath + std::string("/data/parameters.root");
+      if (iargc != 2) { 
+         std::cout << "usage: " << argv[0] 
+                   << " <ROOT parameter file>" << std::endl;
+         std::exit(1);
+//          char * rootpath = ::getenv("HANDOFF_RESPONSEROOT");
+//          if (rootpath == 0) {
+//             throw std::runtime_error("HANDOFF_RESPONSEROOT not set");
+//          }
+//          rootfile = rootpath + std::string("/data/parameters.root");
       } else {
          rootfile = argv[1];
       }

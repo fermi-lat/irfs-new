@@ -1,5 +1,5 @@
 package handoff_response
-version v3r2
+version v3r3
 
 author Toby Burnett <tburnett@u.washington.edu>
 author J. Chiang <jchiang@slac.stanford.edu>
@@ -23,6 +23,9 @@ apply_pattern package_linkopts
 apply_pattern package_stamps
 
 path_prepend PYTHONPATH $(HANDOFF_RESPONSEROOT)/python
+
+# default path to IRF parameter files
+set HANDOFF_IRF_DIR "$(HANDOFF_RESPONSEROOT)/data"
 
 # this is apparently required by use of TAxis in the RootEval class. 
 macro_append ROOT_libs ""\

@@ -237,7 +237,7 @@ double * RootEval::disp_par(double energy, double costh) {
     bool interpolate(false);
 
     char * foo;
-    if (foo = ::getenv("INTERPOLATE_EDISP")) {
+    if ( (foo = ::getenv("INTERPOLATE_EDISP")) ) {
        if (std::string(foo) == "true") {
           interpolate = true;
        } else {
@@ -256,14 +256,6 @@ double * RootEval::disp_par(double energy, double costh) {
         par[i] = m_dispTables[i]->value(loge, costh, interpolate);
     }
 
-// // integrate to set normalization
-//     disp_pars = par;
-//     double error(1e-5);
-//     long ier;
-//     double norm(st_facilities::GaussianQuadrature::integrate(dispfunc, -1,
-//                                                              10, error, ier));
-//     par[0] /= norm;
-//     par[3] /= norm;
     return par;
 }
 

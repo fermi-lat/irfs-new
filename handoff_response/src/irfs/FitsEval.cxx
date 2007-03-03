@@ -7,6 +7,8 @@
  * $Header$
  */
 
+#include <stdexcept>
+
 #include "st_facilities/Env.h"
 
 #include "gen/PointSpreadFunction.h"
@@ -17,8 +19,12 @@
 
 namespace {
    std::string fullpath(const std::string & basename) {
-      return st_facilities::Env::appendFileName(
-         st_facilities::Env::getDataDir("handoff_response"), basename);
+      char * rootPath = ::getenv("HANDOFF_IRF_DIR");
+      if (rootPath == 0) {
+         throw std::runtime_error("HANDOFF_IRF_DIR env var not set.");
+      }
+      return st_facilities::Env::appendFileName(std::string(rootPath),
+                                                basename);
    }
 }
 

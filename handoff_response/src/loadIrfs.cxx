@@ -28,6 +28,15 @@ namespace {
       }
       return true;
    }
+
+   std::string getEnv(const std::string & envVarName) {
+      char * envvar(::getenv(envVarName.c_str()));
+      if (envvar == 0) {
+         throw std::runtime_error("Please set the " + envVarName 
+                                  + " environment variable.");
+      }
+      return envvar;
+   }
 } // anonymous namespace
 
 namespace handoff_response {
@@ -35,46 +44,42 @@ namespace handoff_response {
 std::string load_irfs(const std::string & name, bool verbose) {
    std::string filename(name);
 
-   IrfLoader * loader(0);
+   std::string irfName;
+   try {
+      irfName = ::getEnv("HANDOFF_IRF_NAME");
+   } catch (std::runtime_error & eObj) {
+      irfName = "standard";
+   }
    
    if (::useFits()) {
-// The USE_FITS env var should be set to the class name.
-      filename = ::getenv("USE_FITS");
-   } else if (filename.empty()) { // assume default
-      char * rootPath = ::getenv("HANDOFF_RESPONSEROOT");
-      if (rootPath == 0) {
-         throw std::runtime_error("HANDOFF_RESPONSEROOT not set");
-      }
-      std::string path(rootPath);
-      filename = path + "/data/parameters.root";
+      filename = irfName;
+   } else { // use default ROOT file name
+      std::string path(::getEnv("HANDOFF_IRF_DIR"));
+      filename = path + "/parameters.root";
    }
-   loader = new IrfLoader(filename);
+   IrfLoader loader(filename);
    
 // The factory to add our IRFs to
    irfInterface::IrfsFactory* myFactory(irfInterface::IrfsFactory::instance());
    
-// event classes within each set of IRFs have to be unique within
-// that set of IRFs, and the event class is given by the
-// irfInterface::Irfs::irfID() function and set in the Irfs constructor:
-// Irfs(IAeff *aeff, IPsf *psf, IEdisp *edisp, int irfID),
-// Front vs Back constitute two separate classes, so the argument to
-// IrfLoader::irfs() must be different for each. 
+// Event classes within each set of IRFs have to be unique within that
+// set of IRFs, and the event class is given by the
+// irfInterface::Irfs::irfID() function and set in the Irfs
+// constructor: Irfs(IAeff *aeff, IPsf *psf, IEdisp *edisp, int
+// irfID), Front vs Back constitute two separate classes, so the
+// argument to IrfLoader::irfs() must be different for each.
     int id(0);
-    for (IrfLoader::const_iterator it(loader->begin()); 
-         it != loader->end(); ++it, id++) {
+    for (IrfLoader::const_iterator it(loader.begin()); 
+         it != loader.end(); ++it, id++) {
        const std::string & eventclass = it->first;
        if (verbose) {
           std::cout << "Loading irfs for event class "
                     << eventclass << std::endl;
        }
-       myFactory->addIrfs(eventclass, loader->irfs(eventclass, id), verbose);
+       myFactory->addIrfs(eventclass, loader.irfs(eventclass, id), verbose);
     }
-    delete loader;
 
-    if (::useFits()) {
-       return filename;
-    }
-    return "";
+    return irfName;
 }
 
 } // namespace handoff_response
