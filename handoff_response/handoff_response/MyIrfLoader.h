@@ -22,6 +22,8 @@ class MyIrfLoader : public irfInterface::IrfLoader {
 
 public:
 
+   virtual ~MyIrfLoader() {}
+
    virtual void registerEventClasses() const;
 
    virtual void loadIrfs() const;
@@ -32,7 +34,7 @@ public:
 
 private:
 
-   std::string m_className;
+   mutable std::string m_className;
 
 };
 
