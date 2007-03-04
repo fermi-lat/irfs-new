@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Mar  3 18:04:58 PST 2007
+irfs/handoff_response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+make MyIrfLoader::m_className mutable; add virtual destructor; tagging v3r3p1
+    *
+------------------------------------------------------------
+User: jchiang  Sat Mar  3 18:04:58 PST 2007
 irfs/handoff_response/cmt
 
 Modified Files:
