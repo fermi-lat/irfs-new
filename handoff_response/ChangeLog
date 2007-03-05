@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Mar  5 12:24:28 PST 2007
+irfs/handoff_response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+refactor env var use for custom IRFs; tagging v3r3p2
+    *
+------------------------------------------------------------
+User: jchiang  Mon Mar  5 12:24:28 PST 2007
 irfs/handoff_response/cmt
 
 Modified Files:
