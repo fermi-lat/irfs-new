@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  05-Mar-07 v3r3p3 JC     update Psf.cxx for new PSF model in v3r2
   05-Mar-07 v3r3p2 JC     refactor use of environment variables for specifying
                           custom IRFs
   03-Mar-07 v3r3p1 JC     make MyIrLoader::m_className mutable

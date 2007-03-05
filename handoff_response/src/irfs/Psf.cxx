@@ -200,10 +200,12 @@ double Psf::angularIntegral(double energy,
    ParMap pars(my_pars);
 
    double ncore(pars["ncore"]);
-   double ntail(pars["ntail"]);
    double sigma(pars["sigma"]);
    double gcore(pars["gcore"]);
    double gtail(pars["gtail"]);
+
+   static double ub(10);
+   double ntail(ncore*psf_function(ub, gcore)/psf_function(ub, gtail));
    
 // // Uncached calculation for testing.
 //    return (ncore*psfIntegral(psi, sigma, gcore) + 
