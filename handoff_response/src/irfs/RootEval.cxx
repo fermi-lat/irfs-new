@@ -131,7 +131,8 @@ double RootEval::aeff(double energy, double theta, double /*phi*/)
     static double factor(1e4); // from m^2 to cm&2
     double costh(cos(theta*M_PI/180));
     if( costh==1.0) costh = 0.9999; // avoid edge of bin
-    return factor*m_aeff->value(log10(energy), costh);
+    bool interpolate;
+    return factor*m_aeff->value(log10(energy), costh, interpolate=false);
 }
 
 double RootEval::aeffmax()

@@ -21,14 +21,6 @@
 #include "irfs/IrfLoader.h"
 
 namespace {
-   bool useFits() {
-      char * use_fits = ::getenv("USE_FITS");
-      if (use_fits == 0) {
-         return false;
-      }
-      return true;
-   }
-
    std::string getEnv(const std::string & envVarName) {
       char * envvar(::getenv(envVarName.c_str()));
       if (envvar == 0) {
@@ -51,11 +43,12 @@ std::string load_irfs(const std::string & name, bool verbose) {
       irfName = "standard";
    }
    
-   if (::useFits()) {
+   if (::getenv("HANDOFF_IRF_DIR")) { // use FITS file
       filename = irfName;
-   } else { // use default ROOT file name
-      std::string path(::getEnv("HANDOFF_IRF_DIR"));
-      filename = path + "/parameters.root";
+   } else { // use default ROOT file
+      std::string path(::getEnv("HANDOFF_RESPONSEROOT"));
+      filename = path + "/data/parameters.root";
+      irfName = "standard";
    }
    IrfLoader loader(filename);
    

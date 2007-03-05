@@ -48,8 +48,8 @@ additionalCuts = {
     }
 if className in additionalCuts.keys():
     Prune.cuts += additionalCuts[className]
-else: print 'Event class "%s" not recognized: using cuts for class all' %className
-   
+else:
+    #print 'Event class "%s" not recognized: using cuts for class all' %className
   
 import numarray as num
 

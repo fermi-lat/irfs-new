@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  05-Mar-07 v3r3p2 JC     refactor use of environment variables for specifying
+                          custom IRFs
   03-Mar-07 v3r3p1 JC     make MyIrLoader::m_className mutable
   03-Mar-07 v3r3   JC     Implement scheme to enable custom IRFs
   01-Mar-07 v3r2   JC     Use updated PSF model and 2 bin overlap in energy

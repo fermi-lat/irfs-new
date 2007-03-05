@@ -11,6 +11,7 @@
 #endif
 
 #include <cmath>
+#include <cstdlib>
 
 #include <iostream>
 
@@ -282,7 +283,12 @@ int main(int argc, char* argv[]) {
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
 
-   handoff_response::load_irfs(argc > 1 ? argv[1]: "");
+   try {
+      handoff_response::load_irfs(argc > 1 ? argv[1]: "");
+   } catch (std::exception & eObj) {
+      std::cout << eObj.what() << std::endl;
+      std::exit(1);
+   }
 //    dc1aResponse::load_irfs();
 //    dc2Response::load_irfs();
 
