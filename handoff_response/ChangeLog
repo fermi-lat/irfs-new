@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Mar 12 12:26:10 PDT 2007
+irfs/handoff_response/data
+
+Modified Files:
+	aeff.tpl edisp.tpl psf.tpl 
+Log Message:
+set detnam keyword; update templates
+    *
+------------------------------------------------------------
 User: jchiang  Mon Mar 12 11:58:17 PDT 2007
 irfs/handoff_response/src/fits/make_fits
 
