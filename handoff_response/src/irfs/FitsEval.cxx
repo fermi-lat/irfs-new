@@ -7,6 +7,7 @@
  * $Header$
  */
 
+#include <cctype>
 #include <stdexcept>
 
 #include "st_facilities/Env.h"
