@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Mar 12 13:59:31 PDT 2007
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	FitsEval.cxx 
+Log Message:
+use CALDB for Pass 4 irfs; tagging v3r4
+    *
+------------------------------------------------------------
+User: jchiang  Mon Mar 12 13:59:31 PDT 2007
 irfs/handoff_response/src
 
 Modified Files:
