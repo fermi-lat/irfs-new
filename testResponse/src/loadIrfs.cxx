@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "irfInterface/IrfsFactory.h"
+#include "irfUtil/Util.h"
 
 #include "Aeff.h"
 #include "Psf.h"
@@ -23,6 +24,12 @@ void loadIrfs() {
    irfInterface::IAeff *aeff;
    irfInterface::IPsf *psf;
    irfInterface::IEdisp *edisp;
+
+   std::string aeffFile;
+   std::string psfFile;
+   std::string edispFile;
+   std::string caldbPath = std::string(::getenv("CALDBROOT"))
+      + "/CALDB/data/glast/lat/bcf/";
 
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();

@@ -14,8 +14,6 @@
 #include <string>
 #include <vector>
 
-#include "st_facilities/libStApiExports.h"
-
 namespace irfLoader {
 
 /**
@@ -24,7 +22,7 @@ namespace irfLoader {
  * $Header$
  */
 
-class SCIENCETOOLS_API Loader {
+class Loader {
 
 public:
 
@@ -50,8 +48,6 @@ public:
       return s_respIds;
    }
 
-   static void resetIrfs();
-
 protected:
 
    Loader() {}
@@ -65,12 +61,6 @@ private:
    static std::map<std::string, std::vector<std::string> > s_respIds;
 
 };
-
-// Opaque wrappers for class static functions since linkage on windows for
-// symbols exported from dlls is all fouled up.
-void Loader_go();
-
-const std::map<std::string, std::vector<std::string> > & Loader_respIds();
 
 } // namespace irfLoader
 

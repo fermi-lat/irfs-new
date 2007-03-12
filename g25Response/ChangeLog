@@ -1,4 +1,90 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 25 18:08:57 PDT 2006
+irfs/g25Response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+tagging v0r2
+    *
+------------------------------------------------------------
+User: jchiang  Tue Apr 25 18:08:57 PDT 2006
+irfs/g25Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+tagging v0r2
+    *
+------------------------------------------------------------
+User: jchiang  Tue Apr 25 06:53:34 PDT 2006
+irfs/g25Response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+implement Aeff::upperLimit
+    *
+------------------------------------------------------------
+User: jchiang  Tue Apr 25 06:53:34 PDT 2006
+irfs/g25Response/src
+
+Modified Files:
+	AeffGlast25.cxx AeffGlast25.h 
+Log Message:
+implement Aeff::upperLimit
+    *
+------------------------------------------------------------
+User: jchiang  Tue Apr 25 06:53:33 PDT 2006
+irfs/g25Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+implement Aeff::upperLimit
+    *
+------------------------------------------------------------
+TAG
+Tag name: v0r1p6, operation: add
+Package: g25Response
+User: jchiang  Tue Mar 21 14:38:01 2006
+Files:
+  g25Response/.cvsignore  1.1.1.1
+  g25Response/ChangeLog  1.33
+  g25Response/cmt/requirements  1.11
+  g25Response/doc/release.notes  1.6
+  g25Response/g25Response/loadIrfs.h  1.1.1.1
+  g25Response/src/PsfGlast25.h  1.1.1.1
+  g25Response/src/AeffGlast25.h  1.1.1.1
+  g25Response/src/AeffGlast25.cxx  1.3
+  g25Response/src/loadIrfs.cxx  1.5
+  g25Response/src/Glast25.h  1.1.1.1
+  g25Response/src/PsfGlast25.cxx  1.5
+  g25Response/src/EdispGlast25.cxx  1.4
+  g25Response/src/EdispGlast25.h  1.1.1.1
+  g25Response/src/Glast25.cxx  1.1.1.1
+  g25Response/src/test/test.cxx  1.2
+
+    *
+------------------------------------------------------------
+User: jchiang  Tue Mar 21 13:40:56 PST 2006
+irfs/g25Response/src
+
+Modified Files:
+	EdispGlast25.cxx PsfGlast25.cxx 
+Log Message:
+add using CLHEP:: ; tagging v0r1p6
+    *
+------------------------------------------------------------
+User: jchiang  Tue Mar 21 13:40:55 PST 2006
+irfs/g25Response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+add using CLHEP:: ; tagging v0r1p6
+    *
+------------------------------------------------------------
 User: jchiang  Tue Mar 21 13:40:55 PST 2006
 irfs/g25Response/cmt
 

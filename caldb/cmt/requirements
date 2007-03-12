@@ -1,10 +1,10 @@
 package caldb
-version v0r1p1
+version v0r2
 
 author James Chiang <jchiang@slac.stanford.edu>
 
 # $Id$
 
-set CALDB $(CALDBROOT)/CALDB
-set CALDBCONFIG $(CALDB)/software/tools/caldb.config
-set CALDBALIAS $(CALDB)/software/tools/alias_caldb.fits
+set CALDB $(CALDBROOT)/CALDB/data/glast/lat
+set CALDBCONFIG $(CALDBROOT)/CALDB/software/tools/caldb.config
+set CALDBALIAS $(CALDBROOT)/CALDB/software/tools/alias_config.fits

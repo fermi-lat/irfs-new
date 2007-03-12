@@ -19,10 +19,11 @@
 #include "CLHEP/Random/RandGauss.h"
 #include "CLHEP/Geometry/Vector3D.h"
 
-#include "st_facilities/dgaus8.h"
 #include "st_facilities/Util.h"
 
 #include "irfInterface/AcceptanceCone.h"
+#include "irfUtil/Util.h"
+#include "irfUtil/dgaus8.h"
 
 #include "Psf.h"
 
@@ -178,42 +179,22 @@ double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
    if (sep_mean < m_sepMean.front() || sep_mean >= m_sepMean.back()) {
       return 0;
    }
-
    unsigned int isepMean = 
       std::upper_bound(m_sepMean.begin(), m_sepMean.end(), sep_mean) 
-      - m_sepMean.begin() - 1;
+      - m_sepMean.begin();
 
    unsigned int indx = ipsi*m_sepMean.size() + isepMean;
-
-   if (isepMean == m_sepMean.size() - 1) {
-      return psfIntegral(psi, sep_mean);
-   }
-
-// Interpolate in sepMean dimension.
    if (m_needIntegral[indx]) {
-      m_angularIntegral[indx] = psfIntegral(psi, m_sepMean[isepMean]);
+      m_angularIntegral[indx] = psfIntegral(psi, sep_mean);
       m_needIntegral[indx] = false;
    }
-   if (m_needIntegral[indx+1]) {
-      m_angularIntegral[indx+1] = psfIntegral(psi, m_sepMean[isepMean+1]);
-      m_needIntegral[indx+1] = false;
-   }
-   double my_value = (sep_mean - m_sepMean[isepMean])
-      /(m_sepMean[isepMean+1] - m_sepMean[isepMean])
-      *(m_angularIntegral[indx+1] - m_angularIntegral[indx])
-      + m_angularIntegral[indx];
-   return my_value;
+   return m_angularIntegral[indx];                                            
 }
 
 double Psf::angularIntegral(double energy, double theta, 
                             double phi, double radius) const {
    (void)(phi);
    double scaledDev = radius*M_PI/180./sepMean(energy, theta*M_PI/180.);
-   if (scaledDev >= m_scaledDevs.back()) {
-      return 1.;
-   } else if (scaledDev <= m_scaledDevs.front()) {
-      return 0;
-   }
    return st_facilities::Util::interpolate(m_scaledDevs, m_cumDist, scaledDev);
 }
 
@@ -233,8 +214,8 @@ void Psf::computeAngularIntegrals
    }
    *m_acceptanceCone = *cones[0];
 
-   unsigned int npsi = 1000;
-   unsigned int nsepMean = 200;
+   unsigned int npsi = 100;
+   unsigned int nsepMean = 1000;
 
    if (!m_haveAngularIntegrals) {
 // Set up the array describing the separation between the center of
@@ -336,7 +317,7 @@ double Psf::scaledDist(double x) const {
 
 void Psf::computeCumulativeDist() {
    int npts(200);
-   double xstep = 6./(npts-1.);
+   double xstep = 5./(npts-1.);
    double xmin(1e-3);
    m_scaledDevs.clear();
    m_scaledDevs.reserve(npts);
