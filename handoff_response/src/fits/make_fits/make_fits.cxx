@@ -109,6 +109,15 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    IrfTableMap irfTables(className + "::" + section, rootfile);
    std::string irfVersion(par("IRF_version"));
    std::string latclass(className + "_" + section);
+   std::string detname;
+   if (rootClassName.find("front") != std::string::npos) {
+      detname = "FRONT";
+   } else if (rootClassName.find("back") != std::string::npos) {
+      detname = "BACK";
+   } else {
+      throw std::runtime_error("Unrecognized detector name in class "
+                               + rootClassName);
+   }
       
 // Effective area
    FitsFile aeff("aeff_" + latclass + ".fits", "EFFECTIVE AREA", "aeff.tpl");
@@ -116,6 +125,7 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    aeff.setTableData("EFFAREA", irfTables["aeff"].values());
    aeff.setCbdValue("VERSION", irfVersion);
    aeff.setCbdValue("CLASS", latclass);
+   aeff.setKeyword("DETNAM", detname);
    aeff.close();
 
 // Point spread function and angular deviation scaling parameters
@@ -128,6 +138,7 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    psf.setTableData("GTAIL", irfTables["gtail"].values());
    psf.setCbdValue("VERSION", irfVersion);
    psf.setCbdValue("CLASS", latclass);
+   psf.setKeyword("DETNAM", detname);
    psf.close();
    
    double scaling_pars[] = {5.8e-2, 3.77e-4, 9.6e-2, 1.3e-3, -0.8};
@@ -150,6 +161,7 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    edisp.setTableData("RT2", irfTables["rt2"].values());
    edisp.setCbdValue("VERSION", irfVersion);
    edisp.setCbdValue("CLASS", latclass);
+   edisp.setKeyword("DETNAM", detname);
    edisp.close();
 }
 
