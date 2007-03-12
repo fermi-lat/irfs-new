@@ -183,14 +183,15 @@ void FitsFile::readBoundaryKeywords(const tip::Table * table) {
    }
 }
 
-void FitsFile::setClassName(const std::string & className) {
-   std::string keyValue("CLASS(" + className + ")");
+void FitsFile::setCbdValue(const std::string & cbdKey,
+                           const std::string & cbdValue) {
+   std::string keyValue(cbdKey + "(" + cbdValue + ")");
 
    std::vector<std::string> emptyKeys;
 
    std::map<std::string, std::string>::iterator it(m_cbdValues.begin());
    for ( ; it != m_cbdValues.end(); ++it) {
-      if (it->second.find("CLASS") != std::string::npos) {
+      if (it->second.find(cbdKey) != std::string::npos) {
          setKeyword(it->first, keyValue);
          it->second = keyValue;
          return;
@@ -204,7 +205,7 @@ void FitsFile::setClassName(const std::string & className) {
       setKeyword(emptyKeys.at(0), keyValue);
    } else {
       throw std::runtime_error("No more remaining CBD keywords to "
-                               "contain the event class name.");
+                               "contain the requested key-value pair.");
    }
 }
 

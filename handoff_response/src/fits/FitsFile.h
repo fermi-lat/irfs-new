@@ -69,7 +69,8 @@ public:
       delete hdu;
    }
 
-   void setClassName(const std::string & className);
+   void setCbdValue(const std::string & cbdKey,
+                    const std::string & cbdValue);
 
    const std::map<std::string, std::string> & cbdValues() const {
       return m_cbdValues;
