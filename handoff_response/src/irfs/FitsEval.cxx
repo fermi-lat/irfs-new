@@ -11,6 +11,8 @@
 
 #include "st_facilities/Env.h"
 
+#include "irfUtil/Util.h"
+
 #include "gen/PointSpreadFunction.h"
 #include "gen/Dispersion.h"
 
@@ -25,6 +27,20 @@ namespace {
       }
       return st_facilities::Env::appendFileName(std::string(rootPath),
                                                 basename);
+   }
+   void toUpper(std::string & name) {
+      for (std::string::iterator it = name.begin(); it != name.end(); ++it) {
+         *it = std::toupper(*it);
+      }
+   }
+   std::string caldbFile(const std::string & respname, std::string section) {
+      toUpper(section);
+      std::string filename;
+      long hdu;
+      irfUtil::Util::getCaldbFile(section, respname, "PASS4",
+                                  filename, hdu, "GLAST", "LAT",
+                                  "NONE", "2007-03-12", "00:00:00");
+      return filename;
    }
 }
 
@@ -73,15 +89,24 @@ void FitsEval::readPsf() {
 }
 
 std::string FitsEval::aeffFile() const {
-   return ::fullpath("aeff_" + m_className + "_" + m_section + ".fits");
+   if (::getenv("HANDOFF_IRF_DIR")) {
+      return ::fullpath("aeff_" + m_className + "_" + m_section + ".fits");
+   }
+   return caldbFile("EFF_AREA", m_section);
 }
 
 std::string FitsEval::edispFile() const {
-   return ::fullpath("edisp_" + m_className + "_" + m_section + ".fits");
+   if (::getenv("HANDOFF_IRF_DIR")) {
+      return ::fullpath("edisp_" + m_className + "_" + m_section + ".fits");
+   }
+   return caldbFile("EDISP", m_section);
 }
 
 std::string FitsEval::psfFile() const {
-   return ::fullpath("psf_" + m_className + "_" + m_section + ".fits");
+   if (::getenv("HANDOFF_IRF_DIR")) {
+      return ::fullpath("psf_" + m_className + "_" + m_section + ".fits");
+   }
+   return caldbFile("RPSF", m_section);
 }
 
 void FitsEval::createMap(const std::string & className, 

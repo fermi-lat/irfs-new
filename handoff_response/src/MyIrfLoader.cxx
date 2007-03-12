@@ -6,6 +6,8 @@
  * $Header$
  */
 
+#include <cstdlib>
+
 #include "irfInterface/IrfRegistry.h"
 
 #include "handoff_response/loadIrfs.h"

@@ -14,6 +14,7 @@
 #include <cstdlib>
 
 #include <iostream>
+#include <stdexcept>
 
 #include <cppunit/ui/text/TextTestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -25,6 +26,17 @@
 #include "handoff_response/loadIrfs.h"
 // #include "dc1aResponse/loadIrfs.h"
 // #include "dc2Response/loadIrfs.h"
+
+namespace {
+   std::string getEnv(const std::string & envVarName) {
+      char * envvar(::getenv(envVarName.c_str()));
+      if (envvar == 0) {
+         throw std::runtime_error("Please set the " + envVarName 
+                                  + " environment variable.");
+      }
+      return envvar;
+   }
+}
 
 class HandoffResponseTests : public CppUnit::TestFixture {
 
@@ -284,7 +296,9 @@ int main(int argc, char* argv[]) {
 #endif
 
    try {
-      handoff_response::load_irfs(argc > 1 ? argv[1]: "");
+      std::string defaultFile(::getEnv("HANDOFF_RESPONSEROOT") + 
+                              "/data/parameters.root");
+      handoff_response::load_irfs(argc > 1 ? argv[1]: defaultFile.c_str());
    } catch (std::exception & eObj) {
       std::cout << eObj.what() << std::endl;
       std::exit(1);

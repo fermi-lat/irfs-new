@@ -33,25 +33,21 @@ namespace {
 
 namespace handoff_response {
 
-std::string load_irfs(const std::string & name, bool verbose) {
-   std::string filename(name);
+std::string load_irfs(const std::string & rootfile, bool verbose) {
+   std::string irfName("standard");
 
-   std::string irfName;
-   try {
-      irfName = ::getEnv("HANDOFF_IRF_NAME");
-   } catch (std::runtime_error & eObj) {
-      irfName = "standard";
+   IrfLoader * loader(0);
+   if (rootfile != "") {
+      loader = new IrfLoader(rootfile);
+   } else {  // use FITS file
+      try {
+         irfName = ::getEnv("HANDOFF_IRF_NAME");
+      } catch (std::runtime_error & eObj) {
+         irfName = "standard";
+      }
+      loader = new IrfLoader(irfName);
    }
-   
-   if (::getenv("HANDOFF_IRF_DIR")) { // use FITS file
-      filename = irfName;
-   } else { // use default ROOT file
-      std::string path(::getEnv("HANDOFF_RESPONSEROOT"));
-      filename = path + "/data/parameters.root";
-      irfName = "standard";
-   }
-   IrfLoader loader(filename);
-   
+
 // The factory to add our IRFs to
    irfInterface::IrfsFactory* myFactory(irfInterface::IrfsFactory::instance());
    
@@ -62,15 +58,17 @@ std::string load_irfs(const std::string & name, bool verbose) {
 // irfID), Front vs Back constitute two separate classes, so the
 // argument to IrfLoader::irfs() must be different for each.
     int id(0);
-    for (IrfLoader::const_iterator it(loader.begin()); 
-         it != loader.end(); ++it, id++) {
+    for (IrfLoader::const_iterator it(loader->begin()); 
+         it != loader->end(); ++it, id++) {
        const std::string & eventclass = it->first;
        if (verbose) {
           std::cout << "Loading irfs for event class "
                     << eventclass << std::endl;
        }
-       myFactory->addIrfs(eventclass, loader.irfs(eventclass, id), verbose);
+       myFactory->addIrfs(eventclass, loader->irfs(eventclass, id), verbose);
     }
+
+    delete loader;
 
     return irfName;
 }
