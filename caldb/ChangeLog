@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Mar 12 13:57:45 PDT 2007
+irfs/caldb/CALDB/data/glast/lat/bcf/edisp
+
+Added Files:
+	edisp_standard_back_P4.fits edisp_standard_front_P4.fits 
+Log Message:
+add Pass 4 IRFs; tagging v0r2
+    *
+------------------------------------------------------------
 User: jchiang  Mon Mar 12 13:57:44 PDT 2007
 irfs/caldb/CALDB/data/glast/lat/bcf/ea
 
