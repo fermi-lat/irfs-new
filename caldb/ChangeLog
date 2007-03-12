@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Mar 12 13:57:46 PDT 2007
+irfs/caldb/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add Pass 4 IRFs; tagging v0r2
+    *
+------------------------------------------------------------
 User: jchiang  Mon Mar 12 13:57:45 PDT 2007
 irfs/caldb/CALDB/data/glast/lat/bcf/psf
 
