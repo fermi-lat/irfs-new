@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Mar 12 11:58:17 PDT 2007
+irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+use pil interface for make_fits app; write out irf version name to FITS files
+    *
+------------------------------------------------------------
+User: jchiang  Mon Mar 12 11:58:17 PDT 2007
 irfs/handoff_response/src/fits
 
 Modified Files:
