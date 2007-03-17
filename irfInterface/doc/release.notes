@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  16-Mar-07 v2r1    JC    use C++ version of dgaus8; remove statics from
+                          IEdisp; add adhocIntegrator to handle spurious
+                          zero-valued integrals
   02-Mar-07 v2r0p4  JC    refactor unit tests for IrfRegistry change
   01-Mar-07 v2r0p3  JC    refactor IrfRegistry to allow concrete IrfLoader
                           implementations to set data members in loadIrfs
