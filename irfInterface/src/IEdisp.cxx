@@ -26,6 +26,28 @@ namespace {
          energies.push_back(emin*std::exp(i*estep));
       }
    }
+   typedef double (*D_fp)(double*);    // "from" f2c.h
+   double adhocIntegrator(D_fp fun, double emin, double emax, 
+                          double err, long ierr) {
+      double integral 
+         = st_facilities::GaussianQuadrature::integrate(fun, emin, emax, 
+                                                        err, ierr);
+      if (integral == 0) {
+         emin = std::max(emin, 1e-5);
+         size_t npts(4);
+         double efactor(std::exp(std::log(emax/emin)/(npts-1)));
+         double e0(emin);
+         double e1(emin*efactor);
+         for (size_t i(0); i < npts; i++) {
+            integral += 
+               st_facilities::GaussianQuadrature::integrate(fun, e0, e1, 
+                                                            err, ierr);
+            e0 *= efactor;
+            e1 *= efactor;
+         }
+      }
+      return integral;
+   }
 }
 
 namespace irfInterface {
@@ -104,11 +126,9 @@ double IEdisp::edispIntegral(const IEdisp * self, double emin, double emax,
                              double time) {
    setStaticVariables(energy, theta, phi, time, self);
    double integral;
-   double err(1e-5);
+   double err(0);
    long ierr(0);
-   integral = 
-      st_facilities::GaussianQuadrature::integrate(&edispIntegrand, emin,
-                                                   emax, err, ierr);
+   integral = ::adhocIntegrator(&edispIntegrand, emin, emax, err, ierr);
    return integral;
 }
 
