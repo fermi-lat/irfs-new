@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Mar 16 22:19:41 PDT 2007
+irfs/irfInterface/src
+
+Modified Files:
+	IEdisp.cxx 
+Log Message:
+use C++ version of dgaus8; remove statics; add adhocIntegrator
+    *
+------------------------------------------------------------
+User: jchiang  Fri Mar 16 22:19:41 PDT 2007
 irfs/irfInterface/irfInterface
 
 Modified Files:
