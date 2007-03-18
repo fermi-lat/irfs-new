@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Mar 17 17:49:57 PDT 2007
+irfs/dc2Response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+use default IEdisp::integral implementations; tagging v3r1
+    *
+------------------------------------------------------------
+User: jchiang  Sat Mar 17 17:49:57 PDT 2007
 irfs/dc2Response/cmt
 
 Modified Files:
