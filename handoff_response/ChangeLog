@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Mar 19 20:54:00 PDT 2007
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	RootEval.cxx RootEval.h 
+Log Message:
+reset interpolate for m_aeff, but limit to tabulated angles; tagging v3r4p2
+    *
+------------------------------------------------------------
+User: jchiang  Mon Mar 19 20:54:00 PDT 2007
 irfs/handoff_response/doc
 
 Modified Files:
