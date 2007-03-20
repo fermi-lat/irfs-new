@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  19-Mar-07 v3r4p2 JC     add pass to IRFdefault.py to correct syntax; 
+                          reset interpolate to true for RootEval::m_aeff, but 
+                          do not extrapolate past tabulated cos(theta) values
   12-Mar-07 v3r4p1 JC     include <cctype> in FitsEval.cxx
   12-Mar-07 v3r4   JC     use CALDB for Pass 4 irfs
   05-Mar-07 v3r3p3 JC     update Psf.cxx for new PSF model in v3r2

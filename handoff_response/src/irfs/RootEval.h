@@ -79,6 +79,10 @@ protected:
     
       double maximum();
 
+      float minCosTheta() const {
+         return m_minCosTheta;
+      }
+
    private:
 
       TH2F * m_hist;
@@ -86,6 +90,8 @@ protected:
       std::vector<float> m_energy_axis; 
       std::vector<float> m_angle_axis;
       std::vector<float> m_data_array;
+
+      float m_minCosTheta;
 
       Bilinear * m_interpolator;
 

@@ -42,6 +42,8 @@ RootEval::Table::Table(TH2F* hist)
     {
         binArray( 0, 10, hist->GetXaxis(), m_energy_axis);
         binArray(-1.0,1.00, hist->GetYaxis(), m_angle_axis);
+
+        m_minCosTheta = hist->GetYaxis()->GetBinLowEdge(1);
 #if 0
         std::cout << "energy bins: ";
         std::copy(m_energy_axis.begin(), m_energy_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
@@ -51,6 +53,7 @@ RootEval::Table::Table(TH2F* hist)
         std::copy(m_angle_axis.begin(), m_angle_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
         std::cout << std::endl;
 #endif
+
         for(Bilinear::const_iterator iy = m_angle_axis.begin(); iy!=m_angle_axis.end(); ++iy){
             float costh ( *iy );
             if(costh==1.0) costh=0.999; // avoid edge in histgram
@@ -132,7 +135,11 @@ double RootEval::aeff(double energy, double theta, double /*phi*/)
     double costh(cos(theta*M_PI/180));
     if( costh==1.0) costh = 0.9999; // avoid edge of bin
     bool interpolate;
-    return factor*m_aeff->value(log10(energy), costh, interpolate=false);
+// Do not extrapolate past largest tabulated angle.
+    if (costh < m_aeff->minCosTheta()) {
+       return 0;
+    }
+    return factor*m_aeff->value(log10(energy), costh, interpolate=true);
 }
 
 double RootEval::aeffmax()
