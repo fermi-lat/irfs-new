@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Mar 19 20:13:13 PDT 2007
+irfs/handoff_response/python
+
+Modified Files:
+	IRFdefault.py 
+Log Message:
+add pass to make file syntactically correct
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r4p1, operation: add
 Package: handoff_response
