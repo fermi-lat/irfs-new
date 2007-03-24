@@ -4,6 +4,8 @@
     $Header$
 */
 
+#include <iostream>
+
 #include "TreeWrapper.h"
 
 #include "TFile.h"

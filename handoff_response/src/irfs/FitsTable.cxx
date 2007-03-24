@@ -13,6 +13,7 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "TDirectory.h"
 #include "TH2F.h"
 
 #include "facilities/Util.h"
@@ -95,7 +96,8 @@ TH2F * FitsTable::tableData(const std::string & fieldName) const {
    std::vector< std::vector<double> > values;
    getTableData(fieldName, values);
 
-   delete (TH2F *) gDirectory->GetList()->FindObject(label.c_str());
+//   TH2F * foo = (TH2F *)(gDirectory->GetList()->FindObject(label.c_str()));
+//   delete foo;
 
    TH2F * h2 = new TH2F(label.c_str(), title.c_str(), 
                         logE.size()-1, &logE[0],

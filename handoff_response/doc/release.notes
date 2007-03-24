@@ -5,6 +5,10 @@
   @verbatim
   $Id$
 
+  24-Mar-07 v3r4p3 JC     include <iostream> in TreeWrapper (which did not
+                          need this before moving to ROOT 5.14); makeirf
+                          still does not build on rhel4_gcc34 because of
+                          ROOT interface changes.
   19-Mar-07 v3r4p2 JC     add pass to IRFdefault.py to correct syntax; 
                           reset interpolate to true for RootEval::m_aeff, but 
                           do not extrapolate past tabulated cos(theta) values
