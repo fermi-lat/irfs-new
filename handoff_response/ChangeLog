@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sat Mar 24 14:01:31 PDT 2007
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+include <iostream> in TreeWrapper.cxx; tagging v3r4p3
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r4p2, operation: add
 Package: handoff_response
