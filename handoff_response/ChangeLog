@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Apr  8 12:56:58 PDT 2007
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+unit test kluge; tagging v3r4p4
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r4p3, operation: add
 Package: handoff_response
