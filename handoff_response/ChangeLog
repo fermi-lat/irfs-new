@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sun Apr  8 12:56:58 PDT 2007
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	Psf.cxx RootEval.cxx 
+Log Message:
+unit test kluge; tagging v3r4p4
+    *
+------------------------------------------------------------
+User: jchiang  Sun Apr  8 12:56:58 PDT 2007
 irfs/handoff_response/doc
 
 Modified Files:
