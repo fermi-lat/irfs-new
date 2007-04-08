@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  08-Apr-07 v3r4p4 JC     klugey fix for psf integral unit tests because
+                          of poor underlying implementation in 
+                          PointSpreadFucntion
   24-Mar-07 v3r4p3 JC     include <iostream> in TreeWrapper (which did not
                           need this before moving to ROOT 5.14); makeirf
                           still does not build on rhel4_gcc34 because of

@@ -193,52 +193,51 @@ RootEval::Table* RootEval::setupHist( std::string name)
     return new Table(h2);
 }
 
-double * RootEval::psf_par(double energy, double costh)
-{
-    static double par[5];
-    double loge(::log10(energy));
-    if (costh == 1.0) {  // Why is this necessary?
-       costh = 0.9999;
-    }
+double * RootEval::psf_par(double energy, double costh) {
+   static double par[5];
+   double loge(::log10(energy));
+   if (costh == 1.0) {  // Why is this necessary?
+      costh = 0.9999;
+   }
+   
+   if (loge == m_loge_last && costh == m_costh_last) {
+      return par;
+   }
+   
+   m_loge_last = loge;
+   m_costh_last = costh;
+   
+   for (unsigned int i = 0; i < m_psfTables.size(); ++i) {
+      par[i] = m_psfTables[i]->value(loge,costh);
+   }
+   
+   // rescale the sigma value after interpolation
+   static double zdir(1.0);
+   par[1] *= PointSpreadFunction::scaleFactor(energy, zdir, isFront());
+   
+   if (par[1] == 0 || par[2] == 0 || par[3] == 0) {
+      std::ostringstream message;
+      message << "handoff_response::RootEval: psf parameters are zero "
+              << "when computing solid angle normalization:\n"
+              << "\tenergy = " << energy << "\n"
+              << "\tcosth  = " << zdir   << "\n"
+              << "\tpar[1] = " << par[1] << "\n"
+              << "\tpar[2] = " << par[2] << "\n"
+              << "\tpar[3] = " << par[3] << std::endl;
+      std::cerr << message.str() << std::endl;
+      throw std::runtime_error(message.str());
+   }
 
-    if (loge == m_loge_last && costh == m_costh_last) {
-       return par;
-    }
-
-    m_loge_last = loge;
-    m_costh_last = costh;
-
-    for (unsigned int i = 0; i < m_psfTables.size(); ++i) {
-       par[i] = m_psfTables[i]->value(loge,costh);
-    }
-
-    // rescale the sigma value after interpolation
-    static double zdir(1.0);
-    par[1] *= PointSpreadFunction::scaleFactor(energy, zdir, isFront());
-
-    if (par[1] == 0 || par[2] == 0 || par[3] == 0) {
-       std::ostringstream message;
-       message << "handoff_response::RootEval: psf parameters are zero "
-               << "when computing solid angle normalization:\n"
-               << "\tenergy = " << energy << "\n"
-               << "\tcosth  = " << zdir   << "\n"
-               << "\tpar[1] = " << par[1] << "\n"
-               << "\tpar[2] = " << par[2] << "\n"
-               << "\tpar[3] = " << par[3] << std::endl;
-       std::cerr << message.str() << std::endl;
-       throw std::runtime_error(message.str());
-    }
-
-    static double theta_max(M_PI/2.);
-
+   static double theta_max(M_PI/2.);
+   
 // Ensure that the Psf integrates to unity (using, unfortunately, small
 // angle approx).
-    double norm = PointSpreadFunction::integral(&theta_max, par);
+   double norm = PointSpreadFunction::integral(&theta_max, par);
 
 // solid angle normalization (par[1] is sigma).
-    par[0] /= norm*2.*M_PI*par[1]*par[1];
+   par[0] /= norm*2.*M_PI*par[1]*par[1];
 
-    return par;
+   return par;
 }
 
 double * RootEval::disp_par(double energy, double costh) {

@@ -120,20 +120,18 @@ double Psf::value(const astro::SkyDir & appDir,
                   double energy, 
                   const astro::SkyDir & srcDir, 
                   const astro::SkyDir & scZAxis,
-                  const astro::SkyDir &, double) const 
-{
-    // Angle between photon and source directions in radians.
-    double separation = appDir.difference(srcDir);
-
-    // Inclination wrt spacecraft z-axis in radians
-    double inc = srcDir.difference(scZAxis);
-
-    return value(separation*180./M_PI, energy, inc*180./M_PI, 0.);
+                  const astro::SkyDir &, double) const {
+   // Angle between photon and source directions in radians.
+   double separation = appDir.difference(srcDir);
+   
+   // Inclination wrt spacecraft z-axis in radians
+   double inc = srcDir.difference(scZAxis);
+   
+   return value(separation*180./M_PI, energy, inc*180./M_PI, 0.);
 }
 
 double Psf::value(double separation, double energy, double theta,
-                  double phi, double) const 
-{
+                  double phi, double) const {
    if (theta < 0) {
       std::ostringstream message;
       message << "handoff::Psf::value(...):\n"
@@ -141,13 +139,11 @@ double Psf::value(double separation, double energy, double theta,
               << "Value passed: " << theta;
       throw std::invalid_argument(message.str());
    }
-   // (back to radians)
    return m_eval->psf(separation*M_PI/180., energy, theta, phi);
 }
 
 double Psf::angularIntegral(double energy, double theta, 
-                            double phi, double radius, double /*time*/) const 
-{
+                            double phi, double radius, double /*time*/) const {
    double check =  m_eval->psf_integral(radius*M_PI/180., energy, theta, phi);
 #if 0 // enable to test
    double time(0);
