@@ -141,8 +141,6 @@ void HandoffResponseTests::psf_normalization() {
 
    bool integralFailures(false);
 
-   double tolerance(tol);
-
    for (std::vector<std::string>::const_iterator name = m_irfNames.begin();
         name != m_irfNames.end(); ++name) {
       std::cout << *name << ": \n";
@@ -151,13 +149,6 @@ void HandoffResponseTests::psf_normalization() {
       
       for (std::vector<double>::const_iterator energy = energies.begin();
            energy != energies.end(); ++energy) {
-         if (*energy < 70) {
-// Relax tolerance at low energies because of the very poorly
-// implemented normalization in PointSpreadFunction class.
-            tolerance = 0.05;
-         } else {
-            tolerance = tol;
-         }
          for (std::vector<double>::const_iterator theta = thetas.begin();
               theta != thetas.end(); ++theta) {
            
@@ -175,7 +166,7 @@ void HandoffResponseTests::psf_normalization() {
             }
             integral *= 2.*M_PI;
             double angInt(psf.angularIntegral(*energy, *theta, phi, psimax));
-            if (std::fabs(integral - 1.) >= tolerance) { 
+            if (std::fabs(integral - 1.) >= tol) { 
                std::cout << *energy  << "      " 
                          << *theta   << "           "
                          << integral << "        "

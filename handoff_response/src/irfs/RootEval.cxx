@@ -27,14 +27,28 @@ $Header$
 using namespace handoff_response;
 #include "TPaletteAxis.h"
 namespace {
-     TPaletteAxis dummy;
+   TPaletteAxis dummy;
 
    static double * disp_pars;
    double dispfunc(double * x) {
       return Dispersion::function(x, disp_pars);
    }
-}
 
+   class PsfIntegrand {
+   public:
+      /// @param energy True photon energy (MeV)
+      /// @param theta Incident inclination (degrees)
+      /// @param phi Incident azimuthal angle (degrees)
+      PsfIntegrand(double * pars) : m_pars(pars) {}
+
+      /// @param sep angle between true direction and measured (radians)
+      double operator()(double sep) const {
+         return PointSpreadFunction::function(&sep, m_pars)*std::sin(sep);
+      }
+   private:
+      double * m_pars;
+   };
+}
 
 RootEval::Table::Table(TH2F* hist)
     : m_hist(hist)
@@ -98,9 +112,7 @@ double RootEval::Table::value(double logenergy, double costh, bool interpolate)
     }                                          // the first bin?
     int bin= m_hist->FindBin(logenergy, costh);
     return m_hist->GetBinContent(bin);
-
 }
-
 
 RootEval::RootEval(TFile* f, std::string eventtype)
 : IrfEval(eventtype)
@@ -227,15 +239,21 @@ double * RootEval::psf_par(double energy, double costh) {
       std::cerr << message.str() << std::endl;
       throw std::runtime_error(message.str());
    }
-
-   static double theta_max(M_PI/2.);
    
-// Ensure that the Psf integrates to unity (using, unfortunately, small
-// angle approx).
-   double norm = PointSpreadFunction::integral(&theta_max, par);
-
-// solid angle normalization (par[1] is sigma).
-   par[0] /= norm*2.*M_PI*par[1]*par[1];
+// Ensure that the Psf integrates to unity.
+   double norm;
+   static double theta_max(M_PI/2.);
+   if (energy < 70.) { // Use the *correct* integral of Psf over solid angle.
+      ::PsfIntegrand foo(par);
+      double err(1e-5);
+      int ierr;
+      norm = st_facilities::GaussianQuadrature::dgaus8(foo, 0, theta_max,
+                                                       err, ierr);
+      par[0] /= norm*2.*M_PI;
+   } else { // Use small angle approximation.
+      norm = PointSpreadFunction::integral(&theta_max, par);
+      par[0] /= norm*2.*M_PI*par[1]*par[1];
+   }
 
    return par;
 }

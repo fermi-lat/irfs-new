@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  08-Apr-07 v3r4p5 JC     undo kluge in unit test and do PSF integral
+                          correctly for E < 70 MeV in RootEval
   08-Apr-07 v3r4p4 JC     klugey fix for psf integral unit tests because
                           of poor underlying implementation in 
                           PointSpreadFucntion
