@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sun Apr  8 20:13:13 PDT 2007
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+remove kluge from psf unit test; do psf integral correctly at low energies; tagging v3r4p5
+    *
+------------------------------------------------------------
+User: jchiang  Sun Apr  8 20:13:13 PDT 2007
 irfs/handoff_response/src/irfs
 
 Modified Files:
