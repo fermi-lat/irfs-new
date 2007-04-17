@@ -96,8 +96,8 @@ TH2F * FitsTable::tableData(const std::string & fieldName) const {
    std::vector< std::vector<double> > values;
    getTableData(fieldName, values);
 
-//   TH2F * foo = (TH2F *)(gDirectory->GetList()->FindObject(label.c_str()));
-//   delete foo;
+   TH2F * foo = (TH2F *)(gDirectory->GetList()->FindObject(label.c_str()));
+   delete foo;
 
    TH2F * h2 = new TH2F(label.c_str(), title.c_str(), 
                         logE.size()-1, &logE[0],

@@ -1,5 +1,5 @@
 package handoff_response
-version v3r4p5
+version v3r4p6
 
 author Toby Burnett <tburnett@u.washington.edu>
 author J. Chiang <jchiang@slac.stanford.edu>
@@ -31,8 +31,7 @@ apply_pattern ST_pfiles
 path_prepend PYTHONPATH $(HANDOFF_RESPONSEROOT)/python
 
 # this is apparently required by use of TAxis in the RootEval class. 
-macro_append ROOT_libs ""\
-  Linux " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread -lHistPainter"\
+macro_append ROOT_libs " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread -lHistPainter"\
   WIN32 " libHist.lib libGraf.lib libGpad.lib libHistPainter.lib"
 
 private
