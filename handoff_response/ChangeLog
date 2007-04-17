@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Apr 17 09:06:06 PDT 2007
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	FitsTable.cxx 
+Log Message:
+modify ROOT_libs to enable mac builds; tagging v3r4p6
+    *
+------------------------------------------------------------
+User: jchiang  Tue Apr 17 09:06:06 PDT 2007
 irfs/handoff_response/doc
 
 Modified Files:
