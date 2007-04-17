@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 17 09:06:05 PDT 2007
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+modify ROOT_libs to enable mac builds; tagging v3r4p6
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r4p5, operation: add
 Package: handoff_response
