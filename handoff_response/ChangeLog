@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Apr 19 08:31:14 PDT 2007
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	FitsEval.cxx Psf.cxx 
+Log Message:
+adjust paths to .h files for mac builds
+    *
+------------------------------------------------------------
+User: jchiang  Thu Apr 19 08:31:14 PDT 2007
 irfs/handoff_response/src/fits/make_fits
 
 Modified Files:
