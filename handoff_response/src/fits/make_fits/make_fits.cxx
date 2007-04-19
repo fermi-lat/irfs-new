@@ -22,10 +22,10 @@
 #include "st_app/StApp.h"
 #include "st_app/StAppFactory.h"
 
-#include "irfs/RootEval.h"
+#include "../src/irfs/RootEval.h"
 
-#include "fits/IrfTableMap.h"
-#include "fits/FitsFile.h"
+#include "../src/fits/IrfTableMap.h"
+#include "../src/fits/FitsFile.h"
 
 class MakeFits : public st_app::StApp {
 public:

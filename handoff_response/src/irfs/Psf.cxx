@@ -16,7 +16,7 @@
 #include "st_facilities/GaussianQuadrature.h"
 
 #include "irfs/RootEval.h"
-#include "gen/PointSpreadFunction.h"
+#include "../gen/PointSpreadFunction.h"
 
 #include "irfInterface/AcceptanceCone.h"
 

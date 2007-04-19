@@ -14,8 +14,8 @@
 
 #include "irfUtil/Util.h"
 
-#include "gen/PointSpreadFunction.h"
-#include "gen/Dispersion.h"
+#include "../gen/PointSpreadFunction.h"
+#include "../gen/Dispersion.h"
 
 #include "FitsEval.h"
 #include "FitsTable.h"
