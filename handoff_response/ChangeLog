@@ -1,4 +1,78 @@
 ------------------------------------------------------------
+TAG
+Tag name: v3r4p7, operation: add
+Package: handoff_response
+User: jchiang  Thu Apr 19 08:36:15 2007
+Files:
+  handoff_response/.cvsignore  1.2
+  handoff_response/ChangeLog  1.361
+  handoff_response/cmt/alias.bat  1.2
+  handoff_response/cmt/.cvsignore  1.1.1.1
+  handoff_response/cmt/requirements  1.52
+  handoff_response/data/psf.tpl  1.7
+  handoff_response/data/edisp.tpl  1.5
+  handoff_response/data/aeff.tpl  1.9
+  handoff_response/data/parameters.root  1.14
+  handoff_response/doc/release.notes  1.40
+  handoff_response/handoff_response/IrfEval.h  1.4
+  handoff_response/handoff_response/loadIrfs.h  1.5
+  handoff_response/handoff_response/MyIrfLoader.h  1.3
+  handoff_response/pfiles/make_fits.par  1.1
+  handoff_response/python/IRFdefault.py  1.10
+  handoff_response/src/mainpage.h  1.5
+  handoff_response/src/loadIrfs.cxx  1.13
+  handoff_response/src/MyIrfLoader.cxx  1.3
+  handoff_response/src/fits/IrfTableMap.h  1.3
+  handoff_response/src/fits/IrfTable.cxx  1.3
+  handoff_response/src/fits/FitsFile.h  1.8
+  handoff_response/src/fits/IrfTableMap.cxx  1.3
+  handoff_response/src/fits/IrfTable.h  1.1
+  handoff_response/src/fits/FitsFile.cxx  1.10
+  handoff_response/src/fits/make_fits/make_fits.cxx  1.7
+  handoff_response/src/fits/test_fitsconv/test_fitsconv.cxx  1.2
+  handoff_response/src/gen/IrfAnalysis.h  1.7
+  handoff_response/src/gen/IrfBinner.cxx  1.3
+  handoff_response/src/gen/MyAnalysis.h  1.9
+  handoff_response/src/gen/PsfPlots.h  1.4
+  handoff_response/src/gen/TreeWrapper.h  1.3
+  handoff_response/src/gen/IrfAnalysis.cxx  1.13
+  handoff_response/src/gen/Root_base.h  1.2
+  handoff_response/src/gen/EffectiveArea.h  1.7
+  handoff_response/src/gen/MyAnalysis.cxx  1.9
+  handoff_response/src/gen/TreeWrapper.cxx  1.4
+  handoff_response/src/gen/Setup.cxx  1.10
+  handoff_response/src/gen/Setup.h  1.4
+  handoff_response/src/gen/Dispersion.cxx  1.20
+  handoff_response/src/gen/IrfBinner.h  1.4
+  handoff_response/src/gen/IrfEval.cxx  1.3
+  handoff_response/src/gen/PointSpreadFunction.cxx  1.10
+  handoff_response/src/gen/PsfPlots.cxx  1.11
+  handoff_response/src/gen/Dispersion.h  1.5
+  handoff_response/src/gen/EffectiveArea.cxx  1.13
+  handoff_response/src/gen/PointSpreadFunction.h  1.6
+  handoff_response/src/gen/makeirf/irf.cxx  1.8
+  handoff_response/src/gen/prune/prune.cxx  1.5
+  handoff_response/src/gen/reformat/reformat.cxx  1.5
+  handoff_response/src/irfs/IrfLoader.h  1.4
+  handoff_response/src/irfs/Bilinear.h  1.1
+  handoff_response/src/irfs/Aeff.h  1.2
+  handoff_response/src/irfs/Edisp.h  1.6
+  handoff_response/src/irfs/Psf.cxx  1.18
+  handoff_response/src/irfs/Aeff.cxx  1.3
+  handoff_response/src/irfs/RootEval.h  1.10
+  handoff_response/src/irfs/Edisp.cxx  1.7
+  handoff_response/src/irfs/RootEval.cxx  1.25
+  handoff_response/src/irfs/FitsTable.cxx  1.4
+  handoff_response/src/irfs/IrfLoader.cxx  1.5
+  handoff_response/src/irfs/Bilinear.cxx  1.1
+  handoff_response/src/irfs/FitsEval.cxx  1.6
+  handoff_response/src/irfs/FitsTable.h  1.1
+  handoff_response/src/irfs/FitsEval.h  1.2
+  handoff_response/src/irfs/Psf.h  1.12
+  handoff_response/src/test/test.cxx  1.24
+
+    *
+------------------------------------------------------------
 User: jchiang  Thu Apr 19 08:35:55 PDT 2007
 irfs/handoff_response/doc
 
