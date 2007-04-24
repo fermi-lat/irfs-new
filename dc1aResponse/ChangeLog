@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 24 16:54:58 PDT 2007
+irfs/dc1aResponse/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+try to remove unnecessary patterns; build shared library
+    *
+------------------------------------------------------------
 TAG
 Tag name: v2, operation: add
 Package: dc1aResponse
