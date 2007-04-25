@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Apr 25 12:51:12 PDT 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+pare down req file
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r0p2, operation: add
 Package: irfLoader
