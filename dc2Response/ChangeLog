@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Apr 25 12:45:52 PDT 2007
+irfs/dc2Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+pare down req file
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r1, operation: add
 Package: dc2Response

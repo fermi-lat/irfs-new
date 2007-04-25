@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Apr 25 12:46:05 PDT 2007
+irfs/g25Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+pare down req file
+    *
+------------------------------------------------------------
 TAG
 Tag name: v2, operation: add
 Package: g25Response
