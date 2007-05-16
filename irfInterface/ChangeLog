@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed May 16 10:18:08 PDT 2007
+irfs/irfInterface/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+handle inaccurate integrals in IEdisp; tagging v2r1p1
+    *
+------------------------------------------------------------
 TAG
 Tag name: v2r1, operation: add
 Package: irfInterface
