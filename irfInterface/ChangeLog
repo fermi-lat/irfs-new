@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed May 16 10:18:09 PDT 2007
+irfs/irfInterface/src
+
+Modified Files:
+	IEdisp.cxx 
+Log Message:
+handle inaccurate integrals in IEdisp; tagging v2r1p1
+    *
+------------------------------------------------------------
+User: jchiang  Wed May 16 10:18:09 PDT 2007
 irfs/irfInterface/irfInterface
 
 Modified Files:
