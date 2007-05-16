@@ -156,9 +156,7 @@ double IEdisp::meanTrueEnergy(double appEnergy, double theta, double phi,
 double IEdisp::adhocIntegrator(const EdispIntegrand & func, 
                                double emin, double emax) const {
    double err(1e-7);
-   int ier;
-   double integral 
-      = st_facilities::GaussianQuadrature::dgaus8(func, emin, emax, err, ier);
+   double integral = accuracyKluge(func, emin, emax, err);
    if (integral == 0) {
       emin = std::max(emin, 1e-5);
       size_t npts(4);
@@ -166,13 +164,33 @@ double IEdisp::adhocIntegrator(const EdispIntegrand & func,
       double e0(emin);
       double e1(emin*efactor);
       for (size_t i(0); i < npts; i++) {
-         integral += 
-            st_facilities::GaussianQuadrature::dgaus8(func, e0, e1, err, ier);
+         integral += accuracyKluge(func, emin, emax, err);
          e0 *= efactor;
          e1 *= efactor;
       }
    }
    return integral;
 }
+
+double IEdisp::accuracyKluge(const EdispIntegrand & func,
+                             double emin, double emax, double err) const {
+// kluge to deal with integrations deemed not to be sufficiently accurate
+   double integral;
+   int ier;
+   double factor(1e3);
+   try {
+      integral = st_facilities::GaussianQuadrature::dgaus8(func, emin, emax, 
+                                                           err, ier);
+   } catch (st_facilities::GaussianQuadrature::dgaus8Exception & eObj) {
+      if (eObj.errCode() != 2 && err > 1./factor) {
+         throw;
+      }
+      err *= factor;
+      integral = st_facilities::GaussianQuadrature::dgaus8(func, emin, emax,
+                                                           err, ier);
+   }
+   return integral;
+}
    
 } // namespace irfInterface
+

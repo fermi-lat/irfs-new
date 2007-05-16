@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  16-May-07 v2r1p1  JC    use st_facilities::GaussianQuadrature::
+                          dgaus8Exception to handle cases where the integrator
+                          reports insufficently accurate results.
   16-Mar-07 v2r1    JC    use C++ version of dgaus8; remove statics from
                           IEdisp; add adhocIntegrator to handle spurious
                           zero-valued integrals

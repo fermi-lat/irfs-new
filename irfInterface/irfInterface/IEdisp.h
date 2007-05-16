@@ -155,6 +155,9 @@ private:
       double operator()(double appEnergy) const {
          return m_edisp.value(appEnergy, m_energy, m_theta, m_phi, m_time);
       }
+      double trueEnergy() const {
+         return m_energy;
+      }
    private:
       const IEdisp & m_edisp;
       double m_energy;
@@ -202,6 +205,9 @@ private:
 
    double adhocIntegrator(const EdispIntegrand & func, double emin, 
                           double emax) const;
+
+   double accuracyKluge(const EdispIntegrand & func, double emin, 
+                        double emax, double err) const;
 };
 
 } // namespace irfInterface
