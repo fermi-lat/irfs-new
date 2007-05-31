@@ -51,7 +51,8 @@ application test_handoff_response -s=test $(source)
 
 macro handoff_response_cppflags  ""\
   Linux "-I ../src -g   -DTRAP_FPE "\
-  WIN32 " /I ..\src /wd4800 /wd4305 /wd4258"
+  WIN32 " /I ..\src /wd4800 /wd4305 /wd4258"\
+  Darwin "-I ../src -g   -DTRAP_FPE "
 
 macro source "*.cxx" WIN32 "*.cxx *.h"
 
