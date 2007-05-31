@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: golpa  Thu May 31 12:09:07 PDT 2007
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+Added support for Darwin
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r4p7, operation: add
 Package: handoff_response
