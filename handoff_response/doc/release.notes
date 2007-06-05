@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  05-Jun-07 v3r4p9 JC     add HANDOFF_front, HANDOFF_back as IRF options
   31-May-07 v3r4p8 JC     req file mods to enable MAC builds (from NG)
   19-Apr-07 v3r4p7 JC     change paths in includes for MAC builds
   17-Apr-07 v3r4p6 JC     change macro_append ROOT_libs to enable MAC

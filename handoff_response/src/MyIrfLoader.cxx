@@ -22,6 +22,8 @@ void MyIrfLoader::registerEventClasses() const {
    classNames.at(0) = m_className + "/front";
    classNames.at(1) = m_className + "/back";
    registry.registerEventClasses("HANDOFF", classNames);
+   registry.registerEventClass("HANDOFF_front", classNames.at(0));
+   registry.registerEventClass("HANDOFF_back", classNames.at(1));
 }
 
 void MyIrfLoader::loadIrfs() const {
