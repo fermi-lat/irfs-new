@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Jun  5 13:18:15 PDT 2007
+irfs/handoff_response/src
+
+Modified Files:
+	MyIrfLoader.cxx 
+Log Message:
+add HANDOFF_front, HANDOFF_back as IRF options ; tagging v3r4p9
+    *
+------------------------------------------------------------
+User: jchiang  Tue Jun  5 13:18:15 PDT 2007
 irfs/handoff_response/doc
 
 Modified Files:
