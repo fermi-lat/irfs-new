@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jun  5 13:18:15 PDT 2007
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add HANDOFF_front, HANDOFF_back as IRF options ; tagging v3r4p9
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r4p8, operation: add
 Package: handoff_response
