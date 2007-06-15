@@ -24,6 +24,10 @@ apply_pattern ST_library option=" *.c"
 apply_pattern shared_st_library
 apply_pattern ST_pfiles
 
+macro_append ROOT_libs ""\
+  Linux " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread -lHistPainter"\
+  WIN32 " libHist.lib libGraf.lib libGpad.lib libHistPainter.lib"
+
 #apply_pattern ST_app name=gtecorrect
 
 private
