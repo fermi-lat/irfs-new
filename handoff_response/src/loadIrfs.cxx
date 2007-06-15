@@ -50,27 +50,16 @@ std::string load_irfs(const std::string & rootfile, bool verbose) {
 
 // The factory to add our IRFs to
    irfInterface::IrfsFactory* myFactory(irfInterface::IrfsFactory::instance());
+
+   std::string eventClass(irfName + "/front");
+   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 0), verbose);
+
+   eventClass = irfName + "/back";
+   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 1), verbose);
    
-// Event classes within each set of IRFs have to be unique within that
-// set of IRFs, and the event class is given by the
-// irfInterface::Irfs::irfID() function and set in the Irfs
-// constructor: Irfs(IAeff *aeff, IPsf *psf, IEdisp *edisp, int
-// irfID), Front vs Back constitute two separate classes, so the
-// argument to IrfLoader::irfs() must be different for each.
-    int id(0);
-    for (IrfLoader::const_iterator it(loader->begin()); 
-         it != loader->end(); ++it, id++) {
-       const std::string & eventclass = it->first;
-       if (verbose) {
-          std::cout << "Loading irfs for event class "
-                    << eventclass << std::endl;
-       }
-       myFactory->addIrfs(eventclass, loader->irfs(eventclass, id), verbose);
-    }
-
-    delete loader;
-
-    return irfName;
+   delete loader;
+   
+   return irfName;
 }
 
 } // namespace handoff_response

@@ -24,6 +24,10 @@ void MyIrfLoader::registerEventClasses() const {
    registry.registerEventClasses("HANDOFF", classNames);
    registry.registerEventClass("HANDOFF_front", classNames.at(0));
    registry.registerEventClass("HANDOFF_back", classNames.at(1));
+
+   registry.registerEventClasses("Pass4_v1", classNames);
+   registry.registerEventClass("Pass4_v1_front", classNames.at(0));
+   registry.registerEventClass("Pass4_v1_back", classNames.at(1));
 }
 
 void MyIrfLoader::loadIrfs() const {

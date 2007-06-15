@@ -40,6 +40,8 @@ class HandoffResponseTests : public CppUnit::TestFixture {
 
    CPPUNIT_TEST_SUITE(HandoffResponseTests);
 
+   CPPUNIT_TEST(irf_assignment);
+
    CPPUNIT_TEST(psf_zero_separation);
    CPPUNIT_TEST(psf_normalization);
 
@@ -52,6 +54,8 @@ public:
 
    void setUp();
    void tearDown();
+
+   void irf_assignment();
 
    void psf_zero_separation();
    void psf_normalization();
@@ -73,6 +77,23 @@ void HandoffResponseTests::setUp() {
 
 void HandoffResponseTests::tearDown() {
    m_irfNames.clear();
+}
+
+void HandoffResponseTests::irf_assignment() {
+// This test assumes there is only one set of front/back irfs.
+   for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
+        name != m_irfNames.end(); ++name) {
+      if (name->find("front") != std::string::npos) {
+         irfInterface::Irfs * my_irfs(m_irfsFactory->create(*name));
+         CPPUNIT_ASSERT(my_irfs->irfID() == 0);
+         delete my_irfs;
+      }
+      if (name->find("back") != std::string::npos) {
+         irfInterface::Irfs * my_irfs(m_irfsFactory->create(*name));
+         CPPUNIT_ASSERT(my_irfs->irfID() == 1);
+         delete my_irfs;
+      }
+   }
 }
 
 void HandoffResponseTests::psf_zero_separation() {
@@ -207,7 +228,8 @@ void HandoffResponseTests::edisp_normalization() {
    double tol(1e-2);
 
    bool integralFailures(false);
-   std::cout << "Energy dispersion integral values that fail "<< int(tol*100) << "% tolerance: \n"
+   std::cout << "Energy dispersion integral values that fail "
+             << int(tol*100) << "% tolerance: \n"
              << "energy  inclination  integral \n";
 
    for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
