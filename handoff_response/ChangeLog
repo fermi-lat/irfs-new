@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Jun 15 11:30:31 PDT 2007
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+restore front/back convention; add Pass4_v1 alias for HANDOFF
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jun 15 11:30:31 PDT 2007
 irfs/handoff_response/src
 
 Modified Files:
