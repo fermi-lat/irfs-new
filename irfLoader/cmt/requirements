@@ -19,10 +19,16 @@ use dc2Response v* irfs
 use g25Response v* irfs
 use handoff_response v* irfs
 use testResponse v* irfs
+use egretResponse v* irfs
 
 apply_pattern ST_library option=" *.c"
 apply_pattern shared_st_library
 apply_pattern ST_pfiles
+
+macro_append ROOT_libs ""\ 	 
+	   Linux " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread -lHistPainter"\ 	 
+	   WIN32 " libHist.lib libGraf.lib libGpad.lib libHistPainter.lib"
+
 
 #apply_pattern ST_app name=gtecorrect
 
