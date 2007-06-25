@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Jun 24 22:50:45 PDT 2007
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	FitsEval.cxx FitsEval.h IrfLoader.cxx IrfLoader.h Psf.h 
+Log Message:
+add Pass4_v2 irfs
+    *
+------------------------------------------------------------
 User: jchiang  Sun Jun 24 22:50:44 PDT 2007
 irfs/handoff_response/src
 
