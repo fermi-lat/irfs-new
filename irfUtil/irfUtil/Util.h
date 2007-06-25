@@ -31,10 +31,7 @@ public:
                             const std::string &version,
                             std::string &filename, long &extnum,
                             const std::string & telescope = "GLAST",
-                            const std::string & instrument = "LAT",
-                            const std::string & filter = "NONE",
-                            const std::string & date = "2003-01-01",
-                            const std::string & time = "00:00:00");
+                            const std::string & instrument = "LAT");
 
 protected:
 

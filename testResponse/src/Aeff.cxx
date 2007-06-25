@@ -46,8 +46,4 @@ double Aeff::value(double energy, double theta, double phi) const {
    return 0;
 }
 
-double Aeff::upperLimit() const {
-   return m_params[0];
-}
-
 } // namespace testResponse

@@ -11,8 +11,9 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "CLHEP/Random/RandomEngine.h"
+#include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/RandGauss.h"
-using CLHEP::RandGauss;
 
 #include "astro/SkyDir.h"
 

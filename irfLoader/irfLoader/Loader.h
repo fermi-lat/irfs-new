@@ -14,20 +14,15 @@
 #include <string>
 #include <vector>
 
-#include "st_facilities/libStApiExports.h"
-
 namespace irfLoader {
 
 /**
  * @class Loader
  *
+ * $Header$
  */
 
-#ifndef SWIG
-class SCIENCETOOLS_API Loader {
-#else
 class Loader {
-#endif
 
 public:
 
@@ -53,8 +48,6 @@ public:
       return s_respIds;
    }
 
-   static void resetIrfs();
-
 protected:
 
    Loader() {}
@@ -68,14 +61,6 @@ private:
    static std::map<std::string, std::vector<std::string> > s_respIds;
 
 };
-
-#ifndef SWIG
-// Opaque wrappers for class static functions since linkage on windows for
-// symbols exported from dlls is all fouled up.
-void Loader_go();
-
-const std::map<std::string, std::vector<std::string> > & Loader_respIds();
-#endif
 
 } // namespace irfLoader
 

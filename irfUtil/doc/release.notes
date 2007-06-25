@@ -5,8 +5,6 @@
   @verbatim
   $Id$
 
-  14-Feb-06 v0r4    JC    generalize HdCaldb interface for dc2
-  29-Oct-04 v0r3p1  JC    use tip v2*
   01-Oct-04 v0r3    JC    remove functions now in st_facilities
   07-Aug-04 v0r2    JC    add expectedException; throw runtime_error 
                           in bilinear

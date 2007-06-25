@@ -1,26 +1,19 @@
 package irfUtil
-version v0r4
+version v0r3
 
 author James Chiang <jchiang@slac.stanford.edu>
 
 # $Id$
 
-use GlastPolicy v*
-use astro v*
+use STpolicy v1r*
+use astro v1r*
 use f2c v*
-use tip v*
-use cppunit v* IExternal
+use tip v1*
 
 macro_append ROOT_linkopts " $(ROOT_GUI_libs)"
 
-apply_pattern package_include
-apply_pattern package_linkopts
-apply_pattern package_stamps
+apply_pattern ST_library option=" -no_share *.c "
 
-macro_append cppflags "" Linux " -I../src -DTRAP_FPE " 
-macro_prepend cflags "" Linux " -g -O "
-macro source *.cxx WIN32 "*.h *.cxx"
+private
 
-library irfUtil -no_share $(source) *.c
-#application test_irfUtil test/*.cxx
-
+use cppunit v1r* IExternal
