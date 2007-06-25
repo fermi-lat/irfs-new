@@ -15,6 +15,9 @@ use f2c v*
 use astro v*
 use tip v*
 
+apply_pattern package_include
+apply_pattern package_linkopts
+apply_pattern package_stamps
 apply_pattern shared_library
 
 macro_append cppflags "" Linux " -I../src -DTRAP_FPE " 
