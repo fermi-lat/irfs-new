@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Jun 24 22:50:01 PDT 2007
+irfs/caldb/CALDB/data/glast/lat/bcf/ea
+
+Added Files:
+	aeff_Pass4_v2_back.fits aeff_Pass4_v2_front.fits 
+Log Message:
+add Pass4_v2 irfs
+    *
+------------------------------------------------------------
 User: jchiang  Sun Jun 24 22:50:00 PDT 2007
 irfs/caldb/CALDB/data/glast/lat
 
