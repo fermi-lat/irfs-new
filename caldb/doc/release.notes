@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  24-Jun-07 v0r3      JC    add Pass4_v2 IRFS
   12-Mar-07 v0r2      JC    add Pass 4 IRFs
   16-Jan-07 v0r1p2    JC    correct env var for CALDBALIAS
   03-Mar-06 v0r1p1    JC    updated DC2 effective area files
