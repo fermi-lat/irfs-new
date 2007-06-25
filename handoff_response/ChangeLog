@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Jun 24 22:50:44 PDT 2007
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add Pass4_v2 irfs
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r5, operation: add
 Package: handoff_response
