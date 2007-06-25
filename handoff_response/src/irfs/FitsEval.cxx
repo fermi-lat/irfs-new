@@ -34,13 +34,16 @@ namespace {
          *it = std::toupper(*it);
       }
    }
-   std::string caldbFile(const std::string & respname, std::string section) {
+   std::string caldbFile(const std::string & respname,
+                         std::string section,
+                         const std::string & version,
+                         const std::string & date) {
       toUpper(section);
       std::string filename;
       long hdu;
-      irfUtil::Util::getCaldbFile(section, respname, "PASS4",
+      irfUtil::Util::getCaldbFile(section, respname, version,
                                   filename, hdu, "GLAST", "LAT",
-                                  "NONE", "2007-03-12", "00:00:00");
+                                  "NONE", date, "00:00:00");
       return filename;
    }
 }
@@ -48,9 +51,11 @@ namespace {
 namespace handoff_response {
 
 FitsEval::FitsEval(const std::string & className,
-                   const std::string & section) 
+                   const std::string & section,
+                   const std::string & version,
+                   const std::string & date) 
    : RootEval(className + "/" + section), m_className(className), 
-     m_section(section) {
+     m_section(section), m_version(version), m_date(date) {
    readAeff();
    readEdisp();
    readPsf();
@@ -93,21 +98,21 @@ std::string FitsEval::aeffFile() const {
    if (::getenv("HANDOFF_IRF_DIR")) {
       return ::fullpath("aeff_" + m_className + "_" + m_section + ".fits");
    }
-   return caldbFile("EFF_AREA", m_section);
+   return caldbFile("EFF_AREA", m_section, m_version, m_date);
 }
 
 std::string FitsEval::edispFile() const {
    if (::getenv("HANDOFF_IRF_DIR")) {
       return ::fullpath("edisp_" + m_className + "_" + m_section + ".fits");
    }
-   return caldbFile("EDISP", m_section);
+   return caldbFile("EDISP", m_section, m_version, m_date);
 }
 
 std::string FitsEval::psfFile() const {
    if (::getenv("HANDOFF_IRF_DIR")) {
       return ::fullpath("psf_" + m_className + "_" + m_section + ".fits");
    }
-   return caldbFile("RPSF", m_section);
+   return caldbFile("RPSF", m_section, m_version, m_date);
 }
 
 void FitsEval::createMap(const std::string & className, 
@@ -121,5 +126,7 @@ void FitsEval::addToMap(const std::string & className,
    evals[className + "/front"] = new FitsEval(className, "front");
    evals[className + "/back"] = new FitsEval(className, "back");
 }
+
+
 
 } // namespace handoff_response

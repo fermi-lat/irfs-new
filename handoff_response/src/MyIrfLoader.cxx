@@ -28,6 +28,12 @@ void MyIrfLoader::registerEventClasses() const {
    registry.registerEventClasses("Pass4_v1", classNames);
    registry.registerEventClass("Pass4_v1_front", classNames.at(0));
    registry.registerEventClass("Pass4_v1_back", classNames.at(1));
+
+   classNames.at(0) = "Pass4_v2/front";
+   classNames.at(1) = "Pass4_v2/back";
+   registry.registerEventClasses("Pass4_v2", classNames);
+   registry.registerEventClass("Pass4_v2_front", classNames.at(0));
+   registry.registerEventClass("Pass4_v2_back", classNames.at(1));
 }
 
 void MyIrfLoader::loadIrfs() const {

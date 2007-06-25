@@ -18,6 +18,7 @@
 #include "handoff_response/IrfEval.h"
 #include "handoff_response/loadIrfs.h"
 
+#include "irfs/FitsEval.h"
 #include "irfs/IrfLoader.h"
 
 namespace {
@@ -46,6 +47,15 @@ std::string load_irfs(const std::string & rootfile, bool verbose) {
          irfName = "standard";
       }
       loader = new IrfLoader(irfName);
+
+// add Pass4_v2 irfs
+      loader->addIrfEval("Pass4_v2/front", 
+                         new FitsEval("Pass4_v2", "front", 
+                                      "PASS4_v2", "2007-06-24"));
+                                      
+      loader->addIrfEval("Pass4_v2/back", 
+                         new FitsEval("Pass4_v2", "back", 
+                                      "PASS4_v2", "2007-06-24"));
    }
 
 // The factory to add our IRFs to
@@ -55,6 +65,13 @@ std::string load_irfs(const std::string & rootfile, bool verbose) {
    myFactory->addIrfs(eventClass, loader->irfs(eventClass, 0), verbose);
 
    eventClass = irfName + "/back";
+   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 1), verbose);
+
+// Pass4_v2 irfs:
+   eventClass = "Pass4_v2/front";
+   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 0), verbose);
+
+   eventClass = "Pass4_v2/back";
    myFactory->addIrfs(eventClass, loader->irfs(eventClass, 1), verbose);
    
    delete loader;

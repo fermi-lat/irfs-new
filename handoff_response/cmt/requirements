@@ -19,6 +19,7 @@ use st_app v*
 use st_stream v*
 use STpolicy v*
 use irfUtil v* irfs
+use caldb v* irfs
 use embed_python v*
 use tip v*
 

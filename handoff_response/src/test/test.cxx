@@ -315,14 +315,16 @@ int main(int argc, char* argv[]) {
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
 
-   try {
-      std::string defaultFile(::getEnv("HANDOFF_RESPONSEROOT") + 
-                              "/data/parameters.root");
-      handoff_response::load_irfs(argc > 1 ? argv[1]: defaultFile.c_str());
-   } catch (std::exception & eObj) {
-      std::cout << eObj.what() << std::endl;
-      std::exit(1);
-   }
+//    try {
+//       std::string defaultFile(::getEnv("HANDOFF_RESPONSEROOT") + 
+//                               "/data/parameters.root");
+//       handoff_response::load_irfs(argc > 1 ? argv[1]: defaultFile.c_str());
+//    } catch (std::exception & eObj) {
+//       std::cout << eObj.what() << std::endl;
+//       std::exit(1);
+//    }
+
+   handoff_response::load_irfs();
 
    CppUnit::TextTestRunner runner;
    runner.addTest(HandoffResponseTests::suite());

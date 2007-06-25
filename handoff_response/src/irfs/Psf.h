@@ -94,7 +94,7 @@ public:
 protected:
 
    /// Disable this.
-   Psf & operator=(const Psf & rhs) {
+   Psf & operator=(const Psf &) {
       return *this;
    }
 

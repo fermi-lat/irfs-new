@@ -24,7 +24,9 @@ class FitsEval : public RootEval {
 
 public:
 
-   FitsEval(const std::string & className, const std::string & section);
+   FitsEval(const std::string & className, const std::string & section,
+            const std::string & version="PASS4", 
+            const std::string & date="2007-03-12");
 
    virtual ~FitsEval();
 
@@ -38,6 +40,8 @@ private:
 
    std::string m_className;
    std::string m_section;
+   std::string m_version;
+   std::string m_date;
 
    void readAeff();
    void readEdisp();

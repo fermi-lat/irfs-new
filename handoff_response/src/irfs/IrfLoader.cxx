@@ -19,8 +19,7 @@
 
 using namespace handoff_response;
 
-IrfLoader::IrfLoader(const std::string & filename) 
-{
+IrfLoader::IrfLoader(const std::string & filename) {
    std::string::size_type pos(filename.find(".root"));
    if (pos != std::string::npos) {
       RootEval::createMap(filename, m_evals);
@@ -28,14 +27,13 @@ IrfLoader::IrfLoader(const std::string & filename)
       FitsEval::createMap(filename, m_evals);
    }
 }
+
 IrfLoader::~IrfLoader()
 {
     // should we delete the IrfEval guy? Maybe not.
 }
 
-
-irfInterface::Irfs * IrfLoader::irfs(std::string name , int index)
-{
+irfInterface::Irfs * IrfLoader::irfs(std::string name , int index) {
     IrfEval* eval = m_evals[name];
 
     irfInterface::IAeff* aeff = new Aeff(eval);
@@ -45,4 +43,13 @@ irfInterface::Irfs * IrfLoader::irfs(std::string name , int index)
     return new irfInterface::Irfs( aeff, psf, disp, index);
 }
 
+void IrfLoader::getKeys(std::vector<std::string> & keys) const {
+   keys.clear();
+   for (const_iterator eval=begin(); eval != end(); ++eval) {
+      keys.push_back(eval->first);
+   }
+}
 
+void IrfLoader::addIrfEval(const std::string & name, IrfEval * eval) {
+   m_evals[name] = eval;
+}
