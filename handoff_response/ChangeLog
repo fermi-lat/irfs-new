@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Jun 29 09:37:00 PDT 2007
+irfs/handoff_response/src
+
+Modified Files:
+	loadIrfs.cxx 
+Log Message:
+klugy patch to allow for custom irfs and still be able to load Pass4_v2 irfs from caldb; tagging v3r6p1
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jun 29 09:37:00 PDT 2007
 irfs/handoff_response/doc
 
 Modified Files:
