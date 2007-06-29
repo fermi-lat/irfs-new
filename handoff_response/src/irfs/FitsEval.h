@@ -26,7 +26,8 @@ public:
 
    FitsEval(const std::string & className, const std::string & section,
             const std::string & version="PASS4", 
-            const std::string & date="2007-03-12");
+            const std::string & date="2007-03-12",
+            bool forceCaldb=false);
 
    virtual ~FitsEval();
 
@@ -42,6 +43,7 @@ private:
    std::string m_section;
    std::string m_version;
    std::string m_date;
+   bool m_forceCaldb;
 
    void readAeff();
    void readEdisp();

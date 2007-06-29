@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  29-Jun-07 v3r6p1 JC     klugy patch to allow for custom irfs and still
+                          load the Pass4_v2 irfs from CALDB
   24-Jun-07 v3r6   JC     add Pass4_v2 irfs
   14-Jun-07 v3r5   JC     restore front/back convention; add Pass4_v1 alias
                           for HANDOFF

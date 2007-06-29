@@ -53,9 +53,11 @@ namespace handoff_response {
 FitsEval::FitsEval(const std::string & className,
                    const std::string & section,
                    const std::string & version,
-                   const std::string & date) 
+                   const std::string & date,
+                   bool forceCaldb) 
    : RootEval(className + "/" + section), m_className(className), 
-     m_section(section), m_version(version), m_date(date) {
+     m_section(section), m_version(version), m_date(date), 
+     m_forceCaldb(forceCaldb) {
    readAeff();
    readEdisp();
    readPsf();
@@ -95,21 +97,21 @@ void FitsEval::readPsf() {
 }
 
 std::string FitsEval::aeffFile() const {
-   if (::getenv("HANDOFF_IRF_DIR")) {
+   if (::getenv("HANDOFF_IRF_DIR") && !m_forceCaldb) {
       return ::fullpath("aeff_" + m_className + "_" + m_section + ".fits");
    }
    return caldbFile("EFF_AREA", m_section, m_version, m_date);
 }
 
 std::string FitsEval::edispFile() const {
-   if (::getenv("HANDOFF_IRF_DIR")) {
+   if (::getenv("HANDOFF_IRF_DIR") && !m_forceCaldb) {
       return ::fullpath("edisp_" + m_className + "_" + m_section + ".fits");
    }
    return caldbFile("EDISP", m_section, m_version, m_date);
 }
 
 std::string FitsEval::psfFile() const {
-   if (::getenv("HANDOFF_IRF_DIR")) {
+   if (::getenv("HANDOFF_IRF_DIR") && !m_forceCaldb) {
       return ::fullpath("psf_" + m_className + "_" + m_section + ".fits");
    }
    return caldbFile("RPSF", m_section, m_version, m_date);

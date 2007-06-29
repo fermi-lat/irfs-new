@@ -48,14 +48,15 @@ std::string load_irfs(const std::string & rootfile, bool verbose) {
       }
       loader = new IrfLoader(irfName);
 
-// add Pass4_v2 irfs
+      bool useCaldb;
       loader->addIrfEval("Pass4_v2/front", 
                          new FitsEval("Pass4_v2", "front", 
-                                      "PASS4_v2", "2007-06-24"));
-                                      
+                                      "PASS4_v2", "2007-06-24",
+                                      useCaldb=true));
       loader->addIrfEval("Pass4_v2/back", 
                          new FitsEval("Pass4_v2", "back", 
-                                      "PASS4_v2", "2007-06-24"));
+                                      "PASS4_v2", "2007-06-24",
+                                      useCaldb=true));
    }
 
 // The factory to add our IRFs to
