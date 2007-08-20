@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  20-Aug-07 v0r4p1    JC    patch edisp_Pass5_v0_front dnorm value for
+                            e0 = 646, theta <= 26
   20-Aug-07 v0r4      JC    add Pass5_v0 IRFs
   24-Jun-07 v0r3      JC    add Pass4_v2 IRFs
   12-Mar-07 v0r2      JC    add Pass 4 IRFs
