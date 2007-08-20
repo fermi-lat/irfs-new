@@ -82,7 +82,7 @@ RootEval::Table::Table(TH2F* hist)
         m_interpolator = new Bilinear(m_energy_axis, m_angle_axis, m_data_array);
     }
 
-RootEval::Table::~Table(){ delete m_interpolator; }
+RootEval::Table::~Table(){ delete m_interpolator; delete m_hist; m_hist=0;}
     
 double RootEval::Table::maximum() { return m_hist->GetMaximum(); }
 

@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  20-Aug-07 v3r7   JC     add Pass5_v0 irfs
   29-Jun-07 v3r6p1 JC     klugy patch to allow for custom irfs and still
                           load the Pass4_v2 irfs from CALDB
   24-Jun-07 v3r6   JC     add Pass4_v2 irfs

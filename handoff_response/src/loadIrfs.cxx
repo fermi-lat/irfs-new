@@ -37,6 +37,8 @@ namespace handoff_response {
 std::string load_irfs(const std::string & rootfile, bool verbose) {
    std::string irfName("standard");
 
+/// @todo get rid of ROOT and get rid of this annoying IrfLoader class
+
    IrfLoader * loader(0);
    if (rootfile != "") {
       loader = new IrfLoader(rootfile);
@@ -57,6 +59,14 @@ std::string load_irfs(const std::string & rootfile, bool verbose) {
                          new FitsEval("Pass4_v2", "back", 
                                       "PASS4_v2", "2007-06-24",
                                       useCaldb=true));
+      loader->addIrfEval("Pass5_v0/front", 
+                         new FitsEval("Pass5_v0", "front", 
+                                      "PASS5_v0", "2007-08-20",
+                                      useCaldb=true));
+      loader->addIrfEval("Pass5_v0/back", 
+                         new FitsEval("Pass5_v0", "back", 
+                                      "PASS5_v0", "2007-08-20",
+                                      useCaldb=true));
    }
 
 // The factory to add our IRFs to
@@ -73,6 +83,13 @@ std::string load_irfs(const std::string & rootfile, bool verbose) {
    myFactory->addIrfs(eventClass, loader->irfs(eventClass, 0), verbose);
 
    eventClass = "Pass4_v2/back";
+   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 1), verbose);
+
+// Pass5_v0 irfs:
+   eventClass = "Pass5_v0/front";
+   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 0), verbose);
+
+   eventClass = "Pass5_v0/back";
    myFactory->addIrfs(eventClass, loader->irfs(eventClass, 1), verbose);
    
    delete loader;
