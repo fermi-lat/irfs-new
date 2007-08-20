@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Aug 20 12:55:03 PDT 2007
+irfs/handoff_response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+forgot to register Pass5_v0 names with regisitry; tagging v3r7p1
+    *
+------------------------------------------------------------
+User: jchiang  Mon Aug 20 12:55:03 PDT 2007
 irfs/handoff_response/cmt
 
 Modified Files:
