@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 20 12:18:44 PDT 2007
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add Pass5_v0 IRFs; tagging v3r7
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r6p1, operation: add
 Package: handoff_response
