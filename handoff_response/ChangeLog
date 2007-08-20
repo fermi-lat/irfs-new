@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Aug 20 12:18:45 PDT 2007
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	RootEval.cxx 
+Log Message:
+add Pass5_v0 IRFs; tagging v3r7
+    *
+------------------------------------------------------------
+User: jchiang  Mon Aug 20 12:18:45 PDT 2007
 irfs/handoff_response/src
 
 Modified Files:
