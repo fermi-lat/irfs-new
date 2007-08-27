@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Aug 27 09:55:51 PDT 2007
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+add pass 5 Transient and Diffuse classes; rename Pass5_v0 to P5_v0_source
+    *
+------------------------------------------------------------
+User: jchiang  Mon Aug 27 09:55:51 PDT 2007
 irfs/handoff_response/src/irfs
 
 Modified Files:
