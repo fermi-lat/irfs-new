@@ -21,17 +21,14 @@ namespace testResponse {
 double Aeff::value(double energy, 
                    const astro::SkyDir &srcDir, 
                    const astro::SkyDir &scZAxis,
-                   const astro::SkyDir &scXAxis, 
-                   double time) const {
+                   const astro::SkyDir &scXAxis) const {
    (void)(scXAxis);
    double theta = srcDir.difference(scZAxis)*180./M_PI;
-   return value(energy, theta, 0, time);
+   return value(energy, theta, 0);
 }
 
-double Aeff::value(double energy, double theta, double phi,
-                   double time) const {
+double Aeff::value(double energy, double theta, double phi) const {
    (void)(phi);
-   (void)(time);
    if (theta < 0) {
       std::ostringstream message;
       message << "testResponse::Aeff::value(double, double, double):\n"

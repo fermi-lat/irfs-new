@@ -5,16 +5,6 @@
   @verbatim
   $Id$
 
-  02-Mar-07 v1r0p2  JC    refactor unit tests
-  29-Jan-07 v1r0p1  JC    add handoff_response back in
-  29-Jan-07 v1      JC    implement IrfRegistry scheme from irfInteface
-  19-Oct-06 v0r6p3  JC    wire in handoff_response
-  20-Apr-06 v0r6p2  JC    protect against exposing SCIENCETOOLS_API macro
-                          to swig build
-  15-Mar-06 v0r6p1  JC    would be nice to be able to move a tag
-  15-Mar-06 v0r6    JC    convert shared library
-  21-Feb-06 v0r5p2  JC    add DC2 class A event analysis option
-  16-Feb-06 v0r5p1  JC    improve CALDB failure message
   14-Feb-06 v0r5    JC    add dc2Response
   17-Nov-05 v0r4p3  JC    add method to erase IRF names, using in test program
   17-Nov-05 v0r4p2  JC    accomodate irfInterface v0r1p2 changes
