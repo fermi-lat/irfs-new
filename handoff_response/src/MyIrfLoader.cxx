@@ -35,11 +35,23 @@ void MyIrfLoader::registerEventClasses() const {
    registry.registerEventClass("Pass4_v2_front", classNames.at(0));
    registry.registerEventClass("Pass4_v2_back", classNames.at(1));
 
-   classNames.at(0) = "Pass5_v0/front";
-   classNames.at(1) = "Pass5_v0/back";
-   registry.registerEventClasses("Pass5_v0", classNames);
-   registry.registerEventClass("Pass5_v0_front", classNames.at(0));
-   registry.registerEventClass("Pass5_v0_back", classNames.at(1));
+   classNames.at(0) = "P5_v0_transient/front";
+   classNames.at(1) = "P5_v0_transient/back";
+   registry.registerEventClasses("P5_v0_transient", classNames);
+   registry.registerEventClass("P5_v0_transient_front", classNames.at(0));
+   registry.registerEventClass("P5_v0_transient_back", classNames.at(1));
+
+   classNames.at(0) = "P5_v0_source/front";
+   classNames.at(1) = "P5_v0_source/back";
+   registry.registerEventClasses("P5_v0_source", classNames);
+   registry.registerEventClass("P5_v0_source_front", classNames.at(0));
+   registry.registerEventClass("P5_v0_source_back", classNames.at(1));
+
+   classNames.at(0) = "P5_v0_diffuse/front";
+   classNames.at(1) = "P5_v0_diffuse/back";
+   registry.registerEventClasses("P5_v0_diffuse", classNames);
+   registry.registerEventClass("P5_v0_diffuse_front", classNames.at(0));
+   registry.registerEventClass("P5_v0_diffuse_back", classNames.at(1));
 }
 
 void MyIrfLoader::loadIrfs() const {

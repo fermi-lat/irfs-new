@@ -141,7 +141,7 @@ void HandoffResponseTests::psf_normalization() {
    std::vector<double> energies;
    double emin(30);
    double emax(5e5);
-   size_t nee(20);
+   size_t nee(100);
    double dee(std::log(emax/emin)/(nee-1));
    for (size_t i = 0; i < nee; i++) {
       energies.push_back(emin*std::exp(i*dee));
