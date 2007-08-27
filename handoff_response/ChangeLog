@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Aug 27 09:55:51 PDT 2007
+irfs/handoff_response/src
+
+Modified Files:
+	MyIrfLoader.cxx loadIrfs.cxx 
+Log Message:
+add pass 5 Transient and Diffuse classes; rename Pass5_v0 to P5_v0_source
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r7p1, operation: add
 Package: handoff_response
