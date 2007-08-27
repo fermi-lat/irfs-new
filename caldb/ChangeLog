@@ -1,5 +1,17 @@
 ------------------------------------------------------------
 User: jchiang  Mon Aug 27 09:50:57 PDT 2007
+irfs/caldb/CALDB/data/glast/lat/bcf/edisp
+
+Added Files:
+	edisp_Pass5_v0_Diffuse_back.fits 
+	edisp_Pass5_v0_Diffuse_front.fits 
+	edisp_Pass5_v0_Transient_back.fits 
+	edisp_Pass5_v0_Transient_front.fits 
+Log Message:
+add Pass5 Diffuse and Transient IRF files
+    *
+------------------------------------------------------------
+User: jchiang  Mon Aug 27 09:50:57 PDT 2007
 irfs/caldb/CALDB/data/glast/lat/bcf/ea
 
 Added Files:
