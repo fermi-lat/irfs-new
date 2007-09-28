@@ -14,13 +14,15 @@
 #include "fits/IrfTable.h"
 #include "fits/IrfTableMap.h"
 
+#include "facilities/commonUtilities.h"
+
 int main() {
-   char * root_dir(::getenv("HANDOFF_RESPONSEROOT"));
-   if (!root_dir) {
-      std::cout << "HANDOFF_RESPONSEROOT not set" << std::endl;
+   std::string root_dir = facilities::commonUtilities::getDataPath("handoff_response");
+   if (root_dir == "") {
+      std::cout << "Unable to determine handoff_response data path" << std::endl;
       std::exit(1);
    }
-   std::string root_file(std::string(root_dir) + "/data/parameters.root");
+   std::string root_file = facilities::commonUtilities::joinPath(root_dir, "parameters.root");
 
    handoff_response::IrfTableMap front("standard::front", root_file);
 

@@ -19,6 +19,8 @@
 #include "st_facilities/FitsUtil.h"
 #include "st_facilities/Util.h"
 
+#include "facilities/commonUtilities.h"
+
 #include "FitsFile.h"
 #include "IrfTable.h"
 
@@ -151,8 +153,8 @@ void FitsFile::prepareFile(const std::string & outfile,
          std::remove(outfile.c_str());
       }
       std::string tplFile = 
-         st_facilities::Env::appendFileName(
-            st_facilities::Env::getDataDir("handoff_response"), templateFile);
+         facilities::commonUtilities::joinPath(
+            facilities::commonUtilities::getDataPath("handoff_response"), templateFile);
       fileSvc.createFile(outfile, tplFile);
    }
 
