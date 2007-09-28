@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: golpa  Fri Sep 28 12:53:06 PDT 2007
+irfs/handoff_response/src/fits
+
+Modified Files:
+	FitsFile.cxx 
+Log Message:
+Use commonUtilities
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r8, operation: add
 Package: handoff_response
