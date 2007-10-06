@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Sat Oct  6 09:40:53 PDT 2007
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+tagging after include required by ROOT change
+    *
+------------------------------------------------------------
 User: burnett  Sat Oct  6 09:39:00 PDT 2007
 irfs/handoff_response/src/gen
 
