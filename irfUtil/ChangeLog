@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Sat Oct  6 09:30:52 PDT 2007
+irfs/irfUtil/src
+
+Modified Files:
+	RootTable.cxx 
+Log Message:
+needed a <cmath>, no longer supplied by ROOT includes
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 14 20:28:42 PST 2006
 irfs/irfUtil/cmt
 
