@@ -10,6 +10,7 @@ $Header$
 #include "TH1F.h"
 #include "TPad.h"
 #include "TPaveStats.h"
+#include "TList.h"
 
 #include <cmath>
 #include <iomanip>
