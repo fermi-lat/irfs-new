@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  06-Oct-07 v3r8p1 THB    ROOT include required by change in interface
   27-Aug-07 v3r8   JC     add other Pass5 irfs, e.g., Diffuse and Transient
                           analysis classes
   20-Aug-07 v3r7p1 JC     add Pass5_v0 names to IrfRegistry
