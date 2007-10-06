@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Sat Oct  6 09:39:00 PDT 2007
+irfs/handoff_response/src/gen
+
+Modified Files:
+	PointSpreadFunction.cxx 
+Log Message:
+
+    *
+------------------------------------------------------------
 User: golpa  Fri Sep 28 12:53:06 PDT 2007
 irfs/handoff_response/src/fits/test_fitsconv
 
