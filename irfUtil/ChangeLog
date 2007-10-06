@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Sat Oct  6 09:32:51 PDT 2007
+irfs/irfUtil/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+tagging after #include <cmath>
+    *
+------------------------------------------------------------
+User: burnett  Sat Oct  6 09:32:51 PDT 2007
 irfs/irfUtil/cmt
 
 Modified Files:
