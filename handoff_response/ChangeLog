@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Sat Oct  6 09:40:53 PDT 2007
+irfs/handoff_response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+tagging after include required by ROOT change
+    *
+------------------------------------------------------------
+User: burnett  Sat Oct  6 09:40:53 PDT 2007
 irfs/handoff_response/cmt
 
 Modified Files:
