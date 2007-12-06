@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Dec  6 12:39:00 PST 2007
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+ensure handoff irfs are loaded only once; raise contextual exception if Psf::angularIntegral is called for source far from ROI center; tagging v3r8p3
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r8p2, operation: add
 Package: handoff_response
