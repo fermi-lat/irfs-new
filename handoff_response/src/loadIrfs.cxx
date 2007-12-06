@@ -40,19 +40,18 @@ std::string load_irfs(const std::string & rootfile, bool verbose) {
 
    std::string irfName("standard");
 
-// // Check if irfs have been loaded already (this breaks the custom irfs)
-//    irfInterface::Irfs * my_irfs(0);
-//    try {
-//       my_irfs = myFactory->create("standard/front");
-//    } catch (std::invalid_argument &) {
-//       my_irfs = 0;
-//    }
-//    if (my_irfs != 0) { // HANDOFF irfs are already in the factory
-//       return irfName;
-//    }
+// Check if irfs have been loaded already
+   irfInterface::Irfs * my_irfs(0);
+   try {
+      my_irfs = myFactory->create("Pass4_v2/front");
+   } catch (std::invalid_argument &) {
+      my_irfs = 0;
+   }
+   if (my_irfs != 0) { // HANDOFF irfs are already in the factory
+      return irfName;
+   }
 
 /// @todo get rid of ROOT and get rid of this annoying IrfLoader class
-
    IrfLoader * loader(0);
    if (rootfile != "") {
       loader = new IrfLoader(rootfile);

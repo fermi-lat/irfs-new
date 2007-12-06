@@ -180,6 +180,15 @@ double Psf::angularIntegral(double energy,
       m_haveAngularIntegrals = true;
    }
    double psi(srcDir.difference(m_acceptanceCone->center()));
+
+   if (psi > psis.back()) {
+      std::ostringstream message;
+      message << "Error evaluating PSF integral.\n"
+              << "Requested source location > " 
+              << psis.back()*180/M_PI << " degrees from ROI center.";
+      throw std::runtime_error(message.str());
+   }
+
    size_t ii(std::upper_bound(psis.begin(), psis.end(), psi) 
              - psis.begin() - 1);
 

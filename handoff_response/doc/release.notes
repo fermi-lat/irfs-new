@@ -5,6 +5,11 @@
   @verbatim
   $Id$
 
+  06-Dec-07 v3r8p3 JC     fix code to ensure irfs get loaded only once
+                          into IrfsFactory; raise contextual exception
+                          if Psf::angularIntegral is called for a source
+                          > 60 deg from the ROI center
+  15-Oct-07 v3r8p2 JC     use facilities::commonUtilities for env vars
   06-Oct-07 v3r8p1 THB    ROOT include required by change in interface
   27-Aug-07 v3r8   JC     add other Pass5 irfs, e.g., Diffuse and Transient
                           analysis classes
