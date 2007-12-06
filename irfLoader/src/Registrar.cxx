@@ -19,7 +19,6 @@
 #include "g25Response/IrfLoader.h"
 #include "handoff_response/MyIrfLoader.h"
 #include "testResponse/IrfLoader.h"
-#include "egretResponse/IrfLoader.h"
 
 #include "Registrar.h"
 
@@ -34,9 +33,16 @@ Registrar::Registrar() {
    registry.registerLoader(new g25Response::IrfLoader());
    registry.registerLoader(new handoff_response::MyIrfLoader());
    registry.registerLoader(new testResponse::IrfLoader());
-   registry.registerLoader(new egretResponse::IrfLoader());
 
-   std::vector<std::string> names(registry.irfNames());
+//    typedef std::map<std::string, std::vector<std::string> > RespIdMap_t;
+//    const RespIdMap_t & respIds(registry.respIds());
+//    for (RespIdMap_t::const_iterator it(respIds.begin());
+//         it != respIds.end(); ++it) {
+//       std::cout << it->first << "\n";
+//       for (size_t i(0); i < it->second.size(); i++) {
+//          std::cout << it->second.at(i) << std::endl;
+//       }
+//    }
 }
 
 } // namespace irfLoader
