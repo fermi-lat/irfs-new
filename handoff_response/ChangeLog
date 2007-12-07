@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Fri Dec  7 07:39:08 PST 2007
+irfs/handoff_response/src/gen/reformat
+
+Removed Files:
+	reformat.cxx 
+Log Message:
+remove obsolute file, at GSSC request
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r8p3, operation: add
 Package: handoff_response
