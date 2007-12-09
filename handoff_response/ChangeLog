@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Sat Dec  8 20:37:24 PST 2007
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	FitsEval.cxx RootEval.cxx RootEval.h 
+Added Files:
+	Table.cxx Table.h 
+Log Message:
+begin refactoring away use of ROOT in IRF accessing classes
+    *
+------------------------------------------------------------
 User: burnett  Fri Dec  7 07:39:08 PST 2007
 irfs/handoff_response/src/gen/reformat
 
