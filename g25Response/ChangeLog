@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: golpa  Tue Dec 11 09:10:15 PST 2007
+irfs/g25Response
+
+Added Files:
+	SConscript g25ResponseLib.py 
+Log Message:
+Initial import of SCons files
+    *
+------------------------------------------------------------
 User: jchiang  Wed Apr 25 12:46:05 PDT 2007
 irfs/g25Response/cmt
 

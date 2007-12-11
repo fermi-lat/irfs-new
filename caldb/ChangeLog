@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: golpa  Tue Dec 11 09:06:48 PST 2007
+irfs/caldb
+
+Added Files:
+	SConscript 
+Log Message:
+Initial import of SCons files
+    *
+------------------------------------------------------------
 TAG
 Tag name: v0r5, operation: add
 Package: caldb

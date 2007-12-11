@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: golpa  Tue Dec 11 09:17:06 PST 2007
+irfs/irfLoader
+
+Added Files:
+	SConscript irfLoaderLib.py 
+Log Message:
+Initial import of SCons files
+    *
+------------------------------------------------------------
 User: jchiang  Sat Jun 16 16:11:04 PDT 2007
 irfs/irfLoader/src
 

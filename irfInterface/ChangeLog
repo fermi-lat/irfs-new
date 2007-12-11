@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: golpa  Tue Dec 11 09:14:01 PST 2007
+irfs/irfInterface
+
+Added Files:
+	SConscript irfInterfaceLib.py 
+Log Message:
+Initial import of SCons files
+    *
+------------------------------------------------------------
 TAG
 Tag name: v2r1p1, operation: add
 Package: irfInterface

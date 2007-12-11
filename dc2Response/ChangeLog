@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: golpa  Tue Dec 11 09:09:36 PST 2007
+irfs/dc2Response
+
+Added Files:
+	SConscript dc2ResponseLib.py 
+Log Message:
+Initial import of SCons files
+    *
+------------------------------------------------------------
 User: jchiang  Wed Apr 25 12:45:52 PDT 2007
 irfs/dc2Response/cmt
 

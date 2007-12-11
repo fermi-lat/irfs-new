@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: golpa  Tue Dec 11 09:12:55 PST 2007
+irfs/handoff_response
+
+Added Files:
+	SConscript handoff_responseLib.py 
+Log Message:
+Initial import of SCons files
+    *
+------------------------------------------------------------
 User: jchiang  Sat Dec  8 20:37:24 PST 2007
 irfs/handoff_response/src/irfs
 
