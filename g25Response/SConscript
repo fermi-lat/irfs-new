@@ -1,0 +1,16 @@
+import glob,os,platform
+
+Import('baseEnv')
+Import('listFiles')
+progEnv = baseEnv.Clone()
+libEnv = baseEnv.Clone()
+
+if platform.system() == 'Linux':
+        progEnv.Append(CPPDEFINES = 'TRAP_FPE')
+
+g25ResponseLib = libEnv.StaticLibrary('g25Response', listFiles(['src/*.cxx']))
+
+progEnv.Tool('g25ResponseLib')
+test_g25ResponseBin = progEnv.Program('test_g25Response', listFiles(['src/test/*.cxx']))
+
+progEnv.Tool('registerObjects', package = 'g25Response', libraries = [g25ResponseLib], testApps = [test_g25ResponseBin], includes = listFiles(['g25Response/*.h']))

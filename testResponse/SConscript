@@ -1,0 +1,17 @@
+import glob,os,platform
+
+Import('baseEnv')
+Import('listFiles')
+progEnv = baseEnv.Clone()
+libEnv = baseEnv.Clone()
+
+if platform.system() == 'Linux':
+        progEnv.Append(CPPDEFINES = 'TRAP_FPE')
+
+testResponseLib = libEnv.StaticLibrary('testResponse', listFiles(['src/*.cxx']))
+
+progEnv.Tool('testResponseLib')
+progEnv.Tool('addLibrary', library = progEnv['cppunitLibs'])
+test_testResponseBin = progEnv.Program('test_testResponse', listFiles(['src/test/*.cxx']))
+
+progEnv.Tool('registerObjects', package = 'testResponse', libraries = [testResponseLib], testApps = [test_testResponseBin], includes = listFiles(['testResponse/*.h']))
