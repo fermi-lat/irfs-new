@@ -1,0 +1,27 @@
+------------------------------------------------------------
+User: jchiang  Wed Jan  9 16:37:47 PST 2008
+users/jchiang/latResponse
+
+Log Message:
+initial import
+
+Status:
+
+Vendor Tag:	JC
+Release Tags:	v0
+		
+I users/jchiang/latResponse/rhel4_gcc34
+I users/jchiang/latResponse/.cvsignore~
+N users/jchiang/latResponse/.cvsignore
+N users/jchiang/latResponse/latResponse/Bilinear.h
+N users/jchiang/latResponse/latResponse/FitsTable.h
+N users/jchiang/latResponse/work/TH2_test.C
+N users/jchiang/latResponse/cmt/requirements
+N users/jchiang/latResponse/data/psf_Pass5_v0_front.fits
+N users/jchiang/latResponse/src/Bilinear.cxx
+N users/jchiang/latResponse/src/FitsTable.cxx
+N users/jchiang/latResponse/src/test/test.cxx
+
+No conflicts created by this import
+
+    *
