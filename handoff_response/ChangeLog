@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: burnett  Thu Jan 17 09:11:57 PST 2008
+irfs/handoff_response/src
+
+Modified Files:
+	MyIrfLoader.cxx loadIrfs.cxx 
+Log Message:
+check in new dispersion code, with some vcc fixes.
+    *
+------------------------------------------------------------
+User: burnett  Thu Jan 17 09:11:57 PST 2008
 irfs/handoff_response/data
 
 Modified Files:
