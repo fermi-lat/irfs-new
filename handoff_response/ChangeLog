@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Thu Jan 17 09:11:57 PST 2008
+irfs/handoff_response/data
+
+Modified Files:
+	edisp.tpl 
+Log Message:
+check in new dispersion code, with some vcc fixes.
+    *
+------------------------------------------------------------
 User: golpa  Tue Dec 11 09:12:55 PST 2007
 irfs/handoff_response
 
