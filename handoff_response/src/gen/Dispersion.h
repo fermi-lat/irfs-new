@@ -1,93 +1,75 @@
 /** @file Dispersion.h
+@brief declaration of class Dispersion
+
+$Header$
+
 */
+
 #ifndef IRF_Dispersion_h
 #define IRF_Dispersion_h
 
 
-#include <vector>
-#include <iostream>
+#include "TF1.h"
 #include <string>
-class IrfAnalysis;
-class IrfBinner;
+#include <iostream>
+#include <vector>
 class TH1F;
-class TH2F;
-
-/** @class Dispersion
- *  @brief manage the PSF plots
-*/
 
 class Dispersion {
+
 public:
-    Dispersion( IrfAnalysis& irf, std::ostream& log=std::cout);
+
+    Dispersion(std::string histname,
+        std::string title);
+
+    Dispersion():m_count(-1){} // default 
     ~Dispersion();
 
-    void fill(double diff, double energy, double costheta, bool front);
+    /// add a point with a scaled angular difference delta
+    void fill(double scaled_delta, double weight=1.0);
 
-    void fit(std::string opts="RQ");
-    void summarize();
+    /// add a summary line to a table, with 68%, 95%, and fit parameters.
+    void summarize(std::ostream & out);
 
-    void draw(const std::string &ps_filename) ;
+    /// draw to the current pad
+    void draw(double ymin=1e-6, double ymax=1.0, bool ylog=true);
 
-    /// make a set of 2-d histograms with values of the fit parameters
-    /// binning according to energy and costheta bins
-    void fillParameterTables();
+    /// make a fit, using standard PSF function
+    void fit(std::string opts = "RQ");
 
-    /// @brief access to the function used
-    static double function(double* x, double* par); 
+    /// get vector of fit parameters (all zero if not fit)
+    void getFitPars(std::vector<double> & pars)const;
 
-    /** @class Dispersion::Hist
-        @brief nested class manages a ROOT histogram
-        */
+    /// scale factor to apply to data
+    static double scaleFactor(double energy, double zdir, bool front);
 
-    class Hist{
-    public:
-        Hist(std::string id, std::string title);
-        Hist(){};
-        operator TH1F*(){return m_h;}
-        void fill(double diff);
-        void fit(std::string opts="RQ");
-        void summarize(std::ostream& out= std::cout);
-        void draw()const;
-        double ltail()const;
-        double rwidth()const;
-        double chisq()const;
-        void getFitPars(std::vector<double>& pars)const;
-        double entries()const;
+    /// access to the function itself
+    static double function(double* delta, double* par);
 
-        double parameter(int n)const;
-       // static const char* pnames[];
-        static std::vector<std::string> pnames;
-        static double      pinit[];
-        static double      pmin[];
-        static double      pmax[];
-        static double      fitrange[2];
+    double entries()const{return m_count;}
 
-        static unsigned int npars();
+    ///! list of names
+    static std::vector<std::string> pnames;
 
-        static bool s_logy; ///< determine if log y
-        static int  s_minEntries; ///< minimum number of entries to fit
-        static int  s_bins; ///< number of bins in fit histogram
-        static double s_histrange[2]; ///< range for the fit histogram
+    static const char* parname(int i);
+    static int npars();
 
-        static void summaryTitle(std::ostream& out=std::cout);
-    private:
-        TH1F* m_h;
-        double m_lowTail, m_highTail;
-    };
-    typedef std::vector<Hist> HistList;
-    const HistList& hists()const{return m_hists;}
-
-    const IrfBinner& binner(){return m_binner;}
+    static void summary_title(std::ostream & out);
 
 private:
 
-    IrfAnalysis& m_irf;
-    const IrfBinner& m_binner;
-    typedef std::vector<Hist> HistList;
-    HistList m_hists; // simple histogram lookukp
-    std::ostream * m_log;
-    std::ostream& out() {return *m_log;}
+    TH1F& hist(){return *m_hist;}
+    TH1F* m_hist;  ///< managed histogram
+    TH1F* m_cumhist; ///< a cumulative histogram, generated before fit
+    TF1 m_fitfunc; ///< the fit function
 
+    int m_count; ///< number of entries
+
+    double m_quant[2]; // for 68,95% quantiles
+    double m_tail;     // fraction in tail beyond fit range
+
+    void reorder_parameters();
+    void setFitPars(double * pars, double * pmin, double * pmax);
 };
 
 #endif

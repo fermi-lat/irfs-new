@@ -15,6 +15,7 @@
 
 #include "Bilinear.h"
 #include "Table.h"
+#include <algorithm>
 
 namespace {
    int bin_index(double x, const std::vector<float> & xx) {

@@ -13,7 +13,6 @@ $Header$
 
 #include "TFile.h"
 #include "TH2F.h"
-#include "TPaletteAxis.h"
 
 #include <sstream>
 #include <stdexcept>
@@ -25,18 +24,17 @@ $Header$
 
 #include "st_facilities/GaussianQuadrature.h"
 
-#include "Table.h"
-
 using namespace handoff_response;
-
+#include "TPaletteAxis.h"
+#include "Table.h"
 namespace {
    TPaletteAxis dummy;
-
+  /*
    static double * disp_pars;
    double dispfunc(double * x) {
       return Dispersion::function(x, disp_pars);
    }
-
+  */
    class PsfIntegrand {
    public:
       /// @param energy True photon energy (MeV)
@@ -52,71 +50,71 @@ namespace {
       double * m_pars;
    };
 }
+#if 0
+RootEval::Table::Table(TH2F* hist)
+    : m_hist(hist)
+    , m_interpolator(0)
+    {
+        binArray( 0, 10, hist->GetXaxis(), m_energy_axis);
+        binArray(-1.0,1.00, hist->GetYaxis(), m_angle_axis);
 
-// RootEval::Table::Table(TH2F* hist)
-//     : m_hist(hist)
-//     , m_interpolator(0)
-//     {
-//         binArray( 0, 10, hist->GetXaxis(), m_energy_axis);
-//         binArray(-1.0,1.00, hist->GetYaxis(), m_angle_axis);
+        m_minCosTheta = hist->GetYaxis()->GetBinLowEdge(1);
+#if 0
+        std::cout << "energy bins: ";
+        std::copy(m_energy_axis.begin(), m_energy_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
+        std::cout << std::endl;
 
-//         m_minCosTheta = hist->GetYaxis()->GetBinLowEdge(1);
-// #if 0
-//         std::cout << "energy bins: ";
-//         std::copy(m_energy_axis.begin(), m_energy_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
-//         std::cout << std::endl;
+        std::cout << "angle bins: ";
+        std::copy(m_angle_axis.begin(), m_angle_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
+        std::cout << std::endl;
+#endif
 
-//         std::cout << "angle bins: ";
-//         std::copy(m_angle_axis.begin(), m_angle_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
-//         std::cout << std::endl;
-// #endif
+        for(Bilinear::const_iterator iy = m_angle_axis.begin(); iy!=m_angle_axis.end(); ++iy){
+            float costh ( *iy );
+            if(costh==1.0) costh=0.999; // avoid edge in histgram
+            for(Bilinear::const_iterator ix = m_energy_axis.begin(); ix!= m_energy_axis.end(); ++ix){
+                float loge ( *ix );
+                int bin ( hist->FindBin(loge,costh) );
+                double value ( static_cast<float>(hist->GetBinContent(bin)));
+                m_data_array.push_back(value);
+            }
+        }
 
-//         for(Bilinear::const_iterator iy = m_angle_axis.begin(); iy!=m_angle_axis.end(); ++iy){
-//             float costh ( *iy );
-//             if(costh==1.0) costh=0.999; // avoid edge in histgram
-//             for(Bilinear::const_iterator ix = m_energy_axis.begin(); ix!= m_energy_axis.end(); ++ix){
-//                 float loge ( *ix );
-//                 int bin ( hist->FindBin(loge,costh) );
-//                 double value ( static_cast<float>(hist->GetBinContent(bin)));
-//                 m_data_array.push_back(value);
-//             }
-//         }
+        m_interpolator = new Bilinear(m_energy_axis, m_angle_axis, m_data_array);
+    }
 
-//         m_interpolator = new Bilinear(m_energy_axis, m_angle_axis, m_data_array);
-//     }
-
-// RootEval::Table::~Table(){ delete m_interpolator; delete m_hist; m_hist=0;}
+RootEval::Table::~Table(){ delete m_interpolator; delete m_hist; m_hist=0;}
     
-// double RootEval::Table::maximum() { return m_hist->GetMaximum(); }
+double RootEval::Table::maximum() { return m_hist->GetMaximum(); }
 
-// void RootEval::Table::binArray(double low_limit, double high_limit, TAxis* axis, std::vector<float>& array)
-//     {
-//         array.push_back(low_limit);
-//         int nbins(axis->GetNbins());
-//         for(int i = 1; i<nbins+1; ++i){
-//             array.push_back(axis->GetBinCenter(i));
-//         }
-//         array.push_back(high_limit);
+void RootEval::Table::binArray(double low_limit, double high_limit, TAxis* axis, std::vector<float>& array)
+    {
+        array.push_back(low_limit);
+        int nbins(axis->GetNbins());
+        for(int i = 1; i<nbins+1; ++i){
+            array.push_back(axis->GetBinCenter(i));
+        }
+        array.push_back(high_limit);
         
-//     }
+    }
 
-// double RootEval::Table::value(double logenergy, double costh, bool interpolate)
-// {
-//     if( interpolate) return (*m_interpolator)(logenergy, costh);
+double RootEval::Table::value(double logenergy, double costh, bool interpolate)
+{
+    if( interpolate) return (*m_interpolator)(logenergy, costh);
 
-//     // non-interpolating: look up value for the bin 
+    // non-interpolating: look up value for the bin 
 
-//     double maxloge( *(m_energy_axis.end()-2)); // if go beyond this, use last bin
-//     if( logenergy>= maxloge ) {
-//         logenergy = maxloge;
-//     }
-//     if (logenergy <= m_energy_axis.at(1)) {    // use first bin if necessary
-//        logenergy = m_energy_axis.at(1);        // why isn't m_energy_axis.at(0)
-//     }                                          // the first bin?
-//     int bin= m_hist->FindBin(logenergy, costh);
-//     return m_hist->GetBinContent(bin);
-// }
-
+    double maxloge( *(m_energy_axis.end()-2)); // if go beyond this, use last bin
+    if( logenergy>= maxloge ) {
+        logenergy = maxloge;
+    }
+    if (logenergy <= m_energy_axis.at(1)) {    // use first bin if necessary
+       logenergy = m_energy_axis.at(1);        // why isn't m_energy_axis.at(0)
+    }                                          // the first bin?
+    int bin= m_hist->FindBin(logenergy, costh);
+    return m_hist->GetBinContent(bin);
+}
+#endif ///////////////////////////////////////////////////////////
 RootEval::RootEval(TFile* f, std::string eventtype)
 : IrfEval(eventtype)
   , m_f(f), m_loge_last(0), m_costh_last(0)
@@ -126,7 +124,7 @@ RootEval::RootEval(TFile* f, std::string eventtype)
 
     //double psftest = psf(1000, 1000, 0.);
 
-    setupParameterTables(Dispersion::Hist::pnames, m_dispTables);
+    setupParameterTables(Dispersion::pnames, m_dispTables);
 #if 0
     std::cout << "Test dispersion at 1000 MeV" << std::endl;
     for( double e(500); e<1500; e*=1.05) {
@@ -197,17 +195,17 @@ void RootEval::getPsfPars(double energy, double inclination,
       params[parnames.at(i)] = pars[i];
    }
 }
-
-// RootEval::Table* RootEval::setupHist( std::string name)
-// {
-//     std::string fullname(eventClass()+"/"+name);
-//     TH2F* h2 = (TH2F*)m_f->GetObjectChecked((fullname).c_str(), "TH2F");
-//     if (h2==0) {
-//        throw std::invalid_argument("RootEval: could not find plot "+fullname);
-//     }
-//     return new Table(h2);
-// }
-
+#if 0
+RootEval::Table* RootEval::setupHist( std::string name)
+{
+    std::string fullname(eventClass()+"/"+name);
+    TH2F* h2 = (TH2F*)m_f->GetObjectChecked((fullname).c_str(), "TH2F");
+    if (h2==0) {
+       throw std::invalid_argument("RootEval: could not find plot "+fullname);
+    }
+    return new Table(h2);
+}
+#else
 Table * RootEval::setupHist( std::string name)
 {
     std::string fullname(eventClass()+"/"+name);
@@ -217,7 +215,7 @@ Table * RootEval::setupHist( std::string name)
     }
     return new Table(h2);
 }
-
+#endif
 double * RootEval::psf_par(double energy, double costh) {
    static double par[5];
    double loge(::log10(energy));
@@ -294,6 +292,14 @@ double * RootEval::disp_par(double energy, double costh) {
     for (unsigned int i=0; i < m_dispTables.size(); ++i) {
         par[i] = m_dispTables[i]->value(loge, costh, interpolate);
     }
+
+     // rescale the sigma value after interpolation
+   //sigma 1st func
+   par[1] *= Dispersion::scaleFactor(energy, costh, isFront());
+   par[2] *= Dispersion::scaleFactor(energy, costh, isFront());
+   //sigma 2nd func
+   par[4] *= Dispersion::scaleFactor(energy, costh, isFront());
+   par[5] *= Dispersion::scaleFactor(energy, costh, isFront());
 
     return par;
 }

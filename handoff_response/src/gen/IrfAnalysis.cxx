@@ -7,7 +7,7 @@ $Header$
 
 #include "IrfAnalysis.h"
 #include "PsfPlots.h"
-#include "Dispersion.h"
+#include "DispPlots.h"
 #include "EffectiveArea.h"
 #include "TreeWrapper.h"
 #include "embed_python/Module.h"
@@ -81,7 +81,7 @@ case 2: out() << "back events"; break;
     //---------------------------
 
     m_psf = new PsfPlots(*this, out());
-    m_disp = new Dispersion(*this, out());
+    m_disp = new DispPlots(*this, out());
     m_aeff = new EffectiveArea(*this, out());
 
     std::cout << "Selecting columns in tree " << tree().GetName() << std::endl;
@@ -142,7 +142,9 @@ case 2: out() << "back events"; break;
 #else
         m_psf->fill(diff, CTBBestEnergy, McZDir, front);
 #endif
-        m_disp->fill(dsp, mc_energy, McZDir, front);
+
+        m_disp->fill(dsp, McEnergy, McZDir, front);
+
         m_aeff->fill( mc_energy, McZDir, front, total);
     }
     out() << "\nFound " << nruns <<" run numbers" 
@@ -225,17 +227,17 @@ void IrfAnalysis::makeParameterTuple()
     }
 
     // make branches to store dispersion fit parameters (except for normalization)
-    int disp_npars=Dispersion::Hist::npars();
+    int disp_npars=Dispersion::npars();
     std::vector<double> disp_params(disp_npars);
 
     for( int i=0; i< disp_npars; ++i){
-        tree->Branch(Dispersion::Hist::pnames[i].c_str(),
-            &disp_params[i], (std::string(Dispersion::Hist::pnames[i])+"/D").c_str());
+        tree->Branch(Dispersion::parname(i),
+            &disp_params[i], (std::string(Dispersion::parname(i))+"/D").c_str());
     }
 
     // loop through the two sets of histograms, extracting info from each
     int index(0);
-    Dispersion::HistList::const_iterator disp_it = m_disp->hists().begin();
+    DispPlots::DispList::const_iterator disp_it = m_disp->hists().begin();
     PsfPlots::PSFlist::const_iterator psf_it = m_psf->hists().begin();
     for( ; psf_it!=m_psf->hists().end();  ++psf_it, ++disp_it)   {
 
@@ -273,10 +275,9 @@ void IrfAnalysis::tabulate(std::string filename)
         fitpar.push_back(mytree.leaf(PointSpreadFunction::parname(j)));
         names.push_back(PointSpreadFunction::parname(j));
     }
-    for( int j=1; j< Dispersion::Hist::npars(); ++j) {
-        std::string name( Dispersion::Hist::pnames[j]);
-        fitpar.push_back(mytree.leaf(name));
-        names.push_back(name);
+    for( int j=1; j< Dispersion::npars(); ++j) {
+        fitpar.push_back(mytree.leaf(Dispersion::parname(j)));
+        names.push_back(Dispersion::parname(j));
     }
 
     // define matrix that will be filled with selected columns and transposed below

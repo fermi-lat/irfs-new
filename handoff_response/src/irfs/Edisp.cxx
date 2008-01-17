@@ -1,4 +1,4 @@
-/** 
+/**
 * @file Edisp.cxx
 * @brief Implementation class Edisp.
 * @author J. Chiang

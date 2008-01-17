@@ -21,10 +21,10 @@
 #include "FitsTable.h"
 
 #include "Table.h"
-
 namespace {
    std::string fullpath(const std::string & basename) {
       char * rootPath = ::getenv("HANDOFF_IRF_DIR");
+      std::cout<<"read env var"<<rootPath<<std::endl;
       if (rootPath == 0) {
          throw std::runtime_error("HANDOFF_IRF_DIR env var not set.");
       }
@@ -82,7 +82,7 @@ void FitsEval::readAeff() {
 
 void FitsEval::readEdisp() {
    FitsTable edisp(edispFile(), "ENERGY DISPERSION");
-   const std::vector<std::string> & names(Dispersion::Hist::pnames);
+   const std::vector<std::string> & names(Dispersion::pnames);
    m_dispTables.clear();
    for (size_t i(0); i < names.size(); i++) {
       m_dispTables.push_back(new Table(edisp.tableData(names.at(i))));
@@ -108,8 +108,10 @@ std::string FitsEval::aeffFile() const {
 std::string FitsEval::edispFile() const {
    if (::getenv("HANDOFF_IRF_DIR") && !m_forceCaldb) {
       return ::fullpath("edisp_" + m_className + "_" + m_section + ".fits");
+      std::cout<<"read (1) "<<::fullpath("edisp_" + m_className + "_" + m_section + ".fits")<<std::endl;
    }
    return caldbFile("EDISP", m_section, m_version, m_date);
+   std::cout<<"read (2) "<<caldbFile("EDISP", m_section, m_version, m_date)<<std::endl;
 }
 
 std::string FitsEval::psfFile() const {
@@ -119,13 +121,13 @@ std::string FitsEval::psfFile() const {
    return caldbFile("RPSF", m_section, m_version, m_date);
 }
 
-void FitsEval::createMap(const std::string & className, 
+void FitsEval::createMap(const std::string & className,
                          std::map<std::string, IrfEval *> & evals) {
    evals.clear();
    addToMap(className, evals);
 }
 
-void FitsEval::addToMap(const std::string & className, 
+void FitsEval::addToMap(const std::string & className,
                         std::map<std::string, IrfEval *> & evals) {
    evals[className + "/front"] = new FitsEval(className, "front");
    evals[className + "/back"] = new FitsEval(className, "back");
