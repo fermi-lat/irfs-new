@@ -1,5 +1,16 @@
 ------------------------------------------------------------
 User: burnett  Thu Jan 17 09:11:58 PST 2008
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx Dispersion.h IrfAnalysis.cxx IrfAnalysis.h 
+Added Files:
+	DispPlots.cxx DispPlots.h 
+Log Message:
+check in new dispersion code, with some vcc fixes.
+    *
+------------------------------------------------------------
+User: burnett  Thu Jan 17 09:11:58 PST 2008
 irfs/handoff_response/src/fits/make_fits
 
 Modified Files:
