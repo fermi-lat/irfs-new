@@ -39,6 +39,7 @@ public:
    double operator()(double x, double y)const;
 
 private:
+
    const_iterator m_xbegin, m_xend, m_ybegin, m_yend, m_valsbegin;
    
 };

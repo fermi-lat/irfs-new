@@ -41,7 +41,6 @@ FitsTable::FitsTable(const std::string & filename,
    for (size_t k(0); k < elo.size(); k++) {
       m_ebounds.push_back(std::log10(elo.at(k)));
       m_logEnergies.push_back(std::log10(std::sqrt(elo.at(k)*ehi.at(k))));
-      std::cout << m_logEnergies.back() << std::endl;
    }
    m_ebounds.push_back(std::log10(ehi.back()));
 
@@ -51,7 +50,6 @@ FitsTable::FitsTable(const std::string & filename,
    for (size_t i(0); i < muhi.size(); i++) {
       m_tbounds.push_back(mulo.at(i));
       m_mus.push_back((m_tbounds.at(i) + muhi.at(i))/2.);
-      std::cout << m_mus.back() << std::endl;
    }
    m_tbounds.push_back(muhi.back());
 
@@ -66,13 +64,26 @@ FitsTable::FitsTable(const std::string & filename,
    }
 
    m_interpolator = new Bilinear(m_logEnergies, m_mus, m_values);
+
+   delete table;
+}
+
+FitsTable::FitsTable() : m_interpolator(0) {}
+
+FitsTable::FitsTable(const FitsTable & rhs) 
+   : m_interpolator(0), m_logEnergies(rhs.m_logEnergies), m_mus(rhs.m_mus),
+     m_values(rhs.m_values), m_ebounds(rhs.m_ebounds),
+     m_tbounds(rhs.m_tbounds), m_minCosTheta(rhs.m_minCosTheta), 
+     m_maxValue(rhs.m_maxValue) {
+   m_interpolator = new Bilinear(m_logEnergies, m_mus, m_values);
 }
 
 FitsTable::~FitsTable() { 
    delete m_interpolator;
 }
 
-double FitsTable::value(double logenergy, double costh, bool interpolate) {
+double FitsTable::
+value(double logenergy, double costh, bool interpolate) const {
    if (interpolate) {
       if (costh < m_mus.front()) {
          costh = m_mus.front();
@@ -99,7 +110,7 @@ double FitsTable::value(double logenergy, double costh, bool interpolate) {
 
 void FitsTable::getVectorData(const tip::Table * table,
                               const std::string & fieldName,
-                              std::vector<float> & values) const {
+                              std::vector<float> & values) {
    values.clear();
 
    tip::Table::ConstIterator it(table->begin());

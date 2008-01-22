@@ -30,6 +30,10 @@ public:
              const std::string & extname,
              const std::string & tablename);
 
+   FitsTable();
+
+   FitsTable(const FitsTable & other);
+
    ~FitsTable();
       
    /// @brief lookup a value from the table
@@ -37,7 +41,7 @@ public:
    /// @param costh cos(theta)
    /// @param interpolate [true] if true, make linear
    /// interpolation. Otherwise, return value for given cell.
-   double value(double logenergy, double costh, bool interpolate=true);
+   double value(double logenergy, double costh, bool interpolate=true) const;
     
    double maximum() const {
       return m_maxValue;
@@ -45,6 +49,17 @@ public:
    
    double minCosTheta() const {
       return m_minCosTheta;
+   }
+
+   static void getVectorData(const tip::Table * table,
+                             const std::string & fieldName,
+                             std::vector<float> & values);
+
+protected:
+
+   /// Disable copy assignment operator.
+   FitsTable & operator=(const FitsTable &) {
+      return *this;
    }
 
 private:
@@ -61,10 +76,6 @@ private:
    float m_minCosTheta;
 
    float m_maxValue;
-
-   void getVectorData(const tip::Table * table,
-                      const std::string & fieldName,
-                      std::vector<float> & values) const ;
 
 };
 

@@ -16,10 +16,11 @@
 #include "handoff_response/../src/irfs/Table.h"
 
 #include "latResponse/FitsTable.h"
+#include "Psf.h"
 
 using namespace latResponse;
 
-int main() {
+void compare_to_handoff_response() {
    std::string rootPath(::getenv("LATRESPONSEROOT"));
 
    std::string filename(rootPath + "/data/psf_Pass5_v0_front.fits");
@@ -40,4 +41,15 @@ int main() {
                    << old_table.value(logE, mu, false) << std::endl;
       }
    }
+}
+
+void Psf_test() {
+   std::string rootPath(::getenv("LATRESPONSEROOT"));
+   std::string filename(rootPath + "/data/psf_Pass5_v0_front.fits");
+   Psf foo(filename);
+}
+
+int main() {
+   compare_to_handoff_response();
+   Psf_test();
 }
