@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Jan 21 22:25:36 PST 2008
+users/jchiang/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+migrate more the awfulness from handoff_response
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 21 22:25:36 PST 2008
 users/jchiang/latResponse/src
 
 Modified Files:
