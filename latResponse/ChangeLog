@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan 21 22:25:36 PST 2008
+users/jchiang/latResponse/latResponse
+
+Modified Files:
+	Bilinear.h FitsTable.h 
+Log Message:
+migrate more the awfulness from handoff_response
+    *
+------------------------------------------------------------
 User: jchiang  Wed Jan  9 16:37:47 PST 2008
 users/jchiang/latResponse
 
