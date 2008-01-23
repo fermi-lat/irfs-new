@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jan 23 14:05:22 PST 2008
+users/jchiang/latResponse/src
+
+Modified Files:
+	Psf.cxx Psf.h PsfIntegralCache.cxx PsfIntegralCache.h 
+Log Message:
+complete implementations (untested)
+    *
+------------------------------------------------------------
 User: jchiang  Tue Jan 22 21:41:46 PST 2008
 users/jchiang/latResponse/src
 
