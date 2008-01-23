@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jan 22 16:50:04 PST 2008
+users/jchiang/latResponse/src
+
+Added Files:
+	PsfIntegralCache.cxx PsfIntegralCache.h 
+Log Message:
+class to handle psf integrals
+    *
+------------------------------------------------------------
 User: jchiang  Mon Jan 21 22:25:36 PST 2008
 users/jchiang/latResponse/src/test
 
