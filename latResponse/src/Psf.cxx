@@ -6,12 +6,21 @@
  * $Header$
  */
 
+#include <algorithm>
+#include <iostream>
+#include <sstream>
 #include <stdexcept>
 
 #include "tip/IFileSvc.h"
 #include "tip/Table.h"
 
+#include "st_facilities/GaussianQuadrature.h"
+#include "st_facilities/Util.h"
+
+#include "astro/SkyDir.h"
+
 #include "Psf.h"
+#include "PsfIntegralCache.h"
 
 namespace {
    double sqr(double x) {
@@ -19,11 +28,13 @@ namespace {
    }
 }
 
-//namespace latResponse {
+namespace latResponse {
+
+double Psf::s_ub(10.);
 
 Psf::Psf(const std::string & fitsfile, const std::string & extname,
          bool isFront)
-   : m_loge_last(0), m_costh_last(0) {
+   : m_loge_last(0), m_costh_last(0), m_isFront(isFront), m_integralCache(0) {
    readPars(fitsfile, extname);
    readScaling(fitsfile);
 }
@@ -32,9 +43,11 @@ Psf::Psf(const Psf & rhs) : irfInterface::IPsf(rhs), m_pars(rhs.m_pars),
                             m_thin0(rhs.m_thin0), m_thin1(rhs.m_thin1),
                             m_thick0(rhs.m_thick0), m_thick1(rhs.m_thick1),
                             m_index(rhs.m_index), m_loge_last(0), 
-                            m_costh_last(0)  {}
+                            m_costh_last(0), m_integralCache(0) {}
    
-Psf::~Psf() {}
+Psf::~Psf() {
+   delete m_integralCache;
+}
 
 double Psf::value(const astro::SkyDir & appDir, 
                   double energy, 
@@ -61,34 +74,78 @@ double Psf::angularIntegral(double energy, double theta,
                             double phi, double radius, double time) const {
 //    double time(0);
 //    double integral = IPsf::angularIntegral(energy, theta, phi, radius, time);
+   (void)(phi);
+   (void)(time);
    double * my_pars(pars(energy, std::cos(theta*M_PI/180.)));
    return old_integral(radius*M_PI/180., my_pars)*(2.*M_PI*::sqr(my_pars[1]));
 }
 
-double angularIntegral(double energy,
-                       const astro::SkyDir & srcDir,
-                       const astro::SkyDir & scZAxis,
-                       const astro::SkyDir & scXAxis,
-                       const std::vector<irfInterface::AcceptanceCone *> 
-                       & acceptanceCones,
-                       double time) {
+double Psf::angularIntegral(double energy,
+                            const astro::SkyDir & srcDir,
+                            const astro::SkyDir & scZAxis,
+                            const astro::SkyDir & scXAxis,
+                            const std::vector<irfInterface::AcceptanceCone *> 
+                            & acceptanceCones,
+                            double time) {
    (void)(scXAxis);
    double theta(srcDir.difference(scZAxis)*180./M_PI);
    double phi(0);
    return angularIntegral(energy, srcDir, theta, phi, acceptanceCones, time);
 }
 
-double Psf::old_integral(double sep, double * pars) {
-   double ncore(pars[0]);
-   double sigma(pars[1]);
-   double gcore(pars[2]);
-   double gtail(pars[3]);
-   double ntail = ncore*(old_base_function(ub, sigma, gcore)
-                         /old_base_function(ub, sigma, gtail));
-   double r = sep/sigma;
-   double u = r*r/2.;
-   return (ncore*old_base_integral(u, sigma, gcore) + 
-           ntail*old_base_integral(u, sigma, gtail));
+double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
+                            double theta, double phi, 
+                            const std::vector<irfInterface::AcceptanceCone *> 
+                            & acceptanceCones, double time) {
+   (void)(phi);
+   (void)(time);
+   irfInterface::AcceptanceCone & cone(*acceptanceCones.at(0));
+   if (!m_integralCache) {
+      m_integralCache = new PsfIntegralCache(*this, cone);
+   }
+   double psi(srcDir.difference(cone.center()));
+
+   const std::vector<double> & psis(m_integralCache->psis());
+   if (psi > psis.back()) {
+      std::ostringstream message;
+      message << "Error evaluating PSF integral.\n"
+              << "Requested source location > " 
+              << psis.back()*180/M_PI << " degrees from ROI center.";
+      throw std::runtime_error(message.str());
+   }
+
+   size_t ii(std::upper_bound(psis.begin(), psis.end(), psi) 
+             - psis.begin() - 1);
+
+   double * my_pars(pars(energy, std::cos(theta*M_PI/180.)));
+   double ncore(my_pars[0]);
+   double sigma(my_pars[1]);
+   double gcore(my_pars[2]);
+   double gtail(my_pars[3]);
+   double ntail = ncore*(old_base_function(s_ub, sigma, gcore)
+                         /old_base_function(s_ub, sigma, gtail));
+
+   /// Remove sigma**2 scaling imposed by RootEval.  This is put back
+   /// in angularIntegral below for each grid value of sigmas.  This
+   /// preserves the normalization in the bilinear interpolation by
+   /// explicitly putting in the important sigma-dependence.
+   ncore *= sigma*sigma;
+   ntail *= sigma*sigma;
+
+   double y1(ncore*m_integralCache->angularIntegral(sigma, gcore, ii) + 
+             ntail*m_integralCache->angularIntegral(sigma, gtail, ii));
+   double y2(ncore*m_integralCache->angularIntegral(sigma, gcore, ii+1) + 
+             ntail*m_integralCache->angularIntegral(sigma, gtail, ii+1));
+
+   double y = ((psi - psis.at(ii))/(psis.at(ii+1) - psis.at(ii))
+               *(y2 - y1)) + y1;
+
+   return y;
+}
+
+double Psf::old_base_function(double u, double sigma, double gamma) {
+   (void)(sigma);
+   return (1. - 1./gamma)*std::pow(1. + u/gamma, -gamma);
 }
 
 double Psf::old_base_integral(double u, double sigma, double gamma) {
@@ -96,22 +153,30 @@ double Psf::old_base_integral(double u, double sigma, double gamma) {
    return 1. - std::pow(1. + u/gamma, 1. - gamma);
 }
 
-double Psf::old_function(double sep, double * pars) const {
+double Psf::old_function(double sep, double * pars) {
    double ncore(pars[0]);
    double sigma(pars[1]);
    double gcore(pars[2]);
    double gtail(pars[3]);
-   double ntail = ncore*(psf_base(ub, sigma, gcore)
-                         /psf_base(ub, sigma, gtail));
+   double ntail = ncore*(old_base_function(s_ub, sigma, gcore)
+                         /old_base_function(s_ub, sigma, gtail));
    double r = sep/sigma;
    double u = r*r/2.;
    return (ncore*old_base_function(u, sigma, gcore) +
            ntail*old_base_function(u, sigma, gtail));
 }
 
-double Psf::old_base_function(double u, double sigma, double gamma) const {
-   (void)(sigma);
-   return (1. - 1./gamma)*pow(1. + u/gamma, -gamma);
+double Psf::old_integral(double sep, double * pars) {
+   double ncore(pars[0]);
+   double sigma(pars[1]);
+   double gcore(pars[2]);
+   double gtail(pars[3]);
+   double ntail = ncore*(old_base_function(s_ub, sigma, gcore)
+                         /old_base_function(s_ub, sigma, gtail));
+   double r = sep/sigma;
+   double u = r*r/2.;
+   return (ncore*old_base_integral(u, sigma, gcore) + 
+           ntail*old_base_integral(u, sigma, gtail));
 }
 
 double * Psf::pars(double energy, double costh) const {
@@ -154,14 +219,14 @@ double * Psf::pars(double energy, double costh) const {
    static double theta_max(M_PI/2.);
 //   if (energy < 70.) { // Use the *correct* integral of Psf over solid angle.
    if (energy < 120.) { // Use the *correct* integral of Psf over solid angle.
-      ::PsfIntegrand foo(par);
+      PsfIntegrand foo(par);
       double err(1e-5);
       int ierr;
       norm = st_facilities::GaussianQuadrature::dgaus8(foo, 0, theta_max,
                                                        err, ierr);
       par[0] /= norm*2.*M_PI;
    } else { // Use small angle approximation.
-      norm = PointSpreadFunction::integral(&theta_max, par);
+      norm = old_integral(theta_max, par);
       par[0] /= norm*2.*M_PI*par[1]*par[1];
    }
 
@@ -175,7 +240,7 @@ const FitsTable & Psf::parTable(const std::string & name) const {
       throw std::runtime_error("latResponse::Psf::parTable: "
                                "table name not found.");
    }
-   return *table;
+   return table->second;
 }
 
 double Psf::scaleFactor(double energy, bool thin) const {

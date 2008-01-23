@@ -9,6 +9,8 @@
 #ifndef latResponse_Psf_h
 #define latResponse_Psf_h
 
+#include <cmath>
+
 #include <map>
 #include <string>
 #include <vector>
@@ -19,6 +21,8 @@
 #include "latResponse/FitsTable.h"
 
 namespace latResponse {
+
+class PsfIntegralCache;
 
 /**
  * @class Psf
@@ -80,20 +84,33 @@ public:
                    double theta, 
                    double phi, 
                    const std::vector<irfInterface::AcceptanceCone *> 
-                   & acceptanceCones, double time=0) {}
+                   & acceptanceCones, double time=0);
 
    virtual double angularIntegral(double energy, double theta, double phi,
-                                  double radius, double time=0) const {}
+                                  double radius, double time=0) const;
 
-   virtual astro::SkyDir appDir(double energy,
-                                const astro::SkyDir & srcDir,
-                                const astro::SkyDir & scZAxis,
-                                const astro::SkyDir & scXAxis,
-                                double time=0) const {}
+//    virtual astro::SkyDir appDir(double energy,
+//                                 const astro::SkyDir & srcDir,
+//                                 const astro::SkyDir & scZAxis,
+//                                 const astro::SkyDir & scXAxis,
+//                                 double time=0) const {
+//       return astro::SkyDir();
+//    }
 
    virtual Psf * clone() {
       return new Psf(*this);
    }
+
+   double scaleFactor(double energy, bool thin) const;
+
+   /// Ugly, poorly factored functions from handoff_response.
+   static double old_base_function(double u, double sigma, double gamma);
+
+   static double old_base_integral(double u, double sigma, double gamma);
+
+   static double old_integral(double sep, double * pars);
+
+   static double old_function(double sep, double * pars);
 
 protected:
 
@@ -114,22 +131,21 @@ private:
    double m_thick1;
    double m_index;
 
-   double m_loge_last;
-   double m_costh_last;
+   mutable double m_loge_last;
+   mutable double m_costh_last;
 
    // It would be good to get rid of this abomination passed on by
    // handoff_response::IrfEval.
    bool m_isFront;
 
-   bool m_haveAngularIntegrals;
+   PsfIntegralCache * m_integralCache;
 
-   irfInterface::AcceptanceCone * m_acceptanceCone;
-
-   std::vector< std::vector<bool> > m_needIntegral;
+   /// Hard-wired cut-off value of scaled deviation squared used by
+   /// handoff_response. Would that this could be a parameter passed
+   /// in a FITS header.
+   static double s_ub;
 
    const FitsTable & parTable(const std::string & name) const;
-
-   double scaleFactor(double energy, bool thin) const;
 
    void readPars(const std::string & fitsfile,
                  const std::string & extname="RPSF");
@@ -137,15 +153,23 @@ private:
    void readScaling(const std::string & fitsfile,
                     const std::string & extname="PSF_SCALING_PARAMS");
 
-   double old_integral(double sep, double * pars) const;
-
-   double old_base_integral(double u, double sigma, double gamma) const;
-
-   double old_function(double sep, double * pars) const;
-
-   double old_base_function(double u, double sigma, double gamma) const;
-
    double * pars(double energy, double costh) const;
+
+   class PsfIntegrand {
+   public:
+      /// @param energy True photon energy (MeV)
+      /// @param theta Incident inclination (degrees)
+      /// @param phi Incident azimuthal angle (degrees)
+      PsfIntegrand(double * pars) : m_pars(pars) {}
+
+      /// @param sep angle between true direction and measured (radians)
+      double operator()(double sep) const {
+         return old_function(sep, m_pars)*std::sin(sep);
+      }
+   private:
+      double * m_pars;
+   };
+
 
 };
 

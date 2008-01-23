@@ -12,7 +12,13 @@
 #ifndef latResponse_PsfIntegralCache_h
 #define latResponse_PsfIntegralCache_h
 
-//namespace latResponse {
+#include <vector>
+
+namespace irfInterface {
+   class AcceptanceCone;
+}
+
+namespace latResponse {
 
 class Psf;
 
@@ -28,14 +34,22 @@ class PsfIntegralCache {
 
 public:
 
-   PsfIntegralCache(const Psf & psf);
+   PsfIntegralCache(const Psf & psf, irfInterface::AcceptanceCone & cone);
 
-   double angularIntegral(double sigma, double gamma, double psi);
+   ~PsfIntegralCache();
+
+   double angularIntegral(double sigma, double gamma, size_t psi) const;
+
+   const std::vector<double> & psis() const {
+      return m_psis;
+   }
 
 private:
 
    const Psf & m_psf;
 
+   irfInterface::AcceptanceCone * m_acceptanceCone;
+   
    std::vector<double> m_psis;
    std::vector<double> m_gammas;
    std::vector<double> m_sigmas;
@@ -50,12 +64,16 @@ private:
                  std::vector<double> & xx, bool clear=true) const;
 
    void fillParamArrays();
+   void setupAngularIntegrals();
+
+   double bilinear(double sigma, double gamma, size_t ipsi,
+                   size_t isig, size_t igam) const;
 
    double psfIntegral(double psi, double sigma, double gamma) const;
 
    class PsfIntegrand1 {
    public:
-      PsfIntegrand(double sigma, double gamma);
+      PsfIntegrand1(double sigma, double gamma);
       double operator()(double mu) const;
    private:
       double m_sigma;
@@ -64,15 +82,18 @@ private:
 
    class PsfIntegrand2 {
    public:
-      PsfIntegrand2(double sigma, double gamma);
+      PsfIntegrand2(double sigma, double gamma, double psi, double roi_radius);
       double operator()(double mu) const;
    private:
       double m_sigma;
       double m_gamma;
+      double m_cp;
+      double m_sp;
+      double m_cr;
    };
 
 };
 
 } // namespace latResponse
 
-#end // latResponse_PsfIntegralCache_h
+#endif // latResponse_PsfIntegralCache_h
