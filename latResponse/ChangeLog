@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan 23 18:06:01 PST 2008
+users/jchiang/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+eliminate m_isFront data member
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan 23 18:06:01 PST 2008
 users/jchiang/latResponse/src
 
 Modified Files:
