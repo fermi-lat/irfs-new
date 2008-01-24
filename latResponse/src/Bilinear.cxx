@@ -42,15 +42,15 @@ double Bilinear::operator()(float x, float y) const {
    }
    int j(iy - m_y.begin());
 
-   double uu((x - m_x.at(i-1))/(m_x.at(i) - m_x.at(i-1)));
-   double tt((y - m_y.at(j-1))/(m_y.at(j) - m_y.at(j-1)));
+   double tt((x - m_x.at(i-1))/(m_x.at(i) - m_x.at(i-1)));
+   double uu((y - m_y.at(j-1))/(m_y.at(j) - m_y.at(j-1)));
 
-   size_t ysize(m_y.size());
+   size_t xsize(m_x.size());
 
-   double y1(m_values.at(ysize*(i-1) + (j-1)));
-   double y2(m_values.at(ysize*(i) + (j-1)));
-   double y3(m_values.at(ysize*(i) + (j)));
-   double y4(m_values.at(ysize*(i-1) + (j)));
+   double y1(m_values.at(xsize*(j-1) + (i-1)));
+   double y2(m_values.at(xsize*(j-1) + (i)));
+   double y3(m_values.at(xsize*(j) + (i)));
+   double y4(m_values.at(xsize*(j) + (i-1)));
 
    double value = ( (1. - tt)*(1. - uu)*y1 
                     + tt*(1. - uu)*y2  

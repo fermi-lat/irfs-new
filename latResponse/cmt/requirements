@@ -7,6 +7,7 @@ author J. Chiang <jchiang@slac.stanford.edu>
 
 use GlastPolicy v*
 use irfInterface v* irfs
+use irfLoader v* irfs
 use CLHEP v* IExternal
 use astro v*
 use cppunit v* IExternal

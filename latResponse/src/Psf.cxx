@@ -198,7 +198,6 @@ double * Psf::pars(double energy, double costh) const {
    }
    
    // Rescale the sigma value after interpolation
-   static double zdir(1.0);
    par[1] *= scaleFactor(energy);
    
    if (par[1] == 0 || par[2] == 0 || par[3] == 0) {
@@ -206,7 +205,6 @@ double * Psf::pars(double energy, double costh) const {
       message << "latResponse::Psf::pars: psf parameters are zero "
               << "when computing solid angle normalization:\n"
               << "\tenergy = " << energy << "\n"
-              << "\tcosth  = " << zdir   << "\n"
               << "\tpar[1] = " << par[1] << "\n"
               << "\tpar[2] = " << par[2] << "\n"
               << "\tpar[3] = " << par[3] << std::endl;
@@ -245,7 +243,7 @@ const FitsTable & Psf::parTable(const std::string & name) const {
 
 double Psf::scaleFactor(double energy) const {
    double tt(std::pow(energy/100., m_index));
-   return std::sqrt(::sqr(m_par0*tt) + sqr(m_par1));
+   return std::sqrt(::sqr(m_par0*tt) + ::sqr(m_par1));
 }
 
 void Psf::readPars(const std::string & fitsfile, 
