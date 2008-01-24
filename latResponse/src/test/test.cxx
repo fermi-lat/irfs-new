@@ -70,7 +70,7 @@ void Psf_test() {
       cones.push_back(&my_cone);
 
       std::cout << roi_radius << "  "
-                << (foo.angularIntegral(energy, srcDir, scZAxis, scXAxis, cones)
+                << (foo.angularIntegral(energy, srcDir, scZAxis, scXAxis,cones)
                     /irfInterface::IPsf::psfIntegral(&foo, energy, srcDir, 
                                                      scZAxis, scXAxis, cones))
                 << std::endl;

@@ -34,14 +34,13 @@ double Psf::s_ub(10.);
 
 Psf::Psf(const std::string & fitsfile, const std::string & extname,
          bool isFront)
-   : m_loge_last(0), m_costh_last(0), m_isFront(isFront), m_integralCache(0) {
+   : m_loge_last(0), m_costh_last(0), m_integralCache(0) {
    readPars(fitsfile, extname);
-   readScaling(fitsfile);
+   readScaling(fitsfile, isFront);
 }
 
 Psf::Psf(const Psf & rhs) : irfInterface::IPsf(rhs), m_pars(rhs.m_pars), 
-                            m_thin0(rhs.m_thin0), m_thin1(rhs.m_thin1),
-                            m_thick0(rhs.m_thick0), m_thick1(rhs.m_thick1),
+                            m_par0(rhs.m_par0), m_par1(rhs.m_par1),
                             m_index(rhs.m_index), m_loge_last(0), 
                             m_costh_last(0), m_integralCache(0) {}
    
@@ -108,7 +107,8 @@ double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
    const std::vector<double> & psis(m_integralCache->psis());
    if (psi > psis.back()) {
       std::ostringstream message;
-      message << "Error evaluating PSF integral.\n"
+      message << "latResponse::Psf::angularIntegral:\n"
+              << "Error evaluating PSF integral.\n"
               << "Requested source location > " 
               << psis.back()*180/M_PI << " degrees from ROI center.";
       throw std::runtime_error(message.str());
@@ -125,7 +125,7 @@ double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
    double ntail = ncore*(old_base_function(s_ub, sigma, gcore)
                          /old_base_function(s_ub, sigma, gtail));
 
-   /// Remove sigma**2 scaling imposed by RootEval.  This is put back
+   /// Remove sigma**2 scaling imposed by pars(...).  This is put back
    /// in angularIntegral below for each grid value of sigmas.  This
    /// preserves the normalization in the bilinear interpolation by
    /// explicitly putting in the important sigma-dependence.
@@ -199,7 +199,7 @@ double * Psf::pars(double energy, double costh) const {
    
    // Rescale the sigma value after interpolation
    static double zdir(1.0);
-   par[1] *= scaleFactor(energy, m_isFront);
+   par[1] *= scaleFactor(energy);
    
    if (par[1] == 0 || par[2] == 0 || par[3] == 0) {
       std::ostringstream message;
@@ -243,12 +243,9 @@ const FitsTable & Psf::parTable(const std::string & name) const {
    return table->second;
 }
 
-double Psf::scaleFactor(double energy, bool thin) const {
+double Psf::scaleFactor(double energy) const {
    double tt(std::pow(energy/100., m_index));
-   if (thin) {
-      return std::sqrt(::sqr(m_thin0*tt) + sqr(m_thin1));
-   }
-   return std::sqrt(::sqr(m_thick0*tt) + sqr(m_thick1));
+   return std::sqrt(::sqr(m_par0*tt) + sqr(m_par1));
 }
 
 void Psf::readPars(const std::string & fitsfile, 
@@ -281,7 +278,7 @@ void Psf::readPars(const std::string & fitsfile,
    delete table;
 }
 
-void Psf::readScaling(const std::string & fitsfile, 
+void Psf::readScaling(const std::string & fitsfile, bool isFront,
                       const std::string & extname) {
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
    const tip::Table * table(fileSvc.readTable(fitsfile, extname));
@@ -290,10 +287,13 @@ void Psf::readScaling(const std::string & fitsfile,
 
    FitsTable::getVectorData(table, "PSFSCALE", values);
    
-   m_thin0 = values.at(0);
-   m_thin1 = values.at(1);
-   m_thick0 = values.at(2);
-   m_thick1 = values.at(3);
+   if (isFront) {
+      m_par0 = values.at(0);
+      m_par1 = values.at(1);
+   } else {
+      m_par0 = values.at(2);
+      m_par1 = values.at(3);
+   }
    m_index = values.at(4);
 
    delete table;

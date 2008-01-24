@@ -159,8 +159,8 @@ void PsfIntegralCache::fillParamArrays() {
    bool front;
 // Smallest angular scales expected at highest energies, also use
 // hard-wired values for scaled sigma range in PointSpreadFunction.cxx
-   double sigmin(m_psf.scaleFactor(5.62e6, front=true)*0.15);
-   double sigmax(m_psf.scaleFactor(30, front=false)*2.0);
+   double sigmin(m_psf.scaleFactor(5.62e6)*0.15);
+   double sigmax(m_psf.scaleFactor(30)*2.0);
    logArray(sigmin, sigmax, nsig, m_sigmas);
 }
 

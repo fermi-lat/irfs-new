@@ -27,7 +27,7 @@ class PsfIntegralCache;
 /**
  * @class Psf
  *
- * @brief A LAT point-spread function class for DC2.
+ * @brief A LAT point-spread function class for post-handoff review IRFs.
  *
  */
 
@@ -89,19 +89,11 @@ public:
    virtual double angularIntegral(double energy, double theta, double phi,
                                   double radius, double time=0) const;
 
-//    virtual astro::SkyDir appDir(double energy,
-//                                 const astro::SkyDir & srcDir,
-//                                 const astro::SkyDir & scZAxis,
-//                                 const astro::SkyDir & scXAxis,
-//                                 double time=0) const {
-//       return astro::SkyDir();
-//    }
-
    virtual Psf * clone() {
       return new Psf(*this);
    }
 
-   double scaleFactor(double energy, bool thin) const;
+   double scaleFactor(double energy) const;
 
    /// Ugly, poorly factored functions from handoff_response.
    static double old_base_function(double u, double sigma, double gamma);
@@ -125,18 +117,12 @@ private:
    std::map<std::string, FitsTable> m_pars;
 
    // PSF scaling parameters
-   double m_thin0;
-   double m_thin1;
-   double m_thick0;
-   double m_thick1;
+   double m_par0;
+   double m_par1;
    double m_index;
 
    mutable double m_loge_last;
    mutable double m_costh_last;
-
-   // It would be good to get rid of this abomination passed on by
-   // handoff_response::IrfEval.
-   bool m_isFront;
 
    PsfIntegralCache * m_integralCache;
 
@@ -150,16 +136,18 @@ private:
    void readPars(const std::string & fitsfile,
                  const std::string & extname="RPSF");
 
-   void readScaling(const std::string & fitsfile,
+   void readScaling(const std::string & fitsfile, bool isFront,
                     const std::string & extname="PSF_SCALING_PARAMS");
 
    double * pars(double energy, double costh) const;
 
+   /**
+    * @class PsfIntegrand
+    * @brief Functor used for integrating the PSF to get the proper
+    * normalization.
+    */
    class PsfIntegrand {
    public:
-      /// @param energy True photon energy (MeV)
-      /// @param theta Incident inclination (degrees)
-      /// @param phi Incident azimuthal angle (degrees)
       PsfIntegrand(double * pars) : m_pars(pars) {}
 
       /// @param sep angle between true direction and measured (radians)
