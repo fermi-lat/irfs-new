@@ -30,7 +30,7 @@ ParTables::ParTables(const std::string & fitsfile,
    for (size_t i(0); i < 4; i++) {
       if (validFields.at(i) != boundsName[i]) {
          std::ostringstream message;
-         message << "latResponse::Psf::readPars: "
+         message << "latResponse::ParTables::ParTables: "
                  << "invalid header in " << fitsfile << "  "
                  << validFields.at(i) << "  " << i;
          throw std::runtime_error(message.str());
@@ -41,9 +41,9 @@ ParTables::ParTables(const std::string & fitsfile,
    for (size_t i(4); i < validFields.size(); i++) {
       const std::string & tablename(validFields.at(i));
       m_parNames.push_back(tablename);
-      m_parTables.insert(std::make_pair(tablename, 
-                                        FitsTable(fitsfile, extname, 
-                                                  tablename)));
+      m_parTables.insert(
+         std::map<std::string, FitsTable>::
+         value_type(tablename, FitsTable(fitsfile, extname, tablename)));
    }
 
    delete table;
@@ -57,6 +57,13 @@ const FitsTable & ParTables::operator[](const std::string & parName) const {
                                "table name not found.");
    }
    return table->second;
+}
+
+void ParTables::getPars(double loge, double costh, double * pars,
+                        bool interpolate) const {
+   for (size_t i(0); i < m_parNames.size(); i++) {
+      pars[i] = m_parTables[m_parNames.at(i)].value(loge, costh, interpolate);
+   }
 }
 
 } // namespace latResponse

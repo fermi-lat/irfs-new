@@ -36,6 +36,9 @@ public:
       return m_parNames;
    }
 
+   void getPars(double loge, double costh, double * pars,
+                bool interpolate=true) const;
+
 private:
 
    std::vector<std::string> m_parNames;

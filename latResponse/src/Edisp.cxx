@@ -70,11 +70,7 @@ double * Edisp::pars(double energy, double costh) const {
    m_costh_last = costh;
    
    bool interpolate;
-   const std::vector<std::string> & parNames(m_parTables.parNames());
-   for (size_t i(0); i < parNames.size(); i++) {
-      par[i] = m_parTables[parNames.at(i)].value(loge, costh,
-                                                 interpolate=false);
-   }
+   m_parTables.getPars(loge, costh, par, interpolate=false);
    return par;
 }
 

@@ -194,11 +194,7 @@ double * Psf::pars(double energy, double costh) const {
    m_loge_last = loge;
    m_costh_last = costh;
    
-
-   const std::vector<std::string> & parNames(m_parTables.parNames());
-   for (size_t i(0); i < parNames.size(); i++) {
-      par[i] = m_parTables[parNames.at(i)].value(loge, costh);
-   }
+   m_parTables.getPars(loge, costh, par);
    
    // Rescale the sigma value after interpolation
    par[1] *= scaleFactor(energy);
