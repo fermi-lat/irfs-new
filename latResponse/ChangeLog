@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Jan 24 14:07:12 PST 2008
+users/jchiang/latResponse/src
+
+Modified Files:
+	Edisp.cxx ParTables.cxx Psf.cxx 
+Log Message:
+more refactoring
+    *
+------------------------------------------------------------
+User: jchiang  Thu Jan 24 14:07:12 PST 2008
 users/jchiang/latResponse/latResponse
 
 Modified Files:
