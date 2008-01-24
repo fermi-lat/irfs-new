@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Thu Jan 24 09:59:53 PST 2008
+users/jchiang/latResponse/src
+
+Modified Files:
+	Psf.cxx Psf.h 
+Added Files:
+	Aeff.cxx Aeff.h 
+Log Message:
+Aeff class
+    *
+------------------------------------------------------------
 User: jchiang  Wed Jan 23 23:09:43 PST 2008
 users/jchiang/latResponse/src/test
 
