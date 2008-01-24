@@ -35,8 +35,8 @@ class Psf : public irfInterface::IPsf {
 
 public:
 
-   Psf(const std::string & fitsfile, const std::string & extname="RPSF",
-       bool isFront=true);
+   Psf(const std::string & fitsfile, bool isFront=true,
+       const std::string & extname="RPSF");
 
    Psf(const Psf & rhs);
 

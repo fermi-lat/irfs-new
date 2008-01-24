@@ -64,7 +64,6 @@ void Psf_test() {
 
    std::string rootPath(::getenv("LATRESPONSEROOT"));
    std::string filename(rootPath + "/data/psf_Pass5_v0_front.fits");
-   std::string extname;
    bool isFront;
 
    double inclination(10);
@@ -77,7 +76,7 @@ void Psf_test() {
    astro::SkyDir roiCenter(0, 5);
    double roi_radius(20);
 
-   Psf my_psf(filename, extname="RPSF", isFront=true);
+   Psf my_psf(filename, isFront=true);
    for (double sep(0.1); sep < 20.; sep += 1) {
       std::cout << sep << "  "
                 << my_psf.value(sep, energy, inclination, 0) << "  "
@@ -85,7 +84,7 @@ void Psf_test() {
    }
 
    for (roi_radius = 0.5; roi_radius < 30; roi_radius += 1) {
-      Psf foo(filename, extname="RPSF", isFront=true);
+      Psf foo(filename, isFront=true);
       irfInterface::AcceptanceCone my_cone(roiCenter, roi_radius);
       std::vector<irfInterface::AcceptanceCone *> cones;
       cones.push_back(&my_cone);
