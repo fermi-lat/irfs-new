@@ -194,7 +194,7 @@ double * Psf::pars(double energy, double costh) const {
    m_costh_last = costh;
    
    for (size_t i(0); i < m_parNames.size(); i++) {
-      par[i] = parTable(m_parNames.at(i)).value(loge,costh);
+      par[i] = parTable(m_parNames.at(i)).value(loge, costh);
    }
    
    // Rescale the sigma value after interpolation

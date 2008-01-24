@@ -18,46 +18,40 @@ namespace latResponse {
 
 Bilinear::Bilinear(const std::vector<float> & x, 
                    const std::vector<float> & y,
-                   const std::vector<float> & vals) 
-   : m_xbegin(x.begin()),
-     m_xend(x.end()),
-     m_ybegin(y.begin()),
-     m_yend(y.end()),
-     m_valsbegin(vals.begin()) {}
+                   const std::vector<float> & values) 
+   : m_x(x), m_y(y), m_values(values) {}
 
-Bilinear::Bilinear(const_iterator xbegin, const_iterator xend, 
-                   const_iterator ybegin, const_iterator yend, 
-                   const_iterator vals_begin)
-   : m_xbegin(xbegin),
-     m_xend(xend),
-     m_ybegin(ybegin),
-     m_yend(yend),
-     m_valsbegin(vals_begin) {}
+double Bilinear::operator()(float x, float y) const {
+   typedef std::vector<float>::const_iterator const_iterator_t;
 
-double Bilinear::operator()(double x,  double y) const {
-
-   const_iterator ix(std::upper_bound(m_xbegin , m_xend, x));
-   if (ix == m_xend && x != *(m_xend-1)) {
-      throw std::invalid_argument("Bilinear::operator -- x out of range");
+   const_iterator_t ix(std::upper_bound(m_x.begin(), m_x.end(), x));
+   if (ix == m_x.end() && x != m_x.back()) {
+      throw std::invalid_argument("Bilinear::operator: x out of range");
    }
-   int j = ix - m_xbegin;
+   if (x == m_x.back()) {
+      ix = m_x.end() - 1;
+   }
+   int i(ix - m_x.begin());
     
-   const_iterator iy(std::upper_bound(m_ybegin, m_yend, y));
-   if (iy == m_yend && y != *(m_yend-1)) {
-      throw std::invalid_argument("Bilinear::operator -- y out of range");
+   const_iterator_t iy(std::upper_bound(m_y.begin(), m_y.end(), y));
+   if (iy == m_y.end() && y != m_y.back()) {
+      throw std::invalid_argument("Bilinear::operator: y out of range");
    }
-   int i = iy - m_ybegin;
+   if (y == m_y.back()) {
+      iy = m_y.end() - 1;
+   }
+   int j(iy - m_y.begin());
 
-   double uu = (x - *(ix-1))/(*(ix) - *(ix-1));
-   double tt = (y - *(iy-1))/(*(iy) - *(iy-1));
-   size_t size = m_xend - m_xbegin;;
-   
-   // get values for the corners of the grid element
-   double y1 = *(m_valsbegin + size*(i-1) + (j-1) ) ;
-   double y2 = *(m_valsbegin + size*(i)   + (j-1) );
-   double y3 = *(m_valsbegin + size*(i)   + (j) );
-   double y4 = *(m_valsbegin + size*(i-1) + (j) );
-   
+   double uu((x - m_x.at(i-1))/(m_x.at(i) - m_x.at(i-1)));
+   double tt((y - m_y.at(j-1))/(m_y.at(j) - m_y.at(j-1)));
+
+   size_t ysize(m_y.size());
+
+   double y1(m_values.at(ysize*(i-1) + (j-1)));
+   double y2(m_values.at(ysize*(i) + (j-1)));
+   double y3(m_values.at(ysize*(i) + (j)));
+   double y4(m_values.at(ysize*(i-1) + (j)));
+
    double value = ( (1. - tt)*(1. - uu)*y1 
                     + tt*(1. - uu)*y2  
                     + tt*uu*y3 

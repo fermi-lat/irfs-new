@@ -6,6 +6,10 @@
  * $Header$
  */
 
+#ifdef TRAP_FPE
+#include <fenv.h>
+#endif
+
 #include <cmath>
 
 #include <iostream>
@@ -46,10 +50,38 @@ void compare_to_handoff_response() {
 void Psf_test() {
    std::string rootPath(::getenv("LATRESPONSEROOT"));
    std::string filename(rootPath + "/data/psf_Pass5_v0_front.fits");
-   Psf foo(filename);
+   std::string extname;
+   bool isFront;
+
+   double inclination(20);
+
+   double energy(100);
+   astro::SkyDir srcDir(0, inclination);
+   astro::SkyDir scZAxis(0, 0);
+   astro::SkyDir scXAxis(0, 90);
+
+   astro::SkyDir roiCenter(0, 5);
+   double roi_radius(20);
+
+   for (roi_radius = 0.5; roi_radius < 30; roi_radius += 1) {
+      Psf foo(filename, extname="RPSF", isFront=true);
+      irfInterface::AcceptanceCone my_cone(roiCenter, roi_radius);
+      std::vector<irfInterface::AcceptanceCone *> cones;
+      cones.push_back(&my_cone);
+
+      std::cout << roi_radius << "  "
+                << (foo.angularIntegral(energy, srcDir, scZAxis, scXAxis, cones)
+                    /irfInterface::IPsf::psfIntegral(&foo, energy, srcDir, 
+                                                     scZAxis, scXAxis, cones))
+                << std::endl;
+   }
 }
 
 int main() {
-   compare_to_handoff_response();
+#ifdef TRAP_FPE
+   feenableexcept (FE_INVALID|FE_DIVBYZERO|FE_OVERFLOW);
+#endif
+
+//   compare_to_handoff_response();
    Psf_test();
 }
