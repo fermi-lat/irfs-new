@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Jan 24 14:11:38 PST 2008
+users/jchiang/latResponse/src
+
+Modified Files:
+	Edisp.cxx Psf.h PsfIntegralCache.cxx 
+Log Message:
+update comments with new implementation
+    *
+------------------------------------------------------------
 User: jchiang  Thu Jan 24 14:07:12 PST 2008
 users/jchiang/latResponse/src
 
