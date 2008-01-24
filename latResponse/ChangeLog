@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Thu Jan 24 11:50:44 PST 2008
+users/jchiang/latResponse/latResponse
+
+Modified Files:
+	FitsTable.h 
+Added Files:
+	ParTables.h 
+Log Message:
+energy dispersion
+    *
+------------------------------------------------------------
 User: jchiang  Thu Jan 24 10:13:42 PST 2008
 users/jchiang/latResponse/src/test
 
