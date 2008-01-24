@@ -38,7 +38,7 @@ double Aeff::value(double energy, double theta, double phi,
    (void)(time);
    bool interpolate;
    return m_aeffTable.value(std::log10(energy), std::cos(theta*M_PI/180.),
-                            interpolate=true);
+                            interpolate=true)*1e4;
 }
 
 double Aeff::upperLimit() const {

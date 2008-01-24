@@ -25,6 +25,8 @@
 #include "handoff_response/../src/irfs/Table.h"
 
 #include "latResponse/FitsTable.h"
+
+#include "Aeff.h"
 #include "Psf.h"
 
 using namespace latResponse;
@@ -102,7 +104,29 @@ void Psf_test() {
    }
 }
 
+void Aeff_test() {
+   irfInterface::IrfsFactory * myFactory = 
+      irfInterface::IrfsFactory::instance();
+   irfInterface::Irfs * irfs(myFactory->create("P5_v0_source/front"));
 
+   irfInterface::IAeff & aeff_p5(*irfs->aeff());
+   
+   std::string rootPath(::getenv("LATRESPONSEROOT"));
+   std::string filename(rootPath + "/data/aeff_Pass5_v0_front.fits");
+   Aeff aeff(filename);
+
+   double theta(10);
+   double emin(30);
+   double emax(3e5);
+   size_t nee(20);
+   double estep(std::log(emax/emin)/(nee - 1));
+   for (size_t k(0); k < nee; k++) {
+      double energy(emin*std::exp(estep*k));
+      std::cout << energy << "  "
+                << aeff.value(energy, theta, 0) << "  "
+                << aeff_p5.value(energy, theta, 0) << std::endl;
+   }
+}
 
 int main() {
 #ifdef TRAP_FPE
@@ -111,7 +135,9 @@ int main() {
 
    irfLoader::Loader_go();
 
-   compare_to_handoff_response();
+//    compare_to_handoff_response();
 
-   Psf_test();
+//    Psf_test();
+
+   Aeff_test();
 }
