@@ -95,7 +95,7 @@ public:
 
    double scaleFactor(double energy) const;
 
-   /// Ugly, poorly factored functions from handoff_response.
+   /// Functions from handoff_response.
    static double old_base_function(double u, double sigma, double gamma);
 
    static double old_base_integral(double u, double sigma, double gamma);
@@ -126,8 +126,8 @@ private:
    PsfIntegralCache * m_integralCache;
 
    /// Hard-wired cut-off value of scaled deviation squared used by
-   /// handoff_response. Would that this could be a parameter passed
-   /// in a FITS header.
+   /// handoff_response. This should be a parameter passed in the IRF
+   /// FITS header.
    static double s_ub;
 
    void readScaling(const std::string & fitsfile, bool isFront,
@@ -151,7 +151,6 @@ private:
    private:
       double * m_pars;
    };
-
 
 };
 

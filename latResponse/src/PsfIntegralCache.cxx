@@ -156,8 +156,7 @@ void PsfIntegralCache::fillParamArrays() {
    linearArray(1.2, 5.1, ngam, m_gammas, false);
 
    size_t nsig(50);
-// Smallest angular scales expected at highest energies, also use
-// hard-wired values for scaled sigma range in PointSpreadFunction.cxx
+// Smallest angular scales expected at highest energies.
    double sigmin(m_psf.scaleFactor(5.62e6)*0.15);
    double sigmax(m_psf.scaleFactor(30)*2.0);
    logArray(sigmin, sigmax, nsig, m_sigmas);

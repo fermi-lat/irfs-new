@@ -59,7 +59,7 @@ double * Edisp::pars(double energy, double costh) const {
    static double par[10]; // Why do we need 10 values?
    double loge(std::log10(energy));
    if (costh == 1.0) {
-      costh = 0.9999;   // more kludginess from handoff_response::RootEval
+      costh = 0.9999;   // restriction from handoff_response::RootEval
    }
 
    if (loge == m_loge_last && costh == m_costh_last) {
