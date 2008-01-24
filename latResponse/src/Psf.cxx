@@ -34,12 +34,13 @@ double Psf::s_ub(10.);
 
 Psf::Psf(const std::string & fitsfile, bool isFront,
          const std::string & extname)
-   : m_loge_last(0), m_costh_last(0), m_integralCache(0) {
-   readPars(fitsfile, extname);
+   : m_parTables(fitsfile, extname), m_loge_last(0), m_costh_last(0), 
+     m_integralCache(0) {
    readScaling(fitsfile, isFront);
 }
 
-Psf::Psf(const Psf & rhs) : irfInterface::IPsf(rhs), m_pars(rhs.m_pars), 
+Psf::Psf(const Psf & rhs) : irfInterface::IPsf(rhs), 
+                            m_parTables(rhs.m_parTables), 
                             m_par0(rhs.m_par0), m_par1(rhs.m_par1),
                             m_index(rhs.m_index), m_loge_last(0), 
                             m_costh_last(0), m_integralCache(0) {}
@@ -193,8 +194,10 @@ double * Psf::pars(double energy, double costh) const {
    m_loge_last = loge;
    m_costh_last = costh;
    
-   for (size_t i(0); i < m_parNames.size(); i++) {
-      par[i] = parTable(m_parNames.at(i)).value(loge, costh);
+
+   const std::vector<std::string> & parNames(m_parTables.parNames());
+   for (size_t i(0); i < parNames.size(); i++) {
+      par[i] = m_parTables[parNames.at(i)].value(loge, costh);
    }
    
    // Rescale the sigma value after interpolation
@@ -231,49 +234,9 @@ double * Psf::pars(double energy, double costh) const {
    return par;
 }
 
-const FitsTable & Psf::parTable(const std::string & name) const {
-   std::map<std::string, FitsTable>::const_iterator table =
-      m_pars.find(name);
-   if (table == m_pars.end()) {
-      throw std::runtime_error("latResponse::Psf::parTable: "
-                               "table name not found.");
-   }
-   return table->second;
-}
-
 double Psf::scaleFactor(double energy) const {
    double tt(std::pow(energy/100., m_index));
    return std::sqrt(::sqr(m_par0*tt) + ::sqr(m_par1));
-}
-
-void Psf::readPars(const std::string & fitsfile, 
-                   const std::string & extname) {
-   tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
-   const tip::Table * table(fileSvc.readTable(fitsfile, extname));
-   const std::vector<std::string> & validFields(table->getValidFields());
-
-   // The first four columns *must* be "ENERG_LO", "ENERG_HI", "CTHETA_LO",
-   // "CTHETA_HI", in that order.
-   char * boundsName[] = {"energ_lo", "energ_hi", "ctheta_lo", "ctheta_hi"};
-   for (size_t i(0); i < 4; i++) {
-      if (validFields.at(i) != boundsName[i]) {
-         std::ostringstream message;
-         message << "latResponse::Psf::readPars: "
-                 << "invalid header in " << fitsfile << "  "
-                 << validFields.at(i) << "  " << i;
-         throw std::runtime_error(message.str());
-      }
-   }
-
-   // Read in the table values for the remaining rows.
-   for (size_t i(4); i < validFields.size(); i++) {
-      const std::string & tablename(validFields.at(i));
-      m_parNames.push_back(tablename);
-      m_pars.insert(std::make_pair(tablename, 
-                                   FitsTable(fitsfile, extname, tablename)));
-   }
-
-   delete table;
 }
 
 void Psf::readScaling(const std::string & fitsfile, bool isFront,

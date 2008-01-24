@@ -26,10 +26,9 @@ double Aeff::value(double energy,
                    const astro::SkyDir & scXAxis,
                    double time) const {
    (void)(scXAxis);
-   (void)(time);
    double theta(srcDir.difference(scZAxis)*180./M_PI);
-   double phi;
-   return value(energy, theta, phi=0);
+   double phi(0);
+   return value(energy, theta, phi, time);
 }
 
 double Aeff::value(double energy, double theta, double phi,

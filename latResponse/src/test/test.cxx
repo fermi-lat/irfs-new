@@ -27,6 +27,7 @@
 #include "latResponse/FitsTable.h"
 
 #include "Aeff.h"
+#include "Edisp.h"
 #include "Psf.h"
 
 using namespace latResponse;
@@ -102,6 +103,7 @@ void Psf_test() {
                                            scXAxis, cones)/ref_value
                 << std::endl;
    }
+   delete irfs;
 }
 
 void Aeff_test() {
@@ -126,6 +128,34 @@ void Aeff_test() {
                 << aeff.value(energy, theta, 0) << "  "
                 << aeff_p5.value(energy, theta, 0) << std::endl;
    }
+   delete irfs;
+}
+
+void Edisp_test() {
+   irfInterface::IrfsFactory * myFactory = 
+      irfInterface::IrfsFactory::instance();
+   irfInterface::Irfs * irfs(myFactory->create("P5_v0_source/front"));
+
+   irfInterface::IEdisp & edisp_p5(*irfs->edisp());
+   
+   std::string rootPath(::getenv("LATRESPONSEROOT"));
+   std::string filename(rootPath + "/data/edisp_Pass5_v0_front.fits");
+   Edisp edisp(filename);
+
+
+   double e0(100);
+   double theta(10);
+   double emin(e0*0.7);
+   double emax(e0*1.3);
+   size_t nee(20);
+   double estep((emax - emin)/(nee - 1));
+   for (size_t k(0); k < nee; k++) {
+      double energy(emin + estep*k);
+      std::cout << energy << "  "
+                << edisp.value(energy, e0, theta, 0) << "  "
+                << edisp_p5.value(energy, e0, theta, 0) << std::endl;
+   }
+   delete irfs;
 }
 
 int main() {
@@ -135,9 +165,8 @@ int main() {
 
    irfLoader::Loader_go();
 
-//    compare_to_handoff_response();
-
-//    Psf_test();
-
+   compare_to_handoff_response();
+   Psf_test();
    Aeff_test();
+   Edisp_test();
 }

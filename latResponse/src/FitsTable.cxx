@@ -10,6 +10,7 @@
 #include <cmath>
 
 #include <iostream>
+#include <stdexcept>
 
 #include "tip/IFileSvc.h"
 #include "tip/Table.h"

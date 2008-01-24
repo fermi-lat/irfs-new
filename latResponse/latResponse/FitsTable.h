@@ -12,6 +12,7 @@
 #ifndef latResponse_FitsTable_h
 #define latResponse_FitsTable_h
 
+#include <map>
 #include <vector>
 
 namespace tip {

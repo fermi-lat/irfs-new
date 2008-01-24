@@ -18,7 +18,7 @@
 #include "irfInterface/IPsf.h"
 #include "irfInterface/AcceptanceCone.h"
 
-#include "latResponse/FitsTable.h"
+#include "latResponse/ParTables.h"
 
 namespace latResponse {
 
@@ -113,8 +113,7 @@ protected:
 
 private:
 
-   std::vector<std::string> m_parNames;
-   std::map<std::string, FitsTable> m_pars;
+   ParTables m_parTables;
 
    // PSF scaling parameters
    double m_par0;
@@ -130,11 +129,6 @@ private:
    /// handoff_response. Would that this could be a parameter passed
    /// in a FITS header.
    static double s_ub;
-
-   const FitsTable & parTable(const std::string & name) const;
-
-   void readPars(const std::string & fitsfile,
-                 const std::string & extname="RPSF");
 
    void readScaling(const std::string & fitsfile, bool isFront,
                     const std::string & extname="PSF_SCALING_PARAMS");
