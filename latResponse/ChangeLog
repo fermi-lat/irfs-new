@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan 23 16:07:47 PST 2008
+users/jchiang/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+use more serviceable Bilinear implementation; add scaffolding/test code for Psf class
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan 23 16:07:47 PST 2008
 users/jchiang/latResponse/src
 
 Modified Files:
