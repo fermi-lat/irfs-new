@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan 23 23:09:43 PST 2008
+users/jchiang/latResponse/src
+
+Modified Files:
+	Bilinear.cxx Psf.cxx PsfIntegralCache.cxx 
+Log Message:
+bilinear bug fix; more test code and scaffolding
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan 23 23:09:43 PST 2008
 users/jchiang/latResponse/cmt
 
 Modified Files:
