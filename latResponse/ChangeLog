@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Jan 24 14:07:12 PST 2008
+users/jchiang/latResponse/latResponse
+
+Modified Files:
+	ParTables.h 
+Log Message:
+more refactoring
+    *
+------------------------------------------------------------
 User: jchiang  Thu Jan 24 11:50:45 PST 2008
 users/jchiang/latResponse/src/test
 
