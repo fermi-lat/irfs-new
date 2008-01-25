@@ -1,4 +1,28 @@
 ------------------------------------------------------------
+TAG
+Tag name: v1r0p3, operation: add
+Package: irfLoader
+User: jchiang  Fri Jan 25 15:17:47 2008
+Files:
+  irfLoader/.cvsignore  1.1.1.1
+  irfLoader/irfLoaderLib.py  1.1
+  irfLoader/ChangeLog  1.151
+  irfLoader/SConscript  1.1
+  irfLoader/cmt/requirements  1.38
+  irfLoader/doc/release.notes  1.22
+  irfLoader/irfLoader/Loader.h  1.11
+  irfLoader/pfiles/gtecorrect.par  1.1
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Registrar.cxx  1.5
+  irfLoader/src/Registrar.h  1.1
+  irfLoader/src/Loader.cxx  1.24
+  irfLoader/src/gtecorrect/gtecorrect.cxx  1.1
+  irfLoader/src/test/MyLoader.h  1.5
+  irfLoader/src/test/test.cxx  1.15
+
+    *
+------------------------------------------------------------
 User: golpa  Tue Dec 11 09:17:06 PST 2007
 irfs/irfLoader
 
