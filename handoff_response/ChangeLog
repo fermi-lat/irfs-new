@@ -2,6 +2,16 @@
 TAG
 Tag name: v3r8p4, operation: add
 Package: handoff_response
+User: golpa  Fri Jan 25 16:20:24 2008
+Files:
+  handoff_response/handoff_responseLib.py  1.1
+  handoff_response/SConscript  1.1
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: v3r8p4, operation: add
+Package: handoff_response
 User: golpa  Fri Jan 25 16:20:00 2008
 Files:
   handoff_response/.cvsignore  1.2
