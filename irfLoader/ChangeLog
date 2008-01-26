@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Jan 25 16:30:51 PST 2008
+irfs/irfLoader/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+comment out egretResponse references; tagging v1r0p4
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 25 16:30:51 PST 2008
 irfs/irfLoader/cmt
 
 Modified Files:
