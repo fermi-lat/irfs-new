@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Jan 27 12:38:46 PST 2008
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+comment out egretResponse; tagging v1r0p5
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfLoader-01-00-04, operation: add
 Package: irfLoader
