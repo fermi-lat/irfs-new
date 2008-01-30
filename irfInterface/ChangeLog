@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan 30 15:13:20 PST 2008
+irfs/irfInterface/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+include <algorithm>
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan 30 15:13:20 PST 2008
 irfs/irfInterface/cmt
 
 Modified Files:
