@@ -22,6 +22,8 @@ class IrfLoader : public irfInterface::IrfLoader {
 
 public:
 
+   virtual ~IrfLoader() {}
+
    virtual void registerEventClasses() const;
 
    virtual void loadIrfs() const;
@@ -29,6 +31,12 @@ public:
    virtual std::string name() const {
       return "HANDOFF";
    }
+
+   static void addIrfs(const std::string & version, 
+                       const std::string & detector,
+                       int irfID, 
+                       std::string irfName="",
+                       const std::string & date="2008-01-30");
 
 private:
    

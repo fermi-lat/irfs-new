@@ -104,6 +104,9 @@ value(double logenergy, double costh, bool interpolate) const {
 
    size_t ix = binIndex(logenergy, m_ebounds);
    size_t iy = binIndex(costh, m_tbounds);
+   if (iy == 0) {
+      iy = 1;
+   } 
    size_t indx = (iy - 1)*m_logEnergies.size() + ix - 1;
 
    return m_values.at(indx);

@@ -30,6 +30,8 @@ double Bilinear::operator()(float x, float y) const {
    }
    if (x == m_x.back()) {
       ix = m_x.end() - 1;
+   } else if (x <= m_x.front()) {
+      ix = m_x.begin() + 1;
    }
    int i(ix - m_x.begin());
     
@@ -39,6 +41,8 @@ double Bilinear::operator()(float x, float y) const {
    }
    if (y == m_y.back()) {
       iy = m_y.end() - 1;
+   } else if (y <= m_y.front()) {
+      iy = m_y.begin() + 1;
    }
    int j(iy - m_y.begin());
 

@@ -5,14 +5,28 @@
  * $Header$
  */
 
-//namespace latResponse {
+#include <vector>
+
+#include "irfInterface/IrfRegistry.h"
+#include "irfInterface/Irfs.h"
+#include "irfInterface/IrfsFactory.h"
+
+#include "irfUtil/Util.h"
+
+#include "latResponse/IrfLoader.h"
+
+#include "Aeff.h"
+#include "Edisp.h"
+#include "Psf.h"
+
+namespace latResponse {
 
 void IrfLoader::registerEventClasses() const {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
 
 /// @todo Replace all these hardwired IRF names with code that reads
-/// caldb.indx for this information.
-
+/// caldb.indx for this information.  This will require standardizing
+/// the class names.
    const char * class_names[] = {"standard/front", "standard/back"};
    std::vector<std::string> classNames(class_names, class_names + 2);
 
@@ -41,6 +55,7 @@ void IrfLoader::registerEventClasses() const {
    classNames.at(0) = "P5_v0_source/front";
    classNames.at(1) = "P5_v0_source/back";
    registry.registerEventClasses("P5_v0_source", classNames);
+   registry.registerEventClasses("PASS5_source", classNames);
    registry.registerEventClass("P5_v0_source_front", classNames.at(0));
    registry.registerEventClass("P5_v0_source_back", classNames.at(1));
 
@@ -51,6 +66,43 @@ void IrfLoader::registerEventClasses() const {
    registry.registerEventClass("P5_v0_diffuse_back", classNames.at(1));
 }
 
+void IrfLoader::addIrfs(const std::string & version, 
+                        const std::string & detector,
+                        int irfID,
+                        std::string irfName,
+                        const std::string & date) {
+   if (irfName == "") {
+      // Build the standard name composed of the detector and version.
+      irfName = version + "::" + detector;
+   }
+
+   irfInterface::IrfsFactory * myFactory(irfInterface::IrfsFactory::instance());
+   const std::vector<std::string> & irfNames(myFactory->irfNames());
+
+// Check if this set of IRFs already exists.
+   if (std::count(irfNames.begin(), irfNames.end(), irfName)) {
+      return;
+   }
+   std::string aeff_file;
+   std::string psf_file;
+   std::string edisp_file;
+   long hdu;
+   irfUtil::Util::getCaldbFile(detector, "EFF_AREA", version,
+                               aeff_file, hdu, "GLAST", "LAT",
+                               "NONE", date, "00:00:00");
+   irfUtil::Util::getCaldbFile(detector, "RPSF", version,
+                               psf_file, hdu, "GLAST", "LAT",
+                               "NONE", date, "00:00:00");
+   irfUtil::Util::getCaldbFile(detector, "EDISP", version,
+                               edisp_file, hdu, "GLAST", "LAT",
+                               "NONE", date, "00:00:00");
+   irfInterface::IAeff * aeff = new Aeff(aeff_file);
+   irfInterface::IPsf * psf = new Psf(psf_file);
+   irfInterface::IEdisp * edisp = new Edisp(edisp_file);
+   
+   myFactory->addIrfs(irfName, new irfInterface::Irfs(aeff, psf, edisp, irfID));
+}
+
 void IrfLoader::loadIrfs() const {
    char * irf_name(::getenv("HANDOFF_IRF_NAME"));
    if (!irf_name) {
@@ -58,15 +110,38 @@ void IrfLoader::loadIrfs() const {
    } else {
       m_className = irf_name;
    }
-   std::vector<std::string> irfNames;
-   irfInterface::IrfsFactory * myFactory 
-      = irfInterface::IrfsFactory::instance();
-   myFactory->getIrfsName(irfNames);
-   
-   if (!std::count(irfsNames.begin(), irfsNames.end(),
-                   m_className + "/front")) {
-      irfUtil::Util::getCaldbFile("FRONT
-   }
+   int irfID;
+   addIrfs("PASS4", "FRONT", irfID=0, m_className + "/front");
+   addIrfs("PASS4", "BACK", irfID=1, m_className + "/back");
+
+   addIrfs("PASS4_v2", "FRONT", irfID=0, "Pass4_v2/front");
+   addIrfs("PASS4_v2", "BACK", irfID=1, "Pass4_v2/back");
+
+   addIrfs("PASS5_v0_TRANSIENT", "FRONT", irfID=0, "P5_v0_transient/front");
+   addIrfs("PASS5_v0_TRANSIENT", "BACK", irfID=1, "P5_v0_transient/back");
+
+   addIrfs("PASS5_v0", "FRONT", irfID=0, "P5_v0_source/front");
+   addIrfs("PASS5_v0", "BACK", irfID=1, "P5_v0_source/back");
+
+   addIrfs("PASS5_v0_DIFFUSE", "FRONT", irfID=0, "P5_v0_diffuse/front");
+   addIrfs("PASS5_v0_DIFFUSE", "BACK", irfID=1, "P5_v0_diffuse/back");
+
+// Use standard class names instead of non-compliant versions from
+// handoff_response.
+   addIrfs("PASS4", "FRONT", irfID=0);
+   addIrfs("PASS4", "BACK", irfID=1);
+
+   addIrfs("PASS4_v2", "FRONT", irfID=0);
+   addIrfs("PASS4_v2", "BACK", irfID=1);
+
+   addIrfs("PASS5_v0_TRANSIENT", "FRONT", irfID=0);
+   addIrfs("PASS5_v0_TRANSIENT", "BACK", irfID=1);
+
+   addIrfs("PASS5_v0", "FRONT", irfID=0);
+   addIrfs("PASS5_v0", "BACK", irfID=1);
+
+   addIrfs("PASS5_v0_DIFFUSE", "FRONT", irfID=0);
+   addIrfs("PASS5_v0_DIFFUSE", "BACK", irfID=1);
 }
 
 } // namespace latResponse

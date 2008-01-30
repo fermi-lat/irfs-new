@@ -25,6 +25,7 @@
 #include "handoff_response/../src/irfs/Table.h"
 
 #include "latResponse/FitsTable.h"
+#include "latResponse/IrfLoader.h"
 
 #include "Aeff.h"
 #include "Edisp.h"
@@ -158,6 +159,16 @@ void Edisp_test() {
    delete irfs;
 }
 
+void IrfLoader_test() {
+   IrfLoader irfLoader;
+   irfLoader.loadIrfs();
+
+   irfInterface::IrfsFactory * myFactory = 
+      irfInterface::IrfsFactory::instance();
+
+   irfInterface::Irfs * irfs(myFactory->create("PASS4::FRONT"));
+}
+
 int main() {
 #ifdef TRAP_FPE
    feenableexcept (FE_INVALID|FE_DIVBYZERO|FE_OVERFLOW);
@@ -165,8 +176,10 @@ int main() {
 
    irfLoader::Loader_go();
 
-   compare_to_handoff_response();
-   Psf_test();
-   Aeff_test();
-   Edisp_test();
+//    compare_to_handoff_response();
+//    Psf_test();
+//    Aeff_test();
+//    Edisp_test();
+
+   IrfLoader_test();
 }
