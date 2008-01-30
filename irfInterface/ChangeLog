@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jan 30 15:13:20 PST 2008
+irfs/irfInterface/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+include <algorithm>
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfInterface-02-02-00, operation: add
 Package: irfInterface
