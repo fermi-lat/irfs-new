@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan 30 13:12:21 PST 2008
+irfs/irfInterface/src
+
+Modified Files:
+	IrfsFactory.cxx 
+Log Message:
+add IrfsFactory::irfNames(); reformate SCons files
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan 30 13:12:21 PST 2008
 irfs/irfInterface/irfInterface
 
 Modified Files:
