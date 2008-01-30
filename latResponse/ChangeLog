@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jan 30 15:07:58 PST 2008
+users/jchiang/latResponse/latResponse
+
+Modified Files:
+	IrfLoader.h 
+Log Message:
+finish IrfLoader implementation
+    *
+------------------------------------------------------------
 User: jchiang  Wed Jan 30 07:33:11 PST 2008
 users/jchiang/latResponse/src
 
