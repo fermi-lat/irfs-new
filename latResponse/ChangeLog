@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan 30 15:07:58 PST 2008
+users/jchiang/latResponse/src
+
+Modified Files:
+	Bilinear.cxx FitsTable.cxx IrfLoader.cxx 
+Log Message:
+finish IrfLoader implementation
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan 30 15:07:58 PST 2008
 users/jchiang/latResponse/latResponse
 
 Modified Files:
