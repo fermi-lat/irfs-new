@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan 30 07:33:11 PST 2008
+users/jchiang/latResponse/src
+
+Added Files:
+	IrfLoader.cxx 
+Log Message:
+add IrfLoader
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan 30 07:33:11 PST 2008
 users/jchiang/latResponse/latResponse
 
 Added Files:
