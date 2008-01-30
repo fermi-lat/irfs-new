@@ -15,12 +15,11 @@
 
 namespace irfInterface {
 
-IrfsFactory * IrfsFactory::s_instance = 0;
+IrfsFactory * IrfsFactory::s_instance(0);
 
 IrfsFactory * IrfsFactory::instance() {
    if (s_instance == 0) {
       s_instance = new IrfsFactory();
-//      std::cout << "created new IrfsFactory instance" << std::endl;
    }
    return s_instance;
 }
@@ -35,6 +34,7 @@ IrfsFactory::~IrfsFactory() {
    for ( ; itor != m_prototypes.end(); ++itor) {
       delete itor->second;
    }
+   m_irfNames.clear();
 }
 
 Irfs * IrfsFactory::create(const std::string & name) const {
@@ -62,14 +62,18 @@ void IrfsFactory::addIrfs(const std::string & name, Irfs * irfs,
       delete m_prototypes[name];
    }
    m_prototypes[name] = irfs;
+   if (!std::count(m_irfNames.begin(), m_irfNames.end(), name)) {
+      m_irfNames.push_back(name);
+   }
 }
 
 void IrfsFactory::getIrfsNames(std::vector<std::string> & names) const {
-   names.clear();
-   std::map<std::string, Irfs *>::const_iterator itor = m_prototypes.begin();
-   for (; itor != m_prototypes.end(); ++itor) {
-      names.push_back(itor->first);
-   }
+   names = m_irfNames;
+//    names.clear();
+//    std::map<std::string, Irfs *>::const_iterator itor = m_prototypes.begin();
+//    for (; itor != m_prototypes.end(); ++itor) {
+//       names.push_back(itor->first);
+//    }
 }
 
 } // namespace irfInterface
