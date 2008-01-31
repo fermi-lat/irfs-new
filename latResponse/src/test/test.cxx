@@ -46,6 +46,7 @@ void compare_to_handoff_response() {
    handoff_response::Table old_table(fitsTable.tableData(tablename));
       
    bool interpolate;
+   std::cout << "Comparing Table results to handoff_response:" << std::endl;
    for (double mu(table.minCosTheta()); mu <= 1.; mu += 0.1) {
       for (double logE(1.5); logE < 5.5; logE += 0.25) {
          std::cout << mu << "  " << logE << "  " 
@@ -56,6 +57,7 @@ void compare_to_handoff_response() {
                    << std::endl;
       }
    }
+   std::cout << std::endl;
 }
 
 void Psf_test() {
@@ -81,29 +83,36 @@ void Psf_test() {
    double roi_radius(20);
 
    Psf my_psf(filename, isFront=true);
+   std::cout << "Comparing Psf values: "  << std::endl;
    for (double sep(0.1); sep < 20.; sep += 1) {
       std::cout << sep << "  "
                 << my_psf.value(sep, energy, inclination, 0) << "  "
                 << psf_p5->value(sep, energy, inclination, 0) << std::endl;
    }
+   std::cout << std::endl;
 
+   std::cout << "Comparing Psf integrals: "  << std::endl;
    for (roi_radius = 0.5; roi_radius < 30; roi_radius += 1) {
-      Psf foo(filename, isFront=true);
       irfInterface::AcceptanceCone my_cone(roiCenter, roi_radius);
       std::vector<irfInterface::AcceptanceCone *> cones;
       cones.push_back(&my_cone);
 
       double ref_value = 
-         irfInterface::IPsf::psfIntegral(&foo, energy, srcDir, 
+         irfInterface::IPsf::psfIntegral(&my_psf, energy, srcDir, 
                                          scZAxis, scXAxis, cones);
 
+//       double ref_value2 = 
+//          irfInterface::IPsf::psfIntegral(psf_p5, energy, srcDir, 
+//                                          scZAxis, scXAxis, cones);
+
       std::cout << roi_radius << "  "
-                << foo.angularIntegral(energy, srcDir, scZAxis, 
-                                       scXAxis, cones)/ref_value << "  "
+                << my_psf.angularIntegral(energy, srcDir, scZAxis, 
+                                          scXAxis, cones)/ref_value << "  "
                 << psf_p5->angularIntegral(energy, srcDir, scZAxis, 
                                            scXAxis, cones)/ref_value
                 << std::endl;
    }
+   std::cout << std::endl;
    delete irfs;
 }
 
@@ -123,12 +132,14 @@ void Aeff_test() {
    double emax(3e5);
    size_t nee(20);
    double estep(std::log(emax/emin)/(nee - 1));
+   std::cout << "Comparing Effective Areas: " << std::endl;
    for (size_t k(0); k < nee; k++) {
       double energy(emin*std::exp(estep*k));
       std::cout << energy << "  "
                 << aeff.value(energy, theta, 0) << "  "
                 << aeff_p5.value(energy, theta, 0) << std::endl;
    }
+   std::cout << std::endl;
    delete irfs;
 }
 
@@ -143,19 +154,20 @@ void Edisp_test() {
    std::string filename(rootPath + "/data/edisp_Pass5_v0_front.fits");
    Edisp edisp(filename);
 
-
    double e0(100);
    double theta(10);
    double emin(e0*0.7);
    double emax(e0*1.3);
    size_t nee(20);
    double estep((emax - emin)/(nee - 1));
+   std::cout << "Comparing energy dispersion values: " << std::endl;
    for (size_t k(0); k < nee; k++) {
       double energy(emin + estep*k);
       std::cout << energy << "  "
                 << edisp.value(energy, e0, theta, 0) << "  "
                 << edisp_p5.value(energy, e0, theta, 0) << std::endl;
    }
+   std::cout << std::endl;
    delete irfs;
 }
 
@@ -176,10 +188,10 @@ int main() {
 
    irfLoader::Loader_go();
 
-//    compare_to_handoff_response();
-//    Psf_test();
-//    Aeff_test();
-//    Edisp_test();
+   compare_to_handoff_response();
+   Psf_test();
+   Aeff_test();
+   Edisp_test();
 
    IrfLoader_test();
 }

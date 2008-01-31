@@ -44,6 +44,10 @@ public:
       return m_psis;
    }
 
+   const irfInterface::AcceptanceCone & acceptanceCone() const {
+      return * m_acceptanceCone;
+   }
+
 private:
 
    const Psf & m_psf;
