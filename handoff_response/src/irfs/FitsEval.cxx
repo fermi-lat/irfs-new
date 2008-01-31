@@ -20,8 +20,6 @@
 #include "FitsEval.h"
 #include "FitsTable.h"
 
-#include "Table.h"
-
 namespace {
    std::string fullpath(const std::string & basename) {
       char * rootPath = ::getenv("HANDOFF_IRF_DIR");

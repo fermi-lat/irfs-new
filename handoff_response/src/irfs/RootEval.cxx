@@ -13,7 +13,6 @@ $Header$
 
 #include "TFile.h"
 #include "TH2F.h"
-#include "TPaletteAxis.h"
 
 #include <sstream>
 #include <stdexcept>
@@ -25,10 +24,8 @@ $Header$
 
 #include "st_facilities/GaussianQuadrature.h"
 
-#include "Table.h"
-
 using namespace handoff_response;
-
+#include "TPaletteAxis.h"
 namespace {
    TPaletteAxis dummy;
 
@@ -53,69 +50,69 @@ namespace {
    };
 }
 
-// RootEval::Table::Table(TH2F* hist)
-//     : m_hist(hist)
-//     , m_interpolator(0)
-//     {
-//         binArray( 0, 10, hist->GetXaxis(), m_energy_axis);
-//         binArray(-1.0,1.00, hist->GetYaxis(), m_angle_axis);
+RootEval::Table::Table(TH2F* hist)
+    : m_hist(hist)
+    , m_interpolator(0)
+    {
+        binArray( 0, 10, hist->GetXaxis(), m_energy_axis);
+        binArray(-1.0,1.00, hist->GetYaxis(), m_angle_axis);
 
-//         m_minCosTheta = hist->GetYaxis()->GetBinLowEdge(1);
-// #if 0
-//         std::cout << "energy bins: ";
-//         std::copy(m_energy_axis.begin(), m_energy_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
-//         std::cout << std::endl;
+        m_minCosTheta = hist->GetYaxis()->GetBinLowEdge(1);
+#if 0
+        std::cout << "energy bins: ";
+        std::copy(m_energy_axis.begin(), m_energy_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
+        std::cout << std::endl;
 
-//         std::cout << "angle bins: ";
-//         std::copy(m_angle_axis.begin(), m_angle_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
-//         std::cout << std::endl;
-// #endif
+        std::cout << "angle bins: ";
+        std::copy(m_angle_axis.begin(), m_angle_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
+        std::cout << std::endl;
+#endif
 
-//         for(Bilinear::const_iterator iy = m_angle_axis.begin(); iy!=m_angle_axis.end(); ++iy){
-//             float costh ( *iy );
-//             if(costh==1.0) costh=0.999; // avoid edge in histgram
-//             for(Bilinear::const_iterator ix = m_energy_axis.begin(); ix!= m_energy_axis.end(); ++ix){
-//                 float loge ( *ix );
-//                 int bin ( hist->FindBin(loge,costh) );
-//                 double value ( static_cast<float>(hist->GetBinContent(bin)));
-//                 m_data_array.push_back(value);
-//             }
-//         }
+        for(Bilinear::const_iterator iy = m_angle_axis.begin(); iy!=m_angle_axis.end(); ++iy){
+            float costh ( *iy );
+            if(costh==1.0) costh=0.999; // avoid edge in histgram
+            for(Bilinear::const_iterator ix = m_energy_axis.begin(); ix!= m_energy_axis.end(); ++ix){
+                float loge ( *ix );
+                int bin ( hist->FindBin(loge,costh) );
+                double value ( static_cast<float>(hist->GetBinContent(bin)));
+                m_data_array.push_back(value);
+            }
+        }
 
-//         m_interpolator = new Bilinear(m_energy_axis, m_angle_axis, m_data_array);
-//     }
+        m_interpolator = new Bilinear(m_energy_axis, m_angle_axis, m_data_array);
+    }
 
-// RootEval::Table::~Table(){ delete m_interpolator; delete m_hist; m_hist=0;}
+RootEval::Table::~Table(){ delete m_interpolator; delete m_hist; m_hist=0;}
     
-// double RootEval::Table::maximum() { return m_hist->GetMaximum(); }
+double RootEval::Table::maximum() { return m_hist->GetMaximum(); }
 
-// void RootEval::Table::binArray(double low_limit, double high_limit, TAxis* axis, std::vector<float>& array)
-//     {
-//         array.push_back(low_limit);
-//         int nbins(axis->GetNbins());
-//         for(int i = 1; i<nbins+1; ++i){
-//             array.push_back(axis->GetBinCenter(i));
-//         }
-//         array.push_back(high_limit);
+void RootEval::Table::binArray(double low_limit, double high_limit, TAxis* axis, std::vector<float>& array)
+    {
+        array.push_back(low_limit);
+        int nbins(axis->GetNbins());
+        for(int i = 1; i<nbins+1; ++i){
+            array.push_back(axis->GetBinCenter(i));
+        }
+        array.push_back(high_limit);
         
-//     }
+    }
 
-// double RootEval::Table::value(double logenergy, double costh, bool interpolate)
-// {
-//     if( interpolate) return (*m_interpolator)(logenergy, costh);
+double RootEval::Table::value(double logenergy, double costh, bool interpolate)
+{
+    if( interpolate) return (*m_interpolator)(logenergy, costh);
 
-//     // non-interpolating: look up value for the bin 
+    // non-interpolating: look up value for the bin 
 
-//     double maxloge( *(m_energy_axis.end()-2)); // if go beyond this, use last bin
-//     if( logenergy>= maxloge ) {
-//         logenergy = maxloge;
-//     }
-//     if (logenergy <= m_energy_axis.at(1)) {    // use first bin if necessary
-//        logenergy = m_energy_axis.at(1);        // why isn't m_energy_axis.at(0)
-//     }                                          // the first bin?
-//     int bin= m_hist->FindBin(logenergy, costh);
-//     return m_hist->GetBinContent(bin);
-// }
+    double maxloge( *(m_energy_axis.end()-2)); // if go beyond this, use last bin
+    if( logenergy>= maxloge ) {
+        logenergy = maxloge;
+    }
+    if (logenergy <= m_energy_axis.at(1)) {    // use first bin if necessary
+       logenergy = m_energy_axis.at(1);        // why isn't m_energy_axis.at(0)
+    }                                          // the first bin?
+    int bin= m_hist->FindBin(logenergy, costh);
+    return m_hist->GetBinContent(bin);
+}
 
 RootEval::RootEval(TFile* f, std::string eventtype)
 : IrfEval(eventtype)
@@ -198,17 +195,7 @@ void RootEval::getPsfPars(double energy, double inclination,
    }
 }
 
-// RootEval::Table* RootEval::setupHist( std::string name)
-// {
-//     std::string fullname(eventClass()+"/"+name);
-//     TH2F* h2 = (TH2F*)m_f->GetObjectChecked((fullname).c_str(), "TH2F");
-//     if (h2==0) {
-//        throw std::invalid_argument("RootEval: could not find plot "+fullname);
-//     }
-//     return new Table(h2);
-// }
-
-Table * RootEval::setupHist( std::string name)
+RootEval::Table* RootEval::setupHist( std::string name)
 {
     std::string fullname(eventClass()+"/"+name);
     TH2F* h2 = (TH2F*)m_f->GetObjectChecked((fullname).c_str(), "TH2F");
