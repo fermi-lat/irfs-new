@@ -1,4 +1,19 @@
 ------------------------------------------------------------
+TAG
+Tag name: irfs-00-09-03, operation: add
+Package: irfs
+User: golpa  Thu Jan 31 07:57:16 2008
+Files:
+  irfs/.cvsignore  1.1.1.1
+  irfs/ChangeLog  1.102
+  irfs/irfsLib.py  1.1
+  irfs/SConscript  1.1
+  irfs/cmt/requirements  1.33
+  irfs/doc/release.notes  1.30
+  irfs/src/mainpage.h  1.1.1.1
+
+    *
+------------------------------------------------------------
 User: golpa  Tue Dec 11 09:26:36 PST 2007
 irfs
 
