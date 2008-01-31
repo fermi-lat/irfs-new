@@ -19,7 +19,7 @@
 #include "g25Response/IrfLoader.h"
 #include "handoff_response/MyIrfLoader.h"
 #include "testResponse/IrfLoader.h"
-#include "egretResponse/IrfLoader.h"
+//#include "egretResponse/IrfLoader.h"
 
 #include "Registrar.h"
 
@@ -34,7 +34,7 @@ Registrar::Registrar() {
    registry.registerLoader(new g25Response::IrfLoader());
    registry.registerLoader(new handoff_response::MyIrfLoader());
    registry.registerLoader(new testResponse::IrfLoader());
-   registry.registerLoader(new egretResponse::IrfLoader());
+//   registry.registerLoader(new egretResponse::IrfLoader());
 
    std::vector<std::string> names(registry.irfNames());
 }

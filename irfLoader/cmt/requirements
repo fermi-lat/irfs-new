@@ -1,5 +1,5 @@
 package irfLoader
-version v1r0p2
+version v1r0p5
 
 author James Chiang <jchiang@slac.stanford.edu>
 
@@ -19,7 +19,7 @@ use dc2Response v* irfs
 use g25Response v* irfs
 use handoff_response v* irfs
 use testResponse v* irfs
-use egretResponse v* irfs
+#use egretResponse v* irfs
 
 apply_pattern ST_library option=" *.c"
 apply_pattern shared_st_library
