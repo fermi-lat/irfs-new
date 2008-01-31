@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jan 30 16:07:08 PST 2008
+users/jchiang/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+test if acceptanceCone changes in angularIntegral
+    *
+------------------------------------------------------------
 User: jchiang  Wed Jan 30 16:07:07 PST 2008
 users/jchiang/latResponse/src
 
