@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: v0r0p1, operation: add
+Package: pyIrfLoader
+User: golpa  Mon Feb  4 09:14:03 2008
+Files:
+  pyIrfLoader/src/pyIrfLoader.i  1.1
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: pyIrfLoader-00-00-01, operation: add
 Package: pyIrfLoader
 User: golpa  Thu Jan 31 09:23:42 2008
