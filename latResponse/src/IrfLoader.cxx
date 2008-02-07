@@ -5,7 +5,13 @@
  * $Header$
  */
 
+#include <stdexcept>
 #include <vector>
+
+#include "facilities/Util.h"
+
+#include "tip/IFileSvc.h"
+#include "tip/Table.h"
 
 #include "irfInterface/IrfRegistry.h"
 #include "irfInterface/Irfs.h"
@@ -19,50 +25,68 @@
 #include "Edisp.h"
 #include "Psf.h"
 
+namespace {
+   class CaldbDate {
+   public:
+      CaldbDate(const std::string & date) {
+         std::vector<std::string> tokens;
+         facilities::Util::stringTokenize(date, "-", tokens);
+         m_year = std::atoi(tokens.at(0).c_str());
+         m_month = std::atoi(tokens.at(1).c_str());
+         m_day = std::atoi(tokens.at(2).c_str());
+      }
+      bool operator<(const CaldbDate & rhs) const {
+         if (m_year < rhs.m_year) {
+            return true;
+         }
+         if (m_year > rhs.m_year) {
+            return false;
+         }
+         // years are equal
+         if (m_month < rhs.m_month) {
+            return true;
+         }
+         if (m_month > rhs.m_month) {
+            return false;
+         }
+         // months are equal
+         if (m_day < rhs.m_day) {
+            return true;
+         }
+         // m_day >= rhs.m_day
+         return false;
+      }
+      bool operator==(const CaldbDate & rhs) const {
+         return (m_year == rhs.m_year && 
+                 m_month == rhs.m_month && 
+                 m_day == rhs.m_day);
+      }
+      bool operator>(const CaldbDate & rhs) const {
+         return !(operator<(rhs) || operator==(rhs));
+      }
+   private:
+      int m_year;
+      int m_month;
+      int m_day;
+   };
+}
+
 namespace latResponse {
+
+IrfLoader::IrfLoader() {
+   read_caldb_indx();
+}
 
 void IrfLoader::registerEventClasses() const {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
-
-/// @todo Replace all these hardwired IRF names with code that reads
-/// caldb.indx for this information.  This will require standardizing
-/// the class names.
-   std::vector<std::string> classNames;
-   classNames.push_back(m_className + "/front");
-   classNames.push_back(m_className + "/back");
-
-   registry.registerEventClasses("HANDOFF", classNames);
-   registry.registerEventClass("HANDOFF_front", classNames.at(0));
-   registry.registerEventClass("HANDOFF_back", classNames.at(1));
-
-   registry.registerEventClasses("PASS4", classNames);
-   registry.registerEventClass("PASS4::FRONT", classNames.at(0));
-   registry.registerEventClass("PASS4::BACK", classNames.at(1));
-
-   classNames.at(0) = "Pass4_v2/front";
-   classNames.at(1) = "Pass4_v2/back";
-   registry.registerEventClasses("Pass4_v2", classNames);
-   registry.registerEventClass("Pass4_v2_front", classNames.at(0));
-   registry.registerEventClass("Pass4_v2_back", classNames.at(1));
-
-   classNames.at(0) = "P5_v0_transient/front";
-   classNames.at(1) = "P5_v0_transient/back";
-   registry.registerEventClasses("P5_v0_transient", classNames);
-   registry.registerEventClass("P5_v0_transient_front", classNames.at(0));
-   registry.registerEventClass("P5_v0_transient_back", classNames.at(1));
-
-   classNames.at(0) = "P5_v0_source/front";
-   classNames.at(1) = "P5_v0_source/back";
-   registry.registerEventClasses("P5_v0_source", classNames);
-   registry.registerEventClasses("PASS5_source", classNames);
-   registry.registerEventClass("P5_v0_source_front", classNames.at(0));
-   registry.registerEventClass("P5_v0_source_back", classNames.at(1));
-
-   classNames.at(0) = "P5_v0_diffuse/front";
-   classNames.at(1) = "P5_v0_diffuse/back";
-   registry.registerEventClasses("P5_v0_diffuse", classNames);
-   registry.registerEventClass("P5_v0_diffuse_front", classNames.at(0));
-   registry.registerEventClass("P5_v0_diffuse_back", classNames.at(1));
+   std::vector<std::string> classNames(2);
+   for (size_t i(0); i < m_caldbNames.size(); i++) {
+      classNames.at(0) = m_caldbNames.at(i) + "::FRONT";
+      classNames.at(1) = m_caldbNames.at(i) + "::BACK";
+      registry.registerEventClasses(m_caldbNames.at(i), classNames);
+      registry.registerEventClass(classNames.at(0), classNames.at(0));
+      registry.registerEventClass(classNames.at(1), classNames.at(1));
+   }
 }
 
 void IrfLoader::addIrfs(const std::string & version, 
@@ -104,25 +128,42 @@ void IrfLoader::addIrfs(const std::string & version,
 
 void IrfLoader::loadIrfs() const {
    int irfID;
-   addIrfs("PASS4", "FRONT", irfID=0, m_className + "/front");
-   addIrfs("PASS4", "BACK", irfID=1, m_className + "/back");
+   for (size_t i(0); i < m_caldbNames.size(); i++) {
+      addIrfs(m_caldbNames.at(i), "FRONT", irfID=0);
+      addIrfs(m_caldbNames.at(i), "BACK", irfID=1);
+   }
+}
 
-// Use standard class names instead of non-compliant versions from
-// handoff_response.
-   addIrfs("PASS4", "FRONT", irfID=0);
-   addIrfs("PASS4", "BACK", irfID=1);
+void IrfLoader::read_caldb_indx() {
+   m_caldbNames.clear();
+   char * caldb_path = ::getenv("CALDB");
+   if (!caldb_path) {
+      throw std::runtime_error("CALDB env var not set");
+   }
+/// @todo generalize to use CALDBCONFIG file.   
+   std::string caldb_indx(caldb_path + std::string("/caldb.indx"));
+   tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
+   const tip::Table * table = fileSvc.readTable(caldb_indx, "CIF");
+   
+   ::CaldbDate cutoff_date("2007-01-01");
 
-   addIrfs("PASS4_v2", "FRONT", irfID=0);
-   addIrfs("PASS4_v2", "BACK", irfID=1);
-
-   addIrfs("PASS5_v0_TRANSIENT", "FRONT", irfID=0);
-   addIrfs("PASS5_v0_TRANSIENT", "BACK", irfID=1);
-
-   addIrfs("PASS5_v0", "FRONT", irfID=0);
-   addIrfs("PASS5_v0", "BACK", irfID=1);
-
-   addIrfs("PASS5_v0_DIFFUSE", "FRONT", irfID=0);
-   addIrfs("PASS5_v0_DIFFUSE", "BACK", irfID=1);
+   tip::Table::ConstIterator it(table->begin());
+   tip::ConstTableRecord & row(*it);
+   for ( ; it != table->end(); ++it) {
+      std::string cal_date;
+      row["cal_date"].get(cal_date);
+      ::CaldbDate caldbDate(cal_date);
+      if (caldbDate > cutoff_date) {
+         std::vector<std::string> cal_cbd;
+         row["cal_cbd"].get(cal_cbd);
+         std::vector<std::string> tokens;
+         facilities::Util::stringTokenize(cal_cbd.front(), "()", tokens);
+         const std::string & caldbName(tokens.at(1));
+         if (!std::count(m_caldbNames.begin(), m_caldbNames.end(), caldbName)) {
+            m_caldbNames.push_back(caldbName);
+         }
+      }
+   }
 }
 
 } // namespace latResponse

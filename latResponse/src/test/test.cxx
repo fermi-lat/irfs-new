@@ -19,9 +19,6 @@
 
 #include "facilities/Util.h"
 
-#include "tip/IFileSvc.h"
-#include "tip/Table.h"
-
 #include "irfInterface/Irfs.h"
 #include "irfInterface/IrfsFactory.h"
 
@@ -187,92 +184,18 @@ void IrfLoader_test() {
    myFactory->create("PASS4::FRONT");
 }
 
-class CaldbDate {
-public:
-   CaldbDate(const std::string & date) {
-      std::vector<std::string> tokens;
-      facilities::Util::stringTokenize(date, "-", tokens);
-      m_year = std::atoi(tokens.at(0).c_str());
-      m_month = std::atoi(tokens.at(1).c_str());
-      m_day = std::atoi(tokens.at(2).c_str());
-   }
-   bool operator<(const CaldbDate & rhs) const {
-      if (m_year < rhs.m_year) {
-         return true;
-      }
-      if (m_year > rhs.m_year) {
-         return false;
-      }
-      // years are equal
-      if (m_month < rhs.m_month) {
-         return true;
-      }
-      if (m_month > rhs.m_month) {
-         return false;
-      }
-      // months are equal
-      if (m_day < rhs.m_day) {
-         return true;
-      }
-      // m_day >= rhs.m_day
-      return false;
-   }
-   bool operator==(const CaldbDate & rhs) const {
-      return (m_year == rhs.m_year && 
-              m_month == rhs.m_month && 
-              m_day == rhs.m_day);
-   }
-   bool operator>(const CaldbDate & rhs) const {
-      return !(operator<(rhs) || operator==(rhs));
-   }
-private:
-   int m_year;
-   int m_month;
-   int m_day;
-};
-
-void read_caldb() {
-   char * caldb_path = ::getenv("CALDB");
-   if (!caldb_path) {
-      assert(false);
-   }
-   std::string caldb_indx(caldb_path + std::string("/caldb.indx"));
-   tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
-   const tip::Table * table = fileSvc.readTable(caldb_indx, "CIF");
-   
-   CaldbDate cutoff_date("2007-01-01");
-
-   tip::Table::ConstIterator it(table->begin());
-   tip::ConstTableRecord & row(*it);
-   for ( ; it != table->end(); ++it) {
-      std::string cal_date;
-      row["cal_date"].get(cal_date);
-      CaldbDate caldbDate(cal_date);
-      if (caldbDate > cutoff_date) {
-         std::string detnam;
-         row["detnam"].get(detnam);
-         std::vector<std::string> cal_cbd;
-         row["cal_cbd"].get(cal_cbd);
-         std::vector<std::string> tokens;
-         facilities::Util::stringTokenize(cal_cbd.front(), "()", tokens);
-         std::cout << tokens.at(1)<< "::" << detnam << std::endl;
-      }
-   }
-}
-
 int main() {
 #ifdef TRAP_FPE
    feenableexcept (FE_INVALID|FE_DIVBYZERO|FE_OVERFLOW);
 #endif
 
-//    irfLoader::Loader_go();
+   irfLoader::Loader_go();
 
-//    compare_to_handoff_response();
-//    Psf_test();
-//    Aeff_test();
-//    Edisp_test();
+   compare_to_handoff_response();
+   Psf_test();
+   Aeff_test();
+   Edisp_test();
 
-//    IrfLoader_test();
+   IrfLoader_test();
 
-   read_caldb();
 }

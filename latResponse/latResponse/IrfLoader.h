@@ -22,6 +22,8 @@ class IrfLoader : public irfInterface::IrfLoader {
 
 public:
 
+   IrfLoader();
+
    virtual ~IrfLoader() {}
 
    virtual void registerEventClasses() const;
@@ -29,7 +31,7 @@ public:
    virtual void loadIrfs() const;
 
    virtual std::string name() const {
-      return "HANDOFF";
+      return "LATRESPONSE";
    }
 
    static void addIrfs(const std::string & version, 
@@ -40,7 +42,9 @@ public:
 
 private:
    
-   mutable std::string m_className;
+   std::vector<std::string> m_caldbNames;
+
+   void read_caldb_indx();
 
 };
 
