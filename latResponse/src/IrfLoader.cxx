@@ -27,18 +27,17 @@ void IrfLoader::registerEventClasses() const {
 /// @todo Replace all these hardwired IRF names with code that reads
 /// caldb.indx for this information.  This will require standardizing
 /// the class names.
-   const char * class_names[] = {"standard/front", "standard/back"};
-   std::vector<std::string> classNames(class_names, class_names + 2);
+   std::vector<std::string> classNames;
+   classNames.push_back(m_className + "/front");
+   classNames.push_back(m_className + "/back");
 
-   classNames.at(0) = m_className + "/front";
-   classNames.at(1) = m_className + "/back";
    registry.registerEventClasses("HANDOFF", classNames);
    registry.registerEventClass("HANDOFF_front", classNames.at(0));
    registry.registerEventClass("HANDOFF_back", classNames.at(1));
 
-   registry.registerEventClasses("Pass4_v1", classNames);
-   registry.registerEventClass("Pass4_v1_front", classNames.at(0));
-   registry.registerEventClass("Pass4_v1_back", classNames.at(1));
+   registry.registerEventClasses("PASS4", classNames);
+   registry.registerEventClass("PASS4::FRONT", classNames.at(0));
+   registry.registerEventClass("PASS4::BACK", classNames.at(1));
 
    classNames.at(0) = "Pass4_v2/front";
    classNames.at(1) = "Pass4_v2/back";
@@ -104,27 +103,9 @@ void IrfLoader::addIrfs(const std::string & version,
 }
 
 void IrfLoader::loadIrfs() const {
-   char * irf_name(::getenv("HANDOFF_IRF_NAME"));
-   if (!irf_name) {
-      m_className = "standard";
-   } else {
-      m_className = irf_name;
-   }
    int irfID;
    addIrfs("PASS4", "FRONT", irfID=0, m_className + "/front");
    addIrfs("PASS4", "BACK", irfID=1, m_className + "/back");
-
-   addIrfs("PASS4_v2", "FRONT", irfID=0, "Pass4_v2/front");
-   addIrfs("PASS4_v2", "BACK", irfID=1, "Pass4_v2/back");
-
-   addIrfs("PASS5_v0_TRANSIENT", "FRONT", irfID=0, "P5_v0_transient/front");
-   addIrfs("PASS5_v0_TRANSIENT", "BACK", irfID=1, "P5_v0_transient/back");
-
-   addIrfs("PASS5_v0", "FRONT", irfID=0, "P5_v0_source/front");
-   addIrfs("PASS5_v0", "BACK", irfID=1, "P5_v0_source/back");
-
-   addIrfs("PASS5_v0_DIFFUSE", "FRONT", irfID=0, "P5_v0_diffuse/front");
-   addIrfs("PASS5_v0_DIFFUSE", "BACK", irfID=1, "P5_v0_diffuse/back");
 
 // Use standard class names instead of non-compliant versions from
 // handoff_response.

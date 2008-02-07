@@ -101,6 +101,7 @@ double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
    (void)(time);
    irfInterface::AcceptanceCone & cone(*acceptanceCones.at(0));
    if (!m_integralCache || cone != m_integralCache->acceptanceCone()) {
+      delete m_integralCache;
       m_integralCache = new PsfIntegralCache(*this, cone);
    }
    double psi(srcDir.difference(cone.center()));
