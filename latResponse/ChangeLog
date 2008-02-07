@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Feb  6 17:41:31 PST 2008
+users/jchiang/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+test code for reading caldb.indx file
+    *
+------------------------------------------------------------
+User: jchiang  Wed Feb  6 17:41:31 PST 2008
 users/jchiang/latResponse/src
 
 Modified Files:
