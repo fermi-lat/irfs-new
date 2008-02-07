@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Feb  6 22:27:10 PST 2008
+users/jchiang/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+read caldb.indx for IRF names
+    *
+------------------------------------------------------------
+User: jchiang  Wed Feb  6 22:27:10 PST 2008
 users/jchiang/latResponse/src
 
 Modified Files:
