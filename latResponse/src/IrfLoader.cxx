@@ -22,54 +22,9 @@
 #include "latResponse/IrfLoader.h"
 
 #include "Aeff.h"
+#include "CaldbDate.h"
 #include "Edisp.h"
 #include "Psf.h"
-
-namespace {
-   class CaldbDate {
-   public:
-      CaldbDate(const std::string & date) {
-         std::vector<std::string> tokens;
-         facilities::Util::stringTokenize(date, "-", tokens);
-         m_year = std::atoi(tokens.at(0).c_str());
-         m_month = std::atoi(tokens.at(1).c_str());
-         m_day = std::atoi(tokens.at(2).c_str());
-      }
-      bool operator<(const CaldbDate & rhs) const {
-         if (m_year < rhs.m_year) {
-            return true;
-         }
-         if (m_year > rhs.m_year) {
-            return false;
-         }
-         // years are equal
-         if (m_month < rhs.m_month) {
-            return true;
-         }
-         if (m_month > rhs.m_month) {
-            return false;
-         }
-         // months are equal
-         if (m_day < rhs.m_day) {
-            return true;
-         }
-         // m_day >= rhs.m_day
-         return false;
-      }
-      bool operator==(const CaldbDate & rhs) const {
-         return (m_year == rhs.m_year && 
-                 m_month == rhs.m_month && 
-                 m_day == rhs.m_day);
-      }
-      bool operator>(const CaldbDate & rhs) const {
-         return !(operator<(rhs) || operator==(rhs));
-      }
-   private:
-      int m_year;
-      int m_month;
-      int m_day;
-   };
-}
 
 namespace latResponse {
 
@@ -145,14 +100,14 @@ void IrfLoader::read_caldb_indx() {
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
    const tip::Table * table = fileSvc.readTable(caldb_indx, "CIF");
    
-   ::CaldbDate cutoff_date("2007-01-01");
+   CaldbDate cutoff_date("2007-01-01");
 
    tip::Table::ConstIterator it(table->begin());
    tip::ConstTableRecord & row(*it);
    for ( ; it != table->end(); ++it) {
       std::string cal_date;
       row["cal_date"].get(cal_date);
-      ::CaldbDate caldbDate(cal_date);
+      CaldbDate caldbDate(cal_date);
       if (caldbDate > cutoff_date) {
          std::vector<std::string> cal_cbd;
          row["cal_cbd"].get(cal_cbd);

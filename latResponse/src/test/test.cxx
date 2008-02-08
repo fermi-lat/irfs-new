@@ -31,6 +31,7 @@
 #include "latResponse/IrfLoader.h"
 
 #include "Aeff.h"
+#include "CaldbDate.h"
 #include "Edisp.h"
 #include "Psf.h"
 
@@ -184,6 +185,13 @@ void IrfLoader_test() {
    myFactory->create("PASS4::FRONT");
 }
 
+void CaldbDate_test() {
+   CaldbDate date1("2007-10-01");
+   CaldbDate date2("2007-11-01");
+   assert(date1 < date2);
+   assert(date2 > date1);
+}
+
 int main() {
 #ifdef TRAP_FPE
    feenableexcept (FE_INVALID|FE_DIVBYZERO|FE_OVERFLOW);
@@ -197,5 +205,7 @@ int main() {
    Edisp_test();
 
    IrfLoader_test();
+
+   CaldbDate_test();
 
 }
