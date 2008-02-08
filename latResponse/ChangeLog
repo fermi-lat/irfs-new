@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Fri Feb  8 13:07:41 PST 2008
+users/jchiang/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx 
+Added Files:
+	CaldbDate.h 
+Log Message:
+add CaldbDate class
+    *
+------------------------------------------------------------
 User: jchiang  Wed Feb  6 22:27:10 PST 2008
 users/jchiang/latResponse/src/test
 
