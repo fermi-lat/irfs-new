@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Feb  8 16:21:13 PST 2008
+users/jchiang/latResponse/latResponse
+
+Modified Files:
+	IrfLoader.h 
+Log Message:
+code to read in custom irfs
+    *
+------------------------------------------------------------
 User: jchiang  Fri Feb  8 13:07:41 PST 2008
 users/jchiang/latResponse/src/test
 
