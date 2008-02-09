@@ -44,7 +44,15 @@ private:
    
    std::vector<std::string> m_caldbNames;
 
+   std::string m_customIrfDir;
+
+   std::vector<std::string> m_customIrfNames;
+
    void read_caldb_indx();
+
+   void readCustomIrfNames();
+
+   void loadCustomIrfs() const;
 
 };
 
