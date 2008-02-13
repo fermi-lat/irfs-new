@@ -53,10 +53,10 @@ void compare_to_handoff_response() {
       
    bool interpolate;
    std::cout << "Comparing Table results to handoff_response:" << std::endl;
-   for (double mu(table.minCosTheta()); mu <= 1.; mu += 0.1) {
+   for (double mu(table.minCosTheta()); mu <= 0.31; mu += 0.1) {
       for (double logE(1.5); logE < 5.5; logE += 0.25) {
-         std::cout << mu << "  " << logE << "  " 
-                   << table.value(logE, mu) << "  "
+         std::cout << mu << "  " << logE << std::endl;
+         std::cout << table.value(logE, mu) << "  "
                    << old_table.value(logE, mu) << "  "
                    << table.value(logE, mu, interpolate=false) << "  "
                    << old_table.value(logE, mu, interpolate=false) 

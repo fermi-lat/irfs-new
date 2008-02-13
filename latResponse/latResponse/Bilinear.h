@@ -28,15 +28,17 @@ public:
    Bilinear(const std::vector<float> & x, const std::vector<float> & y, 
             const std::vector<float> & values);
 
+   Bilinear(const std::vector<float> & x, const std::vector<float> & y, 
+            const std::vector<float> & values, 
+            float xlo, float xhi, float ylo, float yhi);
+
    double operator()(float x, float y) const;
 
 private:
 
-   const std::vector<float> & m_x;
-
-   const std::vector<float> & m_y;
-
-   const std::vector<float> & m_values;
+   std::vector<float> m_x;
+   std::vector<float> m_y;
+   std::vector<float> m_values;
    
 };
 
