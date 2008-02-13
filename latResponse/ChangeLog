@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Wed Feb 13 14:39:34 PST 2008
+users/jchiang/latResponse/src
+
+Modified Files:
+	Aeff.cxx Bilinear.cxx FitsTable.cxx Psf.cxx 
+	PsfIntegralCache.cxx 
+Log Message:
+remove debug print statements
+    *
+------------------------------------------------------------
 User: jchiang  Wed Feb 13 14:34:10 PST 2008
 users/jchiang/latResponse/src
 
