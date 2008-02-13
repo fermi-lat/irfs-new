@@ -62,7 +62,7 @@ const FitsTable & ParTables::operator[](const std::string & parName) const {
 void ParTables::getPars(double loge, double costh, double * pars,
                         bool interpolate) const {
    for (size_t i(0); i < m_parNames.size(); i++) {
-      pars[i] = m_parTables[m_parNames.at(i)].value(loge, costh, interpolate);
+      pars[i] = operator[](m_parNames.at(i)).value(loge, costh, interpolate);
    }
 }
 

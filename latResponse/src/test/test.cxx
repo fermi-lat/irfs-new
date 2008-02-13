@@ -209,13 +209,13 @@ int main() {
 
    irfLoader::Loader_go();
 
-//     compare_to_handoff_response();
+   compare_to_handoff_response();
    Psf_test();
-//     Aeff_test();
-//    Edisp_test();
+   Aeff_test();
+   Edisp_test();
+   
+   IrfLoader_test();
 
-//    IrfLoader_test();
-
-//    CaldbDate_test();
+   CaldbDate_test();
 
 }
