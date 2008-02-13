@@ -54,6 +54,8 @@ private:
 
    void loadCustomIrfs() const;
 
+   void find_cif(std::string & caldb_indx) const;
+
 };
 
 } // namespace latResponse
