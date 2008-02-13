@@ -1,4 +1,16 @@
 ------------------------------------------------------------
+User: jchiang  Wed Feb 13 14:34:10 PST 2008
+users/jchiang/latResponse/src
+
+Modified Files:
+	Aeff.cxx IrfLoader.cxx Psf.cxx 
+Log Message:
+apply lower limit on valid range of costheta values for aeff; 
+read caldb.config for caldb.indx filename;
+copy constructor bug fix
+
+    *
+------------------------------------------------------------
 User: jchiang  Wed Feb 13 14:33:01 PST 2008
 users/jchiang/latResponse/latResponse
 
