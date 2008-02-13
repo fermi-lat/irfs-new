@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 12 17:27:58 PST 2008
+users/jchiang/latResponse/src
+
+Modified Files:
+	Psf.cxx Psf.h PsfIntegralCache.cxx 
+Log Message:
+kluge to recover sigma array range from handoff_response
+    *
+------------------------------------------------------------
 User: jchiang  Fri Feb  8 16:21:13 PST 2008
 users/jchiang/latResponse/src
 
