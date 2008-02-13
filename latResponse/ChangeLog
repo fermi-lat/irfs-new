@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 12 22:51:37 PST 2008
+users/jchiang/latResponse/latResponse
+
+Modified Files:
+	Bilinear.h 
+Log Message:
+add TH2-like buffer of values around border of 2D histogram for bilinear interpolation
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 12 17:27:59 PST 2008
 users/jchiang/latResponse/src/test
 
