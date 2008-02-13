@@ -95,6 +95,8 @@ public:
 
    double scaleFactor(double energy) const;
 
+   double scaleFactor(double energy, bool isFront) const;
+
    /// Functions from handoff_response.
    static double old_base_function(double u, double sigma, double gamma);
 
@@ -119,6 +121,9 @@ private:
    double m_par0;
    double m_par1;
    double m_index;
+
+   // store all of the PSF parameters
+   std::vector<double> m_psf_pars;
 
    mutable double m_loge_last;
    mutable double m_costh_last;

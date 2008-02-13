@@ -40,9 +40,11 @@ using namespace latResponse;
 void compare_to_handoff_response() {
    std::string rootPath(::getenv("LATRESPONSEROOT"));
 
-   std::string filename(rootPath + "/data/psf_Pass5_v0_front.fits");
+//   std::string filename(rootPath + "/data/psf_Pass5_v0_front.fits");
+   std::string filename(rootPath + "/data/psf_Pass5_v0_back.fits");
    std::string extension("RPSF");
-   std::string tablename("NCORE");
+//   std::string tablename("NCORE");
+   std::string tablename("SIGMA");
    
    FitsTable table(filename, extension, tablename);
 
@@ -68,25 +70,28 @@ void Psf_test() {
    irfInterface::IrfsFactory * myFactory = 
       irfInterface::IrfsFactory::instance();
 
-   irfInterface::Irfs * irfs(myFactory->create("P5_v0_source/front"));
+//   irfInterface::Irfs * irfs(myFactory->create("P5_v0_source/front"));
+   irfInterface::Irfs * irfs(myFactory->create("P5_v0_source/back"));
    
    irfInterface::IPsf * psf_p5(irfs->psf());
 
    std::string rootPath(::getenv("LATRESPONSEROOT"));
-   std::string filename(rootPath + "/data/psf_Pass5_v0_front.fits");
+//   std::string filename(rootPath + "/data/psf_Pass5_v0_front.fits");
+   std::string filename(rootPath + "/data/psf_Pass5_v0_back.fits");
    bool isFront;
 
-   double inclination(10);
+   double inclination(80);
 
    double energy(100);
    astro::SkyDir srcDir(0, inclination);
    astro::SkyDir scZAxis(0, 0);
    astro::SkyDir scXAxis(0, 90);
 
-   astro::SkyDir roiCenter(0, 5);
+   astro::SkyDir roiCenter(0, 30);
    double roi_radius(20);
 
-   Psf my_psf(filename, isFront=true);
+//   Psf my_psf(filename, isFront=true);
+   Psf my_psf(filename, isFront=false);
    std::cout << "Comparing Psf values: "  << std::endl;
    for (double sep(0.1); sep < 20.; sep += 1) {
       std::cout << sep << "  "
@@ -105,16 +110,17 @@ void Psf_test() {
          irfInterface::IPsf::psfIntegral(&my_psf, energy, srcDir, 
                                          scZAxis, scXAxis, cones);
 
-//       double ref_value2 = 
-//          irfInterface::IPsf::psfIntegral(psf_p5, energy, srcDir, 
-//                                          scZAxis, scXAxis, cones);
+      double ref_value2 = 
+         irfInterface::IPsf::psfIntegral(psf_p5, energy, srcDir, 
+                                         scZAxis, scXAxis, cones);
 
       std::cout << roi_radius << "  "
                 << my_psf.angularIntegral(energy, srcDir, scZAxis, 
-                                          scXAxis, cones)/ref_value << "  "
+                                          scXAxis, cones) << "  "
+                << ref_value << "  "
                 << psf_p5->angularIntegral(energy, srcDir, scZAxis, 
-                                           scXAxis, cones)/ref_value
-                << std::endl;
+                                           scXAxis, cones) << "  "
+                << ref_value2 << std::endl;
    }
    std::cout << std::endl;
    delete irfs;
@@ -199,13 +205,13 @@ int main() {
 
    irfLoader::Loader_go();
 
-   compare_to_handoff_response();
-   Psf_test();
-   Aeff_test();
-   Edisp_test();
+    compare_to_handoff_response();
+//   Psf_test();
+//    Aeff_test();
+//    Edisp_test();
 
-   IrfLoader_test();
+//    IrfLoader_test();
 
-   CaldbDate_test();
+//    CaldbDate_test();
 
 }

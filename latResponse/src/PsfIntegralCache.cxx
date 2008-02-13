@@ -71,6 +71,13 @@ double PsfIntegralCache::bilinear(double sigma, double gamma, size_t ipsi,
       m_angularIntegral.at(ipsi).at((isig + 1)*m_gammas.size() + igam + 1);
    double value = (1. - tt)*(1. - uu)*y1 + tt*(1. - uu)*y2 
       + tt*uu*y3 + (1. - tt)*uu*y4;
+//    std::cout << "latResponse: " << gamma << "  " << log(sigma) << "  ";
+//    std::cout << tt << "  "
+//              << uu << "  "
+//              << y1 << "  "
+//              << y2 << "  "
+//              << y3 << "  "
+//              << y4 << std::endl;
    return value;
 }
 
@@ -157,9 +164,14 @@ void PsfIntegralCache::fillParamArrays() {
 
    size_t nsig(50);
 // Smallest angular scales expected at highest energies.
-   double sigmin(m_psf.scaleFactor(5.62e6)*0.15);
-   double sigmax(m_psf.scaleFactor(30)*2.0);
+//    double sigmin(m_psf.scaleFactor(5.62e6)*0.15);
+//    double sigmax(m_psf.scaleFactor(30)*2.0);
+   bool isFront;
+   double sigmin(m_psf.scaleFactor(5.62e6, isFront=true)*0.15);
+   double sigmax(m_psf.scaleFactor(30, isFront=false)*2.0);
    logArray(sigmin, sigmax, nsig, m_sigmas);
+
+//   std::cout << "latResponse: " << sigmin << "  " << sigmax << std::endl;
 }
 
 void PsfIntegralCache::linearArray(double xmin, double xmax, size_t nx, 

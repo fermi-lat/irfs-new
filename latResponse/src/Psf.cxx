@@ -236,6 +236,19 @@ double Psf::scaleFactor(double energy) const {
    return std::sqrt(::sqr(m_par0*tt) + ::sqr(m_par1));
 }
 
+double Psf::scaleFactor(double energy, bool isFront) const {
+   double par0, par1;
+   if (isFront) {
+      par0 = m_psf_pars.at(0);
+      par1 = m_psf_pars.at(1);
+   } else {
+      par0 = m_psf_pars.at(2);
+      par1 = m_psf_pars.at(3);
+   }      
+   double tt(std::pow(energy/100., m_index));
+   return std::sqrt(::sqr(par0*tt) + ::sqr(par1));
+}
+
 void Psf::readScaling(const std::string & fitsfile, bool isFront,
                       const std::string & extname) {
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
@@ -253,6 +266,9 @@ void Psf::readScaling(const std::string & fitsfile, bool isFront,
       m_par1 = values.at(3);
    }
    m_index = values.at(4);
+
+   m_psf_pars.resize(values.size());
+   std::copy(values.begin(), values.end(), m_psf_pars.begin());
 
    delete table;
 }
