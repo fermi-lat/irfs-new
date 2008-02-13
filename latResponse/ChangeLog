@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Feb 13 14:59:45 PST 2008
+irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+use const-correctness bug-fix; uncomment tests
+    *
+------------------------------------------------------------
+User: jchiang  Wed Feb 13 14:59:45 PST 2008
 irfs/latResponse/src
 
 Modified Files:
