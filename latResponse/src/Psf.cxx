@@ -216,7 +216,6 @@ double * Psf::pars(double energy, double costh) const {
 // Ensure that the Psf integrates to unity.
    double norm;
    static double theta_max(M_PI/2.);
-//   if (energy < 70.) { // Use the *correct* integral of Psf over solid angle.
    if (energy < 120.) { // Use the *correct* integral of Psf over solid angle.
       PsfIntegrand foo(par);
       double err(1e-5);

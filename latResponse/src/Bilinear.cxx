@@ -104,11 +104,6 @@ double Bilinear::operator()(float x, float y) const {
    double y3(m_values.at(xsize*(j) + (i)));
    double y4(m_values.at(xsize*(j) + (i-1)));
 
-//    std::cout << x << "  " << tt << "  "
-//              << y << "  " << uu << "  "
-//              << y1 << "  " << y2 << "  "
-//              << y3 << "  " << y4 << "  latResponse" << std::endl;
-
    double value = ( (1. - tt)*(1. - uu)*y1 
                     + tt*(1. - uu)*y2  
                     + tt*uu*y3 

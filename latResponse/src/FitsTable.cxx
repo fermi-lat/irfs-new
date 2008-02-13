@@ -63,9 +63,8 @@ FitsTable::FitsTable(const std::string & filename,
          m_maxValue = m_values.at(i);
       }
    }
-//   m_interpolator = new Bilinear(m_logEnergies, m_mus, m_values);
 
-// Replicate nasty TH2 and RootEval::Table behavior from handoff_response,
+// Replicate nasty THF2 and RootEval::Table behavior from handoff_response,
 // by passing xlo, xhi, ylo, yhi values
    float xlo, xhi, ylo, yhi;
    m_interpolator = new Bilinear(m_logEnergies, m_mus, m_values,
@@ -81,7 +80,6 @@ FitsTable::FitsTable(const FitsTable & rhs)
      m_values(rhs.m_values), m_ebounds(rhs.m_ebounds),
      m_tbounds(rhs.m_tbounds), m_minCosTheta(rhs.m_minCosTheta), 
      m_maxValue(rhs.m_maxValue) {
-//    m_interpolator = new Bilinear(m_logEnergies, m_mus, m_values);
    m_interpolator = new Bilinear(m_logEnergies, m_mus, m_values,
                                  0, 10, -1, 1);
 }

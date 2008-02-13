@@ -36,7 +36,6 @@ double Aeff::value(double energy, double theta, double phi,
    (void)(phi);
    (void)(time);
    double costheta(std::cos(theta*M_PI/180.));
-   double test_value = m_aeffTable.minCosTheta();
    if (costheta < m_aeffTable.minCosTheta()) {
       return 0;
    }
