@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Feb 13 11:36:23 PST 2008
+users/jchiang/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+tell Psf class if the input is for the front or the back of the lat
+    *
+------------------------------------------------------------
+User: jchiang  Wed Feb 13 11:36:23 PST 2008
 users/jchiang/latResponse/src
 
 Modified Files:
