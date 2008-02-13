@@ -53,7 +53,7 @@ void compare_to_handoff_response() {
       
    bool interpolate;
    std::cout << "Comparing Table results to handoff_response:" << std::endl;
-   for (double mu(table.minCosTheta()); mu <= 0.31; mu += 0.1) {
+   for (double mu(table.minCosTheta()+0.06); mu <= 0.97; mu += 0.1) {
       for (double logE(1.5); logE < 5.5; logE += 0.25) {
          std::cout << mu << "  " << logE << std::endl;
          std::cout << table.value(logE, mu) << "  "
@@ -80,9 +80,9 @@ void Psf_test() {
    std::string filename(rootPath + "/data/psf_Pass5_v0_back.fits");
    bool isFront;
 
-   double inclination(80);
+   double inclination(30);
 
-   double energy(100);
+   double energy(130);
    astro::SkyDir srcDir(0, inclination);
    astro::SkyDir scZAxis(0, 0);
    astro::SkyDir scXAxis(0, 90);
@@ -90,8 +90,12 @@ void Psf_test() {
    astro::SkyDir roiCenter(0, 30);
    double roi_radius(20);
 
-//   Psf my_psf(filename, isFront=true);
-   Psf my_psf(filename, isFront=false);
+//   irfInterface::Irfs * my_irfs(myFactory->create("PASS5_v0::FRONT"));
+   irfInterface::Irfs * my_irfs(myFactory->create("PASS5_v0::BACK"));
+   irfInterface::IPsf & my_psf(*(my_irfs->psf()));
+
+// //   Psf my_psf(filename, isFront=true);
+//    Psf my_psf(filename, isFront=false);
    std::cout << "Comparing Psf values: "  << std::endl;
    for (double sep(0.1); sep < 20.; sep += 1) {
       std::cout << sep << "  "
@@ -129,15 +133,15 @@ void Psf_test() {
 void Aeff_test() {
    irfInterface::IrfsFactory * myFactory = 
       irfInterface::IrfsFactory::instance();
-   irfInterface::Irfs * irfs(myFactory->create("P5_v0_source/front"));
+   irfInterface::Irfs * irfs(myFactory->create("P5_v0_source/back"));
 
    irfInterface::IAeff & aeff_p5(*irfs->aeff());
    
    std::string rootPath(::getenv("LATRESPONSEROOT"));
-   std::string filename(rootPath + "/data/aeff_Pass5_v0_front.fits");
+   std::string filename(rootPath + "/data/aeff_Pass5_v0_back.fits");
    Aeff aeff(filename);
 
-   double theta(10);
+   double theta(60);
    double emin(30);
    double emax(3e5);
    size_t nee(20);
@@ -205,9 +209,9 @@ int main() {
 
    irfLoader::Loader_go();
 
-    compare_to_handoff_response();
-//   Psf_test();
-//    Aeff_test();
+//     compare_to_handoff_response();
+   Psf_test();
+//     Aeff_test();
 //    Edisp_test();
 
 //    IrfLoader_test();

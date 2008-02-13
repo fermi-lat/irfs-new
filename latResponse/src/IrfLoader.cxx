@@ -83,7 +83,13 @@ void IrfLoader::addIrfs(const std::string & version,
                                edisp_file, hdu, "GLAST", "LAT",
                                "NONE", date, "00:00:00");
    irfInterface::IAeff * aeff = new Aeff(aeff_file);
-   irfInterface::IPsf * psf = new Psf(psf_file);
+   bool isFront;
+   irfInterface::IPsf * psf;
+   if (irfID == 0) {
+      psf = new Psf(psf_file, isFront=true);
+   } else {
+      psf = new Psf(psf_file, isFront=false);
+   }      
    irfInterface::IEdisp * edisp = new Edisp(edisp_file);
    
    myFactory->addIrfs(irfName, new irfInterface::Irfs(aeff, psf, edisp, irfID));
@@ -123,6 +129,8 @@ void IrfLoader::loadCustomIrfs() const {
    irfInterface::IrfsFactory * myFactory(irfInterface::IrfsFactory::instance());
    const std::vector<std::string> & irfNames(myFactory->irfNames());
 
+   bool isFront;
+
    for (size_t i(0); i < m_customIrfNames.size(); i++) {
       std::string section("front");
       std::string irfName(m_customIrfNames.at(i) + "::" + section);
@@ -135,7 +143,7 @@ void IrfLoader::loadCustomIrfs() const {
             ::appendFileName(irfDir,"edisp_"+irfName+"_"+section+".fits");
          myFactory->addIrfs(irfName, 
                             new irfInterface::Irfs(new Aeff(aeff_file),
-                                                   new Psf(psf_file),
+                                                   new Psf(psf_file, isFront=true),
                                                    new Edisp(edisp_file), 0));
       }
       section = "back";
@@ -149,7 +157,7 @@ void IrfLoader::loadCustomIrfs() const {
             ::appendFileName(irfDir,"edisp_"+irfName+"_"+section+".fits");
          myFactory->addIrfs(irfName,
                             new irfInterface::Irfs(new Aeff(aeff_file),
-                                                   new Psf(psf_file),
+                                                   new Psf(psf_file, isFront=false),
                                                    new Edisp(edisp_file), 1));
       }
    }
