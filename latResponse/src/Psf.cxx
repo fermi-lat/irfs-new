@@ -42,8 +42,9 @@ Psf::Psf(const std::string & fitsfile, bool isFront,
 Psf::Psf(const Psf & rhs) : irfInterface::IPsf(rhs), 
                             m_parTables(rhs.m_parTables), 
                             m_par0(rhs.m_par0), m_par1(rhs.m_par1),
-                            m_index(rhs.m_index), m_loge_last(0), 
-                            m_costh_last(0), m_integralCache(0) {}
+                            m_index(rhs.m_index), m_psf_pars(rhs.m_psf_pars),
+                            m_loge_last(0), m_costh_last(0), 
+                            m_integralCache(0) {}
    
 Psf::~Psf() {
    delete m_integralCache;

@@ -35,9 +35,13 @@ double Aeff::value(double energy, double theta, double phi,
                    double time) const {
    (void)(phi);
    (void)(time);
+   double costheta(std::cos(theta*M_PI/180.));
+   double test_value = m_aeffTable.minCosTheta();
+   if (costheta < m_aeffTable.minCosTheta()) {
+      return 0;
+   }
    bool interpolate;
-   return m_aeffTable.value(std::log10(energy), std::cos(theta*M_PI/180.),
-                            interpolate=true)*1e4;
+   return m_aeffTable.value(std::log10(energy), costheta, interpolate=true)*1e4;
 }
 
 double Aeff::upperLimit() const {

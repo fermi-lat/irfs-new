@@ -8,12 +8,14 @@
 #include <stdexcept>
 #include <vector>
 
+#include "facilities/commonUtilities.h"
 #include "facilities/Util.h"
 
 #include "tip/IFileSvc.h"
 #include "tip/Table.h"
 
 #include "st_facilities/Env.h"
+#include "st_facilities/Util.h"
 
 #include "irfInterface/IrfRegistry.h"
 #include "irfInterface/Irfs.h"
@@ -169,8 +171,11 @@ void IrfLoader::read_caldb_indx() {
    if (!caldb_path) {
       throw std::runtime_error("CALDB env var not set");
    }
-/// @todo generalize to use CALDBCONFIG file.   
-   std::string caldb_indx(caldb_path + std::string("/caldb.indx"));
+   std::string caldb_indx;
+   find_cif(caldb_indx);
+//   caldb_indx = st_facilities::Env::appendFileName(caldb_path, caldb_indx);
+   caldb_indx = facilities::commonUtilities::joinPath(caldb_path, caldb_indx);
+
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
    const tip::Table * table = fileSvc.readTable(caldb_indx, "CIF");
    
@@ -193,6 +198,24 @@ void IrfLoader::read_caldb_indx() {
          }
       }
    }
+}
+
+void IrfLoader::find_cif(std::string & caldb_indx) const {
+   char * caldb_config = ::getenv("CALDBCONFIG");
+   if (!caldb_config) {
+      throw std::runtime_error("CALDBCONFIG env var not set");
+   }
+   std::vector<std::string> lines;
+   st_facilities::Util::readLines(caldb_config, lines);
+   for (size_t i(0); i < lines.size(); i++) {
+      std::vector<std::string> tokens;
+      facilities::Util::stringTokenize(lines.at(i), " \t", tokens);
+      if (tokens.at(0) == "GLAST" && tokens.at(1) == "LAT") {
+         caldb_indx = tokens.at(4);
+         return;
+      }
+   }
+   throw std::runtime_error("GLAST LAT not found in caldb.config file");
 }
 
 } // namespace latResponse
