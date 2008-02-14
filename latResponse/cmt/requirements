@@ -1,5 +1,5 @@
 package latResponse
-version v0
+version v1
 
 author J. Chiang <jchiang@slac.stanford.edu>
 
@@ -15,9 +15,6 @@ use st_stream v*
 use irfUtil v* irfs
 use caldb v* irfs
 use tip v*
-
-#use irfLoader v* irfs
-#use handoff_response v* irfs
 
 apply_pattern package_include
 apply_pattern package_linkopts
