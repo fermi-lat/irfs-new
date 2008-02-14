@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Feb 14 15:25:09 PST 2008
+irfs/latResponse/src
+
+Modified Files:
+	FitsTable.cxx IrfLoader.cxx PsfIntegralCache.cxx 
+Log Message:
+add #include <algorithm> for Windows; tagging v1r0p1
+    *
+------------------------------------------------------------
+User: jchiang  Thu Feb 14 15:25:09 PST 2008
 irfs/latResponse/doc
 
 Modified Files:
