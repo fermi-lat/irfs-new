@@ -9,6 +9,8 @@
  * $Header$
  */
 
+#include <algorithm>
+
 #include "st_facilities/GaussianQuadrature.h"
 
 #include "Psf.h"
