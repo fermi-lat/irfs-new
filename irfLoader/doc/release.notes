@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  14-Feb-08 v1r1    JC    add latResponse
   27-Jan-08 v1r0p5  JC    comment out egretResponse reference in req file
   25-Jan-08 v1r0p4  JC    comment out egretResponse references in Registrar.cxx
   02-Mar-07 v1r0p2  JC    refactor unit tests
