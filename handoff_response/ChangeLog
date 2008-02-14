@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: burnett  Wed Feb 13 19:13:06 PST 2008
+irfs/handoff_response/src/gen
+
+Modified Files:
+	DispPlots.cxx PsfPlots.cxx 
+Log Message:
+allow for the possibility of not generating postscript files
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-03-08-04, operation: add
 Package: handoff_response
