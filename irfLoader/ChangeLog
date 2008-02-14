@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Feb 14 11:53:05 PST 2008
+irfs/irfLoader/src
+
+Modified Files:
+	Registrar.cxx 
+Log Message:
+add latResponse
+    *
+------------------------------------------------------------
+User: jchiang  Thu Feb 14 11:53:05 PST 2008
 irfs/irfLoader/cmt
 
 Modified Files:
