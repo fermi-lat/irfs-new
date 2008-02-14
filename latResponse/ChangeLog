@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb 14 11:51:10 PST 2008
+irfs/latResponse/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add release.notes; tagging v1
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 14 09:55:33 PST 2008
 irfs/latResponse/src/test
 
