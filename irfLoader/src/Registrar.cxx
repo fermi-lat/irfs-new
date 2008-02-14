@@ -18,6 +18,7 @@
 #include "dc2Response/IrfLoader.h"
 #include "g25Response/IrfLoader.h"
 #include "handoff_response/MyIrfLoader.h"
+#include "latResponse/IrfLoader.h"
 #include "testResponse/IrfLoader.h"
 //#include "egretResponse/IrfLoader.h"
 
@@ -33,6 +34,7 @@ Registrar::Registrar() {
    registry.registerLoader(new dc2Response::IrfLoader());
    registry.registerLoader(new g25Response::IrfLoader());
    registry.registerLoader(new handoff_response::MyIrfLoader());
+   registry.registerLoader(new latResponse::IrfLoader());
    registry.registerLoader(new testResponse::IrfLoader());
 //   registry.registerLoader(new egretResponse::IrfLoader());
 

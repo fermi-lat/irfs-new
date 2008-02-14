@@ -18,6 +18,7 @@ use dc1aResponse v* irfs
 use dc2Response v* irfs
 use g25Response v* irfs
 use handoff_response v* irfs
+use latResponse v* irfs
 use testResponse v* irfs
 #use egretResponse v* irfs
 
