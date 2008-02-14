@@ -1,221 +1,329 @@
-/** 
+/**
  * @file test.cxx
- * @brief Test code and scaffolding for latResponse package.
+ * @brief Test program for latResponse package
  * @author J. Chiang
  *
- * $Header$
- */
+* $Header$
+*/
 
 #ifdef TRAP_FPE
 #include <fenv.h>
 #endif
 
-#include <cassert>
 #include <cmath>
+#include <cstdlib>
 
 #include <iostream>
-#include <string>
-#include <vector>
+#include <stdexcept>
 
-#include "facilities/Util.h"
+#include <cppunit/ui/text/TextTestRunner.h>
+#include <cppunit/extensions/HelperMacros.h>
 
-#include "irfInterface/Irfs.h"
+#include "astro/SkyDir.h"
+
 #include "irfInterface/IrfsFactory.h"
 
-#include "irfLoader/Loader.h"
-
-#include "handoff_response/../src/irfs/FitsTable.h"
-#include "handoff_response/../src/irfs/Table.h"
-
-#include "latResponse/FitsTable.h"
 #include "latResponse/IrfLoader.h"
 
-#include "Aeff.h"
-#include "CaldbDate.h"
-#include "Edisp.h"
-#include "Psf.h"
+namespace {
+   std::string getEnv(const std::string & envVarName) {
+      char * envvar(::getenv(envVarName.c_str()));
+      if (envvar == 0) {
+         throw std::runtime_error("Please set the " + envVarName 
+                                  + " environment variable.");
+      }
+      return envvar;
+   }
+}
 
-using namespace latResponse;
+class LatResponseTests : public CppUnit::TestFixture {
 
-void compare_to_handoff_response() {
-   std::string rootPath(::getenv("LATRESPONSEROOT"));
+   CPPUNIT_TEST_SUITE(LatResponseTests);
 
-//   std::string filename(rootPath + "/data/psf_Pass5_v0_front.fits");
-   std::string filename(rootPath + "/data/psf_Pass5_v0_back.fits");
-   std::string extension("RPSF");
-//   std::string tablename("NCORE");
-   std::string tablename("SIGMA");
-   
-   FitsTable table(filename, extension, tablename);
+   CPPUNIT_TEST(irf_assignment);
 
-   handoff_response::FitsTable fitsTable(filename, extension);
-   handoff_response::Table old_table(fitsTable.tableData(tablename));
-      
-   bool interpolate;
-   std::cout << "Comparing Table results to handoff_response:" << std::endl;
-   for (double mu(table.minCosTheta()+0.06); mu <= 0.97; mu += 0.1) {
-      for (double logE(1.5); logE < 5.5; logE += 0.25) {
-         std::cout << mu << "  " << logE << std::endl;
-         std::cout << table.value(logE, mu) << "  "
-                   << old_table.value(logE, mu) << "  "
-                   << table.value(logE, mu, interpolate=false) << "  "
-                   << old_table.value(logE, mu, interpolate=false) 
-                   << std::endl;
+   CPPUNIT_TEST(psf_zero_separation);
+   CPPUNIT_TEST(psf_normalization);
+
+   CPPUNIT_TEST(edisp_normalization);
+   CPPUNIT_TEST(edisp_sampling);
+
+   CPPUNIT_TEST_SUITE_END();
+
+public:
+
+   void setUp();
+   void tearDown();
+
+   void irf_assignment();
+
+   void psf_zero_separation();
+   void psf_normalization();
+
+   void edisp_normalization();
+   void edisp_sampling();
+
+private:
+
+   irfInterface::IrfsFactory * m_irfsFactory;
+   std::vector<std::string> m_irfNames;
+
+};
+
+void LatResponseTests::setUp() {
+   m_irfsFactory = irfInterface::IrfsFactory::instance();
+   m_irfsFactory->getIrfsNames(m_irfNames);
+}
+
+void LatResponseTests::tearDown() {
+   m_irfNames.clear();
+}
+
+void LatResponseTests::irf_assignment() {
+// This test assumes there is only one set of front/back irfs.
+   for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
+        name != m_irfNames.end(); ++name) {
+      if (name->find("front") != std::string::npos) {
+         irfInterface::Irfs * my_irfs(m_irfsFactory->create(*name));
+         CPPUNIT_ASSERT(my_irfs->irfID() == 0);
+         delete my_irfs;
+      }
+      if (name->find("back") != std::string::npos) {
+         irfInterface::Irfs * my_irfs(m_irfsFactory->create(*name));
+         CPPUNIT_ASSERT(my_irfs->irfID() == 1);
+         delete my_irfs;
       }
    }
-   std::cout << std::endl;
 }
 
-void Psf_test() {
-   irfInterface::IrfsFactory * myFactory = 
-      irfInterface::IrfsFactory::instance();
+void LatResponseTests::psf_zero_separation() {
+   double energy(1e3);
+   double theta(0);
+   double phi(0);
 
-//   irfInterface::Irfs * irfs(myFactory->create("P5_v0_source/front"));
-   irfInterface::Irfs * irfs(myFactory->create("P5_v0_source/back"));
+   double delta_sep(1e-4);
+   double tol(1e-3);
    
-   irfInterface::IPsf * psf_p5(irfs->psf());
-
-   std::string rootPath(::getenv("LATRESPONSEROOT"));
-//   std::string filename(rootPath + "/data/psf_Pass5_v0_front.fits");
-   std::string filename(rootPath + "/data/psf_Pass5_v0_back.fits");
-   bool isFront;
-
-   double inclination(30);
-
-   double energy(130);
-   astro::SkyDir srcDir(0, inclination);
-   astro::SkyDir scZAxis(0, 0);
-   astro::SkyDir scXAxis(0, 90);
-
-   astro::SkyDir roiCenter(0, 30);
-   double roi_radius(20);
-
-//   irfInterface::Irfs * my_irfs(myFactory->create("PASS5_v0::FRONT"));
-   irfInterface::Irfs * my_irfs(myFactory->create("PASS5_v0::BACK"));
-   irfInterface::IPsf & my_psf(*(my_irfs->psf()));
-
-// //   Psf my_psf(filename, isFront=true);
-//    Psf my_psf(filename, isFront=false);
-   std::cout << "Comparing Psf values: "  << std::endl;
-   for (double sep(0.1); sep < 20.; sep += 1) {
-      std::cout << sep << "  "
-                << my_psf.value(sep, energy, inclination, 0) << "  "
-                << psf_p5->value(sep, energy, inclination, 0) << std::endl;
+   for (std::vector<std::string>::const_iterator name = m_irfNames.begin();
+        name != m_irfNames.end(); ++name) {
+      irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
+      const irfInterface::IPsf & psf(*myIrfs->psf());
+      for (theta = 0; theta < 70; theta += 5.) {
+         double value0(psf.value(0, energy, theta, phi));
+         double value1(psf.value(delta_sep, energy, theta, phi));
+         if (std::fabs((value0 - value1)/value0) >= tol) {
+            std::cout << *name << ": \n";
+            std::cout << "theta = " << theta << ": "
+                      << "psf value at 0 = " << value0 << "  "
+                      << "psf value at 1e-4 = " << value1 << std::endl;
+         }
+         CPPUNIT_ASSERT(std::fabs((value0 - value1)/value0) < tol);
+      }
+      delete myIrfs;
    }
-   std::cout << std::endl;
-
-   std::cout << "Comparing Psf integrals: "  << std::endl;
-   for (roi_radius = 0.5; roi_radius < 30; roi_radius += 1) {
-      irfInterface::AcceptanceCone my_cone(roiCenter, roi_radius);
-      std::vector<irfInterface::AcceptanceCone *> cones;
-      cones.push_back(&my_cone);
-
-      double ref_value = 
-         irfInterface::IPsf::psfIntegral(&my_psf, energy, srcDir, 
-                                         scZAxis, scXAxis, cones);
-
-      double ref_value2 = 
-         irfInterface::IPsf::psfIntegral(psf_p5, energy, srcDir, 
-                                         scZAxis, scXAxis, cones);
-
-      std::cout << roi_radius << "  "
-                << my_psf.angularIntegral(energy, srcDir, scZAxis, 
-                                          scXAxis, cones) << "  "
-                << ref_value << "  "
-                << psf_p5->angularIntegral(energy, srcDir, scZAxis, 
-                                           scXAxis, cones) << "  "
-                << ref_value2 << std::endl;
-   }
-   std::cout << std::endl;
-   delete irfs;
 }
 
-void Aeff_test() {
-   irfInterface::IrfsFactory * myFactory = 
-      irfInterface::IrfsFactory::instance();
-   irfInterface::Irfs * irfs(myFactory->create("P5_v0_source/back"));
+void LatResponseTests::psf_normalization() {
+   double phi(0);
 
-   irfInterface::IAeff & aeff_p5(*irfs->aeff());
-   
-   std::string rootPath(::getenv("LATRESPONSEROOT"));
-   std::string filename(rootPath + "/data/aeff_Pass5_v0_back.fits");
-   Aeff aeff(filename);
+   double tol(1e-2);
 
-   double theta(60);
+   std::vector<double> psi;
+   double psimin(1e-4);
+   double psimax(90);
+   size_t npsi(1000);
+   double dpsi(std::log(psimax/psimin)/(npsi-1));
+   psi.push_back(0);
+   for (size_t i = 0; i < npsi; i++) {
+      psi.push_back(psimin*std::exp(i*dpsi));
+   }
+
+   std::vector<double> energies;
+   double emin(30);
+   double emax(5e5);
+   size_t nee(100);
+   double dee(std::log(emax/emin)/(nee-1));
+   for (size_t i = 0; i < nee; i++) {
+      energies.push_back(emin*std::exp(i*dee));
+   }
+
+   std::vector<double> thetas;
+   double thmin(0);
+   double thmax(70);
+   size_t nth(20);
+   double dth((thmax - thmin)/(nth-1));
+   for (size_t i(0); i < nth; i++) {
+      thetas.push_back(i*dth + thmin);
+   }
+
+   std::cout << "PSF integral values that fail "
+             << int(tol*100) << "% tolerance: \n"
+             << "energy  inclination  integral est.  angularIntegral\n";
+
+   bool integralFailures(false);
+
+   for (std::vector<std::string>::const_iterator name = m_irfNames.begin();
+        name != m_irfNames.end(); ++name) {
+      std::cout << *name << ": \n";
+      irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
+      const irfInterface::IPsf & psf(*myIrfs->psf());
+      
+      for (std::vector<double>::const_iterator energy = energies.begin();
+           energy != energies.end(); ++energy) {
+         for (std::vector<double>::const_iterator theta = thetas.begin();
+              theta != thetas.end(); ++theta) {
+           
+            std::vector<double> psf_values;
+            for (size_t i = 0; i < psi.size(); i++) {
+               psf_values.push_back(psf.value(psi.at(i), *energy, 
+                                              *theta, phi));
+            }
+            
+            double integral(0);
+            for (size_t i = 0; i < psi.size() - 1; i++) {
+               integral += ((psf_values.at(i)*std::sin(psi.at(i)*M_PI/180.) + 
+                        psf_values.at(i+1)*std::sin(psi.at(i+1)*M_PI/180.))/2.)
+                  *(psi.at(i+1) - psi.at(i))*M_PI/180.;
+            }
+            integral *= 2.*M_PI;
+            double angInt(psf.angularIntegral(*energy, *theta, phi, psimax));
+            if (std::fabs(integral - 1.) >= tol) { 
+               std::cout << *energy  << "      " 
+                         << *theta   << "           "
+                         << integral << "        "
+                         << angInt << std::endl;
+               integralFailures = true;
+            }
+//             CPPUNIT_ASSERT(std::fabs(integral - 1.) < tol);
+//             CPPUNIT_ASSERT(std::fabs(angInt - 1.) < tol);
+         }
+      }
+      delete myIrfs;
+   }
+   CPPUNIT_ASSERT(!integralFailures);
+}
+
+void LatResponseTests::edisp_normalization() {
+
+   std::vector<double> energies;
    double emin(30);
    double emax(3e5);
-   size_t nee(20);
-   double estep(std::log(emax/emin)/(nee - 1));
-   std::cout << "Comparing Effective Areas: " << std::endl;
-   for (size_t k(0); k < nee; k++) {
-      double energy(emin*std::exp(estep*k));
-      std::cout << energy << "  "
-                << aeff.value(energy, theta, 0) << "  "
-                << aeff_p5.value(energy, theta, 0) << std::endl;
+   size_t nee(10);
+   double dee(std::log(emax/emin)/(nee-1));
+   for (size_t i = 0; i < nee; i++) {
+      energies.push_back(emin*std::exp(i*dee));
    }
-   std::cout << std::endl;
-   delete irfs;
-}
 
-void Edisp_test() {
-   irfInterface::IrfsFactory * myFactory = 
-      irfInterface::IrfsFactory::instance();
-   irfInterface::Irfs * irfs(myFactory->create("P5_v0_source/front"));
-
-   irfInterface::IEdisp & edisp_p5(*irfs->edisp());
-   
-   std::string rootPath(::getenv("LATRESPONSEROOT"));
-   std::string filename(rootPath + "/data/edisp_Pass5_v0_front.fits");
-   Edisp edisp(filename);
-
-   double e0(100);
-   double theta(10);
-   double emin(e0*0.7);
-   double emax(e0*1.3);
-   size_t nee(20);
-   double estep((emax - emin)/(nee - 1));
-   std::cout << "Comparing energy dispersion values: " << std::endl;
-   for (size_t k(0); k < nee; k++) {
-      double energy(emin + estep*k);
-      std::cout << energy << "  "
-                << edisp.value(energy, e0, theta, 0) << "  "
-                << edisp_p5.value(energy, e0, theta, 0) << std::endl;
+   std::vector<double> thetas;
+   double thmin(0);
+   double thmax(60);
+   size_t nth(6);
+   double dth((thmax - thmin)/(nth-1));
+   for (size_t i = 0; i < nth; i++) {
+      thetas.push_back(i*dth + thmin);
    }
-   std::cout << std::endl;
-   delete irfs;
+
+   double phi(0);
+
+   double tol(1e-2);
+
+   bool integralFailures(false);
+   std::cout << "Energy dispersion integral values that fail "
+             << int(tol*100) << "% tolerance: \n"
+             << "energy  inclination  integral \n";
+
+   for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
+        name != m_irfNames.end(); ++name) {
+      std::cout << *name << ": \n";
+      irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
+      const irfInterface::IEdisp & edisp(*myIrfs->edisp());
+      for (std::vector<double>::const_iterator energy(energies.begin());
+           energy != energies.end(); ++energy) {
+         double elower(*energy/10.);
+         double eupper(*energy*10.);
+         for (std::vector<double>::const_iterator theta(thetas.begin());
+              theta != thetas.end(); ++theta) {
+            double integral(edisp.integral(elower, eupper, *energy,
+                                           *theta, phi));
+            if (std::fabs(integral - 1.) >= tol) {
+               std::cout << *energy << "     "
+                         << *theta  << "          "
+                         << integral << std::endl;
+               integralFailures = true;
+            }
+//            CPPUNIT_ASSERT(std::fabs(integral - 1.) < tol);
+         }
+      }
+      delete myIrfs;
+   }
+   CPPUNIT_ASSERT(!integralFailures);
 }
 
-void IrfLoader_test() {
-   IrfLoader irfLoader;
-   irfLoader.loadIrfs();
+void LatResponseTests::edisp_sampling() {
+// Just exercise the energy dispersion sampling to look for floating
+// point exceptions.
+   std::vector<double> energies;
+   double emin(1e5); //(10);
+   double emax(3e5);
+   size_t nee(10);
+   double dee(std::log(emax/emin)/(nee-1));
+   for (size_t i = 0; i < nee; i++) {
+      energies.push_back(emin*std::exp(i*dee));
+   }
 
-   irfInterface::IrfsFactory * myFactory = 
-      irfInterface::IrfsFactory::instance();
+   std::vector<double> thetas;
+   double thmin(0);
+   double thmax(60);
+   size_t nth(6);
+   double dth((thmax - thmin)/(nth-1));
+   for (size_t i = 0; i < nth; i++) {
+      thetas.push_back(i*dth + thmin);
+   }
 
-   myFactory->create("PASS4::FRONT");
+   size_t nsamp(20);
+
+   astro::SkyDir zAxis(0, 0);
+   astro::SkyDir xAxis(90, 0);
+
+   for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
+        name != m_irfNames.end(); ++name) {
+      irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
+      const irfInterface::IEdisp & edisp(*myIrfs->edisp());
+      for (std::vector<double>::const_iterator theta(thetas.begin());
+           theta != thetas.end(); ++theta) {
+         astro::SkyDir srcDir(0, *theta);
+         for (std::vector<double>::const_iterator energy(energies.begin());
+              energy != energies.end(); ++energy) {
+            for (size_t j = 0; j < nsamp; j++) {
+                try{
+                    edisp.appEnergy(*energy, srcDir, zAxis, xAxis);
+                }catch(const std::exception& e){
+                    std::cerr << "caught sampling error, "
+                        << (*energy)<<", "<<srcDir.dec() <<", " 
+                        << zAxis.dec() << ", " <<xAxis.dec()  << std::endl;
+                    throw;
+                }
+            }
+         }
+      }
+   }
 }
 
-void CaldbDate_test() {
-   CaldbDate date1("2007-10-01");
-   CaldbDate date2("2007-11-01");
-   assert(date1 < date2);
-   assert(date2 > date1);
-}
-
-int main() {
+int main(int argc, char* argv[]) {
 #ifdef TRAP_FPE
-   feenableexcept (FE_INVALID|FE_DIVBYZERO|FE_OVERFLOW);
+// Add floating point exception traps.
+   feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
 
-   irfLoader::Loader_go();
+   latResponse::IrfLoader myLoader;
+   myLoader.loadIrfs();
 
-   compare_to_handoff_response();
-   Psf_test();
-   Aeff_test();
-   Edisp_test();
-   
-   IrfLoader_test();
-
-   CaldbDate_test();
-
+   CppUnit::TextTestRunner runner;
+   runner.addTest(LatResponseTests::suite());
+   bool result(runner.run());
+   if (result) {
+      return 0;
+   } else {
+      return 1;
+   }
 }
