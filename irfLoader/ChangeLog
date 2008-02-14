@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb 14 11:53:05 PST 2008
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add latResponse
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfLoader-01-00-05, operation: add
 Package: irfLoader
