@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Feb 14 09:55:33 PST 2008
+irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+adopt test program from handoff_response, thereby removing circular dependency on irfLoader package
+    *
+------------------------------------------------------------
+User: jchiang  Thu Feb 14 09:55:33 PST 2008
 irfs/latResponse/cmt
 
 Modified Files:
