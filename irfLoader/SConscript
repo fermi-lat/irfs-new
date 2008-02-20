@@ -1,11 +1,12 @@
-import glob,os,platform
+#$id
+import platform
 
 Import('baseEnv')
 Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-if platform.system() == 'Linux':
+if baseEnv['PLATFORM'] != 'win32':
         progEnv.Append(CPPDEFINES = 'TRAP_FPE')
 
 irfLoaderLib = libEnv.StaticLibrary('irfLoader', listFiles(['src/*.cxx']))
