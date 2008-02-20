@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: golpa  Wed Feb 20 08:58:20 PST 2008
+irfs/irfLoader
+
+Modified Files:
+	SConscript irfLoaderLib.py 
+Log Message:
+Use SCons provided platform variable, latResponse is a dependent library, cosmetic changes
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfLoader-01-01-00, operation: add
 Package: irfLoader
