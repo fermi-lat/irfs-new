@@ -1,5 +1,16 @@
 ------------------------------------------------------------
 User: jchiang  Thu Feb 21 10:22:02 PST 2008
+irfs/caldb/CALDB/data/glast/lat/bcf/ea
+
+Added Files:
+	aeff_P5_v13_0_diff_back.fits aeff_P5_v13_0_diff_front.fits 
+	aeff_P5_v13_0_source_back.fits aeff_P5_v13_0_source_front.fits 
+	aeff_P5_v13_0_trans_back.fits aeff_P5_v13_0_trans_front.fits 
+Log Message:
+add P5_v13_0 irfs
+    *
+------------------------------------------------------------
+User: jchiang  Thu Feb 21 10:22:02 PST 2008
 irfs/caldb/CALDB/data/glast/lat
 
 Modified Files:
