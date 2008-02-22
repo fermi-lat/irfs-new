@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: golpa  Thu Feb 21 16:29:14 PST 2008
+irfs/latResponse
+
+Added Files:
+	SConscript latResponseLib.py 
+Log Message:
+inital import of SCons files
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-01-00-01, operation: add
 Package: latResponse
