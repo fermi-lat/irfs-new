@@ -1,0 +1,13 @@
+#$Id$
+Import('baseEnv')
+Import('listFiles')
+libEnv = baseEnv.Clone()
+progEnv = baseEnv.Clone()
+
+latResponseLib = libEnv.StaticLibrary('latResponse', listFiles(['src/*.cxx']))
+
+progEnv.Tool('latResponseLib')
+progEnv.Tool('addLibrary', library = baseEnv['cppunitLibs'])
+test_latResponse = progEnv.Program('test_latResponse', listFiles(['src/test/*.cxx']))
+
+progEnv.Tool('registerObjects', package = 'latResponse', libraries = [latResponseLib], testApps = [test_latResponse], includes = listFiles(['latResponse/*.h']))
