@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Feb 21 23:25:09 PST 2008
+irfs/irfLoader/pfiles
+
+Added Files:
+	gtirfs.par 
+Log Message:
+add gtirfs application
+    *
+------------------------------------------------------------
+User: jchiang  Thu Feb 21 23:25:09 PST 2008
 irfs/irfLoader/cmt
 
 Modified Files:
