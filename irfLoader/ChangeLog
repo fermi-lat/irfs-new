@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+TAG
+Tag name: v1r1, operation: mov
+Package: irfLoader
+User: glast  Fri Feb 22 13:35:07 2008
+Files:
+  irfLoader/SConscript  1.2
+  irfLoader/irfLoaderLib.py  1.2
+
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 21 23:25:09 PST 2008
 irfs/irfLoader/src/gtirfs
 
