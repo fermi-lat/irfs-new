@@ -32,6 +32,7 @@ macro_append ROOT_libs ""\
 
 
 #apply_pattern ST_app name=gtecorrect
+apply_pattern ST_app name=gtirfs
 
 private
 
