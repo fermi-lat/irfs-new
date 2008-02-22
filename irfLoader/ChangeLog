@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb 21 23:25:09 PST 2008
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add gtirfs application
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 21 23:24:37 PST 2008
 irfs/irfLoader/src/gtirfs
 
