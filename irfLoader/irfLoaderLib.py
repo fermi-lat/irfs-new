@@ -1,5 +1,7 @@
+#$Id$
 def generate(env, **kw):
-    env.Tool('addLibrary', library = ['irfLoader'], package = 'irfs/irfLoader')
+    if not kw.get('depsOnly',0):
+        env.Tool('addLibrary', library = ['irfLoader'])
     env.Tool('st_appLib')
     env.Tool('st_streamLib')
     env.Tool('tipLib')
@@ -12,6 +14,7 @@ def generate(env, **kw):
     env.Tool('g25ResponseLib')
     env.Tool('handoff_responseLib')
     env.Tool('testResponseLib')
+    env.Tool('latResponseLib')
 
 def exists(env):
     return 1
