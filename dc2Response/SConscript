@@ -1,13 +1,13 @@
-import glob,os,platform
-
+#$Id$
 Import('baseEnv')
 Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-if platform.system() == 'Linux':
-        progEnv.Append(CPPDEFINES = 'TRAP_FPE')
+if baseEnv['PLATFORM'] != "win32":
+        progEnv.AppendUnique(CPPDEFINES = ['TRAP_FPE'])
 
+libEnv.Tool('dc2ResponseLib', depsOnly = 1)
 dc2ResponseLib = libEnv.StaticLibrary('dc2Response', listFiles(['src/*.cxx']))
 
 progEnv.Tool('dc2ResponseLib')

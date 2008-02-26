@@ -1,5 +1,7 @@
+#$Id$
 def generate(env, **kw):
-    env.Tool('addLibrary', library = ['rootIrfLoader'], package = 'irfs/rootIrfLoader')
+    if not kw.get('depsOnly',0):
+        env.Tool('addLibrary', library = ['rootIrfLoader'])
     env.Tool('irfLoaderLib')
 
 def exists(env):

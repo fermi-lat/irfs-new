@@ -1,5 +1,7 @@
+#$Id$
 def generate(env, **kw):
-    env.Tool('addLibrary', library = ['handoff_response'], package = 'irfs/handoff_response')
+    if not kw.get('depsOnly',0):
+        env.Tool('addLibrary', library = ['handoff_response'])
     env.Tool('irfInterfaceLib')
     env.Tool('astroLib')
     env.Tool('st_facilitiesLib')

@@ -3,8 +3,8 @@
 #
 
 def generate(env, **kw):
-    env.Tool('addLibrary', library=['irfInterface'], 
-             package='irfs/irfInterface')
+    if not kw.get('depsOnly',0):
+        env.Tool('addLibrary', library=['irfInterface'])
     env.Tool('astroLib')
     env.Tool('st_facilitiesLib')
 

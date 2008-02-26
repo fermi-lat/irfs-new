@@ -1,6 +1,7 @@
 #$Id$
 def generate(env, **kw):
-    env.Tool('addLibrary', library = ['irfLoader'], package = 'irfs/irfLoader')
+    if not kw.get('depsOnly',0):
+        env.Tool('addLibrary', library = ['irfLoader'])
     env.Tool('st_appLib')
     env.Tool('st_streamLib')
     env.Tool('tipLib')

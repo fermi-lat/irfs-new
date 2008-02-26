@@ -1,13 +1,13 @@
-import glob,os,platform
-
+#$Id$
 Import('baseEnv')
 Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-if platform.system() == 'Linux':
-        progEnv.Append(CPPDEFINES = 'TRAP_FPE')
+if baseEnv['PLATFORM'] != "win32":
+        progEnv.AppendUnique(CPPDEFINES = ['TRAP_FPE'])
 
+libEnv.Tool('g25ResponseLib', depsOnly = 1)
 g25ResponseLib = libEnv.StaticLibrary('g25Response', listFiles(['src/*.cxx']))
 
 progEnv.Tool('g25ResponseLib')

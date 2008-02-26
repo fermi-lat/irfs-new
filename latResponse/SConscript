@@ -4,6 +4,7 @@ Import('listFiles')
 libEnv = baseEnv.Clone()
 progEnv = baseEnv.Clone()
 
+libEnv.Tool('latResponseLib', depsOnly = 1)
 latResponseLib = libEnv.StaticLibrary('latResponse', listFiles(['src/*.cxx']))
 
 progEnv.Tool('latResponseLib')
