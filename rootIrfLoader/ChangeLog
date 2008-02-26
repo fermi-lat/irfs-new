@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 TAG
+Tag name: rootIrfLoader-00-00-01, operation: mov
+Package: rootIrfLoader
+User: glast  Tue Feb 26 11:17:31 2008
+Files:
+  rootIrfLoader/SConscript  1.2
+  rootIrfLoader/rootIrfLoaderLib.py  1.2
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: v0r0p1, operation: mov
 Package: rootIrfLoader
 User: glast  Tue Feb 26 11:17:15 2008
