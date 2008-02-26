@@ -17,7 +17,7 @@ void load_irfs();
 void IrfLoader::registerEventClasses() const {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
    const char * dc2_list[] = {"DC2::FrontA", "DC2::BackA", 
-                              "DC2::FrontA", "DC2::BackA"};
+                              "DC2::FrontB", "DC2::BackB"};
    std::vector<std::string> dc2List(dc2_list, dc2_list + 4);
    registry.registerEventClasses("DC2", dc2List);
    const char * dc2a_list[] = {"DC2::FrontA", "DC2::BackA"};
