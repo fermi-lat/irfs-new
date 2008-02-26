@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+TAG
+Tag name: v1r0p1, operation: mov
+Package: latResponse
+User: glast  Tue Feb 26 11:15:08 2008
+Files:
+  latResponse/SConscript  1.2
+  latResponse/latResponseLib.py  1.2
+
+    *
+------------------------------------------------------------
 User: glastrm  Tue Feb 26 11:14:40 PST 2008
 ScienceTools-scons/irfs/latResponse
 
