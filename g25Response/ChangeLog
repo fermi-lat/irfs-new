@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Tue Feb 26 11:06:18 PST 2008
+ScienceTools-scons/irfs/g25Response
+
+Modified Files:
+	SConscript g25ResponseLib.py 
+Log Message:
+When creating a library other dependencies are now linked against them
+    *
+------------------------------------------------------------
 TAG
 Tag name: g25Response-02-00-01, operation: add
 Package: g25Response

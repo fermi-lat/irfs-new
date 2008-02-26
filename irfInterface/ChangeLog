@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Tue Feb 26 11:08:55 PST 2008
+ScienceTools-scons/irfs/irfInterface
+
+Modified Files:
+	SConscript irfInterfaceLib.py 
+Log Message:
+When creating a library other dependencies are now linked against them
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfInterface-02-02-01, operation: add
 Package: irfInterface

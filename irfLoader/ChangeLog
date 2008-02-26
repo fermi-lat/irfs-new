@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Tue Feb 26 11:10:08 PST 2008
+ScienceTools-scons/irfs/irfLoader
+
+Modified Files:
+	SConscript irfLoaderLib.py 
+Log Message:
+When creating a library other dependencies are now linked against them
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfLoader-01-01-00, operation: mov
 Package: irfLoader

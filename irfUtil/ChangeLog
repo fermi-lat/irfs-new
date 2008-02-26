@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Tue Feb 26 11:12:58 PST 2008
+ScienceTools-scons/irfs/irfUtil
+
+Modified Files:
+	SConscript irfUtilLib.py 
+Log Message:
+When creating a library other dependencies are now linked against them
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfUtil-00-04-02, operation: add
 Package: irfUtil
