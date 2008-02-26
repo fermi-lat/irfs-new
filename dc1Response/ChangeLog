@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Tue Feb 26 10:56:48 PST 2008
+ScienceTools-scons/irfs/dc1Response
+
+Modified Files:
+	SConscript dc1ResponseLib.py 
+Log Message:
+When creating a library other dependencies are now linked against them
+    *
+------------------------------------------------------------
 User: golpa  Tue Dec 11 09:07:41 PST 2007
 irfs/dc1Response
 
