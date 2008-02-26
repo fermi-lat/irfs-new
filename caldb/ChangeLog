@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: glastrm  Tue Feb 26 10:54:42 PST 2008
+ScienceTools-scons/irfs/caldb
+
+Removed Files:
+      Tag: ScienceTools-LATEST-1-2258
+	SConscript 
+Log Message:
+Removed unnecessary SConscript file
+    *
+------------------------------------------------------------
 TAG
 Tag name: caldb-00-06-00, operation: add
 Package: caldb
