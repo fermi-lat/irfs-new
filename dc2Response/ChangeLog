@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+TAG
+Tag name: v3r1p1, operation: mov
+Package: dc2Response
+User: glast  Tue Feb 26 11:03:33 2008
+Files:
+  dc2Response/dc2ResponseLib.py  1.2
+  dc2Response/SConscript  1.2
+
+    *
+------------------------------------------------------------
 User: glastrm  Tue Feb 26 11:02:57 PST 2008
 ScienceTools-scons/irfs/dc2Response
 
