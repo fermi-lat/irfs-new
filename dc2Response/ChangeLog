@@ -1,33 +1,4 @@
 ------------------------------------------------------------
-TAG
-Tag name: dc2Response-03-01-01, operation: mov
-Package: dc2Response
-User: glast  Tue Feb 26 11:03:45 2008
-Files:
-  dc2Response/dc2ResponseLib.py  1.2
-  dc2Response/SConscript  1.2
-
-    *
-------------------------------------------------------------
-TAG
-Tag name: v3r1p1, operation: mov
-Package: dc2Response
-User: glast  Tue Feb 26 11:03:33 2008
-Files:
-  dc2Response/dc2ResponseLib.py  1.2
-  dc2Response/SConscript  1.2
-
-    *
-------------------------------------------------------------
-User: glastrm  Tue Feb 26 11:02:57 PST 2008
-ScienceTools-scons/irfs/dc2Response
-
-Modified Files:
-	SConscript dc2ResponseLib.py 
-Log Message:
-When creating a library other dependencies are now linked against them
-    *
-------------------------------------------------------------
 User: golpa  Tue Dec 11 09:09:36 PST 2007
 irfs/dc2Response
 
