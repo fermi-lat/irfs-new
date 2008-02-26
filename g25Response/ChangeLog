@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 TAG
+Tag name: g25Response-02-00-01, operation: mov
+Package: g25Response
+User: glast  Tue Feb 26 11:07:00 2008
+Files:
+  g25Response/g25ResponseLib.py  1.2
+  g25Response/SConscript  1.2
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: v2r0p1, operation: mov
 Package: g25Response
 User: glast  Tue Feb 26 11:06:49 2008

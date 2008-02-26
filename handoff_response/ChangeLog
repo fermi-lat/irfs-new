@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+TAG
+Tag name: v3r8p4, operation: mov
+Package: handoff_response
+User: glast  Tue Feb 26 11:08:00 2008
+Files:
+  handoff_response/handoff_responseLib.py  1.2
+  handoff_response/SConscript  1.2
+
+    *
+------------------------------------------------------------
 User: glastrm  Tue Feb 26 11:07:30 PST 2008
 ScienceTools-scons/irfs/handoff_response
 
