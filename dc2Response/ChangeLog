@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 TAG
+Tag name: dc2Response-03-01-01, operation: mov
+Package: dc2Response
+User: glast  Tue Feb 26 11:03:45 2008
+Files:
+  dc2Response/dc2ResponseLib.py  1.2
+  dc2Response/SConscript  1.2
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: v3r1p1, operation: mov
 Package: dc2Response
 User: glast  Tue Feb 26 11:03:33 2008
