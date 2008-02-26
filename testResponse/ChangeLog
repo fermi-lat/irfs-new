@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 TAG
+Tag name: testResponse-02-00-02, operation: mov
+Package: testResponse
+User: glast  Tue Feb 26 11:18:31 2008
+Files:
+  testResponse/SConscript  1.2
+  testResponse/testResponseLib.py  1.2
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: v2r0p2, operation: mov
 Package: testResponse
 User: glast  Tue Feb 26 11:18:18 2008
