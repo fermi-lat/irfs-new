@@ -21,11 +21,11 @@ class Prune(object):
         McEnergy  McXDir  McYDir  McZDir   
         McXDirErr   McYDirErr  McZDirErr   
         McTkr1DirErr  McDirErr  
-        GltWord   FilterStatus_HI 
+        GltWord   OBFGamStatus
         Tkr1FirstLayer VtxAngle 
         CTBVTX CTBCORE  CTBSummedCTBGAM  CTBBest*
         """.split()  # specify branch names to include
-    cuts='(GltWord&10)>0 && (GltWord!=35) && (FilterStatus_HI==0) && CTBBestEnergyProb>0.1 && CTBCORE>0.1'
+    cuts='(GltWord&10)>0 && (GltWord!=35) && (OBFGamStatus>0) && CTBBestEnergyProb>0.1 && CTBCORE>0.1'
 
 class Data(object):
     files=['../all/'+Prune.fileName] # use pruned file in event class all by default
