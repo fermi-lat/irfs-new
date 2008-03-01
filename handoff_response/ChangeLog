@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sat Mar  1 07:35:11 PST 2008
+irfs/handoff_response/python
+
+Modified Files:
+	IRFdefault.py 
+Log Message:
+use OBFGamStatus instead of FilterStatus_HI
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-03-08-04, operation: mov
 Package: handoff_response
