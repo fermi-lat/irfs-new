@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: handoff_response-03-08-04, operation: mov
+Package: handoff_response
+User: glast  Thu Mar  6 10:05:00 2008
+Files:
+  handoff_response/handoff_responseLib.py  1.3
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: v3r8p4, operation: mov
 Package: handoff_response
 User: glast  Thu Mar  6 10:04:40 2008
