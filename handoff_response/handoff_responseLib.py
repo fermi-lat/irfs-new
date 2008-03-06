@@ -11,6 +11,7 @@ def generate(env, **kw):
     env.Tool('embed_pythonLib')
     env.Tool('tipLib')
     env.Tool('addLibrary', library = env['rootLibs'])
+    env.Tool('addLibrary', library = env['rootGuiLibs'])
     env.Tool('addLibrary', library = env['clhepLibs'])
 
 def exists(env):
