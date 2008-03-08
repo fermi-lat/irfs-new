@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: glast  Fri Mar  7 16:43:39 PST 2008
+ScienceTools-scons/irfs/pyIrfLoader
+
+Modified Files:
+	SConscript 
+Added Files:
+	pyIrfLoaderLib.py 
+Log Message:
+Add pyIrfLoaderLib and add it to be called when building pyIrfLoader
+    *
+------------------------------------------------------------
 TAG
 Tag name: v0r0p1, operation: add
 Package: pyIrfLoader
