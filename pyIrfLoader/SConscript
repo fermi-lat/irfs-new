@@ -5,7 +5,8 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-pyIrfLoaderStaticLib = libEnv.StaticLibrary('lib_pyIrfLoader', 'src/pyIrfLoader.i')
-pyIrfLoaderSharedLib = libEnv.SharedLibrary('lib_pyIrfLoader', 'src/pyIrfLoader.i')
+libEnv.Tool('pyIrfLoaderLib', depsOnly = 1)
+pyIrfLoaderStaticLib = libEnv.StaticLibrary('_pyIrfLoader', 'src/pyIrfLoader.i')
+pyIrfLoaderSharedLib = libEnv.SharedLibrary('_pyIrfLoader', 'src/pyIrfLoader.i')
 
 progEnv.Tool('registerObjects', package = 'pyIrfLoader', libraries = [pyIrfLoaderStaticLib, pyIrfLoaderSharedLib], includes = listFiles(['pyIrfLoader/*.h']))
