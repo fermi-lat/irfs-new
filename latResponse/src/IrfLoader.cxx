@@ -52,6 +52,8 @@ void IrfLoader::registerEventClasses() const {
       classNames.at(0) = m_customIrfNames.at(i) + "::front";
       classNames.at(1) = m_customIrfNames.at(i) + "::back";
       registry.registerEventClasses(m_customIrfNames.at(i), classNames);
+      registry.registerEventClass(classNames.at(0), classNames.at(0));
+      registry.registerEventClass(classNames.at(1), classNames.at(1));
    }
 }
 
@@ -121,6 +123,8 @@ void IrfLoader::readCustomIrfNames() {
    }
 
    facilities::Util::stringTokenize(custom_irf_names, ", ", m_customIrfNames);
+
+   std::cout << "Adding custom IRFs: " << std::endl;
    for (size_t i(0); i < m_customIrfNames.size(); i++) {
       std::cout << m_customIrfNames.at(i) << std::endl;
    }
@@ -136,7 +140,7 @@ void IrfLoader::loadCustomIrfs() const {
 
    for (size_t i(0); i < m_customIrfNames.size(); i++) {
       std::string section("front");
-      std::string irfName(m_customIrfNames.at(i) + "::" + section);
+      std::string irfName(m_customIrfNames.at(i));
       if (!std::count(irfNames.begin(), irfNames.end(), irfName)) {
          std::string aeff_file = st_facilities::Env
             ::appendFileName(irfDir, "aeff_"+irfName+"_"+section+".fits");
@@ -144,13 +148,12 @@ void IrfLoader::loadCustomIrfs() const {
             ::appendFileName(irfDir, "psf_"+irfName+"_"+section+".fits");
          std::string edisp_file = st_facilities::Env
             ::appendFileName(irfDir,"edisp_"+irfName+"_"+section+".fits");
-         myFactory->addIrfs(irfName, 
+         myFactory->addIrfs(irfName + "::" + section, 
                             new irfInterface::Irfs(new Aeff(aeff_file),
                                                    new Psf(psf_file, isFront=true),
                                                    new Edisp(edisp_file), 0));
       }
       section = "back";
-      irfName = m_customIrfNames.at(i) + "::" + section;
       if (!std::count(irfNames.begin(), irfNames.end(), irfName)) {
          std::string aeff_file = st_facilities::Env
             ::appendFileName(irfDir, "aeff_"+irfName+"_"+section+".fits");
@@ -158,7 +161,7 @@ void IrfLoader::loadCustomIrfs() const {
             ::appendFileName(irfDir, "psf_"+irfName+"_"+section+".fits");
          std::string edisp_file = st_facilities::Env
             ::appendFileName(irfDir,"edisp_"+irfName+"_"+section+".fits");
-         myFactory->addIrfs(irfName,
+         myFactory->addIrfs(irfName + "::" + section,
                             new irfInterface::Irfs(new Aeff(aeff_file),
                                                    new Psf(psf_file, isFront=false),
                                                    new Edisp(edisp_file), 1));
