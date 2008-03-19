@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: caldb-00-06-00, operation: mov
+Package: caldb
+User: glast  Wed Mar 19 14:02:41 2008
+Files:
+  caldb/SConscript  1.3
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: v0r6, operation: mov
 Package: caldb
 User: glast  Wed Mar 19 14:02:30 2008
