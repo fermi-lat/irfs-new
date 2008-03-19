@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Wed Mar 19 13:57:08 PDT 2008
+ScienceTools-scons/irfs/latResponse
+
+Modified Files:
+	SConscript 
+Log Message:
+Register data files
+    *
+------------------------------------------------------------
 User: jchiang  Sun Mar  9 13:37:52 PDT 2008
 irfs/latResponse/src
 

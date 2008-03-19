@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Wed Mar 19 13:58:43 PDT 2008
+ScienceTools-scons/irfs/handoff_response
+
+Modified Files:
+	SConscript 
+Log Message:
+Register data files
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-03-08-04, operation: mov
 Package: handoff_response

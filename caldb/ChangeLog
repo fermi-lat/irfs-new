@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Wed Mar 19 14:01:45 PDT 2008
+ScienceTools-scons/irfs/caldb
+
+Added Files:
+	SConscript 
+Log Message:
+Register data files
+    *
+------------------------------------------------------------
 User: glastrm  Tue Feb 26 10:56:04 PST 2008
 ScienceTools-scons/irfs/caldb
 
