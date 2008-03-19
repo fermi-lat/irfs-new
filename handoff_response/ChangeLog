@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: handoff_response-03-08-04, operation: mov
+Package: handoff_response
+User: glast  Wed Mar 19 13:59:39 2008
+Files:
+  handoff_response/SConscript  1.3
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: v3r8p4, operation: mov
 Package: handoff_response
 User: glast  Wed Mar 19 13:59:18 2008

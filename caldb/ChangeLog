@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: v0r6, operation: mov
+Package: caldb
+User: glast  Wed Mar 19 14:02:30 2008
+Files:
+  caldb/SConscript  1.3
+
+    *
+------------------------------------------------------------
 User: glastrm  Wed Mar 19 14:01:45 PDT 2008
 ScienceTools-scons/irfs/caldb
 
