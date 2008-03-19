@@ -16,4 +16,5 @@ makeirfBin = progEnv.Program('makeirf', listFiles(['src/gen/makeirf/*.cxx']))
 makefitsBin = progEnv.Program('makefits', listFiles(['src/fits/make_fits/*.cxx']))
 
 progEnv.Tool('registerObjects', package = 'handoff_response', libraries = [handoff_responseLib], testApps = [test_handoff_responseBin],
-             binaries = [pruneBin, makeirfBin, makefitsBin], pfiles = listFiles(['pfiles/*.par']), includes = listFiles(['handoff_response/*.h']))
+             binaries = [pruneBin, makeirfBin, makefitsBin], pfiles = listFiles(['pfiles/*.par']), includes = listFiles(['handoff_response/*.h']),
+             data = listFiles(['data/*'], recursive = True))
