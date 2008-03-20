@@ -15,6 +15,7 @@ use st_stream v*
 use irfUtil v* irfs
 use caldb v* irfs
 use tip v*
+use st_app v*
 
 apply_pattern package_include
 apply_pattern package_linkopts
@@ -25,3 +26,5 @@ macro source "*.cxx" WIN32 "*.h *.cxx"
 
 library latResponse -no_share $(source)
 application test_latResponse test/*.cxx
+
+application combine_irfs combine_irfs/*.cxx
