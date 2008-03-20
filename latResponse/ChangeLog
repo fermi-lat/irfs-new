@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Mar 19 23:38:28 PDT 2008
+irfs/latResponse/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add combine_irfs application
+    *
+------------------------------------------------------------
 User: jchiang  Wed Mar 19 23:36:35 PDT 2008
 irfs/latResponse/src/combine_irfs
 
