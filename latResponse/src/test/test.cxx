@@ -19,6 +19,8 @@
 #include <cppunit/ui/text/TextTestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+#include "facilities/commonUtilities.h"
+
 #include "astro/SkyDir.h"
 
 #include "irfInterface/IrfsFactory.h"
@@ -309,11 +311,13 @@ void LatResponseTests::edisp_sampling() {
    }
 }
 
-int main(int argc, char* argv[]) {
+int main() {
 #ifdef TRAP_FPE
 // Add floating point exception traps.
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
+
+   facilities::commonUtilities::setupEnvironment();
 
    latResponse::IrfLoader myLoader;
    myLoader.loadIrfs();

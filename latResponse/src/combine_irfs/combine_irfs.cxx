@@ -15,6 +15,7 @@
 #include "tip/Header.h"
 #include "tip/IFileSvc.h"
 #include "tip/Table.h"
+#include "tip/TipFile.h"
 
 #include "st_facilities/FitsUtil.h"
 #include "st_facilities/Util.h"
@@ -97,7 +98,8 @@ void CombineIrfs::run() {
 
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
 
-   fileSvc.createFile(outfile, infiles.front());
+   tip::TipFile infile(fileSvc.openFile(infiles.front()));
+   infile.copyFile(outfile);
 
    tip::Table * outtable(fileSvc.editTable(outfile, extname));
 
