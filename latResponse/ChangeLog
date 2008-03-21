@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Mar 20 17:43:36 PDT 2008
+irfs/latResponse/src/combine_irfs
+
+Added Files:
+	combine_irfs.cxx 
+Log Message:
+add combine_irfs application
+    *
+------------------------------------------------------------
 User: jchiang  Wed Mar 19 23:38:28 PDT 2008
 irfs/latResponse/pfiles
 
