@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Mar 21 16:27:00 PDT 2008
+irfs/dc1Response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add setupEnvironment; tagging v2r0p2
+    *
+------------------------------------------------------------
 TAG
 Tag name: dc1Response-02-00-01, operation: mov
 Package: dc1Response
