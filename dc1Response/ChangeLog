@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Mar 21 16:27:00 PDT 2008
+irfs/dc1Response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+add setupEnvironment; tagging v2r0p2
+    *
+------------------------------------------------------------
+User: jchiang  Fri Mar 21 16:27:00 PDT 2008
 irfs/dc1Response/doc
 
 Modified Files:
