@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+#include "facilities/commonUtilities.h"
+
 #include "irfInterface/IrfRegistry.h"
 
 #include "dc1Response/IrfLoader.h"
@@ -27,6 +29,12 @@
 namespace irfLoader {
 
 Registrar::Registrar() {
+   char * caldb(::getenv("CALDB"));
+   facilities::commonUtilities::setupEnvironment();
+   if (caldb) {
+      facilities::commonUtilities::setEnvironment("CALDB", caldb, true);
+   }
+   
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
 
    registry.registerLoader(new dc1Response::IrfLoader());
