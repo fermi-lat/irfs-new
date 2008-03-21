@@ -54,7 +54,8 @@ public:
 
    static void getVectorData(const tip::Table * table,
                              const std::string & fieldName,
-                             std::vector<float> & values);
+                             std::vector<float> & values,
+                             size_t nrow=0);
 
 protected:
 

@@ -118,12 +118,16 @@ value(double logenergy, double costh, bool interpolate) const {
 
 void FitsTable::getVectorData(const tip::Table * table,
                               const std::string & fieldName,
-                              std::vector<float> & values) {
+                              std::vector<float> & values,
+                              size_t nrow) {
    values.clear();
 
    tip::Table::ConstIterator it(table->begin());
    tip::ConstTableRecord & row(*it);
 
+   for (size_t i(0); i < nrow; i++) {
+      ++it;
+   }
    row[fieldName].get(values);
 }
 
