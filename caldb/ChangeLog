@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Fri Mar 21 08:34:39 PDT 2008
+ScienceTools-scons/irfs/caldb
+
+Modified Files:
+	SConscript 
+Log Message:
+forgot to register package name
+    *
+------------------------------------------------------------
 TAG
 Tag name: caldb-00-06-00, operation: mov
 Package: caldb
