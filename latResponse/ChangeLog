@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Mar 20 23:57:23 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	FitsTable.cxx 
+Log Message:
+be able to read in a selected row
+    *
+------------------------------------------------------------
+User: jchiang  Thu Mar 20 23:57:23 PDT 2008
 irfs/latResponse/latResponse
 
 Modified Files:
