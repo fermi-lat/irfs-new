@@ -18,18 +18,13 @@
 
 namespace irfLoader {
 
-   class Registrar;
-
 /**
  * @class Loader
  *
+ * $Header$
  */
 
-#ifndef SWIG
 class SCIENCETOOLS_API Loader {
-#else
-class Loader {
-#endif
 
 public:
 
@@ -44,9 +39,18 @@ public:
    /// @param irfsName The name of the desired irfs
    static void go(const std::string & irfsName);
 
+   /// Access to the names of the available irfs.
+   static const std::vector<std::string> & irfsNames() {
+      return s_irfsNames;
+   }
+
    /// @return A reference to a map for common combinations of 
    ///         response functions for use with a PIL entry.
-   static const std::map<std::string, std::vector<std::string> > & respIds();
+   static const std::map<std::string, std::vector<std::string> > & respIds() {
+      return s_respIds;
+   }
+
+   static void resetIrfs();
 
 protected:
 
@@ -56,17 +60,11 @@ protected:
 
 private:
 
-   static Registrar * s_registrar;
+   static std::vector<std::string> s_irfsNames;
+
+   static std::map<std::string, std::vector<std::string> > s_respIds;
 
 };
-
-#ifndef SWIG
-// Opaque wrappers for class static functions since linkage on windows for
-// symbols exported from dlls is all fouled up.
-void Loader_go();
-
-const std::map<std::string, std::vector<std::string> > & Loader_respIds();
-#endif
 
 } // namespace irfLoader
 
