@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Mar 21 16:28:15 PDT 2008
+irfs/dc2Response/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+add setupEnvironment to test.cxx; tagging v3r1p2
+    *
+------------------------------------------------------------
+User: jchiang  Fri Mar 21 16:28:15 PDT 2008
 irfs/dc2Response/cmt
 
 Modified Files:
