@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Mar 21 16:31:24 PDT 2008
+irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+copy entire first file to target file in combine_irfs; add setupEnvironment call to test.cxx
+    *
+------------------------------------------------------------
+User: jchiang  Fri Mar 21 16:31:24 PDT 2008
 irfs/latResponse/src/combine_irfs
 
 Modified Files:
