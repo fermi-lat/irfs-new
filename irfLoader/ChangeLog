@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Mar 20 23:19:39 PDT 2008
+irfs/irfLoader/src
+
+Modified Files:
+	Registrar.cxx 
+Log Message:
+add call to setupEnvironment in Registrar constructor; tagging v1r1p1
+    *
+------------------------------------------------------------
+User: jchiang  Thu Mar 20 23:19:39 PDT 2008
 irfs/irfLoader/doc
 
 Modified Files:
