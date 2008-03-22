@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Fri Mar 21 17:15:15 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	Aeff.cxx Aeff.h Edisp.cxx Edisp.h FitsTable.cxx ParTables.cxx 
+	Psf.cxx Psf.h 
+Log Message:
+lay more groundwork for multiple classes per file
+    *
+------------------------------------------------------------
 User: jchiang  Fri Mar 21 17:15:14 PDT 2008
 irfs/latResponse/latResponse
 
