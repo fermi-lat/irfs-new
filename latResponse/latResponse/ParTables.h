@@ -28,7 +28,8 @@ class ParTables {
 public:
 
    ParTables(const std::string & fitsfile,
-             const std::string & extname);
+             const std::string & extname,
+             size_t nrow=0);
 
    const FitsTable & operator[](const std::string & parName) const;
 

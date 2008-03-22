@@ -28,7 +28,8 @@ class Aeff : public irfInterface::IAeff {
 public:
 
    Aeff(const std::string & fitsfile, 
-        const std::string & extname="EFFECTIVE AREA");
+        const std::string & extname="EFFECTIVE AREA",
+        size_t nrow=0);
 
    virtual ~Aeff() {}
    

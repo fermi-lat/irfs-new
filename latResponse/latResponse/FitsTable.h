@@ -29,7 +29,8 @@ public:
 
    FitsTable(const std::string & filename,
              const std::string & extname,
-             const std::string & tablename);
+             const std::string & tablename,
+             size_t nrow=0);
 
    FitsTable();
 

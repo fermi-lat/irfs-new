@@ -19,7 +19,8 @@
 namespace latResponse {
 
 ParTables::ParTables(const std::string & fitsfile,
-                     const std::string & extname) {
+                     const std::string & extname,
+                     size_t nrow) {
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
    const tip::Table * table(fileSvc.readTable(fitsfile, extname));
    const std::vector<std::string> & validFields(table->getValidFields());
@@ -43,7 +44,7 @@ ParTables::ParTables(const std::string & fitsfile,
       m_parNames.push_back(tablename);
       m_parTables.insert(
          std::map<std::string, FitsTable>::
-         value_type(tablename, FitsTable(fitsfile, extname, tablename)));
+         value_type(tablename, FitsTable(fitsfile, extname, tablename, nrow)));
    }
 
    delete table;

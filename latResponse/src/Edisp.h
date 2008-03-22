@@ -28,7 +28,8 @@ class Edisp : public irfInterface::IEdisp {
 public:
 
    Edisp(const std::string & fitsfile,
-         const std::string & extname="ENERGY DISPERSION");
+         const std::string & extname="ENERGY DISPERSION",
+         size_t nrow=0);
 
    virtual ~Edisp() {}
 

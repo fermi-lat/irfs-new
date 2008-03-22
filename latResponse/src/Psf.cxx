@@ -33,8 +33,8 @@ namespace latResponse {
 double Psf::s_ub(10.);
 
 Psf::Psf(const std::string & fitsfile, bool isFront,
-         const std::string & extname)
-   : m_parTables(fitsfile, extname), m_loge_last(0), m_costh_last(0), 
+         const std::string & extname, size_t nrow)
+   : m_parTables(fitsfile, extname, nrow), m_loge_last(0), m_costh_last(0), 
      m_integralCache(0) {
    readScaling(fitsfile, isFront);
 }

@@ -17,8 +17,9 @@
 
 namespace latResponse {
 
-Aeff::Aeff(const std::string & fitsfile, const std::string & extname)
-   : m_aeffTable(fitsfile, extname, "EFFAREA") {}
+Aeff::Aeff(const std::string & fitsfile, const std::string & extname,
+           size_t nrow)
+   : m_aeffTable(fitsfile, extname, "EFFAREA", nrow) {}
 
 double Aeff::value(double energy, 
                    const astro::SkyDir & srcDir, 

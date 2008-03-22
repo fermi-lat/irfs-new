@@ -31,15 +31,15 @@ namespace latResponse {
 
 FitsTable::FitsTable(const std::string & filename,
                      const std::string & extname,
-                     const std::string & tablename)
-   : m_interpolator(0) {
+                     const std::string & tablename,
+                     size_t nrow) : m_interpolator(0) {
 
    const tip::Table * table(tip::IFileSvc::instance().readTable(filename, 
                                                                 extname));
 
    std::vector<float> elo, ehi;
-   getVectorData(table, "ENERG_LO", elo);
-   getVectorData(table, "ENERG_HI", ehi);
+   getVectorData(table, "ENERG_LO", elo, nrow);
+   getVectorData(table, "ENERG_HI", ehi, nrow);
    for (size_t k(0); k < elo.size(); k++) {
       m_ebounds.push_back(std::log10(elo.at(k)));
       m_logEnergies.push_back(std::log10(std::sqrt(elo.at(k)*ehi.at(k))));
@@ -47,8 +47,8 @@ FitsTable::FitsTable(const std::string & filename,
    m_ebounds.push_back(std::log10(ehi.back()));
 
    std::vector<float> mulo, muhi;
-   getVectorData(table, "CTHETA_LO", mulo);
-   getVectorData(table, "CTHETA_HI", muhi);
+   getVectorData(table, "CTHETA_LO", mulo, nrow);
+   getVectorData(table, "CTHETA_HI", muhi, nrow);
    for (size_t i(0); i < muhi.size(); i++) {
       m_tbounds.push_back(mulo.at(i));
       m_mus.push_back((m_tbounds.at(i) + muhi.at(i))/2.);
@@ -57,7 +57,7 @@ FitsTable::FitsTable(const std::string & filename,
 
    m_minCosTheta = mulo.front();
 
-   getVectorData(table, tablename, m_values);
+   getVectorData(table, tablename, m_values, nrow);
    m_maxValue = m_values.front();
    for (size_t i(1); i < m_values.size(); i++) {
       if (m_values.at(i) > m_maxValue) {
