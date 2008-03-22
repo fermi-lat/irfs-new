@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+TAG
+Tag name: v3r8p4, operation: mov
+Package: handoff_response
+User: glastrm  Fri Mar 21 21:59:18 2008
+Files:
+  handoff_response/cmt/requirements  1.65
+  handoff_response/src/test/test.cxx  1.27.24.1
+
+    *
+------------------------------------------------------------
 User: glastrm  Fri Mar 21 21:58:41 PDT 2008
 irfs/handoff_response/src/test
 
