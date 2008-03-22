@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Fri Mar 21 21:58:41 PDT 2008
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+Use commonUtilities' setupEnvironment
+    *
+------------------------------------------------------------
 TAG
 Tag name: v3r8p4_branch, operation: add
 Package: handoff_response
