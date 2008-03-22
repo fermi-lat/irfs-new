@@ -25,6 +25,8 @@
 
 #include "handoff_response/loadIrfs.h"
 
+#include "facilities/commonUtilities.h"
+
 namespace {
    std::string getEnv(const std::string & envVarName) {
       char * envvar(::getenv(envVarName.c_str()));
@@ -314,7 +316,7 @@ int main(int argc, char* argv[]) {
 // Add floating point exception traps.
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
-
+   facilities::commonUtilities::setupEnvironment();
 //    try {
 //       std::string defaultFile(::getEnv("HANDOFF_RESPONSEROOT") + 
 //                               "/data/parameters.root");
