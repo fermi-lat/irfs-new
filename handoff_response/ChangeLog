@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: v3r8p4_branch, operation: add
+Package: handoff_response
+User: glastrm  Fri Mar 21 21:55:58 2008
+Files:
+  handoff_response/src/test/test.cxx  1.27
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: handoff_response-03-08-04, operation: mov
 Package: handoff_response
 User: glast  Wed Mar 19 13:59:39 2008
