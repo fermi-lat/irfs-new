@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sun Mar 23 13:16:02 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx 
+Log Message:
+make addIrfs non-static
+    *
+------------------------------------------------------------
+User: jchiang  Sun Mar 23 13:16:02 PDT 2008
 irfs/latResponse/latResponse
 
 Modified Files:
