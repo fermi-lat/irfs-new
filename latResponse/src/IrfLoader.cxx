@@ -6,6 +6,8 @@
  */
 
 #include <algorithm>
+#include <iomanip>
+#include <sstream>
 #include <stdexcept>
 #include <vector>
 
@@ -16,6 +18,7 @@
 #include "tip/Table.h"
 
 #include "st_facilities/Env.h"
+#include "st_facilities/FitsUtil.h"
 #include "st_facilities/Util.h"
 
 #include "irfInterface/IrfRegistry.h"
@@ -59,7 +62,7 @@ void IrfLoader::registerEventClasses() const {
 
 void IrfLoader::addIrfs(const std::string & version, 
                         const std::string & detector,
-                        int irfID,
+                        int convType,
                         std::string irfName,
                         const std::string & date) {
    if (irfName == "") {
@@ -87,24 +90,46 @@ void IrfLoader::addIrfs(const std::string & version,
    irfUtil::Util::getCaldbFile(detector, "EDISP", version,
                                edisp_file, hdu, "GLAST", "LAT",
                                "NONE", date, "00:00:00");
-   irfInterface::IAeff * aeff = new Aeff(aeff_file);
-   bool isFront;
-   irfInterface::IPsf * psf;
-   if (irfID == 0) {
-      psf = new Psf(psf_file, isFront=true);
-   } else {
-      psf = new Psf(psf_file, isFront=false);
-   }      
-   irfInterface::IEdisp * edisp = new Edisp(edisp_file);
-   
-   myFactory->addIrfs(irfName, new irfInterface::Irfs(aeff, psf, edisp, irfID));
+
+   size_t numClasses(getNumRows(aeff_file));
+
+   m_subclasses[irfName] = std::vector<std::string>();
+
+   for (size_t i(0); i < numClasses; i++) {
+      std::ostringstream subclass;
+      subclass << irfName << "_"
+               << std::setw(3) << std::setfill('0') << i;
+      m_subclasses.push_back(subclass.str());
+      irfInterface::IAeff * aeff(new Aeff(aeff_file, "EFFECTIVE AREA", i));
+      irfInterface::IPsf * psf;
+      bool isFront;
+      if (convType == 0) {
+         new Psf(psf_file, isFront=true, "RPSF", i);
+      } else {
+         new Psf(psf_file, isFront=false, "RPSF", i);
+      }
+      irfInterface::IEdisp * edisp(new Edisp(edisp_file,"ENERGY DISPERSION",i));
+      size_t irfID(i*2 + convType);
+      myFactory->addIrfs(irfName, new irfInterface::Irfs(aeff, psf, edisp,
+                                                         convType));
+   }
+}
+
+size_t IrfLoader::getNumRows(const std::string & fitsfile) const {
+   std::string extname;
+   st_facilities::FitsUtil::getFitsHduName(fitsfile, 2, extname);
+   const tip::Table * table = 
+      tip::IFileSvc::instance().readTable(fitsfile, extname);
+   size_t numRows(table->getNumRecords());
+   delete table;
+   return numRows;
 }
 
 void IrfLoader::loadIrfs() const {
-   int irfID;
+   int convType;
    for (size_t i(0); i < m_caldbNames.size(); i++) {
-      addIrfs(m_caldbNames.at(i), "FRONT", irfID=0);
-      addIrfs(m_caldbNames.at(i), "BACK", irfID=1);
+      addIrfs(m_caldbNames.at(i), "FRONT", convType=0);
+      addIrfs(m_caldbNames.at(i), "BACK", convType=1);
    }
    loadCustomIrfs();
 }
@@ -148,10 +173,12 @@ void IrfLoader::loadCustomIrfs() const {
             ::appendFileName(irfDir, "psf_"+irfName+"_"+section+".fits");
          std::string edisp_file = st_facilities::Env
             ::appendFileName(irfDir,"edisp_"+irfName+"_"+section+".fits");
-         myFactory->addIrfs(irfName + "::" + section, 
-                            new irfInterface::Irfs(new Aeff(aeff_file),
-                                                   new Psf(psf_file, isFront=true),
-                                                   new Edisp(edisp_file), 0));
+         size_t numClasses(getNumRows(aeff_file));
+         for (size_t i(0); i < numClasses; i++) {
+            myFactory->addIrfs(irfName + "::" + section, 
+                               new irfInterface::Irfs(new Aeff(aeff_file),
+                                                      new Psf(psf_file, isFront=true),
+                                                      new Edisp(edisp_file), 0));
       }
       section = "back";
       if (!std::count(irfNames.begin(), irfNames.end(), irfName)) {
@@ -177,7 +204,6 @@ void IrfLoader::read_caldb_indx() {
    }
    std::string caldb_indx;
    find_cif(caldb_indx);
-//   caldb_indx = st_facilities::Env::appendFileName(caldb_path, caldb_indx);
    caldb_indx = facilities::commonUtilities::joinPath(caldb_path, caldb_indx);
 
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());

@@ -36,13 +36,15 @@ public:
 
    static void addIrfs(const std::string & version, 
                        const std::string & detector,
-                       int irfID, 
+                       int convType, 
                        std::string irfName="",
                        const std::string & date="2008-01-30");
 
 private:
    
    std::vector<std::string> m_caldbNames;
+
+   std::map<std::string, std::vector<std::string> > m_subclasses;
 
    std::string m_customIrfDir;
 
@@ -55,6 +57,8 @@ private:
    void loadCustomIrfs() const;
 
    void find_cif(std::string & caldb_indx) const;
+
+   size_t getNumRows(const std::string & fitsfile) const;
 
 };
 
