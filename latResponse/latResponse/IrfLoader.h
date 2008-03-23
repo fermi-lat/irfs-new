@@ -34,12 +34,12 @@ public:
       return "LATRESPONSE";
    }
 
-   static void addIrfs(const std::string & version, 
-                       const std::string & detector,
-                       int convType, 
-                       std::string irfName="",
-                       const std::string & date="2008-01-30");
-
+   void addIrfs(const std::string & version, 
+                const std::string & detector,
+                int convType, 
+                std::string irfName="",
+                const std::string & date="2008-01-30");
+   
 private:
    
    std::vector<std::string> m_caldbNames;

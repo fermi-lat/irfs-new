@@ -99,7 +99,7 @@ void IrfLoader::addIrfs(const std::string & version,
       std::ostringstream subclass;
       subclass << irfName << "_"
                << std::setw(3) << std::setfill('0') << i;
-      m_subclasses.push_back(subclass.str());
+      m_subclasses[irfName].push_back(subclass.str());
       irfInterface::IAeff * aeff(new Aeff(aeff_file, "EFFECTIVE AREA", i));
       irfInterface::IPsf * psf;
       bool isFront;
@@ -111,7 +111,7 @@ void IrfLoader::addIrfs(const std::string & version,
       irfInterface::IEdisp * edisp(new Edisp(edisp_file,"ENERGY DISPERSION",i));
       size_t irfID(i*2 + convType);
       myFactory->addIrfs(irfName, new irfInterface::Irfs(aeff, psf, edisp,
-                                                         convType));
+                                                         irfID));
    }
 }
 
