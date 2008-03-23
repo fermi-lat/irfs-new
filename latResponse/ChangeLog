@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Mar 23 12:17:39 PDT 2008
+irfs/latResponse/latResponse
+
+Modified Files:
+	IrfLoader.h 
+Log Message:
+more code to load multiple classes per irf
+    *
+------------------------------------------------------------
 User: jchiang  Fri Mar 21 17:15:15 PDT 2008
 irfs/latResponse/src
 
