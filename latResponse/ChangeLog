@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sun Mar 23 12:17:39 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx 
+Log Message:
+more code to load multiple classes per irf
+    *
+------------------------------------------------------------
+User: jchiang  Sun Mar 23 12:17:39 PDT 2008
 irfs/latResponse/latResponse
 
 Modified Files:
