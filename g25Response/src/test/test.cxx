@@ -1,8 +1,17 @@
+/**
+ * @file test.cxx
+ * @brief Code to exercise g25Response functions
+ * 
+ * $Header$
+ */
+
 #include <iostream>
+#include "facilities/commonUtilities.h"
 #include "irfInterface/IrfsFactory.h"
 #include "g25Response/loadIrfs.h"
 
 int main() {
+   facilities::commonUtilities::setupEnvironment();
    g25Response::load_irfs();
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();
