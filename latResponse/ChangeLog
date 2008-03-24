@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sun Mar 23 17:04:02 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx 
+Log Message:
+refactor class name handling
+    *
+------------------------------------------------------------
+User: jchiang  Sun Mar 23 17:04:02 PDT 2008
 irfs/latResponse/latResponse
 
 Modified Files:
