@@ -34,21 +34,21 @@ public:
       return "LATRESPONSE";
    }
 
-   void addIrfs(const std::string & version, 
-                const std::string & detector,
-                int convType, 
-                std::string irfName="",
-                const std::string & date="2008-01-30");
-   
 private:
    
    std::vector<std::string> m_caldbNames;
 
-   std::map<std::string, std::vector<std::string> > m_subclasses;
+   mutable std::map<std::string, std::vector<std::string> > m_subclasses;
 
    std::string m_customIrfDir;
 
    std::vector<std::string> m_customIrfNames;
+
+   void addIrfs(const std::string & version, 
+                const std::string & detector,
+                int convType, 
+                std::string irfName="",
+                const std::string & date="2008-01-30") const;
 
    void read_caldb_indx();
 
@@ -58,7 +58,17 @@ private:
 
    void find_cif(std::string & caldb_indx) const;
 
-   size_t getNumRows(const std::string & fitsfile) const;
+   static void addIrfs(const std::string & aeff_file,
+                       const std::string & psf_file,
+                       const std::string & edisp_file,
+                       int convType,
+                       const std::string & irfName,
+                       std::vector<std::string> & classNames);
+
+   void getSubclassNames(const std::string & irfName,
+                         const std::string & date="2008-01-30");
+
+   static size_t getNumRows(const std::string & fitsfile);
 
 };
 
