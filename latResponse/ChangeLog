@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Mar 23 23:39:47 PDT 2008
+irfs/latResponse/latResponse
+
+Modified Files:
+	IrfLoader.h 
+Log Message:
+much refactoring; code to register multiple event classes
+    *
+------------------------------------------------------------
 User: jchiang  Sun Mar 23 17:04:02 PDT 2008
 irfs/latResponse/src
 
