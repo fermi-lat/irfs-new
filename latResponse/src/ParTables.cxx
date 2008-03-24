@@ -38,7 +38,7 @@ ParTables::ParTables(const std::string & fitsfile,
       }
    }
 
-   // Read in the table values for the remaining rows.
+   // Read in the table values for the remaining columns.
    for (size_t i(4); i < validFields.size(); i++) {
       const std::string & tablename(validFields.at(i));
       m_parNames.push_back(tablename);
@@ -46,7 +46,6 @@ ParTables::ParTables(const std::string & fitsfile,
          std::map<std::string, FitsTable>::
          value_type(tablename, FitsTable(fitsfile, extname, tablename, nrow)));
    }
-
    delete table;
 }
 

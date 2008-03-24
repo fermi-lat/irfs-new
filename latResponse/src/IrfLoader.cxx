@@ -60,9 +60,9 @@ void IrfLoader::registerEventClasses() const {
       const std::vector<std::string> & sub_classes(subclasses(irfName));
       std::vector<std::string> classNames;
       for (size_t j(0); j < sub_classes.size(); j++) {
-         classNames.push_back(sub_classes.at(j) + "::front");
+         classNames.push_back(sub_classes.at(j) + "::FRONT");
          registry.registerEventClass(classNames.back(), classNames.back());
-         classNames.push_back(sub_classes.at(j) + "::back");
+         classNames.push_back(sub_classes.at(j) + "::BACK");
          registry.registerEventClass(classNames.back(), classNames.back());
       }
       registry.registerEventClasses(m_customIrfNames.at(i), classNames);
@@ -120,10 +120,10 @@ void IrfLoader::addIrfs(const std::string & aeff_file,
       std::string class_name(subclasses(irfName).at(i));
       if (convType == 0) {
          class_name += "::FRONT";
-         new Psf(psf_file, true, "RPSF", i);
+         psf = new Psf(psf_file, true, "RPSF", i);
       } else {
          class_name += "::BACK";
-         new Psf(psf_file, false, "RPSF", i);
+         psf = new Psf(psf_file, false, "RPSF", i);
       }
       irfInterface::IEdisp * edisp(new Edisp(edisp_file,"ENERGY DISPERSION",i));
 
