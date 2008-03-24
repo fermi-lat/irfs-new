@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Mar 24 15:43:20 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx ParTables.cxx 
+Log Message:
+assign Psf pointer
+    *
+------------------------------------------------------------
 User: jchiang  Sun Mar 23 23:39:48 PDT 2008
 irfs/latResponse/src
 
