@@ -88,7 +88,7 @@ void IrfLoader::addIrfs(const std::string & version,
    const std::vector<std::string> & irfNames(myFactory->irfNames());
 
 // Check if this set of IRFs already exists.
-   if (std::count(irfNames.begin(), irfNames.end(), irfName)) {
+   if (std::count(irfNames.begin(), irfNames.end(), irfName + "::FRONT")) {
       return;
    }
    std::string aeff_file;
@@ -170,7 +170,7 @@ void IrfLoader::loadCustomIrfs() const {
 
    for (size_t i(0); i < m_customIrfNames.size(); i++) {
       const std::string & irfName(m_customIrfNames.at(i));
-      if (!std::count(irfNames.begin(), irfNames.end(), irfName)) {
+      if (!std::count(irfNames.begin(), irfNames.end(), irfName + "::FRONT")) {
          std::string section("front");
          std::string aeff_file = st_facilities::Env
             ::appendFileName(irfDir, "aeff_"+irfName+"_"+section+".fits");
