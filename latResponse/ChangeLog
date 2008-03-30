@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sat Mar 29 23:08:45 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx 
+Log Message:
+add suffix to test name
+    *
+------------------------------------------------------------
 User: jchiang  Mon Mar 24 15:43:20 PDT 2008
 irfs/latResponse/src
 
