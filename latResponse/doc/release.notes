@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  31-Mar-08   v2        JC  multiple event class handling
   21-Mar-08   v1r1      JC  add combine_irfs; begin work on multiple
                             event classes per file; add setupEnvironment
                             call to test.cxx
