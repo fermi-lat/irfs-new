@@ -15,7 +15,7 @@
 
 #include "astro/SkyDir.h"
 
-#include "st_facilities/GaussianQuadrature.h"
+#include "st_facilities/dgaus8.h"
 
 #include "irfInterface/AcceptanceCone.h"
 #include "irfInterface/IPsf.h"
@@ -97,8 +97,7 @@ double IPsf::angularIntegral(double energy, double theta,
    double err(1e-5);
    long ierr(0);
    double zero(0);
-   integral = st_facilities::GaussianQuadrature::integrate(&coneIntegrand, zero, radius,
-                                               err, ierr);
+   dgaus8_(&coneIntegrand, &zero, &radius, &err, &integral, &ierr);
    return integral;
 }
 
@@ -188,15 +187,11 @@ double IPsf::psfIntegral(IPsf * self,
 
    double firstIntegral(0);
    if (psi < roi_radius) {
-      firstIntegral = 
-         st_facilities::GaussianQuadrature::integrate(&psfIntegrand1, mum, 
-                                                      one, err, ierr);
+      dgaus8_(&psfIntegrand1, &mum, &one, &err, &firstIntegral, &ierr);
    }
    
    double secondIntegral(0);
-   secondIntegral = 
-      st_facilities::GaussianQuadrature::integrate(&psfIntegrand2, mup, 
-                                                   mum, err, ierr);
+   dgaus8_(&psfIntegrand2, &mup, &mum, &err, &secondIntegral, &ierr);
 
    return firstIntegral + secondIntegral;
 }

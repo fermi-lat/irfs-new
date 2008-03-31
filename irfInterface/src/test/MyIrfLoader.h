@@ -22,8 +22,8 @@ public:
    }
 
    virtual void loadIrfs() const {
-      const char * class_names[] = {"FrontA", "BackA", "FrontB", "BackB"};
-      std::vector<std::string> names(class_names, class_names + 4);
+      IrfRegistry & registry(IrfRegistry::instance());
+      std::vector<std::string> names(registry[name()]);
       for (size_t i(0); i < names.size(); i++) {
          Irfs * myIrfs = new Irfs(new Aeff(), new Psf(), new Edisp, i);
          irfInterface::IrfsFactory::

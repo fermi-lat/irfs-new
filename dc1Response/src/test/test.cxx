@@ -1,15 +1,9 @@
-/**
- * $Header$
- */
-
 #include <iostream>
 
-#include "facilities/commonUtilities.h"
 #include "irfInterface/IrfsFactory.h"
 #include "dc1Response/loadIrfs.h"
 
 int main() {
-   facilities::commonUtilities::setupEnvironment();
    dc1Response::load_irfs();
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();

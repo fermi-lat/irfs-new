@@ -8,7 +8,6 @@
 
 #include <cmath>
 #include <iostream>
-#include "facilities/commonUtilities.h"
 #include "irfInterface/IrfsFactory.h"
 #include "dc2Response/loadIrfs.h"
 
@@ -37,8 +36,6 @@ void checkPsf(irfInterface::Irfs * irf, float energy, float theta, float phi) {
 };
 
 int main(int argc, char* argv[]) {
-   facilities::commonUtilities::setupEnvironment();
-
    float energy=1000.;//MeV
    float theta=0.*M_PI/180.;
    float phi=0.*M_PI/180.;  
@@ -60,7 +57,7 @@ int main(int argc, char* argv[]) {
    }
 
    try {
-      dc2Response::load_irfs();
+      dc2Response::loadIrfs();
       irfInterface::IrfsFactory * myFactory 
          = irfInterface::IrfsFactory::instance();
       irfInterface::Irfs * myIrfs(0);
