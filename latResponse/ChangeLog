@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Mar 31 14:23:49 PDT 2008
+irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+fix test for multiple irfs
+    *
+------------------------------------------------------------
 User: jchiang  Mon Mar 31 14:21:12 PDT 2008
 irfs/latResponse/src
 
