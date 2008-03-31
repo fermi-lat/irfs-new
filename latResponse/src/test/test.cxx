@@ -82,17 +82,17 @@ void LatResponseTests::tearDown() {
 }
 
 void LatResponseTests::irf_assignment() {
-// This test assumes there is only one set of front/back irfs.
+// This assumes FRONT IRFs have even irfIDs and BACK IRFs odd irfIDs.
    for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
         name != m_irfNames.end(); ++name) {
       if (name->find("FRONT") != std::string::npos) {
          irfInterface::Irfs * my_irfs(m_irfsFactory->create(*name));
-         CPPUNIT_ASSERT(my_irfs->irfID() == 0);
+         CPPUNIT_ASSERT(my_irfs->irfID() % 2 == 0);
          delete my_irfs;
       }
       if (name->find("BACK") != std::string::npos) {
          irfInterface::Irfs * my_irfs(m_irfsFactory->create(*name));
-         CPPUNIT_ASSERT(my_irfs->irfID() == 1);
+         CPPUNIT_ASSERT(my_irfs->irfID() % 2 == 1);
          delete my_irfs;
       }
    }
