@@ -9,7 +9,7 @@ $Header$
 #include <string>
 
 class PsfPlots;
-class DispPlots;
+class Dispersion;
 class EffectiveArea;
 namespace embed_python { class Module;}
 
@@ -91,7 +91,7 @@ private:
     std::string m_filename_root;
     
     PsfPlots* m_psf;    ///< manage PSF plots
-    DispPlots* m_disp; ///< manage energy dispersion plots
+    Dispersion* m_disp; ///< manage energy dispersion plots
     EffectiveArea* m_aeff; ///< manage the effective area plot
     int m_set;  ///< all, front, back
 

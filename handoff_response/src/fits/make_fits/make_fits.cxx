@@ -152,13 +152,13 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
 // Energy dispersion
    FitsFile edisp("edisp_" + latclass + ".fits", "ENERGY DISPERSION", 
                   "edisp.tpl");
-   edisp.setGrid(irfTables["norm1"]);
-   edisp.setTableData("NORM1", irfTables["norm1"].values());
-   edisp.setTableData("LS1", irfTables["ls1"].values());
-   edisp.setTableData("RS1", irfTables["rs1"].values());
-   edisp.setTableData("NORM2", irfTables["norm2"].values());
-   edisp.setTableData("LS2", irfTables["ls2"].values());
-   edisp.setTableData("RS2", irfTables["rs2"].values());
+   edisp.setGrid(irfTables["dnorm"]);
+   edisp.setTableData("DNORM", irfTables["dnorm"].values());
+   edisp.setTableData("LTAIL", irfTables["ltail"].values());
+   edisp.setTableData("RWIDTH", irfTables["rwidth"].values());
+   edisp.setTableData("NR2", irfTables["nr2"].values());
+   edisp.setTableData("LT2", irfTables["lt2"].values());
+   edisp.setTableData("RT2", irfTables["rt2"].values());
    edisp.setCbdValue("VERSION", irfVersion);
    edisp.setCbdValue("CLASS", latclass);
    edisp.setKeyword("DETNAM", detname);

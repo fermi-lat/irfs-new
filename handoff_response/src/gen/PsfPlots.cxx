@@ -17,7 +17,6 @@ $Header$
 
 #include <cmath>
 #include <iomanip>
-#include <sstream>
 
 namespace {
 #if 1 // log-scale plots to see tails
@@ -112,8 +111,7 @@ void PsfPlots::draw(const std::string &ps_filename ) {
 
     gStyle->SetOptFit(111);
 
-    TCanvas c("c","psf plots", 0, 0, 1400, 1000);
-    int ps_flag(ps_filename.find(".ps"));
+    TCanvas c;
 
     for( int abin=0; abin<= binner().angle_bins(); ++abin){
         int rows=3;
@@ -126,19 +124,9 @@ void PsfPlots::draw(const std::string &ps_filename ) {
             m_hists[binner().ident(ebin,abin)].draw(ymin, ymax, ylog);
         }
         std::cout << "Printing page #" << (abin+1) << std::endl; 
-        if( ps_flag >0 ) {
-            // doing a ps file with multiple plots
-            if( abin==0) c.Print( (ps_filename+"(").c_str());
-            else if (abin<binner().angle_bins()) c.Print(ps_filename.c_str());
-            else c.Print( (ps_filename+")").c_str());
-        }else{
-            std::stringstream currentfile;
-            int dot(ps_filename.find_last_of("."));
-            currentfile << ps_filename.substr(0,dot) << "_"<<(abin+1) << ps_filename.substr(dot);
-            c.Print(currentfile.str().c_str());
-
-            
-        }
+        if( abin==0) c.Print( (ps_filename+"(").c_str());
+        else if (abin<binner().angle_bins()) c.Print(ps_filename.c_str());
+        else c.Print( (ps_filename+")").c_str());
     }
 }
 

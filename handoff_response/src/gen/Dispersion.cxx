@@ -1,193 +1,331 @@
 /** @file Dispersion.cxx
-@brief implementation of class Dispersion
+@brief implement Dispersion and Dispersion::Hist
 
 $Header$
-
 */
 
+#include "st_facilities/GaussianQuadrature.h"
+
 #include "Dispersion.h"
+
+#include "IrfAnalysis.h"
+
 #include "TH1F.h"
-#include "TPad.h"
+#include "TH2F.h"
+#include "TF1.h"
+#include "TCanvas.h"
 #include "TPaveStats.h"
-#include "TList.h"
-#include "TF2.h"
 
 #include <cmath>
 #include <iomanip>
+#include <cassert>
 
 namespace {
-    // histogram parameters
-    static double xmin=-6., xmax=6.; 
-    static int nbins=75;
+   static double disp_pars[10];
+   double dispfunc(double * x) {
+      return Dispersion::function(x, disp_pars);
+   }
+}
 
-  static const char* names[]={"norm1","ls1", "rs1", "norm2", "ls2",  "rs2"};
-  static double pinit[] ={0.1,   1,     1,     0.05,   2,     2};
-  static double pmin[]  ={0.,    0.1,   0.1,   1e-5,   0.5,   0.5};
-  static double pmax[]  ={1,     5,     5,     0.5,    10,    10};
-  static double fitrange[]={-4, 4};
-  static int min_entries( 10);
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//                Dispersion::Hist
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+// specify fit function -- this devised by Riccardo Rando
+static const char* names[]=         {"dnorm","ltail", "rwidth", "nr2", "lt2",  "rt2"};
 
-
-  double edisp_func(double * x, double * par)
-  {
-    
-    double t=fabs(x[0]);
-    double s1(par[1]);
-    double s2(par[4]);
-    
-    //left or right sigma's are required?
-    if (x[0]>0) {
-      //right side
-      s1=par[2];
-      s2=par[5];
-    }
-   
-    //gaussian for core
-    double g1=exp(-0.5*pow(t/s1,2));
-    //almost gaussian for tails
-    double g2=exp(-0.5*pow(t/s2,3));
-    
-    return par[0]*(g1+par[3]*g2);
-  }
-  
-}// anon namespace
-
-// External versions.
-
-
-const char* Dispersion::parname(int i){return names[i];}
-
-int Dispersion::npars(){return sizeof(names)/sizeof(void*);}
+double    Dispersion::Hist::pinit[] ={0.5,     20,     0.02,     1e4,   4.0,    0.2};
+double    Dispersion::Hist::pmin[]  ={0.,      2,      0.005,    0.0,   1.0,    0.005};
+double    Dispersion::Hist::pmax[]  ={20,      50,     0.5 ,     1e6,   50,     0.5};
+double    Dispersion::Hist::fitrange[]={-0.8, 1.5};
+bool      Dispersion::Hist::s_logy = false;
+int       Dispersion::Hist::s_minEntries( 10);
+int       Dispersion::Hist::s_bins(75);
+double    Dispersion::Hist::s_histrange[2] = {-1., 2.};
 
 std::vector<std::string>
-      Dispersion::pnames(names, names+npars());
+          Dispersion::Hist::pnames(names, names+sizeof(names)/sizeof(const char*));
+unsigned int
+          Dispersion::Hist::npars(){return pnames.size();}
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Dispersion::Dispersion(std::string histname, 
-                                         std::string title)
-                                         
-: m_hist( new TH1F(histname.c_str(),  title.c_str(),  nbins, xmin, xmax))
-, m_fitfunc(TF1("edisp-fit", edisp_func, fitrange[0], fitrange[1], npars()))
-, m_count(0)
+double Dispersion::function(double * x, double * p)
 {
-    hist().GetXaxis()->SetTitle("scaled deviation");
+    double ret(0), arg(*x/p[2]), xp1(1.+*x);
+    ret =   p[0]*pow(xp1,p[1]) *( arg>40? exp(-arg) : 1/(1+exp(arg)) );
+    ret +=  p[3]*pow(xp1,p[4]) * exp(-xp1/p[5]); // for tails
+    return ret;
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Dispersion::Hist::Hist(std::string id, std::string title)
+{
+    static std::string axistitles(";fit/generated-1");
+    m_h = new TH1F(id.c_str(), (title+axistitles).c_str(),  s_bins, s_histrange[0], s_histrange[1]);
 
-    for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++) {
-        m_fitfunc.SetParLimits(i, pmin[i], pmax[i]);
-        m_fitfunc.SetParName(i, pnames[i].c_str());
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void Dispersion::Hist::fill(double diff){
+    m_h->Fill(diff);
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void Dispersion::Hist::fit(std::string opts)
+{
+    TH1F & h = *m_h;; 
+
+    // add overflow to last bin for display
+    int nbins ( h.GetNbinsX() );
+    h.SetBinContent(nbins, h.GetBinContent(nbins) +h.GetBinContent(nbins+1));
+
+    // rescale to unit
+    h.Sumw2();
+    double binsize((s_histrange[1]-s_histrange[0])/s_bins );
+    h.Scale(1./binsize/h.GetEntries());
+
+    TF1* f1 = new TF1("f1",Dispersion::function,fitrange[0],fitrange[1], npars());
+    for (unsigned int i = 0; i < npars(); i++) {
+        f1->SetParLimits(i, pmin[i], pmax[i]);
+        f1->SetParName(i, pnames[i].c_str());
     }
-    m_fitfunc.SetLineWidth(1);
-}
+    f1->SetParameters(pinit);
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Dispersion::~Dispersion()
-{}
+    if( h.GetEntries()>= s_minEntries ){
+        h.Fit(f1, opts.c_str());
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void Dispersion::fill(double scaled_delta, double weight)
-{
-    hist().Fill( scaled_delta, weight );
-    m_count++;
-}
+        // measure tails
+        double binsize( 2./ nbins ),
+            predlow ( f1->Integral(-1.,0.)/binsize ),
+            predhigh( f1->Integral(0, 1.)/binsize ),
+            measlow ( h.Integral(1,nbins/2) ),
+            meashigh( h.Integral(nbins/2+1, nbins) );
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void Dispersion::summary_title(std::ostream & out)
-{
-  out << "\n\t\t Dispersion fit summary\n"
-      <<"Nothing here yet! (Dispersion.cxx)" << std::endl;
-}
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void Dispersion::summarize(std::ostream & out)
-{
-
-  out<<"Nothing here yet! (Dispersion.cxx)" << std::endl;
-}
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-double Dispersion::scaleFactor(double energy,double  zdir, bool thin)
-{
-  // following numbers determined empirically to roughly 
-  // make the 68% containment radius be 1.0 independent of energy
-  //use a TFunction so that all this stuff could be read from fits file
-
-   
-  static double coef_thin[] ={0.0210,0.058,-0.207,-0.213,0.042,0.564};
-  static double coef_thick[]={0.0215,0.0507,-0.22,-0.243,0.065,0.584};
-  
-  //x is McLogEnergy, y is fabs(McZDir)
-  static const char funcdef[]="[0]*x*x+[1]*y*y + [2]*x + [3]*y + [4]*x*y + [5]";
-
-  static TF2 edisp_scale_func("edisp_scale_func",funcdef);
-
-  double vars[2]; vars[0]=::log10(energy); vars[1]=::fabs(zdir);
-
-  if( thin ){
-    return edisp_scale_func(vars,coef_thin); 
-  }else{
-    return edisp_scale_func(vars,coef_thick); 
-  }
-}
-
-double Dispersion::function(double* delta, double* par) {
-  return edisp_func(delta,par);
-}
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void Dispersion::fit(std::string opts)
-{
-  
-    std::cout << "\rProcessing " << hist().GetTitle();
-    TH1F & h = hist(); 
-
-    // normalize the distribution
-    double scale = h.Integral();
-    if (scale > 0 && hist().GetEntries()>50) { 
-        h.Sumw2(); // needed to preserve errors
-        h.Scale(1./scale);
+        m_lowTail = (measlow-predlow)/(measlow+meashigh);
+        m_highTail= (meashigh-predhigh)/(measlow+meashigh);
     }
-
-    m_fitfunc.SetParameters(pinit);
-    if( m_count > min_entries ) {
-        h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
-    }
+    h.Write(); // save fit info 
 }
-
-void Dispersion::setFitPars(double * pars, double * pmin,
-                                     double * pmax) {
-   for (int i = 0; i < npars(); i++) {
-      m_fitfunc.SetParLimits(i, pmin[i], pmax[i]);
-   }
-   m_fitfunc.SetParameters(pars);
-}
- 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void Dispersion::draw(double ymin, double ymax, bool ylog)
+double Dispersion::Hist::entries()const{return m_h->GetEntries();}
+double Dispersion::Hist::parameter(int n)const
 {
-//
+    TF1* f1 = m_h->GetFunction("f1");
+    if( f1 ==0 ) return 99; // no fit.
+    if( n>=0 )  return  f1->GetParameter(n);
+    return f1->GetChisquare();
+}
+double Dispersion::Hist::ltail()const{
+
+    return  parameter(1);
+}
+double Dispersion::Hist::rwidth()const{
+    return  parameter(2);
+}
+double Dispersion::Hist::chisq()const{
+    return  parameter(-1);
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void Dispersion::Hist::summaryTitle(std::ostream& out)
+{
+    using std::setw;
+    out << "\n\t\t Dispersion fit summary\n" 
+        << setw(30)<< std::right << "title" 
+        << setw(10) << "count"
+        << std::left<<"  "
+        << setw(10) << "chisq"
+        << setw(10) << "ltail"
+        << setw(10) << "rwidth"
+        << setw(10) << pnames[3]
+        << setw(10) << pnames[4]
+        << setw(10) << pnames[5]
+        << std::endl;
+
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void Dispersion::Hist::summarize(std::ostream & out)
+{
+    using std::setw; using std::setprecision;
+
+    int n= static_cast<int>( entries() );
+    out  
+        << setprecision(3) << std::right << std::fixed
+        << setw(30) << m_h->GetTitle() 
+        << setw(10) << n;
+    if( n < s_minEntries) {
+        out << "    -- " ;
+    }else{
+        out << std::left<<"  " << setprecision(1)
+            << setw(10) << chisq()
+            << setw(10) << ltail()
+            << setprecision(3)
+            << setw(10) << rwidth()
+            << setw(10) << parameter(3)
+            << setw(10) << parameter(4)
+            << setw(10) << parameter(5);
+    }
+    out   << std::endl;
+
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void Dispersion::Hist::draw()const
+{//
     // set up appearance, and draw to current pad
-    if( ylog) gPad->SetLogy();
-    TH1F & h = hist(); 
-    h.SetMaximum(ymax);
-    h.SetMinimum(ymin);
+    if( s_logy) gPad->SetLogy();
+
+    TH1F & h = *m_h;
     h.SetStats(true);
     h.SetLineColor(kRed);
     h.GetXaxis()->CenterTitle(true);
 
-    /// @todo: do I need this? why is it here
     TList * list = h.GetListOfFunctions();
     TPaveStats  *s = (TPaveStats*)list->FindObject("stats");
     if( s!= 0 ){
         s->SetY1NDC(0.6);
     }
     h.Draw();
-
-    h.Write();
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void Dispersion::Hist::getFitPars(std::vector<double>& params)const
+{
+    params.resize(npars(), 0);
+    TF1* f1 = m_h->GetFunction("f1");
+    if( f1==0 ){ 
+// no fit, just return default (Why are the pinit numbers the correct
+// defaults?)
+        copy(pinit, pinit+npars(), params.begin());
+    }else {
+        f1->GetParameters(disp_pars);
+// Ensure the integral is properly normalized.
+        double error(1e-5);
+        long ier;
+        double norm = 
+           st_facilities::GaussianQuadrature::integrate(dispfunc, -1, 10.,
+                                                        error, ier);
+        for (size_t i(0); i < npars(); i++) {
+           params.at(i) = disp_pars[i];
+        }
+        params.at(0) /= norm;
+        params.at(3) /= norm;
+    }
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void Dispersion::getFitPars(std::vector<double>& params)const
+//               Dispersion
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Dispersion::Dispersion( IrfAnalysis& irf, std::ostream& log)
+: m_irf(irf)
+, m_binner(irf.binner())
+, m_log(&log)
 {
-    params.resize(m_fitfunc.GetNpar());
-    // weird, but it seems to work 
-    const_cast<TF1*>(&m_fitfunc)->GetParameters(&params[0]);
+    m_hists.resize(binner().size());
+    for (size_t ebin = 0; ebin < binner().energy_bins(); ++ebin) {
+        for (size_t abin = 0; abin <= binner().angle_bins(); ++abin) {
+            int id = binner().ident(ebin,abin);
+            std::ostringstream title;
+            title << (int)(binner().eCenter(ebin)+0.5) << " MeV," ;
+            if ( abin < binner().angle_bins() ) {
+                title << binner().angle(abin) << "-"<< binner().angle(abin+1) << " degrees";
+            }else {
+                title <<  binner().angle(0) << "-"<< binner().angle(binner().angle_bins()-2) << " degrees";
+            }
+            m_hists[id] = Hist(IrfBinner::hist_name(abin,ebin,"dsp"),title.str());
+        }
+    }
 }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Dispersion::~Dispersion()
+{}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void Dispersion::fill(double diff, double energy, double costheta, bool/* front*/)
+{
+    size_t z_bin = binner().angle_bin( costheta );     if( z_bin>= binner().angle_bins()) return;
+    size_t e_bin = binner().energy_bin(energy);        if( e_bin<0 || e_bin>= binner().energy_bins() )return;
+
+//     int id =  binner().ident(e_bin, z_bin);
+//     m_hists[id].fill(diff);
+
+// use over-lapping bins if da, de are non-zero:
+    int da(binner().edispEnergyOverLap());
+    int de(binner().edispAngleOverLap());
+    for (int eoffset(-de); eoffset < de + 1; eoffset++) {
+      for (int aoffset(-da); aoffset < da + 1; aoffset++) {
+         int indx(binner().hist_id(e_bin + eoffset, z_bin + aoffset));
+         if (indx >= 0) {
+            m_hists[indx].fill(diff);
+         }
+      }
+   }
+    
+
+    // set special combined hist, accumulate all but last bins of angles
+    if( z_bin< binner().angle_bins()-2) {
+        m_hists[binner().ident(e_bin, binner().angle_bins())].fill(diff);
+    }
+}
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void Dispersion::summarize()
+{
+    // summarize psf plot contents, fit 
+    Hist::summaryTitle( out());
+    for( HistList::iterator it = m_hists.begin(); it!=m_hists.end(); ++it){
+        (*it).summarize(out());
+    }
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void Dispersion::fit(std::string opts)
+{
+    for( HistList::iterator it = m_hists.begin(); it!=m_hists.end(); ++it){
+        (*it).fit(opts);
+    }
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void Dispersion::draw(const std::string &ps_filename ) {
+    gStyle->SetOptFit(111);
+
+    TCanvas c;
+
+    for( size_t abin=0; abin<= binner().angle_bins(); ++abin){
+        int rows=3;
+        m_irf.divideCanvas(c,(binner().energy_bins()+1)/rows,rows, 
+            std::string("Plots from ") +m_irf.summary_filename());
+        for(size_t ebin=0; ebin<binner().energy_bins(); ++ebin){
+            c.cd(ebin+1);
+            gPad->SetRightMargin(0.02);
+            gPad->SetTopMargin(0.03);
+            m_hists[binner().ident(ebin,abin)].draw();
+        }
+        std::cout << "Printing page #" << (abin+1) << std::endl; 
+        if( abin==0) c.Print( (ps_filename+"(").c_str());
+        else if (abin<binner().angle_bins()) c.Print(ps_filename.c_str());
+        else c.Print( (ps_filename+")").c_str());
+    }
+}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+void Dispersion::fillParameterTables()
+{
+    // make a set of 2-d histograms with values of the fit parameters
+    // binning according to energy and costheta bins
+
+    for( size_t i = 0; i< Hist::npars(); ++i){
+        std::string name(Hist::pnames[i]);
+        TH2F* h2 = new TH2F(name.c_str(), (name+";log energy; costheta").c_str() 
+            ,binner().energy_bins(), &*binner().energy_bin_edges().begin() 
+            ,binner().angle_bins(), &*binner().angle_bin_edges().begin() 
+            );
+        std::vector<double> pars;
+
+        ///@todo: put this indexing into a object
+        int index(0);
+        for( HistList::iterator it = m_hists.begin(); it!=m_hists.end(); ++it, ++index){
+            it->getFitPars(pars);
+            double costheta = 0.95 - 0.1*(index/binner().energy_bins());
+            double logenergy = log10(binner().eCenter(index % binner().energy_bins()));
+
+            h2->Fill(logenergy, costheta, pars[i]);
+        }
+        h2->GetXaxis()->CenterTitle();
+        h2->GetYaxis()->CenterTitle();
+        h2->Write();
+    }
+}
+

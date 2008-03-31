@@ -25,6 +25,8 @@
 
 #include "handoff_response/loadIrfs.h"
 
+#include "facilities/commonUtilities.h"
+
 namespace {
    std::string getEnv(const std::string & envVarName) {
       char * envvar(::getenv(envVarName.c_str()));
@@ -297,7 +299,7 @@ void HandoffResponseTests::edisp_sampling() {
             for (size_t j = 0; j < nsamp; j++) {
                 try{
                     edisp.appEnergy(*energy, srcDir, zAxis, xAxis);
-                }catch(const std::exception& ){
+                }catch(const std::exception& e){
                     std::cerr << "caught sampling error, "
                         << (*energy)<<", "<<srcDir.dec() <<", " 
                         << zAxis.dec() << ", " <<xAxis.dec()  << std::endl;
@@ -314,7 +316,7 @@ int main(int argc, char* argv[]) {
 // Add floating point exception traps.
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
-
+   facilities::commonUtilities::setupEnvironment();
 //    try {
 //       std::string defaultFile(::getEnv("HANDOFF_RESPONSEROOT") + 
 //                               "/data/parameters.root");
@@ -323,18 +325,15 @@ int main(int argc, char* argv[]) {
 //       std::cout << eObj.what() << std::endl;
 //       std::exit(1);
 //    }
-    int rc(0);
-    try{
-        handoff_response::load_irfs();
 
-        CppUnit::TextTestRunner runner;
-        runner.addTest(HandoffResponseTests::suite());
-        bool result(runner.run());
-        rc = result? 0:1;
-    } catch (const std::exception & eObj) {
-        std::cout << "Caught exception: ";
-        std::cout << eObj.what() << std::endl;
-        rc=1;
-    }
-    return rc;
+   handoff_response::load_irfs();
+
+   CppUnit::TextTestRunner runner;
+   runner.addTest(HandoffResponseTests::suite());
+   bool result(runner.run());
+   if (result) {
+      return 0;
+   } else {
+      return 1;
+   }
 }
