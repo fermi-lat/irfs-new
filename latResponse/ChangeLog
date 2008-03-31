@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Mar 31 14:21:12 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx 
+Log Message:
+need to check for detector-specific version
+    *
+------------------------------------------------------------
 User: jchiang  Sat Mar 29 23:08:45 PDT 2008
 irfs/latResponse/src
 
