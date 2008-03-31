@@ -88,7 +88,7 @@ void IrfLoader::addIrfs(const std::string & version,
    const std::vector<std::string> & irfNames(myFactory->irfNames());
 
 // Check if this set of IRFs already exists.
-   if (std::count(irfNames.begin(), irfNames.end(), irfName + "::FRONT")) {
+   if (std::count(irfNames.begin(), irfNames.end(), irfName+"::"+detector)) {
       return;
    }
    std::string aeff_file;
