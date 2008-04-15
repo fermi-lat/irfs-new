@@ -152,11 +152,11 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
 // Energy dispersion
    FitsFile edisp("edisp_" + latclass + ".fits", "ENERGY DISPERSION", 
                   "edisp.tpl");
-   edisp.setGrid(irfTables["norm1"]);
-   edisp.setTableData("NORM1", irfTables["norm1"].values());
+   edisp.setGrid(irfTables["norm"]);
+   edisp.setTableData("NORM", irfTables["norm"].values());
    edisp.setTableData("LS1", irfTables["ls1"].values());
    edisp.setTableData("RS1", irfTables["rs1"].values());
-   edisp.setTableData("NORM2", irfTables["norm2"].values());
+   edisp.setTableData("BIAS", irfTables["bias"].values());
    edisp.setTableData("LS2", irfTables["ls2"].values());
    edisp.setTableData("RS2", irfTables["rs2"].values());
    edisp.setCbdValue("VERSION", irfVersion);
