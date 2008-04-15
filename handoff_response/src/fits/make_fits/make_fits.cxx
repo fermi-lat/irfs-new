@@ -141,6 +141,8 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    psf.setKeyword("DETNAM", detname);
    psf.close();
    
+   /// @bug These are hard-wired values from
+   /// gen/PointSpreadFunction::scaleFactor!
    double scaling_pars[] = {5.8e-2, 3.77e-4, 9.6e-2, 1.3e-3, -0.8};
    std::vector<double> scalingPars(scaling_pars, scaling_pars + 5);
    bool newFile;
@@ -150,8 +152,8 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    psfScaling.close();
 
 // Energy dispersion
-   FitsFile edisp("edisp_" + latclass + ".fits", "ENERGY DISPERSION", 
-                  "edisp.tpl");
+   std::string edisp_file("edisp_" + latclass + ".fits");
+   FitsFile edisp(edisp_file, "ENERGY DISPERSION", "edisp.tpl");
    edisp.setGrid(irfTables["norm"]);
    edisp.setTableData("NORM", irfTables["norm"].values());
    edisp.setTableData("LS1", irfTables["ls1"].values());
@@ -163,6 +165,27 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    edisp.setCbdValue("CLASS", latclass);
    edisp.setKeyword("DETNAM", detname);
    edisp.close();
+
+   /// @bug These are hard-wired values in gen/Dispersion::scaleFactor()!!
+   double edisp_front[] = {0.0210, 0.058, -0.207, -0.213, 0.042, 0.564};
+   double edisp_back[] = {0.0215, 0.0507, -0.22, -0.243, 0.065, 0.584};
+   
+   if (detname == "FRONT") {
+      scalingPars = std::vector<double>(edisp_front, edisp_front + 6);
+   } else { // BACK
+      scalingPars = std::vector<double>(edisp_back, edisp_back + 6);
+   }
+
+   /// @bug Append other hard-wired values from gen/Dispersion 
+   // anonymous namespace:
+   scalingPars.push_back(1.6);
+   scalingPars.push_back(0.6);
+   scalingPars.push_back(0.85);
+
+   FitsFile edispScaling(edisp_file, "EDISP_SCALING_PARAMS", "edisp.tpl",
+                         newFile=false);
+   edispScaling.setTableData("EDISPSCALE", scalingPars);
+   edispScaling.close();
 }
 
 void MakeFits::readClassNames(const std::string & rootfile,
