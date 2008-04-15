@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: rando  Tue Apr 15 08:00:26 PDT 2008
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx 
+Log Message:
+new P6 functional form
+
+    *
+------------------------------------------------------------
 User: rando  Tue Apr 15 07:59:42 PDT 2008
 irfs/handoff_response/src/irfs
 
