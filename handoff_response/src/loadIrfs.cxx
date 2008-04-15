@@ -65,32 +65,43 @@ std::string load_irfs(const std::string & rootfile, bool verbose) {
       loader = new IrfLoader(irfName);
 
       bool useCaldb;
-      loader->addIrfEval("Pass4_v2/front", 
-                         new FitsEval("Pass4_v2", "front", 
-                                      "PASS4_v2", "2007-06-24",
+      /*
+      loader->addIrfEval("P6_v1_transient/front", 
+                         new FitsEval("Pass6_v1_Transient", "front", 
+                                      "PASS6_v1_TRANSIENT", "2008-04-10",
                                       useCaldb=true));
-      loader->addIrfEval("Pass4_v2/back", 
-                         new FitsEval("Pass4_v2", "back", 
-                                      "PASS4_v2", "2007-06-24",
+      loader->addIrfEval("P6_v1_transient/back", 
+                         new FitsEval("Pass6_v1_Transient", "back", 
+                                      "PASS6_v1_TRANSIENT", "2008-04-10",
                                       useCaldb=true));
-
-   std::string eventClass(irfName + "/front");
-   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 0), verbose);
-
-   eventClass = irfName + "/back";
-   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 1), verbose);
-
-// Pass4_v2 irfs:
-   eventClass = "Pass4_v2/front";
-   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 0), verbose);
-
-   eventClass = "Pass4_v2/back";
-   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 1), verbose);
-
-   delete loader;
-
-   return irfName;
+      loader->addIrfEval("P6_v1_source/front", 
+                         new FitsEval("Pass6_v1", "front", 
+                                      "PASS6_v1", "2008-08-20",
+                                      useCaldb=true));
+      loader->addIrfEval("P6_v1_source/back", 
+                         new FitsEval("Pass6_v1", "back", 
+                                      "PASS6_v1", "2008-08-20",
+                                      useCaldb=true));
+      loader->addIrfEval("P6_v1_diffuse/front", 
+                         new FitsEval("Pass6_v1_Diffuse", "front", 
+                                      "PASS6_v1_DIFFUSE", "2008-04-10",
+                                      useCaldb=true));
+      loader->addIrfEval("P6_v1_diffuse/back", 
+                         new FitsEval("Pass6_v1_Diffuse", "back", 
+                                      "PASS6_v1_DIFFUSE", "2008-04-10",
+                                      useCaldb=true));
+      */
    }
    
+   std::string eventClass(irfName + "/front");
+   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 0), verbose);
+   
+   eventClass = irfName + "/back";
+   myFactory->addIrfs(eventClass, loader->irfs(eventClass, 1), verbose);
+   
+   delete loader;
+   
+   return irfName;
 }
+  
 } // namespace handoff_response

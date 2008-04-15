@@ -24,11 +24,23 @@ void MyIrfLoader::registerEventClasses() const {
    registry.registerEventClass("HANDOFF_front", classNames.at(0));
    registry.registerEventClass("HANDOFF_back", classNames.at(1));
 
-   classNames.at(0) = "Pass4_v2/front";
-   classNames.at(1) = "Pass4_v2/back";
-   registry.registerEventClasses("Pass4_v2", classNames);
-   registry.registerEventClass("Pass4_v2_front", classNames.at(0));
-   registry.registerEventClass("Pass4_v2_back", classNames.at(1));
+   classNames.at(0) = "P6_v1_transient/front";
+   classNames.at(1) = "P6_v1_transient/back";
+   registry.registerEventClasses("P6_v1_trans", classNames);
+   registry.registerEventClass("P6_v1_transient_front", classNames.at(0));
+   registry.registerEventClass("P6_v1_transient_back", classNames.at(1));
+
+   classNames.at(0) = "P6_v1_source/front";
+   classNames.at(1) = "P6_v1_source/back";
+   registry.registerEventClasses("P6_v1_source", classNames);
+   registry.registerEventClass("P6_v1_source_front", classNames.at(0));
+   registry.registerEventClass("P6_v1_source_back", classNames.at(1));
+
+   classNames.at(0) = "P6_v1_diffuse/front";
+   classNames.at(1) = "P6_v1_diffuse/back";
+   registry.registerEventClasses("P6_v1_diffuse", classNames);
+   registry.registerEventClass("P6_v1_diffuse_front", classNames.at(0));
+   registry.registerEventClass("P6_v1_diffuse_back", classNames.at(1));
 
 }
 
