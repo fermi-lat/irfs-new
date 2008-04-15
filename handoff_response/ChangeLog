@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 15 15:51:37 PDT 2008
+irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+change column names for new implementation
+    *
+------------------------------------------------------------
 User: rando  Tue Apr 15 08:01:29 PDT 2008
 irfs/handoff_response/data
 
