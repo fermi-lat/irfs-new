@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: rando  Tue Apr 15 07:58:16 PDT 2008
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	FitsEval.cxx 
+Log Message:
+debug cout instruction removed
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-03-08-04, operation: mov
 Package: handoff_response
