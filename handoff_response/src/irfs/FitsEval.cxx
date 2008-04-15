@@ -24,7 +24,6 @@
 namespace {
    std::string fullpath(const std::string & basename) {
       char * rootPath = ::getenv("HANDOFF_IRF_DIR");
-      std::cout<<"read env var"<<rootPath<<std::endl;
       if (rootPath == 0) {
          throw std::runtime_error("HANDOFF_IRF_DIR env var not set.");
       }
