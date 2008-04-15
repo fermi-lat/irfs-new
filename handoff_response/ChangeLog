@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: rando  Tue Apr 15 07:59:42 PDT 2008
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	RootEval.cxx 
+Log Message:
+modified disp_par and dispersion to account for new P6 parametres
+
+    *
+------------------------------------------------------------
 User: rando  Tue Apr 15 07:58:16 PDT 2008
 irfs/handoff_response/src/irfs
 
