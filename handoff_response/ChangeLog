@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Apr 15 16:21:02 PDT 2008
+irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+add extension for edisp scaling parameters
+    *
+------------------------------------------------------------
+User: jchiang  Tue Apr 15 16:21:02 PDT 2008
 irfs/handoff_response/data
 
 Modified Files:
