@@ -17,21 +17,22 @@ $Header$
 
 namespace {
     // histogram parameters
-    static double xmin=-6., xmax=6.; 
-    static int nbins=75;
+    static double xmin=-7.5, xmax=7.5; 
+    static int nbins=100;
 
-  static const char* names[]={"norm1","ls1", "rs1", "norm2", "ls2",  "rs2"};
-  static double pinit[] ={0.1,   1,     1,     0.05,   2,     2};
-  static double pmin[]  ={0.,    0.1,   0.1,   1e-5,   0.5,   0.5};
-  static double pmax[]  ={1,     5,     5,     0.5,    10,    10};
-  static double fitrange[]={-4, 4};
-  static int min_entries( 10);
-
+  static const char* names[]={"norm","ls1", "rs1", "bias", "ls2",  "rs2"};
+  static double pinit[] ={0.01,   0.75,   2,      0.0,    0.1,       2};
+  static double pmin[]  ={0.,    0.1,   0.1,   -0.5,    1e-5,   1e-5};
+  static double pmax[]  ={1e6,   5,     5,      0.5,   10,      10};
+  static double pindex[]={1.6,0.6};
+  static double psplit(0.85);
+  static double fitrange[]={-7, 7};
+  static int min_entries(10);
 
   double edisp_func(double * x, double * par)
   {
     
-    double t=fabs(x[0]);
+    double t=fabs(x[0]-par[3]);
     double s1(par[1]);
     double s2(par[4]);
     
@@ -42,12 +43,18 @@ namespace {
       s2=par[5];
     }
    
-    //gaussian for core
-    double g1=exp(-0.5*pow(t/s1,2));
-    //almost gaussian for tails
-    double g2=exp(-0.5*pow(t/s2,3));
+    //for core
+    double g1=exp(-0.5*pow(t/s1,pindex[0]));
+    //for tails
+    double g2=exp(-0.5*pow(t/s2,pindex[1]));
     
-    return par[0]*(g1+par[3]*g2);
+    //scale norm
+    double nscale=exp( 0.5*(pow(psplit/s2,pindex[1])-
+			    pow(psplit/s1,pindex[0])));
+    if (t>psplit)
+      return par[0]*nscale*g2;
+    //else
+    return par[0]*g1;
   }
   
 }// anon namespace
