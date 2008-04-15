@@ -180,7 +180,10 @@ double RootEval::dispersion(double emeas, double energy, double theta,
                             double /*phi*/)
 {
     double costh(cos(theta*M_PI/180)), x(emeas/energy-1);
-    if( x<-0.9 ) return 0;
+    //if( x<-0.9 ) return 0; //why is this needed
+    //prescale x
+    x=x/Dispersion::scaleFactor(energy, costh, isFront());
+    //get dispersion for prescaled var
     double ret = Dispersion::function(&x, disp_par(energy,costh));
     return ret/energy;
 }
@@ -295,11 +298,11 @@ double * RootEval::disp_par(double energy, double costh) {
 
      // rescale the sigma value after interpolation
    //sigma 1st func
-   par[1] *= Dispersion::scaleFactor(energy, costh, isFront());
-   par[2] *= Dispersion::scaleFactor(energy, costh, isFront());
+   //par[1] *= Dispersion::scaleFactor(energy, costh, isFront());
+   //par[2] *= Dispersion::scaleFactor(energy, costh, isFront());
    //sigma 2nd func
-   par[4] *= Dispersion::scaleFactor(energy, costh, isFront());
-   par[5] *= Dispersion::scaleFactor(energy, costh, isFront());
+   //par[4] *= Dispersion::scaleFactor(energy, costh, isFront());
+   //par[5] *= Dispersion::scaleFactor(energy, costh, isFront()); 
 
     return par;
 }
