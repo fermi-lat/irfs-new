@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 15 22:13:52 PDT 2008
+irfs/handoff_response/data
+
+Modified Files:
+	edisp.tpl 
+Log Message:
+add EDISPVER keyword to edisp.tpl
+    *
+------------------------------------------------------------
 User: jchiang  Tue Apr 15 16:21:02 PDT 2008
 irfs/handoff_response/src/fits/make_fits
 

@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Apr 15 22:12:32 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	Edisp2.cxx Edisp2.h IrfLoader.cxx 
+Log Message:
+Edisp2 implementation almost complete; need to ensure normalization?
+    *
+------------------------------------------------------------
+User: jchiang  Tue Apr 15 22:12:32 PDT 2008
 irfs/latResponse/latResponse
 
 Modified Files:
