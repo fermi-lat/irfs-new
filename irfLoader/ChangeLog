@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Apr 16 14:11:12 PDT 2008
+irfs/irfLoader/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+remove handoff_response; tagging v1r2
+    *
+------------------------------------------------------------
+User: jchiang  Wed Apr 16 14:11:12 PDT 2008
 irfs/irfLoader/cmt
 
 Modified Files:
