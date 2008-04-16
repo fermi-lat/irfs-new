@@ -82,6 +82,7 @@ CBD90001= 'NONE'               /
 CVSD0001= '2007-01-17'         / Dataset validity start date (UTC)
 CVST0001= '00:00:00'           /                                               
 CDES0001= 'GLAST LAT ENERGY DISPERSION' /
+EDISPVER= 1                    / File format version
 END
 
 XTENSION =             BINTABLE / Binary table extension

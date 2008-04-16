@@ -164,6 +164,7 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    edisp.setCbdValue("VERSION", irfVersion);
    edisp.setCbdValue("CLASS", latclass);
    edisp.setKeyword("DETNAM", detname);
+   edisp.setKeyword("EDISPVER", 2);
    edisp.close();
 
    /// @bug These are hard-wired values in gen/Dispersion::scaleFactor()!!
