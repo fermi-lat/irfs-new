@@ -32,6 +32,7 @@
 #include "Aeff.h"
 #include "CaldbDate.h"
 #include "Edisp.h"
+#include "Edisp2.h"
 #include "Psf.h"
 
 namespace latResponse {
@@ -125,7 +126,12 @@ void IrfLoader::addIrfs(const std::string & aeff_file,
          class_name += "::BACK";
          psf = new Psf(psf_file, false, "RPSF", i);
       }
-      irfInterface::IEdisp * edisp(new Edisp(edisp_file,"ENERGY DISPERSION",i));
+      irfInterface::IEdisp * edisp(0);
+      if (edispVersion(edisp_file) == 2) {
+         edisp = new Edisp2(edisp_file, "ENERGY DISPERSION", i);
+      } else {
+         edisp = new Edisp(edisp_file, "ENERGY DISPERSION", i);
+      }
 
       size_t irfID(i*2 + convType);
       myFactory->addIrfs(class_name, 
@@ -292,6 +298,21 @@ void IrfLoader::find_cif(std::string & caldb_indx) const {
       }
    }
    throw std::runtime_error("GLAST LAT not found in caldb.config file");
+}
+
+int IrfLoader::edispVersion(const std::string & fitsfile) const {
+   std::string extname;
+   st_facilities::FitsUtil::getFitsHduName(fitsfile, 2, extname);
+   const tip::Table * table = 
+      tip::IFileSvc::instance().readTable(fitsfile, extname);
+   int version(1);
+   try {
+      table->getHeader()["EDISPVER"].get(version);
+   } catch (tip::TipException & eObj) {
+      /// EDISPVER keyword is (probably) missing, so assume default version
+   }
+   delete table;
+   return version;
 }
 
 } // namespace latResponse

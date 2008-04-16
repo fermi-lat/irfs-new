@@ -75,6 +75,8 @@ private:
 
    static size_t getNumRows(const std::string & fitsfile);
 
+   int edispVersion(const std::string & fitsfile) const;
+
 };
 
 } // namespace latResponse

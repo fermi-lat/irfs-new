@@ -57,9 +57,7 @@ public:
       return new Edisp2(*this);
    }
 
-   static double old_function(double xx, double * pars);
-
-   double scaleFactor(double energy, double costheta);
+   double scaleFactor(double energy, double costheta) const;
 
 private:
 
@@ -69,6 +67,16 @@ private:
    mutable double m_costh_last;
 
    double * pars(double energy, double costh) const;
+
+   std::vector<double> m_scalePars;
+   double m_p1;
+   double m_p2;
+   double m_t0;
+
+   double old_function(double xx, double * pars) const;
+
+   void readScaling(const std::string & fitsfile,
+                    const std::string & extname="EDISP_SCALING_PARAMS");
 
 };
 
