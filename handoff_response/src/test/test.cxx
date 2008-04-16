@@ -324,17 +324,17 @@ int main(int argc, char* argv[]) {
 //       std::exit(1);
 //    }
     int rc(0);
-    try{
+//     try{
         handoff_response::load_irfs();
 
         CppUnit::TextTestRunner runner;
         runner.addTest(HandoffResponseTests::suite());
         bool result(runner.run());
         rc = result? 0:1;
-    } catch (const std::exception & eObj) {
-        std::cout << "Caught exception: ";
-        std::cout << eObj.what() << std::endl;
-        rc=1;
-    }
+//     } catch (const std::exception & eObj) {
+//         std::cout << "Caught exception: ";
+//         std::cout << eObj.what() << std::endl;
+//         rc=1;
+//     }
     return rc;
 }

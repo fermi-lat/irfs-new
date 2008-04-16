@@ -45,6 +45,8 @@ private:
    std::string m_date;
    bool m_forceCaldb;
 
+   std::string m_dataPath;
+
    void readAeff();
    void readEdisp();
    void readPsf();

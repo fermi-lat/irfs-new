@@ -49,7 +49,24 @@ namespace {
    private:
       double * m_pars;
    };
-}
+   class EdispIntegrand {
+   public:
+      EdispIntegrand(double * pars, double etrue, double costh, bool isFront)
+         : m_pars(pars), m_etrue(etrue), m_costh(costh), m_isFront(isFront) {}
+
+      double operator()(double emeas) const {
+         double xx((emeas - m_etrue)/m_etrue
+                   /Dispersion::scaleFactor(m_etrue, m_costh, m_isFront));
+         return Dispersion::function(&xx, m_pars)/m_etrue;
+      }
+
+   private:
+      double * m_pars;
+      double m_etrue;
+      double m_costh;
+      bool m_isFront;
+   };
+} // anonymous namespace
 #if 0
 RootEval::Table::Table(TH2F* hist)
     : m_hist(hist)
@@ -116,8 +133,9 @@ double RootEval::Table::value(double logenergy, double costh, bool interpolate)
 }
 #endif ///////////////////////////////////////////////////////////
 RootEval::RootEval(TFile* f, std::string eventtype)
-: IrfEval(eventtype)
-  , m_f(f), m_loge_last(0), m_costh_last(0)
+  : IrfEval(eventtype),
+    m_f(f), m_loge_last(0), m_costh_last(0), 
+    m_loge_last_edisp(0), m_costh_last_edisp(0)
 {
     m_aeff  = setupHist("aeff");
     setupParameterTables(PointSpreadFunction::pnames, m_psfTables);
@@ -180,11 +198,13 @@ double RootEval::dispersion(double emeas, double energy, double theta,
                             double /*phi*/)
 {
     double costh(cos(theta*M_PI/180)), x(emeas/energy-1);
-    //if( x<-0.9 ) return 0; //why is this needed
-    //prescale x
+
+    // prescale x
     x=x/Dispersion::scaleFactor(energy, costh, isFront());
-    //get dispersion for prescaled var
-    double ret = Dispersion::function(&x, disp_par(energy,costh));
+
+    // get dispersion for prescaled var
+    double ret = Dispersion::function(&x, disp_par(energy, costh));
+
     return ret/energy;
 }
 
@@ -292,17 +312,26 @@ double * RootEval::disp_par(double energy, double costh) {
        costh = 0.9999;
     }
 
+    /// save some time, if querying for the same energy and theta
+    if (loge == m_loge_last_edisp && costh == m_costh_last_edisp) {
+       return par;
+    }
+
+    m_loge_last_edisp = loge;
+    m_costh_last_edisp = costh;
+
     for (unsigned int i=0; i < m_dispTables.size(); ++i) {
         par[i] = m_dispTables[i]->value(loge, costh, interpolate);
     }
 
-     // rescale the sigma value after interpolation
-   //sigma 1st func
-   //par[1] *= Dispersion::scaleFactor(energy, costh, isFront());
-   //par[2] *= Dispersion::scaleFactor(energy, costh, isFront());
-   //sigma 2nd func
-   //par[4] *= Dispersion::scaleFactor(energy, costh, isFront());
-   //par[5] *= Dispersion::scaleFactor(energy, costh, isFront()); 
+    ::EdispIntegrand bar(par, energy, costh, isFront());
+    double err(1e-5);
+    int ierr;
+    double norm = 
+       st_facilities::GaussianQuadrature::dgaus8(bar, energy/10.,
+                                                 energy*3., err, ierr);
+    
+    par[0] /= norm;
 
     return par;
 }

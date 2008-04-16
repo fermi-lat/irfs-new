@@ -123,6 +123,9 @@ private:
    double m_loge_last;
    double m_costh_last;
 
+   double m_loge_last_edisp;
+   double m_costh_last_edisp;
+
 };
 
 } // namespace handoff_response

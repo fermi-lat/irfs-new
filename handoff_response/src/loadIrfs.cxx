@@ -64,7 +64,7 @@ std::string load_irfs(const std::string & rootfile, bool verbose) {
       }
       loader = new IrfLoader(irfName);
 
-      bool useCaldb;
+      //bool useCaldb;
       /*
       loader->addIrfEval("P6_v1_transient/front", 
                          new FitsEval("Pass6_v1_Transient", "front", 

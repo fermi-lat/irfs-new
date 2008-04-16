@@ -10,6 +10,8 @@
 #include <cctype>
 #include <stdexcept>
 
+#include "facilities/commonUtilities.h"
+
 #include "st_facilities/Env.h"
 
 #include "irfUtil/Util.h"
@@ -59,6 +61,7 @@ FitsEval::FitsEval(const std::string & className,
    : RootEval(className + "/" + section), m_className(className), 
      m_section(section), m_version(version), m_date(date), 
      m_forceCaldb(forceCaldb) {
+   m_dataPath = facilities::commonUtilities::getDataPath("handoff_response");
    readAeff();
    readEdisp();
    readPsf();
@@ -98,26 +101,32 @@ void FitsEval::readPsf() {
 }
 
 std::string FitsEval::aeffFile() const {
-   if (::getenv("HANDOFF_IRF_DIR") && !m_forceCaldb) {
-      return ::fullpath("aeff_" + m_className + "_" + m_section + ".fits");
-   }
-   return caldbFile("EFF_AREA", m_section, m_version, m_date);
+//    if (::getenv("HANDOFF_IRF_DIR") && !m_forceCaldb) {
+//       return ::fullpath("aeff_" + m_className + "_" + m_section + ".fits");
+//    }
+//    return caldbFile("EFF_AREA", m_section, m_version, m_date);
+   return facilities::commonUtilities::
+      joinPath(m_dataPath, "aeff_P6_v1_trans_" + m_section + ".fits");
 }
 
 std::string FitsEval::edispFile() const {
-   if (::getenv("HANDOFF_IRF_DIR") && !m_forceCaldb) {
-      return ::fullpath("edisp_" + m_className + "_" + m_section + ".fits");
-      std::cout<<"read (1) "<<::fullpath("edisp_" + m_className + "_" + m_section + ".fits")<<std::endl;
-   }
-   return caldbFile("EDISP", m_section, m_version, m_date);
-   std::cout<<"read (2) "<<caldbFile("EDISP", m_section, m_version, m_date)<<std::endl;
+//    if (::getenv("HANDOFF_IRF_DIR") && !m_forceCaldb) {
+//       return ::fullpath("edisp_" + m_className + "_" + m_section + ".fits");
+//       std::cout<<"read (1) "<<::fullpath("edisp_" + m_className + "_" + m_section + ".fits")<<std::endl;
+//    }
+//    return caldbFile("EDISP", m_section, m_version, m_date);
+//    std::cout<<"read (2) "<<caldbFile("EDISP", m_section, m_version, m_date)<<std::endl;
+   return facilities::commonUtilities::
+      joinPath(m_dataPath, "edisp_P6_v1_trans_" + m_section + ".fits");
 }
 
 std::string FitsEval::psfFile() const {
-   if (::getenv("HANDOFF_IRF_DIR") && !m_forceCaldb) {
-      return ::fullpath("psf_" + m_className + "_" + m_section + ".fits");
-   }
-   return caldbFile("RPSF", m_section, m_version, m_date);
+//    if (::getenv("HANDOFF_IRF_DIR") && !m_forceCaldb) {
+//       return ::fullpath("psf_" + m_className + "_" + m_section + ".fits");
+//    }
+//    return caldbFile("RPSF", m_section, m_version, m_date);
+   return facilities::commonUtilities::
+      joinPath(m_dataPath, "psf_P6_v1_trans_" + m_section + ".fits");
 }
 
 void FitsEval::createMap(const std::string & className,
