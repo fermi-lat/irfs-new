@@ -15,6 +15,8 @@
 #include "tip/IFileSvc.h"
 #include "tip/Table.h"
 
+#include "st_facilities/GaussianQuadrature.h"
+
 #include "latResponse/FitsTable.h"
 
 #include "Edisp2.h"
@@ -48,11 +50,12 @@ double Edisp2::value(double appEnergy, double energy,
    xx /= scaleFactor(std::log10(energy), costh);
 
    double * my_pars(pars(energy, costh));
+   
    return old_function(xx, my_pars)/energy;
 }
 
 double Edisp2::old_function(double xx, double * pars) const {
-// See handoff_response::Dispersion anonymous namespace edisp_func
+// See ::edisp_func in handoff_response/src/gen/Dispersion.cxx
    double tt(std::fabs(xx - pars[3]));
    double s1(pars[1]);
    double s2(pars[4]);
@@ -64,6 +67,7 @@ double Edisp2::old_function(double xx, double * pars) const {
    double g2(std::exp(-0.5*std::pow(tt/s2, m_p2)));
    double nscale(std::exp(0.5*(std::pow(m_t0/s2, m_p2) - 
                                std::pow(m_t0/s1, m_p1))));
+
    if (tt > m_t0) {
       return pars[0]*nscale*g2;
    }
@@ -98,6 +102,16 @@ double * Edisp2::pars(double energy, double costh) const {
    
    bool interpolate;
    m_parTables.getPars(loge, costh, par, interpolate=false);
+
+   // Ensure proper normalization
+   EdispIntegrand foo(par, energy, scaleFactor(loge, costh), *this);
+   double err(1e-5);
+   int ierr;
+   static double norm;
+   norm = st_facilities::GaussianQuadrature::dgaus8(foo, energy/10.,
+                                                    energy*3., err, ierr);
+   par[0] /= norm;
+
    return par;
 }
 

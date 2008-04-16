@@ -78,9 +78,27 @@ private:
    void readScaling(const std::string & fitsfile,
                     const std::string & extname="EDISP_SCALING_PARAMS");
 
+   class EdispIntegrand {
+   public:
+      EdispIntegrand(double * pars, double etrue, double scaleFactor,
+                     const Edisp2 & self) 
+         : m_pars(pars), m_etrue(etrue), m_scaleFactor(scaleFactor),
+           m_self(self) {}
+
+      double operator()(double emeas) const {
+         double xx((emeas - m_etrue)/m_etrue/m_scaleFactor);
+         return m_self.old_function(xx, m_pars)/m_etrue;
+      }
+
+   private:
+      double * m_pars;
+      double m_etrue;
+      double m_scaleFactor;
+      const Edisp2 & m_self;
+   };
+
 };
 
 } // namespace latResponse
 
 #endif // latResponse_Edisp2_h
-
