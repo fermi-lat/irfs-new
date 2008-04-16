@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 15 22:12:32 PDT 2008
+irfs/latResponse/latResponse
+
+Modified Files:
+	IrfLoader.h 
+Log Message:
+Edisp2 implementation almost complete; need to ensure normalization?
+    *
+------------------------------------------------------------
 User: jchiang  Tue Apr 15 16:28:17 PDT 2008
 irfs/latResponse/src
 
