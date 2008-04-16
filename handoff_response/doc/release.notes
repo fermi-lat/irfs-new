@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  16-Apr-08 v4     JC     tag Riccardo's new energy dispersion implementation
+                          and fitting. Disable any connection to CALDB; just
+                          read in FITS files from data subdir for unit tests.
   06-Dec-07 v3r8p3 JC     fix code to ensure irfs get loaded only once
                           into IrfsFactory; raise contextual exception
                           if Psf::angularIntegral is called for a source

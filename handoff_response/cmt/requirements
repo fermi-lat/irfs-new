@@ -1,5 +1,5 @@
 package handoff_response
-version v3r8p3
+version v4
 
 author Toby Burnett <tburnett@u.washington.edu>
 author J. Chiang <jchiang@slac.stanford.edu>
@@ -64,10 +64,5 @@ application prune -s=gen/prune $(source)
 # run the irf generation analysis
 application makeirf -s=gen/makeirf $(source) 
 
-# make a file with 0-66 degree summary of acceptance and psf for sensitivity
-#application reformat -s=gen/reformat $(source)
-
 application make_fits -s=fits/make_fits $(source)
 
-## convenient setup alias using DOSKEY for Windows version
-#setup_script alias
