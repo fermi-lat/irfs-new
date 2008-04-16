@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  16-Apr-08   v2r1      JC  add Edisp2 for Riccardo's new energy
+                            dispersion implementation
   31-Mar-08   v2        JC  multiple event class handling
   21-Mar-08   v1r1      JC  add combine_irfs; begin work on multiple
                             event classes per file; add setupEnvironment

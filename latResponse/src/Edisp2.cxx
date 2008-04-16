@@ -107,9 +107,9 @@ double * Edisp2::pars(double energy, double costh) const {
    EdispIntegrand foo(par, energy, scaleFactor(loge, costh), *this);
    double err(1e-5);
    int ierr;
-   static double norm;
-   norm = st_facilities::GaussianQuadrature::dgaus8(foo, energy/10.,
-                                                    energy*3., err, ierr);
+   double norm = 
+      st_facilities::GaussianQuadrature::dgaus8(foo, energy/10.,
+                                                energy*3., err, ierr);
    par[0] /= norm;
 
    return par;
