@@ -1,5 +1,0 @@
-#$Id$
-Import('baseEnv')
-Import('listFiles')
-
-baseEnv.Tool('registerObjects', package = 'caldb', data = listFiles(['CALDB/*'], recursive = True))
