@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Apr 16 14:05:55 PDT 2008
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	FitsEval.cxx FitsEval.h RootEval.cxx RootEval.h 
+Log Message:
+fix energy dispersion normalization in RootEval; circumvent caldb access for FITS files, use new fits files from data subdir; unit tests working again.
+    *
+------------------------------------------------------------
+User: jchiang  Wed Apr 16 14:05:55 PDT 2008
 irfs/handoff_response/src
 
 Modified Files:
