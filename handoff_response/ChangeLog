@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Wed Apr 16 14:05:55 PDT 2008
+irfs/handoff_response/data
+
+Added Files:
+	aeff_P6_v1_trans_back.fits aeff_P6_v1_trans_front.fits 
+	edisp_P6_v1_trans_back.fits edisp_P6_v1_trans_front.fits 
+	psf_P6_v1_trans_back.fits psf_P6_v1_trans_front.fits 
+Log Message:
+fix energy dispersion normalization in RootEval; circumvent caldb access for FITS files, use new fits files from data subdir; unit tests working again.
+    *
+------------------------------------------------------------
 User: jchiang  Tue Apr 15 22:13:52 PDT 2008
 irfs/handoff_response/src/fits/make_fits
 
