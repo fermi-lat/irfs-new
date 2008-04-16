@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Apr 16 14:15:44 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	Edisp2.cxx 
+Log Message:
+minor tweak; tagging v2r1
+    *
+------------------------------------------------------------
+User: jchiang  Wed Apr 16 14:15:44 PDT 2008
 irfs/latResponse/doc
 
 Modified Files:
