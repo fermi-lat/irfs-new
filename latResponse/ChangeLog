@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Apr 18 13:08:25 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx 
+Log Message:
+kluge to enable HANDOFF IRF designation for backwards compatibility with old FT1 files using this in diffresp columns
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-02-01-00, operation: add
 Package: latResponse
