@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  18-Apr-08   v2r1p1    JC  add kluge to map HANDOFF -> PASS4 so
+                            that old FT1 files with HANDOFF diffrsps
+                            can be used
   16-Apr-08   v2r1      JC  add Edisp2 for Riccardo's new energy
                             dispersion implementation
   31-Mar-08   v2        JC  multiple event class handling
