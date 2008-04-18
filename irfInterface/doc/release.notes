@@ -5,8 +5,6 @@
   @verbatim
   $Id$
 
-  30-Jan-08 v2r2p1  JC    include <algorithm> in IrfsFactory.cxx for std::count
-  30-Jan-08 v2r2    JC    add IrfsFactory::irfNames()
   16-May-07 v2r1p1  JC    use st_facilities::GaussianQuadrature::
                           dgaus8Exception to handle cases where the integrator
                           reports insufficently accurate results.
