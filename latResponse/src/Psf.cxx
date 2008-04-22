@@ -148,6 +148,11 @@ double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
 
 double Psf::old_base_function(double u, double sigma, double gamma) {
    (void)(sigma);
+   // ugly kluge because of sloppy programming in handoff_response
+   // when setting boundaries of fit parameters for the PSF.
+   if (gamma == 1) {
+      gamma = 1.001;
+   }
    return (1. - 1./gamma)*std::pow(1. + u/gamma, -gamma);
 }
 
