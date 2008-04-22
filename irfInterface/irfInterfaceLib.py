@@ -1,10 +1,5 @@
-# 
-# $Header$
-#
-
 def generate(env, **kw):
-    if not kw.get('depsOnly',0):
-        env.Tool('addLibrary', library=['irfInterface'])
+    env.Tool('addLibrary', library = ['irfInterface'], package = 'irfs/irfInterface')
     env.Tool('astroLib')
     env.Tool('st_facilitiesLib')
 
