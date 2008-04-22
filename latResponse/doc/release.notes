@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  22-Apr-08   v2r1p2    JC  add ugly kluge to workaround invalid values
+                            in PSF parameters files put there by 
+                            handoff_response
   18-Apr-08   v2r1p1    JC  add kluge to map HANDOFF -> PASS4 so
                             that old FT1 files with HANDOFF diffrsps
                             can be used
