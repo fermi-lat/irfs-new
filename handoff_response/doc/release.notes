@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  22-Apr-08 v4r0p1 JC     avoid singular values in setting bounds for PSF
+                          parameter fits in gen/PointSpreadFunction.cxx
   16-Apr-08 v4     JC     tag Riccardo's new energy dispersion implementation
                           and fitting. Disable any connection to CALDB; just
                           read in FITS files from data subdir for unit tests.
