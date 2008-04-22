@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 22 15:27:53 PDT 2008
+irfs/handoff_response/src/gen
+
+Modified Files:
+	PointSpreadFunction.cxx 
+Log Message:
+avoid singular boundary values for fit parameters of psf
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-04-00-00, operation: add
 Package: handoff_response
