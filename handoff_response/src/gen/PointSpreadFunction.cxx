@@ -23,7 +23,7 @@ namespace {
     // specify fit function
     static const char* names[] = {"ncore", "sigma", "gcore","gtail"};
     static double pinit[] = {1,    0.5,  2.5, 1.5};
-    static double pmin[] =  {0.01, 0.15, 1.0, 1.0};
+    static double pmin[] =  {0.01, 0.15, 1.001, 1.001};
     static double pmax[] =  {10.,  2.0,  5.0, 5.0};
 
     static double fitrange[] = {xmin, xmax};
