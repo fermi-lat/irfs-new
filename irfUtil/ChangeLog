@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Apr 25 15:56:22 PDT 2008
+irfs/irfUtil/src
+
+Modified Files:
+	HDgtcalf_standalone.c HdCaldb.cxx 
+Log Message:
+check for CALDB files
+    *
+------------------------------------------------------------
+User: jchiang  Fri Apr 25 15:56:22 PDT 2008
 irfs/irfUtil/cmt
 
 Modified Files:
