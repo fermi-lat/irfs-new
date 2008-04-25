@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Apr 25 15:56:22 PDT 2008
+irfs/irfUtil/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+check for CALDB files
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfUtil-00-04-02, operation: mov
 Package: irfUtil
