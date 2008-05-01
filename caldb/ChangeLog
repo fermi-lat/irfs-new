@@ -1,5 +1,16 @@
 ------------------------------------------------------------
 User: jchiang  Wed Apr 30 21:54:56 PDT 2008
+irfs/caldb/CALDB/data/glast/lat/bcf/edisp
+
+Added Files:
+	edisp_P6_v1_diff_back.fits edisp_P6_v1_diff_front.fits 
+	edisp_P6_v1_source_back.fits edisp_P6_v1_source_front.fits 
+	edisp_P6_v1_trans_back.fits edisp_P6_v1_trans_front.fits 
+Log Message:
+add pass 6 irfs
+    *
+------------------------------------------------------------
+User: jchiang  Wed Apr 30 21:54:56 PDT 2008
 irfs/caldb/CALDB/data/glast/lat/bcf/ea
 
 Added Files:
