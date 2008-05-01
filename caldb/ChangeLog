@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Apr 30 21:54:56 PDT 2008
+irfs/caldb/CALDB/data/glast/lat
+
+Modified Files:
+	caldb.indx 
+Log Message:
+add pass 6 irfs
+    *
+------------------------------------------------------------
 TAG
 Tag name: caldb-00-06-00, operation: mov
 Package: caldb
