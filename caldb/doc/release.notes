@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  30-Apr-08 v0r7      JC    add P6_V1 IRFs
   21-Feb-08 v0r6      JC    add P5_v13_0 IRFs
   27-Aug-07 v0r5      JC    add Pass5 Diffuse and Transient IRF files
   20-Aug-07 v0r4p1    JC    patch edisp_Pass5_v0_front dnorm value for
