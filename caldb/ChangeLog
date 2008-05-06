@@ -1,5 +1,16 @@
 ------------------------------------------------------------
 User: jchiang  Tue May  6 09:06:09 PDT 2008
+irfs/caldb/CALDB/data/glast/lat/bcf/edisp
+
+Modified Files:
+	edisp_P6_v1_diff_back.fits edisp_P6_v1_diff_front.fits 
+	edisp_P6_v1_source_back.fits edisp_P6_v1_source_front.fits 
+	edisp_P6_v1_trans_back.fits edisp_P6_v1_trans_front.fits 
+Log Message:
+check in Riccardo's new FITS files
+    *
+------------------------------------------------------------
+User: jchiang  Tue May  6 09:06:09 PDT 2008
 irfs/caldb/CALDB/data/glast/lat/bcf/ea
 
 Modified Files:
