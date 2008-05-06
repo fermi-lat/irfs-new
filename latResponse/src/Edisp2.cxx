@@ -109,7 +109,7 @@ double * Edisp2::pars(double energy, double costh) const {
    int ierr;
    double norm = 
       st_facilities::GaussianQuadrature::dgaus8(foo, energy/10.,
-                                                energy*3., err, ierr);
+                                                energy*10., err, ierr);
    par[0] /= norm;
 
    return par;
