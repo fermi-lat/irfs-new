@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  06-May-08   v2r1p3    JC  set integration bounds of Edisp2 normalization
+                            to match unit test.
   22-Apr-08   v2r1p2    JC  add ugly kluge to workaround invalid values
                             in PSF parameters files put there by 
                             handoff_response
