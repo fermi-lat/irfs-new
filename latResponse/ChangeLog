@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue May  6 09:03:26 PDT 2008
+irfs/latResponse/src
+
+Modified Files:
+	Edisp2.cxx 
+Log Message:
+set integration bounds of normalization to match unit tests
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-02-01-02, operation: add
 Package: latResponse
