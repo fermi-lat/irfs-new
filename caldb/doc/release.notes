@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  06-May-08 v0r7p1    JC    update P6_V1 files with corrected edisp params
   30-Apr-08 v0r7      JC    add P6_V1 IRFs
   21-Feb-08 v0r6      JC    add P5_v13_0 IRFs
   27-Aug-07 v0r5      JC    add Pass5 Diffuse and Transient IRF files
