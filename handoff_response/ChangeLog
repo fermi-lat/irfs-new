@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri May 16 16:58:06 PDT 2008
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add -lNetx for xrootd access; tagging v4r1
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-04-00-01, operation: add
 Package: handoff_response
