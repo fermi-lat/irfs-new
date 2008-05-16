@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  16-May-08 v4r1   JC     add -lNetx to ROOT_libs macro to enable reading
+                          merit files directlly from xrootd
   22-Apr-08 v4r0p1 JC     avoid singular values in setting bounds for PSF
                           parameter fits in gen/PointSpreadFunction.cxx
   16-Apr-08 v4     JC     tag Riccardo's new energy dispersion implementation
