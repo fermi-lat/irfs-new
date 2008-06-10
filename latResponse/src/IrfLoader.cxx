@@ -74,6 +74,8 @@ void IrfLoader::registerEventClasses() const {
    classNames.push_back("PASS4::FRONT");
    classNames.push_back("PASS4::BACK");
    registry.registerEventClasses("HANDOFF", classNames);
+   registry.registerEventClass("HANDOFF::FRONT", "PASS4::FRONT");
+   registry.registerEventClass("HANDOFF::BACK", "PASS4::BACK");
 }
 
 void IrfLoader::loadIrfs() const {
