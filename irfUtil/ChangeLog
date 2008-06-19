@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: irfUtil-00-04-02, operation: mov
+Package: irfUtil
+User: glastrm  Thu Jun 19 16:17:32 2008
+Files:
+  irfUtil/SConscript  1.3
+
+    *
+------------------------------------------------------------
 User: glastrm  Thu Jun 19 16:17:23 PDT 2008
 ScienceTools-scons/irfs/irfUtil
 
