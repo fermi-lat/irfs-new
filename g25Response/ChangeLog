@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: g25Response-02-00-02, operation: mov
+Package: g25Response
+User: glastrm  Thu Jun 19 16:11:32 2008
+Files:
+  g25Response/SConscript  1.3
+
+    *
+------------------------------------------------------------
 User: glastrm  Thu Jun 19 16:01:45 PDT 2008
 ScienceTools-scons/irfs/g25Response
 
