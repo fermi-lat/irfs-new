@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Thu Jun 19 16:01:45 PDT 2008
+ScienceTools-scons/irfs/g25Response
+
+Modified Files:
+	SConscript 
+Log Message:
+Added Author and Version fields
+    *
+------------------------------------------------------------
 TAG
 Tag name: g25Response-02-00-02, operation: add
 Package: g25Response
