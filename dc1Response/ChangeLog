@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: dc1Response-02-00-02, operation: mov
+Package: dc1Response
+User: glastrm  Thu Jun 19 15:55:17 2008
+Files:
+  dc1Response/SConscript  1.3
+
+    *
+------------------------------------------------------------
 User: glastrm  Thu Jun 19 15:55:05 PDT 2008
 ScienceTools-scons/irfs/dc1Response
 
