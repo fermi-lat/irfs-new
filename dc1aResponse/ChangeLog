@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Thu Jun 19 15:57:07 PDT 2008
+ScienceTools-scons/irfs/dc1aResponse
+
+Modified Files:
+	SConscript 
+Log Message:
+Added Author and Version fields
+    *
+------------------------------------------------------------
 TAG
 Tag name: dc1aResponse-02-00-01, operation: mov
 Package: dc1aResponse
