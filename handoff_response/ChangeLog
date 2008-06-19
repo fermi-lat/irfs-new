@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Thu Jun 19 16:12:44 PDT 2008
+ScienceTools-scons/irfs/handoff_response
+
+Modified Files:
+	SConscript 
+Log Message:
+Added Author and Version fields
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-04-01-00, operation: add
 Package: handoff_response
