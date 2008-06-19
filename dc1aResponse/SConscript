@@ -1,4 +1,8 @@
-#$Id$
+# -*- python -*-
+# $Id$
+# Authors: James Chiang <jchiang@slac.stanford.edu>
+# Version: dc1aResponse-02-00-01
+
 Import('baseEnv')
 Import('listFiles')
 progEnv = baseEnv.Clone()
