@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: caldb-00-07-01, operation: mov
+Package: caldb
+User: glastrm  Thu Jun 19 15:53:23 2008
+Files:
+  caldb/SConscript  1.5
+
+    *
+------------------------------------------------------------
 User: glastrm  Thu Jun 19 15:53:13 PDT 2008
 ScienceTools-scons/irfs/caldb
 
