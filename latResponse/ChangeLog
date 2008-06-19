@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Thu Jun 19 16:18:42 PDT 2008
+ScienceTools-scons/irfs/latResponse
+
+Modified Files:
+	SConscript 
+Log Message:
+Added Author and Version fields
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-02-01-04, operation: add
 Package: latResponse
