@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Thu Jun 19 16:20:11 PDT 2008
+ScienceTools-scons/irfs/pyIrfLoader
+
+Modified Files:
+	SConscript 
+Log Message:
+Added Author and Version fields
+    *
+------------------------------------------------------------
 TAG
 Tag name: pyIrfLoader-00-00-01, operation: mov
 Package: pyIrfLoader

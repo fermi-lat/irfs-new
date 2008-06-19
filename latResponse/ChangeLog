@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: v2r1p4, operation: mov
+Package: latResponse
+User: glastrm  Thu Jun 19 16:18:58 2008
+Files:
+  latResponse/SConscript  1.4
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: latResponse-02-01-04, operation: mov
 Package: latResponse
 User: glastrm  Thu Jun 19 16:18:50 2008
