@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Thu Jun 19 15:53:13 PDT 2008
+ScienceTools-scons/irfs/caldb
+
+Modified Files:
+	SConscript 
+Log Message:
+Added Author and Version fields
+    *
+------------------------------------------------------------
 TAG
 Tag name: caldb-00-07-01, operation: add
 Package: caldb
