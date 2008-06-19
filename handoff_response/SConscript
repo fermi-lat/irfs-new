@@ -1,4 +1,8 @@
-#$Id$
+# -*- python -*-
+# $Id$
+# Authors: Toby Burnett <tburnett@u.washington.edu>, J. Chiang <jchiang@slac.stanford.edu>
+# Version: handoff_response-04-01-00
+
 Import('baseEnv')
 Import('listFiles')
 progEnv = baseEnv.Clone()

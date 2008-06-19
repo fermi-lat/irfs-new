@@ -1,4 +1,7 @@
-#$Id$
+# -*- python -*-
+# $Id$
+# Authors: James Chiang <jchiang@slac.stanford.edu>
+# Version: irfUtil-00-04-02
 Import('baseEnv')
 Import('listFiles')
 progEnv = baseEnv.Clone()
