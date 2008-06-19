@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: rootIrfLoader-00-00-01, operation: mov
+Package: rootIrfLoader
+User: glastrm  Thu Jun 19 16:21:59 2008
+Files:
+  rootIrfLoader/SConscript  1.3
+
+    *
+------------------------------------------------------------
 User: glastrm  Thu Jun 19 16:21:48 PDT 2008
 ScienceTools-scons/irfs/rootIrfLoader
 
