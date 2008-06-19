@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: v2r0p2, operation: mov
+Package: testResponse
+User: glastrm  Thu Jun 19 16:23:26 2008
+Files:
+  testResponse/SConscript  1.3
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: testResponse-02-00-02, operation: mov
 Package: testResponse
 User: glastrm  Thu Jun 19 16:23:15 2008
