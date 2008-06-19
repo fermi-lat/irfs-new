@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Thu Jun 19 16:15:20 PDT 2008
+ScienceTools-scons/irfs/irfLoader
+
+Modified Files:
+	SConscript 
+Log Message:
+Added Author and Version fields
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfLoader-01-02-00, operation: add
 Package: irfLoader
