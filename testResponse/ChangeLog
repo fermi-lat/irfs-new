@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Thu Jun 19 16:23:06 PDT 2008
+ScienceTools-scons/irfs/testResponse
+
+Modified Files:
+	SConscript 
+Log Message:
+Added Author and Version fields
+    *
+------------------------------------------------------------
 TAG
 Tag name: testResponse-02-00-02, operation: mov
 Package: testResponse
