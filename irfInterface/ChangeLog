@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Thu Jun 19 16:13:45 PDT 2008
+ScienceTools-scons/irfs/irfInterface
+
+Modified Files:
+	SConscript 
+Log Message:
+Added Author and Version fields
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfInterface-02-02-01, operation: mov
 Package: irfInterface
