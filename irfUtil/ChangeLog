@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Thu Jun 19 16:17:23 PDT 2008
+ScienceTools-scons/irfs/irfUtil
+
+Modified Files:
+	SConscript 
+Log Message:
+Added Author and Version fields
+    *
+------------------------------------------------------------
 User: jchiang  Fri Apr 25 15:56:22 PDT 2008
 irfs/irfUtil/src
 
