@@ -10,9 +10,6 @@
 
 #include <stdexcept>
 
-#include "facilities/commonUtilities.h"
-#include "st_facilities/Util.h"
-
 #include "Hdcal.h"
 
 #include "irfUtil/HdCaldb.h"
@@ -21,12 +18,6 @@ namespace irfUtil {
 
 HdCaldb::HdCaldb(const std::string & telescope, const std::string & instrument)
    : m_telescope(telescope), m_instrument(instrument), m_filenamesize(256) {
-
-// Check that CALDB files exist.
-   st_facilities::Util::file_ok(
-      facilities::commonUtilities::getEnvironment("CALDBALIAS"));
-   st_facilities::Util::file_ok(
-      facilities::commonUtilities::getEnvironment("CALDBCONFIG"));
 
    for (int i = 0; i < s_maxret; i++) {
       m_filenames[i] = new char[m_filenamesize];
