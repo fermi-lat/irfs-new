@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: latResponse-02-01-04, operation: mov
+Package: latResponse
+User: glastrm  Thu Jun 19 16:18:50 2008
+Files:
+  latResponse/SConscript  1.4
+
+    *
+------------------------------------------------------------
 User: glastrm  Thu Jun 19 16:18:42 PDT 2008
 ScienceTools-scons/irfs/latResponse
 
