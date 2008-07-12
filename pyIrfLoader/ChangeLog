@@ -1,5 +1,20 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-06-01, operation: add
+Package: pyIrfLoader
+User: glastrm  Sat Jul 12 12:01:38 2008
+Files:
+  pyIrfLoader/cmt/requirements  1.1.1.1
+  pyIrfLoader/doc/release.notes  1.1.1.1
+  pyIrfLoader/python/plot_irfs.py  1.1.1.1
+  pyIrfLoader/python/psf_tests.py  1.1.1.1
+  pyIrfLoader/python/four_panel.py  1.1.1.1
+  pyIrfLoader/src/pyIrfLoader.i  1.1
+  pyIrfLoader/src/pyIrfLoader.in  1.1.1.1
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-06-00, operation: add
 Package: pyIrfLoader
 User: glastrm  Wed Jul  9 20:36:05 2008

@@ -1,5 +1,28 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-06-01, operation: add
+Package: g25Response
+User: glastrm  Sat Jul 12 12:01:04 2008
+Files:
+  g25Response/cmt/requirements  1.19
+  g25Response/doc/release.notes  1.10
+  g25Response/g25Response/loadIrfs.h  1.2
+  g25Response/g25Response/IrfLoader.h  1.2
+  g25Response/src/PsfGlast25.h  1.2
+  g25Response/src/AeffGlast25.h  1.3
+  g25Response/src/AeffGlast25.cxx  1.5
+  g25Response/src/loadIrfs.cxx  1.6
+  g25Response/src/Glast25.h  1.1.1.1
+  g25Response/src/IrfLoader.cxx  1.3
+  g25Response/src/PsfGlast25.cxx  1.6
+  g25Response/src/EdispGlast25.cxx  1.5
+  g25Response/src/EdispGlast25.h  1.2
+  g25Response/src/Glast25.cxx  1.1.1.1
+  g25Response/src/test/test.cxx  1.5
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-06-00, operation: add
 Package: g25Response
 User: glastrm  Wed Jul  9 20:35:25 2008
