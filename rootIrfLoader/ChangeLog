@@ -1,5 +1,30 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-06-02, operation: add
+Package: rootIrfLoader
+User: glastrm  Mon Jul 14 08:48:19 2008
+Files:
+  rootIrfLoader/cmt/requirements  1.1.1.1
+  rootIrfLoader/doc/release.notes  1.1.1.1
+  rootIrfLoader/doc/Makefile  1.1.1.1
+  rootIrfLoader/doc/Doxyfile  1.1.1.1
+  rootIrfLoader/src/mainpage.h  1.1.1.1
+  rootIrfLoader/src/irf_test.C  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/IrfBase.h  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Psf.cxx  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/IrfBase.cxx  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/LinkDef.h  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Aeff.cxx  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Edisp.cxx  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/SkyDir.h  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/SkyDir.cxx  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Aeff.h  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Psf.h  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Edisp.h  1.1.1.1
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-06-01, operation: add
 Package: rootIrfLoader
 User: glastrm  Sat Jul 12 12:01:44 2008
