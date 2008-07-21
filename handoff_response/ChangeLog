@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jul 21 09:34:15 PDT 2008
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	RootEval.h 
+Log Message:
+remove unnecessary class qualification in member function declaration
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-06-03, operation: add
 Package: handoff_response
