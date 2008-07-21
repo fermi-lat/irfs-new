@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  21-Jul-08 v4r1p1 JC     remove commented out lines and unnecessary 
+                          class qualification in member function declaration
+                          in RootEval.h
   16-May-08 v4r1   JC     add -lNetx to ROOT_libs macro to enable reading
                           merit files directlly from xrootd
   22-Apr-08 v4r0p1 JC     avoid singular values in setting bounds for PSF
