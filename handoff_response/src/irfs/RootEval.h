@@ -52,7 +52,7 @@ public:
 
     virtual double dispersion(double emeas, double energy, double theta=0, double phi=0);
 
-    static void RootEval::createMap(std::string filename, std::map<std::string,handoff_response::IrfEval*>& evals);
+    static void createMap(std::string filename, std::map<std::string,handoff_response::IrfEval*>& evals);
 
    /// @brief Expose parameters for caching PSF integrals in
    /// handoff_response::Psf class.
