@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: v3r1p3, operation: mov
+Package: dc2Response
+User: glastrm  Mon Jul 21 15:31:35 2008
+Files:
+  dc2Response/SConscript  1.4
+
+    *
+------------------------------------------------------------
 User: glastrm  Mon Jul 21 15:31:29 PDT 2008
 irfs/dc2Response
 
