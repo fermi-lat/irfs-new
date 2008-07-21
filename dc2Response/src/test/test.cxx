@@ -34,7 +34,7 @@ void checkPsf(irfInterface::Irfs * irf, float energy, float theta, float phi) {
    Integral*=M_PI/180.;//remormalize step in the integration above
    Integral*=2*M_PI;//No dependance on phi
    std::cout<<"Integral from 0 to 50 degrees : "<<Integral<<std::endl;
-};
+}
 
 int main(int argc, char* argv[]) {
    facilities::commonUtilities::setupEnvironment();
