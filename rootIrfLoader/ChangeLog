@@ -1,5 +1,13 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-07-00, operation: del
+Package: rootIrfLoader
+User: glastrm  Wed Sep 17 13:12:05 2008
+Files:
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-07-00, operation: add
 Package: rootIrfLoader
 User: glastrm  Sat Jul 26 20:58:08 2008
