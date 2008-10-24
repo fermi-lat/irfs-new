@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Oct 24 12:58:21 PDT 2008
+irfs
+
+Added Files:
+	SConscript 
+Log Message:
+re-add null SConscript file with version and author info
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-06-00, operation: del
 Package: irfs
