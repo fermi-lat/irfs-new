@@ -10,7 +10,6 @@ use astro v*
 use f2c v*
 use tip v*
 use cppunit v* IExternal
-use st_facilities v*
 
 macro_append ROOT_linkopts " $(ROOT_GUI_libs)"
 
