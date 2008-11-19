@@ -1,4 +1,5 @@
-# -*- python -*-
-# $Id$
-# Authors: J. Chiang <jchiang@slac.stanford.edu>
-# Version: latResponse-02-01-04
+import os
+
+#Import('addSubPackages')
+
+#addSubPackages('irfs',['irfInterface', 'irfUtil', 'irfLoader', 'g25Response', 'dc1Response', 'dc1aResponse', 'testResponse', 'dc2Response', 'caldb', 'rootIrfLoader', 'handoff_response', 'pyIrfLoader'])
