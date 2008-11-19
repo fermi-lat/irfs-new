@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: irfUtil-00-04-02, operation: mov
+Package: irfUtil
+User: glastrm  Wed Nov 19 13:35:49 2008
+Files:
+  irfUtil/irfUtilLib.py  1.3
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: v0r4p2, operation: mov
 Package: irfUtil
 User: glastrm  Wed Nov 19 13:35:40 2008
