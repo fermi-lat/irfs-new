@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Wed Nov 19 13:34:50 PST 2008
+ScienceTools-scons/irfs/irfUtil
+
+Modified Files:
+	irfUtilLib.py 
+Log Message:
+irfUtil library depends on st_facilities
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-06-00, operation: del
 Package: irfUtil
