@@ -4,6 +4,7 @@ def generate(env, **kw):
         env.Tool('addLibrary', library = ['irfUtil'])
     env.Tool('astroLib')
     env.Tool('tipLib')
+    env.Tool('st_facilitiesLib')
     env.Tool('addLibrary', library = env['f2cLibs'])
 
 def exists(env):
