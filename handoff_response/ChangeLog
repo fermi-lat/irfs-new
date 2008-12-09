@@ -1,4 +1,12 @@
 ------------------------------------------------------------
+User: glastrm  Tue Dec  9 14:30:48 PST 2008
+irfs/handoff_response
+
+Modified Files:
+	SConscript 
+Log Message:
+    *
+------------------------------------------------------------
 TAG
 Tag name: v4r1p2, operation: add
 Package: handoff_response
