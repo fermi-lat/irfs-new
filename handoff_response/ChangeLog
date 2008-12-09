@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: peachey  Tue Dec  9 13:47:51 PST 2008
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+Do not link to libHistPainter, which was needed only
+because of the reference to a TPaletteAxis.
+    *
+------------------------------------------------------------
 User: peachey  Tue Dec  9 13:43:53 PST 2008
 irfs/handoff_response/src/irfs
 
