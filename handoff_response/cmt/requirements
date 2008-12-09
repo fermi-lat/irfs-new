@@ -33,8 +33,8 @@ apply_pattern ST_pfiles
 path_prepend PYTHONPATH $(HANDOFF_RESPONSEROOT)/python
 
 # this is apparently required by use of TAxis in the RootEval class. 
-macro_append ROOT_libs " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread -lHistPainter -lNetx "\
-  WIN32 " libHist.lib libGraf.lib libGpad.lib libHistPainter.lib libNetx.lib"
+macro_append ROOT_libs " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread -lNetx -lXrdClient "\
+  WIN32 " libHist.lib libGraf.lib libGpad.lib libNetx.lib libXrdClient.lib"
 
 private
 
