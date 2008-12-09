@@ -25,10 +25,8 @@ $Header$
 #include "st_facilities/GaussianQuadrature.h"
 
 using namespace handoff_response;
-#include "TPaletteAxis.h"
 #include "Table.h"
 namespace {
-   TPaletteAxis dummy;
   /*
    static double * disp_pars;
    double dispfunc(double * x) {
