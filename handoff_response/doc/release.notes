@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  10-dec-08 v4r1p3 JP     remove XrdClient reference that was added
+                          by accident.
   09-dec-08 v4r1p2 JP     remove dummy variable from RootEval.cxx that
                           caused runtime errors on OSX.
   21-Jul-08 v4r1p1 JC     remove commented out lines and unnecessary 
