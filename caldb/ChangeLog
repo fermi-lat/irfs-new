@@ -1,5 +1,105 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-08-03, operation: add
+Package: caldb
+User: glastrm  Fri Dec 12 13:01:22 2008
+Files:
+  caldb/CALDB/data/glast/lat/caldb.indx  1.7
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P5_v13_0_source_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_standard_back_P4.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/effarea_sup04All-FRONTB.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_trans_front.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_Pass4_v2_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/effarea_sup04All-FRONTA.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_diff_back.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P5_v13_0_diff_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_standard_front_P4.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_Pass4_v2_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_source_front.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_all.root  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P5_v13_0_source_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_Pass5_v0_Diffuse_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_Pass5_v0_Transient_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_lat.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_Pass5_v0_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_Pass5_v0_Transient_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P5_v13_0_diff_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P5_v13_0_trans_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_Pass5_v0_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_DC1.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/effarea_sup04All-BACKB.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P5_v13_0_trans_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_source_back.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_diff_front.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/effarea_sup04All-BACKA.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_trans_back.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/ea/aeff_Pass5_v0_Diffuse_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/ea/README  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P5_v13_0_diff_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/redis_lat.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_Pass5_v0_Diffuse_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_source_back.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_Pass5_v0_front.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_trans_front.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P5_v13_0_trans_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_Pass5_v0_Transient_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P5_v13_0_source_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_Pass5_v0_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_source_front.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_Pass4_v2_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_diff_front.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_DC1.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_thick_parameters.root  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_standard_front_P4.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P5_v13_0_trans_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_trans_back.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P5_v13_0_source_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_thin_parameters.root  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_diff_back.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_Pass4_v2_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_Pass5_v0_Diffuse_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_standard_back_P4.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_P5_v13_0_diff_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/edisp/edisp_Pass5_v0_Transient_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_Pass5_v0_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_Pass5_v0_Diffuse_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P5_v13_0_diff_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_Pass5_v0_Transient_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_diff_front.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P5_v13_0_source_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_diff_back.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_standard_back_P4.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_Pass5_v0_Transient_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_source_back.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_Pass5_v0_Diffuse_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_BACKA.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_DC1.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_thin_parameters.root  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P5_v13_0_trans_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_Pass4_v2_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_source_front.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_FRONTB.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_trans_front.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P5_v13_0_trans_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_Pass4_v2_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P5_v13_0_source_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_trans_back.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_P5_v13_0_diff_front.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_standard_front_P4.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_thick_parameters.root  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_lat.fits  1.1.1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_Pass5_v0_back.fits  1.1
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_BACKB.fits  1.2
+  caldb/CALDB/data/glast/lat/bcf/psf/psf_FRONTA.fits  1.2
+  caldb/CALDB/software/tools/caldb.config  1.1.1.1
+  caldb/CALDB/software/tools/alias_config.fits  1.1.1.1
+  caldb/cmt/requirements  1.13
+  caldb/doc/release.notes  1.10
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-09-00, operation: add
 Package: caldb
 User: glastrm  Thu Dec  4 21:25:20 2008
