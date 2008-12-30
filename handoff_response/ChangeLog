@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Dec 30 15:40:51 PST 2008
+irfs/handoff_response/src/aeff_phi_dep
+
+Added Files:
+	aeff_phi_dep.cxx 
+Log Message:
+code to fit phi-dependence of effective area
+    *
+------------------------------------------------------------
 User: jchiang  Tue Dec 30 15:40:07 PST 2008
 irfs/handoff_response/src/aeff_phi_dep
 
