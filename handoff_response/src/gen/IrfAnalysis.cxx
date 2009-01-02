@@ -9,6 +9,7 @@ $Header$
 #include "PsfPlots.h"
 #include "DispPlots.h"
 #include "EffectiveArea.h"
+#include "AeffPhiDep.h"
 #include "TreeWrapper.h"
 #include "embed_python/Module.h"
 
@@ -83,6 +84,7 @@ case 2: out() << "back events"; break;
     m_psf = new PsfPlots(*this, out());
     m_disp = new DispPlots(*this, out());
     m_aeff = new EffectiveArea(*this, out());
+    m_phi_dep = new AeffPhiDep(*this);
 
     std::cout << "Selecting columns in tree " << tree().GetName() << std::endl;
     TreeWrapper mytree(&tree()); // sets current TTree
@@ -146,6 +148,8 @@ case 2: out() << "back events"; break;
         m_disp->fill(dsp, McEnergy, McZDir, front);
 
         m_aeff->fill( mc_energy, McZDir, front, total);
+
+        m_phi_dep->fill(McXDir, McYDir, McEnergy, McZDir);
     }
     out() << "\nFound " << nruns <<" run numbers" 
         << " and " << selected<< "/" <<  mytree.size() << " events" <<  std::endl;
@@ -159,6 +163,7 @@ void IrfAnalysis::fit(bool make_plots,  std::string output_type)
 {
     m_psf->fit(); 
     m_disp->fit();
+    m_phi_dep->fit();
 
     m_psf->summarize();
     m_disp->summarize();
@@ -166,6 +171,10 @@ void IrfAnalysis::fit(bool make_plots,  std::string output_type)
     if(make_plots) m_psf->draw(std::string(output_file_root()+m_setname+"_psf."+output_type));
     if(make_plots) m_disp->draw(std::string(output_file_root()+m_setname+"_disp."+output_type));
     if(make_plots) m_aeff->draw(std::string(output_file_root()+m_setname+"_aeff."+output_type));
+    if (make_plots) {
+       m_phi_dep->draw(output_file_root() + m_setname + 
+                       "_phi_dep" + output_type);
+    }
     if( !parfile().empty()) {
         writeFitParameters( output_file_root() +parfile());
         //  tabulate(output_file_root() +parfile,  m_setname);
@@ -199,6 +208,8 @@ void IrfAnalysis::writeFitParameters(std::string outputFile)
     m_disp->fillParameterTables();
 
     m_aeff->fillParameterTables();
+
+    m_phi_dep->fillParameterTables();
 
     delete file;
     current_time(out());

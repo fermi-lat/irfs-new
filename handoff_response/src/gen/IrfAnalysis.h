@@ -11,6 +11,7 @@ $Header$
 class PsfPlots;
 class DispPlots;
 class EffectiveArea;
+class AeffPhiDep;
 namespace embed_python { class Module;}
 
 /** @class IrfAnalysis
@@ -93,6 +94,7 @@ private:
     PsfPlots* m_psf;    ///< manage PSF plots
     DispPlots* m_disp; ///< manage energy dispersion plots
     EffectiveArea* m_aeff; ///< manage the effective area plot
+   AeffPhiDep * m_phi_dep;
     int m_set;  ///< all, front, back
 
     std::ostream * m_log;
