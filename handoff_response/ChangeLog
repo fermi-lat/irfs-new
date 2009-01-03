@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Jan  2 19:42:33 PST 2009
+irfs/handoff_response/src/gen
+
+Modified Files:
+	AeffPhiDep.cxx PhiDepHist.cxx 
+Log Message:
+some bug fixes for phi-dependence fits
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan  2 19:42:33 PST 2009
 irfs/handoff_response/python
 
 Modified Files:
