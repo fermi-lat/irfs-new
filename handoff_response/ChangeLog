@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Jan  2 20:50:19 PST 2009
+irfs/handoff_response/src/gen
+
+Modified Files:
+	AeffPhiDep.cxx IrfAnalysis.cxx PhiDepHist.cxx 
+Log Message:
+more bug fixes
+    *
+------------------------------------------------------------
 User: jchiang  Fri Jan  2 19:42:33 PST 2009
 irfs/handoff_response/src/gen/makeirf
 
