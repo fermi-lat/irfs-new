@@ -23,7 +23,6 @@ AeffPhiDep::AeffPhiDep(IrfAnalysis & irf)
    for (size_t ebin(0); ebin < m_binner.energy_bins(); ebin++) {
       for (size_t abin(0); abin < m_binner.angle_bins(); abin++) {
          size_t id(m_binner.ident(ebin, abin));
-         std::cout << "id = " << id << std::endl;
          std::ostringstream title;
          title << static_cast<size_t>(m_binner.eCenter(ebin) + 0.5) 
                << " MeV,";
@@ -57,9 +56,6 @@ void AeffPhiDep::fill(double mc_xdir, double mc_ydir,
    double tangent(mc_ydir/mc_xdir);
 
    m_hists.at(id).fill(tangent);
-//    if (z_bin < m_binner.angle_bins() - 2) {
-//       m_hists.at(m_binner.ident(e_bin, m_binner.angle_bins())).fill(tangent);
-//    }
 }
 
 void AeffPhiDep::fit() {
@@ -86,7 +82,8 @@ void AeffPhiDep::draw(const std::string & psfile) {
           canvas.cd(ebin+1);
           gPad->SetRightMargin(0.02);
           gPad->SetTopMargin(0.03);
-          m_hists.at(m_binner.ident(ebin,abin)).draw();
+          size_t id(m_binner.ident(ebin,abin));
+          m_hists.at(id).draw();
        }
        std::cout << "Printing page #" << (abin+1) << std::endl; 
        if (ps_flag > 0) {

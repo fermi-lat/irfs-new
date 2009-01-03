@@ -173,7 +173,7 @@ void IrfAnalysis::fit(bool make_plots,  std::string output_type)
     if(make_plots) m_aeff->draw(std::string(output_file_root()+m_setname+"_aeff."+output_type));
     if (make_plots) {
        m_phi_dep->draw(output_file_root() + m_setname + 
-                       "_phi_dep" + output_type);
+                       "_phi_dep." + output_type);
     }
     if( !parfile().empty()) {
         writeFitParameters( output_file_root() +parfile());

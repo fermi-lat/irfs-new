@@ -17,7 +17,9 @@
 
 TF1 * PhiDepHist::s_fit_func(new TF1("phi_func", "1 + [0]*x^[1]", 0, 0.9));
 
-PhiDepHist::PhiDepHist() : m_hist(0), m_count(0), m_fitted(false) {}
+PhiDepHist::PhiDepHist() : m_hist(0), m_count(0), m_fitted(false) {
+   m_pars.resize(2, 0);
+}
 
 PhiDepHist::PhiDepHist(const std::string & histname,
                        const std::string & title, 
@@ -70,11 +72,13 @@ void PhiDepHist::fit() {
 
 void PhiDepHist::draw() {
 // One should call this after fit().
-   m_hist->SetStats(true);
-   m_hist->SetLineColor(kRed);
-   m_hist->GetXaxis()->CenterTitle(true);
-   m_hist->Draw();
-   m_hist->Write();
+   if (m_hist) {
+      m_hist->SetStats(true);
+      m_hist->SetLineColor(kRed);
+      m_hist->GetXaxis()->CenterTitle(true);
+      m_hist->Draw();
+      m_hist->Write();
+   }
 }
 
 void PhiDepHist::getFitPars(std::vector<double> & pars) const {
