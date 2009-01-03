@@ -14,27 +14,18 @@ $Header$
 //_____________________________________________________________________________
 
 int main(int argc, char* argv[]){
-    int ret=0;
-    try {
-
-        Setup s(argc, argv, false);  // will cd to current folder.
-
-
-        std::string folder(s.root());
-        bool make_plots(true);
-#if 1 //front
-        IrfAnalysis front(folder, 1, *s.py());
-        front.fit(make_plots);
-#endif
-#if 1// back
-        IrfAnalysis back(folder,  2, *s.py());
-        back.fit(make_plots);
-#endif
-    }catch( const std::exception& e){
-        std::cerr << "Caught exception "<< e.what() << std::endl;
-        ret=1;
-    }
-    return ret;
+   int ret=0;
+   Setup s(argc, argv, false);  // will cd to current folder.
+   
+   std::string folder(s.root());
+   bool make_plots(true);
+   
+   IrfAnalysis front(folder, 1, *s.py());
+   front.fit(make_plots);
+   
+   IrfAnalysis back(folder,  2, *s.py());
+   back.fit(make_plots);
+   return ret;
 }
 
 /** @page makeirf The makeirf application

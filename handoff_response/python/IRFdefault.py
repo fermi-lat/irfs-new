@@ -52,7 +52,10 @@ else:
     pass
     #print 'Event class "%s" not recognized: using cuts for class all' %className
   
-import numarray as num
+try:
+    import numarray as num
+except ImportError:
+    import numpy as num
 
 #define default binning as attributes of object Bins
 class Bins(object):

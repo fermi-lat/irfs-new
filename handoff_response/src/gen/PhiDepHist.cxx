@@ -17,7 +17,7 @@
 
 TF1 * PhiDepHist::s_fit_func(new TF1("phi_func", "1 + [0]*x^[1]", 0, 0.9));
 
-PhiDepHist::PhiDepHist() : m_hist(0) {}
+PhiDepHist::PhiDepHist() : m_hist(0), m_count(0), m_fitted(false) {}
 
 PhiDepHist::PhiDepHist(const std::string & histname,
                        const std::string & title, 
@@ -29,13 +29,11 @@ PhiDepHist::PhiDepHist(const std::string & histname,
    m_pars.resize(2, 0);
 }
 
-PhiDepHist::~PhiDepHist() {
-// Who knows what ROOT will decide to do with this delete...
-   delete m_hist;
-}
+PhiDepHist::~PhiDepHist() {}
 
 void PhiDepHist::fill(double tangent) {
    if (m_fitted) {
+      assert(false);
       throw std::runtime_error("Cannot call PhiDepHist::fill after "
                                "having called PhiDepHist::fit.");
    }
@@ -51,6 +49,11 @@ void PhiDepHist::fit() {
 // except that the THF1:;Draw() function works incredibly stupidly,
 // violating encapsulation (as usual) in all sorts of ways.  ROOT
 // sucks.
+   if (m_hist == 0) {
+      m_pars.at(0) = 0;
+      m_pars.at(1) = 0;
+      return;
+   }
    m_fitted = true;
    double lowval((m_hist->GetBinContent(1) + m_hist->GetBinContent(2) +
                   m_hist->GetBinContent(3) + m_hist->GetBinContent(4))/4.);
