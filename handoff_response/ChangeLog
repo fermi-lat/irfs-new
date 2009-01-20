@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan 19 20:39:47 PST 2009
+irfs/handoff_response/data
+
+Modified Files:
+	aeff.tpl 
+Log Message:
+FITS table generation for aeff phi tables
+    *
+------------------------------------------------------------
 User: jchiang  Fri Jan  2 20:50:19 PST 2009
 irfs/handoff_response/src/gen
 
