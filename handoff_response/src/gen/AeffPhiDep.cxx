@@ -109,7 +109,7 @@ void AeffPhiDep::fillParameterTables() {
    size_t npars(m_hists.front().pars().size());
    for (size_t i(0); i < npars; i++) {
       std::ostringstream name;
-      name << "p" << i << ";log energy; costheta";
+      name << "phi_dep_" << i;
       TH2F h2(name.str().c_str(), name.str().c_str(),
               m_binner.energy_bins(), &*m_binner.energy_bin_edges().begin(),
               m_binner.angle_bins(), &*m_binner.angle_bin_edges().begin());

@@ -104,6 +104,8 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    using handoff_response::IrfTableMap;
    using handoff_response::FitsFile;
 
+   bool newFile;
+
    std::string className, section;
    parseName(rootClassName, className, section);
    IrfTableMap irfTables(className + "::" + section, rootfile);
@@ -128,6 +130,17 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    aeff.setKeyword("DETNAM", detname);
    aeff.close();
 
+// Phi-dependence parameters
+   FitsFile phi_dep("aeff_" + latclass + ".fits", "PHI_DEPENDENCE", "aeff.tpl",
+                    newFile=false);
+   phi_dep.setGrid(irfTables["phi_dep_0"]);
+   phi_dep.setTableData("PHIDEP0", irfTables["phi_dep_0"].values());
+   phi_dep.setTableData("PHIDEP1", irfTables["phi_dep_1"].values());
+   phi_dep.setCbdValue("VERSION", irfVersion);
+   phi_dep.setCbdValue("CLASS", latclass);
+   phi_dep.setKeyword("DETNAM", detname);
+   phi_dep.close();
+
 // Point spread function and angular deviation scaling parameters
    std::string psf_file("psf_" + latclass + ".fits");
    FitsFile psf(psf_file, "RPSF", "psf.tpl");
@@ -145,7 +158,6 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    /// gen/PointSpreadFunction::scaleFactor!
    double scaling_pars[] = {5.8e-2, 3.77e-4, 9.6e-2, 1.3e-3, -0.8};
    std::vector<double> scalingPars(scaling_pars, scaling_pars + 5);
-   bool newFile;
    FitsFile psfScaling(psf_file, "PSF_SCALING_PARAMS", "psf.tpl", 
                        newFile=false);
    psfScaling.setTableData("PSFSCALE", scalingPars);
