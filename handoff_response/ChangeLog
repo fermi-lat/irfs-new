@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Jan 19 20:39:47 PST 2009
+irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+FITS table generation for aeff phi tables
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 19 20:39:47 PST 2009
 irfs/handoff_response/data
 
 Modified Files:
