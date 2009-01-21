@@ -35,7 +35,6 @@ PhiDepHist::~PhiDepHist() {}
 
 void PhiDepHist::fill(double tangent) {
    if (m_fitted) {
-      assert(false);
       throw std::runtime_error("Cannot call PhiDepHist::fill after "
                                "having called PhiDepHist::fit.");
    }
