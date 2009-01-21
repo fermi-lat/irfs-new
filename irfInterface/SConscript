@@ -2,17 +2,17 @@
 #
 # $Header$
 #
-# Authors: James Chiang <jchiang@slac.stanford.edu>
-# Version: irfInterface-02-02-01
+
+import glob, os, platform
+
 Import('baseEnv')
 Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-if baseEnv['PLATFORM'] != "win32":
-    progEnv.AppendUnique(CPPDEFINES= ['TRAP_FPE'])
+if platform.system() == 'Linux':
+    progEnv.Append(CPPDEFINES='TRAP_FPE')
 
-libEnv.Tool('irfInterfaceLib', depsOnly = 1)
 irfInterfaceLib = libEnv.StaticLibrary('irfInterface', listFiles(['src/*.cxx']))
 
 progEnv.Tool('irfInterfaceLib')
