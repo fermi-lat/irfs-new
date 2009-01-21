@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jan 21 07:55:49 PST 2009
+irfs/handoff_response/src/gen
+
+Modified Files:
+	PhiDepHist.cxx 
+Log Message:
+remove assert placed for debugging
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-04-02-00, operation: add
 Package: handoff_response
