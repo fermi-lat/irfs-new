@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Jan 20 17:05:04 PST 2009
+irfs/latResponse/latResponse
+
+Modified Files:
+	FitsTable.h ParTables.h 
+Log Message:
+add code to read and use tables of phi dependence
+    *
+------------------------------------------------------------
+User: jchiang  Tue Jan 20 17:05:04 PST 2009
 irfs/latResponse/cmt
 
 Modified Files:
