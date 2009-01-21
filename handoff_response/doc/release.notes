@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  21-Jan-09 v4r2p1 JC     remove assert placed during debugging
   20-Jan-09 v4r2   JC     add phi-dependence to effective area using
                           R. Rando's parameterization and based on his
                           fitting macro
