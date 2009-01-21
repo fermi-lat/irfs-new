@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Jan 20 17:05:04 PST 2009
+irfs/latResponse/src
+
+Modified Files:
+	Aeff.cxx Aeff.h FitsTable.cxx ParTables.cxx 
+Log Message:
+add code to read and use tables of phi dependence
+    *
+------------------------------------------------------------
+User: jchiang  Tue Jan 20 17:05:04 PST 2009
 irfs/latResponse/latResponse
 
 Modified Files:
