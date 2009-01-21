@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  20-Jan-09   v2r2      JC  add phi-dependence using R. Rando's parametrization
   10-Jun-08   v2r1p4    JC  add HANDOFF::[FRONT,BACK] aliases for 
                             PASS4::[FRONT,BACK]
   06-May-08   v2r1p3    JC  set integration bounds of Edisp2 normalization
