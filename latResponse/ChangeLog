@@ -1,4 +1,12 @@
 ------------------------------------------------------------
+User: glastrm  Tue Jan 20 22:31:48 PST 2009
+irfs/latResponse
+
+Modified Files:
+	SConscript 
+Log Message:
+    *
+------------------------------------------------------------
 TAG
 Tag name: v2r2, operation: add
 Package: latResponse
