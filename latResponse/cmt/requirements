@@ -27,4 +27,5 @@ macro source "*.cxx" WIN32 "*.h *.cxx"
 library latResponse -no_share $(source)
 application test_latResponse test/*.cxx
 
-application combine_irfs combine_irfs/*.cxx
+#application combine_irfs combine_irfs/*.cxx
+#apply_pattern ST_pfiles

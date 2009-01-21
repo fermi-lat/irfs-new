@@ -66,4 +66,9 @@ void ParTables::getPars(double loge, double costh, double * pars,
    }
 }
 
+void ParTables::getParVector(const std::string & parName,
+                             std::vector<double> & pars) const {
+   operator[](parName).getValues(pars);
+}
+
 } // namespace latResponse

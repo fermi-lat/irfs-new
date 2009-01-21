@@ -40,6 +40,10 @@ public:
    void getPars(double loge, double costh, double * pars,
                 bool interpolate=true) const;
 
+   void getParVector(const std::string & parName,
+                     std::vector<double> & pars) const;
+
+
 private:
 
    std::vector<std::string> m_parNames;

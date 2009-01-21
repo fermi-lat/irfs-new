@@ -116,6 +116,13 @@ value(double logenergy, double costh, bool interpolate) const {
    return m_values.at(indx);
 }
 
+void FitsTable::getValues(std::vector<double> & values) const {
+   values.clear();
+   for (size_t i(0); i < m_values.size(); i++) {
+      values.push_back(m_values.at(i));
+   }
+}
+
 void FitsTable::getVectorData(const tip::Table * table,
                               const std::string & fieldName,
                               std::vector<float> & values,

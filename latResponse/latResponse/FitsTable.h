@@ -58,6 +58,8 @@ public:
                              std::vector<float> & values,
                              size_t nrow=0);
 
+   void getValues(std::vector<double> & values) const;
+
 protected:
 
    /// Disable copy assignment operator.
