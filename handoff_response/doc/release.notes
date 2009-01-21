@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  20-Jan-09 v4r2   JC     add phi-dependence to effective area using
+                          R. Rando's parameterization and based on his
+                          fitting macro
   10-dec-08 v4r1p3 JP     remove XrdClient reference that was added
                           by accident.
   09-dec-08 v4r1p2 JP     remove dummy variable from RootEval.cxx that
