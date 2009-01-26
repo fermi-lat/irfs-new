@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan 26 10:39:08 PST 2009
+irfs/latResponse/src
+
+Modified Files:
+	Aeff.cxx 
+Log Message:
+correct normalization of phi-modulation
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-02-02-00, operation: add
 Package: latResponse
