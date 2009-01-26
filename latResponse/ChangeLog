@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan 26 13:48:07 PST 2009
+irfs/latResponse/src
+
+Modified Files:
+	Aeff.cxx 
+Log Message:
+handle negative input phi values correctly
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-02-02-01, operation: add
 Package: latResponse
