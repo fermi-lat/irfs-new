@@ -60,7 +60,7 @@ double Aeff::value(double energy, double theta, double phi,
 }
 
 double Aeff::phi_modulation(double par0, double par1, double phi) const {
-   double norm(1./8./(1. + par0/(1. + par1))/(M_PI/4.));
+   double norm(1./(1. + par0/(1. + par1)));
    double phi_pv(std::fmod(phi*M_PI/180., M_PI) - M_PI/2.);
    double xx(2.*std::fabs(2./M_PI*std::fabs(phi_pv) - 0.5));
    return norm*(1. + par0*std::pow(xx, par1));
