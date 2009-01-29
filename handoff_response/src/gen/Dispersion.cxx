@@ -21,13 +21,14 @@ namespace {
     static int nbins=100;
 
   static const char* names[]={"norm","ls1", "rs1", "bias", "ls2",  "rs2"};
-  static double pinit[] ={0.01,   0.75,   2,      0.0,    0.1,       2};
-  static double pmin[]  ={0.,    0.1,   0.1,   -0.5,    1e-5,   1e-5};
-  static double pmax[]  ={1e6,   5,     5,      0.5,   10,      10};
+  static double pinit[] ={0.1,   0.5,   0.5,      0.0,    0.1,       0.1};
+  static double pmin[]  ={0.,    0.05,   0.05,   -0.5,    1e-5,   1e-5};
+  static double pmax[]  ={1e6,   9,     9,      0.5,   10,      10};
   static double pindex[]={1.6,0.6};
-  static double psplit(0.85);
+  static double psplit(1.5); //tuned for a better fit
   static double fitrange[]={-7, 7};
   static int min_entries(10);
+  static int fit_tries=3; // try a fit this many times before giving up
 
   double edisp_func(double * x, double * par)
   {
@@ -155,7 +156,14 @@ void Dispersion::fit(std::string opts)
 
     m_fitfunc.SetParameters(pinit);
     if( m_count > min_entries ) {
-        h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
+      int fitcount=0;
+      int fitres=-1;
+      // fit till convergence or for a set number of times
+      // Minuit at times gives up for no reason
+      while ((fitres!=0)&&(fitcount<fit_tries)) {
+	fitcount++;
+        fitres=h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
+      }
     }
 }
 

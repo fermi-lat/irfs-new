@@ -17,6 +17,10 @@
 
 TF1 * PhiDepHist::s_fit_func(new TF1("phi_func", "1 + [0]*x^[1]", 0, 0.9));
 
+static double pinit[] ={1.,   1};
+static double pmin[]  ={-0.5, 1};
+static double pmax[]  ={1.,   8};
+
 PhiDepHist::PhiDepHist() : m_hist(0), m_count(0), m_fitted(false) {
    m_pars.resize(2, 0);
 }
@@ -29,6 +33,8 @@ PhiDepHist::PhiDepHist(const std::string & histname,
      m_count(0), m_fitted(false) {
    m_hist->GetXaxis()->SetTitle("abs(abs(atan(McYDir/McXDir))*2./pi-0.5)*2");
    m_pars.resize(2, 0);
+   for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++)
+        s_fit_func->SetParLimits(i, pmin[i], pmax[i]);
 }
 
 PhiDepHist::~PhiDepHist() {}
@@ -63,8 +69,9 @@ void PhiDepHist::fit() {
          m_hist->SetBinContent(i, m_hist->GetBinContent(i)/lowval);
       }
    }
-   s_fit_func->SetParameter(0, 2);
-   s_fit_func->SetParameter(1, 1);
+   for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++)
+     s_fit_func->SetParameter(i, pinit[i]);
+
    m_hist->Fit(s_fit_func);
    s_fit_func->GetParameters(&m_pars[0]);
 }

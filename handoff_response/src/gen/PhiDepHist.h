@@ -22,7 +22,7 @@ public:
    PhiDepHist();
 
    PhiDepHist(const std::string & histname, const std::string & title,
-              size_t nbins=10, double xmin=0, double xmax=1);
+              size_t nbins=15, double xmin=0, double xmax=1);
 
    ~PhiDepHist();
 
