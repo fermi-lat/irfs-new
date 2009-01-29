@@ -1,4 +1,16 @@
 ------------------------------------------------------------
+User: rando  Thu Jan 29 04:54:18 PST 2009
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx PhiDepHist.cxx PhiDepHist.h 
+Log Message:
+Some changes
+Edisp: fit parameters, boundaries, fit retry
+PhiDepHist: fit boundaries, nbins
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-04-02-01, operation: add
 Package: handoff_response
