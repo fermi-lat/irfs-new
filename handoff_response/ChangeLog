@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: v4r2p2, operation: mov
+Package: handoff_response
+User: glastrm  Thu Jan 29 15:30:50 2009
+Files:
+  handoff_response/SConscript  1.11
+
+    *
+------------------------------------------------------------
 User: glastrm  Thu Jan 29 15:30:44 PST 2009
 irfs/handoff_response
 
