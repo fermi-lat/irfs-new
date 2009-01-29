@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  29-Jan-09 v4r2p2 JC     Riccardo's limits on phi-dependence fits and new
+                          energy pre-scaling for edisp distributions
   21-Jan-09 v4r2p1 JC     remove assert placed during debugging
   20-Jan-09 v4r2   JC     add phi-dependence to effective area using
                           R. Rando's parameterization and based on his
