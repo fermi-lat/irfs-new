@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: v1, operation: mov
+Package: rootIrfLoader
+User: glastrm  Thu Feb  5 10:30:45 2009
+Files:
+  rootIrfLoader/SConscript  1.4
+
+    *
+------------------------------------------------------------
 User: glastrm  Thu Feb  5 10:30:39 PST 2009
 irfs/rootIrfLoader
 
