@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb  5 10:17:09 PST 2009
+irfs/rootIrfLoader/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+change module name to librootIrfLoader; tagging v1
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb  5 10:17:08 PST 2009
 irfs/rootIrfLoader/cmt
 
