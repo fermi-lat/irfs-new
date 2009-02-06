@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Fri Feb  6 08:47:44 PST 2009
+ScienceTools-scons/irfs/pyIrfLoader
+
+Modified Files:
+	SConscript 
+Log Message:
+fix swig shared library name
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-10-00, operation: add
 Package: pyIrfLoader
