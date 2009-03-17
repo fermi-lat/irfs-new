@@ -1,4 +1,12 @@
 ------------------------------------------------------------
+User: glastrm  Tue Mar 17 10:30:47 PDT 2009
+irfs/caldb
+
+Modified Files:
+	SConscript 
+Log Message:
+    *
+------------------------------------------------------------
 TAG
 Tag name: v0r8, operation: add
 Package: caldb
