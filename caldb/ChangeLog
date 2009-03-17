@@ -1,5 +1,16 @@
 ------------------------------------------------------------
 User: jchiang  Tue Mar 17 09:26:10 PDT 2009
+irfs/caldb/CALDB/data/glast/lat/bcf/psf
+
+Added Files:
+	psf_P6_v3_diff_back.fits psf_P6_v3_diff_front.fits 
+	psf_P6_v3_source_back.fits psf_P6_v3_source_front.fits 
+	psf_P6_v3_trans_back.fits psf_P6_v3_trans_front.fits 
+Log Message:
+add P6_v3 irfs
+    *
+------------------------------------------------------------
+User: jchiang  Tue Mar 17 09:26:10 PDT 2009
 irfs/caldb/CALDB/data/glast/lat/bcf/edisp
 
 Added Files:
