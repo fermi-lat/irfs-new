@@ -193,7 +193,7 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    // anonymous namespace:
    scalingPars.push_back(1.6);
    scalingPars.push_back(0.6);
-   scalingPars.push_back(0.85);
+   scalingPars.push_back(1.5);
 
    FitsFile edispScaling(edisp_file, "EDISP_SCALING_PARAMS", "edisp.tpl",
                          newFile=false);
