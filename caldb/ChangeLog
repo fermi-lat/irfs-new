@@ -1,5 +1,17 @@
 ------------------------------------------------------------
 User: rando  Fri Apr  3 06:45:17 PDT 2009
+irfs/caldb/CALDB/data/glast/lat/bcf/edisp
+
+Modified Files:
+	edisp_P6_v3_diff_back.fits edisp_P6_v3_diff_front.fits 
+	edisp_P6_v3_source_back.fits edisp_P6_v3_source_front.fits 
+	edisp_P6_v3_trans_back.fits edisp_P6_v3_trans_front.fits 
+Log Message:
+bugfix for P6_V3 edisp
+
+    *
+------------------------------------------------------------
+User: rando  Fri Apr  3 06:45:17 PDT 2009
 irfs/caldb/CALDB/data/glast/lat/bcf/ea
 
 Modified Files:
