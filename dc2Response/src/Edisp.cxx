@@ -127,39 +127,39 @@ size_t Edisp::parIndex(double energy, double mu) const {
    return indx;
 }
 
-double Edisp::integral(double emin, double emax, double energy,
-                       const astro::SkyDir & srcDir, 
-                       const astro::SkyDir & scZAxis,
-                       const astro::SkyDir &,
-                       double time) const {
-   return integral(emin, emax, energy,
-                   srcDir.difference(scZAxis)*180./M_PI, 0, time);
-}
+// double Edisp::integral(double emin, double emax, double energy,
+//                        const astro::SkyDir & srcDir, 
+//                        const astro::SkyDir & scZAxis,
+//                        const astro::SkyDir &,
+//                        double time) const {
+//    return integral(emin, emax, energy,
+//                    srcDir.difference(scZAxis)*180./M_PI, 0, time);
+// }
    
-double Edisp::integral(double emin, double emax, double energy, 
-                       double theta, double phi, double time) const {
-   (void)(phi);
-   (void)(time);
-   if (theta < 0) {
-      std::ostringstream message;
-      message << "dc2Response::Edisp"
-              << "::integral(double, double, double, double, double):\n"
-              << "theta cannot be less than zero. "
-              << "Value passed: " << theta;
-      throw std::invalid_argument(message.str());
-   }
-   double mu(std::cos(theta*M_PI/180.));
-   size_t indx = parIndex(energy, mu);
-   s_rwidth = m_rwidth.at(indx);
-   s_ltail = m_ltail.at(indx);
-   double lowerLim((emin - energy)/energy);
-   double upperLim((emax - energy)/energy);
-   double err(1e-5);
-   double my_integral;
-   long ierr;
-   dgaus8_(&edispIntegrand, &lowerLim, &upperLim, &err, &my_integral, &ierr);
-   return m_norms.at(indx)*my_integral;
-}
+// double Edisp::integral(double emin, double emax, double energy, 
+//                        double theta, double phi, double time) const {
+//    (void)(phi);
+//    (void)(time);
+//    if (theta < 0) {
+//       std::ostringstream message;
+//       message << "dc2Response::Edisp"
+//               << "::integral(double, double, double, double, double):\n"
+//               << "theta cannot be less than zero. "
+//               << "Value passed: " << theta;
+//       throw std::invalid_argument(message.str());
+//    }
+//    double mu(std::cos(theta*M_PI/180.));
+//    size_t indx = parIndex(energy, mu);
+//    s_rwidth = m_rwidth.at(indx);
+//    s_ltail = m_ltail.at(indx);
+//    double lowerLim((emin - energy)/energy);
+//    double upperLim((emax - energy)/energy);
+//    double err(1e-5);
+//    double my_integral;
+//    long ierr;
+//    dgaus8_(&edispIntegrand, &lowerLim, &upperLim, &err, &my_integral, &ierr);
+//    return m_norms.at(indx)*my_integral;
+// }
 
 void Edisp::readData() {
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());

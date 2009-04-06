@@ -8,6 +8,7 @@
 
 #include <cmath>
 #include <iostream>
+#include "facilities/commonUtilities.h"
 #include "irfInterface/IrfsFactory.h"
 #include "dc2Response/loadIrfs.h"
 
@@ -33,9 +34,11 @@ void checkPsf(irfInterface::Irfs * irf, float energy, float theta, float phi) {
    Integral*=M_PI/180.;//remormalize step in the integration above
    Integral*=2*M_PI;//No dependance on phi
    std::cout<<"Integral from 0 to 50 degrees : "<<Integral<<std::endl;
-};
+}
 
 int main(int argc, char* argv[]) {
+   facilities::commonUtilities::setupEnvironment();
+
    float energy=1000.;//MeV
    float theta=0.*M_PI/180.;
    float phi=0.*M_PI/180.;  
