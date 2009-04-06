@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: irfUtil-00-04-02, operation: mov
+Package: irfUtil
+User: glastrm  Mon Apr  6 09:08:33 2009
+Files:
+  irfUtil/SConscript  1.4
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: v0r4p2, operation: mov
 Package: irfUtil
 User: glastrm  Mon Apr  6 09:08:22 2009
