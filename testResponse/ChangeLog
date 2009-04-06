@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: v2r0p2, operation: mov
+Package: testResponse
+User: glastrm  Mon Apr  6 09:06:27 2009
+Files:
+  testResponse/SConscript  1.4
+
+    *
+------------------------------------------------------------
 User: glastrm  Mon Apr  6 09:05:15 PDT 2009
 ScienceTools-scons/irfs/testResponse
 
