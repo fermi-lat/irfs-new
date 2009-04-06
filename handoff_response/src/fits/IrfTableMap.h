@@ -32,7 +32,7 @@ class IrfTableMap {
 public:
    
    IrfTableMap(const std::string & irfTables,
-               const std::string & rootfile);
+               const std::string & rootfile="parameters.root");
 
    const std::vector<std::string> & keys() const {
       return m_keys;

@@ -13,8 +13,8 @@
 #include <stdexcept>
 #ifdef WIN32
 #include <locale>
-namespace {
-   std::locale loc("usa");
+namespace{
+    std::locale loc("usa");
 }
 #include <cmath>
 #endif
@@ -32,7 +32,7 @@ namespace {
 #ifndef WIN32
          *it = std::toupper(*it);
 #else
-         *it = std::toupper(*it, loc);
+          *it = std::toupper(*it, loc);
 #endif
       }
    }
@@ -43,9 +43,9 @@ namespace handoff_response {
 FitsFile::FitsFile(const std::string & outfile, 
                    const std::string & extname,
                    const std::string & templateFile,
-                   bool newFile, size_t numRows) 
+                   size_t numRows) 
    : m_fptr(0), m_numRows(numRows), m_outfile(outfile), m_extname(extname) {
-   prepareFile(outfile, extname, templateFile, newFile);
+   createFile(outfile, extname, templateFile);
    int status(0);
    std::string filename(outfile + "[" + extname +"]");
    fits_open_file(&m_fptr, filename.c_str(), READWRITE, &status);
@@ -54,27 +54,15 @@ FitsFile::FitsFile(const std::string & outfile,
 
 FitsFile::~FitsFile() throw() {
    try {
-      if (m_fptr) {
-         close();
-      }
+      int status(0);
+      fits_close_file(m_fptr, &status);
+      fitsReportError(status, "FitsFile::~FitsFile");
+      m_fptr = 0;
+      st_facilities::FitsUtil::writeChecksums(m_outfile);
    } catch (std::exception & eObj) {
       std::cout << eObj.what() << std::endl;
    } catch (...) {
    }
-}
-
-void FitsFile::close() {
-   int status(0);
-   fits_close_file(m_fptr, &status);
-   fitsReportError(status, "FitsFile::~FitsFile");
-   m_fptr = 0;
-   st_facilities::FitsUtil::writeChecksums(m_outfile);
-   setDateKeyword();
-}
-
-void FitsFile::setDateKeyword() {
-   std::string date(st_facilities::Util::currentTime().getGregorianDate());
-   setKeyword("DATE", date);
 }
 
 void FitsFile::setVectorData(const std::string & fieldname,
@@ -94,16 +82,6 @@ void FitsFile::setVectorData(const std::string & fieldname,
                   &const_cast<std::vector<double> &>(data)[0],
                   &status);
    fitsReportError(status, "FitsFile::setVectorData");
-}
-
-void FitsFile::setTableData(const std::string & fieldname,
-                            const std::vector<double> & data,
-                            size_t row) {
-   setVectorData(fieldname, data, row);
-   int colnum = fieldNum(fieldname);
-   std::ostringstream tdimkey;
-   tdimkey << "TDIM" << colnum;
-   setKeyword(tdimkey.str(), m_tdim);
 }
 
 void FitsFile::setGrid(const IrfTable & table) {
@@ -129,11 +107,6 @@ void FitsFile::setGrid(const std::vector<double> & logEs,
    }
    setVectorData("CTHETA_LO", mulo);
    setVectorData("CTHETA_HI", muhi);
-
-   std::ostringstream tdim;
-   tdim << "(" << elo.size() << ", "
-        << mulo.size() << ")";
-   m_tdim = tdim.str();
 }
 
 int FitsFile::fieldNum(const std::string & fieldName) const {
@@ -147,23 +120,18 @@ int FitsFile::fieldNum(const std::string & fieldName) const {
    return 0;
 }
 
-void FitsFile::prepareFile(const std::string & outfile, 
-                           const std::string & extname,
-                           const std::string & templateFile,
-                           bool newFile) {
-
-   tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
-   
-   if (newFile) {
-      if (st_facilities::Util::fileExists(outfile)) {
-         std::remove(outfile.c_str());
-      }
-      std::string tplFile = 
-         st_facilities::Env::appendFileName(
-            st_facilities::Env::getDataDir("handoff_response"), templateFile);
-      fileSvc.createFile(outfile, tplFile);
+void FitsFile::createFile(const std::string & outfile, 
+                          const std::string & extname,
+                          const std::string & templateFile) {
+   std::string tplFile = 
+      st_facilities::Env::appendFileName(
+         st_facilities::Env::getDataDir("handoff_response"), templateFile);
+   if (st_facilities::Util::fileExists(outfile)) {
+      std::remove(outfile.c_str());
    }
+   tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
 
+   fileSvc.createFile(outfile, tplFile);
    tip::Table * table = fileSvc.editTable(outfile, extname);
    table->setNumRecords(m_numRows);
 

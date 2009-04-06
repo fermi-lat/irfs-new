@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  10-Feb-07 v2r0p1  JC    use st_facilities::Dgaus8::integrate instead of
+                          dgaus8_
   29-Jan-07 v2      JC    add IrfRegistry, IrfLoader, expose default 
                           implementations for IPsf::angularIntegral as
                           static functions

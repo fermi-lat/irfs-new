@@ -1,0 +1,16 @@
+#$Id$
+Import('baseEnv')
+Import('listFiles')
+progEnv = baseEnv.Clone()
+libEnv = baseEnv.Clone()
+
+if baseEnv['PLATFORM'] != "win32":
+        progEnv.AppendUnique(CPPDEFINES = ['TRAP_FPE'])
+
+libEnv.Tool('dc1ResponseLib', depsOnly = 1)
+dc1ResponseLib = libEnv.StaticLibrary('dc1Response', listFiles(['src/*.cxx']))
+
+progEnv.Tool('dc1ResponseLib')
+test_dc1ResponseBin = progEnv.Program('test_dc1Response', listFiles(['src/test/*.cxx']))
+
+progEnv.Tool('registerObjects', package = 'dc1Response', libraries = [dc1ResponseLib], testApps = [test_dc1ResponseBin], includes = listFiles(['dc1Response/*.h']))

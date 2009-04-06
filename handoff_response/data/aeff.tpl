@@ -1,10 +1,7 @@
-# $Id$
-#
-SIMPLE  =                    T / Dummy Created by MWRFITS v1.4a                
-BITPIX  =                    8 / Dummy primary header created by MWRFITS       
-NAXIS   =                    0 / No data is associated with this header        
-EXTEND  =                    T / Extensions may (will!) be present             
-ORIGIN  = 'LISOC'              / name of organization making this file
+SIMPLE  =                    T /Dummy Created by MWRFITS v1.4a                 
+BITPIX  =                    8 /Dummy primary header created by MWRFITS        
+NAXIS   =                    0 /No data is associated with this header         
+EXTEND  =                    T /Extensions may (will!) be present              
 END
 
 XTENSION= 'BINTABLE'           / binary table extension                        
@@ -15,8 +12,6 @@ NAXIS2  =                    1 / number of rows in table
 PCOUNT  =                    0 / size of special data area                     
 GCOUNT  =                    1 / one data group (required keyword)             
 TFIELDS =                    6 / number of fields in each row                  
-ORIGIN  = 'LISOC'              / name of organization making this file
-DATE    =                      / file creation date (YYYY-MM-DDThh:mm:ss UT)
 EXTNAME = 'EFFECTIVE AREA'     / name of this binary table extension           
 TTYPE1  = 'ENERG_LO'           /                                               
 TFORM1  = '54E     '           /                                               
@@ -33,11 +28,11 @@ TUNIT4  = '        '           /
 TTYPE5  = 'EFFAREA'            /                                               
 TFORM5  = '1728E   '           /                                               
 TUNIT5  = 'm2      '           /                                               
-TDIM5   = '( 54, 32)'
-#TTYPE6  = 'STAT_MIN'           /                                              
-#TFORM6  = '1728E   '           /                                              
-#TUNIT6  = 'm2      '           /                                              
-#TDIM6   = '( 54, 32)'
+TDIM5   = '( 54, 32)'          /                                               
+TTYPE6  = 'STAT_MIN'           /                                               
+TFORM6  = '1728E   '           /                                               
+TUNIT6  = 'm2      '           /                                               
+TDIM6   = '( 54, 32)'          /                                               
 LATCLASS= '        '
 TELESCOP= 'GLAST   '           /                                               
 INSTRUME= 'LAT     '           /                                               
@@ -47,17 +42,20 @@ HDUCLAS1= 'RESPONSE'           /
 HDUCLAS2= 'EFF_AREA'           /                                               
 HDUVERS = '1.0.0   '           /                                               
 EARVERSN= '1992a   '           /                                               
-1CTYP5  = 'ENERGY  '           / Always use log(ENERGY) for interpolation      
-2CTYP5  = 'COSTHETA'           / Off-axis angle cosine                         
+1CTYP5  = 'ENERGY  '           /Always use log(ENERGY) for interpolation       
+2CTYP5  = 'COSTHETA'           /Off-axis angle cosine                          
 CREF5   = '(ENERG_LO:ENERG_HI,CTHETA_LO:CTHETA_HI)' /                          
+1CTYP6  = 'ENERGY  '           /Always use log(ENERGY) for interpolation       
+2CTYP6  = 'COSTHETA'           /Off-axis angle cosine                          
+CREF6   = '(ENERG_LO:ENERG_HI,CTHETA_LO:CTHETA_HI)' /                          
 CSYSNAME= 'XMA_POL '           /                                               
 CCLS0001= 'BCF     '           /                                               
 CDTP0001= 'DATA    '           /                                               
 CCNM0001= 'EFF_AREA'           /                                               
-CBD10001= 'ENERG(18-560000)MeV'/                                              
-CBD20001= 'CTHETA(0.2-1)'      /                                               
+CBD10001= 'ENERG(18-177800)MeV' /                                              
+CBD20001= 'THETA(0-90)deg'     /                                               
 CBD30001= 'PHI(0-360)deg'      /                                               
-CVSD0001= '01/03/2006'         / Dataset validity start date (UTC)
+CVSD0001= '01/03/2006'         /                                               
 CVST0001= '00:00:00'           /                                               
 CDES0001= 'GLAST LAT effective area' /                    
 END

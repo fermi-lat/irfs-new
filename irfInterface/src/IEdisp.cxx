@@ -13,7 +13,7 @@
 
 #include "astro/SkyDir.h"
 
-#include "st_facilities/dgaus8.h"
+#include "st_facilities/Dgaus8.h"
 
 #include "irfInterface/IEdisp.h"
 
@@ -106,7 +106,8 @@ double IEdisp::edispIntegral(const IEdisp * self, double emin, double emax,
    double integral;
    double err(1e-5);
    long ierr(0);
-   dgaus8_(&edispIntegrand, &emin, &emax, &err, &integral, &ierr);
+   integral = st_facilities::Dgaus8::integrate(&edispIntegrand, emin, emax, 
+                                               err, ierr);
    return integral;
 }
 
@@ -129,11 +130,13 @@ double IEdisp::meanAppEnergy(double energy, double theta, double phi,
    double emax(energy*10.);
    double err(1e-5);
    long ierr(0);
-   dgaus8_(&meanEnergyIntegrand, &emin, &emax, &err, &integral, &ierr);
+   integral = st_facilities::Dgaus8::integrate(&meanEnergyIntegrand, emin, 
+                                               emax, err, ierr);
 
 // The energy dispersion is not guarranteed to be properly normalized.
    double normalization;
-   dgaus8_(&edispIntegrand, &emin, &emax, &err, &normalization, &ierr);
+   normalization = st_facilities::Dgaus8::integrate(&edispIntegrand, emin, 
+                                                    emax, err, ierr);
    
    return integral/normalization;
 }
@@ -158,14 +161,15 @@ double IEdisp::meanTrueEnergy(double appEnergy, double theta, double phi,
    double emax(std::min(1.76e5, appEnergy*10.));
    double err(1e-5);
    long ierr(0);
-   dgaus8_(&meanTrueEnergyIntegrand, &emin, &emax, &err, &integral, &ierr);
+   integral = st_facilities::Dgaus8::integrate(&meanTrueEnergyIntegrand, 
+                                               emin, emax, err, ierr);
 
 // The energy dispersion is not guarranteed to be properly normalized.
    double normalization;
-   dgaus8_(&trueEnergyIntegrand, &emin, &emax, &err, &normalization, &ierr);
+   normalization = st_facilities::Dgaus8::integrate(&trueEnergyIntegrand, 
+                                                    emin, emax, err, ierr);
    
    return integral/normalization;
-//   return integral;
 }
 
 double IEdisp::edispIntegrand(double * appEnergy) {
