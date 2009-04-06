@@ -1,11 +1,11 @@
-#$Id$
+# -*- python -*-
+# $Id$
+# Authors: James Chiang <jchiang@slac.stanford.edu>
+# Version: irfLoader-01-02-00
 Import('baseEnv')
 Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
-
-if baseEnv['PLATFORM'] != 'win32':
-        progEnv.Append(CPPDEFINES = 'TRAP_FPE')
 
 libEnv.Tool('irfLoaderLib', depsOnly = 1)
 irfLoaderLib = libEnv.StaticLibrary('irfLoader', listFiles(['src/*.cxx']))
