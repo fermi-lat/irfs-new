@@ -1,11 +1,11 @@
-#$Id$
+# -*- python -*-
+# $Id$
+# Authors: James Chiang <jchiang@slac.stanford.edu>
+# Version: dc1Response-02-00-02
 Import('baseEnv')
 Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
-
-if baseEnv['PLATFORM'] != "win32":
-        progEnv.AppendUnique(CPPDEFINES = ['TRAP_FPE'])
 
 libEnv.Tool('dc1ResponseLib', depsOnly = 1)
 dc1ResponseLib = libEnv.StaticLibrary('dc1Response', listFiles(['src/*.cxx']))
