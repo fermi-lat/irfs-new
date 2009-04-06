@@ -8,9 +8,6 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-if baseEnv['PLATFORM'] != "win32":
-        progEnv.AppendUnique(CPPDEFINES = ['TRAP_FPE'])
-
 libEnv.Tool('g25ResponseLib', depsOnly = 1)
 g25ResponseLib = libEnv.StaticLibrary('g25Response', listFiles(['src/*.cxx']))
 

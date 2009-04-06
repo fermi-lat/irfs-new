@@ -7,9 +7,6 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-if baseEnv['PLATFORM'] != "win32":
-        progEnv.AppendUnique(CPPDEFINES = ['TRAP_FPE'])
-
 libEnv.Tool('testResponseLib', depsOnly = 1)
 testResponseLib = libEnv.StaticLibrary('testResponse', listFiles(['src/*.cxx']))
 
