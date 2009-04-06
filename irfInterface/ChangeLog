@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Mon Apr  6 09:14:09 PDT 2009
+ScienceTools-scons/irfs/irfInterface
+
+Modified Files:
+	SConscript 
+Log Message:
+TRAP_FPE is now set by SConstruct. No need to locally check
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-11-00, operation: add
 Package: irfInterface

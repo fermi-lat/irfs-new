@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: v1r2, operation: mov
+Package: irfLoader
+User: glastrm  Mon Apr  6 09:12:27 2009
+Files:
+  irfLoader/SConscript  1.6
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: irfLoader-01-02-00, operation: mov
 Package: irfLoader
 User: glastrm  Mon Apr  6 09:12:17 2009
