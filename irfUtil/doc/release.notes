@@ -1,0 +1,18 @@
+/** 
+  @file release.notes
+  @brief package irfUtil
+
+  @verbatim
+  $Id$
+
+  06-Oct-07 v0r4p1  THB   Needed a <cmath> due to ROOT interface change
+  14-Feb-06 v0r4    JC    generalize HdCaldb interface for dc2
+  29-Oct-04 v0r3p1  JC    use tip v2*
+  01-Oct-04 v0r3    JC    remove functions now in st_facilities
+  07-Aug-04 v0r2    JC    add expectedException; throw runtime_error 
+                          in bilinear
+  20-Jul-04 v0r1    JC    add RootTable
+  16-Jul-04 v0      JC    initial version
+ 
+  @endverbatim
+*/
