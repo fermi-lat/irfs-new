@@ -5,6 +5,9 @@
   @verbatim
   $Id$
 
+  13-Apr-09 v4r3   JC     Update edisp pre-scaling parameters in make_fits;
+                          remove CBD-related keywords from PHI_DEPENDENCE
+                          extension in aeff files
   29-Jan-09 v4r2p2 JC     Riccardo's limits on phi-dependence fits and new
                           energy pre-scaling for edisp distributions
   21-Jan-09 v4r2p1 JC     remove assert placed during debugging
