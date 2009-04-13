@@ -1,5 +1,19 @@
 ------------------------------------------------------------
 User: jchiang  Mon Apr 13 10:29:30 PDT 2009
+irfs/caldb/CALDB/data/glast/lat/bcf/ea
+
+Added Files:
+	aeff_P6_v4_diff_back.fits aeff_P6_v4_diff_front.fits 
+	aeff_P6_v4_source_back.fits aeff_P6_v4_source_front.fits 
+	aeff_P6_v4_trans_back.fits aeff_P6_v4_trans_front.fits 
+	aeff_P6_v5_diff_back.fits aeff_P6_v5_diff_front.fits 
+	aeff_P6_v5_source_back.fits aeff_P6_v5_source_front.fits 
+	aeff_P6_v5_trans_back.fits aeff_P6_v5_trans_front.fits 
+Log Message:
+add P6_V4, P6_V5
+    *
+------------------------------------------------------------
+User: jchiang  Mon Apr 13 10:29:30 PDT 2009
 irfs/caldb/CALDB/data/glast/lat
 
 Modified Files:
