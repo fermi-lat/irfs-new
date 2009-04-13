@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Apr 13 10:02:11 PDT 2009
+irfs/handoff_response/data
+
+Modified Files:
+	aeff.tpl 
+Log Message:
+remove CBD-related keywords from PHI_DEPENDENCE extension
+    *
+------------------------------------------------------------
 User: jchiang  Mon Apr 13 09:14:02 PDT 2009
 irfs/handoff_response/src/fits/make_fits
 
