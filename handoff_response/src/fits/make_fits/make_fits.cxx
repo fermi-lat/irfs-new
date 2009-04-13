@@ -136,9 +136,6 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    phi_dep.setGrid(irfTables["phi_dep_0"]);
    phi_dep.setTableData("PHIDEP0", irfTables["phi_dep_0"].values());
    phi_dep.setTableData("PHIDEP1", irfTables["phi_dep_1"].values());
-   phi_dep.setCbdValue("VERSION", irfVersion);
-   phi_dep.setCbdValue("CLASS", latclass);
-   phi_dep.setKeyword("DETNAM", detname);
    phi_dep.close();
 
 // Point spread function and angular deviation scaling parameters
