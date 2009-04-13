@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Mon Apr 13 09:14:02 PDT 2009
+irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+remove code to set CBD keywords for PHI_DEPENDENCE extension in effective area files (these are not needed since they are in the EFFECTIVE AREA extension and they cause problems when running udcif to update caldb.indx)
+
+    *
+------------------------------------------------------------
 User: rando  Mon Mar 30 06:02:37 PDT 2009
 irfs/handoff_response/src/fits/make_fits
 
