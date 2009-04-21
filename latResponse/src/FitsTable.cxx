@@ -98,15 +98,14 @@ value(double logenergy, double costh, bool interpolate) const {
       return (*m_interpolator)(logenergy, costh);
    }
 
-   double maxloge(*(m_logEnergies.end() - 2)); 
-   if (logenergy >= maxloge) { // use last bin
-      logenergy = maxloge;
-   }
    if (logenergy <= m_logEnergies.at(1)) { // use first bin
       logenergy = m_logEnergies.at(1);
    }
 
    size_t ix = binIndex(logenergy, m_ebounds);
+   if (ix == m_ebounds.size()) {
+      ix -= 1;
+   }
    size_t iy = binIndex(costh, m_tbounds);
    if (iy == 0) {
       iy = 1;

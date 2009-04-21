@@ -128,7 +128,7 @@ void LatResponseTests::psf_zero_separation() {
 void LatResponseTests::psf_normalization() {
    double phi(0);
 
-   double tol(1e-2);
+   double tol(2e-2);
 
    std::vector<double> psi;
    double psimin(1e-4);
