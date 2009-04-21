@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Apr 21 10:21:21 PDT 2009
+irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+fix bug in FitsTable when trying to evaluate at highest energies in IRF table range
+    *
+------------------------------------------------------------
+User: jchiang  Tue Apr 21 10:21:21 PDT 2009
 irfs/latResponse/src
 
 Modified Files:
