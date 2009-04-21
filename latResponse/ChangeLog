@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 21 10:21:21 PDT 2009
+irfs/latResponse/src
+
+Modified Files:
+	FitsTable.cxx 
+Log Message:
+fix bug in FitsTable when trying to evaluate at highest energies in IRF table range
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-11-00, operation: add
 Package: latResponse
