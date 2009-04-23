@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: rando  Thu Apr 23 01:00:20 PDT 2009
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx 
+Log Message:
+bugfix: "bias" parameter in edisp_func is correctly used
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-04-03-00, operation: add
 Package: handoff_response
