@@ -38,7 +38,7 @@ namespace {
     double s2(par[4]);
     
     //left or right sigma's are required?
-    if (x[0]>0) {
+    if (x[0]>par[3]) {
       //right side
       s1=par[2];
       s2=par[5];
