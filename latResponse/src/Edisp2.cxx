@@ -59,7 +59,7 @@ double Edisp2::old_function(double xx, double * pars) const {
    double tt(std::fabs(xx - pars[3]));
    double s1(pars[1]);
    double s2(pars[4]);
-   if (xx > 0) {
+   if (xx > pars[3]) {
       s1 = pars[2];
       s2 = pars[5];
    }
