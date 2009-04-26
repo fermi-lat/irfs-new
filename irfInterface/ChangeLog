@@ -1,5 +1,16 @@
 ------------------------------------------------------------
 User: jchiang  Sun Apr 26 09:56:39 PDT 2009
+irfs/irfInterface/data
+
+Added Files:
+	P6_V3_DIFFUSE_eff.txt 
+Removed Files:
+	P6_V3_DIFFUSE_eff.py 
+Log Message:
+avoid embed_python
+    *
+------------------------------------------------------------
+User: jchiang  Sun Apr 26 09:56:39 PDT 2009
 irfs/irfInterface/cmt
 
 Modified Files:
