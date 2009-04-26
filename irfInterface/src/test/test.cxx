@@ -19,6 +19,7 @@
 #include "astro/SkyDir.h"
 
 #include "irfInterface/AcceptanceCone.h"
+#include "irfInterface/EfficiencyFactor.h"
 #include "irfInterface/IrfsFactory.h"
 
 #include "Aeff.h"
@@ -41,6 +42,8 @@ class irfInterfaceTests : public CppUnit::TestFixture {
    CPPUNIT_TEST(edisp_normalization);
    CPPUNIT_TEST(test_IrfRegistry);
 
+   CPPUNIT_TEST(test_EfficiencyFactor);
+
    CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -56,6 +59,7 @@ public:
    void psf_integral();
    void edisp_normalization();
    void test_IrfRegistry();
+   void test_EfficiencyFactor();
 
 private:
 
@@ -190,7 +194,20 @@ void irfInterfaceTests::test_IrfRegistry() {
    }
 }
 
+void irfInterfaceTests::test_EfficiencyFactor() {
+   EfficiencyFactor foo("$(IRFINTERFACEROOT)/data", "P6_V3_DIFFUSE_eff");
+
+   std::cout << foo.value(1000, 0.9) << std::endl;
+   std::cout << foo.value(1000, 0.85) << std::endl;
+}
+
 int main() {
+#ifdef TRAP_FPE
+      feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
+#else
+      throw std::runtime_error("Floating point exception trapping "
+                               "cannot be enabled for this build.");
+#endif
    CppUnit::TextTestRunner runner;
    
    runner.addTest(irfInterfaceTests::suite());
