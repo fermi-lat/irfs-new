@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  26-Apr-09 v4r3p1 JC     bug-fix in Dispersion.cxx from Riccardo
   13-Apr-09 v4r3   JC     Update edisp pre-scaling parameters in make_fits;
                           remove CBD-related keywords from PHI_DEPENDENCE
                           extension in aeff files
