@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Apr 25 23:13:18 PDT 2009
+irfs/irfInterface/irfInterface
+
+Added Files:
+	EfficiencyFactor.h 
+Log Message:
+add rate-dependent efficiency factor code
+    *
+------------------------------------------------------------
+User: jchiang  Sat Apr 25 23:13:18 PDT 2009
 irfs/irfInterface/data
 
 Added Files:
