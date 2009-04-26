@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Apr 26 09:56:39 PDT 2009
+irfs/irfInterface/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+avoid embed_python
+    *
+------------------------------------------------------------
 User: jchiang  Sat Apr 25 23:13:18 PDT 2009
 irfs/irfInterface/src/test
 
