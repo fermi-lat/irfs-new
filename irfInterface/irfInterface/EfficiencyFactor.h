@@ -25,7 +25,9 @@ class EfficiencyFactor {
 
 public:
 
-   EfficiencyFactor(std::string python_dir, std::string parfile);
+   EfficiencyFactor();
+
+   EfficiencyFactor(const std::string & parfile);
 
    double operator()(double energy, double met) const;
 
@@ -37,6 +39,7 @@ public:
 
 private:
    
+   bool m_havePars;
    double m_offset_p0;
    double m_offset_p1;
    double m_slope_p0;
@@ -48,6 +51,8 @@ private:
    static std::vector<double> s_start;
    static std::vector<double> s_stop;
    static std::vector<double> s_livetimefrac;
+
+   void readPars(std::string parfile);
 
 };
 

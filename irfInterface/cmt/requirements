@@ -8,7 +8,6 @@ author James Chiang <jchiang@slac.stanford.edu>
 use GlastPolicy v*
 use astro v*
 use st_facilities v*
-use embed_python v*
 
 apply_pattern package_include
 apply_pattern package_linkopts
