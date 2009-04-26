@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  26-Apr-09   v2r2p3    JC  bug-fixes for Edisp and FitsTable
   26-Jan-09   v2r2p2    JC  handle negative input phi values correctly in
                             phi-modulation code
   26-Jan-09   v2r2p1    JC  bug-fix for normalization of phi modulation in Aeff
