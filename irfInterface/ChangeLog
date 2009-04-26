@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Apr 25 23:13:18 PDT 2009
+irfs/irfInterface/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+add rate-dependent efficiency factor code
+    *
+------------------------------------------------------------
+User: jchiang  Sat Apr 25 23:13:18 PDT 2009
 irfs/irfInterface/src
 
 Added Files:
