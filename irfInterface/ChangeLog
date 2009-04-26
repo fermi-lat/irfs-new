@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sun Apr 26 09:56:39 PDT 2009
+irfs/irfInterface/src
+
+Modified Files:
+	EfficiencyFactor.cxx 
+Log Message:
+avoid embed_python
+    *
+------------------------------------------------------------
+User: jchiang  Sun Apr 26 09:56:39 PDT 2009
 irfs/irfInterface/irfInterface
 
 Modified Files:
