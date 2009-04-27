@@ -13,6 +13,8 @@
 
 #include "tip/TipException.h"
 
+#include "irfInterface/EfficiencyFactor.h"
+
 #include "latResponse/FitsTable.h"
 #include "latResponse/ParTables.h"
 
@@ -45,7 +47,6 @@ double Aeff::value(double energy,
 
 double Aeff::value(double energy, double theta, double phi,
                    double time) const {
-   (void)(time);
    double costheta(std::cos(theta*M_PI/180.));
    if (costheta < m_aeffTable.minCosTheta()) {
       return 0;
@@ -56,7 +57,8 @@ double Aeff::value(double energy, double theta, double phi,
    bool interpolate;
    double logE(std::log10(energy));
    return m_aeffTable.value(logE, costheta, interpolate=true)*1e4
-      *phi_modulation(logE, costheta, phi, interpolate=false);
+      *phi_modulation(logE, costheta, phi, interpolate=false)
+      *m_efficiencyFactor(energy, time);
 }
 
 double Aeff::phi_modulation(double par0, double par1, double phi) const {
