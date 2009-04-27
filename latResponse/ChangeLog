@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Apr 26 22:24:03 PDT 2009
+irfs/latResponse/src
+
+Modified Files:
+	Aeff.cxx Aeff.h 
+Log Message:
+include efficiency factor in Aeff
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-02-02-03, operation: add
 Package: latResponse
