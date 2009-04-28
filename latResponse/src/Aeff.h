@@ -13,8 +13,6 @@
 #include <utility>
 #include <vector>
 
-#include "irfInterface/EfficiencyFactor.h"
-
 #include "irfInterface/IAeff.h"
 
 #include "latResponse/FitsTable.h"
@@ -66,8 +64,6 @@ private:
    FitsTable m_aeffTable;
 
    ParTables * m_phiDepPars;
-
-   irfInterface::EfficiencyFactor m_efficiencyFactor;
 
    double phi_modulation(double par0, double par1, double phi) const;
 
