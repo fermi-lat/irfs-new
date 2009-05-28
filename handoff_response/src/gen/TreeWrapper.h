@@ -9,7 +9,6 @@
 #define TreeWrapper_h
 
 #include <string>
-#include <vector>
 
 // forward declarations: interface does not need any ROOT declarations
 class TTree;
@@ -65,8 +64,8 @@ public:
         bool operator!=(const Iterator& other){return m_rec!= other.m_rec;}
         size_t index()const{ return m_rec;} ///< @return entry number
     private:
-        TTree* m_tree;
         size_t m_rec;
+        TTree* m_tree;
     };
 
     size_t size()const; ///< @return number of entries in the tree
@@ -94,8 +93,8 @@ private:
     TTree* findTree(std::string treename);
 
     TFile* m_file;  ///< the file: zero if not owned (i.e., opened)
-    TTree* m_tree;  ///< the current tree
-    std::vector<Leaf> m_leaf_list; ///< allow updating leaf pointers
+    TTree* m_tree;  ///< the tree
+
     static TreeWrapper* s_instance; // most recent instance
 };
 

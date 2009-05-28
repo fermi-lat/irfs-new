@@ -5,27 +5,6 @@
   @verbatim
   $Id$
 
-  30-Jan-08 v2r2p1  JC    include <algorithm> in IrfsFactory.cxx for std::count
-  30-Jan-08 v2r2    JC    add IrfsFactory::irfNames()
-  16-May-07 v2r1p1  JC    use st_facilities::GaussianQuadrature::
-                          dgaus8Exception to handle cases where the integrator
-                          reports insufficently accurate results.
-  16-Mar-07 v2r1    JC    use C++ version of dgaus8; remove statics from
-                          IEdisp; add adhocIntegrator to handle spurious
-                          zero-valued integrals
-  02-Mar-07 v2r0p4  JC    refactor unit tests for IrfRegistry change
-  01-Mar-07 v2r0p3  JC    refactor IrfRegistry to allow concrete IrfLoader
-                          implementations to set data members in loadIrfs
-                          before calling registerEventClasses
-  13-Feb-07 v2r0p2  JC    Dgaus8 -> GaussianQuadrature (because of LoseDoze)
-  10-Feb-07 v2r0p1  JC    use st_facilities::Dgaus8::integrate instead of
-                          dgaus8_
-  29-Jan-07 v2      JC    add IrfRegistry, IrfLoader, expose default 
-                          implementations for IPsf::angularIntegral as
-                          static functions
-  23-Oct-06 v1r1    JC    add default implementations for 
-                          IPsf::angularIntegral(...),  IPsf::appDir(...),
-                          IEdisp::integral(...), IEdisp::appEnergy(...);
   14-Aug-06 v1      JC    add time argument to IRFs component interfaces
   18-May-06 v0r3p1  JC    bug-fix: change #ifdef SWIG to #ifndef SWIG
   25-Apr-06 v0r3    JC    add virtual IAeff::upperLimit() = 0

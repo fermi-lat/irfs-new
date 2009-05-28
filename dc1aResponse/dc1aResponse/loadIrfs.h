@@ -2,7 +2,7 @@
 #define dc1aResponse_loadIrfs_h
 
 namespace dc1aResponse {
-   void load_irfs();
+   void loadIrfs();
 }
 
 #endif // dc1aResponse_loadIrfs_h

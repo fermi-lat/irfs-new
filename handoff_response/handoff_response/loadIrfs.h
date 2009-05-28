@@ -10,7 +10,7 @@
 #include <string>
 
 namespace handoff_response {
-   std::string load_irfs(const std::string& filename="", bool verbose=false);
+    void loadIrfs(const std::string& filename="");
 }
 
 #endif // handoff_loadIrfs_h

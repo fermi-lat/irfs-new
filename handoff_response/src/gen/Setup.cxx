@@ -6,7 +6,6 @@ $Header$
 */
 
 #include "Setup.h"
-#include "embed_python/Module.h"
 
 #include <fstream>
 #include <iostream>
@@ -26,30 +25,12 @@ namespace {
 namespace{
     std::string 
         envvar("output_file_root") //here to look if no command-ine arg
-        , setupfile("setup"); // file name to read and parse
+        , setupfile("setup.txt"); // file name to read and parse
 }
-// support for singleton
-Setup* Setup::instance(){if( s_instance==0) throw std::invalid_argument("Setup object not set");return s_instance;}
 
-Setup* Setup::s_instance(0);
-
-Setup::Setup(int argc, char* argv[], bool verbose)
-: m_verbose(verbose)
+Setup::Setup(int argc, char* argv[])
+:m_root( std::string(argc>1? argv[1] : ::getenv(envvar.c_str())) )
 {
-    s_instance = this;
-   char * envvarvalue = ::getenv(envvar.c_str());
-   if (argc ==1 && envvarvalue == 0) {
-//        throw std::runtime_error(std::string(argv[0])+": no command line argument and the environment variable " + envvar 
-//                                + " is not set");
-
-// Use current working directory if output_file_root env var is not
-// set and no command line argument is given.
-      char value[128];
-      _getcwd(value, sizeof(value));
-      envvarvalue = value;
-   }
-   m_root = std::string(argc>1? argv[1] : envvarvalue);
-
     char oldcwd[128], newcwd[128];
     _getcwd(oldcwd, sizeof(oldcwd));
 
@@ -62,8 +43,84 @@ Setup::Setup(int argc, char* argv[], bool verbose)
     _getcwd(newcwd, sizeof(newcwd));
     std::cout << "switched to " << newcwd << std::endl;
     m_root = newcwd; 
+    std::string filename( setupfile );
 
-    // python implementation: expect to find file setup.py in the current path, 
-    // defines three string attributes: files, cuts, and names
-    m_py = new embed_python::Module("", setupfile);    
+    readnames(filename);
+}
+void Setup::readnames(std::string filename)
+{
+    std::ifstream setupfile( filename.c_str() );
+    if( ! setupfile.is_open() ){
+        throw std::runtime_error("Setup: could not find file \""+filename +"\" in folder "+m_root);
+    }
+    std::string line, current_entry;
+    while( setupfile ){
+        std::getline(setupfile, line);
+        //std::cout << "line: " << line << std::endl;
+        if( line.empty()) { // flag to swithch
+            if( !current_entry.empty() ){
+                push_back(current_entry);
+            }
+            current_entry = "";
+        }else{
+           if( line[0]=='@'){
+                // indirection: expect first char to be @
+                std::stringstream str(line.substr(1));
+                std::string name;
+                str >> name;
+                readnames(name);
+                continue;
+           }else if( line[0]=='+') {
+               // first char=+, add to previous (assume no current entry)
+               current_entry = back(); pop_back();
+               line = line.substr(1);
+           }
+           current_entry += strip_comment(line);
+        }
+
+    }
+    if( !current_entry.empty() ) push_back(current_entry);
+
+}
+
+// parse a comma-delimeted list
+void Setup::parse_list(const std::string& input, std::vector<std::string>& output)
+{
+    size_t i=0 ;
+    for(; i != std::string::npos ; ){
+        size_t j = input.substr(i).find_first_of(",");
+        if( j==std::string::npos ){
+            std::string temp( strip_blanks(input.substr(i) ) );
+            if( !temp.empty() ) output.push_back(temp);
+            break;
+        } else{
+            std::string temp( strip_blanks(input.substr(i, j)) );
+            if( !temp.empty() ) output.push_back(temp);
+            i += j+1;
+        }
+    }
+}
+
+
+void Setup::dump(std::ostream& log)
+{
+    std::copy(begin(), end(), std::ostream_iterator<std::string>(log, "\n"));
+}
+
+
+/// remove  anything following a #
+std::string Setup::strip_comment(std::string input)
+{
+    if( input.empty() ) return input;
+    size_t j = input.find_first_of("#");
+
+    return j==std::string::npos? input : input.substr(0, j);
+}
+
+std::string Setup::strip_blanks(std::string input)
+{
+    if( input.empty() || input==" ") return "";
+    size_t i = input.find_first_not_of(" "),
+        j = input.substr(i).find_first_of(" ");
+    return j==std::string::npos? input.substr(i) : input.substr(i, j-i+1);
 }

@@ -20,7 +20,8 @@ class PointSpreadFunction {
 public:
 
     PointSpreadFunction(std::string histname,
-        std::string title);
+        std::string title
+        , std::ostream& log=std::cout);
 
     PointSpreadFunction():m_count(-1){} // default 
     ~PointSpreadFunction();
@@ -29,7 +30,7 @@ public:
     void fill(double scaled_delta, double weight=1.0);
 
     /// add a summary line to a table, with 68%, 95%, and fit parameters.
-    void summarize(std::ostream & out);
+    void summarize();
 
     /// draw to the current pad
     void draw(double ymin=1e-6, double ymax=1.0, bool ylog=true);
@@ -46,18 +47,11 @@ public:
     /// access to the function itself
     static double function(double* delta, double* par);
 
-    /// the integral of the function
-    static double integral(double* delta, double* par);
-    double entries()const{return m_count;}
 
-    ///! list of names
-    static std::vector<std::string> pnames;
+    double entries()const{return m_count;}
 
     static const char* parname(int i);
     static int npars();
-
-    static void summary_title(std::ostream & out);
-
 private:
 
     TH1F& hist(){return *m_hist;}
@@ -66,12 +60,12 @@ private:
     TF1 m_fitfunc; ///< the fit function
 
     int m_count; ///< number of entries
+    std::ostream * m_log;
+    std::ostream& out() {return *m_log;}
 
     double m_quant[2]; // for 68,95% quantiles
     double m_tail;     // fraction in tail beyond fit range
 
-    void reorder_parameters();
-    void setFitPars(double * pars, double * pmin, double * pmax);
 };
 
 #endif

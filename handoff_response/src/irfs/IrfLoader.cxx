@@ -15,17 +15,20 @@
 
 #include <stdexcept>
 #include "RootEval.h"
-#include "FitsEval.h"
 
 using namespace handoff_response;
 
-IrfLoader::IrfLoader(const std::string & filename) {
-   std::string::size_type pos(filename.find(".root"));
-   if (pos != std::string::npos) {
-      RootEval::createMap(filename, m_evals);
-   } else { // assume filename is a class name and retrieve FITS files.
-      FitsEval::createMap(filename, m_evals);
-   }
+
+
+IrfLoader::IrfLoader(const std::string & filename, const std::string & eventclass) 
+{
+    if( filename.find(".root")>0){
+        m_irfeval= new handoff_response::RootEval( filename, eventclass);
+    }else{
+        throw std::invalid_argument("IrfLoader: cannot process file "+filename
+            +". Only ROOT files are currently supported.");
+    }
+
 }
 
 IrfLoader::~IrfLoader()
@@ -33,23 +36,14 @@ IrfLoader::~IrfLoader()
     // should we delete the IrfEval guy? Maybe not.
 }
 
-irfInterface::Irfs * IrfLoader::irfs(std::string name , int index) {
-    IrfEval* eval = m_evals[name];
+irfInterface::Irfs * IrfLoader::irfs(int index)
+{
 
-    irfInterface::IAeff* aeff = new Aeff(eval);
-    irfInterface::IPsf* psf = new Psf(eval);
-    irfInterface::IEdisp* disp = new Edisp(eval);
+    irfInterface::IAeff* aeff = new Aeff(m_irfeval);
+    irfInterface::IPsf* psf = new Psf(m_irfeval);
+    irfInterface::IEdisp* disp = new Edisp(m_irfeval);
 
     return new irfInterface::Irfs( aeff, psf, disp, index);
 }
 
-void IrfLoader::getKeys(std::vector<std::string> & keys) const {
-   keys.clear();
-   for (const_iterator eval=begin(); eval != end(); ++eval) {
-      keys.push_back(eval->first);
-   }
-}
 
-void IrfLoader::addIrfEval(const std::string & name, IrfEval * eval) {
-   m_evals[name] = eval;
-}

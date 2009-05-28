@@ -1,18 +1,9 @@
-/**
- * @file test.cxx
- * @brief Code to exercise g25Response functions
- * 
- * $Header$
- */
-
 #include <iostream>
-#include "facilities/commonUtilities.h"
 #include "irfInterface/IrfsFactory.h"
 #include "g25Response/loadIrfs.h"
 
 int main() {
-   facilities::commonUtilities::setupEnvironment();
-   g25Response::load_irfs();
+   g25Response::loadIrfs();
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();
    irfInterface::Irfs * myIrfs = myFactory->create("Glast25::Front");
@@ -23,7 +14,7 @@ int main() {
    delete myIrfs;
 
 // Try loading everything again.
-   g25Response::load_irfs();
+   g25Response::loadIrfs();
    myIrfs = myFactory->create("Glast25::Front");
    delete myIrfs;
    myIrfs = myFactory->create("Glast25::Back");
@@ -33,7 +24,7 @@ int main() {
 
 // Investigate the maximum aeff values
    std::cout << "maximum effective areas: " << std::endl;
-   g25Response::load_irfs();
+   g25Response::loadIrfs();
    myIrfs = myFactory->create("Glast25::Front");
    std::cout << "G25::Front: " << myIrfs->aeff()->upperLimit() << std::endl;
    delete myIrfs;
@@ -43,4 +34,6 @@ int main() {
    myIrfs = myFactory->create("Glast25::Combined");
    std::cout << "G25::Combined: " << myIrfs->aeff()->upperLimit() << std::endl;
    delete myIrfs;
+   
 }
+

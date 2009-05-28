@@ -26,9 +26,7 @@ void Loader::go(const std::string & name) {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
    std::vector<std::string> irfNames(registry.irfNames());
    if (std::find(irfNames.begin(), irfNames.end(), name) != irfNames.end()) {
-      if (name != "EGRET" || ::getenv("CALIB_DIR")) {
-         registry.loadIrfs(name);
-      }
+      registry.loadIrfs(name);
    } else {
       throw std::invalid_argument("Invalid IRF named " + name + ".");
    }
@@ -45,7 +43,9 @@ void Loader::go() {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
    std::vector<std::string> names(registry.irfNames());
    for (size_t i(0); i < names.size(); i++) {
-      go(names.at(i));
+      for (size_t j(0); j < registry[names.at(i)].size(); j++) {
+      }
+      registry.loadIrfs(names.at(i));
    }
 }
 

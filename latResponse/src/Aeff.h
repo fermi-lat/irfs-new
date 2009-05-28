@@ -10,18 +10,13 @@
 #define handoff_Aeff_h
 
 #include <string>
-#include <utility>
 #include <vector>
-
-#include "irfInterface/EfficiencyFactor.h"
 
 #include "irfInterface/IAeff.h"
 
 #include "latResponse/FitsTable.h"
 
 namespace latResponse {
-
-   class ParTables;
 
 /**
  * @class Aeff
@@ -33,8 +28,7 @@ class Aeff : public irfInterface::IAeff {
 public:
 
    Aeff(const std::string & fitsfile, 
-        const std::string & extname="EFFECTIVE AREA",
-        size_t nrow=0);
+        const std::string & extname="EFFECTIVE AREA");
 
    virtual ~Aeff() {}
    
@@ -53,23 +47,9 @@ public:
 
    virtual double upperLimit() const;
 
-   double max_phi_modulation() const;
-
-   std::pair<double, double> pars(double logE, double costh,
-                                  bool interpolate=false) const;
-
-   double phi_modulation(double logE, double costheta, double phi,
-                         bool interpolate) const;
-
 private:
 
    FitsTable m_aeffTable;
-
-   ParTables * m_phiDepPars;
-
-   irfInterface::EfficiencyFactor m_efficiencyFactor;
-
-   double phi_modulation(double par0, double par1, double phi) const;
 
 };
 

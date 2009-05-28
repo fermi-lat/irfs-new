@@ -2,7 +2,7 @@
 #define g25Reponse_loadIrfs_h
 
 namespace g25Response {
-   void load_irfs();
+   void loadIrfs();
 }
 
 #endif // g25Reponse_loadIrfs_h

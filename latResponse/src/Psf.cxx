@@ -33,8 +33,8 @@ namespace latResponse {
 double Psf::s_ub(10.);
 
 Psf::Psf(const std::string & fitsfile, bool isFront,
-         const std::string & extname, size_t nrow)
-   : m_parTables(fitsfile, extname, nrow), m_loge_last(0), m_costh_last(0), 
+         const std::string & extname)
+   : m_parTables(fitsfile, extname), m_loge_last(0), m_costh_last(0), 
      m_integralCache(0) {
    readScaling(fitsfile, isFront);
 }
@@ -148,11 +148,6 @@ double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
 
 double Psf::old_base_function(double u, double sigma, double gamma) {
    (void)(sigma);
-   // ugly kluge because of sloppy programming in handoff_response
-   // when setting boundaries of fit parameters for the PSF.
-   if (gamma == 1) {
-      gamma = 1.001;
-   }
    return (1. - 1./gamma)*std::pow(1. + u/gamma, -gamma);
 }
 

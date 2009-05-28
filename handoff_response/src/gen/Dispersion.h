@@ -1,75 +1,87 @@
 /** @file Dispersion.h
-@brief declaration of class Dispersion
-
-$Header$
-
 */
-
 #ifndef IRF_Dispersion_h
 #define IRF_Dispersion_h
 
 
-#include "TF1.h"
-#include <string>
-#include <iostream>
 #include <vector>
+#include <iostream>
+#include <string>
+class IrfAnalysis;
 class TH1F;
+class TH2F;
+
+/** @class Dispersion
+ *  @brief manage the PSF plots
+*/
 
 class Dispersion {
-
 public:
-
-    Dispersion(std::string histname,
-        std::string title);
-
-    Dispersion():m_count(-1){} // default 
+    Dispersion( IrfAnalysis& irf, std::ostream& log=std::cout);
     ~Dispersion();
 
-    /// add a point with a scaled angular difference delta
-    void fill(double scaled_delta, double weight=1.0);
+    void fill(double diff, double energy, double costheta, bool front);
 
-    /// add a summary line to a table, with 68%, 95%, and fit parameters.
-    void summarize(std::ostream & out);
+    void fit(std::string opts="RQ");
+    void summarize();
 
-    /// draw to the current pad
-    void draw(double ymin=1e-6, double ymax=1.0, bool ylog=true);
+    void draw(const std::string &ps_filename) ;
 
-    /// make a fit, using standard PSF function
-    void fit(std::string opts = "RQ");
+    /// make a set of 2-d histograms with values of the fit parameters
+    /// binning according to energy and costheta bins
+    void fillParameterTables();
 
-    /// get vector of fit parameters (all zero if not fit)
-    void getFitPars(std::vector<double> & pars)const;
+    /// @brief access to the function used
+    static double function(double* x, double* par); 
 
-    /// scale factor to apply to data
-    static double scaleFactor(double energy, double zdir, bool front);
+    /** @class Dispersion::Hist
+        @brief nested class manages a ROOT histogram
+        */
 
-    /// access to the function itself
-    static double function(double* delta, double* par);
+    class Hist{
+    public:
+        Hist(std::string id, std::string title);
+        Hist(){};
+        operator TH1F*(){return m_h;}
+        void fill(double diff);
+        void fit(std::string opts="RQ");
+        void summarize(std::ostream& out= std::cout);
+        void draw()const;
+        double ltail()const;
+        double rwidth()const;
+        double chisq()const;
+        void getFitPars(std::vector<double>& pars)const;
+        double entries()const;
 
-    double entries()const{return m_count;}
+        double parameter(int n)const;
+        static const char* function;
+        static const char* pnames[];
+        static double      pinit[];
+        static double      pmin[];
+        static double      pmax[];
+        static double      fitrange[2];
 
-    ///! list of names
-    static std::vector<std::string> pnames;
+        static int npars();
 
-    static const char* parname(int i);
-    static int npars();
+        static bool s_logy; ///< determine if log y
+        static int  s_minEntries; ///< minimum number of entries to fit
 
-    static void summary_title(std::ostream & out);
+        static void summaryTitle(std::ostream& out=std::cout);
+    private:
+        TH1F* m_h;
+        double m_lowTail, m_highTail;
+    };
+    typedef std::vector<Hist> HistList;
+    const HistList& hists()const{return m_hists;}
 
 private:
 
-    TH1F& hist(){return *m_hist;}
-    TH1F* m_hist;  ///< managed histogram
-    TH1F* m_cumhist; ///< a cumulative histogram, generated before fit
-    TF1 m_fitfunc; ///< the fit function
+    IrfAnalysis& m_irf;
+    typedef std::vector<Hist> HistList;
+    HistList m_hists; // simple histogram lookukp
+    std::ostream * m_log;
+    std::ostream& out() {return *m_log;}
 
-    int m_count; ///< number of entries
-
-    double m_quant[2]; // for 68,95% quantiles
-    double m_tail;     // fraction in tail beyond fit range
-
-    void reorder_parameters();
-    void setFitPars(double * pars, double * pmin, double * pmax);
 };
 
 #endif

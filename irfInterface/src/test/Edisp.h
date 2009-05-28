@@ -23,26 +23,38 @@ class Edisp : public irfInterface::IEdisp {
     
 public:
 
-   Edisp(double resolution=0.1);
+   Edisp() {}
 
    virtual ~Edisp() {}
 
-   virtual double value(double appEnergy,
-                        double energy,
-                        const astro::SkyDir & srcDir,
-                        const astro::SkyDir & scZAxis,
-                        const astro::SkyDir & scXAxis,
-                        double time=0) const;
+   virtual double value(double,
+                        double,
+                        const astro::SkyDir &,
+                        const astro::SkyDir &,
+                        const astro::SkyDir &,
+                        double) const {return 0;}
 
-   virtual double value(double appEnergy, double energy, 
-                        double theta, double phi,
-                        double time=0) const;
+   virtual double value(double, double, 
+                        double, double,
+                        double) const {return 0;}
+
+   virtual double appEnergy(double,
+                            const astro::SkyDir &,
+                            const astro::SkyDir &,
+                            const astro::SkyDir &,
+                            double) const {return 0;}
+
+   virtual double integral(double, double, double,
+                           const astro::SkyDir &,
+                           const astro::SkyDir &,
+                           const astro::SkyDir &,
+                           double) const {return 0;}
+
+   virtual double integral(double, double, double, 
+                           double, double,
+                           double) const {return 0;}
 
    virtual Edisp * clone() {return new Edisp(*this);}
-
-private:
-
-   double m_resolution;
 
 };
 

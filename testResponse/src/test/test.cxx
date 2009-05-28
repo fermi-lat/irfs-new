@@ -14,19 +14,15 @@
 
 #include "irfInterface/IrfsFactory.h"
 #include "irfInterface/AcceptanceCone.h"
-#include "irfInterface/IrfRegistry.h"
 
-#include "testResponse/IrfLoader.h"
+#include "testResponse/loadIrfs.h"
 
 void test_psf(int iargc, char * argv[]);
 void test_aeff();
 void test_edisp();
 
 int main(int iargc, char * argv[]) {
-   irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
-   registry.registerLoader(new testResponse::IrfLoader());
-   registry.loadIrfs("TEST");
-
+   testResponse::loadIrfs();
    test_psf(iargc, argv);
    test_aeff();
    test_edisp();

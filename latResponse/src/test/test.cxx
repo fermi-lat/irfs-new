@@ -19,8 +19,6 @@
 #include <cppunit/ui/text/TextTestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "facilities/commonUtilities.h"
-
 #include "astro/SkyDir.h"
 
 #include "irfInterface/IrfsFactory.h"
@@ -82,17 +80,17 @@ void LatResponseTests::tearDown() {
 }
 
 void LatResponseTests::irf_assignment() {
-// This assumes FRONT IRFs have even irfIDs and BACK IRFs odd irfIDs.
+// This test assumes there is only one set of front/back irfs.
    for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
         name != m_irfNames.end(); ++name) {
       if (name->find("FRONT") != std::string::npos) {
          irfInterface::Irfs * my_irfs(m_irfsFactory->create(*name));
-         CPPUNIT_ASSERT(my_irfs->irfID() % 2 == 0);
+         CPPUNIT_ASSERT(my_irfs->irfID() == 0);
          delete my_irfs;
       }
       if (name->find("BACK") != std::string::npos) {
          irfInterface::Irfs * my_irfs(m_irfsFactory->create(*name));
-         CPPUNIT_ASSERT(my_irfs->irfID() % 2 == 1);
+         CPPUNIT_ASSERT(my_irfs->irfID() == 1);
          delete my_irfs;
       }
    }
@@ -128,7 +126,7 @@ void LatResponseTests::psf_zero_separation() {
 void LatResponseTests::psf_normalization() {
    double phi(0);
 
-   double tol(2e-2);
+   double tol(1e-2);
 
    std::vector<double> psi;
    double psimin(1e-4);
@@ -311,13 +309,11 @@ void LatResponseTests::edisp_sampling() {
    }
 }
 
-int main() {
+int main(int argc, char* argv[]) {
 #ifdef TRAP_FPE
 // Add floating point exception traps.
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
-
-   facilities::commonUtilities::setupEnvironment();
 
    latResponse::IrfLoader myLoader;
    myLoader.loadIrfs();

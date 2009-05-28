@@ -5,9 +5,6 @@
  * $Header$
  */
 
-#include <algorithm>
-#include <iomanip>
-#include <sstream>
 #include <stdexcept>
 #include <vector>
 
@@ -18,7 +15,6 @@
 #include "tip/Table.h"
 
 #include "st_facilities/Env.h"
-#include "st_facilities/FitsUtil.h"
 #include "st_facilities/Util.h"
 
 #include "irfInterface/IrfRegistry.h"
@@ -32,7 +28,6 @@
 #include "Aeff.h"
 #include "CaldbDate.h"
 #include "Edisp.h"
-#include "Edisp2.h"
 #include "Psf.h"
 
 namespace latResponse {
@@ -44,60 +39,36 @@ IrfLoader::IrfLoader() {
 
 void IrfLoader::registerEventClasses() const {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
+   std::vector<std::string> classNames(2);
    for (size_t i(0); i < m_caldbNames.size(); i++) {
-      const std::string & irfName(m_caldbNames.at(i));
-      const std::vector<std::string> & sub_classes(subclasses(irfName));
-      std::vector<std::string> classNames;
-      for (size_t j(0); j < sub_classes.size(); j++) {
-         classNames.push_back(sub_classes.at(j) + "::FRONT");
-         registry.registerEventClass(classNames.back(), classNames.back());
-         classNames.push_back(sub_classes.at(j) + "::BACK");
-         registry.registerEventClass(classNames.back(), classNames.back());
-      }
-      registry.registerEventClasses(irfName, classNames);
+      classNames.at(0) = m_caldbNames.at(i) + "::FRONT";
+      classNames.at(1) = m_caldbNames.at(i) + "::BACK";
+      registry.registerEventClasses(m_caldbNames.at(i), classNames);
+      registry.registerEventClass(classNames.at(0), classNames.at(0));
+      registry.registerEventClass(classNames.at(1), classNames.at(1));
    }
    for (size_t i(0); i < m_customIrfNames.size(); i++) {
-      const std::string & irfName(m_customIrfNames.at(i));
-      const std::vector<std::string> & sub_classes(subclasses(irfName));
-      std::vector<std::string> classNames;
-      for (size_t j(0); j < sub_classes.size(); j++) {
-         classNames.push_back(sub_classes.at(j) + "::FRONT");
-         registry.registerEventClass(classNames.back(), classNames.back());
-         classNames.push_back(sub_classes.at(j) + "::BACK");
-         registry.registerEventClass(classNames.back(), classNames.back());
-      }
+      classNames.at(0) = m_customIrfNames.at(i) + "::front";
+      classNames.at(1) = m_customIrfNames.at(i) + "::back";
       registry.registerEventClasses(m_customIrfNames.at(i), classNames);
    }
-// kluge to allow for HANDOFF irfs for backwards compatibility with old
-// handoff_response implementation
-   std::vector<std::string> classNames;
-   classNames.push_back("PASS4::FRONT");
-   classNames.push_back("PASS4::BACK");
-   registry.registerEventClasses("HANDOFF", classNames);
-   registry.registerEventClass("HANDOFF::FRONT", "PASS4::FRONT");
-   registry.registerEventClass("HANDOFF::BACK", "PASS4::BACK");
-}
-
-void IrfLoader::loadIrfs() const {
-   int convType;
-   for (size_t i(0); i < m_caldbNames.size(); i++) {
-      addIrfs(m_caldbNames.at(i), "FRONT", convType=0);
-      addIrfs(m_caldbNames.at(i), "BACK", convType=1);
-   }
-   loadCustomIrfs();
 }
 
 void IrfLoader::addIrfs(const std::string & version, 
                         const std::string & detector,
-                        int convType,
-                        const std::string & date) const {
-   std::string irfName(version);
+                        int irfID,
+                        std::string irfName,
+                        const std::string & date) {
+   if (irfName == "") {
+      // Build the standard name composed of the detector and version.
+      irfName = version + "::" + detector;
+   }
 
    irfInterface::IrfsFactory * myFactory(irfInterface::IrfsFactory::instance());
    const std::vector<std::string> & irfNames(myFactory->irfNames());
 
 // Check if this set of IRFs already exists.
-   if (std::count(irfNames.begin(), irfNames.end(), irfName+"::"+detector)) {
+   if (std::count(irfNames.begin(), irfNames.end(), irfName)) {
       return;
    }
    std::string aeff_file;
@@ -113,38 +84,26 @@ void IrfLoader::addIrfs(const std::string & version,
    irfUtil::Util::getCaldbFile(detector, "EDISP", version,
                                edisp_file, hdu, "GLAST", "LAT",
                                "NONE", date, "00:00:00");
-
-   addIrfs(aeff_file, psf_file, edisp_file, convType, irfName);
+   irfInterface::IAeff * aeff = new Aeff(aeff_file);
+   bool isFront;
+   irfInterface::IPsf * psf;
+   if (irfID == 0) {
+      psf = new Psf(psf_file, isFront=true);
+   } else {
+      psf = new Psf(psf_file, isFront=false);
+   }      
+   irfInterface::IEdisp * edisp = new Edisp(edisp_file);
+   
+   myFactory->addIrfs(irfName, new irfInterface::Irfs(aeff, psf, edisp, irfID));
 }
 
-void IrfLoader::addIrfs(const std::string & aeff_file, 
-                        const std::string & psf_file,
-                        const std::string & edisp_file,
-                        int convType,
-                        const std::string & irfName) const {
-   irfInterface::IrfsFactory * myFactory(irfInterface::IrfsFactory::instance());
-   for (size_t i(0); i < subclasses(irfName).size(); i++) {
-      irfInterface::IAeff * aeff(new Aeff(aeff_file, "EFFECTIVE AREA", i));
-      irfInterface::IPsf * psf;
-      std::string class_name(subclasses(irfName).at(i));
-      if (convType == 0) {
-         class_name += "::FRONT";
-         psf = new Psf(psf_file, true, "RPSF", i);
-      } else {
-         class_name += "::BACK";
-         psf = new Psf(psf_file, false, "RPSF", i);
-      }
-      irfInterface::IEdisp * edisp(0);
-      if (edispVersion(edisp_file) == 2) {
-         edisp = new Edisp2(edisp_file, "ENERGY DISPERSION", i);
-      } else {
-         edisp = new Edisp(edisp_file, "ENERGY DISPERSION", i);
-      }
-
-      size_t irfID(i*2 + convType);
-      myFactory->addIrfs(class_name, 
-                         new irfInterface::Irfs(aeff, psf, edisp, irfID));
+void IrfLoader::loadIrfs() const {
+   int irfID;
+   for (size_t i(0); i < m_caldbNames.size(); i++) {
+      addIrfs(m_caldbNames.at(i), "FRONT", irfID=0);
+      addIrfs(m_caldbNames.at(i), "BACK", irfID=1);
    }
+   loadCustomIrfs();
 }
 
 void IrfLoader::readCustomIrfNames() {
@@ -161,19 +120,9 @@ void IrfLoader::readCustomIrfNames() {
    }
 
    facilities::Util::stringTokenize(custom_irf_names, ", ", m_customIrfNames);
-
    for (size_t i(0); i < m_customIrfNames.size(); i++) {
-      std::string basename("aeff_" + m_customIrfNames.at(i) + "_front.fits");
-      std::string aeff_file = 
-         facilities::commonUtilities::joinPath(m_customIrfDir, basename);
-      m_subclasses[m_customIrfNames.at(i)] = std::vector<std::string>();
-      buildClassNames(aeff_file, m_customIrfNames.at(i),
-                      m_subclasses[m_customIrfNames.at(i)]);
+      std::cout << m_customIrfNames.at(i) << std::endl;
    }
-//    std::cout << "Adding custom IRFs: " << std::endl;
-//    for (size_t i(0); i < m_customIrfNames.size(); i++) {
-//       std::cout << m_customIrfNames.at(i) << std::endl;
-//    }
 }
 
 void IrfLoader::loadCustomIrfs() const {
@@ -182,26 +131,36 @@ void IrfLoader::loadCustomIrfs() const {
    irfInterface::IrfsFactory * myFactory(irfInterface::IrfsFactory::instance());
    const std::vector<std::string> & irfNames(myFactory->irfNames());
 
+   bool isFront;
+
    for (size_t i(0); i < m_customIrfNames.size(); i++) {
-      const std::string & irfName(m_customIrfNames.at(i));
-      if (!std::count(irfNames.begin(), irfNames.end(), irfName + "::FRONT")) {
-         std::string section("front");
+      std::string section("front");
+      std::string irfName(m_customIrfNames.at(i) + "::" + section);
+      if (!std::count(irfNames.begin(), irfNames.end(), irfName)) {
          std::string aeff_file = st_facilities::Env
             ::appendFileName(irfDir, "aeff_"+irfName+"_"+section+".fits");
          std::string psf_file = st_facilities::Env
             ::appendFileName(irfDir, "psf_"+irfName+"_"+section+".fits");
          std::string edisp_file = st_facilities::Env
             ::appendFileName(irfDir,"edisp_"+irfName+"_"+section+".fits");
-         addIrfs(aeff_file, psf_file, edisp_file, 0, irfName);
-
-         section = "back";
-         aeff_file = st_facilities::Env
+         myFactory->addIrfs(irfName, 
+                            new irfInterface::Irfs(new Aeff(aeff_file),
+                                                   new Psf(psf_file, isFront=true),
+                                                   new Edisp(edisp_file), 0));
+      }
+      section = "back";
+      irfName = m_customIrfNames.at(i) + "::" + section;
+      if (!std::count(irfNames.begin(), irfNames.end(), irfName)) {
+         std::string aeff_file = st_facilities::Env
             ::appendFileName(irfDir, "aeff_"+irfName+"_"+section+".fits");
-         psf_file = st_facilities::Env
+         std::string psf_file = st_facilities::Env
             ::appendFileName(irfDir, "psf_"+irfName+"_"+section+".fits");
-         edisp_file = st_facilities::Env
+         std::string edisp_file = st_facilities::Env
             ::appendFileName(irfDir,"edisp_"+irfName+"_"+section+".fits");
-         addIrfs(aeff_file, psf_file, edisp_file, 1, irfName);
+         myFactory->addIrfs(irfName,
+                            new irfInterface::Irfs(new Aeff(aeff_file),
+                                                   new Psf(psf_file, isFront=false),
+                                                   new Edisp(edisp_file), 1));
       }
    }
 }
@@ -214,6 +173,7 @@ void IrfLoader::read_caldb_indx() {
    }
    std::string caldb_indx;
    find_cif(caldb_indx);
+//   caldb_indx = st_facilities::Env::appendFileName(caldb_path, caldb_indx);
    caldb_indx = facilities::commonUtilities::joinPath(caldb_path, caldb_indx);
 
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
@@ -238,56 +198,6 @@ void IrfLoader::read_caldb_indx() {
          }
       }
    }
-   for (size_t i(0); i < m_caldbNames.size(); i++) {
-      getCaldbClassNames(m_caldbNames.at(i));
-   }
-}
-
-const std::vector<std::string> & 
-IrfLoader::subclasses(const std::string & irfName) const {
-   std::map<std::string, std::vector<std::string> >::const_iterator
-      it = m_subclasses.find(irfName);
-   if (it == m_subclasses.end()) {
-      throw std::runtime_error("IRF named " + irfName + " not found.");
-   }
-   return it->second;
-}
-
-void IrfLoader::getCaldbClassNames(const std::string & irfName,
-                                   const std::string & date) {
-   std::string fitsfile;
-   long hdu;
-   irfUtil::Util::getCaldbFile("FRONT", "EFF_AREA", irfName,
-                               fitsfile, hdu, "GLAST", "LAT",
-                               "NONE", date, "00:00:00");
-   m_subclasses[irfName] = std::vector<std::string>();
-   buildClassNames(fitsfile, irfName, m_subclasses[irfName]);
-}
-
-void IrfLoader::buildClassNames(const std::string & fitsfile,
-                                const std::string & irfName,
-                                std::vector<std::string> & classNames) const {
-   size_t numClasses(getNumRows(fitsfile));
-   if (numClasses == 1) {
-      classNames.push_back(irfName);
-      return;
-   }
-   for (size_t i(0); i < numClasses; i++) {
-      std::ostringstream subclass;
-//      subclass << irfName << "_" << std::setw(2) << std::setfill('0') << i;
-      subclass << irfName << "_" << i;
-      classNames.push_back(subclass.str());
-   }
-}
-
-size_t IrfLoader::getNumRows(const std::string & fitsfile) {
-   std::string extname;
-   st_facilities::FitsUtil::getFitsHduName(fitsfile, 2, extname);
-   const tip::Table * table = 
-      tip::IFileSvc::instance().readTable(fitsfile, extname);
-   size_t numRows(table->getNumRecords());
-   delete table;
-   return numRows;
 }
 
 void IrfLoader::find_cif(std::string & caldb_indx) const {
@@ -306,21 +216,6 @@ void IrfLoader::find_cif(std::string & caldb_indx) const {
       }
    }
    throw std::runtime_error("GLAST LAT not found in caldb.config file");
-}
-
-int IrfLoader::edispVersion(const std::string & fitsfile) const {
-   std::string extname;
-   st_facilities::FitsUtil::getFitsHduName(fitsfile, 2, extname);
-   const tip::Table * table = 
-      tip::IFileSvc::instance().readTable(fitsfile, extname);
-   int version(1);
-   try {
-      table->getHeader()["EDISPVER"].get(version);
-   } catch (tip::TipException & eObj) {
-      /// EDISPVER keyword is (probably) missing, so assume default version
-   }
-   delete table;
-   return version;
 }
 
 } // namespace latResponse

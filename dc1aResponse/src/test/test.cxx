@@ -22,7 +22,7 @@ void test_aeff();
 void test_edisp();
 
 int main(int iargc, char * argv[]) {
-   dc1aResponse::load_irfs();
+   dc1aResponse::loadIrfs();
    test_psf(iargc, argv);
    test_aeff();
    test_edisp();

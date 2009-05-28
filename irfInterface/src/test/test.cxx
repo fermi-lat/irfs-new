@@ -16,16 +16,11 @@
 #include <cppunit/ui/text/TextTestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "astro/SkyDir.h"
-
-#include "irfInterface/AcceptanceCone.h"
-#include "irfInterface/EfficiencyFactor.h"
 #include "irfInterface/IrfsFactory.h"
 
 #include "Aeff.h"
 #include "Psf.h"
 #include "Edisp.h"
-#include "MyIrfLoader.h"
 
 using namespace irfInterface;
 
@@ -37,12 +32,6 @@ class irfInterfaceTests : public CppUnit::TestFixture {
    CPPUNIT_TEST(test_create);
    CPPUNIT_TEST_EXCEPTION(test_creation_failure, std::invalid_argument);
    CPPUNIT_TEST(test_getIrfsNames);
-   CPPUNIT_TEST(psf_normalization);
-   CPPUNIT_TEST(psf_integral);
-   CPPUNIT_TEST(edisp_normalization);
-   CPPUNIT_TEST(test_IrfRegistry);
-
-   CPPUNIT_TEST(test_EfficiencyFactor);
 
    CPPUNIT_TEST_SUITE_END();
 
@@ -55,11 +44,6 @@ public:
    void test_create();
    void test_creation_failure();
    void test_getIrfsNames();
-   void psf_normalization();
-   void psf_integral();
-   void edisp_normalization();
-   void test_IrfRegistry();
-   void test_EfficiencyFactor();
 
 private:
 
@@ -118,101 +102,8 @@ void irfInterfaceTests::test_getIrfsNames() {
    }
 }
 
-void irfInterfaceTests::psf_normalization() {
-   double energy(100);
-   double theta(0);
-   double phi(0);
-   double maxSep(10);
-
-   Psf psf(maxSep);
-   double tol(1e-4);
-
-   double integral(psf.angularIntegral(energy, theta, phi, maxSep));
-   CPPUNIT_ASSERT(std::fabs(integral - 1.) < tol);
-
-   double radius(maxSep/2);
-   integral = psf.angularIntegral(100., 0., 0., radius);
-   double value(2.*M_PI*(1. - std::cos(radius*M_PI/180.))
-                *psf.value(radius, energy, theta, phi));
-   CPPUNIT_ASSERT(std::fabs(integral - value) < tol);
-}
-
-void irfInterfaceTests::psf_integral() {
-   double energy(1000);
-   double theta(0);
-   double phi(0);
-
-   double tol(1e-4);
-
-   astro::SkyDir srcDir(0, 0);
-   astro::SkyDir roiCenter(10, 0);
-   double theta_roi(15);
-   AcceptanceCone roiCone(roiCenter, theta_roi);
-   std::vector<AcceptanceCone *> cones;
-   cones.push_back(&roiCone);
-   double maxSep(theta_roi - roiCenter.difference(srcDir)*180./M_PI);
-
-   Psf psf(maxSep);
-   double integral(psf.angularIntegral(energy, srcDir, theta, phi, cones));
-
-// @todo replace this with a stringent test
-   Psf psf2(2.*maxSep);
-   integral = psf2.angularIntegral(energy, srcDir, theta, phi, cones);
    
-   CPPUNIT_ASSERT(std::fabs(integral - 1.) != tol);
-}
-
-void irfInterfaceTests::edisp_normalization() {
-   double theta(0);
-   double phi(0);
-   double time(0);
-
-   Edisp edisp;
-
-   double e0(100.);
-   double emax(1000);
-   double emin(0);
-
-   double tol(1e-4);
-   double integral(edisp.integral(emin, e0, e0, theta, phi, time));
-   CPPUNIT_ASSERT(std::fabs(integral - 0.5) < tol);
-
-   integral = edisp.integral(emin, emax, e0, theta, phi, time);
-   CPPUNIT_ASSERT(std::fabs(integral - 1) < tol);
-}
-   
-void irfInterfaceTests::test_IrfRegistry() {
-   IrfRegistry & registry(IrfRegistry::instance());
-   registry.registerLoader(new MyIrfLoader());
-
-   registry.loadIrfs("my_classes");
-
-   char * class_names[] = {"FrontA", "BackA", "FrontB", "BackB"};
-   const std::vector<std::string> & classes(registry["my_classes"]);
-   for (size_t i(0); i < 4; i++) {
-      CPPUNIT_ASSERT(classes.at(i) == class_names[i]);
-   }
-}
-
-void irfInterfaceTests::test_EfficiencyFactor() {
-   EfficiencyFactor foo("$(IRFINTERFACEROOT)/data/P6_V3_DIFFUSE_eff.txt");
-
-   std::cout << foo.value(1000, 0.9) << std::endl;
-   std::cout << foo.value(1000, 0.85) << std::endl;
-
-   EfficiencyFactor bar;
-
-   std::cout << bar.value(1000, 0.9) << std::endl;
-   std::cout << bar.value(1000, 0.85) << std::endl;
-}
-
 int main() {
-#ifdef TRAP_FPE
-      feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
-#else
-      throw std::runtime_error("Floating point exception trapping "
-                               "cannot be enabled for this build.");
-#endif
    CppUnit::TextTestRunner runner;
    
    runner.addTest(irfInterfaceTests::suite());

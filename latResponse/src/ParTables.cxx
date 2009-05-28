@@ -19,8 +19,7 @@
 namespace latResponse {
 
 ParTables::ParTables(const std::string & fitsfile,
-                     const std::string & extname,
-                     size_t nrow) {
+                     const std::string & extname) {
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
    const tip::Table * table(fileSvc.readTable(fitsfile, extname));
    const std::vector<std::string> & validFields(table->getValidFields());
@@ -38,14 +37,15 @@ ParTables::ParTables(const std::string & fitsfile,
       }
    }
 
-   // Read in the table values for the remaining columns.
+   // Read in the table values for the remaining rows.
    for (size_t i(4); i < validFields.size(); i++) {
       const std::string & tablename(validFields.at(i));
       m_parNames.push_back(tablename);
       m_parTables.insert(
          std::map<std::string, FitsTable>::
-         value_type(tablename, FitsTable(fitsfile, extname, tablename, nrow)));
+         value_type(tablename, FitsTable(fitsfile, extname, tablename)));
    }
+
    delete table;
 }
 
@@ -64,11 +64,6 @@ void ParTables::getPars(double loge, double costh, double * pars,
    for (size_t i(0); i < m_parNames.size(); i++) {
       pars[i] = operator[](m_parNames.at(i)).value(loge, costh, interpolate);
    }
-}
-
-void ParTables::getParVector(const std::string & parName,
-                             std::vector<double> & pars) const {
-   operator[](parName).getValues(pars);
 }
 
 } // namespace latResponse

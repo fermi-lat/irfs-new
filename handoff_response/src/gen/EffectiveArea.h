@@ -21,7 +21,7 @@ public:
     EffectiveArea( IrfAnalysis& irf, std::ostream& log=std::cout);
     ~EffectiveArea();
 
-    void fill(double energy, double costheta, bool front, int count=0);
+    void fill(double energy, double costheta, bool front);
 
     void summarize();
 
@@ -30,22 +30,12 @@ public:
     void writeFitParameters(std::string outputFile, std::string treename);
 
     void fillParameterTables();
-
-    
 private:
-    class Bins {
-    public:
-        Bins();
-        const std::vector<double>& energy_bins()const{return m_energy_bin_edges;}
-        const std::vector<double>& angle_bins()const{return m_angle_bin_edges;}
-    private:
-        std::vector<double> m_energy_bin_edges;
-        std::vector<double> m_angle_bin_edges;
-    }m_bins;
 
     IrfAnalysis& m_irf;
     std::ostream * m_log;
     std::ostream& out() {return *m_log;}
+    double m_norm; ///< area per event in histogram
 
     TH2F* m_hist;  ///< the 2-d histogram that we manage
 };

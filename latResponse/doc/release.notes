@@ -5,28 +5,6 @@
   @verbatim
   $Id$
 
-  26-Apr-09   v2r2p3    JC  bug-fixes for Edisp and FitsTable
-  26-Jan-09   v2r2p2    JC  handle negative input phi values correctly in
-                            phi-modulation code
-  26-Jan-09   v2r2p1    JC  bug-fix for normalization of phi modulation in Aeff
-  20-Jan-09   v2r2      JC  add phi-dependence using R. Rando's parametrization
-  10-Jun-08   v2r1p4    JC  add HANDOFF::[FRONT,BACK] aliases for 
-                            PASS4::[FRONT,BACK]
-  06-May-08   v2r1p3    JC  set integration bounds of Edisp2 normalization
-                            to match unit test.
-  22-Apr-08   v2r1p2    JC  add ugly kluge to workaround invalid values
-                            in PSF parameters files put there by 
-                            handoff_response
-  18-Apr-08   v2r1p1    JC  add kluge to map HANDOFF -> PASS4 so
-                            that old FT1 files with HANDOFF diffrsps
-                            can be used
-  16-Apr-08   v2r1      JC  add Edisp2 for Riccardo's new energy
-                            dispersion implementation
-  31-Mar-08   v2        JC  multiple event class handling
-  21-Mar-08   v1r1      JC  add combine_irfs; begin work on multiple
-                            event classes per file; add setupEnvironment
-                            call to test.cxx
-  14-Feb-08   v1r0p1    JC  add #include <algorithm> for Windows
-  14-Feb-08   v1        JC  initial version 
+  14-Feb-08   v1      JC  initial version 
   @endverbatim
 */

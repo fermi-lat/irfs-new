@@ -17,8 +17,8 @@
 namespace latResponse {
 
 Edisp::Edisp(const std::string & fitsfile, 
-             const std::string & extname, size_t nrow) 
-   : m_parTables(fitsfile, extname, nrow), m_loge_last(0), m_costh_last(0) {}
+             const std::string & extname) 
+   : m_parTables(fitsfile, extname), m_loge_last(0), m_costh_last(0) {}
 
 double Edisp::value(double appEnergy,
                     double energy, 

@@ -42,11 +42,7 @@ public:
 
    void addIrfs(const std::string & name, Irfs * irfs, bool verbose=false);
 
-   void getIrfsNames(std::vector<std::string> & names) const;
-
-   const std::vector<std::string> & irfNames() const {
-      return m_irfNames;
-   }
+   void getIrfsNames(std::vector<std::string> &names) const;
 
    static IrfsFactory * instance();
 
@@ -61,8 +57,6 @@ protected:
 private:
 
    std::map<std::string, Irfs *> m_prototypes;
-
-   std::vector<std::string> m_irfNames;
 
    static IrfsFactory * s_instance;
 

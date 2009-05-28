@@ -1,16 +1,10 @@
-/**
- * $Header$
- */
-
 #include <iostream>
 
-#include "facilities/commonUtilities.h"
 #include "irfInterface/IrfsFactory.h"
 #include "dc1Response/loadIrfs.h"
 
 int main() {
-   facilities::commonUtilities::setupEnvironment();
-   dc1Response::load_irfs();
+   dc1Response::loadIrfs();
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();
    irfInterface::Irfs * myIrfs = myFactory->create("DC1::Front");
@@ -19,7 +13,7 @@ int main() {
    delete myIrfs;
 
 // try loading again
-   dc1Response::load_irfs();
+   dc1Response::loadIrfs();
    myIrfs = myFactory->create("DC1::Front");
    delete myIrfs;
    myIrfs = myFactory->create("DC1::Back");
@@ -27,7 +21,7 @@ int main() {
 
 // access upper limit on aeff
    std::cout << "Maximum effective areas:\n";
-   dc1Response::load_irfs();
+   dc1Response::loadIrfs();
    myIrfs = myFactory->create("DC1::Front");
    std::cout << "Front: " << myIrfs->aeff()->upperLimit() << std::endl;
    delete myIrfs;
