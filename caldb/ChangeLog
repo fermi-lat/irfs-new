@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu May 28 14:41:53 PDT 2009
+irfs/caldb/CALDB/data/glast/lat
+
+Modified Files:
+	caldb.indx 
+Log Message:
+add P7_v1_S3 irfs; use standard IRF naming scheme in CBD10001 keyword
+    *
+------------------------------------------------------------
 TAG
 Tag name: caldb-01-00-00, operation: add
 Package: caldb
