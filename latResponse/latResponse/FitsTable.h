@@ -29,8 +29,7 @@ public:
 
    FitsTable(const std::string & filename,
              const std::string & extname,
-             const std::string & tablename,
-             size_t nrow=0);
+             const std::string & tablename);
 
    FitsTable();
 
@@ -57,8 +56,6 @@ public:
                              const std::string & fieldName,
                              std::vector<float> & values,
                              size_t nrow=0);
-
-   void getValues(std::vector<double> & values) const;
 
 protected:
 

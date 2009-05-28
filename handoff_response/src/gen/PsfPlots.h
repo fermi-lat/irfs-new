@@ -8,7 +8,7 @@
 
 
 class IrfAnalysis;
-class IrfBinner;
+
 
 #include "PointSpreadFunction.h"
 #include <vector>
@@ -37,11 +37,8 @@ public:
     // make a set of 2-d histograms with values of the fit parameters
     void fillParameterTables();
 
-    const IrfBinner & binner()const{return m_binner;}
-
 protected:
     IrfAnalysis& m_irf;
-    const IrfBinner& m_binner;
     PSFlist m_hists;
     std::ostream * m_log;
     std::ostream& out() {return *m_log;}

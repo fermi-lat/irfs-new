@@ -22,58 +22,20 @@ $Header$
 #include <iostream>
 #include <vector>
 
-#include "st_facilities/GaussianQuadrature.h"
-
 using namespace handoff_response;
-#include "Table.h"
+#include "TPaletteAxis.h"
 namespace {
-  /*
-   static double * disp_pars;
-   double dispfunc(double * x) {
-      return Dispersion::function(x, disp_pars);
-   }
-  */
-   class PsfIntegrand {
-   public:
-      /// @param energy True photon energy (MeV)
-      /// @param theta Incident inclination (degrees)
-      /// @param phi Incident azimuthal angle (degrees)
-      PsfIntegrand(double * pars) : m_pars(pars) {}
+     TPaletteAxis dummy;
+}
 
-      /// @param sep angle between true direction and measured (radians)
-      double operator()(double sep) const {
-         return PointSpreadFunction::function(&sep, m_pars)*std::sin(sep);
-      }
-   private:
-      double * m_pars;
-   };
-   class EdispIntegrand {
-   public:
-      EdispIntegrand(double * pars, double etrue, double costh, bool isFront)
-         : m_pars(pars), m_etrue(etrue), m_costh(costh), m_isFront(isFront) {}
-
-      double operator()(double emeas) const {
-         double xx((emeas - m_etrue)/m_etrue
-                   /Dispersion::scaleFactor(m_etrue, m_costh, m_isFront));
-         return Dispersion::function(&xx, m_pars)/m_etrue;
-      }
-
-   private:
-      double * m_pars;
-      double m_etrue;
-      double m_costh;
-      bool m_isFront;
-   };
-} // anonymous namespace
-#if 0
-RootEval::Table::Table(TH2F* hist)
+class RootEval::Table{
+public:
+    Table(TH2F* hist)
     : m_hist(hist)
     , m_interpolator(0)
     {
         binArray( 0, 10, hist->GetXaxis(), m_energy_axis);
         binArray(-1.0,1.00, hist->GetYaxis(), m_angle_axis);
-
-        m_minCosTheta = hist->GetYaxis()->GetBinLowEdge(1);
 #if 0
         std::cout << "energy bins: ";
         std::copy(m_energy_axis.begin(), m_energy_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
@@ -83,7 +45,6 @@ RootEval::Table::Table(TH2F* hist)
         std::copy(m_angle_axis.begin(), m_angle_axis.end(), std::ostream_iterator<double>(std::cout, "\t"));
         std::cout << std::endl;
 #endif
-
         for(Bilinear::const_iterator iy = m_angle_axis.begin(); iy!=m_angle_axis.end(); ++iy){
             float costh ( *iy );
             if(costh==1.0) costh=0.999; // avoid edge in histgram
@@ -96,13 +57,16 @@ RootEval::Table::Table(TH2F* hist)
         }
 
         m_interpolator = new Bilinear(m_energy_axis, m_angle_axis, m_data_array);
+
     }
 
-RootEval::Table::~Table(){ delete m_interpolator; delete m_hist; m_hist=0;}
+    ~Table(){ delete m_interpolator; }
+    double value(double logenergy, double costh);
     
-double RootEval::Table::maximum() { return m_hist->GetMaximum(); }
-
-void RootEval::Table::binArray(double low_limit, double high_limit, TAxis* axis, std::vector<float>& array)
+    double maximum() { return m_hist->GetMaximum(); }
+private:
+    /// Fill vector array with the bin edges in a ROOT TAxis, with extra ones for the overflow bins
+    void binArray(double low_limit, double high_limit, TAxis* axis, std::vector<float>& array)
     {
         array.push_back(low_limit);
         int nbins(axis->GetNbins());
@@ -112,63 +76,45 @@ void RootEval::Table::binArray(double low_limit, double high_limit, TAxis* axis,
         array.push_back(high_limit);
         
     }
+    TH2F* m_hist;
+    std::vector<float> m_energy_axis, m_angle_axis, m_data_array;
+    Bilinear* m_interpolator;
 
-double RootEval::Table::value(double logenergy, double costh, bool interpolate)
+};
+double RootEval::Table::value(double logenergy, double costh)
 {
-    if( interpolate) return (*m_interpolator)(logenergy, costh);
-
-    // non-interpolating: look up value for the bin 
-
-    double maxloge( *(m_energy_axis.end()-2)); // if go beyond this, use last bin
-    if( logenergy>= maxloge ) {
-        logenergy = maxloge;
-    }
-    if (logenergy <= m_energy_axis.at(1)) {    // use first bin if necessary
-       logenergy = m_energy_axis.at(1);        // why isn't m_energy_axis.at(0)
-    }                                          // the first bin?
+#if 0  // non-interpolating for tests
     int bin= m_hist->FindBin(logenergy, costh);
     return m_hist->GetBinContent(bin);
+#else
+    return (*m_interpolator)(logenergy, costh);
+#endif
 }
-#endif ///////////////////////////////////////////////////////////
+
+
 RootEval::RootEval(TFile* f, std::string eventtype)
-  : IrfEval(eventtype),
-    m_f(f), m_loge_last(0), m_costh_last(0), 
-    m_loge_last_edisp(0), m_costh_last_edisp(0)
+: IrfEval(eventtype)
+, m_f(f)
 {
     m_aeff  = setupHist("aeff");
-    setupParameterTables(PointSpreadFunction::pnames, m_psfTables);
+    m_sigma = setupHist("sigma");
+    m_gcore = setupHist("gcore");
+    m_gtail = setupHist("gtail");
+    m_dnorm = setupHist("dnorm");
+    m_rwidth= setupHist("rwidth");
+    m_ltail = setupHist("ltail");
 
-    //double psftest = psf(1000, 1000, 0.);
 
-    setupParameterTables(Dispersion::pnames, m_dispTables);
-#if 0
-    std::cout << "Test dispersion at 1000 MeV" << std::endl;
-    for( double e(500); e<1500; e*=1.05) {
-        std::cout << e << "\t" <<  dispersion(e, 1000, 0.) << std::endl;
-    }
-#endif
 }
 RootEval::~RootEval(){ delete m_f;}
 
-void RootEval::setupParameterTables(const std::vector<std::string>& names, std::vector<Table*>&tables)
-{
-    for( std::vector<std::string>::const_iterator it (names.begin()); it!=names.end(); ++it){
-        const std::string& name(*it);
-        tables.push_back(setupHist(name));
-    }
-}
 
 double RootEval::aeff(double energy, double theta, double /*phi*/)
 {
     static double factor(1e4); // from m^2 to cm&2
     double costh(cos(theta*M_PI/180));
     if( costh==1.0) costh = 0.9999; // avoid edge of bin
-    bool interpolate;
-// Do not extrapolate past largest tabulated angle.
-    if (costh < m_aeff->minCosTheta()) {
-       return 0;
-    }
-    return factor*m_aeff->value(log10(energy), costh, interpolate=true);
+    return factor*m_aeff->value(log10(energy), costh);
 }
 
 double RootEval::aeffmax()
@@ -179,160 +125,74 @@ double RootEval::aeffmax()
 double RootEval::psf(double delta, double energy, double theta, double /*phi*/)
 {
     double costh(cos(theta*M_PI/180));
-    return PointSpreadFunction::function(&delta, psf_par(energy, costh));
+    return PointSpreadFunction::function(&delta, psf_par(energy, costh));           
 }
 
-double RootEval::psf_integral(double delta, double energy, double theta,
-                              double /*phi*/)
+double RootEval::psf_integral(double delta, double energy, double theta, double /*phi*/)
 {
     double costh(cos(theta*M_PI/180));
-    double * par(psf_par(energy, costh));
-    double value = 
-       PointSpreadFunction::integral(&delta, par)*(2.*M_PI*par[1]*par[1]);
-    return value;
+    double * par ( psf_par(energy,costh) );
+        
+    return PointSpreadFunction::integral(&delta, par)*(2.*M_PI * par[1] * par[1]);           
 }
 
 double RootEval::dispersion(double emeas, double energy, double theta, 
                             double /*phi*/)
 {
     double costh(cos(theta*M_PI/180)), x(emeas/energy-1);
-
-    // prescale x
-    x=x/Dispersion::scaleFactor(energy, costh, isFront());
-
-    // get dispersion for prescaled var
-    double ret = Dispersion::function(&x, disp_par(energy, costh));
-
+    if( x<-0.9 ) return 0;
+    double ret = Dispersion::function(&x, disp_par(energy,costh));
     return ret/energy;
 }
 
-void RootEval::getPsfPars(double energy, double inclination, 
-                          std::map<std::string, double> & params) {
-   params.clear();
-   double mu(cos(inclination*M_PI/180.));
-   double * pars(psf_par(energy, mu));
-   const std::vector<std::string> & parnames(PointSpreadFunction::pnames);
-   for (size_t i(0); i < parnames.size(); i++) {
-      params[parnames.at(i)] = pars[i];
-   }
-}
-#if 0
 RootEval::Table* RootEval::setupHist( std::string name)
 {
     std::string fullname(eventClass()+"/"+name);
     TH2F* h2 = (TH2F*)m_f->GetObjectChecked((fullname).c_str(), "TH2F");
-    if (h2==0) {
-       throw std::invalid_argument("RootEval: could not find plot "+fullname);
-    }
+    if( h2==0) throw std::invalid_argument("RootEvalr: could not find plot "+fullname);
     return new Table(h2);
 }
-#else
-Table * RootEval::setupHist( std::string name)
+double * RootEval::psf_par(double energy, double costh)
 {
-    std::string fullname(eventClass()+"/"+name);
-    TH2F* h2 = (TH2F*)m_f->GetObjectChecked((fullname).c_str(), "TH2F");
-    if (h2==0) {
-       throw std::invalid_argument("RootEval: could not find plot "+fullname);
-    }
-    return new Table(h2);
-}
-#endif
-double * RootEval::psf_par(double energy, double costh) {
-   static double par[5];
-   double loge(::log10(energy));
-   if (costh == 1.0) {  // Why is this necessary?
-      costh = 0.9999;
-   }
-   
-   if (loge == m_loge_last && costh == m_costh_last) {
-      return par;
-   }
-   
-   m_loge_last = loge;
-   m_costh_last = costh;
-   
-   for (unsigned int i = 0; i < m_psfTables.size(); ++i) {
-      par[i] = m_psfTables[i]->value(loge,costh);
-   }
-   
-   // rescale the sigma value after interpolation
-   static double zdir(1.0);
-   par[1] *= PointSpreadFunction::scaleFactor(energy, zdir, isFront());
-   
-   if (par[1] == 0 || par[2] == 0 || par[3] == 0) {
-      std::ostringstream message;
-      message << "handoff_response::RootEval: psf parameters are zero "
-              << "when computing solid angle normalization:\n"
-              << "\tenergy = " << energy << "\n"
-              << "\tcosth  = " << zdir   << "\n"
-              << "\tpar[1] = " << par[1] << "\n"
-              << "\tpar[2] = " << par[2] << "\n"
-              << "\tpar[3] = " << par[3] << std::endl;
-      std::cerr << message.str() << std::endl;
-      throw std::runtime_error(message.str());
-   }
-   
-// Ensure that the Psf integrates to unity.
-   double norm;
-   static double theta_max(M_PI/2.);
-//   if (energy < 70.) { // Use the *correct* integral of Psf over solid angle.
-   if (energy < 120.) { // Use the *correct* integral of Psf over solid angle.
-      ::PsfIntegrand foo(par);
-      double err(1e-5);
-      int ierr;
-      norm = st_facilities::GaussianQuadrature::dgaus8(foo, 0, theta_max,
-                                                       err, ierr);
-      par[0] /= norm*2.*M_PI;
-   } else { // Use small angle approximation.
-      norm = PointSpreadFunction::integral(&theta_max, par);
-      par[0] /= norm*2.*M_PI*par[1]*par[1];
-   }
-
-   return par;
-}
-
-double * RootEval::disp_par(double energy, double costh) {
-    bool interpolate(false);
-
-    char * foo;
-    if ( (foo = ::getenv("INTERPOLATE_EDISP")) ) {
-       if (std::string(foo) == "true") {
-          interpolate = true;
-       } else {
-          interpolate = false;
-       }
-    }
-
-    static double par[10];
+    static double par[4];
+    static double zdir(1.0); // not used
     double loge(::log10(energy));
-
-    if (costh == 1.0) {
-       costh = 0.9999;
+    if( costh==1.0) costh = 0.9999;
+    par[1] = m_sigma->value(loge,costh) * PointSpreadFunction::scaleFactor(energy, zdir, isFront());
+    par[2] = m_gcore->value(loge,costh);
+    par[3] = m_gtail->value(loge,costh);
+    if (par[1] == 0 || par[2] == 0) {
+       std::ostringstream message;
+       message << "handoff_response::RootEval: psf parameters are zero in " 
+               << "when computing solid angle normalization:\n"
+               << "\tenergy = " << energy << "\n"
+               << "\tcosth  = " << zdir   << "\n"
+               << "\tpar[1] = " << par[1] << "\n"
+               << "\tpar[2] = " << par[2] << std::endl;
+       std::cerr << message.str() << std::endl;
+       throw std::runtime_error(message.str());
     }
-
-    /// save some time, if querying for the same energy and theta
-    if (loge == m_loge_last_edisp && costh == m_costh_last_edisp) {
-       return par;
-    }
-
-    m_loge_last_edisp = loge;
-    m_costh_last_edisp = costh;
-
-    for (unsigned int i=0; i < m_dispTables.size(); ++i) {
-        par[i] = m_dispTables[i]->value(loge, costh, interpolate);
-    }
-
-    ::EdispIntegrand bar(par, energy, costh, isFront());
-    double err(1e-5);
-    int ierr;
-    double norm = 
-       st_facilities::GaussianQuadrature::dgaus8(bar, energy/10.,
-                                                 energy*3., err, ierr);
-    
-    par[0] /= norm;
-
+    if( par[3]==0) par[3]=par[2];
+    // manage normalization by replacing normalization parameter for current set of parameters
+    par[0]=1;
+    static double theta_max(90); // how to set this? Too high.
+    double norm = PointSpreadFunction::integral(&theta_max,par);
+    par[0] = 1./norm/(2.*M_PI * par[1] * par[1]); // solid angle normalization 
     return par;
 }
+
+double * RootEval::disp_par(double energy, double costh)
+{
+    static double par[3];
+    double loge(::log10(energy));
+    if( costh==1.0) costh = 0.9999;
+    ///@todo: check limits, flag invalid if beyond.
+    par[0] = m_dnorm->value(loge,costh);
+    par[1] = m_ltail->value(loge,costh);
+    par[2] = m_rwidth->value(loge,costh);
+    return par;
+}
+
 
 void RootEval::createMap(std::string filename, std::map<std::string,handoff_response::IrfEval*>& evals)
 {
@@ -346,3 +206,4 @@ void RootEval::createMap(std::string filename, std::map<std::string,handoff_resp
         evals[eventclass+"/back"]=new RootEval(file, eventclass+"/back");
     }
 }
+

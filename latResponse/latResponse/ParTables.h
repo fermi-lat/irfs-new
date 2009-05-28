@@ -28,8 +28,7 @@ class ParTables {
 public:
 
    ParTables(const std::string & fitsfile,
-             const std::string & extname,
-             size_t nrow=0);
+             const std::string & extname);
 
    const FitsTable & operator[](const std::string & parName) const;
 
@@ -39,10 +38,6 @@ public:
 
    void getPars(double loge, double costh, double * pars,
                 bool interpolate=true) const;
-
-   void getParVector(const std::string & parName,
-                     std::vector<double> & pars) const;
-
 
 private:
 

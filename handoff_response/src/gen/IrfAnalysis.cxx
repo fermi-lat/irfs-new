@@ -7,67 +7,71 @@ $Header$
 
 #include "IrfAnalysis.h"
 #include "PsfPlots.h"
-#include "DispPlots.h"
+#include "Dispersion.h"
 #include "EffectiveArea.h"
-#include "AeffPhiDep.h"
 #include "TreeWrapper.h"
-#include "embed_python/Module.h"
-
 #include "CLHEP/Geometry/Vector3D.h"
 
 #include "TFile.h"
 #include "TTree.h"
 
 #include <iomanip>
-#include <fstream>
-#include <ios>
-#include <stdexcept>
+
 namespace{
     inline static double sqr(double x){return x*x;}
 
+    // wire in the number of generated events per run
+    int events_per_run(5000);
+    double costheta_range( 1.0);
+    double generated_area( 6.0); 
 }
 
 
 //__________________________________________________________________________
-IrfAnalysis::IrfAnalysis(std::string output_folder,int set, embed_python::Module& py) 
-: MyAnalysis(py)
-, m_binner(py)  // initilize the binner
-, m_filename_root(output_folder+"/")
+IrfAnalysis::IrfAnalysis(std::string output_folder,int set, std::ostream& log) 
+: IRF(output_folder, std::string(set==1? "front":"back")+".root")
 , m_set(set)
+, m_log(&log)
 , m_setname( m_set==1? "front":"back")
-, m_outputfile(std::string(set==1? "front":"back")+".root")
+, m_nruns(0)
+, m_minlogE(1.25), m_maxlogE(5.25) // default
 {
+    current_time(out()); // add time to log file
 
-    std::string logfile;
-
-    py.getValue("className", m_classname);    
-    py.getValue("logFile", logfile);
-    m_log = logfile.empty()? &std::cout : new std::ofstream(logfile.c_str(),std::ios_base::app);
-
-
-    py.getValue("parameterFile", m_parameterFile);
-
-    py.getValue("Data.generate_area", m_generate_area);
-    std::vector<double> generated, logemins, logemaxes;
-    py.getList("Data.generated", generated);
-    py.getList("Data.logemin", logemins);
-    py.getList("Data.logemax", logemaxes);
-    for( size_t i=0; i<generated.size(); ++i){
-      normalization().push_back(Normalization(static_cast<int>(generated[i]), logemins[i], logemaxes[i]));
-    }
-
-    setName(m_classname+"/"+m_setname); // for access by the individual guys
-    current_time(out());
+    int k = output_folder.find_last_of('\\');
+    if( k == std::string::npos )  k = output_folder.find_last_of('/');
+    m_classname = output_folder.substr(k+1);
     out() << "Event class is " << m_classname << std::endl;
 
+    setName(m_classname+"/"+m_setname); // for access by the individual guys
     project();
+}
+
+//__________________________________________________________________________
+double IrfAnalysis::aeff_per_event()
+{
+    double  total_generated ( m_nruns * events_per_run ) ;
+    
+    // correct limits
+    if( m_minlogE<1.5) m_minlogE=1.25;  // can be pretty small
+    
+    if(      m_maxlogE>5.50) m_maxlogE=5.56; // 360 GeV 
+    else if( m_maxlogE>5.20) m_maxlogE=5.25; // 180 GeV
+
+    double log_energy_range(m_maxlogE-m_minlogE); 
+
+    return  generated_area 
+        * log_energy_range/IRF::logedelta // IRF::energy_bins 
+        * costheta_range/IRF::deltaCostheta 
+        / total_generated;   
+
 }
 
 //__________________________________________________________________________
 void IrfAnalysis::project() 
 {
 
-    open_input_file();
+//    open_input_file();
     TFile*   m_hist_file= new TFile(summary_filename().c_str(), "recreate"); // for the histograms
     std::cout << " writing irf summary plots to " << summary_filename() << std::endl;
     out() << " writing irf summary plots to " << summary_filename() << std::endl;
@@ -82,14 +86,14 @@ case 2: out() << "back events"; break;
     //---------------------------
 
     m_psf = new PsfPlots(*this, out());
-    m_disp = new DispPlots(*this, out());
+    m_disp = new Dispersion(*this, out());
     m_aeff = new EffectiveArea(*this, out());
-    m_phi_dep = new AeffPhiDep(*this);
 
     std::cout << "Selecting columns in tree " << tree().GetName() << std::endl;
     TreeWrapper mytree(&tree()); // sets current TTree
     TreeWrapper::Leaf // create TLeaf-wrappers from the current TTree 
         McEnergy("McEnergy")
+        , EvtEnergyCorr("EvtEnergyCorr")
         , CTBBestEnergy("CTBBestEnergy")
 
         , McXDir("McXDir")
@@ -101,17 +105,17 @@ case 2: out() << "back events"; break;
         , fitzdir("CTBBestZDir")
 
         , Tkr1FirstLayer("Tkr1FirstLayer")
+  //      , VtxAngle("VtxAngle")
         , EvtRun("EvtRun" ) // to count runs
         ;
-    int lastrun(0), selected(0), total(0), nruns(0);
-    double minlogE(1e6), maxlogE(0);
+    int lastrun(0), selected(0);
+    m_minlogE=1e6, m_maxlogE=0;
     double minzdir(1), maxzdir(-1);
-
-    for( TreeWrapper::Iterator it = mytree.begin(); it!=mytree.end(); ++it, ++total) {
-        if( EvtRun != lastrun ) { ++nruns; lastrun = EvtRun;}
+    for( TreeWrapper::Iterator it = mytree.begin(); it!=mytree.end(); ++it) {
+        if( EvtRun != lastrun ) { ++m_nruns; lastrun = EvtRun;}
         double logE( log10(McEnergy) );
-        if( logE< minlogE) minlogE = logE;
-        if( logE > maxlogE) maxlogE = logE;
+        if( logE< m_minlogE) m_minlogE = logE;
+        if( logE > m_maxlogE) m_maxlogE = logE;
         if( McZDir< minzdir) minzdir = McZDir;
         if( McZDir> maxzdir) maxzdir = McZDir;
 
@@ -144,41 +148,33 @@ case 2: out() << "back events"; break;
 #else
         m_psf->fill(diff, CTBBestEnergy, McZDir, front);
 #endif
-
-        m_disp->fill(dsp, McEnergy, McZDir, front);
-
-        m_aeff->fill( mc_energy, McZDir, front, total);
-
-        m_phi_dep->fill(McXDir, McYDir, McEnergy, McZDir);
+        m_disp->fill(dsp, mc_energy, McZDir, front);
+        m_aeff->fill( mc_energy, McZDir, front);
     }
-    out() << "\nFound " << nruns <<" run numbers" 
+    out() << "\nFound " << m_nruns <<" run numbers" 
         << " and " << selected<< "/" <<  mytree.size() << " events" <<  std::endl;
-    out() << "Log energy range: " << minlogE << " to " << maxlogE << std::endl;
+    out() << "Log energy range: " << m_minlogE << " to " << m_maxlogE << std::endl;
     out() << "McZDir range: " << minzdir << " to " << maxzdir << std::endl;
 
     m_hist_file->Write();
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void IrfAnalysis::fit(bool make_plots,  std::string output_type)
+void IrfAnalysis::fit(bool make_plots, std::string parfile, std::string output_type)
 {
-    m_psf->fit(); 
-    m_disp->fit();
-    m_phi_dep->fit();
+   m_psf->fit(); 
+   m_disp->fit();
 
-    m_psf->summarize();
-    m_disp->summarize();
-    m_aeff->summarize();
-    if(make_plots) m_psf->draw(std::string(output_file_root()+m_setname+"_psf."+output_type));
-    if(make_plots) m_disp->draw(std::string(output_file_root()+m_setname+"_disp."+output_type));
-    if(make_plots) m_aeff->draw(std::string(output_file_root()+m_setname+"_aeff."+output_type));
-    if (make_plots) {
-       m_phi_dep->draw(output_file_root() + m_setname + 
-                       "_phi_dep." + output_type);
-    }
-    if( !parfile().empty()) {
-        writeFitParameters( output_file_root() +parfile());
-        //  tabulate(output_file_root() +parfile,  m_setname);
-    }
+   m_psf->summarize();
+   m_disp->summarize();
+   m_aeff->summarize();
+
+   if(make_plots) m_psf->draw(std::string(output_file_root()+m_filename_root+"_psf."+output_type));
+   if(make_plots) m_disp->draw(std::string(output_file_root()+m_filename_root+"_disp."+output_type));
+   if(make_plots) m_aeff->draw(std::string(output_file_root()+m_filename_root+"_aeff."+output_type));
+   if( !parfile.empty()) {
+        writeFitParameters( output_file_root() +parfile);
+      //  tabulate(output_file_root() +parfile,  m_setname);
+   }
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void IrfAnalysis::writeFitParameters(std::string outputFile)
@@ -198,36 +194,16 @@ void IrfAnalysis::writeFitParameters(std::string outputFile)
 
     out() << "Writing summaries to " << outputFile << "/"<< m_classname<<"/"<<m_setname << std::endl;
 
-#if 0 // make this optional, to study the parameter values
     // Create the TTree.
-    makeParameterTuple();
-
-#endif
-    // now make 2-D histograms of the values
-    m_psf->fillParameterTables();
-    m_disp->fillParameterTables();
-
-    m_aeff->fillParameterTables();
-
-    m_phi_dep->fillParameterTables();
-
-    delete file;
-    current_time(out());
-}
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void IrfAnalysis::makeParameterTuple()
-{
-#if 0 ///@todo clean up this mess
     TTree* tree = new TTree("parameters", "table of parameter values");
 
-    double entries;
-    //double  aeff;
+    double entries, aeff;
     double energy, anglebin;
 
     tree->Branch("energy",   &energy,  "energy/D");
     tree->Branch("anglebin", &anglebin,"anglebin/D");
     tree->Branch("entries",  &entries, "entries/D"); 
-    //tree->Branch("aeff",     &aeff,    "aeff/D");
+    tree->Branch("aeff",     &aeff,    "aeff/D");
 
     // make branches to store psf fit parameters
     int psf_npars=PointSpreadFunction::npars();
@@ -238,32 +214,39 @@ void IrfAnalysis::makeParameterTuple()
     }
 
     // make branches to store dispersion fit parameters (except for normalization)
-    int disp_npars=Dispersion::npars();
+    int disp_npars=Dispersion::Hist::npars();
     std::vector<double> disp_params(disp_npars);
 
-    for( int i=0; i< disp_npars; ++i){
-        tree->Branch(Dispersion::parname(i),
-            &disp_params[i], (std::string(Dispersion::parname(i))+"/D").c_str());
+    for( int i=1; i< disp_npars; ++i){
+        tree->Branch(Dispersion::Hist::pnames[i],
+            &disp_params[i], (std::string(Dispersion::Hist::pnames[i])+"/D").c_str());
     }
 
     // loop through the two sets of histograms, extracting info from each
     int index(0);
-    DispPlots::DispList::const_iterator disp_it = m_disp->hists().begin();
+    Dispersion::HistList::const_iterator disp_it = m_disp->hists().begin();
     PsfPlots::PSFlist::const_iterator psf_it = m_psf->hists().begin();
     for( ; psf_it!=m_psf->hists().end();  ++psf_it, ++disp_it)   {
 
         (*psf_it).getFitPars(psf_params);
         (*disp_it).getFitPars(disp_params);
         entries = (*psf_it).entries();
-        //  aeff = entries* aeff_per_event();
-        anglebin = index/IrfAnalysis::angle_bins;
-        energy = IrfAnalysis::eCenter(index++);
+        aeff = entries* aeff_per_event();
+        anglebin = index/IRF::angle_bins;
+        energy = IRF::eCenter(index++);
 
         tree->Fill();
     }
-    tree->Write();
-#endif
+    // now make 2-D histograms of the values
+    m_psf->fillParameterTables();
+    m_disp->fillParameterTables();
 
+    m_aeff->fillParameterTables();
+    //file->cd();
+    tree->Write();
+    //tree->Print();
+    delete tree;
+    delete file;
 }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void IrfAnalysis::tabulate(std::string filename)
@@ -286,9 +269,10 @@ void IrfAnalysis::tabulate(std::string filename)
         fitpar.push_back(mytree.leaf(PointSpreadFunction::parname(j)));
         names.push_back(PointSpreadFunction::parname(j));
     }
-    for( int j=1; j< Dispersion::npars(); ++j) {
-        fitpar.push_back(mytree.leaf(Dispersion::parname(j)));
-        names.push_back(Dispersion::parname(j));
+    for( int j=1; j< Dispersion::Hist::npars(); ++j) {
+        std::string name( Dispersion::Hist::pnames[j]);
+        fitpar.push_back(mytree.leaf(name));
+        names.push_back(name);
     }
 
     // define matrix that will be filled with selected columns and transposed below
@@ -296,12 +280,8 @@ void IrfAnalysis::tabulate(std::string filename)
 
     int i=0;
     for( TreeWrapper::Iterator it = mytree.begin(); it!=mytree.end(); ++it, ++i){
-        //   double energy = IrfAnalysis::eCenter(it.index()%8);
-#if 0// obsolete--fix if use this again!        
+     //   double energy = IRF::eCenter(it.index()%8);
         p[0].push_back(fitpar[0]* aeff_per_event() );
-#else
-        throw std::runtime_error("need to implement aeff per event");
-#endif
         for(unsigned int j=1; j<fitpar.size(); ++j) p[j].push_back(fitpar[j]);
 
 #if 0 // just columns here, check input data

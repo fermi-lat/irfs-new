@@ -83,19 +83,18 @@ double Psf::value(const astro::SkyDir & appDir,
                   double energy, 
                   const astro::SkyDir & srcDir, 
                   const astro::SkyDir & scZAxis,
-                  const astro::SkyDir &,
-                  double time) const {
+                  const astro::SkyDir & ) const {
 // Angle between photon and source directions in radians.
    double separation = appDir.difference(srcDir);
    
 // Inclination wrt spacecraft z-axis in radians
    double inc = srcDir.difference(scZAxis);
 
-   return value(separation*180./M_PI, energy, inc*180./M_PI, 0., time);
+   return value(separation*180./M_PI, energy, inc*180./M_PI, 0.);
 }
 
 double Psf::value(double separation, double energy, double theta,
-                  double phi, double time) const {
+                  double phi) const {
    if (theta < 0) {
       std::ostringstream message;
       message << "dc2Response::Psf::value(...):\n"
@@ -104,7 +103,6 @@ double Psf::value(double separation, double energy, double theta,
       throw std::invalid_argument(message.str());
    }
    (void)(phi);
-   (void)(time);
    double logE(std::log(energy));
    double mu(std::cos(theta*M_PI/180.));
    double gam(gamma(logE, mu));
@@ -116,7 +114,7 @@ double Psf::value(double separation, double angScale, double gam) const {
    double psfNorm(st_facilities::Util::interpolate(s_gammas, s_psfNorms, gam));
    double x(separation/angScale);
    if (separation == 0) {
-      return std::pow(1. + x*x/2./gam, -gam)/angScale*90./M_PI/M_PI
+      return std::pow(1. + x*x/2./gam, -gam)/angScale/360./M_PI/M_PI
          /(angScale*M_PI/180.)/psfNorm;
    }
    return ::psfFunc(x, gam)/2./M_PI/std::sin(separation*M_PI/180.)
@@ -162,9 +160,7 @@ double Psf::angularScale(double energy, double mu) const {
 astro::SkyDir Psf::appDir(double energy,
                           const astro::SkyDir & srcDir,
                           const astro::SkyDir & scZAxis,
-                          const astro::SkyDir &,
-                          double time) const {
-   (void)(time);
+                          const astro::SkyDir & ) const {
    double mu(std::cos(srcDir.difference(scZAxis)));
    double theta(drawOffset(energy, mu)*M_PI/180.);
              
@@ -196,11 +192,10 @@ double Psf::angularIntegral(double energy,
                             const astro::SkyDir & scZAxis,
                             const astro::SkyDir &,
                             const std::vector<irfInterface::AcceptanceCone *> 
-                            & acceptanceCones, 
-                            double time) {
+                            & acceptanceCones) {
    double theta = srcDir.difference(scZAxis)*180./M_PI;
    static double phi(0);
-   return angularIntegral(energy, srcDir, theta, phi, acceptanceCones, time);
+   return angularIntegral(energy, srcDir, theta, phi, acceptanceCones);
 }
 
 double Psf::angularIntegral(double energy, 
@@ -208,9 +203,8 @@ double Psf::angularIntegral(double energy,
                             double theta, 
                             double phi, 
                             const std::vector<irfInterface::AcceptanceCone *> 
-                            & acceptanceCones, double time) {
+                            & acceptanceCones) {
    (void)(phi);
-   (void)(time);
    if (!m_acceptanceCone || *m_acceptanceCone != *(acceptanceCones[0])) {
       computeAngularIntegrals(acceptanceCones);
       m_haveAngularIntegrals = true;
@@ -241,28 +235,25 @@ double Psf::angularIntegral(double energy,
    if (iang == m_angScale.size() - 1 || igam == m_gamValues.size() - 1) {
       return psfIntegral(psi, angScale, gamValue);
    }
-
-   size_t is[2] = {iang, iang + 1};
-   size_t ig[2] = {igam, igam + 1};
-
-   for (size_t i(0); i < 2; i++) {
-      for (size_t j(0); j < 2; j++) {
-         size_t indx(is[i]*m_gamValues.size() + ig[j]);
-         if (m_needIntegral.at(ipsi).at(indx)) {
-            m_angularIntegral.at(ipsi).at(indx) =
-               psfIntegral(psi, m_angScale.at(is[i]),
-                           m_gamValues.at(ig[j]));
-            m_needIntegral.at(ipsi).at(indx) = false;
-         }
+   std::vector<size_t> indices;
+   indices.push_back(iang*m_gamValues.size() + igam);
+   indices.push_back(iang*m_gamValues.size() + igam + 1);
+   indices.push_back((iang + 1)*m_gamValues.size() + igam);
+   indices.push_back((iang + 1)*m_gamValues.size() + igam + 1);
+   
+   for (size_t i = 0; i < 4; i++) {
+      size_t indx = indices.at(i);
+      if (m_needIntegral.at(ipsi).at(indx)) {
+         m_angularIntegral.at(ipsi).at(indx) =
+            psfIntegral(psi, m_angScale.at(iang), m_gamValues.at(igam));
+         m_needIntegral.at(ipsi).at(indx) = false;
       }
    }
-
    return bilinear(angScale, gamValue, ipsi, iang, igam);
 }
 
 double Psf::angularIntegral(double energy, double theta, 
-                            double phi, double radius, double time) const {
-   (void)(time);
+                            double phi, double radius) const {
    s_energy = energy;
    s_theta = theta;
    s_phi = phi;

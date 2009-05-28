@@ -1,6 +1,7 @@
 /**
  * @file IEdisp.cxx
- * @brief Provide default implementations of factorable member functions.
+ * @brief local interface class to provide default implementations of
+ * factorable member functions.
  * @author J. Chiang
  * 
  * $Header$
@@ -15,7 +16,7 @@
 
 #include "st_facilities/dgaus8.h"
 
-#include "irfInterface/IEdisp.h"
+#include "IEdisp.h"
 
 namespace {
    void fill_energies(double emin, double emax, size_t nee,
@@ -28,12 +29,11 @@ namespace {
    }
 }
 
-namespace irfInterface {
+namespace handoff_response {
 
 double IEdisp::s_energy(1000);
 double IEdisp::s_theta(0);
 double IEdisp::s_phi(0);
-double IEdisp::s_time(0);
 const IEdisp * IEdisp::s_self(0);
 
 double IEdisp::appEnergy(double energy,
@@ -88,7 +88,8 @@ double IEdisp::integral(double emin, double emax, double energy,
 
 double IEdisp::integral(double emin, double emax, double energy,
                         double theta, double phi, double time) const {
-   setStaticVariables(energy, theta, phi, time, this);
+   (void)(time);
+   setStaticVariables(energy, theta, phi, this);
    double integral;
    double err(1e-5);
    long ierr(0);
@@ -97,16 +98,15 @@ double IEdisp::integral(double emin, double emax, double energy,
 }
 
 double IEdisp::edispIntegrand(double * appEnergy) {
-   return s_self->value(*appEnergy, s_energy, s_theta, s_phi, s_time);
+   return s_self->value(*appEnergy, s_energy, s_theta, s_phi);
 }
 
 void IEdisp::setStaticVariables(double energy, double theta, double phi,
-                                double time, const IEdisp * self) {
+                                const IEdisp * self) {
    s_energy = energy;
    s_theta = theta;
    s_phi = phi;
-   s_time = time;
    s_self = self;
 }
 
-} // namespace irfInterface
+} // namespace handoff_response

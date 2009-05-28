@@ -1,7 +1,7 @@
 /**
  * @file IPsf.cxx
- * @brief Provide default implementations of factorable member functions.
- * 
+ * @brief Temporary class to provide default implementation of factorable
+ * parts of irfInterface::IPsf.
  * @author J. Chiang
  *
  * $Header$
@@ -18,14 +18,14 @@
 #include "st_facilities/dgaus8.h"
 
 #include "irfInterface/AcceptanceCone.h"
-#include "irfInterface/IPsf.h"
 
-namespace irfInterface {
+#include "IPsf.h"
+
+namespace handoff_response {
 
 double IPsf::s_energy(1e3);
 double IPsf::s_theta(0);
 double IPsf::s_phi(0);
-double IPsf::s_time(0);
 const IPsf * IPsf::s_self(0);
 
 double IPsf::s_cp(0);
@@ -46,12 +46,12 @@ astro::SkyDir IPsf::appDir(double energy,
                            const astro::SkyDir & scXAxis,
                            double time) const {
    (void)(scXAxis);
+   (void)(time);
 
 // Compute source inclination
    double theta(srcDir.difference(scZAxis)*180./M_PI);
 
-   static double phi(0);
-   setStaticVariables(energy, theta, phi, time, this);
+   setStaticVariables(energy, theta, 0, this);
 
 // Form cumlative distribution in psi (polar angle from source direction)
    std::vector<double> integrand;
@@ -67,7 +67,7 @@ astro::SkyDir IPsf::appDir(double energy,
                              (integrand.at(i) + integrand.at(i-1))/2.
                              *(s_psi_values.at(i) - s_psi_values.at(i-1)));
    }
-   
+
    double xi(CLHEP::RandFlat::shoot()*integralDist.back());
    size_t indx = std::upper_bound(integralDist.begin(), integralDist.end(), xi)
       - integralDist.begin() - 1;
@@ -92,7 +92,8 @@ astro::SkyDir IPsf::appDir(double energy,
 
 double IPsf::angularIntegral(double energy, double theta, 
                              double phi, double radius, double time) const {
-   setStaticVariables(energy, theta, phi, time, this);
+   (void)(time);
+   setStaticVariables(energy, theta, phi, this);
    double integral;
    double err(1e-5);
    long ierr(0);
@@ -102,16 +103,15 @@ double IPsf::angularIntegral(double energy, double theta,
 }
 
 void IPsf::setStaticVariables(double energy, double theta, double phi,
-                              double time, const IPsf * self) {
+                              const IPsf * self) {
    s_energy = energy;
    s_theta = theta;
    s_phi = phi;
-   s_time = time;
    s_self = self;
 }
 
 double IPsf::coneIntegrand(double * offset) {
-   return s_self->value(*offset, s_energy, s_theta, s_phi, s_time)
+   return s_self->value(*offset, s_energy, s_theta, s_phi)
       *std::sin(*offset*M_PI/180.)*2.*M_PI*M_PI/180.;
 }
 
@@ -146,7 +146,9 @@ double IPsf::angularIntegral(double energy,
                              const std::vector<irfInterface::AcceptanceCone *> 
                              & acceptanceCones,
                              double time) {
-   setStaticVariables(energy, theta, phi, time, this);
+   (void)(time);
+
+   setStaticVariables(energy, theta, phi, this);
    
    const irfInterface::AcceptanceCone & roiCone(*acceptanceCones.front());
    double roi_radius(roiCone.radius()*M_PI/180.);
@@ -176,7 +178,7 @@ double IPsf::angularIntegral(double energy,
 
 double IPsf::psfIntegrand1(double * mu) {
    double sep(std::acos(*mu)*180./M_PI);
-   return 2.*M_PI*s_self->value(sep, s_energy, s_theta, s_phi, s_time);
+   return 2.*M_PI*s_self->value(sep, s_energy, s_theta, s_phi);
 }
 
 double IPsf::psfIntegrand2(double * mu) {
@@ -190,7 +192,7 @@ double IPsf::psfIntegrand2(double * mu) {
    } else {
       phimin = std::acos(arg);
    }
-   return 2.*phimin*s_self->value(sep, s_energy, s_theta, s_phi, s_time);
+   return 2.*phimin*s_self->value(sep, s_energy, s_theta, s_phi);
 }
 
-} // namespace irfInterface
+} // namespace handoff_response

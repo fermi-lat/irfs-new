@@ -1,5 +1,5 @@
 package latResponse
-version v2r2p3
+version v1r1
 
 author J. Chiang <jchiang@slac.stanford.edu>
 
@@ -27,5 +27,4 @@ macro source "*.cxx" WIN32 "*.h *.cxx"
 library latResponse -no_share $(source)
 application test_latResponse test/*.cxx
 
-#application combine_irfs combine_irfs/*.cxx
-#apply_pattern ST_pfiles
+application combine_irfs combine_irfs/*.cxx

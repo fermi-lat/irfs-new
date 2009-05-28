@@ -1,8 +1,7 @@
 package handoff_response
-version v4r3p1
+version v1r1
 
 author Toby Burnett <tburnett@u.washington.edu>
-author J. Chiang <jchiang@slac.stanford.edu>
 
 # $Id$
 
@@ -15,46 +14,29 @@ use CLHEP v* IExternal
 use astro v*
 use cppunit v* IExternal
 use st_facilities v*
-use st_app v*
-use st_stream v*
-use STpolicy v*
-use irfUtil v* irfs
-use caldb v* irfs
-use embed_python v*
-use tip v*
-use facilities v*
 
 apply_pattern package_include
 apply_pattern package_linkopts
 apply_pattern package_stamps
 
-apply_pattern ST_pfiles
-
-path_prepend PYTHONPATH $(HANDOFF_RESPONSEROOT)/python
-
-# this is apparently required by use of TAxis in the RootEval class. 
-macro_append ROOT_libs " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread -lNetx "\
-  WIN32 " libHist.lib libGraf.lib libGpad.lib libNetx.lib "
-
-private
-
+macro_append cppflags "" Linux " -I../src -DTRAP_FPE " 
 macro source "*.cxx" WIN32 "*.h *.cxx"
-macro pysource "" WIN32 "*.py"
 
 library handoff_response -no_share \
   -s=../handoff_response $(source)\
   -s=../src  $(source)\
   -s=gen $(source)\
-  -s=irfs $(source)\
-  -s=../python $(pysource)\
-  -s=fits $(source)
+  -s=irfs $(source)
 
 application test_handoff_response -s=test $(source)
 
 macro handoff_response_cppflags  ""\
-  Linux "-I ../src -g   -DTRAP_FPE "\
-  WIN32 " /I ..\src /wd4800 /wd4305 /wd4258"\
-  Darwin "-I ../src -g   -DTRAP_FPE "
+  Linux "-I ../src -g  "\
+  WIN32 " /I ..\src /wd4800 /wd4305 /wd4258"
+
+macro_append ROOT_libs ""\
+  Linux " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread -lHistPainter"\
+  WIN32 " libHist.lib libGraf.lib libGpad.lib libHistPainter.lib"
 
 macro source "*.cxx" WIN32 "*.cxx *.h"
 
@@ -64,7 +46,8 @@ application prune -s=gen/prune $(source)
 # run the irf generation analysis
 application makeirf -s=gen/makeirf $(source) 
 
-application make_fits -s=fits/make_fits $(source)
+# make a file with 0-66 degree summary of acceptance and psf for sensitivity
+application reformat -s=gen/reformat $(source)
 
-application aeff_phi_dep aeff_phi_dep/aeff_phi_dep.cxx
-
+# convenient setup alias using DOSKEY for Windows version
+setup_script alias
