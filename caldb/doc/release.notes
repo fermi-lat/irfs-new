@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  28-May-09 v1r1      JC    add P7_v1_S3 irfs; use standard names for P7_V1
+                            irfs in caldb.indx and CBD1001 header keywords
   27-May-09 v1        JC    P7_v1 irfs
   27-Apr-09 v0r9p1    JC    replace P6_V[3-5] files with ones created with
                             corrected energy dispersion fitting code
