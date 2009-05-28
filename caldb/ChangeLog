@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Wed May 27 23:37:12 PDT 2009
+irfs/caldb/CALDB/data/glast/lat/bcf/edisp
+
+Added Files:
+	edisp_P7_v1_diff_back.fits edisp_P7_v1_diff_front.fits 
+	edisp_P7_v1_source_back.fits edisp_P7_v1_source_front.fits 
+	edisp_P7_v1_trans_back.fits edisp_P7_v1_trans_front.fits 
+Log Message:
+add P7_v1 irfs
+    *
+------------------------------------------------------------
 User: jchiang  Wed May 27 23:37:11 PDT 2009
 irfs/caldb/CALDB/data/glast/lat/bcf/ea
 
