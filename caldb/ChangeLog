@@ -1,4 +1,17 @@
 ------------------------------------------------------------
+User: jchiang  Thu May 28 14:41:54 PDT 2009
+irfs/caldb/CALDB/data/glast/lat/bcf/psf
+
+Modified Files:
+	psf_P7_v1_diff_back.fits psf_P7_v1_diff_front.fits 
+	psf_P7_v1_source_back.fits psf_P7_v1_source_front.fits 
+	psf_P7_v1_trans_back.fits psf_P7_v1_trans_front.fits 
+Added Files:
+	psf_P7_v1_S3_back.fits psf_P7_v1_S3_front.fits 
+Log Message:
+add P7_v1_S3 irfs; use standard IRF naming scheme in CBD10001 keyword
+    *
+------------------------------------------------------------
 User: jchiang  Thu May 28 14:41:53 PDT 2009
 irfs/caldb/CALDB/data/glast/lat/bcf/edisp
 
