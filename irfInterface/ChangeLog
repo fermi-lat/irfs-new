@@ -1,4 +1,12 @@
 ------------------------------------------------------------
+User: glastrm  Sat May 30 16:31:19 PDT 2009
+irfs/irfInterface
+
+Modified Files:
+	SConscript 
+Log Message:
+    *
+------------------------------------------------------------
 TAG
 Tag name: v2r3, operation: add
 Package: irfInterface
