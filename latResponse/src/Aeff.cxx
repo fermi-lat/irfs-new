@@ -31,6 +31,11 @@ Aeff::Aeff(const std::string & fitsfile, const std::string & extname,
    } catch (tip::TipException & eObj) {
       m_phiDepPars = 0;
    }
+   if (m_phiDepPars) {
+      m_usePhiDependence = true;
+   } else {
+      m_usePhiDependence = false;
+   }
 }
 
 double Aeff::value(double energy, 
@@ -74,7 +79,7 @@ double Aeff::phi_modulation(double par0, double par1, double phi) const {
 double Aeff::phi_modulation(double logE, double costheta, 
                             double phi, bool interpolate) const {
    static double par[2];
-   if (!m_phiDepPars) {
+   if (!m_phiDepPars || !m_usePhiDependence) {
       return 1.;
    }
    m_phiDepPars->getPars(logE, costheta, par, interpolate);
@@ -82,7 +87,7 @@ double Aeff::phi_modulation(double logE, double costheta,
 }
 
 double Aeff::max_phi_modulation() const {
-   if (!m_phiDepPars) {
+   if (!m_phiDepPars || !m_usePhiDependence) {
       return 1.;
    }
    const std::vector<std::string> & parNames(m_phiDepPars->parNames());
@@ -107,7 +112,7 @@ double Aeff::max_phi_modulation() const {
 
 std::pair<double, double> 
 Aeff::pars(double logE, double costh, bool interpolate) const {
-   if (!m_phiDepPars) {
+   if (!m_phiDepPars || !m_usePhiDependence) {
       return std::make_pair(1., 0);
    }
    static double par[2];
