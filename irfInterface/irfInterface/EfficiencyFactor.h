@@ -33,6 +33,9 @@ public:
 
    double value(double energy, double livetimefrac) const;
 
+   void getLivetimeFactors(double energy, double & factor1, 
+                           double & factor2) const;
+
    static void readFt2File(const std::string & ft2file);
 
    static void clearFt2Data();

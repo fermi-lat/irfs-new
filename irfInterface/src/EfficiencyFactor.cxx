@@ -132,7 +132,21 @@ double EfficiencyFactor::value(double energy, double livetimefrac) const {
    double slope(m_slope_p0 + m_slope_p1*std::log10(energy));
    double rate(m_rate_p0 + m_rate_p1*livetimefrac);
 
-   return 1./(offset + slope*rate);
+   return offset + slope*rate;
+}
+
+void EfficiencyFactor::
+getLivetimeFactors(double energy, double & factor1, double & factor2) const {
+   if (!m_havePars) {
+      factor1 = 1;
+      factor2 = 0;
+      return;
+   }
+   double log10E(std::log10(energy));
+   double offset(m_offset_p0 + m_offset_p1*log10E);
+   double slope(m_slope_p0 + m_slope_p1*log10E);
+   factor1 = offset + m_rate_p0*slope;
+   factor2 = m_rate_p1*slope;
 }
 
 void EfficiencyFactor::readFt2File(const std::string & ft2file) {
