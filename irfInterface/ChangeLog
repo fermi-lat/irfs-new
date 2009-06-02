@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Jun  2 14:53:32 PDT 2009
+irfs/irfInterface/src
+
+Modified Files:
+	EfficiencyFactor.cxx 
+Log Message:
+return separate scale factors for energy-dependent correction using livetime cube
+    *
+------------------------------------------------------------
+User: jchiang  Tue Jun  2 14:53:32 PDT 2009
 irfs/irfInterface/irfInterface
 
 Modified Files:
