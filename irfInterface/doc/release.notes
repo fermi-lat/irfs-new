@@ -5,6 +5,8 @@
   @verbatim
   $Id$
 
+  03-Jun-09 v2r3p1  JC    add EfficiencyFactor function based on David P.'s
+                          parameterization
   30-May-09 v2r3    JC    kludge to IAeff interface to handle special
                           cases where phi-dependence should be disabled
   30-Jan-08 v2r2p1  JC    include <algorithm> in IrfsFactory.cxx for std::count
