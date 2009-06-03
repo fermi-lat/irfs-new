@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jun  2 22:41:50 PDT 2009
+irfs/irfInterface/src
+
+Modified Files:
+	EfficiencyFactor.cxx 
+Log Message:
+switch from static to data members for SC data
+    *
+------------------------------------------------------------
 User: jchiang  Tue Jun  2 22:41:49 PDT 2009
 irfs/irfInterface/irfInterface
 
