@@ -36,9 +36,9 @@ public:
    void getLivetimeFactors(double energy, double & factor1, 
                            double & factor2) const;
 
-   static void readFt2File(const std::string & ft2file);
+   void readFt2File(std::string ft2file);
 
-   static void clearFt2Data();
+   void clearFt2Data();
 
 private:
    
@@ -50,10 +50,10 @@ private:
    double m_rate_p0;
    double m_rate_p1;
 
-   static double s_dt;
-   static std::vector<double> s_start;
-   static std::vector<double> s_stop;
-   static std::vector<double> s_livetimefrac;
+   double m_dt;
+   std::vector<double> m_start;
+   std::vector<double> m_stop;
+   std::vector<double> m_livetimefrac;
 
    void readPars(std::string parfile);
 

@@ -1,7 +1,7 @@
 /**
  * @file EfficiencyFactor.cxx
  * @brief Static function that returns the IRF-dependent efficiency
- * corrections as a function of livetime fraction based on fits to
+ * correction as a function of livetime fraction based on fits to
  * Vela, Crab, Geminga data (D. Paneque).
  *
  * @author J. Chiang
@@ -38,16 +38,11 @@ namespace {
 
 namespace irfInterface {
 
-double EfficiencyFactor::s_dt;
-std::vector<double> EfficiencyFactor::s_start;
-std::vector<double> EfficiencyFactor::s_stop;
-std::vector<double> EfficiencyFactor::s_livetimefrac;
-
 EfficiencyFactor::
 EfficiencyFactor() : m_havePars(false) {
-   char * module_name = ::getenv("EFFICIENCY_PAR_FILE");
-   if (module_name != 0) {
-      readPars(module_name);
+   char * parfile = ::getenv("EFFICIENCY_PAR_FILE");
+   if (parfile != 0) {
+      readPars(parfile);
       m_havePars = true;
    }
 }
@@ -81,22 +76,22 @@ readPars(std::string parfile) {
 
 
 double EfficiencyFactor::operator()(double energy, double met) const {
-   if (!m_havePars) {
+   if (!m_havePars || m_start.empty()) {
       return 1;
    }
    double ltfrac;
 
-   size_t indx = static_cast<size_t>((met - s_start.front())/s_dt);
+   size_t indx = static_cast<size_t>((met - m_start.front())/m_dt);
 // Intervals may not be uniform, so must do a search.  The offsets
 // from the computed index should be constant and small over large
 // ranges, so a linear search from the computed point is reasonable.
-   indx = std::min(indx, s_start.size()-1);
-   if (s_start.at(indx) > met) {
-      while (s_start.at(indx) > met && indx > 0) {
+   indx = std::min(indx, m_start.size()-1);
+   if (m_start.at(indx) > met) {
+      while (m_start.at(indx) > met && indx > 0) {
          indx--;
       }
-      if (s_start.at(indx) <= met && met <= s_stop.at(indx)) {
-         ltfrac = s_livetimefrac.at(indx);
+      if (m_start.at(indx) <= met && met <= m_stop.at(indx)) {
+         ltfrac = m_livetimefrac.at(indx);
       } else { // This may occur if there are gaps in the FT2 file.
          std::ostringstream message;
          message << "Input MET value " << met 
@@ -105,12 +100,12 @@ double EfficiencyFactor::operator()(double energy, double met) const {
       }
    }
 // Ensure we have not fallen short of the desired interval.
-   while (s_start.at(indx) < met && indx < s_start.size()) {
+   while (m_start.at(indx) < met && indx < m_start.size()) {
       ++indx;
    }
    --indx;
-   if (s_start.at(indx) <= met && met <= s_stop.at(indx)) {
-      ltfrac = s_livetimefrac.at(indx);
+   if (m_start.at(indx) <= met && met <= m_stop.at(indx)) {
+      ltfrac = m_livetimefrac.at(indx);
    }
 
    return value(energy, ltfrac);
@@ -120,13 +115,6 @@ double EfficiencyFactor::value(double energy, double livetimefrac) const {
    if (!m_havePars) {
       return 1;
    }
-
-//    std::cout << m_offset_p0 << "\n"
-//              << m_offset_p1 << "\n"
-//              << m_slope_p0 << "\n"
-//              << m_slope_p1 << "\n"
-//              << m_rate_p0 << "\n"
-//              << m_rate_p1 << std::endl;
 
    double offset(m_offset_p0 + m_offset_p1*std::log10(energy));
    double slope(m_slope_p0 + m_slope_p1*std::log10(energy));
@@ -149,25 +137,26 @@ getLivetimeFactors(double energy, double & factor1, double & factor2) const {
    factor2 = m_rate_p1*slope;
 }
 
-void EfficiencyFactor::readFt2File(const std::string & ft2file) {
+void EfficiencyFactor::readFt2File(std::string ft2file) {
+   facilities::Util::expandEnvVar(&ft2file);
    const tip::Table * scData = 
       tip::IFileSvc::instance().readTable(ft2file, "SC_DATA");
    tip::Table::ConstIterator it(scData->begin());
    tip::ConstTableRecord & row(*it);
    for ( ; it != scData->end(); ++it) {
-      s_start.push_back(row["START"].get());
-      s_stop.push_back(row["STOP"].get());
-      double duration(s_stop.back() - s_start.back());
-      s_livetimefrac.push_back(row["livetime"].get()/duration);
+      m_start.push_back(row["START"].get());
+      m_stop.push_back(row["STOP"].get());
+      double duration(m_stop.back() - m_start.back());
+      m_livetimefrac.push_back(row["livetime"].get()/duration);
    }
-   s_dt = (s_stop.back() - s_start.front())/s_start.size();
+   m_dt = (m_stop.back() - m_start.front())/m_start.size();
    delete scData;
 }
 
 void EfficiencyFactor::clearFt2Data() {
-   s_start.clear();
-   s_stop.clear();
-   s_livetimefrac.clear();
+   m_start.clear();
+   m_stop.clear();
+   m_livetimefrac.clear();
 }
 
 } // namespace irfInterface
