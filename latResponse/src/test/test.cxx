@@ -151,7 +151,7 @@ void LatResponseTests::psf_normalization() {
 
    std::vector<double> thetas;
    double thmin(0);
-   double thmax(70);
+   double thmax(65);
    size_t nth(20);
    double dth((thmax - thmin)/(nth-1));
    for (size_t i(0); i < nth; i++) {
