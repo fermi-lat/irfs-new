@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: v2r2p6, operation: mov
+Package: latResponse
+User: glastrm  Wed Jun 10 16:31:42 2009
+Files:
+  latResponse/SConscript  1.11
+
+    *
+------------------------------------------------------------
 User: glastrm  Wed Jun 10 16:31:36 PDT 2009
 irfs/latResponse
 
