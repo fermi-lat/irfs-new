@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  13-Jun-09 v2r3p2  JC    turn off correction above maxE in parameter file
   03-Jun-09 v2r3p1  JC    add EfficiencyFactor function based on David P.'s
                           parameterization
   30-May-09 v2r3    JC    kludge to IAeff interface to handle special

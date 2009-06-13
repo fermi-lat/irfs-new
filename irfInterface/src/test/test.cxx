@@ -199,11 +199,13 @@ void irfInterfaceTests::test_EfficiencyFactor() {
 
    std::cout << foo.value(1000, 0.9) << std::endl;
    std::cout << foo.value(1000, 0.85) << std::endl;
+   std::cout << foo.value(1e5, 0.85) << std::endl;
 
    EfficiencyFactor bar;
 
    std::cout << bar.value(1000, 0.9) << std::endl;
-   std::cout << bar.value(1000, 0.85) << std::endl;
+   std::cout << foo.value(1000, 0.85) << std::endl;
+   std::cout << bar.value(1e5, 0.85) << std::endl;
 }
 
 int main() {
