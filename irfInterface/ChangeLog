@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Sat Jun 13 11:31:12 PDT 2009
+irfs/irfInterface/src
+
+Modified Files:
+	EfficiencyFactor.cxx 
+Log Message:
+set maximum energy for application of efficiency correction
+    *
+------------------------------------------------------------
+User: jchiang  Sat Jun 13 11:31:12 PDT 2009
 irfs/irfInterface/irfInterface
 
 Modified Files:
