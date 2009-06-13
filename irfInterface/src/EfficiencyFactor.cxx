@@ -72,11 +72,12 @@ readPars(std::string parfile) {
    m_slope_p1 = std::atof(parmap["slope_p1"].c_str());
    m_rate_p0 = std::atof(parmap["rate_p0"].c_str());
    m_rate_p1 = std::atof(parmap["rate_p1"].c_str());
+   m_maxE = std::atof(parmap["maxE"].c_str());
 }
 
 
 double EfficiencyFactor::operator()(double energy, double met) const {
-   if (!m_havePars || m_start.empty()) {
+   if (!m_havePars || m_start.empty() || energy > m_maxE) {
       return 1;
    }
    double ltfrac;
@@ -112,7 +113,7 @@ double EfficiencyFactor::operator()(double energy, double met) const {
 }
 
 double EfficiencyFactor::value(double energy, double livetimefrac) const {
-   if (!m_havePars) {
+   if (!m_havePars || energy > m_maxE) {
       return 1;
    }
 
@@ -125,7 +126,7 @@ double EfficiencyFactor::value(double energy, double livetimefrac) const {
 
 void EfficiencyFactor::
 getLivetimeFactors(double energy, double & factor1, double & factor2) const {
-   if (!m_havePars) {
+   if (!m_havePars || energy > m_maxE) {
       factor1 = 1;
       factor2 = 0;
       return;

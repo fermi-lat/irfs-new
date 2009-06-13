@@ -49,6 +49,7 @@ private:
    double m_slope_p1;
    double m_rate_p0;
    double m_rate_p1;
+   double m_maxE;
 
    double m_dt;
    std::vector<double> m_start;
