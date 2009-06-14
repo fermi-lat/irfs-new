@@ -1,5 +1,38 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-15-02, operation: add
+Package: irfUtil
+User: glastrm  Sun Jun 14 10:21:03 2009
+Files:
+  irfUtil/.cvsignore  1.1.1.1
+  irfUtil/ChangeLog  1.34
+  irfUtil/irfUtilLib.py  1.3
+  irfUtil/SConscript  1.4
+  irfUtil/cmt/requirements  1.11
+  irfUtil/doc/release.notes  1.6
+  irfUtil/irfUtil/RootTable.h  1.1
+  irfUtil/irfUtil/HdCaldb.h  1.1.1.1
+  irfUtil/irfUtil/dgaus8.h  1.1.1.1
+  irfUtil/irfUtil/Util.h  1.5
+  irfUtil/src/HDgtcalf.c  1.1.1.1
+  irfUtil/src/HDgtcalf_standalone.h  1.1.1.1
+  irfUtil/src/HdCaldb.cxx  1.1.1.1
+  irfUtil/src/HDgtcalf.pp  1.1.1.1
+  irfUtil/src/HDgtcalf_internal.c  1.1.1.1
+  irfUtil/src/HDgtcalf_standalone.ph  1.1.1.1
+  irfUtil/src/HDgtcalf_internal.pp  1.1.1.1
+  irfUtil/src/HDgtcalf_internal.h  1.1.1.1
+  irfUtil/src/HDgtcalf.ph  1.1.1.1
+  irfUtil/src/HDgtcalf_standalone.c  1.1.1.1
+  irfUtil/src/HDgtcalf_internal.ph  1.1.1.1
+  irfUtil/src/Util.cxx  1.5
+  irfUtil/src/RootTable.cxx  1.2
+  irfUtil/src/Hdcal.h  1.1.1.1
+  irfUtil/src/HDgtcalf_standalone.pp  1.1.1.1
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-15-01, operation: add
 Package: irfUtil
 User: glastrm  Sun Jun  7 17:30:23 2009
