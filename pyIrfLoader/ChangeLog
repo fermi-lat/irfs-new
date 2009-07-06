@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Mon Jul  6 10:46:04 PDT 2009
+ScienceTools-scons/irfs/pyIrfLoader
+
+Modified Files:
+	SConscript 
+Log Message:
+Use LoadableModule for creating swig modules
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-15-02, operation: add
 Package: pyIrfLoader
