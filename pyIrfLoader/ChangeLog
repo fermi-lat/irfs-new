@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: pyIrfLoader-00-00-01, operation: mov
+Package: pyIrfLoader
+User: glastrm  Mon Jul  6 10:50:32 2009
+Files:
+  pyIrfLoader/SConscript  1.5
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: v0r0p1, operation: mov
 Package: pyIrfLoader
 User: glastrm  Mon Jul  6 10:50:16 2009
