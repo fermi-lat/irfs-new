@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  21-Mar-05 v0r0p1  JC    add using CLHEP::
   13-Aug-05 v0      JC    initial version (imported from users/jchiang)
  
   @endverbatim

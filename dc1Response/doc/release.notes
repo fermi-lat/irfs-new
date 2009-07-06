@@ -1,0 +1,12 @@
+/** 
+  @file release.notes
+  @brief package dc1Response
+
+  @verbatim
+  $Id$
+
+  20-Jul-04 v0r0p1  JC    RootTable moved to irfUtil
+  16-Jul-04 v0      JC    initial version
+ 
+  @endverbatim
+*/

@@ -17,9 +17,6 @@ namespace irfLoader {
 
 /**
  * @class Loader
- * @brief This class has Singleton-like behavior, but since it
- * comprises only static functions, the Singleton instance is never
- * explicitly accessed.
  *
  * $Header$
  */
@@ -46,21 +43,14 @@ public:
 
 protected:
 
-   Loader();
+   Loader() {}
 
    ~Loader() {}
 
-   static void create_instance() {
-      if (s_instance == 0) {
-         s_instance = new Loader();
-      }
-   }
-
 private:
 
-   static Loader * s_instance;
-
    static std::vector<std::string> s_irfsNames;
+
 };
 
 } // namespace irfLoader

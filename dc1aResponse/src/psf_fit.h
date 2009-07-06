@@ -29,13 +29,20 @@
 
    @image html zeroth_order_scaling.png Overall energy scaling of angular deviations
 
-   Fit parameters:
+   and fit parameters:
 @verbatim
                   Front          Back
    theta0         1.947          3.457
    Eb             4.93e4         3.52e4
    gamma          0.786          0.798
 @endverbatim
+
+   Note that we are fitting profile distributions of \f${\tt
+   LogBestDirErr} \equiv \log_{10}({\tt BestDirErr})\f$. We would obtain
+   a somewhat different scaling if we were fitting profile
+   distributions of <tt>BestDirErr</tt> directly.  This has important
+   consequences for the relationship of the PSF shape fit parameters
+   to each other as we discuss below in @ref psf_fits.
 
    By cutting on \c McZDir, we find that the angular deviation scale,
    \c theta0, varies with incident photon inclination.  The parameters
@@ -93,10 +100,7 @@
    \f]
 
    where \f$u = 0.5 ({\tt BestDirErr}/\sigma)^2\f$, and his
-   \f$\sigma\f$ is equivalent to our \f$\tilde\theta\f$.  We include
-   an extra parameter, \f$p_2\f$, for which we will derive a
-   functional dependence on \f$p_1\f$ that differs from that found in
-   Toby's expression.
+   \f$\sigma\f$ is roughly equivalent to \f$p_2\f$. 
 
    Since the distributions of scaled deviations are nearly lognormal,
    we make histograms of \c log10(x) so that the function that we fit
@@ -137,8 +141,35 @@
    D              2.117          2.900
 @endverbatim
 
-   The green curves are \f$p_2 = 1/2 p_1\f$, as inferred from Toby'
-   expression.
+   Jean Ballet has noted that the application of the energy and
+   inclination scaling factor imposes a definite relationship between
+   the fitted values of \f$p_1\f$ and \f$p_2\f$.  The condition is
+   given by evaluating the first moment of \f$\log x\f$:
+
+   \f[
+   \langle \log x \rangle = \int \log x\, \frac{dN}{dx} dx = 0,
+   \f]
+
+   where the zero-condition arises because of our fits of the scale factor
+   to profile distributions of <tt>logBestDirErr</tt>.  This leads to the
+   relation
+
+   \f[
+   \langle \log x \rangle = (\psi(1) - \psi(p_1 - 1) - \log p_2)/2
+   \f]
+
+   where \f$\psi\f$ is Euler's psi-function and \f$\psi(1) =
+   -0.57721\f$, the negative of Euler's constant.
+
+   The zero-condition gives \f$ \log p_2 = \psi(1) - \psi(p_1 -
+   1)\f$.  Jean has made a plot of this function (solid curve), comparing
+   it to the empirical relations derived above for the front (dashed) and
+   back (dotted):
+
+   @image html p1vsp2.png log(p1) vs log(p2) given the angular deviation scaling constraint
+
+   This explains the empirical correlation we have found between 
+   \f$p_1\f$ and \f$p_2\f$.
 
    Finally, we plot \f$p_1\f$ vs energy for the 3-parameter (black points)
    and 2-parameter (red) fits:
