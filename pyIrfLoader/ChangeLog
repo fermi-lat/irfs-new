@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-15-02, operation: mov
+Package: pyIrfLoader
+User: glastrm  Thu Jul  9 09:07:57 2009
+Files:
+  pyIrfLoader/SConscript  1.5
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: pyIrfLoader-00-00-01, operation: mov
 Package: pyIrfLoader
 User: glastrm  Mon Jul  6 10:50:32 2009
