@@ -13,4 +13,7 @@ dc2ResponseLib = libEnv.StaticLibrary('dc2Response', listFiles(['src/*.cxx']))
 progEnv.Tool('dc2ResponseLib')
 test_dc2ResponseBin = progEnv.Program('test_dc2Response', listFiles(['src/test/*.cxx']))
 
-progEnv.Tool('registerObjects', package = 'dc2Response', libraries = [dc2ResponseLib], testApps = [test_dc2ResponseBin], includes = listFiles(['dc2Response/*.h']))
+progEnv.Tool('registerTargets', package = 'dc2Response',
+             staticLibraryCxts = [[dc2ResponseLib, libEnv]],
+             testAppCxts = [[test_dc2ResponseBin, progEnv]],
+             includes = listFiles(['dc2Response/*.h']))
