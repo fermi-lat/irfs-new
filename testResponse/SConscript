@@ -14,4 +14,7 @@ progEnv.Tool('testResponseLib')
 progEnv.Tool('addLibrary', library = progEnv['cppunitLibs'])
 test_testResponseBin = progEnv.Program('test_testResponse', listFiles(['src/test/*.cxx']))
 
-progEnv.Tool('registerObjects', package = 'testResponse', libraries = [testResponseLib], testApps = [test_testResponseBin], includes = listFiles(['testResponse/*.h']))
+progEnv.Tool('registerTargets', package = 'testResponse',
+             staticLibraryCxts = [[testResponseLib, libEnv]],
+             testAppCxts = [[test_testResponseBin, progEnv]],
+             includes = listFiles(['testResponse/*.h']))
