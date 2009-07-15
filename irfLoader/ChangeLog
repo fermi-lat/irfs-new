@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jrb  Wed Jul 15 16:59:46 PDT 2009
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+Added new line - version v1r2p1
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-15-03, operation: add
 Package: irfLoader
