@@ -5,4 +5,4 @@
 Import('baseEnv')
 Import('listFiles')
 
-baseEnv.Tool('registerObjects', package = 'caldb', data = listFiles(['CALDB/*'], recursive = True))
+baseEnv.Tool('registerTargets', package = 'caldb', data = listFiles(['CALDB/*'], recursive = True))

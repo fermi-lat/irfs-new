@@ -18,7 +18,7 @@ progEnv.Tool('addLibrary', library=progEnv['cppunitLibs'])
 test_irfInterfaceBin = progEnv.Program('test_irfInterface',
                                        listFiles(['src/test/*.cxx']))
 
-progEnv.Tool('registerObjects', package='irfInterface', 
-             libraries=[irfInterfaceLib], 
-             testApps=[test_irfInterfaceBin], 
+progEnv.Tool('registerTargets', package='irfInterface', 
+             staticLibraryCxts=[[irfInterfaceLib, libEnv]], 
+             testAppCxts=[[test_irfInterfaceBin, progEnv]], 
              includes=listFiles(['irfInterface/*.h']))

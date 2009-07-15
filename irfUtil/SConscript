@@ -10,4 +10,5 @@ libEnv = baseEnv.Clone()
 libEnv.Tool('irfUtilLib', depsOnly = 1)
 irfUtilLib = libEnv.StaticLibrary('irfUtil', listFiles(['src/*.cxx', 'src/*.c']))
 
-progEnv.Tool('registerObjects', package = 'irfUtil', libraries = [irfUtilLib], includes = listFiles(['irfUtil/*.h']))
+progEnv.Tool('registerTargets', package = 'irfUtil', staticLibraryCxts = [[irfUtilLib, libEnv]],
+             includes = listFiles(['irfUtil/*.h']))
