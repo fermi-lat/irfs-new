@@ -4,7 +4,9 @@
 
   @verbatim
   $Id$
+  EOH
 
+  15-Jul-09 v1r1p1    jrb   update SConscript
   28-May-09 v1r1      JC    add P7_v1_S3 irfs; use standard names for P7_V1
                             irfs in caldb.indx and CBD1001 header keywords
   27-May-09 v1        JC    P7_v1 irfs
