@@ -1,4 +1,12 @@
 ------------------------------------------------------------
+User: glastrm  Wed Jul 15 17:33:09 PDT 2009
+irfs/irfLoader
+
+Modified Files:
+	SConscript 
+Log Message:
+    *
+------------------------------------------------------------
 TAG
 Tag name: v1r2p1, operation: add
 Package: irfLoader
