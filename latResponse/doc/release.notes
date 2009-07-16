@@ -4,7 +4,9 @@
 
   @verbatim
   $Id$
+  EOH
 
+  15-Jul-09   v2r2p7    jrb update SConscript
   10-Jun-09   v2r2p6    JC  set maximum off-axis angle to 65 deg for psf
                             integral tests
   03-Jun-09   v2r2p5    JC  remove efficiency factor (will apply this 
