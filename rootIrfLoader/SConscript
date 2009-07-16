@@ -1,0 +1,25 @@
+# -*- python -*-
+# $Id$
+# Authors: James Chiang <jchiang@slac.stanford.edu>
+# Version: rootIrfLoader-01-00-01
+Import('baseEnv')
+Import('listFiles')
+progEnv = baseEnv.Clone()
+libEnv = baseEnv.Clone()
+
+cintSources = [ 'src/rootIrfLoader/IrfBase.h', 'src/rootIrfLoader/Aeff.h',
+                'src/rootIrfLoader/Psf.h', 'src/rootIrfLoader/Edisp.h',
+                'src/rootIrfLoader/SkyDir.h', 'src/rootIrfLoader/LinkDef.h' ]
+
+extraSources = [ 'src/rootIrfLoader/IrfBase.cxx', 'src/rootIrfLoader/Aeff.cxx',
+                 'src/rootIrfLoader/Psf.cxx', 'src/rootIrfLoader/Edisp.cxx',
+                 'src/rootIrfLoader/SkyDir.cxx', 'rootIrfLoader/rootIrfLoader_rootcint.cxx' ]
+
+libEnv.Tool('rootIrfLoaderLib', depsOnly = 1)
+rootirfLoaderCint = libEnv.Rootcint('rootIrfLoader/rootIrfLoader_rootcint.cxx', cintSources,
+                                    includes = ['.', 'src' ])
+
+rootIrfLoaderLib = libEnv.SharedLibrary('rootIrfLoader', listFiles(['src/*.cxx']) + extraSources)
+
+progEnv.Tool('registerTargets', package = 'rootIrfLoader',
+             rootcintSharedCxts = [[rootIrfLoaderLib, libEnv]])
