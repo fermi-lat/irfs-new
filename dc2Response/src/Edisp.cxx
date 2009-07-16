@@ -48,21 +48,19 @@ double Edisp::value(double appEnergy,
                     double energy, 
                     const astro::SkyDir &srcDir,
                     const astro::SkyDir &scZAxis,
-                    const astro::SkyDir &,
-                    double time) const {
+                    const astro::SkyDir &) const {
 // Inclination wrt spacecraft z-axis in degrees.
    double theta = srcDir.difference(scZAxis)*180./M_PI;
 
 // The azimuthal angle is not used by the DC2 irfs.
    double phi(0);
 
-   return value(appEnergy, energy, theta, phi, time);
+   return value(appEnergy, energy, theta, phi);
 }
 
 double Edisp::value(double appEnergy, double energy,
-                    double theta, double phi, double time) const {
+                    double theta, double phi) const {
    (void)(phi);
-   (void)(time);
 
    if (theta < 0) {
       std::ostringstream message;
@@ -81,19 +79,13 @@ double Edisp::value(double appEnergy, double energy,
    double norm = m_norms.at(indx);
 
    double x((appEnergy - energy)/energy);
-   double arg(x/p2);
-   if (arg > 40) {
-      return norm*std::pow(1. + x, p1)*std::exp(-arg)/energy;
-   }
-   return norm*std::pow(1. + x, p1)/(1. + std::exp(arg))/energy;
+   return norm*std::pow(1. + x, p1)/(1. + std::exp(x/p2))/energy;
 }
 
 double Edisp::appEnergy(double energy,
                         const astro::SkyDir & srcDir,
                         const astro::SkyDir & scZAxis,
-                        const astro::SkyDir &,
-                        double time) const {
-   (void)(time);
+                        const astro::SkyDir & ) const {
    double mu(std::cos(srcDir.difference(scZAxis)));
    size_t indx = parIndex(energy, mu);
 
@@ -127,39 +119,37 @@ size_t Edisp::parIndex(double energy, double mu) const {
    return indx;
 }
 
-// double Edisp::integral(double emin, double emax, double energy,
-//                        const astro::SkyDir & srcDir, 
-//                        const astro::SkyDir & scZAxis,
-//                        const astro::SkyDir &,
-//                        double time) const {
-//    return integral(emin, emax, energy,
-//                    srcDir.difference(scZAxis)*180./M_PI, 0, time);
-// }
+double Edisp::integral(double emin, double emax, double energy,
+                       const astro::SkyDir & srcDir, 
+                       const astro::SkyDir & scZAxis,
+                       const astro::SkyDir & ) const {
+   return integral(emin, emax, energy,
+                   srcDir.difference(scZAxis)*180./M_PI, 0);
+}
    
-// double Edisp::integral(double emin, double emax, double energy, 
-//                        double theta, double phi, double time) const {
-//    (void)(phi);
-//    (void)(time);
-//    if (theta < 0) {
-//       std::ostringstream message;
-//       message << "dc2Response::Edisp"
-//               << "::integral(double, double, double, double, double):\n"
-//               << "theta cannot be less than zero. "
-//               << "Value passed: " << theta;
-//       throw std::invalid_argument(message.str());
-//    }
-//    double mu(std::cos(theta*M_PI/180.));
-//    size_t indx = parIndex(energy, mu);
-//    s_rwidth = m_rwidth.at(indx);
-//    s_ltail = m_ltail.at(indx);
-//    double lowerLim((emin - energy)/energy);
-//    double upperLim((emax - energy)/energy);
-//    double err(1e-5);
-//    double my_integral;
-//    long ierr;
-//    dgaus8_(&edispIntegrand, &lowerLim, &upperLim, &err, &my_integral, &ierr);
-//    return m_norms.at(indx)*my_integral;
-// }
+double Edisp::integral(double emin, double emax, double energy, 
+                       double theta, double phi) const {
+   (void)(phi);
+   if (theta < 0) {
+      std::ostringstream message;
+      message << "dc2Response::Edisp"
+              << "::integral(double, double, double, double, double):\n"
+              << "theta cannot be less than zero. "
+              << "Value passed: " << theta;
+      throw std::invalid_argument(message.str());
+   }
+   double mu(std::cos(theta*M_PI/180.));
+   size_t indx = parIndex(energy, mu);
+   s_rwidth = m_rwidth.at(indx);
+   s_ltail = m_ltail.at(indx);
+   double lowerLim((emin - energy)/energy);
+   double upperLim((emax - energy)/energy);
+   double err(1e-5);
+   double my_integral;
+   long ierr;
+   dgaus8_(&edispIntegrand, &lowerLim, &upperLim, &err, &my_integral, &ierr);
+   return m_norms.at(indx)*my_integral;
+}
 
 void Edisp::readData() {
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());

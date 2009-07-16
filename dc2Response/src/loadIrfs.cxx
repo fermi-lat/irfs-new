@@ -23,7 +23,7 @@
 
 namespace dc2Response {
 
-void load_irfs() {
+void loadIrfs() {
    irfInterface::IAeff *aeff;
    irfInterface::IPsf *psf;
    irfInterface::IEdisp *edisp;

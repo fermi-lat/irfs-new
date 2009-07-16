@@ -5,7 +5,6 @@
   @verbatim
   $Id$
 
-  16-Apr-08 v1r2    JC    remove handoff_response from Registrar   
   20-Mar-08 v1r1p1  JC    call setupEnvironment in Registrar constructor
   14-Feb-08 v1r1    JC    add latResponse
   27-Jan-08 v1r0p5  JC    comment out egretResponse reference in req file
