@@ -4,7 +4,9 @@
 
   @verbatim
   $Id$
+  EOH
 
+  15-Jul-09 v1r2p1  jrb   update SConscript
   16-Apr-08 v1r2    JC    remove handoff_response from Registrar   
   20-Mar-08 v1r1p1  JC    call setupEnvironment in Registrar constructor
   14-Feb-08 v1r1    JC    add latResponse
