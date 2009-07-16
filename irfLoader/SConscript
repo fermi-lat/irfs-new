@@ -1,0 +1,17 @@
+# -*- python -*-
+# $Id$
+# Authors: James Chiang <jchiang@slac.stanford.edu>
+# Version: irfLoader-01-02-01
+Import('baseEnv')
+Import('listFiles')
+progEnv = baseEnv.Clone()
+libEnv = baseEnv.Clone()
+
+libEnv.Tool('irfLoaderLib', depsOnly = 1)
+irfLoaderLib = libEnv.StaticLibrary('irfLoader', listFiles(['src/*.cxx']))
+
+progEnv.Tool('irfLoaderLib')
+progEnv.Tool('addLibrary', library = progEnv['cppunitLibs'])
+test_irfLoaderBin = progEnv.Program('test_irfLoader', listFiles(['src/test/*.cxx']))
+
+progEnv.Tool('registerObjects', package = 'irfLoader', libraries = [irfLoaderLib], testApps = [test_irfLoaderBin], includes = listFiles(['irfLoader/*.h']), pfiles = listFiles(['pfiles/*.par']))
