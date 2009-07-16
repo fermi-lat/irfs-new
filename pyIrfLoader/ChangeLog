@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: v0r0p2, operation: mov
+Package: pyIrfLoader
+User: glastrm  Wed Jul 15 17:35:21 2009
+Files:
+  pyIrfLoader/SConscript  1.7
+
+    *
+------------------------------------------------------------
 User: glastrm  Wed Jul 15 17:35:15 PDT 2009
 irfs/pyIrfLoader
 
