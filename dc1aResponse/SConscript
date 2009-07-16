@@ -1,7 +1,7 @@
 # -*- python -*-
 # $Id$
 # Authors: James Chiang <jchiang@slac.stanford.edu>
-# Version: dc1aResponse-02-00-01
+# Version: dc1aResponse-02-00-02
 
 Import('baseEnv')
 Import('listFiles')
@@ -14,4 +14,7 @@ dc1aResponseLib = libEnv.StaticLibrary('dc1aResponse', listFiles(['src/*.cxx']))
 progEnv.Tool('dc1aResponseLib')
 test_dc1aResponseBin = progEnv.Program('test_dc1aResponse', listFiles(['src/test/*.cxx']))
 
-progEnv.Tool('registerObjects', package = 'dc1aResponse', libraries = [dc1aResponseLib], testApps = [test_dc1aResponseBin], includes = listFiles(['dc1aResponse/*.h']))
+progEnv.Tool('registerTargets', package = 'dc1aResponse',
+             staticLibraryCxts = [[dc1aResponseLib,libEnv]],
+             testAppCxts = [[test_dc1aResponseBin, progEnv]],
+             includes = listFiles(['dc1aResponse/*.h']))
