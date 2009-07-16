@@ -1,7 +1,7 @@
 # -*- python -*-
 # $Header$
 # Authors: James Chiang <jchiang@slac.stanford.edu>
-# Version: pyIrfLoader-00-00-01
+# Version: pyIrfLoader-00-00-02
 import os,glob,platform
 
 Import('baseEnv')
