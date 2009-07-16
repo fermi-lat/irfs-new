@@ -1,4 +1,12 @@
 ------------------------------------------------------------
+User: glastrm  Wed Jul 15 17:33:58 PDT 2009
+irfs/dc1aResponse
+
+Modified Files:
+	SConscript 
+Log Message:
+    *
+------------------------------------------------------------
 TAG
 Tag name: v2r0p2, operation: add
 Package: dc1aResponse
