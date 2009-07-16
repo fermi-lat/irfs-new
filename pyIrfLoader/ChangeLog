@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jrb  Wed Jul 15 17:03:10 PDT 2009
+irfs/pyIrfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+Added new line - version v0r0p2
+    *
+------------------------------------------------------------
 User: jrb  Wed Jul 15 12:41:04 PDT 2009
 ScienceTools-scons/irfs/pyIrfLoader
 
