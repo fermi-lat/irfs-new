@@ -5,6 +5,9 @@
     $Id$
 
     @verbatim
+    EOH
+
+    v0r0p2 15-Jul-09   jrb  update SConscript
     v0     24-Oct-06   JC   Initial import.
     @endverbatim
 */
