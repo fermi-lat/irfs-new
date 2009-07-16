@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: v2r0p2, operation: mov
+Package: dc1aResponse
+User: glastrm  Wed Jul 15 17:34:04 2009
+Files:
+  dc1aResponse/SConscript  1.6
+
+    *
+------------------------------------------------------------
 User: glastrm  Wed Jul 15 17:33:58 PDT 2009
 irfs/dc1aResponse
 
