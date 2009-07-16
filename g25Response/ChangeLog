@@ -1,4 +1,12 @@
 ------------------------------------------------------------
+User: glastrm  Wed Jul 15 17:32:41 PDT 2009
+irfs/g25Response
+
+Modified Files:
+	SConscript 
+Log Message:
+    *
+------------------------------------------------------------
 TAG
 Tag name: v2r0p3, operation: add
 Package: g25Response
