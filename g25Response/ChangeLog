@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+TAG
+Tag name: v2r0p3, operation: mov
+Package: g25Response
+User: glastrm  Wed Jul 15 17:32:47 2009
+Files:
+  g25Response/SConscript  1.6
+
+    *
+------------------------------------------------------------
 User: glastrm  Wed Jul 15 17:32:41 PDT 2009
 irfs/g25Response
 
