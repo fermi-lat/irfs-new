@@ -4,22 +4,21 @@
  * $Header$
  */
 
-#include <cassert>
-
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <cmath>
 
-#include "RootTable.h"
+#include "irfUtil/RootTable.h"
 
-namespace dc1Response {
+namespace irfUtil {
 
 RootTable::RootTable(const std::string & filename, 
                      const std::string & th2name) {
    m_rootFile = new TFile(filename.c_str());
    m_th2 = (TH2D*) m_rootFile->Get(th2name.c_str());
    if (m_th2 == 0) {
-      std::string message = "dc1Response::AeffRootTable: "
+      std::string message = "irfUtil::AeffRootTable: "
          + th2name + " not found in " + filename;
       throw std::runtime_error(message);
    }
@@ -40,4 +39,4 @@ RootTable::~RootTable() {
    delete m_rootFile; 
 }
 
-} // namespace dc1Response
+} // namespace irfUtil

@@ -10,4 +10,7 @@
 #include "HDgtcalf_standalone.h"
 
 /* No-op replacement for HDerror_throw. */
-int HDgtcalf_error_throw(const char * msg, int status) { return status; }
+int HDgtcalf_error_throw(const char * msg, int status) { 
+   printf("%s\n", msg);
+   return status; 
+}
