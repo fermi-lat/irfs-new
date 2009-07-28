@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jul 28 08:33:06 PDT 2009
+irfs/irfInterface/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+use getDataPath in test program
+    *
+------------------------------------------------------------
 User: jchiang  Tue Jul 28 08:33:05 PDT 2009
 irfs/irfInterface/irfInterface
 
