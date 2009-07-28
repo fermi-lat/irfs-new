@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jul 28 08:33:05 PDT 2009
+irfs/irfInterface/irfInterface
+
+Modified Files:
+	EfficiencyFactor.h 
+Log Message:
+use getDataPath in test program
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfInterface-02-03-03, operation: add
 Package: irfInterface
