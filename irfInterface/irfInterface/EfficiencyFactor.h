@@ -29,6 +29,8 @@ public:
 
    EfficiencyFactor(const std::string & parfile);
 
+   ~EfficiencyFactor() throw() {}
+
    double operator()(double energy, double met) const;
 
    double value(double energy, double livetimefrac) const;
