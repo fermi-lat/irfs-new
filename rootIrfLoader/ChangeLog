@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jrb  Wed Jul 29 12:24:41 PDT 2009
+ScienceTools-scons/irfs/rootIrfLoader
+
+Modified Files:
+	SConscript 
+Log Message:
+define env variable rootcint_node, needed for making Windows project file
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: rootIrfLoader-01-00-01, operation: add
 Package: rootIrfLoader
