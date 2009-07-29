@@ -16,9 +16,10 @@ extraSources = [ 'src/rootIrfLoader/IrfBase.cxx', 'src/rootIrfLoader/Aeff.cxx',
                  'src/rootIrfLoader/SkyDir.cxx', 'rootIrfLoader/rootIrfLoader_rootcint.cxx' ]
 
 libEnv.Tool('rootIrfLoaderLib', depsOnly = 1)
-rootirfLoaderCint = libEnv.Rootcint('rootIrfLoader/rootIrfLoader_rootcint.cxx', cintSources,
-                                    includes = ['.', 'src' ])
 
+rootIrfLoaderCint = libEnv.Rootcint('rootIrfLoader/rootIrfLoader_rootcint.cxx', cintSources,
+                                    includes = ['.', 'src' ])
+libEnv['rootcint_node'] = rootIrfLoaderCint
 rootIrfLoaderLib = libEnv.SharedLibrary('rootIrfLoader', listFiles(['src/*.cxx']) + extraSources)
 
 progEnv.Tool('registerTargets', package = 'rootIrfLoader',
