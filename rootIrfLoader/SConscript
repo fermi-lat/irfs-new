@@ -7,20 +7,19 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-cintSources = [ 'src/rootIrfLoader/IrfBase.h', 'src/rootIrfLoader/Aeff.h',
-                'src/rootIrfLoader/Psf.h', 'src/rootIrfLoader/Edisp.h',
-                'src/rootIrfLoader/SkyDir.h', 'src/rootIrfLoader/LinkDef.h' ]
-
-extraSources = [ 'src/rootIrfLoader/IrfBase.cxx', 'src/rootIrfLoader/Aeff.cxx',
-                 'src/rootIrfLoader/Psf.cxx', 'src/rootIrfLoader/Edisp.cxx',
-                 'src/rootIrfLoader/SkyDir.cxx', 'rootIrfLoader/rootIrfLoader_rootcint.cxx' ]
+cintSources = listFiles(['src/rootIrfLoader/*.h'])
+extraSources = listFiles(['src/rootIrfLoader/*.cxx'])
 
 libEnv.Tool('rootIrfLoaderLib', depsOnly = 1)
 
-rootIrfLoaderCint = libEnv.Rootcint('rootIrfLoader/rootIrfLoader_rootcint.cxx', cintSources,
-                                    includes = ['.', 'src' ])
+rootIrfLoaderCint = libEnv.Rootcint('rootIrfLoader/rootIrfLoader_rootcint.cxx',
+                                    cintSources, includes = ['.', 'src' ])
+                                    
 libEnv['rootcint_node'] = rootIrfLoaderCint
-rootIrfLoaderLib = libEnv.SharedLibrary('rootIrfLoader', listFiles(['src/*.cxx']) + extraSources)
+
+rootIrfLoaderLib = libEnv.SharedLibrary('rootIrfLoader', 
+                                        listFiles(['src/*.cxx']) + extraSources)
 
 progEnv.Tool('registerTargets', package = 'rootIrfLoader',
-             rootcintSharedCxts = [[rootIrfLoaderLib, libEnv]])
+             rootcintSharedCxts = [[rootIrfLoaderLib, libEnv]],
+             includes=cintSources)
