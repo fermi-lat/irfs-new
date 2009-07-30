@@ -6,7 +6,7 @@
  * $Header$
  */
 
-#ifdef TRAP_FPE
+#if defined(TRAP_FPE) || defined(HEADAS)
 #include <fenv.h>
 #endif
 
@@ -15,6 +15,8 @@
 
 #include <cppunit/ui/text/TextTestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
+
+#include "facilities/commonUtilities.h"
 
 #include "astro/SkyDir.h"
 
@@ -195,7 +197,9 @@ void irfInterfaceTests::test_IrfRegistry() {
 }
 
 void irfInterfaceTests::test_EfficiencyFactor() {
-   EfficiencyFactor foo("$(IRFINTERFACEROOT)/data/P6_V3_DIFFUSE_eff.txt");
+   std::string efficiency_data 
+      = facilities::commonUtilities::joinPath(facilities::commonUtilities::getDataPath("irfInterface"), "P6_V3_DIFFUSE_eff.txt");
+   EfficiencyFactor foo(efficiency_data);
 
    std::cout << foo.value(1000, 0.9) << std::endl;
    std::cout << foo.value(1000, 0.85) << std::endl;
@@ -209,7 +213,7 @@ void irfInterfaceTests::test_EfficiencyFactor() {
 }
 
 int main() {
-#ifdef TRAP_FPE
+#if defined(TRAP_FPE) || defined(HEADAS)
       feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #else
       throw std::runtime_error("Floating point exception trapping "

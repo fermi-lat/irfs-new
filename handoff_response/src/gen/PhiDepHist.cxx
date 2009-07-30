@@ -15,7 +15,7 @@
 
 #include "PhiDepHist.h"
 
-TF1 * PhiDepHist::s_fit_func(new TF1("phi_func", "1 + [0]*x^[1]", 0, 0.9));
+TF1 * PhiDepHist::s_fit_func(0);
 
 static double pinit[] ={1.,   1};
 static double pmin[]  ={-0.5, 1};
@@ -31,6 +31,7 @@ PhiDepHist::PhiDepHist(const std::string & histname,
    : m_hist(new TH1F(histname.c_str(), title.c_str(), nbins, xmin, xmax)),
      m_nbins(nbins), m_xmin(xmin), m_xmax(xmax),
      m_count(0), m_fitted(false) {
+   if (0 == s_fit_func) s_fit_func = new TF1("phi_func", "1 + [0]*x^[1]", 0, 0.9);
    m_hist->GetXaxis()->SetTitle("abs(abs(atan(McYDir/McXDir))*2./pi-0.5)*2");
    m_pars.resize(2, 0);
    for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++)
