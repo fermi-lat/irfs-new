@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Jul 30 15:04:46 PDT 2009
+ScienceTools-scons/irfs/rootIrfLoader
+
+Modified Files:
+	SConscript 
+Log Message:
+have SCons copy header files to include directory
+    *
+------------------------------------------------------------
 TAG
 Tag name: rootIrfLoader-01-00-02, operation: add
 Package: rootIrfLoader
