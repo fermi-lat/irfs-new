@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: elwinter  Thu Jul 30 10:05:18 PDT 2009
+irfs/irfInterface/src/test
+
+Modified Files:
+      Tag: ScienceToolsv9r15p2
+	test.cxx 
+Log Message:
+Imported changes from FSSC.
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfInterface-02-03-04, operation: add
 Package: irfInterface
