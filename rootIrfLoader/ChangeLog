@@ -1,4 +1,33 @@
 ------------------------------------------------------------
+TAG
+Tag name: ScienceTools-09-15-04, operation: add
+Package: rootIrfLoader
+User: glastrm  Thu Jul 30 15:54:27 2009
+Files:
+  rootIrfLoader/.cvsignore  1.1.1.1
+  rootIrfLoader/ChangeLog  1.1.1.44
+  rootIrfLoader/SConscript  1.6
+  rootIrfLoader/rootIrfLoaderLib.py  1.2
+  rootIrfLoader/cmt/requirements  1.3
+  rootIrfLoader/doc/release.notes  1.3
+  rootIrfLoader/doc/Makefile  1.1.1.1
+  rootIrfLoader/doc/Doxyfile  1.1.1.1
+  rootIrfLoader/src/mainpage.h  1.1.1.1
+  rootIrfLoader/src/irf_test.C  1.2
+  rootIrfLoader/src/rootIrfLoader/IrfBase.h  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Psf.cxx  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/IrfBase.cxx  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/LinkDef.h  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Aeff.cxx  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Edisp.cxx  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/SkyDir.h  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/SkyDir.cxx  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Aeff.h  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Psf.h  1.1.1.1
+  rootIrfLoader/src/rootIrfLoader/Edisp.h  1.1.1.1
+
+    *
+------------------------------------------------------------
 User: jchiang  Thu Jul 30 15:04:46 PDT 2009
 ScienceTools-scons/irfs/rootIrfLoader
 
