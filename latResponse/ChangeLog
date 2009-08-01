@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Jul 31 21:46:15 PDT 2009
+irfs/latResponse/src
+
+Modified Files:
+	Aeff.cxx Edisp.cxx Edisp.h Edisp2.cxx Edisp2.h Psf.cxx Psf.h 
+Log Message:
+get rid of static variables from handoff_response; use data member instead for caching parameter values
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-15-04, operation: add
 Package: latResponse
