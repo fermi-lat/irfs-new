@@ -76,7 +76,7 @@ double Aeff::phi_modulation(double par0, double par1, double phi) const {
 
 double Aeff::phi_modulation(double logE, double costheta, 
                             double phi, bool interpolate) const {
-   static double par[2];
+   double par[2];
    if (!m_phiDepPars || !m_usePhiDependence) {
       return 1.;
    }
@@ -113,7 +113,7 @@ Aeff::pars(double logE, double costh, bool interpolate) const {
    if (!m_phiDepPars || !m_usePhiDependence) {
       return std::make_pair(1., 0);
    }
-   static double par[2];
+   double par[2];
    m_phiDepPars->getPars(logE, costh, par, interpolate);
    return std::make_pair(par[0], par[1]);
 }

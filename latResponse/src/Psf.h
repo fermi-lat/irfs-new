@@ -130,6 +130,9 @@ private:
 
    PsfIntegralCache * m_integralCache;
 
+   mutable double m_pars[5];
+
+
    /// Hard-wired cut-off value of scaled deviation squared used by
    /// handoff_response. This should be a parameter passed in the IRF
    /// FITS header.

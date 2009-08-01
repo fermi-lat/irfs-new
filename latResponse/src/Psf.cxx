@@ -188,32 +188,31 @@ double Psf::old_integral(double sep, double * pars) {
 }
 
 double * Psf::pars(double energy, double costh) const {
-   static double par[5];
    double loge(std::log10(energy));
    if (costh == 1.0) {  // Why is this necessary?
       costh = 0.9999;
    }
    
    if (loge == m_loge_last && costh == m_costh_last) {
-      return par;
+      return m_pars;
    }
    
    m_loge_last = loge;
    m_costh_last = costh;
    
-   m_parTables.getPars(loge, costh, par);
+   m_parTables.getPars(loge, costh, m_pars);
    
    // Rescale the sigma value after interpolation
-   par[1] *= scaleFactor(energy);
+   m_pars[1] *= scaleFactor(energy);
    
-   if (par[1] == 0 || par[2] == 0 || par[3] == 0) {
+   if (m_pars[1] == 0 || m_pars[2] == 0 || m_pars[3] == 0) {
       std::ostringstream message;
       message << "latResponse::Psf::pars: psf parameters are zero "
               << "when computing solid angle normalization:\n"
               << "\tenergy = " << energy << "\n"
-              << "\tpar[1] = " << par[1] << "\n"
-              << "\tpar[2] = " << par[2] << "\n"
-              << "\tpar[3] = " << par[3] << std::endl;
+              << "\tm_pars[1] = " << m_pars[1] << "\n"
+              << "\tm_pars[2] = " << m_pars[2] << "\n"
+              << "\tm_pars[3] = " << m_pars[3] << std::endl;
       std::cerr << message.str() << std::endl;
       throw std::runtime_error(message.str());
    }
@@ -222,18 +221,18 @@ double * Psf::pars(double energy, double costh) const {
    double norm;
    static double theta_max(M_PI/2.);
    if (energy < 120.) { // Use the *correct* integral of Psf over solid angle.
-      PsfIntegrand foo(par);
+      PsfIntegrand foo(m_pars);
       double err(1e-5);
       int ierr;
       norm = st_facilities::GaussianQuadrature::dgaus8(foo, 0, theta_max,
                                                        err, ierr);
-      par[0] /= norm*2.*M_PI;
+      m_pars[0] /= norm*2.*M_PI;
    } else { // Use small angle approximation.
-      norm = old_integral(theta_max, par);
-      par[0] /= norm*2.*M_PI*par[1]*par[1];
+      norm = old_integral(theta_max, m_pars);
+      m_pars[0] /= norm*2.*M_PI*m_pars[1]*m_pars[1];
    }
 
-   return par;
+   return m_pars;
 }
 
 double Psf::scaleFactor(double energy) const {

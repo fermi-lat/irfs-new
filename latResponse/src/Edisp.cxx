@@ -56,22 +56,21 @@ double Edisp::old_function(double xx, double * pars) {
 }
 
 double * Edisp::pars(double energy, double costh) const {
-   static double par[10]; // Why do we need 10 values?
    double loge(std::log10(energy));
    if (costh == 1.0) {
       costh = 0.9999;   // restriction from handoff_response::RootEval
    }
 
    if (loge == m_loge_last && costh == m_costh_last) {
-      return par;
+      return m_pars;
    }
    
    m_loge_last = loge;
    m_costh_last = costh;
    
    bool interpolate;
-   m_parTables.getPars(loge, costh, par, interpolate=false);
-   return par;
+   m_parTables.getPars(loge, costh, m_pars, interpolate=false);
+   return m_pars;
 }
 
 } // namespace latResponse

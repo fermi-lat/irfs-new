@@ -87,32 +87,31 @@ double Edisp2::scaleFactor(double logE, double costh) const {
 }
 
 double * Edisp2::pars(double energy, double costh) const {
-   static double par[10]; // Why do we need 10 values?
    double loge(std::log10(energy));
    if (costh == 1.0) {
       costh = 0.9999;   // restriction from handoff_response::RootEval
    }
 
    if (loge == m_loge_last && costh == m_costh_last) {
-      return par;
+      return m_pars;
    }
    
    m_loge_last = loge;
    m_costh_last = costh;
    
    bool interpolate;
-   m_parTables.getPars(loge, costh, par, interpolate=false);
+   m_parTables.getPars(loge, costh, m_pars, interpolate=false);
 
    // Ensure proper normalization
-   EdispIntegrand foo(par, energy, scaleFactor(loge, costh), *this);
+   EdispIntegrand foo(m_pars, energy, scaleFactor(loge, costh), *this);
    double err(1e-5);
    int ierr;
    double norm = 
       st_facilities::GaussianQuadrature::dgaus8(foo, energy/10.,
                                                 energy*10., err, ierr);
-   par[0] /= norm;
+   m_pars[0] /= norm;
 
-   return par;
+   return m_pars;
 }
 
 void Edisp2::readScaling(const std::string & fitsfile, 

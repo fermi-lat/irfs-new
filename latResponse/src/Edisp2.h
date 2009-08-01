@@ -66,6 +66,8 @@ private:
    mutable double m_loge_last;
    mutable double m_costh_last;
 
+   mutable double m_pars[10];
+
    double * pars(double energy, double costh) const;
 
    std::vector<double> m_scalePars;
