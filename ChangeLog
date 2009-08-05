@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 TAG
+Tag name: irfs-00-09-03, operation: mov
+Package: irfs
+User: glastrm  Wed Aug  5 14:11:55 2009
+Files:
+  irfs/SConscript  1.4
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: irfs-00-09-03, operation: add
 Package: irfs
 User: glastrm  Wed Aug  5 14:11:49 2009
