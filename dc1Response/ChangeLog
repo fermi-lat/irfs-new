@@ -1,5 +1,32 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-15-00, operation: del
+Package: dc1Response
+User: glastrm  Fri Aug  7 19:04:10 2009
+Files:
+  dc1Response/.cvsignore  1.1.1.1
+  dc1Response/ChangeLog  1.85
+  dc1Response/SConscript  1.4
+  dc1Response/dc1ResponseLib.py  1.2
+  dc1Response/cmt/requirements  1.25
+  dc1Response/dc1Response/loadIrfs.h  1.2
+  dc1Response/dc1Response/IrfLoader.h  1.2
+  dc1Response/doc/release.notes  1.16
+  dc1Response/src/AeffDC1.h  1.5
+  dc1Response/src/PsfDC1.cxx  1.8
+  dc1Response/src/DC1.cxx  1.2
+  dc1Response/src/loadIrfs.cxx  1.9
+  dc1Response/src/DC1.h  1.1.1.1
+  dc1Response/src/IrfLoader.cxx  1.3
+  dc1Response/src/EdispDC1.cxx  1.3
+  dc1Response/src/EdispDC1.h  1.2
+  dc1Response/src/AeffDC1.cxx  1.6
+  dc1Response/src/PsfDC1.h  1.2
+  dc1Response/src/test/test.cxx  1.6
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-15-00, operation: add
 Package: dc1Response
 User: glastrm  Fri Aug  7 18:45:03 2009
