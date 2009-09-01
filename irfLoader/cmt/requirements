@@ -1,5 +1,5 @@
 package irfLoader
-version v0r6p3
+version v1r2p1
 
 author James Chiang <jchiang@slac.stanford.edu>
 
@@ -11,18 +11,27 @@ use st_stream v*
 use tip v*
 use facilities v*
 use st_facilities v*
+use irfInterface v* irfs
+
 use dc1Response v* irfs
 use dc1aResponse v* irfs
 use dc2Response v* irfs
 use g25Response v* irfs
+use latResponse v* irfs
 use testResponse v* irfs
-use handoff_response v* irfs
+#use egretResponse v* irfs
 
 apply_pattern ST_library option=" *.c"
 apply_pattern shared_st_library
 apply_pattern ST_pfiles
 
-apply_pattern ST_app name=gtecorrect
+macro_append ROOT_libs ""\ 	 
+	   Linux " -lTreePlayer -lProof -lGX11 -lHist -lGraf -lGraf3d -lGpad -lThread -lHistPainter"\ 	 
+	   WIN32 " libHist.lib libGraf.lib libGpad.lib libHistPainter.lib"
+
+
+#apply_pattern ST_app name=gtecorrect
+apply_pattern ST_app name=gtirfs
 
 private
 
