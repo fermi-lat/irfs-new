@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jrb  Tue Sep  1 12:42:49 PDT 2009
+ScienceTools-scons/irfs/irfLoader
+
+Modified Files:
+	.cvsignore SConscript 
+Log Message:
+SConscript:  convert to use registerTargets
+.cvsignore:  ignore build/, *.pyc
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-15-01-02, operation: del
 Package: irfLoader
