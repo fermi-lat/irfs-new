@@ -14,4 +14,8 @@ progEnv.Tool('irfLoaderLib')
 progEnv.Tool('addLibrary', library = progEnv['cppunitLibs'])
 test_irfLoaderBin = progEnv.Program('test_irfLoader', listFiles(['src/test/*.cxx']))
 
-progEnv.Tool('registerObjects', package = 'irfLoader', libraries = [irfLoaderLib], testApps = [test_irfLoaderBin], includes = listFiles(['irfLoader/*.h']), pfiles = listFiles(['pfiles/*.par']))
+progEnv.Tool('registerTargets', package = 'irfLoader',
+             staticLibraryCxts = [[irfLoaderLib, libEnv]],
+             testAppCxts = [[test_irfLoaderBin, progEnv]],
+             includes = listFiles(['irfLoader/*.h']),
+             pfiles = listFiles(['pfiles/*.par']))
