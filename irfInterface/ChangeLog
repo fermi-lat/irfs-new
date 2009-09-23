@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Sep 23 10:16:14 PDT 2009
+irfs/irfInterface/irfInterface
+
+Modified Files:
+	EfficiencyFactor.h 
+Log Message:
+new efficiency parameterization
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-15-01-02, operation: del
 Package: irfInterface
