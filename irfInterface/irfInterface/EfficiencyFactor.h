@@ -19,8 +19,6 @@
 
 namespace irfInterface {
 
-   class IAeff;
-
 /**
  * @class EfficiencyFactor
  */
@@ -44,16 +42,6 @@ public:
    void getLivetimeFactors(double energy, double & factor1, 
                            double & factor2) const;
 
-   // Efficiency corrections are evaluated separately for front and
-   // back converting events.  The map_tools::Exposure interface does
-   // not allow for this sort of factoring of the effective area so we
-   // must specify references to the front and back parts and compute
-   // the appropriately weighted livetime factors internally.
-   void setFrontBackAeff(const IAeff & front, const IAeff & back) {
-      m_frontAeff = *front;
-      m_backAeff = *back;
-   }
-
    void readFt2File(std::string ft2file);
 
    void clearFt2Data();
@@ -74,7 +62,8 @@ private:
     */
    class EfficiencyParameter {
    public:
-      Parameter(const std::vector<double> & pars) {
+      EfficiencyParameter() {}
+      EfficiencyParameter(const std::vector<double> & pars) {
          m_a0 = pars.at(0);
          m_b0 = pars.at(1);
          m_a1 = pars.at(2);
@@ -106,9 +95,6 @@ private:
    std::vector<double> m_start;
    std::vector<double> m_stop;
    std::vector<double> m_livetimefrac;
-
-   IAeff * m_frontAeff;
-   IAeff * m_backAeff;
 
    void readPars(std::string parfile);
 

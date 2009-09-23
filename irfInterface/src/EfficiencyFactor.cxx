@@ -28,7 +28,7 @@
 namespace irfInterface {
 
 EfficiencyFactor::
-EfficiencyFactor() : m_havePars(false), m_frontAeff(0), m_backAeff(0) {
+EfficiencyFactor() : m_havePars(false) {
    char * parfile = ::getenv("EFFICIENCY_PAR_FILE");
    if (parfile != 0) {
       readPars(parfile);
@@ -37,8 +37,7 @@ EfficiencyFactor() : m_havePars(false), m_frontAeff(0), m_backAeff(0) {
 }
 
 EfficiencyFactor::
-EfficiencyFactor(const std::string & parfile) 
-   : m_havePars(true), m_frontAeff(0), m_backAeff(0) {
+EfficiencyFactor(const std::string & parfile) : m_havePars(true) {
    readPars(parfile);
 }
 
@@ -61,10 +60,10 @@ readPars(std::string parfile) {
       parVectors.push_back(pars);
    }
 
-   m_p0_front = EfficiencyFactor(parVectors.at(0));
-   m_p1_front = EfficiencyFactor(parVectors.at(1));
-   m_p0_back = EfficiencyFactor(parVectors.at(2));
-   m_p1_back = EfficiencyFactor(parVectors.at(3));
+   m_p0_front = EfficiencyParameter(parVectors.at(0));
+   m_p1_front = EfficiencyParameter(parVectors.at(1));
+   m_p0_back = EfficiencyParameter(parVectors.at(2));
+   m_p1_back = EfficiencyParameter(parVectors.at(3));
 }
 
 
@@ -79,16 +78,16 @@ double EfficiencyFactor::operator()(double energy, double met) const {
    double tmin(m_start.front());
    double tmax(m_stop.back());
    double tol(0);
-   if (time < tmin - tol || time > tmax + tol) {
+   if (met < tmin - tol || met > tmax + tol) {
       std::ostringstream message;
-      message << "Requested time of " << time << " "
+      message << "Requested MET of " << met << " "
               << "lies outside the range of valid times in the "
               << "pointing/livetime history: " 
               << tmin << " to " << tmax << "MET s";
       throw std::runtime_error(message.str());
    }
    std::vector<double>::const_iterator it 
-      = std::upper_bound(m_start.begin(), m_start.end(), time);
+      = std::upper_bound(m_start.begin(), m_start.end(), met);
    size_t indx = it - m_start.begin() - 1;
 
    if (m_start.at(indx) <= met && met <= m_stop.at(indx)) {
@@ -116,8 +115,6 @@ double EfficiencyFactor::value(double energy, double livetimefrac) const {
    if (!m_havePars) {
       return 1;
    }
-
-   double logE(std::log10(energy));
 
    // Since we do not have access to the front and back effective
    // areas separately, just return the average.
