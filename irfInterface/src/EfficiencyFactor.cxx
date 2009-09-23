@@ -1,8 +1,10 @@
 /**
  * @file EfficiencyFactor.cxx
- * @brief Static function that returns the IRF-dependent efficiency
- * correction as a function of livetime fraction based on fits to
- * Vela, Crab, Geminga data (D. Paneque).
+ * @brief Function that returns the IRF-dependent efficiency
+ * corrections as a function of livetime fraction.  This is based on 
+ * ratios of the livetime fraction-dependent effective area (P6_v6_diff) to
+ * the livetime averaged effective area (P6_V3_DIFFUSE).  See
+ * http://confluence.slac.stanford.edu/display/DC2/Efficiency+Correction+Parametrization+as+a+function+of+livetime+fraction+using+MC+(P6_v6_diff)
  *
  * @author J. Chiang
  *
@@ -23,23 +25,10 @@
 
 #include "irfInterface/EfficiencyFactor.h"
 
-namespace {
-   std::string remove_white_space(const std::string & input) {
-      std::string output("");
-      for (std::string::const_iterator it(input.begin()); 
-           it != input.end(); ++it) {
-         if (!isspace(*it)) {
-            output.push_back(*it);
-         }
-      }
-      return output;
-   }
-}
-
 namespace irfInterface {
 
 EfficiencyFactor::
-EfficiencyFactor() : m_havePars(false) {
+EfficiencyFactor() : m_havePars(false), m_frontAeff(0), m_backAeff(0) {
    char * parfile = ::getenv("EFFICIENCY_PAR_FILE");
    if (parfile != 0) {
       readPars(parfile);
@@ -48,7 +37,8 @@ EfficiencyFactor() : m_havePars(false) {
 }
 
 EfficiencyFactor::
-EfficiencyFactor(const std::string & parfile) : m_havePars(true) {
+EfficiencyFactor(const std::string & parfile) 
+   : m_havePars(true), m_frontAeff(0), m_backAeff(0) {
    readPars(parfile);
 }
 
@@ -59,52 +49,48 @@ readPars(std::string parfile) {
    std::vector<std::string> lines;
    st_facilities::Util::readLines(parfile, lines, "#", true);
 
-   std::map<std::string, std::string> parmap;
-
+   std::vector< std::vector<double> > parVectors;
    for (size_t i(0); i < lines.size(); i++) {
-      facilities::Util::keyValueTokenize(::remove_white_space(lines.at(i)),
-                                         ",", parmap, "=", false);
+      std::vector<std::string> tokens;
+      bool clear;
+      facilities::Util::stringTokenize(lines.at(i), " ", tokens, clear=true);
+      std::vector<double> pars;
+      for (size_t j(0); j < tokens.size(); j++) {
+         pars.push_back(std::atof(tokens.at(j).c_str()));
+      }
+      parVectors.push_back(pars);
    }
 
-   m_offset_p0 = std::atof(parmap["offset_p0"].c_str());
-   m_offset_p1 = std::atof(parmap["offset_p1"].c_str());
-   m_slope_p0 = std::atof(parmap["slope_p0"].c_str());
-   m_slope_p1 = std::atof(parmap["slope_p1"].c_str());
-   m_rate_p0 = std::atof(parmap["rate_p0"].c_str());
-   m_rate_p1 = std::atof(parmap["rate_p1"].c_str());
-   m_maxE = std::atof(parmap["maxE"].c_str());
+   m_p0_front = EfficiencyFactor(parVectors.at(0));
+   m_p1_front = EfficiencyFactor(parVectors.at(1));
+   m_p0_back = EfficiencyFactor(parVectors.at(2));
+   m_p1_back = EfficiencyFactor(parVectors.at(3));
 }
 
 
 double EfficiencyFactor::operator()(double energy, double met) const {
-   if (!m_havePars || m_start.empty() || energy > m_maxE) {
+   if (!m_havePars || m_start.empty()) {
       return 1;
    }
    double ltfrac;
 
-   size_t indx = static_cast<size_t>((met - m_start.front())/m_dt);
-// Intervals may not be uniform, so must do a search.  The offsets
-// from the computed index should be constant and small over large
-// ranges, so a linear search from the computed point is reasonable.
-   indx = std::min(indx, m_start.size()-1);
-   if (m_start.at(indx) > met) {
-      while (m_start.at(indx) > met && indx > 0) {
-         indx--;
-      }
-      if (m_start.at(indx) <= met && met <= m_stop.at(indx)) {
-         ltfrac = m_livetimefrac.at(indx);
-      } else { // This may occur if there are gaps in the FT2 file.
-         std::ostringstream message;
-         message << "Input MET value " << met 
-                 << " lies outside any interval in the spacecraft data.";
-         throw std::runtime_error(message.str());
-      }
+// Find the interval corresponedng to the desired met.  Intervals may
+// not be uniform, so must do a search.  
+   double tmin(m_start.front());
+   double tmax(m_stop.back());
+   double tol(0);
+   if (time < tmin - tol || time > tmax + tol) {
+      std::ostringstream message;
+      message << "Requested time of " << time << " "
+              << "lies outside the range of valid times in the "
+              << "pointing/livetime history: " 
+              << tmin << " to " << tmax << "MET s";
+      throw std::runtime_error(message.str());
    }
-// Ensure we have not fallen short of the desired interval.
-   while (m_start.at(indx) < met && indx < m_start.size()) {
-      ++indx;
-   }
-   --indx;
+   std::vector<double>::const_iterator it 
+      = std::upper_bound(m_start.begin(), m_start.end(), time);
+   size_t indx = it - m_start.begin() - 1;
+
    if (m_start.at(indx) <= met && met <= m_stop.at(indx)) {
       ltfrac = m_livetimefrac.at(indx);
    }
@@ -112,30 +98,48 @@ double EfficiencyFactor::operator()(double energy, double met) const {
    return value(energy, ltfrac);
 }
 
-double EfficiencyFactor::value(double energy, double livetimefrac) const {
-   if (!m_havePars || energy > m_maxE) {
+double EfficiencyFactor::value(double energy, double livetimefrac,
+                               bool front) const {
+   if (!m_havePars) {
       return 1;
    }
 
-   double offset(m_offset_p0 + m_offset_p1*std::log10(energy));
-   double slope(m_slope_p0 + m_slope_p1*std::log10(energy));
-   double rate(m_rate_p0 + m_rate_p1*livetimefrac);
+   double logE(std::log10(energy));
 
-   return offset + slope*rate;
+   if (front) {
+      return m_p0_front(logE)*livetimefrac + m_p1_front(logE);
+   } 
+   return m_p0_back(logE)*livetimefrac + m_p1_back(logE);
+}
+
+double EfficiencyFactor::value(double energy, double livetimefrac) const {
+   if (!m_havePars) {
+      return 1;
+   }
+
+   double logE(std::log10(energy));
+
+   // Since we do not have access to the front and back effective
+   // areas separately, just return the average.
+   return (value(energy, livetimefrac, true) + 
+           value(energy, livetimefrac, false))/2.;
 }
 
 void EfficiencyFactor::
 getLivetimeFactors(double energy, double & factor1, double & factor2) const {
-   if (!m_havePars || energy > m_maxE) {
+   if (!m_havePars) {
       factor1 = 1;
       factor2 = 0;
       return;
    }
-   double log10E(std::log10(energy));
-   double offset(m_offset_p0 + m_offset_p1*log10E);
-   double slope(m_slope_p0 + m_slope_p1*log10E);
-   factor1 = offset + m_rate_p0*slope;
-   factor2 = m_rate_p1*slope;
+   double logE(std::log10(energy));
+
+   // Since we do not have access to the front and back effective
+   // areas separately, just return the averages.  We would really
+   // want to return the averages weighted by effective area (as a function
+   // of energy and theta).
+   factor1 = (m_p1_front(logE) + m_p1_back(logE))/2.;
+   factor2 = (m_p0_front(logE) + m_p0_back(logE))/2.;
 }
 
 void EfficiencyFactor::readFt2File(std::string ft2file) {
