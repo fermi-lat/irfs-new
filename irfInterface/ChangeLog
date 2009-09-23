@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Sep 23 10:16:15 PDT 2009
+irfs/irfInterface/src
+
+Modified Files:
+	EfficiencyFactor.cxx 
+Log Message:
+new efficiency parameterization
+    *
+------------------------------------------------------------
 User: jchiang  Wed Sep 23 10:16:14 PDT 2009
 irfs/irfInterface/irfInterface
 
