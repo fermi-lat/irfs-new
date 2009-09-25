@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Fri Sep 25 07:32:11 PDT 2009
+irfs/irfInterface/src
+
+Modified Files:
+	EfficiencyFactor.cxx 
+Log Message:
+add #include <algorithm>
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfInterface-02-04-00, operation: add
 Package: irfInterface
