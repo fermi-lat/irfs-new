@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 User: rando  Wed Sep 30 07:57:07 PDT 2009
+irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+First implementation of the new psf function
+
+    *
+------------------------------------------------------------
+User: rando  Wed Sep 30 07:57:07 PDT 2009
 irfs/handoff_response/data
 
 Modified Files:
