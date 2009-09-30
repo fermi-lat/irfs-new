@@ -21,10 +21,10 @@ namespace {
     static int nbins=75;
 
     // specify fit function
-    static const char* names[] = {"ncore", "sigma", "gcore","gtail"};
-    static double pinit[] = {1,    0.5,  2.5, 1.5};
-    static double pmin[] =  {0.01, 0.15, 1.001, 1.001};
-    static double pmax[] =  {10.,  2.0,  5.0, 5.0};
+    static const char* names[] = {"ncore", "ntail" , "score" , "stail", "gcore", "gtail"};
+    static double pinit[] = {0.2, 0.05,  0.5, 2.5,  2, 3};
+    static double pmin[] =  {1e-6, 1e-6,  0.1, 0.1,  1.001, 1.001};
+    static double pmax[] =  {1., 1.,  5.0, 5.0,  20.0, 20.0};
 
     static double fitrange[] = {xmin, xmax};
     static double ub = 10.;  // revisit this choice of ub
@@ -52,29 +52,39 @@ namespace {
     double psf_with_tail(double * logx, double * p)
     {
        double ncore(p[0]);
-       double sigma(p[1]);
-       double gcore(p[2]);
-       double gtail(p[3]);
-       double ntail = ncore*(psf_base(ub, sigma, gcore)
-                             /psf_base(ub, sigma, gtail));
-       double r = pow(10., (*logx))/sigma;
-       double u = r*r/2.;
-       return (ncore*psf_base(u, sigma, gcore) +
-               ntail*psf_base(u, sigma, gtail));
+       double ntail(p[1]);
+       double score(p[2]);
+       double stail(p[3]);
+       double gcore(p[4]);
+       double gtail(p[5]);
+
+       double x = pow(10., (*logx));
+       double rcore = x/score;
+       double rtail = x/stail;
+       double ucore = rcore*rcore/2.;
+       double utail = rtail*rtail/2.;
+
+       return (ncore*psf_base(ucore, score, gcore) +
+               ntail*ncore*psf_base(utail, stail, gtail));
     }
 
     double psf_integral(double * logx, double * p)
     {
        double ncore(p[0]);
-       double sigma(p[1]);
-       double gcore(p[2]);
-       double gtail(p[3]);
-       double ntail = ncore*(psf_base(ub, sigma, gcore)
-                             /psf_base(ub, sigma, gtail));
-       double r = pow(10., (*logx))/sigma;
-       double u = r*r/2.;
-       return (ncore*psf_base_integral(u, sigma, gcore) + 
-               ntail*psf_base_integral(u, sigma, gtail));
+       double ntail(p[1]);
+       double score(p[2]);
+       double stail(p[3]);
+       double gcore(p[4]);
+       double gtail(p[5]);
+
+       double x = pow(10., (*logx));
+       double rcore = x/score;
+       double rtail = x/stail;
+       double ucore = rcore*rcore/2.;
+       double utail = rtail*rtail/2.;
+
+       return (ncore*psf_base_integral(ucore, score, gcore) + 
+               ntail*ncore*psf_base_integral(utail, stail, gtail));
     }
 
     TH1F* cumulative_hist(TH1F& h)
@@ -100,29 +110,37 @@ namespace {
 double PointSpreadFunction::function(double * x, double * p)
 {
    double ncore(p[0]);
-   double sigma(p[1]);
-   double gcore(p[2]);
-   double gtail(p[3]);
-   double ntail = ncore*(psf_base(ub, sigma, gcore)
-                         /psf_base(ub, sigma, gtail));
-   double r = *x/sigma;
-   double u = r*r/2.;
-   return (ncore*psf_base(u, sigma, gcore) +
-           ntail*psf_base(u, sigma, gtail));
+   double ntail(p[1]);
+   double score(p[2]);
+   double stail(p[3]);
+   double gcore(p[4]);
+   double gtail(p[5]);
+
+   double rcore = *x/score;
+   double rtail = *x/stail;
+   double ucore = rcore*rcore/2.;
+   double utail = rtail*rtail/2.;
+
+   return (ncore*psf_base(ucore, score, gcore) +
+           ntail*ncore*psf_base(utail, stail, gtail));
 }
 
 double PointSpreadFunction::integral(double * x, double * p)
 {
    double ncore(p[0]);
-   double sigma(p[1]);
-   double gcore(p[2]);
-   double gtail(p[3]);
-   double ntail = ncore*(psf_base(ub, sigma, gcore)
-                         /psf_base(ub, sigma, gtail));
-   double r = *x/sigma;
-   double u = r*r/2.;
-   return (ncore*psf_base_integral(u, sigma, gcore) + 
-           ntail*psf_base_integral(u, sigma, gtail));
+   double ntail(p[1]);
+   double score(p[2]);
+   double stail(p[3]);
+   double gcore(p[4]);
+   double gtail(p[5]);
+
+   double rcore = *x/score;
+   double rtail = *x/stail;
+   double ucore = rcore*rcore/2.;
+   double utail = rtail*rtail/2.;
+
+   return (ncore*psf_base_integral(ucore, score, gcore) + 
+	   ntail*ncore*psf_base_integral(utail, stail, gtail));
 }
 
 const char* PointSpreadFunction::parname(int i){return names[i];}
