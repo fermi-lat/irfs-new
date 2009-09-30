@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: rando  Wed Sep 30 07:57:07 PDT 2009
+irfs/handoff_response/data
+
+Modified Files:
+	psf.tpl 
+Log Message:
+First implementation of the new psf function
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-15-05, operation: add
 Package: handoff_response
