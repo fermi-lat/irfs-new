@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: glastrm  Tue Oct 20 08:19:42 PDT 2009
+irfs/irfInterface
+
+Modified Files:
+	SConscript 
+Log Message:
+added missing data file
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-15-05, operation: add
 Package: irfInterface
