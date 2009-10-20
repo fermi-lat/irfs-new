@@ -21,4 +21,5 @@ test_irfInterfaceBin = progEnv.Program('test_irfInterface',
 progEnv.Tool('registerTargets', package='irfInterface', 
              staticLibraryCxts=[[irfInterfaceLib, libEnv]], 
              testAppCxts=[[test_irfInterfaceBin, progEnv]], 
-             includes=listFiles(['irfInterface/*.h']))
+             includes=listFiles(['irfInterface/*.h']),
+             data=['data/P6_V3_DIFFUSE_eff.txt'])
