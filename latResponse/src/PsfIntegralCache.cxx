@@ -147,7 +147,7 @@ void PsfIntegralCache::setupAngularIntegrals() {
 void PsfIntegralCache::fillParamArrays() {
    size_t npsi(500);
    double psimin(0);
-   double psimax(60*M_PI/180.);
+   double psimax(180*M_PI/180.);
    linearArray(psimin, psimax, npsi, m_psis);
 
    size_t ngam(50);
