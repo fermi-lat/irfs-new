@@ -151,6 +151,7 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    psf.setCbdValue("VERSION", irfVersion);
    psf.setCbdValue("CLASS", latclass);
    psf.setKeyword("DETNAM", detname);
+   psf.setKeyword("PSFVER", 2);
    psf.close();
    
    /// @bug These are hard-wired values from
