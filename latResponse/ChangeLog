@@ -1,5 +1,16 @@
 ------------------------------------------------------------
 User: jchiang  Thu Nov 12 14:36:45 PST 2009
+irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx Psf.h 
+Added Files:
+	Psf2.cxx Psf2.h 
+Log Message:
+add Psf2 subclass for new PSF implementation
+    *
+------------------------------------------------------------
+User: jchiang  Thu Nov 12 14:36:45 PST 2009
 irfs/latResponse/latResponse
 
 Modified Files:
