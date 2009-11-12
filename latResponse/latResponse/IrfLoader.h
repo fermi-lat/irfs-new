@@ -77,6 +77,8 @@ private:
 
    int edispVersion(const std::string & fitsfile) const;
 
+   int psfVersion(const std::string & fitsfile) const;
+
 };
 
 } // namespace latResponse

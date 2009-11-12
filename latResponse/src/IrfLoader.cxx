@@ -34,6 +34,7 @@
 #include "Edisp.h"
 #include "Edisp2.h"
 #include "Psf.h"
+#include "Psf2.h"
 
 namespace latResponse {
 
@@ -129,10 +130,18 @@ void IrfLoader::addIrfs(const std::string & aeff_file,
       std::string class_name(subclasses(irfName).at(i));
       if (convType == 0) {
          class_name += "::FRONT";
-         psf = new Psf(psf_file, true, "RPSF", i);
+         if (psfVersion(psf_file) == 2) {
+            psf = new Psf2(psf_file, true, "RPSF", i);
+         } else {
+            psf = new Psf(psf_file, true, "RPSF", i);
+         }
       } else {
          class_name += "::BACK";
-         psf = new Psf(psf_file, false, "RPSF", i);
+         if (psfVersion(psf_file) == 2) {
+            psf = new Psf2(psf_file, false, "RPSF", i);
+         } else {
+            psf = new Psf(psf_file, false, "RPSF", i);
+         }
       }
       irfInterface::IEdisp * edisp(0);
       if (edispVersion(edisp_file) == 2) {
@@ -318,6 +327,21 @@ int IrfLoader::edispVersion(const std::string & fitsfile) const {
       table->getHeader()["EDISPVER"].get(version);
    } catch (tip::TipException & eObj) {
       /// EDISPVER keyword is (probably) missing, so assume default version
+   }
+   delete table;
+   return version;
+}
+
+int IrfLoader::psfVersion(const std::string & fitsfile) const {
+   std::string extname;
+   st_facilities::FitsUtil::getFitsHduName(fitsfile, 2, extname);
+   const tip::Table * table = 
+      tip::IFileSvc::instance().readTable(fitsfile, extname);
+   int version(1);
+   try {
+      table->getHeader()["PSFVER"].get(version);
+   } catch (tip::TipException & eObj) {
+      /// PSFVER keyword is (probably) missing, so assume default version
    }
    delete table;
    return version;

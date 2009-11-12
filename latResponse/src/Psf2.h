@@ -1,13 +1,13 @@
 /**
- * @file Psf.h
- * @brief Psf class declaration.
+ * @file Psf2.h
+ * @brief Psf2 class declaration.
  * @author J. Chiang
  *
  * $Header$
  */
 
-#ifndef latResponse_Psf_h
-#define latResponse_Psf_h
+#ifndef latResponse_Psf2_h
+#define latResponse_Psf2_h
 
 #include <cmath>
 
@@ -15,8 +15,10 @@
 #include <string>
 #include <vector>
 
-#include "irfInterface/IPsf.h"
-#include "irfInterface/AcceptanceCone.h"
+// #include "irfInterface/IPsf.h"
+// #include "irfInterface/AcceptanceCone.h"
+
+#include "Psf.h"
 
 #include "latResponse/ParTables.h"
 
@@ -25,22 +27,22 @@ namespace latResponse {
 class PsfIntegralCache;
 
 /**
- * @class Psf
+ * @class Psf2
  *
- * @brief A LAT point-spread function class for post-handoff review IRFs.
+ * @brief Revised PSF that is the sum of two King model functions.
+ * See http://confluence.slac.stanford.edu/x/bADIAw
  *
  */
 
-class Psf : public irfInterface::IPsf {
+// class Psf2 : public irfInterface::IPsf {
+class Psf2 : public Psf {
 
 public:
 
-   Psf(const std::string & fitsfile, bool isFront=true,
-       const std::string & extname="RPSF", size_t nrow=0);
+   Psf2(const std::string & fitsfile, bool isFront=true,
+        const std::string & extname="RPSF", size_t nrow=0);
 
-   Psf(const Psf & rhs);
-
-   virtual ~Psf();
+   Psf2(const Psf2 & rhs);
 
    /// A member function returning the point-spread function value.
    /// @param appDir Apparent (reconstructed) photon direction.
@@ -89,71 +91,42 @@ public:
    virtual double angularIntegral(double energy, double theta, double phi,
                                   double radius, double time=0) const;
 
-   virtual Psf * clone() {
-      return new Psf(*this);
+   virtual Psf2 * clone() {
+      return new Psf2(*this);
    }
 
-   double scaleFactor(double energy) const;
-
-   double scaleFactor(double energy, bool isFront) const;
-
    /// Functions from handoff_response.
-   static double old_base_function(double u, double sigma, double gamma);
+   static double psf_base_function(double u, double gamma);
 
-   static double old_base_integral(double u, double sigma, double gamma);
+   static double psf_base_integral(double u, double gamma);
 
-   static double old_integral(double sep, double * pars);
+   static double psf_integral(double sep, double * pars);
 
-   static double old_function(double sep, double * pars);
+   static double psf_function(double sep, double * pars);
 
 protected:
 
    /// Disable this.
-   Psf & operator=(const Psf &) {
+   Psf2 & operator=(const Psf2 &) {
       return *this;
    }
-
-   ParTables m_parTables;
-
-   // PSF scaling parameters
-   double m_par0;
-   double m_par1;
-   double m_index;
-
-   // store all of the PSF parameters
-   std::vector<double> m_psf_pars;
-
-   mutable double m_loge_last;
-   mutable double m_costh_last;
-
-   PsfIntegralCache * m_integralCache;
-
-   mutable double m_pars[6];
-
-   /// Hard-wired cut-off value of scaled deviation squared used by
-   /// handoff_response. This should be a parameter passed in the IRF
-   /// FITS header.
-   static double s_ub;
-
-   void readScaling(const std::string & fitsfile, bool isFront,
-                    const std::string & extname="PSF_SCALING_PARAMS");
 
 private:
 
    double * pars(double energy, double costh) const;
 
    /**
-    * @class PsfIntegrand
+    * @class Psf2Integrand
     * @brief Functor used for integrating the PSF to get the proper
     * normalization.
     */
-   class PsfIntegrand {
+   class Psf2Integrand {
    public:
-      PsfIntegrand(double * pars) : m_pars(pars) {}
+      Psf2Integrand(double * pars) : m_pars(pars) {}
 
       /// @param sep angle between true direction and measured (radians)
       double operator()(double sep) const {
-         return old_function(sep, m_pars)*std::sin(sep);
+         return psf_function(sep, m_pars)*std::sin(sep);
       }
    private:
       double * m_pars;
@@ -163,4 +136,4 @@ private:
 
 } // namespace latResponse
 
-#endif // latResponse_Psf_h
+#endif // latResponse_Psf2_h
