@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Nov 12 13:00:17 PST 2009
+irfs/handoff_response/data
+
+Modified Files:
+	psf.tpl 
+Log Message:
+add versioning information to PSF file header
+    *
+------------------------------------------------------------
 User: rando  Wed Sep 30 07:57:08 PDT 2009
 irfs/handoff_response/src/gen
 
