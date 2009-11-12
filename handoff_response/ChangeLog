@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Nov 12 13:00:18 PST 2009
+irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+add versioning information to PSF file header
+    *
+------------------------------------------------------------
 User: jchiang  Thu Nov 12 13:00:17 PST 2009
 irfs/handoff_response/data
 
