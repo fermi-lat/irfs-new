@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Nov 15 12:28:05 PST 2009
+irfs/latResponse/src
+
+Modified Files:
+	Psf2.cxx Psf2.h PsfIntegralCache.cxx PsfIntegralCache.h 
+Log Message:
+instrument PsfIntegralCache a bit
+    *
+------------------------------------------------------------
 User: jchiang  Thu Nov 12 14:36:45 PST 2009
 irfs/latResponse/src
 
