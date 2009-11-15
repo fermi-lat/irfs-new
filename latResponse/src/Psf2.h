@@ -44,6 +44,8 @@ public:
 
    Psf2(const Psf2 & rhs);
 
+   virtual ~Psf2();
+
    /// A member function returning the point-spread function value.
    /// @param appDir Apparent (reconstructed) photon direction.
    /// @param energy True photon energy in MeV.

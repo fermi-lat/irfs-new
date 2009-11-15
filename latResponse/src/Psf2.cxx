@@ -37,9 +37,8 @@ Psf2::Psf2(const std::string & fitsfile, bool isFront,
 
 Psf2::Psf2(const Psf2 & rhs) : Psf(rhs) {}
 
-// Psf2::~Psf2() {
-//    delete m_integralCache;
-// }
+Psf2::~Psf2() {
+}
 
 double Psf2::value(const astro::SkyDir & appDir, 
                    double energy, 

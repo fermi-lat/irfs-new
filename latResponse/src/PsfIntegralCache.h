@@ -61,6 +61,9 @@ private:
    mutable std::vector< std::vector<bool> > m_needIntegral;
    mutable std::vector< std::vector<double> > m_angularIntegral;
 
+   mutable int m_calls;
+   mutable int m_interpolations;
+
    void linearArray(double xmin, double xmax, size_t nx,
                     std::vector<double> & xx, bool clear=true) const;
 

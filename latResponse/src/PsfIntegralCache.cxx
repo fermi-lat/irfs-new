@@ -20,17 +20,22 @@ namespace latResponse {
 
 PsfIntegralCache::
 PsfIntegralCache(const Psf & psf, irfInterface::AcceptanceCone & cone) 
-   : m_psf(psf), m_acceptanceCone(cone.clone()) {
+   : m_psf(psf), m_acceptanceCone(cone.clone()), 
+     m_calls(0), m_interpolations(0) {
    fillParamArrays();
    setupAngularIntegrals();
 }
 
 PsfIntegralCache::~PsfIntegralCache() {
+   std::cout << "PsfIntegralCache calls: " << m_calls << "\n"
+             << "PsfIntegralCache interpolations: " 
+             << m_calls - m_interpolations << std::endl;
    delete m_acceptanceCone;
 }
 
 double PsfIntegralCache::
 angularIntegral(double sigma, double gamma, size_t ipsi) const {
+   m_calls++;
    if (sigma < m_sigmas.front() || sigma > m_sigmas.back() ||
        gamma < m_gammas.front() || gamma > m_gammas.back()) {
       return psfIntegral(m_psis.at(ipsi), sigma, gamma);
@@ -48,6 +53,7 @@ angularIntegral(double sigma, double gamma, size_t ipsi) const {
       for (size_t j(0); j < 2; j++) {
          size_t indx(is[i]*m_gammas.size() + ig[j]);
          if (m_needIntegral.at(ipsi).at(indx)) {
+            m_interpolations++;
             m_angularIntegral.at(ipsi).at(indx) =
                psfIntegral(m_psis.at(ipsi), m_sigmas.at(is[i]), 
                            m_gammas.at(ig[j]))
