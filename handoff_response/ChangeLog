@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Nov 15 15:08:30 PST 2009
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+tagging v4r4p0
+    *
+------------------------------------------------------------
 User: jchiang  Thu Nov 12 13:00:18 PST 2009
 irfs/handoff_response/src/fits/make_fits
 
