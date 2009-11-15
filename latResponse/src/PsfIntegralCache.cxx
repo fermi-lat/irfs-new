@@ -13,6 +13,8 @@
 
 #include "st_facilities/GaussianQuadrature.h"
 
+#include "st_stream/StreamFormatter.h"
+
 #include "Psf.h"
 #include "PsfIntegralCache.h"
 
@@ -21,15 +23,23 @@ namespace latResponse {
 PsfIntegralCache::
 PsfIntegralCache(const Psf & psf, irfInterface::AcceptanceCone & cone) 
    : m_psf(psf), m_acceptanceCone(cone.clone()), 
-     m_calls(0), m_interpolations(0) {
+     m_calls(0), m_interpolations(0), m_cpuTotal(0),
+     m_gamma_avg(0), m_sigma_avg(0), m_integralEvals(0) {
    fillParamArrays();
    setupAngularIntegrals();
 }
 
 PsfIntegralCache::~PsfIntegralCache() {
-   std::cout << "PsfIntegralCache calls: " << m_calls << "\n"
-             << "PsfIntegralCache interpolations: " 
-             << m_calls - m_interpolations << std::endl;
+   st_stream::StreamFormatter formatter("latResponse", "", 3);
+   formatter.info() << "PsfIntegralCache calls: " << m_calls << "\n"
+                    << "PsfIntegralCache interpolations: " 
+                    << m_calls - m_interpolations << std::endl
+                    << "CPU time in psfIntegral (s): " << m_cpuTotal << "\n"
+                    << "Avg. CPU time per integral (s): " 
+                    << m_cpuTotal/m_interpolations << std::endl
+                    << "Avg. gamma: " << m_gamma_avg/m_integralEvals << "\n"
+                    << "Avg. sigma: " << m_sigma_avg/m_integralEvals 
+                    << std::endl;
    delete m_acceptanceCone;
 }
 
@@ -84,12 +94,19 @@ double PsfIntegralCache::bilinear(double sigma, double gamma, size_t ipsi,
 
 double PsfIntegralCache::
 psfIntegral(double psi, double sigma, double gamma) const {
+   std::clock_t start_time(std::clock());
+
+   m_gamma_avg += gamma;
+   m_sigma_avg += sigma;
+   m_integralEvals ++;
+
    double roi_radius(m_acceptanceCone->radius()*M_PI/180.);
    double one(1.);
    double mup(std::cos(roi_radius + psi));
    double mum(std::cos(roi_radius - psi));
 
-   double err(1e-5);
+//   double err(1e-5);
+   double err(1e-3);
    int ierr(0);
 
    double firstIntegral(0);
@@ -106,6 +123,7 @@ psfIntegral(double psi, double sigma, double gamma) const {
       st_facilities::GaussianQuadrature::dgaus8(psfIntegrand2, mup, mum, 
                                                 err, ierr);
    
+   m_cpuTotal += (std::clock() - start_time)/1e6;
    return firstIntegral + secondIntegral;
 }
 

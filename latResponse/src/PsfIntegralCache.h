@@ -12,6 +12,8 @@
 #ifndef latResponse_PsfIntegralCache_h
 #define latResponse_PsfIntegralCache_h
 
+#include <ctime>
+
 #include <vector>
 
 namespace irfInterface {
@@ -63,6 +65,12 @@ private:
 
    mutable int m_calls;
    mutable int m_interpolations;
+
+   mutable double m_cpuTotal;
+
+   mutable double m_gamma_avg;
+   mutable double m_sigma_avg;
+   mutable double m_integralEvals;
 
    void linearArray(double xmin, double xmax, size_t nx,
                     std::vector<double> & xx, bool clear=true) const;
