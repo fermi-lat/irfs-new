@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Nov 16 08:16:08 PST 2009
+irfs/handoff_response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+disable tests since loading of older irfs is broken by non-backwards compatible changes to PointSpreadFunction implementation
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-04-04-00, operation: add
 Package: handoff_response
