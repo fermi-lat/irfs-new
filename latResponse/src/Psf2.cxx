@@ -63,12 +63,27 @@ double Psf2::value(double separation, double energy, double theta,
 
 double Psf2::angularIntegral(double energy, double theta, 
                              double phi, double radius, double time) const {
-//    double time(0);
-//    double integral = IPsf::angularIntegral(energy, theta, phi, radius, time);
-   (void)(phi);
-   (void)(time);
+   if (energy < 120.) {
+      double integral = IPsf::angularIntegral(energy, theta, phi, radius, time);
+      return integral;
+   }
    double * my_pars(pars(energy, std::cos(theta*M_PI/180.)));
-   return psf_integral(radius*M_PI/180., my_pars)*(2.*M_PI*::sqr(my_pars[1]));
+
+   double ncore(my_pars[0]);
+   double ntail(my_pars[1]);
+   double score(my_pars[2]);
+   double stail(my_pars[3]);
+   double gcore(my_pars[4]);
+   double gtail(my_pars[5]);
+
+   double sep = radius*M_PI/180.;
+   double rc = sep/score;
+   double uc = rc*rc/2.;
+
+   double rt = sep/stail;
+   double ut = rt*rt/2.;
+   return (ncore*psf_base_integral(uc, gcore)*2.*M_PI*::sqr(score) + 
+           ntail*psf_base_integral(ut, gtail)*2.*M_PI*::sqr(stail));
 }
 
 double Psf2::angularIntegral(double energy,

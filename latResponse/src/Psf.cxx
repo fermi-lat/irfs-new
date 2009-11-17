@@ -73,10 +73,10 @@ double Psf::value(double separation, double energy, double theta,
 
 double Psf::angularIntegral(double energy, double theta, 
                             double phi, double radius, double time) const {
-//    double time(0);
-//    double integral = IPsf::angularIntegral(energy, theta, phi, radius, time);
-   (void)(phi);
-   (void)(time);
+   if (energy < 120.) {
+      double integral = IPsf::angularIntegral(energy, theta, phi, radius, time);
+      return integral;
+   }
    double * my_pars(pars(energy, std::cos(theta*M_PI/180.)));
    return old_integral(radius*M_PI/180., my_pars)*(2.*M_PI*::sqr(my_pars[1]));
 }
