@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-02-04-01 17-Nov-2009 jchiang bug-fix for Psf2::angularIntegral for source-centered case
  latResponse-02-04-00 15-Nov-2009 jchiang Psf2 implementation
  latResponse-02-03-00 28-Oct-2009 jchiang extend psf integral cache to 180 deg
  latResponse-02-02-08 31-Jul-2009 jchiang get rid of static par[] variables from handoff_response, use data member instead to store parameter values
