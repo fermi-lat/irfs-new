@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Nov 18 13:01:45 PST 2009
+irfs/handoff_response/src/fits/add_efficiency_pars
+
+Added Files:
+	add_efficiency_pars.cxx 
+Log Message:
+add add_efficiency_pars application
+    *
+------------------------------------------------------------
 User: jchiang  Wed Nov 18 13:01:44 PST 2009
 irfs/handoff_response/data
 
