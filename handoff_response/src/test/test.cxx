@@ -310,6 +310,8 @@ void HandoffResponseTests::edisp_sampling() {
 }
 
 int main(int argc, char* argv[]) {
+   (void)(argc);
+   (void)(argv);
 #ifdef TRAP_FPE
 // Add floating point exception traps.
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);

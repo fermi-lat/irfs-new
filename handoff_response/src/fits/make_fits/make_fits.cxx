@@ -138,6 +138,14 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    phi_dep.setTableData("PHIDEP1", irfTables["phi_dep_1"].values());
    phi_dep.close();
 
+// The efficiency correction parameters will be filled with zeros by
+// default, indicating that no corrections have been computed.  This
+// extension can be filled later with a separate application.  If
+// there were a way to automate the efficiency parameter calculation,
+// then appropriate code could go here.
+//    FitsFile efficiency("aeff_" + latclass + ".fits", "EFFICIENCY_PARAMS", 
+//                        "aeff.tpl", newFile=false);
+
 // Point spread function and angular deviation scaling parameters
    std::string psf_file("psf_" + latclass + ".fits");
    FitsFile psf(psf_file, "RPSF", "psf.tpl");

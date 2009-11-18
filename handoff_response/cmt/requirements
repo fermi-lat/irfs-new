@@ -66,5 +66,7 @@ application makeirf -s=gen/makeirf $(source)
 
 application make_fits -s=fits/make_fits $(source)
 
+application add_efficiency_pars -s=fits/add_efficiency_pars $(source)
+
 application aeff_phi_dep aeff_phi_dep/aeff_phi_dep.cxx
 

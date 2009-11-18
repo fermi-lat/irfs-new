@@ -112,3 +112,23 @@ EARVERSN= '1992a   '           /
 2CTYP5  = 'COSTHETA'           / Off-axis angle cosine                         
 CREF5   = '(ENERG_LO:ENERG_HI,CTHETA_LO:CTHETA_HI)' /                          
 END
+
+XTENSION =             BINTABLE / Binary table extension
+BITPIX   =                    8 / Bits per pixel
+NAXIS    =                    2 / Required value
+NAXIS1   =                   48 / Number of bytes per row
+NAXIS2   =                    6 / Number of rows
+PCOUNT   =                    0 / Normally 0 (no varying arrays)
+GCOUNT   =                    1 / Required value
+TFIELDS  =                    1 / Number of columns in table
+EXTNAME  =    EFFICIENCY_PARAMS / Extension name
+TELESCOP =                GLAST / Telescope or mission name
+INSTRUME =                  LAT / Instrument name
+FILTER   =                      / Instrument filter in use (if any)
+HDUCLASS =                 OGIP / Format confirms to OGIP standard
+HDUCLAS1 =             RESPONSE / Extension contains response data
+HDUCLAS2 =            PSFPARAMS / Extension contains response matrix
+HDUVERS  =                1.2.0 / Version number of the format
+TTYPE1   = 'EFFICIENCY_PARS'    / Trigger rate dependent efficiency parameters
+TFORM1   = 6E                   / Data format of this field
+END
