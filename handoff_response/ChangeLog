@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Nov 18 13:01:44 PST 2009
+irfs/handoff_response/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add add_efficiency_pars application
+    *
+------------------------------------------------------------
 User: jchiang  Wed Nov 18 13:00:52 PST 2009
 irfs/handoff_response/src/fits/add_efficiency_pars
 
