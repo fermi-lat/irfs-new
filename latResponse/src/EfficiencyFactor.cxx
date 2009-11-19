@@ -82,13 +82,23 @@ void EfficiencyFactor::readFitsFile(const std::string & fitsfile) {
    long nrows;
    table->getHeader()["NAXIS2"].get(nrows);
 
+   bool all_zeros(true);
    std::vector< std::vector<double> > parVectors;
    for (size_t i(0); i < static_cast<unsigned long>(nrows); i++) {
       std::vector<float> fltValues;
       FitsTable::getVectorData(table, "EFFICIENCY_PARS", fltValues, i);
+      for (size_t j(0); j < fltValues.size(); j++) {
+         if (fltValues.at(j) != 0) {
+            all_zeros = false;
+         }
+      }
       std::vector<double> values(fltValues.size(), 0);
       std::copy(fltValues.begin(), fltValues.end(), values.begin());
       parVectors.push_back(values);
+   }
+   if (all_zeros) {
+      m_havePars = false;
+      return;
    }
    m_p0_front = EfficiencyParameter(parVectors.at(0));
    m_p1_front = EfficiencyParameter(parVectors.at(1));
