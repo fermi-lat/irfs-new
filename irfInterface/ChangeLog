@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Nov 18 22:49:41 PST 2009
+irfs/irfInterface/irfInterface
+
+Modified Files:
+	Irfs.h 
+Log Message:
+use pointers instead of references so we can test if the efficiency corrections exist
+    *
+------------------------------------------------------------
 User: jchiang  Wed Nov 18 17:29:55 PST 2009
 irfs/irfInterface/src/test
 

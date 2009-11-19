@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Nov 18 22:50:23 PST 2009
+irfs/latResponse/src
+
+Modified Files:
+	EfficiencyFactor.cxx EfficiencyFactor.h IrfLoader.cxx 
+Log Message:
+read in efficiency parameters from aeff file and add object to Irfs
+    *
+------------------------------------------------------------
 User: jchiang  Wed Nov 18 17:30:56 PST 2009
 irfs/latResponse/src
 
