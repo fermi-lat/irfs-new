@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 
-#include "latResponse/IEfficiencyFactor.h"
+#include "irfInterface/IEfficiencyFactor.h"
 
 namespace latResponse {
 
@@ -25,7 +25,7 @@ namespace latResponse {
  * @class EfficiencyFactor
  */
 
-class EfficiencyFactor : public latResponse::IEfficiencyFactor {
+class EfficiencyFactor : public irfInterface::IEfficiencyFactor {
 
 public:
 
@@ -97,6 +97,8 @@ private:
    std::vector<double> m_livetimefrac;
 
    void readPars(std::string parfile);
+
+   void readFitsFile(const std::string & fitsfile);
 
 };
 

@@ -33,6 +33,7 @@
 #include "CaldbDate.h"
 #include "Edisp.h"
 #include "Edisp2.h"
+#include "EfficiencyFactor.h"
 #include "Psf.h"
 #include "Psf2.h"
 
@@ -126,6 +127,14 @@ void IrfLoader::addIrfs(const std::string & aeff_file,
    irfInterface::IrfsFactory * myFactory(irfInterface::IrfsFactory::instance());
    for (size_t i(0); i < subclasses(irfName).size(); i++) {
       irfInterface::IAeff * aeff(new Aeff(aeff_file, "EFFECTIVE AREA", i));
+
+      EfficiencyFactor * efficiencyFactor(0);
+      try {
+         efficiencyFactor = new EfficiencyFactor(aeff_file);
+      } catch (tip::TipException &) {
+         // Do nothing.
+      }
+
       irfInterface::IPsf * psf;
       std::string class_name(subclasses(irfName).at(i));
       if (convType == 0) {
@@ -151,8 +160,15 @@ void IrfLoader::addIrfs(const std::string & aeff_file,
       }
 
       size_t irfID(i*2 + convType);
-      myFactory->addIrfs(class_name, 
-                         new irfInterface::Irfs(aeff, psf, edisp, irfID));
+
+      irfInterface::Irfs * irfs(new irfInterface::Irfs(aeff, psf, edisp, 
+                                                       irfID));
+      if (efficiencyFactor) {
+         irfs->setEfficiencyFactor(efficiencyFactor);
+         delete efficiencyFactor;
+      }
+
+      myFactory->addIrfs(class_name, irfs);
    }
 }
 

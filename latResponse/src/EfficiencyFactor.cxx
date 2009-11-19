@@ -24,9 +24,11 @@
 
 #include "st_facilities/Util.h"
 
-#include "irfInterface/EfficiencyFactor.h"
+#include "latResponse/FitsTable.h"
 
-namespace irfInterface {
+#include "EfficiencyFactor.h"
+
+namespace latResponse {
 
 EfficiencyFactor::
 EfficiencyFactor() : m_havePars(false) {
@@ -76,7 +78,22 @@ readPars(std::string parfile) {
 void EfficiencyFactor::readFitsFile(const std::string & fitsfile) {
    const tip::Table * table = 
       tip::IFileSvc::instance().readTable(fitsfile, "EFFICIENCY_PARAMS");
-   
+
+   long nrows;
+   table->getHeader()["NAXIS2"].get(nrows);
+
+   std::vector< std::vector<double> > parVectors;
+   for (size_t i(0); i < static_cast<unsigned long>(nrows); i++) {
+      std::vector<float> fltValues;
+      FitsTable::getVectorData(table, "EFFICIENCY_PARS", fltValues, i);
+      std::vector<double> values(fltValues.size(), 0);
+      std::copy(fltValues.begin(), fltValues.end(), values.begin());
+      parVectors.push_back(values);
+   }
+   m_p0_front = EfficiencyParameter(parVectors.at(0));
+   m_p1_front = EfficiencyParameter(parVectors.at(1));
+   m_p0_back = EfficiencyParameter(parVectors.at(2));
+   m_p1_back = EfficiencyParameter(parVectors.at(3));
 }
 
 double EfficiencyFactor::operator()(double energy, double met) const {
@@ -106,7 +123,7 @@ double EfficiencyFactor::operator()(double energy, double met) const {
       ltfrac = m_livetimefrac.at(indx);
    }
 
-   return value(energy, ltfrac);
+   return IEfficiencyFactor::value(energy, ltfrac);
 }
 
 double EfficiencyFactor::value(double energy, double livetimefrac,
@@ -121,17 +138,6 @@ double EfficiencyFactor::value(double energy, double livetimefrac,
       return m_p0_front(logE)*livetimefrac + m_p1_front(logE);
    } 
    return m_p0_back(logE)*livetimefrac + m_p1_back(logE);
-}
-
-double EfficiencyFactor::value(double energy, double livetimefrac) const {
-   if (!m_havePars) {
-      return 1;
-   }
-
-   // Since we do not have access to the front and back effective
-   // areas separately, just return the average.
-   return (value(energy, livetimefrac, true) + 
-           value(energy, livetimefrac, false))/2.;
 }
 
 void EfficiencyFactor::
@@ -151,26 +157,4 @@ getLivetimeFactors(double energy, double & factor1, double & factor2) const {
    factor2 = (m_p0_front(logE) + m_p0_back(logE))/2.;
 }
 
-void EfficiencyFactor::readFt2File(std::string ft2file) {
-   facilities::Util::expandEnvVar(&ft2file);
-   const tip::Table * scData = 
-      tip::IFileSvc::instance().readTable(ft2file, "SC_DATA");
-   tip::Table::ConstIterator it(scData->begin());
-   tip::ConstTableRecord & row(*it);
-   for ( ; it != scData->end(); ++it) {
-      m_start.push_back(row["START"].get());
-      m_stop.push_back(row["STOP"].get());
-      double duration(m_stop.back() - m_start.back());
-      m_livetimefrac.push_back(row["livetime"].get()/duration);
-   }
-   m_dt = (m_stop.back() - m_start.front())/m_start.size();
-   delete scData;
-}
-
-void EfficiencyFactor::clearFt2Data() {
-   m_start.clear();
-   m_stop.clear();
-   m_livetimefrac.clear();
-}
-
-} // namespace irfInterface
+} // namespace latResponse
