@@ -21,7 +21,6 @@
 #include "astro/SkyDir.h"
 
 #include "irfInterface/AcceptanceCone.h"
-#include "irfInterface/EfficiencyFactor.h"
 #include "irfInterface/IrfsFactory.h"
 
 #include "Aeff.h"
@@ -44,8 +43,6 @@ class irfInterfaceTests : public CppUnit::TestFixture {
    CPPUNIT_TEST(edisp_normalization);
    CPPUNIT_TEST(test_IrfRegistry);
 
-   CPPUNIT_TEST(test_EfficiencyFactor);
-
    CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -61,7 +58,6 @@ public:
    void psf_integral();
    void edisp_normalization();
    void test_IrfRegistry();
-   void test_EfficiencyFactor();
 
 private:
 
@@ -194,22 +190,6 @@ void irfInterfaceTests::test_IrfRegistry() {
    for (size_t i(0); i < 4; i++) {
       CPPUNIT_ASSERT(classes.at(i) == class_names[i]);
    }
-}
-
-void irfInterfaceTests::test_EfficiencyFactor() {
-   std::string efficiency_data 
-      = facilities::commonUtilities::joinPath(facilities::commonUtilities::getDataPath("irfInterface"), "P6_V3_DIFFUSE_eff.txt");
-   EfficiencyFactor foo(efficiency_data);
-
-   std::cout << foo.value(1000, 0.9) << std::endl;
-   std::cout << foo.value(1000, 0.85) << std::endl;
-   std::cout << foo.value(1e5, 0.85) << std::endl;
-
-   EfficiencyFactor bar;
-
-   std::cout << bar.value(1000, 0.9) << std::endl;
-   std::cout << foo.value(1000, 0.85) << std::endl;
-   std::cout << bar.value(1e5, 0.85) << std::endl;
 }
 
 int main() {
