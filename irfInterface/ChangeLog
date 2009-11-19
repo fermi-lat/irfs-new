@@ -1,4 +1,17 @@
 ------------------------------------------------------------
+User: jchiang  Wed Nov 18 17:29:55 PST 2009
+irfs/irfInterface/irfInterface
+
+Modified Files:
+	Irfs.h 
+Added Files:
+	IEfficiencyFactor.h 
+Removed Files:
+	EfficiencyFactor.h 
+Log Message:
+abstract interface for efficiency factor class; move concrete implementation to latResponse
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfInterface-02-04-01, operation: mov
 Package: irfInterface
