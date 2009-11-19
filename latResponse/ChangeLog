@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Nov 19 10:37:52 PST 2009
+irfs/latResponse/src
+
+Modified Files:
+	EfficiencyFactor.cxx 
+Log Message:
+check if efficiency parameters have not been inserted
+    *
+------------------------------------------------------------
 User: jchiang  Wed Nov 18 22:50:23 PST 2009
 irfs/latResponse/src
 
