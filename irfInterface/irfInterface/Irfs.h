@@ -61,12 +61,12 @@ public:
    IPsf *psf() {return m_psf;}
    IEdisp *edisp() {return m_edisp;}
 
-   const IEfficiencyFactor & efficiencyFactor() const {
-      return *m_efficiencyFactor;
+   const IEfficiencyFactor * efficiencyFactor() const {
+      return m_efficiencyFactor;
    }
 
-   void setEfficiencyFactor(const IEfficiencyFactor & eff) {
-      m_efficiencyFactor = eff.clone();
+   void setEfficiencyFactor(const IEfficiencyFactor * eff) {
+      m_efficiencyFactor = eff->clone();
    }
 
    Irfs * clone() {
