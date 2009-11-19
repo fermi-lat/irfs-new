@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ handoff_response-04-05-00 19-Nov-2009 jchiang add add_efficiency_pars application; add EFFICIENCY_PARAMS extension to aeff.tpl
  handoff_response-04-04-01 16-Nov-2009 jchiang disable package unit tests since new PointSpreadFunction implementation breaks loading of older irfs
  handoff_response-04-04-00 15-Nov-2009 jchiang new PSF implementation
   15-Jul-09 v4r3p3 jrb    update SConscript

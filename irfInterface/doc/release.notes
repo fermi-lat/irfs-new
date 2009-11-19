@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ irfInterface-03-00-00 19-Nov-2009 jchiang implement IEfficiencyFactor class; move concrete implementation to latResponse
  irfInterface-02-04-01 25-Sep-2009 jchiang include algorithm for upper_bound
  irfInterface-02-04-00 23-Sep-2009 jchiang new efficiency correction parametrization
   28-Jul-09 v2r3p4  JC    use getDataPath in test program
