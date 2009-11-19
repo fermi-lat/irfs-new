@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Nov 18 17:30:56 PST 2009
+irfs/latResponse/src
+
+Added Files:
+	EfficiencyFactor.cxx EfficiencyFactor.h 
+Log Message:
+add EfficiencyFactor class
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-02-04-01, operation: add
 Package: latResponse
