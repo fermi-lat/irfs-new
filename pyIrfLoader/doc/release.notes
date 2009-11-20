@@ -7,6 +7,7 @@
     @verbatim
     EOH
 
+ pyIrfLoader-00-01-00 19-Nov-2009 jchiang expose irfInterface::IEfficiencyFactor
     v0r0p2 15-Jul-09   jrb  update SConscript
     v0     24-Oct-06   JC   Initial import.
     @endverbatim
