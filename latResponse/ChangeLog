@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Nov 24 15:35:27 PST 2009
+irfs/latResponse/src
+
+Modified Files:
+	Psf2.cxx 
+Log Message:
+bug-fix: include factor of ncore to second component of the composite PSF
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-02-05-00, operation: add
 Package: latResponse
