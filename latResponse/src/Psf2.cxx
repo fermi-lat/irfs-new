@@ -83,7 +83,7 @@ double Psf2::angularIntegral(double energy, double theta,
    double rt = sep/stail;
    double ut = rt*rt/2.;
    return (ncore*psf_base_integral(uc, gcore)*2.*M_PI*::sqr(score) + 
-           ntail*psf_base_integral(ut, gtail)*2.*M_PI*::sqr(stail));
+           ntail*ncore*psf_base_integral(ut, gtail)*2.*M_PI*::sqr(stail));
 }
 
 double Psf2::angularIntegral(double energy,
@@ -137,13 +137,14 @@ double Psf2::angularIntegral(double energy, const astro::SkyDir & srcDir,
    /// in angularIntegral below for each grid value of sigmas.  This
    /// preserves the normalization in the bilinear interpolation by
    /// explicitly putting in the important sigma-dependence.
-   ncore *= score*score;
-   ntail *= stail*stail;
 
-   double y1(ncore*m_integralCache->angularIntegral(score, gcore, ii) + 
-             ntail*m_integralCache->angularIntegral(stail, gtail, ii));
-   double y2(ncore*m_integralCache->angularIntegral(score, gcore, ii+1) + 
-             ntail*m_integralCache->angularIntegral(stail, gtail, ii+1));
+   double norm_core(ncore*score*score);
+   double norm_tail(ntail*stail*stail);
+
+   double y1(norm_core*m_integralCache->angularIntegral(score, gcore, ii) + 
+             norm_tail*ncore*m_integralCache->angularIntegral(stail, gtail, ii));
+   double y2(norm_core*m_integralCache->angularIntegral(score, gcore, ii+1) + 
+             norm_tail*ncore*m_integralCache->angularIntegral(stail, gtail, ii+1));
 
    double y = ((psi - psis.at(ii))/(psis.at(ii+1) - psis.at(ii))
                *(y2 - y1)) + y1;
@@ -178,7 +179,7 @@ double Psf2::psf_function(double sep, double * pars) {
    double rt = sep/stail;
    double ut = rt*rt/2.;
    return (ncore*psf_base_function(uc, gcore) +
-           ntail*psf_base_function(ut, gtail));
+           ntail*ncore*psf_base_function(ut, gtail));
 }
 
 double Psf2::psf_integral(double sep, double * pars) {
@@ -195,7 +196,7 @@ double Psf2::psf_integral(double sep, double * pars) {
    double rt = sep/stail;
    double ut = rt*rt/2.;
    return (ncore*psf_base_integral(uc, gcore) + 
-           ntail*psf_base_integral(ut, gtail));
+           ntail*ncore*psf_base_integral(ut, gtail));
 }
 
 double * Psf2::pars(double energy, double costh) const {
@@ -241,11 +242,14 @@ double * Psf2::pars(double energy, double costh) const {
       norm = st_facilities::GaussianQuadrature::dgaus8(foo, 0, theta_max,
                                                        err, ierr);
       m_pars[0] /= norm*2.*M_PI;
-      m_pars[1] /= norm*2.*M_PI;
    } else { // Use small angle approximation.
-      norm = psf_integral(theta_max, m_pars);
-      m_pars[0] /= norm*2.*M_PI*m_pars[2]*m_pars[2];
-      m_pars[1] /= norm*2.*M_PI*m_pars[3]*m_pars[3];
+      double norm0(psf_base_integral(::sqr(theta_max/m_pars[2])/2., m_pars[4])
+                   *2.*M_PI*::sqr(m_pars[2]));
+      double norm1(psf_base_integral(::sqr(theta_max/m_pars[3])/2., m_pars[5])
+                   *2.*M_PI*::sqr(m_pars[3]));
+
+      norm = m_pars[0]*(norm0 + m_pars[1]*norm1);
+      m_pars[0] /= norm;
    }
 
    return m_pars;
