@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: rando  Thu Nov 26 03:24:11 PST 2009
+irfs/handoff_response/src/gen
+
+Modified Files:
+	MyAnalysis.cxx 
+Log Message:
+Increase file size limit to 500Gb
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-04-05-00, operation: add
 Package: handoff_response
