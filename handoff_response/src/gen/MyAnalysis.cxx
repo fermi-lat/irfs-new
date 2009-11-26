@@ -48,7 +48,7 @@ void MyAnalysis::open_input_file()
         << m_summary_filename << std::endl;
 
     m_input_tree = new TChain("MeritTuple");
-    m_input_tree->SetMaxTreeSize(4000000000L); // 4 gigs?
+    m_input_tree->SetMaxTreeSize(500000000000LL); // 500 gigs?
 
     // reprocessing the original file 
     m_input_tree->Add(m_summary_filename.c_str());
@@ -71,7 +71,7 @@ void MyAnalysis::makeCutTree()
     std::cout << "Creating TChain(\"MeritTuple\") from files" << std::endl;
 
     m_input_tree = new TChain(tree_name.c_str());
-    m_input_tree->SetMaxTreeSize(4000000000L); // 4 gigs?
+    m_input_tree->SetMaxTreeSize(500000000000LL); // 500 gigs?
 
     for( std::vector<std::string>::const_iterator sit = m_files.begin(); sit!=m_files.end(); ++sit){
         std::cout << "\t" << *sit << std::endl;
