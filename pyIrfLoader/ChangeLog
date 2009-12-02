@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Dec  2 11:29:05 PST 2009
+irfs/pyIrfLoader/src
+
+Modified Files:
+	pyIrfLoader.i pyIrfLoader.in 
+Log Message:
+comment out fenv.h include; update pyIrfLoader.i
+    *
+------------------------------------------------------------
 TAG
 Tag name: pyIrfLoader-00-01-00, operation: add
 Package: pyIrfLoader
