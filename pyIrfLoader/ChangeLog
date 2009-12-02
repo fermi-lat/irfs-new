@@ -1,4 +1,23 @@
 ------------------------------------------------------------
+TAG
+Tag name: pyIrfLoader-00-01-02, operation: add
+Package: pyIrfLoader
+User: jchiang  Wed Dec  2 12:40:05 2009
+Files:
+  pyIrfLoader/.cvsignore  1.1.1.1
+  pyIrfLoader/pyIrfLoaderLib.py  1.1
+  pyIrfLoader/ChangeLog  1.69
+  pyIrfLoader/SConscript  1.10
+  pyIrfLoader/cmt/requirements  1.5
+  pyIrfLoader/doc/release.notes  1.5
+  pyIrfLoader/python/plot_irfs.py  1.1.1.1
+  pyIrfLoader/python/psf_tests.py  1.1.1.1
+  pyIrfLoader/python/four_panel.py  1.1.1.1
+  pyIrfLoader/src/pyIrfLoader.i  1.3
+  pyIrfLoader/src/pyIrfLoader.in  1.3
+
+    *
+------------------------------------------------------------
 User: jchiang  Wed Dec  2 12:39:59 PST 2009
 irfs/pyIrfLoader/doc
 
