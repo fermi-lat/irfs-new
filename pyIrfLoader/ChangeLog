@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Wed Dec  2 12:17:08 PST 2009
+irfs/pyIrfLoader/src
+
+Modified Files:
+	pyIrfLoader.i 
+Log Message:
+correct include path for ThreeVector.h
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: pyIrfLoader-00-01-01, operation: add
 Package: pyIrfLoader
