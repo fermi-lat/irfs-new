@@ -5,6 +5,7 @@
   @verbatim
   $Id$
 
+  16-Jan-07 v0r1p2    JC    correct env var for CALDBALIAS
   03-Mar-06 v0r1p1    JC    updated DC2 effective area files
   14-Feb-06 v0r1      JC    added DC2 files and updated caldb.indx
   19-Jul-04 v0        JC    initial import

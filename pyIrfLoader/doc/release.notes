@@ -1,0 +1,16 @@
+/** @file release.notes
+    @brief package pyIrfLoader
+    @brief Package coordinator: J. Chiang
+
+    $Id$
+
+    @verbatim
+    EOH
+
+ pyIrfLoader-00-01-02 02-Dec-2009 jchiang correct include path for ThreeVector.h in pyIrfLoader.i
+ pyIrfLoader-00-01-01 02-Dec-2009 jchiang update pyIrfLoader.i with changes from v0r1p0
+ pyIrfLoader-00-01-00 19-Nov-2009 jchiang expose irfInterface::IEfficiencyFactor
+    v0r0p2 15-Jul-09   jrb  update SConscript
+    v0     24-Oct-06   JC   Initial import.
+    @endverbatim
+*/

@@ -37,12 +37,10 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
-   /// @param time Photon arrival time (MET s).
    virtual double value(double energy, 
                         const astro::SkyDir &srcDir, 
                         const astro::SkyDir &scZAxis,
-                        const astro::SkyDir &scXAxis,
-                        double time=0) const = 0;
+                        const astro::SkyDir &scXAxis) const = 0;
 
    /// Return the effective area (cm^2) as a function of instrument 
    /// coordinates.
@@ -50,24 +48,17 @@ public:
    /// @param theta True inclination angle (degrees).
    /// @param phi True azimuthal angle measured wrt the instrument
    ///             X-axis (degrees).
-   /// @param time Photon arrival time (MET s).
-   virtual double value(double energy, double theta, double phi,
-                        double time=0) const = 0;
+   virtual double value(double energy, double theta, double phi) const = 0;
 
    /// This method is also virtual, in case the sub-classes wish to
    /// overload it.
    virtual double operator()(double energy, 
                              const astro::SkyDir &srcDir, 
                              const astro::SkyDir &scZAxis,
-                             const astro::SkyDir &scXAxis,
-                             double time=0) const {
-      return value(energy, srcDir, scZAxis, scXAxis, time);}
+                             const astro::SkyDir &scXAxis) const {
+      return value(energy, srcDir, scZAxis, scXAxis);}
 
    virtual IAeff * clone() = 0;
-
-   /// @return An absolute upper limit on the value of the effective
-   /// area for all energies and directions (cm^2).
-   virtual double upperLimit() const = 0;
 
 };
 

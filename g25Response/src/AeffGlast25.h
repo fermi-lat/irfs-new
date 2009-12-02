@@ -41,19 +41,14 @@ public:
    /// @param srcDir True photon direction.
    /// @param scZAxis Spacecraft z-axis.
    /// @param scXAxis Spacecraft x-axis.
-   /// @param time Photon arrival time (MET s)
    virtual double value(double energy, 
                         const astro::SkyDir &srcDir, 
                         const astro::SkyDir &scZAxis,
-                        const astro::SkyDir &scXAxis,
-                        double time=0) const;
+                        const astro::SkyDir &scXAxis) const;
 
-   virtual double value(double energy, double theta, double,
-                        double time=0) const;
+   virtual double value(double energy, double theta, double) const;
 
    virtual AeffGlast25 * clone() {return new AeffGlast25(*this);}
-
-   virtual double upperLimit() const;
 
 private:
 
@@ -64,11 +59,8 @@ private:
    double m_fudge;
 
    std::vector<double> m_energy;
-   std::vector<double> m_logEnergy;
    std::vector<double> m_theta;
    std::vector<double> m_aeff;
-
-   double m_aeffMax;
 
 };
 

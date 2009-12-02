@@ -30,14 +30,11 @@ public:
    virtual double value(double, 
                         const astro::SkyDir &,
                         const astro::SkyDir &,
-                        const astro::SkyDir &,
-                        double) const {return 0;}
+                        const astro::SkyDir &) const {return 0;}
 
-   virtual double value(double, double, double, double) const {return 0;}
+   virtual double value(double, double, double) const {return 0;}
 
    virtual Aeff * clone() {return new Aeff(*this);}
-
-   virtual double upperLimit() const {return 0;}
 
 };
 

@@ -1,5 +1,5 @@
 package caldb
-version v0r1p1
+version v0r1p2
 
 author James Chiang <jchiang@slac.stanford.edu>
 
@@ -7,4 +7,4 @@ author James Chiang <jchiang@slac.stanford.edu>
 
 set CALDB $(CALDBROOT)/CALDB
 set CALDBCONFIG $(CALDB)/software/tools/caldb.config
-set CALDBALIAS $(CALDB)/software/tools/alias_caldb.fits
+set CALDBALIAS $(CALDB)/software/tools/alias_config.fits
