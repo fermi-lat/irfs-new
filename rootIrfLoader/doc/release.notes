@@ -6,7 +6,6 @@
   $Id$
   EOH
 
- rootIrfLoader-01-00-02 30-Jul-2009    jrb Fix SConscript
   15-Jul-09 v1r0p1  jrb   update SConscript
   05-Feb-09 v1      JC    change module name from rootIrfLoader to 
                           librootIrfLoader
