@@ -39,7 +39,7 @@
 %template(StringVector) std::vector<std::string>;
 %template(IrfVector) std::vector<irfInterface::Irfs>;
 %template(ConeVector) std::vector<irfInterface::AcceptanceCone *>;
-%include include/CLHEP/Vector/ThreeVector.h
+%include CLHEP/Vector/ThreeVector.h
 %include astro/SkyProj.h
 %include astro/SkyDir.h
 %include irfInterface/AcceptanceCone.h
