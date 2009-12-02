@@ -12,11 +12,13 @@
 #include "irfInterface/IAeff.h"
 #include "irfInterface/IPsf.h"
 #include "irfInterface/IEdisp.h"
+#include "irfInterface/IEfficiencyFactor.h"
 #include "irfInterface/Irfs.h"
 #include "irfInterface/IrfsFactory.h"
 #include "irfInterface/AcceptanceCone.h"
 #include "irfLoader/Loader.h"
 #include "CLHEP/Random/RandFlat.h"
+#include "CLHEP/Vector/ThreeVector.h"
 #include <map>
 #include <stdexcept>
 #include <string>
@@ -37,15 +39,25 @@
 %template(StringVector) std::vector<std::string>;
 %template(IrfVector) std::vector<irfInterface::Irfs>;
 %template(ConeVector) std::vector<irfInterface::AcceptanceCone *>;
+%include include/CLHEP/Vector/ThreeVector.h
 %include astro/SkyProj.h
 %include astro/SkyDir.h
 %include irfInterface/AcceptanceCone.h
 %include irfInterface/IAeff.h
 %include irfInterface/IPsf.h
 %include irfInterface/IEdisp.h
+%include irfInterface/IEfficiencyFactor.h
 %include irfInterface/Irfs.h
 %include irfInterface/IrfsFactory.h
 %include irfLoader/Loader.h
+%extend astro::SkyDir {
+   astro::SkyDir cross(const astro::SkyDir & other) {
+      return astro::SkyDir(self->dir().cross(other.dir()));
+   }
+   double dot(const astro::SkyDir & other) {
+      return self->dir().dot(other.dir());
+   }
+}
 %extend irfInterface::IPsf {
    std::pair<double, double> app_dir(double energy, double inclination) {
       astro::SkyDir srcDir(0, 0);

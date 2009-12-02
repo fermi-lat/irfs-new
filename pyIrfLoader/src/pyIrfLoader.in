@@ -9,7 +9,7 @@
  */
 %module pyIrfLoader
 %{
-#include <fenv.h>
+//#include <fenv.h>
 #include "irfInterface/IAeff.h"
 #include "irfInterface/IPsf.h"
 #include "irfInterface/IEdisp.h"
@@ -27,14 +27,14 @@
 #include <vector>
 %}
 %include stl.i
-// %exception {
-//    try {
-//       $action
-//    } catch (std::exception & eObj) {
-//       PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(eObj.what()));
-//       return NULL;
-//    }
-// }
+%exception {
+   try {
+      $action
+   } catch (std::exception & eObj) {
+      PyErr_SetString(PyExc_RuntimeError, const_cast<char*>(eObj.what()));
+      return NULL;
+   }
+}
 %template(DoublePair) std::pair<double, double>;
 %template(DoubleVector) std::vector<double>;
 %template(StringVector) std::vector<std::string>;
@@ -59,11 +59,11 @@
       return self->dir().dot(other.dir());
    }
 }
-%extend irfInterface::IrfsFactory {
-   static void enableFPE() {
-      feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
-   }
-}
+// %extend irfInterface::IrfsFactory {
+//    static void enableFPE() {
+//       feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
+//    }
+// }
 %extend irfInterface::IPsf {
    std::pair<double, double> app_dir(double energy, double inclination) {
       astro::SkyDir srcDir(0, 0);
