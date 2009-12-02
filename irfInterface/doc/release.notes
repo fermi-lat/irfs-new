@@ -5,15 +5,6 @@
   @verbatim
   $Id$
 
-  14-Aug-06 v1      JC    add time argument to IRFs component interfaces
-  18-May-06 v0r3p1  JC    bug-fix: change #ifdef SWIG to #ifndef SWIG
-  25-Apr-06 v0r3    JC    add virtual IAeff::upperLimit() = 0
-  20-Apr-06 v0r2p1  JC    protect against exposing SCIENCETOOLS_API 
-                          macro to swig build
-  15-Mar-06 v0r2    JC    convert to shared library
-  14-Feb-06 v0r1p3  JC    add AcceptanceCone::clone()
-  17-Nov-05 v0r1p2  JC    no need to use STpolicy; delete prototypes in 
-                          IrfsFactory before replacing
   22-Mar-05 v0r1p1  JC    write out valid irf names on exception from create
   27-Nov-04 v0r1    JC    make operator() methods const
   16-Jul-04 v0      JC    initial version

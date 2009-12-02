@@ -9,9 +9,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#define ST_DLL_EXPORTS
 #include "irfInterface/IrfsFactory.h"
-#undef ST_DLL_EXPORTS
 
 namespace irfInterface {
 
@@ -20,14 +18,8 @@ IrfsFactory * IrfsFactory::s_instance = 0;
 IrfsFactory * IrfsFactory::instance() {
    if (s_instance == 0) {
       s_instance = new IrfsFactory();
-//      std::cout << "created new IrfsFactory instance" << std::endl;
    }
    return s_instance;
-}
-
-void IrfsFactory::delete_instance() {
-   delete s_instance;
-   s_instance = 0;
 }
 
 IrfsFactory::~IrfsFactory() {
@@ -59,7 +51,6 @@ void IrfsFactory::addIrfs(const std::string & name, Irfs * irfs,
                 << "An Irfs object named " + name 
                 << " already exists and is being replaced."
                 << std::endl;
-      delete m_prototypes[name];
    }
    m_prototypes[name] = irfs;
 }

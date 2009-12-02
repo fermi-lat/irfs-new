@@ -15,8 +15,6 @@
 #include <vector>
 #include <string>
 
-#include "st_facilities/libStApiExports.h"
-
 #include "irfInterface/Irfs.h"
 
 namespace irfInterface {
@@ -28,13 +26,10 @@ namespace irfInterface {
  *
  * @author J. Chiang
  *
+ * $Header$
  */
 
-#ifndef SWIG
-class SCIENCETOOLS_API IrfsFactory {
-#else
 class IrfsFactory {
-#endif
 
 public:
 
@@ -46,7 +41,14 @@ public:
 
    static IrfsFactory * instance();
 
-   static void delete_instance();
+   static void delete_instance() {
+      delete s_instance;
+      s_instance = 0;
+   }
+
+//    void readXml(const std::string &xmlFile);
+
+//    void writeXml(const std::string &outputFile);
 
 protected:
 

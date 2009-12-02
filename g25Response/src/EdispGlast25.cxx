@@ -13,9 +13,9 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "CLHEP/Random/RandomEngine.h"
+#include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/RandGauss.h"
-
-using CLHEP::RandGauss;
 
 #include "astro/SkyDir.h"
 
@@ -61,19 +61,17 @@ double EdispGlast25::value(double appEnergy,
                            double energy, 
                            const astro::SkyDir &srcDir,
                            const astro::SkyDir &scZAxis,
-                           const astro::SkyDir &scXAxis,
-                           double time) const {
+                           const astro::SkyDir &scXAxis) const {
    (void)(srcDir); (void)(scZAxis); (void)(scXAxis);
 
    double theta(0);
    double phi(0);
-   return value(appEnergy, energy, theta, phi, time);
+   return value(appEnergy, energy, theta, phi);
 }
 
 double EdispGlast25::value(double appEnergy, double energy,
-                           double theta, double phi, double time) const {
+                           double theta, double phi) const {
    (void)(phi);
-   (void)(time);
    if (theta < 0) {
       std::ostringstream message;
       message << "g25Response::EdispGlast25::value(...):\n"
@@ -127,10 +125,8 @@ double EdispGlast25::sigma(double energy) const {
 double EdispGlast25::appEnergy(double energy,
                                const astro::SkyDir &srcDir,
                                const astro::SkyDir &scZAxis,
-                               const astro::SkyDir &scXAxis,
-                               double time) const {
+                               const astro::SkyDir &scXAxis) const {
    (void)(srcDir); (void)(scZAxis); (void)(scXAxis);
-   (void)(time);
 
    if (m_fracSig > 0 || m_haveEdisp) {
       double my_energy = RandGauss::shoot()*sigma(energy) + energy;
@@ -146,19 +142,17 @@ double EdispGlast25::appEnergy(double energy,
 double EdispGlast25::integral(double emin, double emax, double energy,
                               const astro::SkyDir &srcDir, 
                               const astro::SkyDir &scZAxis,
-                              const astro::SkyDir &scXAxis, 
-                              double time) const {
+                              const astro::SkyDir &scXAxis) const {
    (void)(srcDir); (void)(scZAxis); (void)(scXAxis);
 
    double theta(0);
    double phi(0);
-   return integral(emin, emax, energy, theta, phi, time);
+   return integral(emin, emax, energy, theta, phi);
 }
 
 double EdispGlast25::integral(double emin, double emax, double energy,
-                              double theta, double phi, double time) const {
+                              double theta, double phi) const {
    (void)(theta); (void)(phi);
-   (void)(time);
 
    if (m_fracSig > 0 || m_haveEdisp) {
       double my_sigma = sigma(energy);
