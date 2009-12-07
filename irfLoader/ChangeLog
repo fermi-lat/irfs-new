@@ -1,5 +1,31 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-15-06, operation: add
+Package: irfLoader
+User: glastrm  Sun Dec  6 21:18:06 2009
+Files:
+  irfLoader/.cvsignore  1.2
+  irfLoader/irfLoaderLib.py  1.3
+  irfLoader/ChangeLog  1.235
+  irfLoader/SConscript  1.9
+  irfLoader/cmt/requirements  1.46
+  irfLoader/doc/release.notes  1.29
+  irfLoader/irfLoader/Loader.h  1.11
+  irfLoader/pfiles/gtecorrect.par  1.1
+  irfLoader/pfiles/gtirfs.par  1.1
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Registrar.cxx  1.10
+  irfLoader/src/Registrar.h  1.1
+  irfLoader/src/Loader.cxx  1.24
+  irfLoader/src/gtecorrect/gtecorrect.cxx  1.1
+  irfLoader/src/gtirfs/gtirfs.cxx  1.1
+  irfLoader/src/test/MyLoader.h  1.5
+  irfLoader/src/test/test.cxx  1.15
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-15-05, operation: add
 Package: irfLoader
 User: glastrm  Sun Sep 27 09:47:43 2009
