@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: elwinter  Wed Dec 16 15:01:08 PST 2009
+irfs/irfLoader/src
+
+Modified Files:
+	Registrar.cxx 
+Log Message:
+Added <cstdlib> header needed by gcc4.
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-15-06, operation: add
 Package: irfLoader
