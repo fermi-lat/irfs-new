@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: elwinter  Wed Dec 16 14:49:37 PST 2009
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Setup.cxx 
+Log Message:
+Added <cstdlib> header needed by gcc4.
+
+    *
+------------------------------------------------------------
 User: elwinter  Wed Dec 16 14:48:41 PST 2009
 irfs/handoff_response/src/gen
 
