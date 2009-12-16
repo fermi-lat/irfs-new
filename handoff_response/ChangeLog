@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: elwinter  Wed Dec 16 14:51:08 PST 2009
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	FitsTable.cxx 
+Log Message:
+Added <cstdlib> header needed by gcc4.
+
+    *
+------------------------------------------------------------
 User: elwinter  Wed Dec 16 14:49:37 PST 2009
 irfs/handoff_response/src/gen
 
