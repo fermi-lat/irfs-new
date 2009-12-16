@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: elwinter  Wed Dec 16 14:46:49 PST 2009
+irfs/dc2Response/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+Added <cstdlib> header needed by gcc4.
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-15-06, operation: add
 Package: dc2Response

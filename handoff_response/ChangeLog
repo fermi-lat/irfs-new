@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: elwinter  Wed Dec 16 14:48:41 PST 2009
+irfs/handoff_response/src/gen
+
+Modified Files:
+	IrfBinner.cxx 
+Log Message:
+Added <cstring> header needed by gcc4.
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-15-06, operation: add
 Package: handoff_response
