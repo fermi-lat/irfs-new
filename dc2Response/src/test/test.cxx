@@ -7,6 +7,7 @@
  */
 
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
 #include "facilities/commonUtilities.h"
 #include "irfInterface/IrfsFactory.h"
