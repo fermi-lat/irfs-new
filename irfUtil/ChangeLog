@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan  4 09:40:01 PST 2010
+irfs/irfUtil/src
+
+Modified Files:
+	HDgtcalf.c HDgtcalf_internal.c 
+Log Message:
+modify heasarc routines to use instdir in constructing the path to the IRF files
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-15-06, operation: add
 Package: irfUtil
