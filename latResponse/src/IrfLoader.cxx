@@ -326,7 +326,8 @@ void IrfLoader::find_cif(std::string & caldb_indx) const {
       std::vector<std::string> tokens;
       facilities::Util::stringTokenize(lines.at(i), " \t", tokens);
       if (tokens.at(0) == "GLAST" && tokens.at(1) == "LAT") {
-         caldb_indx = tokens.at(4);
+         caldb_indx = facilities::commonUtilities::joinPath(tokens.at(3),
+                                                            tokens.at(4));
          return;
       }
    }
