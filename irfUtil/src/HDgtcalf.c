@@ -20,7 +20,8 @@ HISTORY
 
 /* Function Prototypes  */
 
-static int gtcalf_work(char* cif, const char* tele, const char* instr,
+static int gtcalf_work(char* cif, const char * instdir, 
+                       const char* tele, const char* instr,
       const char * detnam, const char* filt, const char* codenam,
       double startreftime, double stopreftime, const char *expr,
       int maxret,int fnamesize, char** file, long* extno,
@@ -135,7 +136,7 @@ int HDgtcalf(const char* tele, const char* instr,
 
      /* call work function to select CALDB file with the input criteria */
 
-     if(gtcalf_work(cif,tele,instr,detnam,filt,codenam,
+     if(gtcalf_work(cif,instdir,tele,instr,detnam,filt,codenam,
          startreftime,stopreftime,expr,maxret, fnamesize,
          filenam,extno,online,nret,nfound,status)) {
          sprintf(msg,"Fail to select CALDB file with the given criteria");
@@ -148,7 +149,8 @@ cleanup:
 }
 /*------------------------------------------------------------------------*/
 
-static int gtcalf_work(char* cif, const char* tele, const char* instr, 
+static int gtcalf_work(char* cif, const char * instdir, 
+                       const char* tele, const char* instr, 
          const char * detnam, const char* filt, const char* codenam,
 	 double startreftime, double stopreftime,
          const char *expr, int maxret, int fnamesize,
@@ -183,7 +185,6 @@ static int gtcalf_work(char* cif, const char* tele, const char* instr,
     int k;
     int typecode;
     long repeat=1, width=1;
-
 
     if(*status) return *status;
 
@@ -509,7 +510,13 @@ static int gtcalf_work(char* cif, const char* tele, const char* instr,
 		goto cleanup;
          }
 
-         if(cpthnm(caldbvar,dirval,tmpfile,status)) {
+/*          if(cpthnm(caldbvar,dirval,tmpfile,status)) { */
+/*                 sprintf(msg,"Fail to get path name"); */
+/*                 HD_ERROR_THROW(msg,*status);  */
+/* 		goto cleanup; */
+/*          } */
+
+         if(cpthnm(instdir, dirval, tmpfile,status)) {
                 sprintf(msg,"Fail to get path name");
                 HD_ERROR_THROW(msg,*status); 
 		goto cleanup;
@@ -580,6 +587,8 @@ static int gtcalidx (char* mode, char* missn,
      FILE * fptr;
      char msg[256];
      
+     int len;
+
      if(*status) return *status;  
   
      caldb = getenv(caldbvar);
@@ -628,8 +637,11 @@ static int gtcalidx (char* mode, char* missn,
 
         } while(1);
 
-                
-
+/* remove trailing newline from instdir if present */
+      len = strlen(instdir);
+      if (instdir[len-1] == '\n') {
+         instdir[len-1] = '\0';
+      }
 
 cleanup:
  return *status;

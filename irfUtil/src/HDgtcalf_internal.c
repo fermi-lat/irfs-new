@@ -214,7 +214,6 @@ int cpthnm(const char* disk, const char* dir, char* file,
 	return *status;
 }
 
-
 /* CBDxxx utilites routines */ 
 
 void freecbd(CBDLIST * list) {
