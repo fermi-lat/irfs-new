@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Jan  7 11:57:42 PST 2010
+irfs/irfUtil/src
+
+Modified Files:
+	HDgtcalf.c HdCaldb.cxx 
+Log Message:
+restore incorrect behavior; increase size for irf filenames
+    *
+------------------------------------------------------------
 User: jchiang  Mon Jan  4 09:40:01 PST 2010
 irfs/irfUtil/src
 
