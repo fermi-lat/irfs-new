@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ caldb-02-00-00 07-Jan-2010 jchiang use HEASARC conventions for CALDB env var, caldb.indx
   15-Jul-09 v1r1p1    jrb   update SConscript
   28-May-09 v1r1      JC    add P7_v1_S3 irfs; use standard names for P7_V1
                             irfs in caldb.indx and CBD1001 header keywords
