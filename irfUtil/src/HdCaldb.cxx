@@ -20,7 +20,7 @@
 namespace irfUtil {
 
 HdCaldb::HdCaldb(const std::string & telescope, const std::string & instrument)
-   : m_telescope(telescope), m_instrument(instrument), m_filenamesize(256) {
+   : m_telescope(telescope), m_instrument(instrument), m_filenamesize(1024) {
 
 // Check that CALDB files exist.
    st_facilities::Util::file_ok(
