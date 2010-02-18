@@ -7,7 +7,6 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-libEnv.Tool('irfUtilLib', depsOnly = 1)
 irfUtilLib = libEnv.StaticLibrary('irfUtil', listFiles(['src/*.cxx', 'src/*.c']))
 
 progEnv.Tool('registerTargets', package = 'irfUtil', staticLibraryCxts = [[irfUtilLib, libEnv]],

@@ -17,8 +17,8 @@ rootIrfLoaderCint = libEnv.Rootcint('rootIrfLoader/rootIrfLoader_rootcint.cxx',
                                     
 libEnv['rootcint_node'] = rootIrfLoaderCint
 
-rootIrfLoaderLib = libEnv.SharedLibrary('rootIrfLoader', 
-                                        listFiles(['src/*.cxx']) + extraSources)
+rootIrfLoaderLib = libEnv.RootDynamicLibrary('rootIrfLoader', 
+                                         listFiles(['src/*.cxx']) + extraSources)
 
 progEnv.Tool('registerTargets', package = 'rootIrfLoader',
              rootcintSharedCxts = [[rootIrfLoaderLib, libEnv]],

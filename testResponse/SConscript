@@ -7,14 +7,13 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-libEnv.Tool('testResponseLib', depsOnly = 1)
-testResponseLib = libEnv.StaticLibrary('testResponse', listFiles(['src/*.cxx']))
+testResponseLib = libEnv.SharedLibrary('testResponse', listFiles(['src/*.cxx']))
 
 progEnv.Tool('testResponseLib')
 progEnv.Tool('addLibrary', library = progEnv['cppunitLibs'])
 test_testResponseBin = progEnv.Program('test_testResponse', listFiles(['src/test/*.cxx']))
 
 progEnv.Tool('registerTargets', package = 'testResponse',
-             staticLibraryCxts = [[testResponseLib, libEnv]],
+             libraryCxts = [[testResponseLib, libEnv]],
              testAppCxts = [[test_testResponseBin, progEnv]],
              includes = listFiles(['testResponse/*.h']))

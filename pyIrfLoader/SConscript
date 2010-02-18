@@ -10,10 +10,10 @@ progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
 libEnv.Tool('pyIrfLoaderLib', depsOnly = 1)
-pyIrfLoaderLib = libEnv.LoadableModule('_pyIrfLoader', 'src/pyIrfLoader.i')
+pyIrfLoaderLib = libEnv.SwigLibrary('_pyIrfLoader', 'src/pyIrfLoader.i')
 
 progEnv.Tool('registerTargets',
              package   = 'pyIrfLoader',
-             libraryCxts = [[pyIrfLoaderLib, libEnv]],
+             swigLibraryCxts = [[pyIrfLoaderLib, libEnv]],
              includes  = listFiles(['pyIrfLoader/*.h']),
              python    = ['src/pyIrfLoader.py'])

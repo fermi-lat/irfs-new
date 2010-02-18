@@ -9,8 +9,7 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-libEnv.Tool('irfInterfaceLib', depsOnly = 1)
-irfInterfaceLib = libEnv.StaticLibrary('irfInterface', listFiles(['src/*.cxx']))
+irfInterfaceLib = libEnv.SharedLibrary('irfInterface', listFiles(['src/*.cxx']))
 
 progEnv.Tool('irfInterfaceLib')
 progEnv.Tool('addLibrary', library=progEnv['cppunitLibs'])
@@ -19,7 +18,7 @@ test_irfInterfaceBin = progEnv.Program('test_irfInterface',
                                        listFiles(['src/test/*.cxx']))
 
 progEnv.Tool('registerTargets', package='irfInterface', 
-             staticLibraryCxts=[[irfInterfaceLib, libEnv]], 
+             libraryCxts=[[irfInterfaceLib, libEnv]], 
              testAppCxts=[[test_irfInterfaceBin, progEnv]], 
              includes=listFiles(['irfInterface/*.h']),
              data=['data/P6_V3_DIFFUSE_eff.txt'])
