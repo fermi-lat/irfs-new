@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Feb 21 13:12:09 PST 2010
+irfs/caldb/CALDB/data/glast/lat/bcf/ea
+
+Added Files:
+	aeff_P6_v8_diff_back.fits aeff_P6_v8_diff_front.fits 
+Log Message:
+add P6_V8_DIFFUSE irfs
+    *
+------------------------------------------------------------
 TAG
 Tag name: caldb-02-00-00, operation: add
 Package: caldb
