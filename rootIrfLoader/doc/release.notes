@@ -4,7 +4,13 @@
 
   @verbatim
   $Id$
+  EOH
 
+ rootIrfLoader-01-00-03 22-Feb-2010    jrb correct use of xxLib for libEnv
+ rootIrfLoader-01-00-02 30-Jul-2009    jrb Fix SConscript
+  15-Jul-09 v1r0p1  jrb   update SConscript
+  05-Feb-09 v1      JC    change module name from rootIrfLoader to 
+                          librootIrfLoader
   13-Aug-05 v0      JC    initial version (imported from users/jchiang)
  
   @endverbatim

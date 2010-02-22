@@ -1,5 +1,5 @@
 package rootIrfLoader
-version v0
+version v1r0p3
 
 author James Chiang <jchiang@slac.stanford.edu>
 
@@ -37,8 +37,6 @@ macro extra \
     rootIrfLoader/Psf.cxx \
     rootIrfLoader/Edisp.cxx \
     rootIrfLoader/SkyDir.cxx"
-
-macro library_prefix ''
 
 apply_pattern my_root_library headers=$(headers) extra_source=$(extra) \
    includes="-I. -I.. -I$(IRFINTERFACEROOT) " sourceDir="rootIrfLoader"
