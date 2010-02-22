@@ -7,9 +7,7 @@
  */
 
 #include <cmath>
-
 #include <algorithm>
-#include <iostream>
 
 #include "CLHEP/Random/RandFlat.h"
 
@@ -31,6 +29,12 @@ namespace {
 }
 
 namespace irfInterface {
+
+double IEdisp::s_energy(1000);
+double IEdisp::s_theta(0);
+double IEdisp::s_phi(0);
+double IEdisp::s_time(0);
+const IEdisp * IEdisp::s_self(0);
 
 double IEdisp::appEnergy(double energy,
                          const astro::SkyDir & srcDir,
@@ -70,21 +74,42 @@ double IEdisp::appEnergy(double energy,
    return appEnergy;
 }
 
+
 double IEdisp::integral(double emin, double emax, double energy,
                         const astro::SkyDir & srcDir,
                         const astro::SkyDir & scZAxis,
                         const astro::SkyDir & scXAxis, double time) const {
-   (void)(scXAxis);
-   double theta(srcDir.difference(scZAxis)*180./M_PI);
-   double phi(0);
-   EdispIntegrand func(*this, energy, theta, phi, time);
-   return adhocIntegrator(func, emin, emax);
+   return edispIntegral(this, emin, emax, energy, srcDir, scZAxis, 
+                        scXAxis, time);
 }
 
 double IEdisp::integral(double emin, double emax, double energy,
                         double theta, double phi, double time) const {
-   EdispIntegrand func(*this, energy, theta, phi, time);
-   return adhocIntegrator(func, emin, emax);
+   return edispIntegral(this, emin, emax, energy, theta, phi, time);
+}
+
+double IEdisp::edispIntegral(const IEdisp * self,
+                             double emin, double emax, double energy,
+                             const astro::SkyDir & srcDir,
+                             const astro::SkyDir & scZAxis,
+                             const astro::SkyDir & scXAxis, double time) {
+   (void)(scXAxis);
+   double theta(srcDir.difference(scZAxis)*180./M_PI);
+   double phi(0);
+   return edispIntegral(self, emin, emax, energy, theta, phi, time);
+}
+
+double IEdisp::edispIntegral(const IEdisp * self, double emin, double emax,
+                             double energy, double theta, double phi, 
+                             double time) {
+   setStaticVariables(energy, theta, phi, time, self);
+   double integral;
+   double err(1e-5);
+   long ierr(0);
+   integral = 
+      st_facilities::GaussianQuadrature::integrate(&edispIntegrand, emin,
+                                                   emax, err, ierr);
+   return integral;
 }
 
 double IEdisp::meanAppEnergy(double energy,
@@ -100,23 +125,22 @@ double IEdisp::meanAppEnergy(double energy,
 
 double IEdisp::meanAppEnergy(double energy, double theta, double phi,
                              double time) const {
+   setStaticVariables(energy, theta, phi, time, this);
    double integral;
    double emin(0);
    double emax(energy*10.);
    double err(1e-5);
-   int ierr(0);
-
-   MeanEnergyIntegrand func(*this, energy, theta, phi, time);
-
+   long ierr(0);
    integral = 
-      st_facilities::GaussianQuadrature::dgaus8(func, emin, emax, err, ierr);
-                                                
+      st_facilities::GaussianQuadrature::integrate(&meanEnergyIntegrand, emin, 
+                                                   emax, err, ierr);
+
 // The energy dispersion is not guarranteed to be properly normalized.
-   EdispIntegrand edisp(*this, energy, theta, phi, time);
    double normalization;
    normalization = 
-      st_facilities::GaussianQuadrature::dgaus8(edisp, emin, emax, err, ierr);
-
+      st_facilities::GaussianQuadrature::integrate(&edispIntegrand, emin, 
+                                                   emax, err, ierr);
+   
    return integral/normalization;
 }
 
@@ -133,64 +157,49 @@ double IEdisp::meanTrueEnergy(double appEnergy,
 
 double IEdisp::meanTrueEnergy(double appEnergy, double theta, double phi,
                               double time) const {
+   setStaticVariables(appEnergy, theta, phi, time, this);
    double integral;
 //   double emin(0);
    double emin(30);
    double emax(std::min(1.76e5, appEnergy*10.));
    double err(1e-5);
-   int ierr(0);
-
-   MeanTrueEnergyIntegrand func(*this, appEnergy, theta, phi, time);
+   long ierr(0);
    integral = 
-      st_facilities::GaussianQuadrature::dgaus8(func, emin, emax, err, ierr);
+      st_facilities::GaussianQuadrature::integrate(&meanTrueEnergyIntegrand, 
+                                                   emin, emax, err, ierr);
 
 // The energy dispersion is not guarranteed to be properly normalized.
-   TrueEnergyIntegrand edisp(*this, appEnergy, theta, phi, time);
    double normalization;
    normalization = 
-      st_facilities::GaussianQuadrature::dgaus8(edisp, emin, emax, err, ierr);
+      st_facilities::GaussianQuadrature::integrate(&trueEnergyIntegrand, 
+                                                   emin, emax, err, ierr);
    
    return integral/normalization;
 }
 
-double IEdisp::adhocIntegrator(const EdispIntegrand & func, 
-                               double emin, double emax) const {
-   double err(1e-7);
-   double integral = accuracyKluge(func, emin, emax, err);
-   if (integral == 0) {
-      emin = std::max(emin, 1e-5);
-      size_t npts(4);
-      double efactor(std::exp(std::log(emax/emin)/(npts-1)));
-      double e0(emin);
-      double e1(emin*efactor);
-      for (size_t i(0); i < npts; i++) {
-         integral += accuracyKluge(func, emin, emax, err);
-         e0 *= efactor;
-         e1 *= efactor;
-      }
-   }
-   return integral;
+double IEdisp::edispIntegrand(double * appEnergy) {
+   return s_self->value(*appEnergy, s_energy, s_theta, s_phi, s_time);
 }
 
-double IEdisp::accuracyKluge(const EdispIntegrand & func,
-                             double emin, double emax, double err) const {
-// kluge to deal with integrations deemed not to be sufficiently accurate
-   double integral;
-   int ier;
-   double factor(1e3);
-   try {
-      integral = st_facilities::GaussianQuadrature::dgaus8(func, emin, emax, 
-                                                           err, ier);
-   } catch (st_facilities::GaussianQuadrature::dgaus8Exception & eObj) {
-      if (eObj.errCode() != 2 && err > 1./factor) {
-         throw;
-      }
-      err *= factor;
-      integral = st_facilities::GaussianQuadrature::dgaus8(func, emin, emax,
-                                                           err, ier);
-   }
-   return integral;
+double IEdisp::meanEnergyIntegrand(double * appEnergy) {
+   return *appEnergy*edispIntegrand(appEnergy);
 }
-   
+
+double IEdisp::trueEnergyIntegrand(double * energy) {
+   return s_self->value(s_energy, *energy, s_theta, s_phi, s_time);
+}
+
+double IEdisp::meanTrueEnergyIntegrand(double * energy) {
+   return *energy*trueEnergyIntegrand(energy);
+}
+
+void IEdisp::setStaticVariables(double energy, double theta, double phi,
+                                double time, const IEdisp * self) {
+   s_energy = energy;
+   s_theta = theta;
+   s_phi = phi;
+   s_time = time;
+   s_self = self;
+}
+
 } // namespace irfInterface
-
