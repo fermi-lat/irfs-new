@@ -7,6 +7,8 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
+if baseEnv['PLATFORM'] == "win32":
+    libEnv.Tool('dc1ResponseLib', depsOnly = 1)
 dc1ResponseLib = libEnv.SharedLibrary('dc1Response', listFiles(['src/*.cxx']))
 
 progEnv.Tool('dc1ResponseLib')
