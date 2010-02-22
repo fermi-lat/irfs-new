@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jrb  Mon Feb 22 12:31:31 PST 2010
+ScienceTools-scons/irfs/g25Response
+
+Modified Files:
+	SConscript 
+Log Message:
+need to invoke xxxLib tool for shared lib on Windows
+    *
+------------------------------------------------------------
 User: jrb  Wed Feb 17 17:18:43 PST 2010
 ScienceTools-scons/irfs/g25Response
 
