@@ -7,7 +7,7 @@
  * $Header$
  */
 
-gSystem->Load("rootIrfLoader");
+gSystem->Load("librootIrfLoader");
 
 // DC1A::Front are loaded by default.
 rootIrfLoader::Psf psf;
