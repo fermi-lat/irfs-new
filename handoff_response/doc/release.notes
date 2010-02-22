@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ handoff_response-04-05-02 22-Feb-2010    jrb correct use of xxLib for libEnv
  handoff_response-04-05-01 02-Dec-2009  rando increase file size limit in MyAnalysis.cxx
  handoff_response-04-05-00 19-Nov-2009 jchiang add add_efficiency_pars application; add EFFICIENCY_PARAMS extension to aeff.tpl
  handoff_response-04-04-01 16-Nov-2009 jchiang disable package unit tests since new PointSpreadFunction implementation breaks loading of older irfs
