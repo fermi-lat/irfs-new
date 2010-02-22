@@ -1,4 +1,33 @@
 ------------------------------------------------------------
+TAG
+Tag name: dc2Response-03-01-05, operation: add
+Package: dc2Response
+User: jrb  Mon Feb 22 12:33:18 2010
+Files:
+  dc2Response/.cvsignore  1.2
+  dc2Response/ChangeLog  1.194
+  dc2Response/dc2ResponseLib.py  1.2
+  dc2Response/SConscript  1.10
+  dc2Response/cmt/requirements  1.36
+  dc2Response/dc2Response/loadIrfs.h  1.2
+  dc2Response/dc2Response/IrfLoader.h  1.2
+  dc2Response/doc/release.notes  1.23
+  dc2Response/src/PsfScaling.h  1.5
+  dc2Response/src/loadIrfs.cxx  1.6
+  dc2Response/src/Psf.cxx  1.29
+  dc2Response/src/DC2.cxx  1.3
+  dc2Response/src/Aeff.cxx  1.8
+  dc2Response/src/Edisp.cxx  1.12
+  dc2Response/src/IrfLoader.cxx  1.4
+  dc2Response/src/Aeff.h  1.5
+  dc2Response/src/DC2.h  1.2
+  dc2Response/src/Edisp.h  1.6
+  dc2Response/src/Psf.h  1.15
+  dc2Response/src/PsfScaling.cxx  1.5
+  dc2Response/src/test/test.cxx  1.12
+
+    *
+------------------------------------------------------------
 User: jrb  Mon Feb 22 12:33:12 PST 2010
 irfs/dc2Response/cmt
 
