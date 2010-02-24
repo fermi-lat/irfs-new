@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jrb  Wed Feb 24 10:27:31 PST 2010
+ScienceTools-scons/irfs/irfLoader
+
+Modified Files:
+	SConscript 
+Log Message:
+fix to linking for mac
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfLoader-01-02-03, operation: add
 Package: irfLoader
