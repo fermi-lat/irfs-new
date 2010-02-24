@@ -1,4 +1,31 @@
 ------------------------------------------------------------
+User: jrb  Wed Feb 24 15:52:54 PST 2010
+irfs/dc1aResponse/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+stag/GoGui_auto-tag
+    *
+------------------------------------------------------------
+User: jrb  Wed Feb 24 15:52:54 PST 2010
+irfs/dc1aResponse/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+stag/GoGui_auto-tag
+    *
+------------------------------------------------------------
+User: jrb  Wed Feb 24 15:52:54 PST 2010
+irfs/dc1aResponse
+
+Modified Files:
+	SConscript 
+Log Message:
+stag/GoGui_auto-tag
+    *
+------------------------------------------------------------
 User: jrb  Wed Feb 24 15:19:04 PST 2010
 ScienceTools-scons/irfs/dc1aResponse
 
