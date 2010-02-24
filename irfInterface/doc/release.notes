@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ irfInterface-03-00-02 24-Feb-2010    jrb fix linking for mac
  irfInterface-03-00-01 22-Feb-2010    jrb correct use of xxLib for libEnv
  irfInterface-03-00-00 19-Nov-2009 jchiang implement IEfficiencyFactor class; move concrete implementation to latResponse
  irfInterface-02-04-01 25-Sep-2009 jchiang include algorithm for upper_bound

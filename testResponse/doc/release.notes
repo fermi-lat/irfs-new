@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ testResponse-02-00-05 24-Feb-2010    jrb fix linking for mac
  testResponse-02-00-04 22-Feb-2010    jrb correct use of xxLib for libEnv
   15-Jul-09 v2r0p3  jrb   update SConscript
   29-Jan-07 v2r0p1  JC    add TESTF, TESTB for rspgen unit tests
