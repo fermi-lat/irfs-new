@@ -7,12 +7,12 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-if baseEnv['PLATFORM'] == "win32":
-    libEnv.Tool('dc2ResponseLib', depsOnly = 1)
+libEnv.Tool('addLinkDeps', package='dc2Response', toBuild='shared')
 
 dc2ResponseLib = libEnv.SharedLibrary('dc2Response', listFiles(['src/*.cxx']))
 
 progEnv.Tool('dc2ResponseLib')
+
 test_dc2ResponseBin = progEnv.Program('test_dc2Response', listFiles(['src/test/*.cxx']))
 
 progEnv.Tool('registerTargets', package = 'dc2Response',

@@ -7,9 +7,7 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-if baseEnv['PLATFORM'] == "win32":
-    libEnv.Tool('irfLoaderLib', depsOnly = 1)
-
+libEnv.Tool('addLinkDeps', package='irfLoader', toBuild='shared')
 irfLoaderLib = libEnv.SharedLibrary('irfLoader', listFiles(['src/*.cxx']))
 
 progEnv.Tool('irfLoaderLib')

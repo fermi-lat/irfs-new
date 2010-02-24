@@ -8,8 +8,7 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-if baseEnv['PLATFORM'] == "win32":
-    libEnv.Tool('dc1aResponseLib', depsOnly = 1)
+libEnv.Tool('addLinkDeps', pacakge='dc1aResponse', toBuild='shared')
 
 dc1aResponseLib = libEnv.SharedLibrary('dc1aResponse', listFiles(['src/*.cxx']))
 

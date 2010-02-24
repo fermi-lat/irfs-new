@@ -9,8 +9,7 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-if baseEnv['PLATFORM'] == "win32":
-    libEnv.Tool('irfInterfaceLib', depsOnly = 1)
+libEnv.Tool('addLinkDeps', package='irfInterface', toBuild='shared')
 
 irfInterfaceLib = libEnv.SharedLibrary('irfInterface', listFiles(['src/*.cxx']))
 

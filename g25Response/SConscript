@@ -8,9 +8,7 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-if baseEnv['PLATFORM'] == "win32":
-    libEnv.Tool('g25ResponseLib', depsOnly = 1)
-
+libEnv.Tool('addLinkDeps', package='g25Response', toBuild='shared')
 g25ResponseLib = libEnv.SharedLibrary('g25Response', listFiles(['src/*.cxx']))
 
 progEnv.Tool('g25ResponseLib')
