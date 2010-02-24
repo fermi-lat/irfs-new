@@ -4,27 +4,7 @@
 
   @verbatim
   $Id$
-  EOH
 
- irfInterface-03-00-01 22-Feb-2010    jrb correct use of xxLib for libEnv
- irfInterface-03-00-00 19-Nov-2009 jchiang implement IEfficiencyFactor class; move concrete implementation to latResponse
- irfInterface-02-04-01 25-Sep-2009 jchiang include algorithm for upper_bound
- irfInterface-02-04-00 23-Sep-2009 jchiang new efficiency correction parametrization
-  28-Jul-09 v2r3p4  JC    use getDataPath in test program
-  15-Jul-09 v2r3p3  jrb   update SConscript
-  13-Jun-09 v2r3p2  JC    turn off correction above maxE in parameter file
-  03-Jun-09 v2r3p1  JC    add EfficiencyFactor function based on David P.'s
-                          parameterization
-  30-May-09 v2r3    JC    kludge to IAeff interface to handle special
-                          cases where phi-dependence should be disabled
-  30-Jan-08 v2r2p1  JC    include <algorithm> in IrfsFactory.cxx for std::count
-  30-Jan-08 v2r2    JC    add IrfsFactory::irfNames()
-  16-May-07 v2r1p1  JC    use st_facilities::GaussianQuadrature::
-                          dgaus8Exception to handle cases where the integrator
-                          reports insufficently accurate results.
-  16-Mar-07 v2r1    JC    use C++ version of dgaus8; remove statics from
-                          IEdisp; add adhocIntegrator to handle spurious
-                          zero-valued integrals
   02-Mar-07 v2r0p4  JC    refactor unit tests for IrfRegistry change
   01-Mar-07 v2r0p3  JC    refactor IrfRegistry to allow concrete IrfLoader
                           implementations to set data members in loadIrfs

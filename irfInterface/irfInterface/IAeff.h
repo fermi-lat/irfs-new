@@ -69,18 +69,6 @@ public:
    /// area for all energies and directions (cm^2).
    virtual double upperLimit() const = 0;
 
-   virtual void setPhiDependence(bool usePhiDependence) {
-      m_usePhiDependence = usePhiDependence;
-   }
-
-   virtual bool usePhiDependence() const {
-      return m_usePhiDependence;
-   }
-
-protected:
-
-   bool m_usePhiDependence;
-
 };
 
 } // namespace irfInterface

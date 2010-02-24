@@ -6,7 +6,7 @@
  * $Header$
  */
 
-#if defined(TRAP_FPE) || defined(HEADAS)
+#ifdef TRAP_FPE
 #include <fenv.h>
 #endif
 
@@ -15,8 +15,6 @@
 
 #include <cppunit/ui/text/TextTestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
-
-#include "facilities/commonUtilities.h"
 
 #include "astro/SkyDir.h"
 
@@ -193,12 +191,6 @@ void irfInterfaceTests::test_IrfRegistry() {
 }
 
 int main() {
-#if defined(TRAP_FPE) || defined(HEADAS)
-      feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
-#else
-      throw std::runtime_error("Floating point exception trapping "
-                               "cannot be enabled for this build.");
-#endif
    CppUnit::TextTestRunner runner;
    
    runner.addTest(irfInterfaceTests::suite());
