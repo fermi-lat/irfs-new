@@ -8,7 +8,7 @@ Import('listFiles')
 progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
-libEnv.Tool('addLinkDeps', pacakge='dc1aResponse', toBuild='shared')
+libEnv.Tool('addLinkDeps', package='dc1aResponse', toBuild='shared')
 
 dc1aResponseLib = libEnv.SharedLibrary('dc1aResponse', listFiles(['src/*.cxx']))
 
