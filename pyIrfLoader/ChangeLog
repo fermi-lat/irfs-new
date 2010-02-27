@@ -1,5 +1,24 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-16-00, operation: add
+Package: pyIrfLoader
+User: glastrm  Fri Feb 26 16:00:16 2010
+Files:
+  pyIrfLoader/.cvsignore  1.2
+  pyIrfLoader/pyIrfLoaderLib.py  1.1
+  pyIrfLoader/ChangeLog  1.75
+  pyIrfLoader/SConscript  1.12
+  pyIrfLoader/cmt/requirements  1.6
+  pyIrfLoader/doc/release.notes  1.6
+  pyIrfLoader/python/plot_irfs.py  1.1.1.1
+  pyIrfLoader/python/psf_tests.py  1.1.1.1
+  pyIrfLoader/python/four_panel.py  1.1.1.1
+  pyIrfLoader/src/pyIrfLoader.i  1.3
+  pyIrfLoader/src/pyIrfLoader.in  1.3
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: pyIrfLoader-00-01-03, operation: add
 Package: pyIrfLoader
 User: jrb  Mon Feb 22 12:36:30 2010
