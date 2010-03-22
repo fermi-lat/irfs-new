@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ caldb-03-00-00 22-Mar-2010 jchiang remove P7_V1*, P6_V4*; add P6_V7
  caldb-02-01-00 21-Feb-2010 jchiang add P6_V8_DIFFUSE irfs
  caldb-02-00-00 07-Jan-2010 jchiang use HEASARC conventions for CALDB env var, caldb.indx
   15-Jul-09 v1r1p1    jrb   update SConscript
