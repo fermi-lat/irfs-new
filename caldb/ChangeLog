@@ -1,4 +1,25 @@
 ------------------------------------------------------------
+User: jchiang  Mon Mar 22 13:51:37 PDT 2010
+irfs/caldb/CALDB/data/glast/lat/bcf/edisp
+
+Modified Files:
+	edisp_P6_v8_diff_back.fits edisp_P6_v8_diff_front.fits 
+Added Files:
+	edisp_P6_v7_diff_back.fits edisp_P6_v7_diff_front.fits 
+	edisp_P6_v7_source_back.fits edisp_P6_v7_source_front.fits 
+	edisp_P6_v7_trans_back.fits edisp_P6_v7_trans_front.fits 
+Removed Files:
+	edisp_P6_v4_diff_back.fits edisp_P6_v4_diff_front.fits 
+	edisp_P6_v4_source_back.fits edisp_P6_v4_source_front.fits 
+	edisp_P6_v4_trans_back.fits edisp_P6_v4_trans_front.fits 
+	edisp_P7_v1_S3_back.fits edisp_P7_v1_S3_front.fits 
+	edisp_P7_v1_diff_back.fits edisp_P7_v1_diff_front.fits 
+	edisp_P7_v1_source_back.fits edisp_P7_v1_source_front.fits 
+	edisp_P7_v1_trans_back.fits edisp_P7_v1_trans_front.fits 
+Log Message:
+remove P7_V1*, P6_V4* irfs; add P6_V7
+    *
+------------------------------------------------------------
 User: jchiang  Mon Mar 22 13:51:36 PDT 2010
 irfs/caldb/CALDB/data/glast/lat/bcf/ea
 
