@@ -1,4 +1,22 @@
 ------------------------------------------------------------
+User: peachey  Fri Mar 26 12:08:07 PDT 2010
+irfs/caldb/CALDB/data/glast/lat/bcf/ea
+
+Modified Files:
+	aeff_P6_v3_diff_back.fits aeff_P6_v3_diff_front.fits 
+	aeff_P6_v3_source_back.fits aeff_P6_v3_source_front.fits 
+	aeff_P6_v3_trans_back.fits aeff_P6_v3_trans_front.fits 
+Log Message:
+Added required CALDB keywords consistently to every extension, as
+documented at:
+
+http://heasarc.gsfc.nasa.gov/docs/heasarc/caldb/caldb_intro.html
+
+This includes DETNAM, FILTER, CCLS*, CDTP*, CCNM*, CBD*, CVSD*,
+CVST*, and CDES* keywords.
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: caldb-03-00-00, operation: add
 Package: caldb
