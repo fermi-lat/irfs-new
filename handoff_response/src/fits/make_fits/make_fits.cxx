@@ -136,6 +136,9 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    phi_dep.setGrid(irfTables["phi_dep_0"]);
    phi_dep.setTableData("PHIDEP0", irfTables["phi_dep_0"].values());
    phi_dep.setTableData("PHIDEP1", irfTables["phi_dep_1"].values());
+   phi_dep.setCbdValue("VERSION", irfVersion);
+   phi_dep.setCbdValue("CLASS", latclass);
+   phi_dep.setKeyword("DETNAM", detname);      
    phi_dep.close();
 
 // The efficiency correction parameters will be filled with zeros by
@@ -143,8 +146,12 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
 // extension can be filled later with a separate application.  If
 // there were a way to automate the efficiency parameter calculation,
 // then appropriate code could go here.
-//    FitsFile efficiency("aeff_" + latclass + ".fits", "EFFICIENCY_PARAMS", 
-//                        "aeff.tpl", newFile=false);
+   FitsFile efficiency("aeff_" + latclass + ".fits", "EFFICIENCY_PARAMS", 
+                       "aeff.tpl", newFile=false);
+   efficiency.setCbdValue("VERSION", irfVersion);
+   efficiency.setCbdValue("CLASS", latclass);
+   efficiency.setKeyword("DETNAM", detname);
+   efficiency.close();
 
 // Point spread function and angular deviation scaling parameters
    std::string psf_file("psf_" + latclass + ".fits");
@@ -169,6 +176,9 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    FitsFile psfScaling(psf_file, "PSF_SCALING_PARAMS", "psf.tpl", 
                        newFile=false);
    psfScaling.setTableData("PSFSCALE", scalingPars);
+   psfScaling.setCbdValue("VERSION", irfVersion);
+   psfScaling.setCbdValue("CLASS", latclass);
+   psfScaling.setKeyword("DETNAM", detname);
    psfScaling.close();
 
 // Energy dispersion
@@ -206,6 +216,9 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    FitsFile edispScaling(edisp_file, "EDISP_SCALING_PARAMS", "edisp.tpl",
                          newFile=false);
    edispScaling.setTableData("EDISPSCALE", scalingPars);
+   edispScaling.setCbdValue("VERSION", irfVersion);
+   edispScaling.setCbdValue("CLASS", latclass);
+   edispScaling.setKeyword("DETNAM", detname);
    edispScaling.close();
 }
 
