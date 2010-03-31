@@ -13,10 +13,10 @@ use facilities v*
 use st_facilities v*
 use irfInterface v* irfs
 
-use dc1Response v* irfs
+#use dc1Response v* irfs
 use dc1aResponse v* irfs
-use dc2Response v* irfs
-use g25Response v* irfs
+#use dc2Response v* irfs
+#use g25Response v* irfs
 use latResponse v* irfs
 use testResponse v* irfs
 #use egretResponse v* irfs
