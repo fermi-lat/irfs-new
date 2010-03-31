@@ -72,12 +72,14 @@ void IrfLoader::registerEventClasses() const {
    }
 // kluge to allow for HANDOFF irfs for backwards compatibility with old
 // handoff_response implementation
-   std::vector<std::string> classNames;
-   classNames.push_back("PASS4::FRONT");
-   classNames.push_back("PASS4::BACK");
-   registry.registerEventClasses("HANDOFF", classNames);
-   registry.registerEventClass("HANDOFF::FRONT", "PASS4::FRONT");
-   registry.registerEventClass("HANDOFF::BACK", "PASS4::BACK");
+   if (registry.respIds().find("PASS4") != registry.respIds().end()) {
+      std::vector<std::string> classNames;
+      classNames.push_back("PASS4::FRONT");
+      classNames.push_back("PASS4::BACK");
+      registry.registerEventClasses("HANDOFF", classNames);
+      registry.registerEventClass("HANDOFF::FRONT", "PASS4::FRONT");
+      registry.registerEventClass("HANDOFF::BACK", "PASS4::BACK");
+   }
 }
 
 void IrfLoader::loadIrfs() const {
