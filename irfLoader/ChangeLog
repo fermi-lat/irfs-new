@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Mar 31 13:50:31 PDT 2010
+irfs/irfLoader/src
+
+Modified Files:
+	Registrar.cxx 
+Log Message:
+disable DC1, DC2, G25 irfs
+    *
+------------------------------------------------------------
+User: jchiang  Wed Mar 31 13:50:31 PDT 2010
 irfs/irfLoader/cmt
 
 Modified Files:
