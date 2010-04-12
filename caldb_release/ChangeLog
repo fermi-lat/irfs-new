@@ -1,0 +1,59 @@
+------------------------------------------------------------
+User: jchiang  Sun Apr 11 17:51:51 PDT 2010
+irfs/caldb_release
+
+Log Message:
+initial import
+
+Status:
+
+Vendor Tag:	JC
+Release Tags:	caldb_release-00-00-00
+		
+N irfs/caldb_release/SConscript
+N irfs/caldb_release/.cvsignore
+N irfs/caldb_release/cmt/requirements
+N irfs/caldb_release/doc/release.notes
+N irfs/caldb_release/CALDB/data/glast/lat/caldb.indx
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_diff_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_diff_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_source_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_trans_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_diff_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_source_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_diff_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_source_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_trans_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_source_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_trans_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_trans_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_trans_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_diff_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_source_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_diff_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_source_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_source_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_trans_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_diff_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_diff_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_source_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_trans_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_trans_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_source_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_source_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_diff_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_source_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_diff_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_trans_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_diff_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_trans_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_source_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_diff_front.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_trans_back.fits
+N irfs/caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_trans_front.fits
+N irfs/caldb_release/CALDB/software/tools/caldb.config
+N irfs/caldb_release/CALDB/software/tools/alias_config.fits
+
+No conflicts created by this import
+
+    *
