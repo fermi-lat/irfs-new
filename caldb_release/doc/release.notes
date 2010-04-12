@@ -1,0 +1,12 @@
+/** 
+  @file release.notes
+  @brief package caldb_release
+
+  @verbatim
+  $Id$
+  EOH
+
+ caldb_release-00-00-00 11-Apr-2010 jchiang public release irfs
+ 
+  @endverbatim
+*/
