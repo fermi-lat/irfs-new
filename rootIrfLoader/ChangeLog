@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jrb  Tue Apr 13 16:54:18 PDT 2010
+ScienceTools-scons/irfs/rootIrfLoader
+
+Modified Files:
+	SConscript 
+Log Message:
+Revert back to explicitly listing includes and library sources, necessary
+because of the way rootcint works.
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-16-01, operation: add
 Package: rootIrfLoader
