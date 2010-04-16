@@ -7,3 +7,5 @@ VC7*
 iterate.dat
 *.ph
 *.pp
+build
+*.pyc
