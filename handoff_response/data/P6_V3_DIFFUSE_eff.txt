@@ -1,0 +1,14 @@
+# Efficiency correction parameters. 
+# See http://confluence.slac.stanford.edu/x/ohREAw
+#
+# $Id$
+#
+# a0       b0      a1     logEb1    a2     logEb2
+# p0, front
+-1.381   5.632   -0.830   2.737   -0.127   4.640
+# p1, front
+ 1.268  -4.141    0.752   2.740    0.124   4.625
+# p0, back
+-1.527   6.112   -0.844   2.877   -0.133   4.593
+# p1, back
+ 1.413  -4.628    0.773   2.864    0.126   4.592 
