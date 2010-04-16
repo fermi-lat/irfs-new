@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ rootIrfLoader-01-00-04 16-Apr-2010    jrb Fix SConscript so that rootcint is run for SCons builds
  rootIrfLoader-01-00-03 22-Feb-2010    jrb correct use of xxLib for libEnv
  rootIrfLoader-01-00-02 30-Jul-2009    jrb Fix SConscript
   15-Jul-09 v1r0p1  jrb   update SConscript
