@@ -15,8 +15,6 @@
 
 #include "CLHEP/Random/RandFlat.h"
 
-using CLHEP::RandFlat;
-
 #include <tip/IFileSvc.h>
 #include <tip/Table.h>
 
@@ -48,21 +46,19 @@ double Edisp::value(double appEnergy,
                     double energy, 
                     const astro::SkyDir &srcDir,
                     const astro::SkyDir &scZAxis,
-                    const astro::SkyDir &,
-                    double time) const {
+                    const astro::SkyDir &) const {
 // Inclination wrt spacecraft z-axis in degrees.
    double theta = srcDir.difference(scZAxis)*180./M_PI;
 
 // The azimuthal angle is not used by the DC2 irfs.
    double phi(0);
 
-   return value(appEnergy, energy, theta, phi, time);
+   return value(appEnergy, energy, theta, phi);
 }
 
 double Edisp::value(double appEnergy, double energy,
-                    double theta, double phi, double time) const {
+                    double theta, double phi) const {
    (void)(phi);
-   (void)(time);
 
    if (theta < 0) {
       std::ostringstream message;
@@ -87,9 +83,7 @@ double Edisp::value(double appEnergy, double energy,
 double Edisp::appEnergy(double energy,
                         const astro::SkyDir & srcDir,
                         const astro::SkyDir & scZAxis,
-                        const astro::SkyDir &,
-                        double time) const {
-   (void)(time);
+                        const astro::SkyDir & ) const {
    double mu(std::cos(srcDir.difference(scZAxis)));
    size_t indx = parIndex(energy, mu);
 
@@ -126,16 +120,14 @@ size_t Edisp::parIndex(double energy, double mu) const {
 double Edisp::integral(double emin, double emax, double energy,
                        const astro::SkyDir & srcDir, 
                        const astro::SkyDir & scZAxis,
-                       const astro::SkyDir &,
-                       double time) const {
+                       const astro::SkyDir & ) const {
    return integral(emin, emax, energy,
-                   srcDir.difference(scZAxis)*180./M_PI, 0, time);
+                   srcDir.difference(scZAxis)*180./M_PI, 0);
 }
    
 double Edisp::integral(double emin, double emax, double energy, 
-                       double theta, double phi, double time) const {
+                       double theta, double phi) const {
    (void)(phi);
-   (void)(time);
    if (theta < 0) {
       std::ostringstream message;
       message << "dc2Response::Edisp"
@@ -218,10 +210,6 @@ void Edisp::computeCumulativeDists() {
 
 double Edisp::edispIntegrand(double * xx) {
    double & x(*xx);
-   if (x/s_rwidth > 7.) { // This leads to a 0.1% error in the integrand value
-      double logf = s_ltail*std::log(1. + x) - x/s_rwidth;
-      return std::exp(logf);
-   }
    return std::pow(1. + x, s_ltail)/(1. + std::exp(x/s_rwidth));   
 }
 
