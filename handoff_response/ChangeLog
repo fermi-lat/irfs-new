@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Apr 15 20:02:15 PDT 2010
+irfs/handoff_response/data
+
+Added Files:
+	P6_V3_DIFFUSE_eff.txt 
+Log Message:
+add efficiency params for P6_V3 diffuse
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-16-01, operation: add
 Package: handoff_response
