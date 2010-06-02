@@ -16,6 +16,9 @@ irfInterfaceLib = libEnv.SharedLibrary('irfInterface', listFiles(['src/*.cxx']))
 progEnv.Tool('irfInterfaceLib')
 progEnv.Tool('addLibrary', library=progEnv['cppunitLibs'])
 
+if baseEnv['PLATFORM'] == 'posix':
+    progEnv.Append(CPPDEFINES='TRAP_FPE')
+
 test_irfInterfaceBin = progEnv.Program('test_irfInterface',
                                        listFiles(['src/test/*.cxx']))
 
