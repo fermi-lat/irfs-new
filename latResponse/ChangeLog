@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jun  1 17:49:04 PDT 2010
+irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+disable psf normalization tests of P6_V7_TRANSIENT
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-16-01, operation: add
 Package: latResponse
