@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-02-06-03 01-Jun-2010 jchiang disable psf normalization tests for unused P6_V7_TRANSIENT
  latResponse-02-06-02 31-Mar-2010 jchiang add event class names for HANDOFF only if PASS4 irfs are available
  latResponse-02-06-01 22-Feb-2010    jrb correct use of xxLib for libEnv
  latResponse-02-06-00 07-Jan-2010 jchiang insert subdir component from caldb.config to caldb_indx name
