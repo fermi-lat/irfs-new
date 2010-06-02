@@ -3,7 +3,7 @@
 # $Header$
 #
 # Authors: James Chiang <jchiang@slac.stanford.edu>
-# Version: irfInterface-03-00-02
+# Version: irfInterface-03-00-03
 Import('baseEnv')
 Import('listFiles')
 progEnv = baseEnv.Clone()
