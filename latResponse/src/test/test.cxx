@@ -167,6 +167,10 @@ void LatResponseTests::psf_normalization() {
    for (std::vector<std::string>::const_iterator name = m_irfNames.begin();
         name != m_irfNames.end(); ++name) {
       std::cout << *name << ": \n";
+      if (*name == "P6_V7_TRANSIENT::FRONT" || 
+          *name == "P6_V7_TRANSIENT::BACK") {
+         continue;
+      }
       irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
       const irfInterface::IPsf & psf(*myIrfs->psf());
       
