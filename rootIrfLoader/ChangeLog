@@ -1,33 +1,4 @@
 ------------------------------------------------------------
-TAG
-Tag name: rootIrfLoader-01-00-04, operation: add
-Package: rootIrfLoader
-User: jrb  Fri Apr 16 12:43:56 2010
-Files:
-  rootIrfLoader/.cvsignore  1.2
-  rootIrfLoader/ChangeLog  1.1.1.73
-  rootIrfLoader/SConscript  1.13
-  rootIrfLoader/rootIrfLoaderLib.py  1.2
-  rootIrfLoader/cmt/requirements  1.5
-  rootIrfLoader/doc/release.notes  1.6
-  rootIrfLoader/doc/Makefile  1.1.1.1
-  rootIrfLoader/doc/Doxyfile  1.1.1.1
-  rootIrfLoader/src/mainpage.h  1.1.1.1
-  rootIrfLoader/src/irf_test.C  1.2
-  rootIrfLoader/src/rootIrfLoader/IrfBase.h  1.1.1.1
-  rootIrfLoader/src/rootIrfLoader/Psf.cxx  1.1.1.1
-  rootIrfLoader/src/rootIrfLoader/IrfBase.cxx  1.1.1.1
-  rootIrfLoader/src/rootIrfLoader/LinkDef.h  1.1.1.1
-  rootIrfLoader/src/rootIrfLoader/Aeff.cxx  1.1.1.1
-  rootIrfLoader/src/rootIrfLoader/Edisp.cxx  1.1.1.1
-  rootIrfLoader/src/rootIrfLoader/SkyDir.h  1.1.1.1
-  rootIrfLoader/src/rootIrfLoader/SkyDir.cxx  1.1.1.1
-  rootIrfLoader/src/rootIrfLoader/Aeff.h  1.1.1.1
-  rootIrfLoader/src/rootIrfLoader/Psf.h  1.1.1.1
-  rootIrfLoader/src/rootIrfLoader/Edisp.h  1.1.1.1
-
-    *
-------------------------------------------------------------
 User: jrb  Fri Apr 16 12:43:50 PDT 2010
 irfs/rootIrfLoader/cmt
 
