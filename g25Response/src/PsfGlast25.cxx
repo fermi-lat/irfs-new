@@ -11,11 +11,10 @@
 #include <stdexcept>
 #include <sstream>
 
+#include "CLHEP/Random/RandomEngine.h"
+#include "CLHEP/Random/JamesRandom.h"
 #include "CLHEP/Random/RandFlat.h"
 #include "CLHEP/Geometry/Vector3D.h"
-
-using CLHEP::RandFlat;
-using CLHEP::Hep3Vector;
 
 #include "irfInterface/AcceptanceCone.h"
 
@@ -65,9 +64,7 @@ double PsfGlast25::value(const astro::SkyDir &appDir,
                          double energy, 
                          const astro::SkyDir &srcDir, 
                          const astro::SkyDir &scZAxis,
-                         const astro::SkyDir &,
-                         double time) const {
-   (void)(time);
+                         const astro::SkyDir &) const {
 
 // Angle between photon and source directions in radians.
    double separation = appDir.difference(srcDir);
@@ -78,8 +75,7 @@ double PsfGlast25::value(const astro::SkyDir &appDir,
    return value(separation, energy, inc);
 }
 double PsfGlast25::value(double separation, double energy,
-                         double theta, double phi, double time) const {
-   (void)(time);
+                         double theta, double phi) const {
    if (theta < 0) {
       std::ostringstream message;
       message << "g25Response::PsfGlast25::value(...):\n"
@@ -94,10 +90,8 @@ double PsfGlast25::value(double separation, double energy,
 astro::SkyDir PsfGlast25::appDir(double energy,
                                  const astro::SkyDir &srcDir,
                                  const astro::SkyDir &scZAxis,
-                                 const astro::SkyDir &,
-                                 double time) const {
-   (void)(time);
-
+                                 const astro::SkyDir &) const {
+   
    double inclination = srcDir.difference(scZAxis)*180./M_PI;
 
    std::vector<double> psfParams;
@@ -231,20 +225,19 @@ PsfGlast25::angularIntegral(double energy,
                             const astro::SkyDir &scZAxis,
                             const astro::SkyDir &scXAxis,
                             const std::vector<irfInterface::AcceptanceCone *> 
-                            &acceptanceCones, double time) {
+                            &acceptanceCones) {
    (void)(scXAxis);
    static double phi;
    double theta = srcDir.difference(scZAxis)*180./M_PI;
-   return angularIntegral(energy, srcDir, theta, phi, acceptanceCones, time);
+   return angularIntegral(energy, srcDir, theta, phi, acceptanceCones);
 }
 
 double 
 PsfGlast25::angularIntegral(double energy, const astro::SkyDir &srcDir,
                             double theta, double phi,
                             const std::vector<irfInterface::AcceptanceCone *> 
-                            &acceptanceCones, double time) {
+                            &acceptanceCones) {
    (void)(phi);
-   (void)(time);
    if (!m_acceptanceCone || *m_acceptanceCone != *(acceptanceCones[0])) {
       computeAngularIntegrals(acceptanceCones);
       m_haveAngularIntegrals = true;
@@ -299,9 +292,8 @@ PsfGlast25::angularIntegral(double energy, const astro::SkyDir &srcDir,
 }
 
 double PsfGlast25::angularIntegral(double energy, double theta, double phi,
-                                   double radius, double time) const {
+                                   double radius) const {
    (void)(phi);
-   (void)(time);
    std::vector<double> psfParams;
    fetchPsfParams(energy, theta, psfParams);
 
