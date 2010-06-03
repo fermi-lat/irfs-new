@@ -7,6 +7,7 @@
     @verbatim
     EOH
 
+ pyIrfLoader-00-01-04 03-Jun-2010 jchiang add CLHEP qualifiers in prep for CLHEP 2.0.4.6
  pyIrfLoader-00-01-03 22-Feb-2010    jrb correct use of xxLib for libEnv
  pyIrfLoader-00-01-02 02-Dec-2009 jchiang correct include path for ThreeVector.h in pyIrfLoader.i
  pyIrfLoader-00-01-01 02-Dec-2009 jchiang update pyIrfLoader.i with changes from v0r1p0
