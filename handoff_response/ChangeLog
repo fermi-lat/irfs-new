@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jun  2 21:14:39 PDT 2010
+ScienceTools-scons/irfs/handoff_response/src/gen
+
+Modified Files:
+	IrfAnalysis.cxx 
+Log Message:
+add CLHEP qualifiers
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-04-05-04, operation: add
 Package: handoff_response

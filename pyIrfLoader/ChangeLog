@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jun  2 21:15:22 PDT 2010
+ScienceTools-scons/irfs/pyIrfLoader/src
+
+Modified Files:
+	pyIrfLoader.i 
+Log Message:
+add CLHEP qualifiers
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-16-01, operation: add
 Package: pyIrfLoader
