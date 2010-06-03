@@ -122,7 +122,8 @@ case 2: out() << "back events"; break;
         ++selected;
 
         // calculate theta, phi components of the error
-        HepVector3D 
+//        HepVector3D 
+        HepGeom::Vector3D<double>
             mc_dir(McXDir, McYDir, McZDir), 
             fit_dir(fitxdir, fitydir, fitzdir),
             mc_error(mc_dir-fit_dir),

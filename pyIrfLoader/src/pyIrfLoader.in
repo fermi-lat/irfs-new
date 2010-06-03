@@ -71,7 +71,7 @@
       astro::SkyDir scXAxis(90., 0);
       astro::SkyDir appDir = self->appDir(energy, srcDir, scZAxis, scXAxis);
       double separation = appDir.difference(srcDir)*180./M_PI;
-      double phi = RandFlat::shoot()*360.;
+      double phi = CLHEP::RandFlat::shoot()*360.;
       return std::make_pair<double, double>(separation, phi);
    }
 }

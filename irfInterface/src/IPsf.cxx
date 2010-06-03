@@ -75,7 +75,7 @@ astro::SkyDir IPsf::appDir(double energy,
                /(integralDist.at(indx+1) - integralDist.at(indx))
                *(s_psi_values.at(indx+1) - s_psi_values.at(indx))
                + s_psi_values.at(indx));
-   double azimuth(2.*M_PI*RandFlat::shoot());
+   double azimuth(2.*M_PI*CLHEP::RandFlat::shoot());
    
    astro::SkyDir appDir(srcDir);
    astro::SkyDir zAxis(scZAxis);
