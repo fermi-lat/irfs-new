@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jun  2 21:16:05 PDT 2010
+ScienceTools-scons/irfs/pyIrfLoader/src
+
+Modified Files:
+	pyIrfLoader.in 
+Log Message:
+add CLHEP qualifiers
+    *
+------------------------------------------------------------
 User: jchiang  Wed Jun  2 21:15:22 PDT 2010
 ScienceTools-scons/irfs/pyIrfLoader/src
 
