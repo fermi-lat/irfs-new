@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Jun 15 09:52:21 PDT 2010
+irfs/caldb_release/CALDB/data/glast/lat/bcf/ea
+
+Added Files:
+	aeff_P6_v8_diff_back.fits aeff_P6_v8_diff_front.fits 
+Log Message:
+add P6_v8_diff files; not tagging yet
+    *
+------------------------------------------------------------
+User: jchiang  Tue Jun 15 09:52:21 PDT 2010
 irfs/caldb_release/CALDB/data/glast/lat
 
 Modified Files:
