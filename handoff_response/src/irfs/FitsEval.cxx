@@ -8,6 +8,7 @@
  */
 
 #include <cctype>
+#include <cstdlib>
 #include <stdexcept>
 
 #include "facilities/commonUtilities.h"

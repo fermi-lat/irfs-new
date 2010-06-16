@@ -6,6 +6,8 @@
  * $Header$
  */
 
+#include <cstdlib>
+
 #include <stdexcept>
 
 #include "st_stream/StreamFormatter.h"
