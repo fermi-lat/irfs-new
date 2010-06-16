@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jun 16 15:44:27 PDT 2010
+ScienceTools-scons/irfs/irfLoader/src/gtirfs
+
+Modified Files:
+	gtirfs.cxx 
+Log Message:
+add includes for gcc4.4.3 build
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-16-01, operation: add
 Package: irfLoader

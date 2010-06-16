@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jun 16 15:44:08 PDT 2010
+ScienceTools-scons/irfs/handoff_response/src/irfs
+
+Modified Files:
+	FitsEval.cxx 
+Log Message:
+add includes for gcc4.4.3 build
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-04-05-05, operation: add
 Package: handoff_response
