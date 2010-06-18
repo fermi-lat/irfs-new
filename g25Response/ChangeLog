@@ -1,5 +1,32 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-17-00, operation: add
+Package: g25Response
+User: glastrm  Thu Jun 17 18:46:03 2010
+Files:
+  g25Response/g25ResponseLib.py  1.2
+  g25Response/.cvsignore  1.2
+  g25Response/ChangeLog  1.121
+  g25Response/SConscript  1.11
+  g25Response/cmt/requirements  1.22
+  g25Response/doc/release.notes  1.13
+  g25Response/g25Response/loadIrfs.h  1.2
+  g25Response/g25Response/IrfLoader.h  1.2
+  g25Response/src/PsfGlast25.h  1.2
+  g25Response/src/AeffGlast25.h  1.3
+  g25Response/src/AeffGlast25.cxx  1.5
+  g25Response/src/loadIrfs.cxx  1.6
+  g25Response/src/Glast25.h  1.1.1.1
+  g25Response/src/IrfLoader.cxx  1.3
+  g25Response/src/PsfGlast25.cxx  1.6
+  g25Response/src/EdispGlast25.cxx  1.5
+  g25Response/src/EdispGlast25.h  1.2
+  g25Response/src/Glast25.cxx  1.1.1.1
+  g25Response/src/test/test.cxx  1.5
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-16-01, operation: add
 Package: g25Response
 User: glastrm  Mon Apr  5 11:23:43 2010
