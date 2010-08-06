@@ -24,7 +24,9 @@ extraSources = [ 'src/rootIrfLoader/IrfBase.cxx', 'src/rootIrfLoader/Aeff.cxx',
 libEnv.Tool('rootIrfLoaderLib', depsOnly = 1)
 
 rootIrfLoaderCint = libEnv.Rootcint('rootIrfLoader/rootIrfLoader_rootcint.cxx',
-                                    cintSources, includes = ['.', 'src' ])
+                                    cintSources, includes = ['.', 'src' ],
+                                    localIncludes=listFiles(['src/rootIrfLoader/*.h']),
+                                    packageName='rootIrfLoader')
                                     
 libEnv['rootcint_node'] = rootIrfLoaderCint
 
