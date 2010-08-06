@@ -1,4 +1,619 @@
 ------------------------------------------------------------
+User: jchiang  Sun Jan 27 12:38:46 PST 2008
+irfs/irfLoader/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+comment out egretResponse; tagging v1r0p5
+    *
+------------------------------------------------------------
+User: jchiang  Sun Jan 27 12:38:46 PST 2008
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+comment out egretResponse; tagging v1r0p5
+    *
+------------------------------------------------------------
+TAG
+Tag name: irfLoader-01-00-04, operation: add
+Package: irfLoader
+User: glastrm  Fri Jan 25 16:45:44 2008
+Files:
+  irfLoader/.cvsignore  1.1.1.1
+  irfLoader/irfLoaderLib.py  1.1
+  irfLoader/ChangeLog  1.156
+  irfLoader/SConscript  1.1
+  irfLoader/cmt/requirements  1.39
+  irfLoader/doc/release.notes  1.23
+  irfLoader/irfLoader/Loader.h  1.11
+  irfLoader/pfiles/gtecorrect.par  1.1
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Registrar.cxx  1.6
+  irfLoader/src/Registrar.h  1.1
+  irfLoader/src/Loader.cxx  1.24
+  irfLoader/src/gtecorrect/gtecorrect.cxx  1.1
+  irfLoader/src/test/MyLoader.h  1.5
+  irfLoader/src/test/test.cxx  1.15
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: v1r0p4, operation: add
+Package: irfLoader
+User: jchiang  Fri Jan 25 16:31:11 2008
+Files:
+  irfLoader/.cvsignore  1.1.1.1
+  irfLoader/irfLoaderLib.py  1.1
+  irfLoader/ChangeLog  1.156
+  irfLoader/SConscript  1.1
+  irfLoader/cmt/requirements  1.39
+  irfLoader/doc/release.notes  1.23
+  irfLoader/irfLoader/Loader.h  1.11
+  irfLoader/pfiles/gtecorrect.par  1.1
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Registrar.cxx  1.6
+  irfLoader/src/Registrar.h  1.1
+  irfLoader/src/Loader.cxx  1.24
+  irfLoader/src/gtecorrect/gtecorrect.cxx  1.1
+  irfLoader/src/test/MyLoader.h  1.5
+  irfLoader/src/test/test.cxx  1.15
+
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 25 16:30:51 PST 2008
+irfs/irfLoader/src
+
+Modified Files:
+	Registrar.cxx 
+Log Message:
+comment out egretResponse references; tagging v1r0p4
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 25 16:30:51 PST 2008
+irfs/irfLoader/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+comment out egretResponse references; tagging v1r0p4
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 25 16:30:51 PST 2008
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+comment out egretResponse references; tagging v1r0p4
+    *
+------------------------------------------------------------
+TAG
+Tag name: irfLoader-01-00-03, operation: add
+Package: irfLoader
+User: glastrm  Fri Jan 25 15:31:30 2008
+Files:
+  irfLoader/.cvsignore  1.1.1.1
+  irfLoader/irfLoaderLib.py  1.1
+  irfLoader/ChangeLog  1.151
+  irfLoader/SConscript  1.1
+  irfLoader/cmt/requirements  1.38
+  irfLoader/doc/release.notes  1.22
+  irfLoader/irfLoader/Loader.h  1.11
+  irfLoader/pfiles/gtecorrect.par  1.1
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Registrar.cxx  1.5
+  irfLoader/src/Registrar.h  1.1
+  irfLoader/src/Loader.cxx  1.24
+  irfLoader/src/gtecorrect/gtecorrect.cxx  1.1
+  irfLoader/src/test/MyLoader.h  1.5
+  irfLoader/src/test/test.cxx  1.15
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: v1r0p3, operation: add
+Package: irfLoader
+User: jchiang  Fri Jan 25 15:17:47 2008
+Files:
+  irfLoader/.cvsignore  1.1.1.1
+  irfLoader/irfLoaderLib.py  1.1
+  irfLoader/ChangeLog  1.151
+  irfLoader/SConscript  1.1
+  irfLoader/cmt/requirements  1.38
+  irfLoader/doc/release.notes  1.22
+  irfLoader/irfLoader/Loader.h  1.11
+  irfLoader/pfiles/gtecorrect.par  1.1
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Registrar.cxx  1.5
+  irfLoader/src/Registrar.h  1.1
+  irfLoader/src/Loader.cxx  1.24
+  irfLoader/src/gtecorrect/gtecorrect.cxx  1.1
+  irfLoader/src/test/MyLoader.h  1.5
+  irfLoader/src/test/test.cxx  1.15
+
+    *
+------------------------------------------------------------
+User: golpa  Tue Dec 11 09:17:06 PST 2007
+irfs/irfLoader
+
+Added Files:
+	SConscript irfLoaderLib.py 
+Log Message:
+Initial import of SCons files
+    *
+------------------------------------------------------------
+User: jchiang  Sat Jun 16 16:11:04 PDT 2007
+irfs/irfLoader/src
+
+Modified Files:
+	Loader.cxx Registrar.cxx 
+Log Message:
+add egretResponse
+    *
+------------------------------------------------------------
+User: jchiang  Sat Jun 16 16:11:03 PDT 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add egretResponse
+    *
+------------------------------------------------------------
+User: jchiang  Wed Apr 25 12:51:12 PDT 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+pare down req file
+    *
+------------------------------------------------------------
+TAG
+Tag name: v1r0p2, operation: add
+Package: irfLoader
+User: jchiang  Fri Mar  2 07:56:11 2007
+Files:
+  irfLoader/.cvsignore  1.1.1.1
+  irfLoader/ChangeLog  1.146
+  irfLoader/cmt/requirements  1.36
+  irfLoader/doc/release.notes  1.22
+  irfLoader/irfLoader/Loader.h  1.11
+  irfLoader/pfiles/gtecorrect.par  1.1
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Registrar.cxx  1.4
+  irfLoader/src/Registrar.h  1.1
+  irfLoader/src/Loader.cxx  1.23
+  irfLoader/src/gtecorrect/gtecorrect.cxx  1.1
+  irfLoader/src/test/MyLoader.h  1.5
+  irfLoader/src/test/test.cxx  1.15
+
+    *
+------------------------------------------------------------
+User: jchiang  Fri Mar  2 07:44:02 PST 2007
+irfs/irfLoader/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+tagging v1r0p2
+    *
+------------------------------------------------------------
+User: jchiang  Fri Mar  2 07:44:02 PST 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+tagging v1r0p2
+    *
+------------------------------------------------------------
+User: jchiang  Thu Mar  1 23:51:24 PST 2007
+irfs/irfLoader/src/test
+
+Modified Files:
+	MyLoader.h 
+Log Message:
+refactor unit tests
+    *
+------------------------------------------------------------
+User: jchiang  Thu Mar  1 23:51:24 PST 2007
+irfs/irfLoader/src
+
+Modified Files:
+	Loader.cxx Registrar.cxx 
+Log Message:
+refactor unit tests
+    *
+------------------------------------------------------------
+TAG
+Tag name: v1r0p1, operation: add
+Package: irfLoader
+User: jchiang  Mon Jan 29 17:20:26 2007
+Files:
+  irfLoader/.cvsignore  1.1.1.1
+  irfLoader/ChangeLog  1.141
+  irfLoader/cmt/requirements  1.35
+  irfLoader/doc/release.notes  1.21
+  irfLoader/irfLoader/Loader.h  1.11
+  irfLoader/pfiles/gtecorrect.par  1.1
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Registrar.cxx  1.3
+  irfLoader/src/Registrar.h  1.1
+  irfLoader/src/Loader.cxx  1.22
+  irfLoader/src/gtecorrect/gtecorrect.cxx  1.1
+  irfLoader/src/test/MyLoader.h  1.4
+  irfLoader/src/test/test.cxx  1.15
+
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 29 17:19:54 PST 2007
+irfs/irfLoader/src
+
+Modified Files:
+	Registrar.cxx 
+Log Message:
+add handoff_response back in; tagging v1r0p1
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 29 17:19:54 PST 2007
+irfs/irfLoader/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+add handoff_response back in; tagging v1r0p1
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 29 17:19:54 PST 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add handoff_response back in; tagging v1r0p1
+    *
+------------------------------------------------------------
+TAG
+Tag name: v1, operation: add
+Package: irfLoader
+User: jchiang  Mon Jan 29 14:30:35 2007
+Files:
+  irfLoader/.cvsignore  1.1.1.1
+  irfLoader/ChangeLog  1.137
+  irfLoader/cmt/requirements  1.34
+  irfLoader/doc/release.notes  1.20
+  irfLoader/irfLoader/Loader.h  1.11
+  irfLoader/pfiles/gtecorrect.par  1.1
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Registrar.cxx  1.2
+  irfLoader/src/Registrar.h  1.1
+  irfLoader/src/Loader.cxx  1.22
+  irfLoader/src/gtecorrect/gtecorrect.cxx  1.1
+  irfLoader/src/test/MyLoader.h  1.4
+  irfLoader/src/test/test.cxx  1.15
+
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 29 14:30:05 PST 2007
+irfs/irfLoader/doc
+
+Modified Files:
+	release.notes 
+Log Message:
+tagging v1
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 29 14:30:05 PST 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+tagging v1
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 29 13:22:13 PST 2007
+irfs/irfLoader/src
+
+Modified Files:
+	Registrar.cxx 
+Log Message:
+comment out handoff_response
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 29 13:22:13 PST 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+comment out handoff_response
+    *
+------------------------------------------------------------
+User: jchiang  Sun Jan 21 17:24:57 PST 2007
+irfs/irfLoader/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+use IrfRegistry list of respIds directly
+    *
+------------------------------------------------------------
+User: jchiang  Sun Jan 21 17:24:56 PST 2007
+irfs/irfLoader/src
+
+Modified Files:
+	Loader.cxx 
+Log Message:
+use IrfRegistry list of respIds directly
+    *
+------------------------------------------------------------
+User: jchiang  Sun Jan 21 17:24:56 PST 2007
+irfs/irfLoader/irfLoader
+
+Modified Files:
+	Loader.h 
+Log Message:
+use IrfRegistry list of respIds directly
+    *
+------------------------------------------------------------
+User: jchiang  Sun Jan 21 16:08:23 PST 2007
+irfs/irfLoader/src/test
+
+Modified Files:
+	MyLoader.h test.cxx 
+Log Message:
+refactored IrfRegsitry, IrfLoader location; add Registrar class
+    *
+------------------------------------------------------------
+User: jchiang  Sun Jan 21 16:08:23 PST 2007
+irfs/irfLoader/src
+
+Modified Files:
+	Loader.cxx 
+Added Files:
+	Registrar.cxx Registrar.h 
+Removed Files:
+	IrfRegistry.cxx 
+Log Message:
+refactored IrfRegsitry, IrfLoader location; add Registrar class
+    *
+------------------------------------------------------------
+User: jchiang  Sun Jan 21 16:08:22 PST 2007
+irfs/irfLoader/irfLoader
+
+Modified Files:
+	Loader.h 
+Removed Files:
+	IrfLoader.h IrfLoaderFactory.h IrfRegistry.h 
+Log Message:
+refactored IrfRegsitry, IrfLoader location; add Registrar class
+    *
+------------------------------------------------------------
+User: jchiang  Sun Jan 21 16:08:22 PST 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+refactored IrfRegsitry, IrfLoader location; add Registrar class
+    *
+------------------------------------------------------------
+User: jchiang  Sat Jan 20 12:26:31 PST 2007
+irfs/irfLoader/src/test
+
+Modified Files:
+	MyLoader.h test.cxx 
+Log Message:
+factor out final dependencies
+    *
+------------------------------------------------------------
+User: jchiang  Sat Jan 20 12:26:31 PST 2007
+irfs/irfLoader/src
+
+Modified Files:
+	IrfRegistry.cxx Loader.cxx 
+Log Message:
+factor out final dependencies
+    *
+------------------------------------------------------------
+User: jchiang  Sat Jan 20 12:26:31 PST 2007
+irfs/irfLoader/irfLoader
+
+Modified Files:
+	IrfRegistry.h Loader.h 
+Log Message:
+factor out final dependencies
+    *
+------------------------------------------------------------
+User: jchiang  Sat Jan 20 12:26:31 PST 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+factor out final dependencies
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 19 15:20:20 PST 2007
+irfs/irfLoader/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+update test program
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 19 15:13:36 PST 2007
+irfs/irfLoader/src/test
+
+Modified Files:
+	MyLoader.h test.cxx 
+Log Message:
+move handoff_response
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 19 15:13:35 PST 2007
+irfs/irfLoader/src
+
+Modified Files:
+	Loader.cxx 
+Log Message:
+move handoff_response
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 19 15:13:35 PST 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+move handoff_response
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 19 08:36:18 PST 2007
+irfs/irfLoader/src/test
+
+Added Files:
+	MyLoader.h 
+Log Message:
+add example class for testing interface
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 19 08:21:41 PST 2007
+irfs/irfLoader/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+move testResponse into new framework
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 19 08:21:41 PST 2007
+irfs/irfLoader/src
+
+Modified Files:
+	IrfRegistry.cxx Loader.cxx 
+Log Message:
+move testResponse into new framework
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 19 08:21:41 PST 2007
+irfs/irfLoader/irfLoader
+
+Modified Files:
+	IrfLoader.h IrfRegistry.h 
+Log Message:
+move testResponse into new framework
+    *
+------------------------------------------------------------
+User: jchiang  Fri Jan 19 08:21:41 PST 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+move testResponse into new framework
+    *
+------------------------------------------------------------
+User: jchiang  Thu Jan 18 18:27:16 PST 2007
+irfs/irfLoader/src
+
+Added Files:
+	IrfRegistry.cxx 
+Log Message:
+add Factory, Registry abstractions
+    *
+------------------------------------------------------------
+User: jchiang  Thu Jan 18 18:27:15 PST 2007
+irfs/irfLoader/irfLoader
+
+Added Files:
+	IrfLoader.h IrfLoaderFactory.h IrfRegistry.h 
+Log Message:
+add Factory, Registry abstractions
+    *
+------------------------------------------------------------
+User: jchiang  Thu Jan 18 18:27:14 PST 2007
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add Factory, Registry abstractions
+    *
+------------------------------------------------------------
+User: jchiang  Sat Oct 28 12:16:14 PDT 2006
+irfs/irfLoader/src/gtecorrect
+
+Added Files:
+	gtecorrect.cxx 
+Log Message:
+add gtecorrect application
+    *
+------------------------------------------------------------
+User: jchiang  Sat Oct 28 12:16:14 PDT 2006
+irfs/irfLoader/pfiles
+
+Added Files:
+	gtecorrect.par 
+Log Message:
+add gtecorrect application
+    *
+------------------------------------------------------------
+User: jchiang  Sat Oct 28 12:16:14 PDT 2006
+irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add gtecorrect application
+    *
+------------------------------------------------------------
+User: jchiang  Sat Oct 28 12:14:56 PDT 2006
+irfs/irfLoader/pfiles
+
+Log Message:
+Directory /nfs/slac/g/glast/ground/cvs/irfs/irfLoader/pfiles added to the repository
+
+    *
+------------------------------------------------------------
+User: jchiang  Sat Oct 28 12:14:12 PDT 2006
+irfs/irfLoader/src/gtecorrect
+
+Log Message:
+Directory /nfs/slac/g/glast/ground/cvs/irfs/irfLoader/src/gtecorrect added to the repository
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: v0r6p3, operation: add
+Package: irfLoader
+User: jchiang  Thu Oct 19 11:04:57 2006
+Files:
+  irfLoader/.cvsignore  1.1.1.1
+  irfLoader/ChangeLog  1.104
+  irfLoader/cmt/requirements  1.26
+  irfLoader/doc/release.notes  1.19
+  irfLoader/irfLoader/Loader.h  1.8
+  irfLoader/python/setup.py  1.1
+  irfLoader/python/psf_tests.py  1.7
+  irfLoader/src/Loader.cxx  1.17
+  irfLoader/src/test/test.cxx  1.9
+
+    *
+------------------------------------------------------------
 User: jchiang  Thu Oct 19 11:02:06 PDT 2006
 irfs/irfLoader/doc
 
