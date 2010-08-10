@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Aug  9 21:12:16 PDT 2010
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Bilinear.cxx 
+Log Message:
+start refactoring to interpolate on distributions
+    *
+------------------------------------------------------------
+User: jchiang  Mon Aug  9 21:12:16 PDT 2010
 ScienceTools-scons/irfs/latResponse/latResponse
 
 Modified Files:
