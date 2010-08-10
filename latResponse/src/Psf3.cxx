@@ -22,20 +22,7 @@ Psf3::Psf3(const Psf3 & rhs) : Psf2(rhs) {}
 Psf3::~Psf3() {
 }
 
-double Psf3::value(const astro::SkyDir & appDir, 
-                   double energy, 
-                   const astro::SkyDir & srcDir, 
-                   const astro::SkyDir & scZAxis,
-                   const astro::SkyDir & scXAxis, 
-                   double time) const {
-   (void)(scXAxis);
-   double sep(appDir.difference(srcDir)*180./M_PI);
-   double theta(srcDir.difference(scZAxis)*180./M_PI);
-   double phi(0);
-   return value(sep, energy, theta, phi, time);
-}
-
-double Psf2::value(double separation, double energy, double theta,
+double Psf3::value(double separation, double energy, double theta,
                   double phi, double time) const {
    (void)(phi);
    (void)(time);
