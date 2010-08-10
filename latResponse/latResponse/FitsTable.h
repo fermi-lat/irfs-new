@@ -60,6 +60,10 @@ public:
 
    void getValues(std::vector<double> & values) const;
 
+//    void getCornerPars(double logE, double costh, 
+//                       double & tt, double & uu,
+//                       std::vector<std::vector<double> > & cornerPars) const;
+
 protected:
 
    /// Disable copy assignment operator.

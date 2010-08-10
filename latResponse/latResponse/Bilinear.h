@@ -34,6 +34,11 @@ public:
 
    double operator()(float x, float y) const;
 
+   void getCorners(float x, float y, 
+                   double & tt, double & uu,
+                   double & y1, double & y2, 
+                   double & y3, double & y4) const;
+
 private:
 
    std::vector<float> m_x;
