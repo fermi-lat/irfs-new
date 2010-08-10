@@ -122,6 +122,18 @@ void FitsTable::getValues(std::vector<double> & values) const {
    }
 }
 
+void FitsTable::getCornerPars(double logE, double costh,
+                              double & tt, double & uu,
+                              std::vector<double> & cornerPars) const {
+   double y1, y2, y3, y4;
+   m_interpolator->getCorners(logE, costh, tt, uu, y1, y2, y3, y4);
+   cornerPars.clear();
+   cornerPars.push_back(y1);
+   cornerPars.push_back(y2);
+   cornerPars.push_back(y3);
+   cornerPars.push_back(y4);
+}
+
 void FitsTable::getVectorData(const tip::Table * table,
                               const std::string & fieldName,
                               std::vector<float> & values,
