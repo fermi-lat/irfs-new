@@ -102,9 +102,11 @@ private:
    double evaluate(double energy, double sep,
                    const std::vector<double> & pars) const;
 
-   static double psf_base_integral(double radius, 
-                                   const std::vector<double> & pars);
+   double psf_base_integral(double energy, double radius, 
+                            const std::vector<double> & pars);
 
+   double angularIntegral(double energy, double psi, 
+                          const std::vector<double> & pars);
 };
 
 } // namespace latResponse
