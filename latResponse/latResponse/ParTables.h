@@ -43,6 +43,9 @@ public:
    void getParVector(const std::string & parName,
                      std::vector<double> & pars) const;
 
+   void getCornerPars(double logE, double costh, double & tt, double & uu,
+                      std::vector<std::vector<double> > & parVectors) const;
+
 
 private:
 

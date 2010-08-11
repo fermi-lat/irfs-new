@@ -85,8 +85,7 @@ double Psf::angularIntegral(double energy,
                             const astro::SkyDir & srcDir,
                             const astro::SkyDir & scZAxis,
                             const astro::SkyDir & scXAxis,
-                            const std::vector<irfInterface::AcceptanceCone *> 
-                            & acceptanceCones,
+                            const AcceptanceConeVector_t & acceptanceCones, 
                             double time) {
    (void)(scXAxis);
    double theta(srcDir.difference(scZAxis)*180./M_PI);
@@ -94,10 +93,12 @@ double Psf::angularIntegral(double energy,
    return angularIntegral(energy, srcDir, theta, phi, acceptanceCones, time);
 }
 
-double Psf::angularIntegral(double energy, const astro::SkyDir & srcDir,
-                            double theta, double phi, 
-                            const std::vector<irfInterface::AcceptanceCone *> 
-                            & acceptanceCones, double time) {
+double Psf::angularIntegral(double energy, 
+                            const astro::SkyDir & srcDir,
+                            double theta, 
+                            double phi, 
+                            const AcceptanceConeVector_t & acceptanceCones, 
+                            double time) {
    (void)(phi);
    (void)(time);
    irfInterface::AcceptanceCone & cone(*acceptanceCones.at(0));

@@ -66,19 +66,29 @@ void ParTables::getPars(double loge, double costh, double * pars,
    }
 }
 
-void ParTables::
-getCornerPars(double logE, double costh, double & tt, double & uu, 
-              std::vector<std::vector<double> > & parVector) const {
-   for (size_t i(0); i < m_parNames.size(); i++) {
-      std::vector<double> pars;
-      operator[](m_parNames.at(i)).getCornerPars(logE, costh, tt, uu, pars);
-      parVector.push_back(pars);
-   }
-}
-
 void ParTables::getParVector(const std::string & parName,
                              std::vector<double> & pars) const {
    operator[](parName).getValues(pars);
 }
+
+void ParTables::
+getCornerPars(double logE, double costh, double & tt, double & uu, 
+              std::vector<std::vector<double> > & parVectors) const {
+// Create parameter vectors for each of the 4 corners of the cell.
+   parVectors.clear();
+   for (size_t j(0); j < 4; j++) {
+      parVectors.push_back(std::vector<double>());
+   }
+// Loop over parameter names, retrieve the values for each corner, and
+// append them to their respective corner vectors.
+   for (size_t i(0); i < m_parNames.size(); i++) {
+      std::vector<double> pars;
+      operator[](m_parNames.at(i)).getCornerPars(logE, costh, tt, uu, pars);
+      for (size_t j(0); j < pars.size(); j++) {
+         parVectors.at(j).push_back(pars.at(j));
+      }
+   }
+}
+
 
 } // namespace latResponse

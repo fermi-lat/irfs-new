@@ -36,8 +36,10 @@ public:
 
    void getCorners(float x, float y, 
                    double & tt, double & uu,
-                   double & y1, double & y2, 
-                   double & y3, double & y4) const;
+                   std::vector<double> & yvals) const;
+
+   static double evaluate(double tt, double uu, 
+                          const std::vector<double> & yvals);
 
 private:
 

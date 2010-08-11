@@ -70,21 +70,24 @@ Bilinear::Bilinear(const std::vector<float> & x,
 }
 
 double Bilinear::operator()(float x, float y) const {
-   double tt, uu, y1, y2, y3, y4;
+   double tt, uu;
+   std::vector<double> yvals;
+   getCorners(x, y, tt, uu, yvals);
+   return evaluate(tt, uu, yvals);
+}
 
-   getCorners(x, y, tt, uu, y1, y2, y3, y4);
-
-   double value = ( (1. - tt)*(1. - uu)*y1 
-                    + tt*(1. - uu)*y2  
-                    + tt*uu*y3 
-                    + (1. - tt)*uu*y4 ); 
+double Bilinear::evaluate(double tt, double uu, 
+                          const std::vector<double> & yvals) {
+   double value = ( (1. - tt)*(1. - uu)*yvals.at(0)
+                    + tt*(1. - uu)*yvals.at(1)
+                    + tt*uu*yvals.at(2)
+                    + (1. - tt)*uu*yvals.at(3) );
    return value;
 }
 
 void Bilinear::getCorners(float x, float y, 
                           double & tt, double & uu,
-                          double & y1, double & y2,
-                          double & y3, double & y4) const {
+                          std::vector<double> & yvals) const {
    typedef std::vector<float>::const_iterator const_iterator_t;
 
    const_iterator_t ix(std::upper_bound(m_x.begin(), m_x.end(), x));
@@ -114,10 +117,11 @@ void Bilinear::getCorners(float x, float y,
 
    size_t xsize(m_x.size());
 
-   y1 = m_values.at(xsize*(j-1) + (i-1));
-   y2 = m_values.at(xsize*(j-1) + (i));
-   y3 = m_values.at(xsize*(j) + (i));
-   y4 = m_values.at(xsize*(j) + (i-1));
+   yvals.clear();
+   yvals.push_back(m_values.at(xsize*(j-1) + (i-1)));
+   yvals.push_back(m_values.at(xsize*(j-1) + (i)));
+   yvals.push_back(m_values.at(xsize*(j) + (i)));
+   yvals.push_back(m_values.at(xsize*(j) + (i-1)));
 }
 
 } // namespace latResponse

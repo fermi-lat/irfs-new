@@ -62,8 +62,9 @@ public:
                    const astro::SkyDir & srcDir,
                    double theta, 
                    double phi, 
-                   const std::vector<irfInterface::AcceptanceCone *> 
-                   & acceptanceCones, double time=0);
+                   const AcceptanceConeVector_t & acceptanceCones, 
+                   double time=0);
+                   
 
    virtual double angularIntegral(double energy, double theta, double phi,
                                   double radius, double time=0) const;
@@ -97,6 +98,12 @@ private:
    private:
       double * m_pars;
    };
+
+   double evaluate(double energy, double sep,
+                   const std::vector<double> & pars) const;
+
+   static double psf_base_integral(double radius, 
+                                   const std::vector<double> & pars);
 
 };
 

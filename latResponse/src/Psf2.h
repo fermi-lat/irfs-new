@@ -15,9 +15,6 @@
 #include <string>
 #include <vector>
 
-// #include "irfInterface/IPsf.h"
-// #include "irfInterface/AcceptanceCone.h"
-
 #include "Psf.h"
 
 #include "latResponse/ParTables.h"
@@ -34,7 +31,6 @@ class PsfIntegralCache;
  *
  */
 
-// class Psf2 : public irfInterface::IPsf {
 class Psf2 : public Psf {
 
 public:
@@ -45,20 +41,6 @@ public:
    Psf2(const Psf2 & rhs);
 
    virtual ~Psf2();
-
-   // /// A member function returning the point-spread function value.
-   // /// @param appDir Apparent (reconstructed) photon direction.
-   // /// @param energy True photon energy in MeV.
-   // /// @param srcDir True photon direction.
-   // /// @param scZAxis Spacecraft z-axis.
-   // /// @param scXAxis Spacecraft x-axis.
-   // /// @param time Photon arrival time (MET s)
-   // virtual double value(const astro::SkyDir & appDir, 
-   //                      double energy, 
-   //                      const astro::SkyDir & srcDir, 
-   //                      const astro::SkyDir & scZAxis,
-   //                      const astro::SkyDir & scXAxis, 
-   //                      double time=0) const;
 
    /// Return the psf as a function of instrument coordinates.
    /// @param separation Angle between apparent and true photon directions
@@ -71,24 +53,13 @@ public:
    virtual double value(double separation, double energy, double theta,
                         double phi, double time=0) const;
 
-   // /// Angular integral of the PSF over the intersection of acceptance
-   // /// cones.
-   // virtual double 
-   // angularIntegral(double energy,
-   //                 const astro::SkyDir & srcDir,
-   //                 const astro::SkyDir & scZAxis,
-   //                 const astro::SkyDir & scXAxis,
-   //                 const std::vector<irfInterface::AcceptanceCone *> 
-   //                 & acceptanceCones,
-   //                 double time=0);
-
    virtual double 
    angularIntegral(double energy,
                    const astro::SkyDir & srcDir,
                    double theta, 
                    double phi, 
-                   const std::vector<irfInterface::AcceptanceCone *> 
-                   & acceptanceCones, double time=0);
+                   const AcceptanceConeVector_t & acceptanceCones, 
+                   double time=0);
 
    virtual double angularIntegral(double energy, double theta, double phi,
                                   double radius, double time=0) const;
