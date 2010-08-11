@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Aug 11 13:43:32 PDT 2010
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+more Psf3 refactoring: renormalize the psfs in the table data
+    *
+------------------------------------------------------------
+User: jchiang  Wed Aug 11 13:43:32 PDT 2010
 ScienceTools-scons/irfs/latResponse/src
 
 Modified Files:
