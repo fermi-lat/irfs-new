@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Aug 10 22:29:22 PDT 2010
+ScienceTools-scons/irfs/latResponse/latResponse
+
+Modified Files:
+	Bilinear.h ParTables.h 
+Log Message:
+more refactoring
+    *
+------------------------------------------------------------
 User: jchiang  Tue Aug 10 08:36:15 PDT 2010
 ScienceTools-scons/irfs/latResponse/src
 
