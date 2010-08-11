@@ -143,16 +143,22 @@ void IrfLoader::addIrfs(const std::string & aeff_file,
       if (convType == 0) {
          class_name += "::FRONT";
          if (psfVersion(psf_file) == 2) {
-//            psf = new Psf2(psf_file, true, "RPSF", i);
-            psf = new Psf3(psf_file, true, "RPSF", i);
+            if (!::getenv("USE_PSF3")) {
+               psf = new Psf2(psf_file, true, "RPSF", i);
+            } else {
+               psf = new Psf3(psf_file, true, "RPSF", i);
+            }
          } else {
             psf = new Psf(psf_file, true, "RPSF", i);
          }
       } else {
          class_name += "::BACK";
          if (psfVersion(psf_file) == 2) {
-//            psf = new Psf2(psf_file, false, "RPSF", i);
-            psf = new Psf3(psf_file, false, "RPSF", i);
+            if (!::getenv("USE_PSF3")) {
+               psf = new Psf2(psf_file, false, "RPSF", i);
+            } else {
+               psf = new Psf3(psf_file, false, "RPSF", i);
+            }
          } else {
             psf = new Psf(psf_file, false, "RPSF", i);
          }

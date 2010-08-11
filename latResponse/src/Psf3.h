@@ -82,6 +82,8 @@ protected:
 
 private:
 
+   mutable double m_integral;
+
    /**
     * @class Psf3Integrand
     * @brief Functor used for integrating the PSF to get the proper
@@ -107,6 +109,8 @@ private:
 
    double angularIntegral(double energy, double psi, 
                           const std::vector<double> & pars);
+
+   void normalize_pars(double radius=90.);
 };
 
 } // namespace latResponse

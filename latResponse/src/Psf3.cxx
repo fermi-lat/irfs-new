@@ -60,13 +60,24 @@ double Psf3::value(double separation, double energy, double theta,
 
 double Psf3::angularIntegral(double energy, double theta, 
                              double phi, double radius, double time) const {
-   if (energy < 120.) {
-      double integral = IPsf::angularIntegral(energy, theta, phi, radius, time);
-      return integral;
-   }
 
    double logE(std::log10(energy));
    double costh(std::cos(theta*M_PI/180.));
+   if (costh == 1.0) {  // Why is this necessary?
+      costh = 0.9999;
+   }
+   
+   if (logE == m_loge_last && costh == m_costh_last) {
+      return m_integral;
+   }
+   
+   m_loge_last = logE;
+   m_costh_last = costh;
+
+   if (energy < 120.) {
+      m_integral = IPsf::angularIntegral(energy, theta, phi, radius, time);
+      return m_integral;
+   }
    double tt, uu;
    std::vector<double> cornerEnergies;
    std::vector<std::vector<double> > parVectors;
@@ -77,7 +88,8 @@ double Psf3::angularIntegral(double energy, double theta,
       yvals.push_back(psf_base_integral(cornerEnergies.at(i), radius,
                                         parVectors.at(i)));
    }
-   return Bilinear::evaluate(tt, uu, yvals);
+   m_integral = Bilinear::evaluate(tt, uu, yvals);
+   return m_integral;
 }
 
 double Psf3::psf_base_integral(double energy, double radius, 
@@ -190,9 +202,29 @@ double Psf3::evaluate(double energy, double sep,
            ntail*ncore*Psf2::psf_base_function(ut, gtail));
 }
 
-void Psf3::normalize_pars() {
+void Psf3::normalize_pars(double radius) {
    const std::vector<double> & logEnergies(m_parTables.logEnergies());
    const std::vector<double> & costhetas(m_parTables.costhetas());
+   
+   double phi(0);
+   double time(0);
+   for (size_t ilogE(0); ilogE < logEnergies.size(); ilogE++) {
+      double energy(std::pow(10., logEnergies.at(ilogE)));
+      for (size_t icosth(0); icosth < costhetas.size(); icosth++) {
+         double theta = std::acos(costhetas.at(icosth))*180./M_PI;
+         std::vector<double> pars;
+         m_parTables.getPars(ilogE, icosth, pars);
+         double norm;
+         if (energy < 120) {
+            norm = IPsf::angularIntegral(energy, theta, phi, radius, time);
+         } else {
+            norm = psf_base_integral(energy, radius, pars);
+         }
+         pars.at(0) /= norm;
+         m_parTables.setPars(ilogE, icosth, pars);
+      }
+   }
+
 }
 
 } // namespace latResponse
