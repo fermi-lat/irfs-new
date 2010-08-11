@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Aug 10 23:05:40 PDT 2010
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Psf3.cxx Psf3.h 
+Log Message:
+compilable version
+    *
+------------------------------------------------------------
 User: jchiang  Tue Aug 10 22:29:33 PDT 2010
 ScienceTools-scons/irfs/latResponse/src
 
