@@ -15,9 +15,7 @@ namespace latResponse {
 /**  
  * @class Bilinear
  *
- * @brief Bilinear interpolator.  Hold references to the vectors so
- * that introspection and greater transparency is available during
- * debugging.
+ * @brief Bilinear interpolator.  
  *
  */
 
@@ -25,27 +23,30 @@ class Bilinear {
 
 public:
 
-   Bilinear(const std::vector<float> & x, const std::vector<float> & y, 
-            const std::vector<float> & values);
+   Bilinear(const std::vector<double> & x, const std::vector<double> & y, 
+            const std::vector<double> & values, 
+            double xlo, double xhi, double ylo, double yhi);
 
-   Bilinear(const std::vector<float> & x, const std::vector<float> & y, 
-            const std::vector<float> & values, 
-            float xlo, float xhi, float ylo, float yhi);
+   double operator()(double x, double y) const;
 
-   double operator()(float x, float y) const;
-
-   void getCorners(float x, float y, 
+   void getCorners(double x, double y, 
                    double & tt, double & uu,
-                   std::vector<double> & yvals) const;
+                   std::vector<double> & corner_xvals,
+                   std::vector<double> & corner_yvals,
+                   std::vector<double> & zvals) const;
 
    static double evaluate(double tt, double uu, 
                           const std::vector<double> & yvals);
 
+   double getPar(size_t i, size_t j) const;
+
+   void setPar(size_t i, size_t j, double value);
+
 private:
 
-   std::vector<float> m_x;
-   std::vector<float> m_y;
-   std::vector<float> m_values;
+   std::vector<double> m_x;
+   std::vector<double> m_y;
+   std::vector<double> m_values;
    
 };
 

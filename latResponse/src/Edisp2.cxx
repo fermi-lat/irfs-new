@@ -119,7 +119,7 @@ void Edisp2::readScaling(const std::string & fitsfile,
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
    const tip::Table * table(fileSvc.readTable(fitsfile, extname));
 
-   std::vector<float> values;
+   std::vector<double> values;
 
    FitsTable::getVectorData(table, "EDISPSCALE", values);
 

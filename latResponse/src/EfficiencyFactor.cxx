@@ -85,7 +85,7 @@ void EfficiencyFactor::readFitsFile(const std::string & fitsfile) {
    bool all_zeros(true);
    std::vector< std::vector<double> > parVectors;
    for (size_t i(0); i < static_cast<unsigned long>(nrows); i++) {
-      std::vector<float> fltValues;
+      std::vector<double> fltValues;
       FitsTable::getVectorData(table, "EFFICIENCY_PARS", fltValues, i);
       for (size_t j(0); j < fltValues.size(); j++) {
          if (fltValues.at(j) != 0) {

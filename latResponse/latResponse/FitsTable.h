@@ -55,14 +55,27 @@ public:
 
    static void getVectorData(const tip::Table * table,
                              const std::string & fieldName,
-                             std::vector<float> & values,
+                             std::vector<double> & values,
                              size_t nrow=0);
 
    void getValues(std::vector<double> & values) const;
 
    void getCornerPars(double logE, double costh, 
                       double & tt, double & uu,
+                      std::vector<double> & cornerEnergies,
                       std::vector<double> & cornerPars) const;
+
+   const std::vector<double> & logEnergies() const {
+      return m_logEnergies;
+   }
+
+   const std::vector<double> & costhetas() const {
+      return m_mus;
+   }
+
+   double getPar(size_t ilogE, size_t icosth) const;
+
+   void setPar(size_t ilogE, size_t icosth, double par);
    
 protected:
 
@@ -75,16 +88,16 @@ private:
 
    Bilinear * m_interpolator;
 
-   std::vector<float> m_logEnergies; 
-   std::vector<float> m_mus; 
-   std::vector<float> m_values;
+   std::vector<double> m_logEnergies; 
+   std::vector<double> m_mus; 
+   std::vector<double> m_values;
 
-   std::vector<float> m_ebounds;
-   std::vector<float> m_tbounds;
+   std::vector<double> m_ebounds;
+   std::vector<double> m_tbounds;
    
-   float m_minCosTheta;
+   double m_minCosTheta;
 
-   float m_maxValue;
+   double m_maxValue;
 
 };
 

@@ -27,6 +27,7 @@ namespace latResponse {
 Psf3::Psf3(const std::string & fitsfile, bool isFront,
            const std::string & extname, size_t nrow) 
    : Psf2(fitsfile, isFront, extname, nrow) {
+   normalize_pars();
 }
 
 Psf3::Psf3(const Psf3 & rhs) : Psf2(rhs) {}
@@ -44,15 +45,17 @@ double Psf3::value(double separation, double energy, double theta,
    double logE(std::log10(energy));
    double costh(std::cos(theta*M_PI/180.));
    double tt, uu;
-   m_parTables.getCornerPars(logE, costh, tt, uu, parVectors);
+   std::vector<double> cornerEnergies;
+   m_parTables.getCornerPars(logE, costh, tt, uu, cornerEnergies, parVectors);
 
    double sep(separation*M_PI/180.);
    std::vector<double> yvals;
    for (size_t i(0); i < parVectors.size(); i++) {
-      yvals.push_back(evaluate(energy, sep, parVectors.at(i)));
+      yvals.push_back(evaluate(cornerEnergies.at(i), sep, parVectors.at(i)));
    }
 
    double my_value = Bilinear::evaluate(tt, uu, yvals);
+   return my_value;
 }
 
 double Psf3::angularIntegral(double energy, double theta, 
@@ -65,12 +68,14 @@ double Psf3::angularIntegral(double energy, double theta,
    double logE(std::log10(energy));
    double costh(std::cos(theta*M_PI/180.));
    double tt, uu;
+   std::vector<double> cornerEnergies;
    std::vector<std::vector<double> > parVectors;
-   m_parTables.getCornerPars(logE, costh, tt, uu, parVectors);
+   m_parTables.getCornerPars(logE, costh, tt, uu, cornerEnergies, parVectors);
    
    std::vector<double> yvals;
    for (size_t i(0); i < 4; i++) {
-      yvals.push_back(psf_base_integral(energy, radius, parVectors.at(i)));
+      yvals.push_back(psf_base_integral(cornerEnergies.at(i), radius,
+                                        parVectors.at(i)));
    }
    return Bilinear::evaluate(tt, uu, yvals);
 }
@@ -110,14 +115,16 @@ double Psf3::angularIntegral(double energy,
    double logE(std::log10(energy));
    double costh(std::cos(theta*M_PI/180.));
    double tt, uu;
+   std::vector<double> cornerEnergies;
    std::vector<std::vector<double> > parVectors;
-   m_parTables.getCornerPars(logE, costh, tt, uu, parVectors);
+   m_parTables.getCornerPars(logE, costh, tt, uu, cornerEnergies, parVectors);
 
    double psi(srcDir.difference(cone.center()));
 
    std::vector<double> yvals;
    for (size_t i(0); i < parVectors.size(); i++) {
-      yvals.push_back(angularIntegral(energy, psi, parVectors.at(i)));
+      yvals.push_back(angularIntegral(cornerEnergies.at(i), psi,
+                                      parVectors.at(i)));
    }
    double value(Bilinear::evaluate(tt, uu, yvals));
 
@@ -181,6 +188,11 @@ double Psf3::evaluate(double energy, double sep,
    double ut = rt*rt/2.;
    return (ncore*Psf2::psf_base_function(uc, gcore) +
            ntail*ncore*Psf2::psf_base_function(ut, gtail));
+}
+
+void Psf3::normalize_pars() {
+   const std::vector<double> & logEnergies(m_parTables.logEnergies());
+   const std::vector<double> & costhetas(m_parTables.costhetas());
 }
 
 } // namespace latResponse

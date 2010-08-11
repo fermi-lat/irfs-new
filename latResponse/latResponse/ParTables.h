@@ -44,8 +44,20 @@ public:
                      std::vector<double> & pars) const;
 
    void getCornerPars(double logE, double costh, double & tt, double & uu,
+                      std::vector<double> & cornerEnergies,
                       std::vector<std::vector<double> > & parVectors) const;
 
+   const std::vector<double> & logEnergies() const {
+      return m_parTables.begin()->second.logEnergies();
+   }
+
+   const std::vector<double> & costhetas() const {
+      return m_parTables.begin()->second.costhetas();
+   }
+
+   void getPars(size_t ilogE, size_t icosth, std::vector<double> & pars) const;
+   
+   void setPars(size_t ilogE, size_t icosth, const std::vector<double> & pars);
 
 private:
 

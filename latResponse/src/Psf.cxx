@@ -259,7 +259,7 @@ void Psf::readScaling(const std::string & fitsfile, bool isFront,
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
    const tip::Table * table(fileSvc.readTable(fitsfile, extname));
 
-   std::vector<float> values;
+   std::vector<double> values;
 
    FitsTable::getVectorData(table, "PSFSCALE", values);
    

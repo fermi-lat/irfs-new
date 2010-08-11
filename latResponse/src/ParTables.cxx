@@ -73,6 +73,7 @@ void ParTables::getParVector(const std::string & parName,
 
 void ParTables::
 getCornerPars(double logE, double costh, double & tt, double & uu, 
+              std::vector<double> & cornerEnergies,
               std::vector<std::vector<double> > & parVectors) const {
 // Create parameter vectors for each of the 4 corners of the cell.
    parVectors.clear();
@@ -83,12 +84,28 @@ getCornerPars(double logE, double costh, double & tt, double & uu,
 // append them to their respective corner vectors.
    for (size_t i(0); i < m_parNames.size(); i++) {
       std::vector<double> pars;
-      operator[](m_parNames.at(i)).getCornerPars(logE, costh, tt, uu, pars);
+      operator[](m_parNames.at(i)).getCornerPars(logE, costh, tt, uu, 
+                                                 cornerEnergies, pars);
       for (size_t j(0); j < pars.size(); j++) {
          parVectors.at(j).push_back(pars.at(j));
       }
    }
 }
 
+void ParTables::
+getPars(size_t ilogE, size_t icosth, std::vector<double> & pars) const {
+   pars.clear();
+   for (size_t i(0); i < m_parNames.size(); i++) {
+      const FitsTable & fitsTable(operator[](m_parNames.at(i)));
+      pars.push_back(fitsTable.getPar(ilogE, icosth));
+   }
+}
+
+void ParTables::
+setPars(size_t ilogE, size_t icosth, const std::vector<double> & pars) {
+   for (size_t i(0); i < m_parNames.size(); i++) {
+      m_parTables[m_parNames.at(i)].setPar(ilogE, icosth, pars.at(i));
+   }
+}
 
 } // namespace latResponse

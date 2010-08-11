@@ -20,8 +20,8 @@
 #include "latResponse/FitsTable.h"
 
 namespace {
-   size_t binIndex(double x, const std::vector<float> & xx) {
-      std::vector<float>::const_iterator ix = 
+   size_t binIndex(double x, const std::vector<double> & xx) {
+      std::vector<double>::const_iterator ix = 
          std::upper_bound(xx.begin(), xx.end(), x);
       return ix - xx.begin();
    }
@@ -37,7 +37,7 @@ FitsTable::FitsTable(const std::string & filename,
    const tip::Table * table(tip::IFileSvc::instance().readTable(filename, 
                                                                 extname));
 
-   std::vector<float> elo, ehi;
+   std::vector<double> elo, ehi;
    getVectorData(table, "ENERG_LO", elo, nrow);
    getVectorData(table, "ENERG_HI", ehi, nrow);
    for (size_t k(0); k < elo.size(); k++) {
@@ -46,7 +46,7 @@ FitsTable::FitsTable(const std::string & filename,
    }
    m_ebounds.push_back(std::log10(ehi.back()));
 
-   std::vector<float> mulo, muhi;
+   std::vector<double> mulo, muhi;
    getVectorData(table, "CTHETA_LO", mulo, nrow);
    getVectorData(table, "CTHETA_HI", muhi, nrow);
    for (size_t i(0); i < muhi.size(); i++) {
@@ -67,7 +67,7 @@ FitsTable::FitsTable(const std::string & filename,
 
 // Replicate nasty THF2 and RootEval::Table behavior from handoff_response,
 // by passing xlo, xhi, ylo, yhi values
-   float xlo, xhi, ylo, yhi;
+   double xlo, xhi, ylo, yhi;
    m_interpolator = new Bilinear(m_logEnergies, m_mus, m_values,
                                  xlo=0., xhi=10., ylo=-1., yhi=1.);
 
@@ -124,13 +124,30 @@ void FitsTable::getValues(std::vector<double> & values) const {
 
 void FitsTable::getCornerPars(double logE, double costh,
                               double & tt, double & uu,
+                              std::vector<double> & cornerEnergies,
                               std::vector<double> & cornerPars) const {
-   m_interpolator->getCorners(logE, costh, tt, uu, cornerPars);
+   std::vector<double> corner_logE;
+   std::vector<double> corner_costh;
+   m_interpolator->getCorners(logE, costh, tt, uu, corner_logE,
+                              corner_costh, cornerPars);
+   cornerEnergies.clear();
+   for (size_t i(0); i < corner_logE.size(); i++) {
+      cornerEnergies.push_back(std::pow(10., corner_logE.at(i)));
+   }
+}
+
+double FitsTable::getPar(size_t ilogE, size_t icosth) const {
+   m_interpolator->getPar(ilogE, icosth);
+}
+
+void FitsTable::setPar(size_t ilogE, size_t icosth, double value) {
+   m_interpolator->setPar(ilogE, icosth, value);
+   m_values.at(icosth*m_logEnergies.size() + ilogE) = value;
 }
 
 void FitsTable::getVectorData(const tip::Table * table,
                               const std::string & fieldName,
-                              std::vector<float> & values,
+                              std::vector<double> & values,
                               size_t nrow) {
    values.clear();
 
@@ -140,7 +157,12 @@ void FitsTable::getVectorData(const tip::Table * table,
    for (size_t i(0); i < nrow; i++) {
       ++it;
    }
-   row[fieldName].get(values);
+   std::vector<float> my_values;
+   row[fieldName].get(my_values);
+
+   for (size_t i(0); i < my_values.size(); i++) {
+      values.push_back(my_values.at(i));
+   }
 }
 
 } // namespace latResponse

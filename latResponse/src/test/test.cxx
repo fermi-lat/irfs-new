@@ -42,13 +42,13 @@ class LatResponseTests : public CppUnit::TestFixture {
 
    CPPUNIT_TEST_SUITE(LatResponseTests);
 
-   CPPUNIT_TEST(irf_assignment);
+   // CPPUNIT_TEST(irf_assignment);
 
    CPPUNIT_TEST(psf_zero_separation);
    CPPUNIT_TEST(psf_normalization);
 
-   CPPUNIT_TEST(edisp_normalization);
-   CPPUNIT_TEST(edisp_sampling);
+   // CPPUNIT_TEST(edisp_normalization);
+   // CPPUNIT_TEST(edisp_sampling);
 
    CPPUNIT_TEST_SUITE_END();
 
@@ -74,7 +74,9 @@ private:
 
 void LatResponseTests::setUp() {
    m_irfsFactory = irfInterface::IrfsFactory::instance();
-   m_irfsFactory->getIrfsNames(m_irfNames);
+//   m_irfsFactory->getIrfsNames(m_irfNames);
+   m_irfNames.push_back("P6_V8_DIFFUSE::FRONT");
+   m_irfNames.push_back("P6_V8_DIFFUSE::BACK");
 }
 
 void LatResponseTests::tearDown() {
