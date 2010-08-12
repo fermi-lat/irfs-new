@@ -49,10 +49,12 @@ public:
 
    const std::vector<double> & logEnergies() const {
       return m_parTables.begin()->second.logEnergies();
+//      return m_parTables.begin()->logEnergies();
    }
 
    const std::vector<double> & costhetas() const {
       return m_parTables.begin()->second.costhetas();
+//      return m_parTables.begin()->costhetas();
    }
 
    void getPars(size_t ilogE, size_t icosth, std::vector<double> & pars) const;
@@ -63,6 +65,7 @@ private:
 
    std::vector<std::string> m_parNames;
    std::map<std::string, FitsTable> m_parTables;
+//   std::vector<FitsTable> m_parTables;
 
 };
 

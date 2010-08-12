@@ -23,20 +23,30 @@ class Bilinear {
 
 public:
 
-   Bilinear(const std::vector<double> & x, const std::vector<double> & y, 
+   Bilinear(const std::vector<double> & x,
+            const std::vector<double> & y, 
             const std::vector<double> & values, 
             double xlo, double xhi, double ylo, double yhi);
 
    double operator()(double x, double y) const;
 
+//    void getCorners(double x, double y, 
+//                    double & tt, double & uu,
+//                    std::vector<double> & corner_xvals,
+//                    std::vector<double> & corner_yvals,
+//                    std::vector<double> & zvals) const;
+
+//    static double evaluate(double tt, double uu, 
+//                           const std::vector<double> & yvals);
+
    void getCorners(double x, double y, 
                    double & tt, double & uu,
-                   std::vector<double> & corner_xvals,
-                   std::vector<double> & corner_yvals,
-                   std::vector<double> & zvals) const;
+                   double * corner_xvals,
+                   double * corner_yvals,
+                   double * zvals) const;
 
    static double evaluate(double tt, double uu, 
-                          const std::vector<double> & yvals);
+                          const double * zvals);
 
    double getPar(size_t i, size_t j) const;
 

@@ -20,7 +20,7 @@ namespace {
       Array(const std::vector<double> & values, size_t nx) 
          : m_values(values), m_nx(nx) {}
       double operator()(size_t iy, size_t ix) const {
-         return m_values.at(iy*m_nx + ix);
+         return m_values[iy*m_nx + ix];
       }
    private:
       const std::vector<double> & m_values;
@@ -66,27 +66,27 @@ Bilinear::Bilinear(const std::vector<double> & x,
 
 double Bilinear::operator()(double x, double y) const {
    double tt, uu;
-   std::vector<double> xvals;
-   std::vector<double> yvals;
-   std::vector<double> zvals;
-   getCorners(x, y, tt, uu, xvals, yvals, zvals);
-   return evaluate(tt, uu, zvals);
+   std::vector<double> xvals(4);
+   std::vector<double> yvals(4);
+   std::vector<double> zvals(4);
+   getCorners(x, y, tt, uu, &xvals[0], &yvals[0], &zvals[0]);
+   return evaluate(tt, uu, &zvals[0]);
 }
 
 double Bilinear::evaluate(double tt, double uu, 
-                          const std::vector<double> & zvals) {
-   double value = ( (1. - tt)*(1. - uu)*zvals.at(0)
-                    + tt*(1. - uu)*zvals.at(1)
-                    + tt*uu*zvals.at(2)
-                    + (1. - tt)*uu*zvals.at(3) );
+                          const double * zvals) {
+   double value = ( (1. - tt)*(1. - uu)*zvals[0]
+                    + tt*(1. - uu)*zvals[1]
+                    + tt*uu*zvals[2]
+                    + (1. - tt)*uu*zvals[3] );
    return value;
 }
 
 void Bilinear::getCorners(double x, double y, 
                           double & tt, double & uu,
-                          std::vector<double> & corner_xvals,
-                          std::vector<double> & corner_yvals,
-                          std::vector<double> & zvals) const {
+                          double * corner_xvals,
+                          double * corner_yvals,
+                          double * zvals) const {
    typedef std::vector<double>::const_iterator const_iterator_t;
 
    const_iterator_t ix(std::upper_bound(m_x.begin(), m_x.end(), x));
@@ -111,27 +111,25 @@ void Bilinear::getCorners(double x, double y,
    }
    int j(iy - m_y.begin());
 
-   tt = (x - m_x.at(i-1))/(m_x.at(i) - m_x.at(i-1));
-   uu = (y - m_y.at(j-1))/(m_y.at(j) - m_y.at(j-1));
+   tt = (x - m_x[i-1])/(m_x[i] - m_x[i-1]);
+   uu = (y - m_y[j-1])/(m_y[j] - m_y[j-1]);
 
-   corner_xvals.clear();
-   corner_xvals.push_back(m_x.at(i-1));
-   corner_xvals.push_back(m_x.at(i));
-   corner_xvals.push_back(m_x.at(i));
-   corner_xvals.push_back(m_x.at(i-1));
+   corner_xvals[0] = m_x[i-1];
+   corner_xvals[1] = m_x[i];
+   corner_xvals[2] = m_x[i];
+   corner_xvals[3] = m_x[i-1];
 
-   corner_yvals.clear();
-   corner_yvals.push_back(m_y.at(j-1));
-   corner_yvals.push_back(m_y.at(j-1));
-   corner_yvals.push_back(m_y.at(j));
-   corner_yvals.push_back(m_y.at(j));
+   corner_yvals[0] = m_y[j-1];
+   corner_yvals[1] = m_y[j-1];
+   corner_yvals[2] = m_y[j];
+   corner_yvals[3] = m_y[j];
 
    size_t xsize(m_x.size());
-   zvals.clear();
-   zvals.push_back(m_values.at(xsize*(j-1) + (i-1)));
-   zvals.push_back(m_values.at(xsize*(j-1) + (i)));
-   zvals.push_back(m_values.at(xsize*(j) + (i)));
-   zvals.push_back(m_values.at(xsize*(j) + (i-1)));
+
+   zvals[0] = m_values[xsize*(j-1) + (i-1)];
+   zvals[1] = m_values[xsize*(j-1) + (i)];
+   zvals[2] = m_values[xsize*(j) + (i)];
+   zvals[3] = m_values[xsize*(j) + (i-1)];
 }
 
 double Bilinear::getPar(size_t i, size_t j) const {

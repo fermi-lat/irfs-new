@@ -126,18 +126,17 @@ void FitsTable::getCornerPars(double logE, double costh,
                               double & tt, double & uu,
                               std::vector<double> & cornerEnergies,
                               std::vector<double> & cornerPars) const {
-   std::vector<double> corner_logE;
-   std::vector<double> corner_costh;
-   m_interpolator->getCorners(logE, costh, tt, uu, corner_logE,
-                              corner_costh, cornerPars);
-   cornerEnergies.clear();
+   std::vector<double> corner_logE(4, 0);
+   std::vector<double> corner_costh(4, 0);
+   m_interpolator->getCorners(logE, costh, tt, uu, &corner_logE[0],
+                              &corner_costh[0], &cornerPars[0]);
    for (size_t i(0); i < corner_logE.size(); i++) {
-      cornerEnergies.push_back(std::pow(10., corner_logE.at(i)));
+      cornerEnergies[i] = std::pow(10., corner_logE[i]);
    }
 }
 
 double FitsTable::getPar(size_t ilogE, size_t icosth) const {
-   m_interpolator->getPar(ilogE, icosth);
+   return m_interpolator->getPar(ilogE, icosth);
 }
 
 void FitsTable::setPar(size_t ilogE, size_t icosth, double value) {

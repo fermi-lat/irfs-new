@@ -105,7 +105,7 @@ private:
                    const std::vector<double> & pars) const;
 
    double psf_base_integral(double energy, double radius, 
-                            const std::vector<double> & pars);
+                            const std::vector<double> & pars) const;
 
    double angularIntegral(double energy, double psi, 
                           const std::vector<double> & pars);

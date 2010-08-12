@@ -176,10 +176,11 @@ void LatResponseTests::psf_normalization() {
       irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
       const irfInterface::IPsf & psf(*myIrfs->psf());
       
+      size_t jjj(0);
       for (std::vector<double>::const_iterator energy = energies.begin();
            energy != energies.end(); ++energy) {
          for (std::vector<double>::const_iterator theta = thetas.begin();
-              theta != thetas.end(); ++theta) {
+              theta != thetas.end(); ++theta, jjj++) {
            
             std::vector<double> psf_values;
             for (size_t i = 0; i < psi.size(); i++) {

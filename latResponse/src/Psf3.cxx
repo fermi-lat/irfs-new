@@ -45,7 +45,7 @@ double Psf3::value(double separation, double energy, double theta,
    double logE(std::log10(energy));
    double costh(std::cos(theta*M_PI/180.));
    double tt, uu;
-   std::vector<double> cornerEnergies;
+   std::vector<double> cornerEnergies(4, 0);
    m_parTables.getCornerPars(logE, costh, tt, uu, cornerEnergies, parVectors);
 
    double sep(separation*M_PI/180.);
@@ -54,7 +54,7 @@ double Psf3::value(double separation, double energy, double theta,
       yvals.push_back(evaluate(cornerEnergies.at(i), sep, parVectors.at(i)));
    }
 
-   double my_value = Bilinear::evaluate(tt, uu, yvals);
+   double my_value = Bilinear::evaluate(tt, uu, &yvals[0]);
    return my_value;
 }
 
@@ -79,7 +79,7 @@ double Psf3::angularIntegral(double energy, double theta,
       return m_integral;
    }
    double tt, uu;
-   std::vector<double> cornerEnergies;
+   std::vector<double> cornerEnergies(4);
    std::vector<std::vector<double> > parVectors;
    m_parTables.getCornerPars(logE, costh, tt, uu, cornerEnergies, parVectors);
    
@@ -88,12 +88,12 @@ double Psf3::angularIntegral(double energy, double theta,
       yvals.push_back(psf_base_integral(cornerEnergies.at(i), radius,
                                         parVectors.at(i)));
    }
-   m_integral = Bilinear::evaluate(tt, uu, yvals);
+   m_integral = Bilinear::evaluate(tt, uu, &yvals[0]);
    return m_integral;
 }
 
 double Psf3::psf_base_integral(double energy, double radius, 
-                               const std::vector<double> & pars) {
+                               const std::vector<double> & pars) const {
    double ncore(pars.at(0));
    double ntail(pars.at(1));
    double score(pars.at(2)*scaleFactor(energy));
@@ -138,7 +138,7 @@ double Psf3::angularIntegral(double energy,
       yvals.push_back(angularIntegral(cornerEnergies.at(i), psi,
                                       parVectors.at(i)));
    }
-   double value(Bilinear::evaluate(tt, uu, yvals));
+   double value(Bilinear::evaluate(tt, uu, &yvals[0]));
 
    return value;
 }
