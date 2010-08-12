@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Aug 12 09:31:53 PDT 2010
+irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+restore test program for tag
+    *
+------------------------------------------------------------
 User: jchiang  Thu Aug 12 08:03:49 PDT 2010
 ScienceTools-scons/irfs/latResponse/src
 
