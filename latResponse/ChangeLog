@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Aug 11 22:43:11 PDT 2010
+irfs/latResponse/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+attempts to speed things up
+    *
+------------------------------------------------------------
 User: jchiang  Wed Aug 11 15:53:05 PDT 2010
 ScienceTools-scons/irfs/latResponse/src
 
