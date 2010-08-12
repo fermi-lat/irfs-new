@@ -140,28 +140,26 @@ void IrfLoader::addIrfs(const std::string & aeff_file,
 
       irfInterface::IPsf * psf;
       std::string class_name(subclasses(irfName).at(i));
+      bool front;
       if (convType == 0) {
          class_name += "::FRONT";
-         if (psfVersion(psf_file) == 2) {
-            if (!::getenv("USE_PSF3")) {
-               psf = new Psf2(psf_file, true, "RPSF", i);
-            } else {
-               psf = new Psf3(psf_file, true, "RPSF", i);
-            }
-         } else {
-            psf = new Psf(psf_file, true, "RPSF", i);
-         }
+         front = true;
       } else {
          class_name += "::BACK";
-         if (psfVersion(psf_file) == 2) {
-            if (!::getenv("USE_PSF3")) {
-               psf = new Psf2(psf_file, false, "RPSF", i);
-            } else {
-               psf = new Psf3(psf_file, false, "RPSF", i);
-            }
-         } else {
-            psf = new Psf(psf_file, false, "RPSF", i);
-         }
+         front = false;
+      }
+      switch (psfVersion(psf_file)) {
+      case 1:
+         psf = new Psf(psf_file, front, "RPSF", i);
+         break;
+      case 2:
+         psf = new Psf2(psf_file, front, "RPSF", i);
+         break;
+      case 3:
+         psf = new Psf3(psf_file, front, "RPSF", i);
+         break;
+      default:
+         throw std::runtime_error("PSF version not found.");
       }
       irfInterface::IEdisp * edisp(0);
       if (edispVersion(edisp_file) == 2) {

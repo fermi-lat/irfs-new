@@ -66,13 +66,6 @@ double Psf3::angularIntegral(double energy, double theta,
    if (costh == 1.0) {  // Why is this necessary?
       costh = 0.9999;
    }
-   
-   if (logE == m_loge_last && costh == m_costh_last) {
-      return m_integral;
-   }
-   
-   m_loge_last = logE;
-   m_costh_last = costh;
 
    if (energy < 120.) {
       m_integral = IPsf::angularIntegral(energy, theta, phi, radius, time);
