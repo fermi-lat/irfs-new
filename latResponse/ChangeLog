@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Aug 11 22:43:11 PDT 2010
+irfs/latResponse/latResponse
+
+Modified Files:
+	Bilinear.h ParTables.h 
+Log Message:
+attempts to speed things up
+    *
+------------------------------------------------------------
+User: jchiang  Wed Aug 11 22:43:11 PDT 2010
 irfs/latResponse/cmt
 
 Modified Files:
