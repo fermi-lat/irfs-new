@@ -1,7 +1,7 @@
 # -*- python -*-
 # $Id$
 # Authors: J. Chiang <jchiang@slac.stanford.edu>
-# Version: latResponse-02-06-03
+# Version: latResponse-02-07-00
 Import('baseEnv')
 Import('listFiles')
 libEnv = baseEnv.Clone()

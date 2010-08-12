@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-02-07-00 12-Aug-2010 jchiang Psf3 implementation: working but needs substantial optimization and refactoring
  latResponse-02-06-03 01-Jun-2010 jchiang disable psf normalization tests for unused P6_V7_TRANSIENT
  latResponse-02-06-02 31-Mar-2010 jchiang add event class names for HANDOFF only if PASS4 irfs are available
  latResponse-02-06-01 22-Feb-2010    jrb correct use of xxLib for libEnv
