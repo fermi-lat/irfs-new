@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Aug 11 22:43:11 PDT 2010
+irfs/latResponse/src
+
+Modified Files:
+	Bilinear.cxx FitsTable.cxx ParTables.cxx Psf3.cxx Psf3.h 
+Log Message:
+attempts to speed things up
+    *
+------------------------------------------------------------
+User: jchiang  Wed Aug 11 22:43:11 PDT 2010
 irfs/latResponse/latResponse
 
 Modified Files:
