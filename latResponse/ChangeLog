@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Aug 12 08:03:49 PDT 2010
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx Psf3.cxx 
+Log Message:
+enable PSFVER=3 in PSF RPSF header
+    *
+------------------------------------------------------------
 User: jchiang  Wed Aug 11 22:43:11 PDT 2010
 irfs/latResponse/src/test
 
