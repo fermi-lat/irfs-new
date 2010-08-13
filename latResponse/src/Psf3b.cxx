@@ -40,9 +40,9 @@ Psf3b::Psf3b(const std::string & fitsfile, bool isFront,
 }
 
 Psf3b::Psf3b(const Psf3b & rhs) : PsfBase(rhs),
-                                  m_logE_bounds(rhs.m_logE_bounds),
+                                  m_logEs(rhs.m_logEs),
                                   m_energies(rhs.m_energies),
-                                  m_costh_bounds(rhs.m_costh_bounds),
+                                  m_cosths(rhs.m_cosths),
                                   m_thetas(rhs.m_thetas),
                                   m_parVectors(rhs.m_parVectors),
                                   m_integralCache(0) {}
@@ -238,19 +238,17 @@ void Psf3b::readFits(const std::string & fitsfile,
    FitsTable::getVectorData(table, "ENERG_LO", elo, nrow);
    FitsTable::getVectorData(table, "ENERG_HI", ehi, nrow);
    for (size_t k(0); k < elo.size(); k++) {
-      m_logE_bounds.push_back(std::log10(elo.at(k)));
       m_energies.push_back(std::sqrt(elo[k]*ehi[k]));
+      m_logEs.push_back(std::log10(m_energies.back()));
    }
-   m_logE_bounds.push_back(std::log10(ehi.back()));
 
    std::vector<double> mulo, muhi;
    FitsTable::getVectorData(table, "CTHETA_LO", mulo, nrow);
    FitsTable::getVectorData(table, "CTHETA_HI", muhi, nrow);
    for (size_t i(0); i < muhi.size(); i++) {
-      m_costh_bounds.push_back(mulo.at(i));
-      m_thetas.push_back(std::acos((mulo[i] + muhi[i])/2.)*180./M_PI);
+      m_cosths.push_back((mulo[i] + muhi[i])/2.);
+      m_thetas.push_back(std::acos(m_cosths.back())*180./M_PI);
    }
-   m_costh_bounds.push_back(muhi.back());
 
    size_t par_size(elo.size()*mulo.size());
    m_parVectors.resize(par_size, std::vector<double>());

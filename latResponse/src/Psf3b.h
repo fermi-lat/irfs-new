@@ -84,6 +84,8 @@ public:
       return new Psf3b(*this);
    }
 
+   static int findIndex(const std::vector<double> & xx, double x);
+
 protected:
 
    /// Disable this.
@@ -94,9 +96,9 @@ protected:
 private:
 
    // PSF parameters, energy and cos(theta) bin defs.
-   std::vector<double> m_logE_bounds;
+   std::vector<double> m_logEs;
    std::vector<double> m_energies;
-   std::vector<double> m_costh_bounds;
+   std::vector<double> m_cosths;
    std::vector<double> m_thetas;
    std::vector<std::vector<double> > m_parVectors;
 
@@ -110,8 +112,6 @@ private:
 
    double evaluate(double energy, double sep, const double * pars) const;
 
-   double scaleFactor(double energy) const;
-
    void getCornerPars(double energy, double theta, double & tt,
                       double & uu, std::vector<double> & cornerEnergies,
                       std::vector<size_t> & indx) const;
@@ -121,7 +121,6 @@ private:
 
    double angularIntegral(double energy, double psi, 
                           const std::vector<double> & pars);
-
 };
 
 } // namespace latResponse
