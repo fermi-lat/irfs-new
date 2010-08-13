@@ -304,10 +304,39 @@ void Psf3b::getCornerPars(double energy, double theta,
                           double & tt, double & uu,
                           std::vector<double> & cornerEnergies,
                           std::vector<size_t> & indx) const {
-   size_t k = std::upper_bound(m_energies.begin(), m_energies.end(),
-                               energy) - m_energies.begin() - 1;
-   size_t j = std::upper_bound(m_thetas.begin(), m_thetas.end(),
-                               theta) - m_thetas.begin() - 1;
+   double logE(std::log10(energy));
+   double costh(std::cos(theta*180./M_PI));
+   int i(findIndex(m_logEs, energy));
+   int j(findIndex(m_cosths, theta));
+
+   tt = (logE - m_logEs[i-1])/(m_logEs[i] - m_logEs[i-1]);
+   uu = (costh - m_cosths[j-1])/(m_cosths[j] - m_cosths[j-1]);
+   cornerEnergies[0] = m_energies[i-1];
+   cornerEnergies[1] = m_energies[i];
+   cornerEnergies[2] = m_energies[i];
+   cornerEnergies[3] = m_energies[i-1];
+
+   size_t xsize(m_energies.size());
+   indx[0] = xsize*(j-1) + (i-1);
+   indx[1] = xsize*(j-1) + (i);
+   indx[2] = xsize*(j) + (i);
+   indx[3] = xsize*(j) + (i-1);
+}
+
+int Psf3b::findIndex(const std::vector<double> & xx, double x) {
+   typedef std::vector<double>::const_iterator const_iterator_t;
+
+   const_iterator_t ix(std::upper_bound(xx.begin(), xx.end(), x));
+   if (ix == xx.end() && x != xx.back()) {
+      throw std::invalid_argument("Psf3b::findIndex: x out of range");
+   }
+   if (x == xx.back()) {
+      ix = xx.end() - 1;
+   } else if (x <= xx.front()) {
+      ix = xx.begin() + 1;
+   }
+   int i(ix - xx.begin());
+   return i;
 }
 
 } // namespace latResponse
