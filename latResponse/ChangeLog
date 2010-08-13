@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Aug 13 12:54:29 PDT 2010
+irfs/latResponse/src
+
+Modified Files:
+	Psf2.cxx Psf3b.cxx Psf3b.h 
+Log Message:
+add border regions to PSF parameters
+    *
+------------------------------------------------------------
 User: jchiang  Fri Aug 13 08:11:37 PDT 2010
 ScienceTools-scons/irfs/latResponse/src
 
