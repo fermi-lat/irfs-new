@@ -121,6 +121,16 @@ private:
 
    double angularIntegral(double energy, double psi, 
                           const std::vector<double> & pars);
+
+   static void generateBoundaries(const std::vector<double> & x,
+                                  const std::vector<double> & y,
+                                  const std::vector<double> & values,
+                                  std::vector<double> & xout,
+                                  std::vector<double> & yout,
+                                  std::vector<double> & values_out, 
+                                  double xlo=0, double xhi=10., 
+                                  double ylo=-1., double yhi=1.);
+
 };
 
 } // namespace latResponse

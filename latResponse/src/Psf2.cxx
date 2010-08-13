@@ -139,7 +139,14 @@ double Psf2::psf_base_function(double u, double gamma) {
 }
 
 double Psf2::psf_base_integral(double u, double gamma) {
-   return 1. - std::pow(1. + u/gamma, 1. - gamma);
+   double arg(1. + u/gamma);
+   if (arg < 0) {
+      std::cout << "u = " << u
+                << " gamma = " << gamma
+                << std::endl;
+      throw std::runtime_error("neg. arg to pow");
+   }
+   return 1. - std::pow(arg, 1. - gamma);
 }
 
 double Psf2::psf_function(double sep, double * pars) {

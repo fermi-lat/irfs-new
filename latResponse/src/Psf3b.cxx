@@ -28,6 +28,17 @@ namespace {
    double sqr(double x) {
       return x*x;
    }
+   class Array {
+   public:
+      Array(const std::vector<double> & values, size_t nx) 
+         : m_values(values), m_nx(nx) {}
+      double operator()(size_t iy, size_t ix) const {
+         return m_values[iy*m_nx + ix];
+      }
+   private:
+      const std::vector<double> & m_values;
+      size_t m_nx;
+   };
 }
 
 namespace latResponse {
@@ -120,6 +131,9 @@ double Psf3b::psf_base_integral(double energy, double radius,
 
    double rt = sep/stail;
    double ut = rt*rt/2.;
+   if (gcore < 0 || gtail < 0) {
+      throw std::runtime_error("gamma < 0");
+   }
    return (ncore*Psf2::psf_base_integral(uc, gcore)*2.*M_PI*::sqr(score) + 
            ntail*ncore*Psf2::psf_base_integral(ut, gtail)*2.*M_PI*::sqr(stail));
 }
@@ -234,24 +248,26 @@ void Psf3b::readFits(const std::string & fitsfile,
       }
    }
 
+   // Push boundary values onto energy and theta arrays, replicating
+   // parameter values along outer boundary.
+
    std::vector<double> elo, ehi;
    FitsTable::getVectorData(table, "ENERG_LO", elo, nrow);
    FitsTable::getVectorData(table, "ENERG_HI", ehi, nrow);
+   std::vector<double> logEs;
    for (size_t k(0); k < elo.size(); k++) {
-      m_energies.push_back(std::sqrt(elo[k]*ehi[k]));
-      m_logEs.push_back(std::log10(m_energies.back()));
+      logEs.push_back(std::log10(std::sqrt(elo[k]*ehi[k])));
    }
 
    std::vector<double> mulo, muhi;
    FitsTable::getVectorData(table, "CTHETA_LO", mulo, nrow);
    FitsTable::getVectorData(table, "CTHETA_HI", muhi, nrow);
+   std::vector<double> cosths;
    for (size_t i(0); i < muhi.size(); i++) {
-      m_cosths.push_back((mulo[i] + muhi[i])/2.);
-      m_thetas.push_back(std::acos(m_cosths.back())*180./M_PI);
+      cosths.push_back((mulo[i] + muhi[i])/2.);
    }
 
    size_t par_size(elo.size()*mulo.size());
-   m_parVectors.resize(par_size, std::vector<double>());
 
    std::vector<double> values;
    for (size_t i(4); i < validFields.size(); i++) {
@@ -265,9 +281,24 @@ void Psf3b::readFits(const std::string & fitsfile,
                  << " in  " << fitsfile;
          throw std::runtime_error(message.str());
       }
-      for (size_t j(0); j < par_size; j++) {
-         m_parVectors[j].push_back(values[j]);
+
+      std::vector<double> my_values;
+      generateBoundaries(logEs, cosths, values, 
+                         m_logEs, m_cosths, my_values);
+
+      if (i == 4) {
+         m_parVectors.resize(m_logEs.size()*m_cosths.size(),
+                             std::vector<double>());
       }
+      for (size_t j(0); j < my_values.size(); j++) {
+         m_parVectors[j].push_back(my_values[j]);
+      }
+   }
+   for (size_t k(0); k < m_logEs.size(); k++) {
+      m_energies.push_back(std::pow(10., m_logEs[k]));
+   }
+   for (size_t j(0); j < m_cosths.size(); j++) {
+      m_thetas.push_back(std::acos(m_cosths[j])*180./M_PI);
    }
    if (m_parVectors[0].size() != 6) {
       std::ostringstream message;
@@ -278,6 +309,44 @@ void Psf3b::readFits(const std::string & fitsfile,
    }
    delete table;
 }
+
+void Psf3b::generateBoundaries(const std::vector<double> & x,
+                               const std::vector<double> & y,
+                               const std::vector<double> & values,
+                               std::vector<double> & xout,
+                               std::vector<double> & yout,
+                               std::vector<double> & values_out, 
+                               double xlo, double xhi, double ylo, double yhi) {
+   xout.resize(x.size() + 2);
+   std::copy(x.begin(), x.end(), xout.begin() + 1);
+   xout.front() = xlo;
+   xout.back() = xhi;
+
+   yout.resize(y.size() + 2);
+   std::copy(y.begin(), y.end(), yout.begin() + 1);
+   yout.front() = ylo;
+   yout.back() = yhi;
+
+   Array array(values, x.size());
+   values_out.push_back(array(0, 0));
+   for (size_t i(0); i < x.size(); i++) {
+      values_out.push_back(array(0, i));
+   }
+   values_out.push_back(array(0, x.size()-1));
+   for (size_t j(0); j < y.size(); j++) {
+      values_out.push_back(array(j, 0));
+      for (size_t i(0); i < x.size(); i++) {
+         values_out.push_back(array(j, i));
+      }
+      values_out.push_back(array(j, x.size()-1));
+   }
+   values_out.push_back(array(y.size()-1, 0));
+   for (size_t i(0); i < x.size(); i++) {
+      values_out.push_back(array(y.size()-1, i));
+   }
+   values_out.push_back(array(y.size()-1, x.size()-1));
+}
+                               
 
 void Psf3b::normalize_pars(double radius) {
    double phi(0);
@@ -303,9 +372,9 @@ void Psf3b::getCornerPars(double energy, double theta,
                           std::vector<double> & cornerEnergies,
                           std::vector<size_t> & indx) const {
    double logE(std::log10(energy));
-   double costh(std::cos(theta*180./M_PI));
-   int i(findIndex(m_logEs, energy));
-   int j(findIndex(m_cosths, theta));
+   double costh(std::cos(theta*M_PI/180.));
+   int i(findIndex(m_logEs, logE));
+   int j(findIndex(m_cosths, costh));
 
    tt = (logE - m_logEs[i-1])/(m_logEs[i] - m_logEs[i-1]);
    uu = (costh - m_cosths[j-1])/(m_cosths[j] - m_cosths[j-1]);
@@ -326,6 +395,9 @@ int Psf3b::findIndex(const std::vector<double> & xx, double x) {
 
    const_iterator_t ix(std::upper_bound(xx.begin(), xx.end(), x));
    if (ix == xx.end() && x != xx.back()) {
+      std::cout << xx.front() << "  "
+                << x << "  "
+                << xx.back() << std::endl;
       throw std::invalid_argument("Psf3b::findIndex: x out of range");
    }
    if (x == xx.back()) {
