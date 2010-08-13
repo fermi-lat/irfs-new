@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Fri Aug 13 12:54:29 PDT 2010
+irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+add border regions to PSF parameters
+    *
+------------------------------------------------------------
+User: jchiang  Fri Aug 13 12:54:29 PDT 2010
 irfs/latResponse/src
 
 Modified Files:
