@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Aug 12 18:04:11 PDT 2010
+ScienceTools-scons/irfs/latResponse/src
+
+Added Files:
+	Psf3b.cxx Psf3b.h 
+Log Message:
+add Psf3b for possible code optimizations
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-02-07-00, operation: add
 Package: latResponse
