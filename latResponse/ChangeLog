@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Aug 13 14:50:44 PDT 2010
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	PsfBase.cxx 
+Log Message:
+bug-fix for copy constructor
+    *
+------------------------------------------------------------
 User: jchiang  Fri Aug 13 12:54:29 PDT 2010
 irfs/latResponse/src/test
 
