@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Aug 12 23:40:47 PDT 2010
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+refactor to use PsfBase
+    *
+------------------------------------------------------------
+User: jchiang  Thu Aug 12 23:40:47 PDT 2010
 ScienceTools-scons/irfs/latResponse/src
 
 Modified Files:
