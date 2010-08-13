@@ -33,7 +33,8 @@ PsfBase::PsfBase(const std::string & fitsfile, bool isFront,
 PsfBase::PsfBase(const PsfBase & rhs) : irfInterface::IPsf(rhs),
                                         m_par0(rhs.m_par0),
                                         m_par1(rhs.m_par1),
-                                        m_index(rhs.m_index) {}
+                                        m_index(rhs.m_index),
+                                        m_psf_pars(rhs.m_psf_pars) {}
 
 double PsfBase::scaleFactor(double energy) const {
    double tt(std::pow(energy/100., m_index));
