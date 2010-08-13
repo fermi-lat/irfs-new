@@ -37,6 +37,7 @@
 #include "Psf.h"
 #include "Psf2.h"
 #include "Psf3.h"
+#include "Psf3b.h"
 
 namespace latResponse {
 
@@ -156,7 +157,7 @@ void IrfLoader::addIrfs(const std::string & aeff_file,
          psf = new Psf2(psf_file, front, "RPSF", i);
          break;
       case 3:
-         psf = new Psf3(psf_file, front, "RPSF", i);
+         psf = new Psf3b(psf_file, front, "RPSF", i);
          break;
       default:
          throw std::runtime_error("PSF version not found.");

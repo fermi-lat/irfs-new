@@ -15,13 +15,16 @@
 
 #include "st_stream/StreamFormatter.h"
 
+#include "irfInterface/AcceptanceCone.h"
+
+#include "PsfBase.h"
 #include "Psf.h"
 #include "PsfIntegralCache.h"
 
 namespace latResponse {
 
 PsfIntegralCache::
-PsfIntegralCache(const Psf & psf, irfInterface::AcceptanceCone & cone) 
+PsfIntegralCache(const PsfBase & psf, irfInterface::AcceptanceCone & cone) 
    : m_psf(psf), m_acceptanceCone(cone.clone()), 
      m_calls(0), m_interpolations(0), m_cpuTotal(0),
      m_gamma_avg(0), m_sigma_avg(0), m_integralEvals(0) {

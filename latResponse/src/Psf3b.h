@@ -9,17 +9,12 @@
 #ifndef latResponse_Psf3b_h
 #define latResponse_Psf3b_h
 
-#include <cmath>
-
-#include <map>
 #include <string>
 #include <vector>
 
-#include "irfInterface/IPsf.h"
+#include "PsfBase.h"
 
-#include "latResponse/ParTables.h"
-
-//namespace latResponse {
+namespace latResponse {
 
 class PsfIntegralCache;
 
@@ -33,7 +28,7 @@ class PsfIntegralCache;
  *
  */
 
-class Psf3b : public irfInterface::IPsf {
+class Psf3b : public PsfBase {
 
 public:
 
@@ -43,6 +38,20 @@ public:
    Psf3b(const Psf3b & rhs);
 
    virtual ~Psf3b();
+
+   /// A member function returning the point-spread function value.
+   /// @param appDir Apparent (reconstructed) photon direction.
+   /// @param energy True photon energy in MeV.
+   /// @param srcDir True photon direction.
+   /// @param scZAxis Spacecraft z-axis.
+   /// @param scXAxis Spacecraft x-axis.
+   /// @param time Photon arrival time (MET s)
+   virtual double value(const astro::SkyDir & appDir, 
+                        double energy, 
+                        const astro::SkyDir & srcDir, 
+                        const astro::SkyDir & scZAxis,
+                        const astro::SkyDir & scXAxis, 
+                        double time=0) const;
 
    /// Return the psf as a function of instrument coordinates.
    /// @param separation Angle between apparent and true photon directions
@@ -54,6 +63,8 @@ public:
    /// @param time Photon arrival time (MET s)
    virtual double value(double separation, double energy, double theta,
                         double phi, double time=0) const;
+
+   typedef std::vector<irfInterface::AcceptanceCone *> AcceptanceConeVector_t;
 
    /// Angular integral of the PSF over the intersection of acceptance
    /// cones.
@@ -89,27 +100,24 @@ private:
    std::vector<double> m_thetas;
    std::vector<std::vector<double> > m_parVectors;
 
-   // PSF scaling params
-   double m_par0;
-   double m_par1;
-   double m_index;
+   PsfIntegralCache * m_integralCache;
 
    void readFits(const std::string & fitsfile,
                  const std::string & extname="RPSF",
                  size_t nrow=0);
 
-   void readScaling(const std::string & fitsfile, bool isFront,
-                    const std::string & extname="PSF_SCALING_PARAMS");
-
    void normalize_pars(double radius=90.);
 
-   double evaluate(double energy, double sep, const * pars) const;
+   double evaluate(double energy, double sep, const double * pars) const;
 
    double scaleFactor(double energy) const;
 
+   void getCornerPars(double energy, double theta, double & tt,
+                      double & uu, std::vector<double> & cornerEnergies,
+                      std::vector<size_t> & indx) const;
+
    double psf_base_integral(double energy, double radius, 
                             const double * pars) const;
-
 
    double angularIntegral(double energy, double psi, 
                           const std::vector<double> & pars);

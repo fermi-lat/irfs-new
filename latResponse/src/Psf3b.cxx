@@ -8,11 +8,19 @@
  * $Header$
  */
 
+#include <cmath>
+
 #include <algorithm>
 #include <sstream>
 #include <stdexcept>
 
+#include "tip/IFileSvc.h"
+#include "tip/Table.h"
+
 #include "latResponse/Bilinear.h"
+#include "latResponse/FitsTable.h"
+
+#include "Psf2.h"
 #include "Psf3b.h"
 #include "PsfIntegralCache.h"
 
@@ -25,15 +33,35 @@ namespace {
 namespace latResponse {
 
 Psf3b::Psf3b(const std::string & fitsfile, bool isFront,
-             const std::string & extname, size_t nrow) {
+             const std::string & extname, size_t nrow) 
+   : PsfBase(fitsfile, isFront, extname), m_integralCache(0) {
    readFits(fitsfile, extname, nrow);
-   readScaling(fitsfile, extname, isFront);
    normalize_pars();
 }
 
-Psf3b::Psf3b(const Psf3b & rhs) : Psf2(rhs) {}
+Psf3b::Psf3b(const Psf3b & rhs) : PsfBase(rhs),
+                                  m_logE_bounds(rhs.m_logE_bounds),
+                                  m_energies(rhs.m_energies),
+                                  m_costh_bounds(rhs.m_costh_bounds),
+                                  m_thetas(rhs.m_thetas),
+                                  m_parVectors(rhs.m_parVectors),
+                                  m_integralCache(0) {}
 
 Psf3b::~Psf3b() {
+   delete m_integralCache;
+}
+
+double Psf3b::value(const astro::SkyDir & appDir, 
+                    double energy, 
+                    const astro::SkyDir & srcDir, 
+                    const astro::SkyDir & scZAxis,
+                    const astro::SkyDir & scXAxis, 
+                    double time) const {
+   (void)(scXAxis);
+   double sep(appDir.difference(srcDir)*180./M_PI);
+   double theta(srcDir.difference(scZAxis)*180./M_PI);
+   double phi(0);
+   return value(sep, energy, theta, phi, time);
 }
 
 double Psf3b::value(double separation, double energy, double theta,
@@ -41,18 +69,15 @@ double Psf3b::value(double separation, double energy, double theta,
    (void)(phi);
    (void)(time);
 
-   std::vector<std::vector<double> > parVectors;
-
-   double logE(std::log10(energy));
-   double costh(std::cos(theta*M_PI/180.));
    double tt, uu;
-   std::vector<double> cornerEnergies(4, 0);
-   m_parTables.getCornerPars(logE, costh, tt, uu, cornerEnergies, parVectors);
+   std::vector<double> cornerEnergies(4);
+   std::vector<size_t> indx(4);
+   getCornerPars(energy, theta, tt, uu, cornerEnergies, indx);
 
    double sep(separation*M_PI/180.);
-   std::vector<double> yvals;
-   for (size_t i(0); i < parVectors.size(); i++) {
-      yvals.push_back(evaluate(cornerEnergies.at(i), sep, parVectors.at(i)));
+   std::vector<double> yvals(4);
+   for (size_t i(0); i < 4; i++) {
+      yvals[i] = evaluate(cornerEnergies[i], sep, &m_parVectors[indx[i]][0]);
    }
 
    double my_value = Bilinear::evaluate(tt, uu, &yvals[0]);
@@ -61,33 +86,23 @@ double Psf3b::value(double separation, double energy, double theta,
 
 double Psf3b::angularIntegral(double energy, double theta, 
                               double phi, double radius, double time) const {
-
-   double logE(std::log10(energy));
-   double costh(std::cos(theta*M_PI/180.));
-   if (costh == 1.0) {  // Why is this necessary?
-      costh = 0.9999;
-   }
-
    if (energy < 120.) {
-      m_integral = IPsf::angularIntegral(energy, theta, phi, radius, time);
-      return m_integral;
+      double value = IPsf::angularIntegral(energy, theta, phi, radius, time);
+      return value;
    }
-   double tt, uu;
-   std::vector 
-   getCornerPars(energy, theta, tt, uu, pars)
 
    double tt, uu;
    std::vector<double> cornerEnergies(4);
-   std::vector<std::vector<double> > parVectors;
-   m_parTables.getCornerPars(logE, costh, tt, uu, cornerEnergies, parVectors);
+   std::vector<size_t> indx(4);
+   getCornerPars(energy, theta, tt, uu, cornerEnergies, indx);
    
-   std::vector<double> yvals;
+   std::vector<double> yvals(4);
    for (size_t i(0); i < 4; i++) {
-      yvals.push_back(psf_base_integral(cornerEnergies.at(i), radius,
-                                        parVectors.at(i)));
+      yvals[i] = psf_base_integral(cornerEnergies[i], radius,
+                                   &m_parVectors[indx[i]][0]);
    }
-   m_integral = Bilinear::evaluate(tt, uu, &yvals[0]);
-   return m_integral;
+   double value = Bilinear::evaluate(tt, uu, &yvals[0]);
+   return value;
 }
 
 double Psf3b::psf_base_integral(double energy, double radius, 
@@ -117,24 +132,24 @@ double Psf3b::angularIntegral(double energy,
                              double time) {
    (void)(phi);
    (void)(time);
+
    irfInterface::AcceptanceCone & cone(*acceptanceCones.at(0));
    if (!m_integralCache || cone != m_integralCache->acceptanceCone()) {
       delete m_integralCache;
       m_integralCache = new PsfIntegralCache(*this, cone);
    }
-   double logE(std::log10(energy));
-   double costh(std::cos(theta*M_PI/180.));
+
    double tt, uu;
-   std::vector<double> cornerEnergies;
-   std::vector<std::vector<double> > parVectors;
-   m_parTables.getCornerPars(logE, costh, tt, uu, cornerEnergies, parVectors);
+   std::vector<double> cornerEnergies(4);
+   std::vector<size_t> indx(4);
+   getCornerPars(energy, theta, tt, uu, cornerEnergies, indx);
 
    double psi(srcDir.difference(cone.center()));
 
-   std::vector<double> yvals;
-   for (size_t i(0); i < parVectors.size(); i++) {
-      yvals.push_back(angularIntegral(cornerEnergies.at(i), psi,
-                                      parVectors.at(i)));
+   std::vector<double> yvals(4);
+   for (size_t i(0); i < 4; i++) {
+      yvals[i] = angularIntegral(cornerEnergies[i], psi,
+                                 m_parVectors[indx[i]]);
    }
    double value(Bilinear::evaluate(tt, uu, &yvals[0]));
 
@@ -142,31 +157,31 @@ double Psf3b::angularIntegral(double energy,
 }
 
 double Psf3b::angularIntegral(double energy, double psi, 
-                             const std::vector<double> & pars) {
+                              const std::vector<double> & pars) {
    const std::vector<double> & psis(m_integralCache->psis());
    if (psi > psis.back()) {
       std::ostringstream message;
       message << "latResponse::Psf3b::angularIntegral:\n"
               << "Error evaluating PSF integral.\n"
               << "Requested source location > " 
-              << psis.back()*180/M_PI << " degrees from ROI center.";
+              << psis.back()*180/M_PI 
+              << " degrees from ROI center.";
       throw std::runtime_error(message.str());
    }
    size_t ii(std::upper_bound(psis.begin(), psis.end(), psi) 
              - psis.begin() - 1);
 
-   double ncore(pars.at(0));
-   double ntail(pars.at(1));
-   double score(pars.at(2)*scaleFactor(energy));
-   double stail(pars.at(3)*scaleFactor(energy));
-   double gcore(pars.at(4));
-   double gtail(pars.at(5));
+   double ncore(pars[0]);
+   double ntail(pars[1]);
+   double score(pars[2]*scaleFactor(energy));
+   double stail(pars[3]*scaleFactor(energy));
+   double gcore(pars[4]);
+   double gtail(pars[5]);
 
    /// Remove sigma**2 scaling imposed by pars(...).  This is put back
    /// in angularIntegral below for each grid value of sigmas.  This
    /// preserves the normalization in the bilinear interpolation by
    /// explicitly putting in the important sigma-dependence.
-
    double norm_core(ncore*score*score);
    double norm_tail(ntail*stail*stail);
 
@@ -177,8 +192,7 @@ double Psf3b::angularIntegral(double energy, double psi,
       norm_core*m_integralCache->angularIntegral(score, gcore, ii+1) + 
       norm_tail*ncore*m_integralCache->angularIntegral(stail, gtail, ii+1);
 
-   double y = ((psi - psis.at(ii))/(psis.at(ii+1) - psis.at(ii))
-               *(y2 - y1)) + y1;
+   double y = ((psi - psis[ii])/(psis[ii+1] - psis[ii])*(y2 - y1)) + y1;
    return y;
 }
 
@@ -208,7 +222,8 @@ void Psf3b::readFits(const std::string & fitsfile,
 
    // The first four columns *must* be "ENERG_LO", "ENERG_HI", "CTHETA_LO",
    // "CTHETA_HI", in that order.
-   char * boundsName[] = {"energ_lo", "energ_hi", "ctheta_lo", "ctheta_hi"};
+   const char * boundsName[] = {"energ_lo", "energ_hi", 
+                                "ctheta_lo", "ctheta_hi"};
    for (size_t i(0); i < 4; i++) {
       if (validFields.at(i) != boundsName[i]) {
          std::ostringstream message;
@@ -229,8 +244,8 @@ void Psf3b::readFits(const std::string & fitsfile,
    m_logE_bounds.push_back(std::log10(ehi.back()));
 
    std::vector<double> mulo, muhi;
-   getVectorData(table, "CTHETA_LO", mulo, nrow);
-   getVectorData(table, "CTHETA_HI", muhi, nrow);
+   FitsTable::getVectorData(table, "CTHETA_LO", mulo, nrow);
+   FitsTable::getVectorData(table, "CTHETA_HI", muhi, nrow);
    for (size_t i(0); i < muhi.size(); i++) {
       m_costh_bounds.push_back(mulo.at(i));
       m_thetas.push_back(std::acos((mulo[i] + muhi[i])/2.)*180./M_PI);
@@ -243,7 +258,7 @@ void Psf3b::readFits(const std::string & fitsfile,
    std::vector<double> values;
    for (size_t i(4); i < validFields.size(); i++) {
       const std::string & tablename(validFields[i]);
-      getVectorData(table, tablename, values, nrow);
+      FitsTable::getVectorData(table, tablename, values, nrow);
       if (values.size() != par_size) {
          std::ostringstream message;
          message << "Parameter array size does not match "
@@ -266,27 +281,6 @@ void Psf3b::readFits(const std::string & fitsfile,
    delete table;
 }
 
-void Psf3b::readScaling(const std::string & fitsfile, bool isFront, 
-                        const std::string & extname) {
-   tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
-   const tip::Table * table(fileSvc.readTable(fitsfile, extname));
-
-   std::vector<double> values;
-
-   FitsTable::getVectorData(table, "PSFSCALE", values);
-   
-   if (isFront) {
-      m_par0 = values.at(0);
-      m_par1 = values.at(1);
-   } else {
-      m_par0 = values.at(2);
-      m_par1 = values.at(3);
-   }
-   m_index = values.at(4);
-
-   delete table;
-}
-
 void Psf3b::normalize_pars(double radius) {
    double phi(0);
    double time(0);
@@ -296,7 +290,8 @@ void Psf3b::normalize_pars(double radius) {
          double energy(m_energies[k]);
          double norm;
          if (energy < 120.) {
-            norm = IPsf::angularIntegral(energy, theta, phi, radius, time);
+            norm = IPsf::angularIntegral(energy, m_thetas[j], phi, 
+                                         radius, time);
          } else {
             norm = psf_base_integral(energy, radius, &m_parVectors[indx][0]);
          }
@@ -305,9 +300,14 @@ void Psf3b::normalize_pars(double radius) {
    }
 }
 
-double Psf3b::scaleFactor(double energy) const {
-   double tt(std::pow(energy/100., m_index));
-   return std::sqrt(::sqr(m_par0*tt) + ::sqr(m_par1));
+void Psf3b::getCornerPars(double energy, double theta,
+                          double & tt, double & uu,
+                          std::vector<double> & cornerEnergies,
+                          std::vector<size_t> & indx) const {
+   size_t k = std::upper_bound(m_energies.begin(), m_energies.end(),
+                               energy) - m_energies.begin() - 1;
+   size_t j = std::upper_bound(m_thetas.begin(), m_thetas.end(),
+                               theta) - m_thetas.begin() - 1;
 }
 
 } // namespace latResponse

@@ -22,7 +22,7 @@ namespace irfInterface {
 
 namespace latResponse {
 
-class Psf;
+class PsfBase;
 
 /**
  * @class PsfIntegralCache
@@ -36,7 +36,7 @@ class PsfIntegralCache {
 
 public:
 
-   PsfIntegralCache(const Psf & psf, irfInterface::AcceptanceCone & cone);
+   PsfIntegralCache(const PsfBase & psf, irfInterface::AcceptanceCone & cone);
 
    ~PsfIntegralCache();
 
@@ -52,7 +52,7 @@ public:
 
 private:
 
-   const Psf & m_psf;
+   const PsfBase & m_psf;
 
    irfInterface::AcceptanceCone * m_acceptanceCone;
    

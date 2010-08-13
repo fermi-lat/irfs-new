@@ -20,6 +20,8 @@
 
 #include "latResponse/ParTables.h"
 
+#include "PsfBase.h"
+
 namespace latResponse {
 
 class PsfIntegralCache;
@@ -31,7 +33,7 @@ class PsfIntegralCache;
  *
  */
 
-class Psf : public irfInterface::IPsf {
+class Psf : public PsfBase {
 
 public:
 
@@ -94,10 +96,6 @@ public:
    virtual Psf * clone() {
       return new Psf(*this);
    }
-
-   double scaleFactor(double energy) const;
-
-   double scaleFactor(double energy, bool isFront) const;
 
    /// Functions from handoff_response.
    static double old_base_function(double u, double sigma, double gamma);
