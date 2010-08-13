@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Aug 13 07:10:46 PDT 2010
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Psf3b.cxx 
+Log Message:
+implement getCorners
+    *
+------------------------------------------------------------
 User: jchiang  Thu Aug 12 23:40:47 PDT 2010
 ScienceTools-scons/irfs/latResponse/src/test
 
