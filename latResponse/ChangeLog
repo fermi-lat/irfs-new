@@ -1,4 +1,16 @@
 ------------------------------------------------------------
+User: jchiang  Thu Aug 12 23:40:47 PDT 2010
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx Psf.cxx Psf.h Psf3b.cxx Psf3b.h 
+	PsfIntegralCache.cxx PsfIntegralCache.h 
+Added Files:
+	PsfBase.cxx PsfBase.h 
+Log Message:
+refactor to use PsfBase
+    *
+------------------------------------------------------------
 User: jchiang  Thu Aug 12 18:04:11 PDT 2010
 ScienceTools-scons/irfs/latResponse/src/test
 
