@@ -184,15 +184,15 @@ void LatResponseTests::psf_normalization() {
            
             std::vector<double> psf_values;
             for (size_t i = 0; i < psi.size(); i++) {
-               psf_values.push_back(psf.value(psi.at(i), *energy, 
+               psf_values.push_back(psf.value(psi[i], *energy, 
                                               *theta, phi));
             }
             
             double integral(0);
             for (size_t i = 0; i < psi.size() - 1; i++) {
-               integral += ((psf_values.at(i)*std::sin(psi.at(i)*M_PI/180.) + 
-                        psf_values.at(i+1)*std::sin(psi.at(i+1)*M_PI/180.))/2.)
-                  *(psi.at(i+1) - psi.at(i))*M_PI/180.;
+               integral += ((psf_values[i]*std::sin(psi[i]*M_PI/180.) + 
+                        psf_values[i+1]*std::sin(psi[i+1]*M_PI/180.))/2.)
+                  *(psi[i+1] - psi[i])*M_PI/180.;
             }
             integral *= 2.*M_PI;
             double angInt(psf.angularIntegral(*energy, *theta, phi, psimax));
