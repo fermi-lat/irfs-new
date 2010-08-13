@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Aug 12 18:04:11 PDT 2010
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+add Psf3b for possible code optimizations
+    *
+------------------------------------------------------------
+User: jchiang  Thu Aug 12 18:04:11 PDT 2010
 ScienceTools-scons/irfs/latResponse/src
 
 Added Files:
