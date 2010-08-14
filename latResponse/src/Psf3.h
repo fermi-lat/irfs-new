@@ -9,15 +9,10 @@
 #ifndef latResponse_Psf3_h
 #define latResponse_Psf3_h
 
-#include <cmath>
-
-#include <map>
 #include <string>
 #include <vector>
 
-#include "Psf2.h"
-
-#include "latResponse/ParTables.h"
+#include "PsfBase.h"
 
 namespace latResponse {
 
@@ -33,16 +28,30 @@ class PsfIntegralCache;
  *
  */
 
-class Psf3 : public Psf2 {
+class Psf3 : public PsfBase {
 
 public:
 
    Psf3(const std::string & fitsfile, bool isFront=true,
-        const std::string & extname="RPSF", size_t nrow=0);
+         const std::string & extname="RPSF", size_t nrow=0);
 
    Psf3(const Psf3 & rhs);
 
    virtual ~Psf3();
+
+   /// A member function returning the point-spread function value.
+   /// @param appDir Apparent (reconstructed) photon direction.
+   /// @param energy True photon energy in MeV.
+   /// @param srcDir True photon direction.
+   /// @param scZAxis Spacecraft z-axis.
+   /// @param scXAxis Spacecraft x-axis.
+   /// @param time Photon arrival time (MET s)
+   virtual double value(const astro::SkyDir & appDir, 
+                        double energy, 
+                        const astro::SkyDir & srcDir, 
+                        const astro::SkyDir & scZAxis,
+                        const astro::SkyDir & scXAxis, 
+                        double time=0) const;
 
    /// Return the psf as a function of instrument coordinates.
    /// @param separation Angle between apparent and true photon directions
@@ -54,6 +63,8 @@ public:
    /// @param time Photon arrival time (MET s)
    virtual double value(double separation, double energy, double theta,
                         double phi, double time=0) const;
+
+   typedef std::vector<irfInterface::AcceptanceCone *> AcceptanceConeVector_t;
 
    /// Angular integral of the PSF over the intersection of acceptance
    /// cones.
@@ -73,6 +84,8 @@ public:
       return new Psf3(*this);
    }
 
+   static int findIndex(const std::vector<double> & xx, double x);
+
 protected:
 
    /// Disable this.
@@ -82,35 +95,42 @@ protected:
 
 private:
 
-   mutable double m_integral;
+   // PSF parameters, energy and cos(theta) bin defs.
+   std::vector<double> m_logEs;
+   std::vector<double> m_energies;
+   std::vector<double> m_cosths;
+   std::vector<double> m_thetas;
+   std::vector<std::vector<double> > m_parVectors;
 
-   /**
-    * @class Psf3Integrand
-    * @brief Functor used for integrating the PSF to get the proper
-    * normalization.
-    */
-   class Psf3Integrand {
-   public:
-      Psf3Integrand(double * pars) : m_pars(pars) {}
+   PsfIntegralCache * m_integralCache;
 
-      /// @param sep angle between true direction and measured (radians)
-      double operator()(double sep) const {
-         return psf_function(sep, m_pars)*std::sin(sep);
-      }
-   private:
-      double * m_pars;
-   };
+   void readFits(const std::string & fitsfile,
+                 const std::string & extname="RPSF",
+                 size_t nrow=0);
 
-   double evaluate(double energy, double sep,
-                   const std::vector<double> & pars) const;
+   void normalize_pars(double radius=90.);
+
+   double evaluate(double energy, double sep, const double * pars) const;
+
+   void getCornerPars(double energy, double theta, double & tt,
+                      double & uu, std::vector<double> & cornerEnergies,
+                      std::vector<size_t> & indx) const;
 
    double psf_base_integral(double energy, double radius, 
-                            const std::vector<double> & pars) const;
+                            const double * pars) const;
 
    double angularIntegral(double energy, double psi, 
                           const std::vector<double> & pars);
 
-   void normalize_pars(double radius=90.);
+   static void generateBoundaries(const std::vector<double> & x,
+                                  const std::vector<double> & y,
+                                  const std::vector<double> & values,
+                                  std::vector<double> & xout,
+                                  std::vector<double> & yout,
+                                  std::vector<double> & values_out, 
+                                  double xlo=0, double xhi=10., 
+                                  double ylo=-1., double yhi=1.);
+
 };
 
 } // namespace latResponse
