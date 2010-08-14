@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Sat Aug 14 09:29:23 PDT 2010
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx Psf3.cxx Psf3.h 
+Removed Files:
+	Psf3b.cxx Psf3b.h 
+Log Message:
+mv Psf3b to Psf3
+    *
+------------------------------------------------------------
 User: jchiang  Fri Aug 13 14:50:44 PDT 2010
 ScienceTools-scons/irfs/latResponse/src
 
