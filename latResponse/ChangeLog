@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sat Aug 14 09:31:23 PDT 2010
+irfs/latResponse
+
+Modified Files:
+	SConscript 
+Log Message:
+stag/GoGui_auto-tag
+    *
+------------------------------------------------------------
 User: jchiang  Sat Aug 14 09:30:41 PDT 2010
 ScienceTools-scons/irfs/latResponse/cmt
 
