@@ -27,7 +27,8 @@ ParTables::ParTables(const std::string & fitsfile,
 
    // The first four columns *must* be "ENERG_LO", "ENERG_HI", "CTHETA_LO",
    // "CTHETA_HI", in that order.
-   char * boundsName[] = {"energ_lo", "energ_hi", "ctheta_lo", "ctheta_hi"};
+   const char * boundsName[] = {"energ_lo", "energ_hi", 
+                                "ctheta_lo", "ctheta_hi"};
    for (size_t i(0); i < 4; i++) {
       if (validFields.at(i) != boundsName[i]) {
          std::ostringstream message;
@@ -58,14 +59,6 @@ const FitsTable & ParTables::operator[](const std::string & parName) const {
                                "table name not found.");
    }
    return table->second;
-//    std::vector<std::string>::const_iterator it =
-//       std::find(m_parNames.begin(), m_parNames.end(), parName);
-//    if (it == m_parNames.end()) {
-//       throw std::runtime_error("latResponse::ParTables::operator[]: "
-//                                "table name not found.");
-//    }
-//    size_t indx(it - m_parNames.begin());
-//    return m_parTables[indx];
 }
 
 void ParTables::getPars(double loge, double costh, double * pars,
@@ -113,12 +106,10 @@ getPars(size_t ilogE, size_t icosth, std::vector<double> & pars) const {
 void ParTables::
 setPars(size_t ilogE, size_t icosth, const std::vector<double> & pars) {
    for (size_t i(0); i < m_parNames.size(); i++) {
-      const FitsTable & fitsTable(operator[](m_parNames.at(i)));
-      fitsTable.setPar(ilogE, icosth, pars[i]);
+      std::map<std::string, FitsTable>::iterator table 
+         = m_parTables.find(m_parNames.at(i));
+      table->second.setPar(ilogE, icosth, pars[i]);
    }
-//    for (size_t i(0); i < m_parTables.size(); i++) {
-//       m_parTables[i].setPar(ilogE, icosth, pars.at(i));
-//    }
 }
 
 } // namespace latResponse
