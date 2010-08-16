@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-02-08-01 16-Aug-2010 jchiang fix const correctness in ParTables::setPars
  latResponse-02-08-00 14-Aug-2010 jchiang completely refactored Psf3 for faster execution
  latResponse-02-07-00 12-Aug-2010 jchiang Psf3 implementation: working but needs substantial optimization and refactoring
  latResponse-02-06-03 01-Jun-2010 jchiang disable psf normalization tests for unused P6_V7_TRANSIENT
