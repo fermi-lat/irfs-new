@@ -1,5 +1,57 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-18-00, operation: add
+Package: caldb_release
+User: glastrm  Mon Aug 16 00:35:09 2010
+Files:
+  caldb_release/.cvsignore  1.1.1.1
+  caldb_release/ChangeLog  1.2
+  caldb_release/SConscript  1.2
+  caldb_release/CALDB/data/glast/lat/caldb.indx  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_source_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_source_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_source_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_source_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_source_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_source_back.fits  1.1.1.1
+  caldb_release/CALDB/software/tools/caldb.config  1.1.1.1
+  caldb_release/CALDB/software/tools/alias_config.fits  1.1.1.1
+  caldb_release/cmt/requirements  1.1.1.1
+  caldb_release/doc/release.notes  1.1.1.1
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-17-00, operation: add
 Package: caldb_release
 User: glastrm  Thu Jun 17 18:42:04 2010
