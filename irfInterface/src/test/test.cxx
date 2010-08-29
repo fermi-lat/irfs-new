@@ -196,8 +196,8 @@ int main() {
 #if defined(TRAP_FPE) || defined(HEADAS)
       feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #else
-      throw std::runtime_error("Floating point exception trapping "
-                               "cannot be enabled for this build.");
+      // throw std::runtime_error("Floating point exception trapping "
+      //                          "cannot be enabled for this build.");
 #endif
    CppUnit::TextTestRunner runner;
    
