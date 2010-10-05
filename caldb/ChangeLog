@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct  5 13:37:41 PDT 2010
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat
+
+Modified Files:
+	caldb.indx 
+Log Message:
+add p6_v3_dataclean irfs
+    *
+------------------------------------------------------------
 User: jchiang  Tue Oct  5 13:37:14 PDT 2010
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/psf
 
