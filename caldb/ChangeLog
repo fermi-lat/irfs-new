@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct  5 14:15:54 PDT 2010
+irfs/caldb/python
+
+Added Files:
+	add_to_cvs.py correct_cbd.py update_caldb_indx.py 
+	update_checksums.py 
+Log Message:
+add utility scripts for managing irf files
+    *
+------------------------------------------------------------
 User: jchiang  Tue Oct  5 14:15:14 PDT 2010
 irfs/caldb/python
 
