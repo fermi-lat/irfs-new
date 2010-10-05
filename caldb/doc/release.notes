@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ caldb-03-02-00 05-Oct-2010 jchiang add p6_v3_dataclean irfs
  caldb-03-01-00 15-Apr-2010 jchiang add livetime efficiency corrections to P6_V8_DIFFUSE
  caldb-03-00-01 26-Mar-2010 peachey Add required CALDB keywords to all extensions.
  caldb-03-00-00 22-Mar-2010 jchiang remove P7_V1*, P6_V4*; add P6_V7
