@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 User: jchiang  Tue Oct  5 13:37:14 PDT 2010
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/edisp
+
+Added Files:
+	edisp_p6_v3_dataclean_back.fits 
+	edisp_p6_v3_dataclean_front.fits 
+Log Message:
+add p6_v3_dataclean irfs
+    *
+------------------------------------------------------------
+User: jchiang  Tue Oct  5 13:37:14 PDT 2010
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/ea
 
 Added Files:
