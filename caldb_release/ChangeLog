@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Oct 18 15:25:57 PDT 2010
+ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat
+
+Modified Files:
+	caldb.indx 
+Log Message:
+add P6_V3_DATACLEAN irfs; tagging v3r2p0
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-18-05, operation: add
 Package: caldb_release
