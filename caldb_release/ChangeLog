@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Oct 18 15:25:58 PDT 2010
+ScienceTools-scons/irfs/caldb_release/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+add P6_V3_DATACLEAN irfs; tagging v3r2p0
+    *
+------------------------------------------------------------
+User: jchiang  Mon Oct 18 15:25:58 PDT 2010
 ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat/bcf/psf
 
 Added Files:
