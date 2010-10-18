@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Oct 18 15:26:36 PDT 2010
+irfs/caldb_release
+
+Modified Files:
+	SConscript 
+Log Message:
+stag/GoGui_auto-tag
+    *
+------------------------------------------------------------
 User: jchiang  Mon Oct 18 15:25:58 PDT 2010
 ScienceTools-scons/irfs/caldb_release/cmt
 
