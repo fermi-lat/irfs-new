@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Thu Oct 21 15:52:44 PDT 2010
+ScienceTools-scons/irfs/irfLoader/cmt
+
+Modified Files:
+	requirements 
+Log Message:
+tagging v1r3p1 for gcc44 fixes
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-18-06, operation: add
 Package: irfLoader
