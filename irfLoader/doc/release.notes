@@ -4,7 +4,22 @@
 
   @verbatim
   $Id$
+  EOH
 
+ irfLoader-01-03-01 21-Oct-2010 jchiang includes for gcc44
+ irfLoader-01-03-00 31-Mar-2010 jchiang disable DC1, DC2, G25 irfs
+ irfLoader-01-02-04 24-Feb-2010    jrb fix linking for mac
+ irfLoader-01-02-03 22-Feb-2010    jrb correct use of xxLib for libEnv
+ irfLoader-01-02-02 01-Sep-2009    jrb Update SConscript to use registerTargets
+  15-Jul-09 v1r2p1  jrb   update SConscript
+  16-Apr-08 v1r2    JC    remove handoff_response from Registrar   
+  20-Mar-08 v1r1p1  JC    call setupEnvironment in Registrar constructor
+  14-Feb-08 v1r1    JC    add latResponse
+  27-Jan-08 v1r0p5  JC    comment out egretResponse reference in req file
+  25-Jan-08 v1r0p4  JC    comment out egretResponse references in Registrar.cxx
+  02-Mar-07 v1r0p2  JC    refactor unit tests
+  29-Jan-07 v1r0p1  JC    add handoff_response back in
+  29-Jan-07 v1      JC    implement IrfRegistry scheme from irfInteface
   19-Oct-06 v0r6p3  JC    wire in handoff_response
   20-Apr-06 v0r6p2  JC    protect against exposing SCIENCETOOLS_API macro
                           to swig build
