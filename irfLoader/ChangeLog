@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Oct 21 15:53:04 PDT 2010
+irfs/irfLoader
+
+Modified Files:
+	SConscript 
+Log Message:
+stag/GoGui_auto-tag
+    *
+------------------------------------------------------------
 User: jchiang  Thu Oct 21 15:52:44 PDT 2010
 ScienceTools-scons/irfs/irfLoader/cmt
 
