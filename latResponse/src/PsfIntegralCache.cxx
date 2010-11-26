@@ -177,12 +177,14 @@ void PsfIntegralCache::fillParamArrays() {
    double psimax(180*M_PI/180.);
    linearArray(psimin, psimax, npsi, m_psis);
 
-   size_t ngam(50);
+   size_t ngam_fine(50);
+   size_t ngam_coarse(25);
 // These upper and lower values mirror the parameter fit boundaries in
 // PointSpreadFunction.cxx, which are also inside anonymous namespace
 // and so are inaccessible outside of that file.
-   linearArray(1, 1.2, ngam, m_gammas);
-   linearArray(1.2, 5.1, ngam, m_gammas, false);
+   linearArray(1, 1.2, ngam_fine, m_gammas);
+   linearArray(1.2, 5., ngam_coarse, m_gammas, false);
+   linearArray(5., 21., ngam_coarse, m_gammas, false);
 
    size_t nsig(50);
 // Smallest angular scales expected at highest energies.
