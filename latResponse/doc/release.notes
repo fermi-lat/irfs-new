@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-02-08-02 03-Dec-2010 jchiang bug-fix for psfIntegral in PsfIntegralCache: missing division by sigma^2 in direct integration outside of cache bounds
  latResponse-02-08-01 16-Aug-2010 jchiang fix const correctness in ParTables::setPars
  latResponse-02-08-00 14-Aug-2010 jchiang completely refactored Psf3 for faster execution
  latResponse-02-07-00 12-Aug-2010 jchiang Psf3 implementation: working but needs substantial optimization and refactoring
