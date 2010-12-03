@@ -10,6 +10,8 @@
  */
 
 #include <algorithm>
+#include <fstream>
+#include <stdexcept>
 
 #include "st_facilities/GaussianQuadrature.h"
 
@@ -27,7 +29,8 @@ PsfIntegralCache::
 PsfIntegralCache(const PsfBase & psf, irfInterface::AcceptanceCone & cone) 
    : m_psf(psf), m_acceptanceCone(cone.clone()), 
      m_calls(0), m_interpolations(0), m_cpuTotal(0),
-     m_gamma_avg(0), m_sigma_avg(0), m_integralEvals(0) {
+     m_gamma_avg(0), m_sigma_avg(0), m_integralEvals(0),
+     m_gamma_max(0), m_gamma_min(100), m_sigma_max(0), m_sigma_min(100) {
    fillParamArrays();
    setupAngularIntegrals();
 }
@@ -41,7 +44,11 @@ PsfIntegralCache::~PsfIntegralCache() {
                     << "Avg. CPU time per integral (s): " 
                     << m_cpuTotal/m_interpolations << std::endl
                     << "Avg. gamma: " << m_gamma_avg/m_integralEvals << "\n"
-                    << "Avg. sigma: " << m_sigma_avg/m_integralEvals 
+                    << "Min. gamma: " << m_gamma_min << "\n"
+                    << "Max. gamma: " << m_gamma_max << "\n"
+                    << "Avg. sigma: " << m_sigma_avg/m_integralEvals << "\n"
+                    << "Min. sigma: " << m_sigma_min << "\n"
+                    << "Max. sigma: " << m_sigma_max << "\n"
                     << std::endl;
    delete m_acceptanceCone;
 }
@@ -51,7 +58,8 @@ angularIntegral(double sigma, double gamma, size_t ipsi) const {
    m_calls++;
    if (sigma < m_sigmas.front() || sigma > m_sigmas.back() ||
        gamma < m_gammas.front() || gamma > m_gammas.back()) {
-      return psfIntegral(m_psis.at(ipsi), sigma, gamma);
+      double value = psfIntegral(m_psis.at(ipsi), sigma, gamma)/sigma/sigma;
+      return value;
    }
 
    size_t isig(std::upper_bound(m_sigmas.begin(), m_sigmas.end(), sigma)
@@ -76,7 +84,8 @@ angularIntegral(double sigma, double gamma, size_t ipsi) const {
       }
    }
 
-   return bilinear(sigma, gamma, ipsi, isig, igam);
+   double value = bilinear(sigma, gamma, ipsi, isig, igam);
+   return value;
 }
 
 double PsfIntegralCache::bilinear(double sigma, double gamma, size_t ipsi,
@@ -101,7 +110,21 @@ psfIntegral(double psi, double sigma, double gamma) const {
 
    m_gamma_avg += gamma;
    m_sigma_avg += sigma;
-   m_integralEvals ++;
+   m_integralEvals++;
+
+   if (m_gamma_max < gamma) {
+      m_gamma_max = gamma;
+   }
+   if (m_gamma_min > gamma) {
+      m_gamma_min = gamma;
+   }
+
+   if (m_sigma_max < sigma) {
+      m_sigma_max = sigma;
+   }
+   if (m_sigma_min > sigma) {
+      m_sigma_min = sigma;
+   }
 
    double roi_radius(m_acceptanceCone->radius()*M_PI/180.);
    double one(1.);
@@ -127,7 +150,8 @@ psfIntegral(double psi, double sigma, double gamma) const {
                                                 err, ierr);
    
    m_cpuTotal += (std::clock() - start_time)/1e6;
-   return firstIntegral + secondIntegral;
+   double value = firstIntegral + secondIntegral;
+   return value;
 }
 
 PsfIntegralCache::PsfIntegrand1::PsfIntegrand1(double sigma, double gamma)
@@ -183,8 +207,9 @@ void PsfIntegralCache::fillParamArrays() {
 // PointSpreadFunction.cxx, which are also inside anonymous namespace
 // and so are inaccessible outside of that file.
    linearArray(1, 1.2, ngam_fine, m_gammas);
-   linearArray(1.2, 5., ngam_coarse, m_gammas, false);
-   linearArray(5., 21., ngam_coarse, m_gammas, false);
+   linearArray(1.2, 5.1, ngam_fine, m_gammas, false);
+//    linearArray(1.2, 5., ngam_coarse, m_gammas, false);
+//    linearArray(5., 21., ngam_coarse, m_gammas, false);
 
    size_t nsig(50);
 // Smallest angular scales expected at highest energies.

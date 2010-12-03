@@ -72,6 +72,12 @@ private:
    mutable double m_sigma_avg;
    mutable double m_integralEvals;
 
+   mutable double m_gamma_max;
+   mutable double m_gamma_min;
+
+   mutable double m_sigma_max;
+   mutable double m_sigma_min;
+
    void linearArray(double xmin, double xmax, size_t nx,
                     std::vector<double> & xx, bool clear=true) const;
 
