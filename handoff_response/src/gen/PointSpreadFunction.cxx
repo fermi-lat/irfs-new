@@ -27,7 +27,7 @@ namespace {
     static double pmax[] =  {1., 1.,  5.0, 5.0,  20.0, 20.0};
 
     static double fitrange[] = {xmin, xmax};
-    static double ub = 10.;  // revisit this choice of ub
+//    static double ub = 10.;  // revisit this choice of ub
     static int min_entries=10; // minimum number of entries to fit
 
     inline double sqr(double x){return x*x;}
