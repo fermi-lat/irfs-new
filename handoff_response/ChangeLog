@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Dec 20 21:48:31 PST 2010
+ScienceTools-scons/irfs/handoff_response/src/gen
+
+Modified Files:
+	PointSpreadFunction.cxx 
+Log Message:
+comment out ub definition (supposedly not needed)
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-20-00, operation: add
 Package: handoff_response
