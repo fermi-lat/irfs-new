@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan 12 12:06:47 PST 2011
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/edisp
+
+Modified Files:
+	edisp_P6_v11_diff_back.fits edisp_P6_v11_diff_front.fits 
+Log Message:
+add P6_V11_DIFFUSE irfs
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan 12 12:06:47 PST 2011
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/ea
 
 Modified Files:
