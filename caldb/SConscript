@@ -1,7 +1,7 @@
 # -*- python -*-
 # $Id$
 # Authors: James Chiang <jchiang@slac.stanford.edu>
-# Version: caldb-03-03-00
+# Version: caldb-04-00-00
 Import('baseEnv')
 Import('listFiles')
 
