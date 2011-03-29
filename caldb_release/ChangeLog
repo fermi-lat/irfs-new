@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Mar 29 15:54:07 PDT 2011
+ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat
+
+Modified Files:
+	caldb.indx 
+Log Message:
+add P6_V11_DIFFUSE irfs
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-22-00, operation: add
 Package: caldb_release
