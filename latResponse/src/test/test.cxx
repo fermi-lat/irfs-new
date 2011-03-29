@@ -172,7 +172,8 @@ void LatResponseTests::psf_normalization() {
         name != m_irfNames.end(); ++name) {
       std::cout << *name << ": \n";
       if (*name == "P6_V7_TRANSIENT::FRONT" || 
-          *name == "P6_V7_TRANSIENT::BACK") {
+          *name == "P6_V7_TRANSIENT::BACK" || 
+          *name == "P7TRANSIENT_V6::BACK") { 
          continue;
       }
       irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
