@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ caldb_release-03-02-01 29-Mar-2011 jchiang add P6_V11_DIFFUSE irfs to caldb_release
  caldb_release-03-02-00 18-Oct-2010 jchiang add P6_V3_DATACLEAN; remove P6_V8_DIFFUSE
  caldb_release-03-01-00 15-Jun-2010 jchiang add P6_V8_DIFFUSE
  caldb_release-00-00-00 11-Apr-2010 jchiang public release irfs
