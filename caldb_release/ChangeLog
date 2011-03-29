@@ -1,4 +1,68 @@
 ------------------------------------------------------------
+TAG
+Tag name: caldb_release-03-03-00, operation: add
+Package: caldb_release
+User: jchiang  Tue Mar 29 15:56:00 2011
+Files:
+  caldb_release/.cvsignore  1.1.1.1
+  caldb_release/ChangeLog  1.43
+  caldb_release/SConscript  1.6
+  caldb_release/CALDB/data/glast/lat/caldb.indx  1.4
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_source_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_p6_v3_dataclean_front.fits  1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_p6_v3_dataclean_back.fits  1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v11_diff_back.fits  1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v11_diff_front.fits  1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_source_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v3_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/ea/aeff_P6_v1_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v11_diff_front.fits  1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_source_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_source_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_p6_v3_dataclean_front.fits  1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_p6_v3_dataclean_back.fits  1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v11_diff_back.fits  1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v1_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/edisp/edisp_P6_v3_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_source_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v11_diff_front.fits  1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_p6_v3_dataclean_front.fits  1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_trans_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_diff_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_trans_front.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_diff_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_p6_v3_dataclean_back.fits  1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v1_source_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v3_source_back.fits  1.1.1.1
+  caldb_release/CALDB/data/glast/lat/bcf/psf/psf_P6_v11_diff_back.fits  1.1
+  caldb_release/CALDB/software/tools/caldb.config  1.1.1.1
+  caldb_release/CALDB/software/tools/alias_config.fits  1.1.1.1
+  caldb_release/cmt/requirements  1.5
+  caldb_release/doc/release.notes  1.5
+
+    *
+------------------------------------------------------------
 User: jchiang  Tue Mar 29 15:55:54 PDT 2011
 irfs/caldb_release/cmt
 
