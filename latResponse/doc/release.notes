@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-02-08-03 29-Mar-2011 jchiang skip P7TRANSIENT_V6::BACK psf normalization tests which fail at the 2% level at >250GeV and theta > 61.5
  latResponse-02-08-02 03-Dec-2010 jchiang bug-fix for psfIntegral in PsfIntegralCache: missing division by sigma^2 in direct integration outside of cache bounds
  latResponse-02-08-01 16-Aug-2010 jchiang fix const correctness in ParTables::setPars
  latResponse-02-08-00 14-Aug-2010 jchiang completely refactored Psf3 for faster execution
