@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ irfLoader-01-03-02 27-May-2011    jrb Support for imminent GRBAnalysis-scons container
  irfLoader-01-03-01 21-Oct-2010 jchiang includes for gcc44
  irfLoader-01-03-00 31-Mar-2010 jchiang disable DC1, DC2, G25 irfs
  irfLoader-01-02-04 24-Feb-2010    jrb fix linking for mac
