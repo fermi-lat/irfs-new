@@ -5,7 +5,6 @@ def generate(env, **kw):
     env.Tool('irfInterfaceLib')
     env.Tool('astroLib')
     env.Tool('st_facilitiesLib')
-    env.Tool('st_appLib')
     env.Tool('st_streamLib')
     env.Tool('irfUtilLib')
     env.Tool('embed_pythonLib')

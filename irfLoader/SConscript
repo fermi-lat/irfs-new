@@ -10,15 +10,23 @@ libEnv = baseEnv.Clone()
 libEnv.Tool('addLinkDeps', package='irfLoader', toBuild='shared')
 irfLoaderLib = libEnv.SharedLibrary('irfLoader', listFiles(['src/*.cxx']))
 
-progEnv.Tool('irfLoaderLib')
-progEnv.Tool('addLibrary', library = progEnv['cppunitLibs'])
-test_irfLoaderBin = progEnv.Program('test_irfLoader', listFiles(['src/test/*.cxx']))
+# Don't build apps for GRBAnalysis container
+if 'makeStatic' in baseEnv:
+    progEnv.Tool('registerTargets', package = 'irfLoader',
+                 libraryCxts = [[irfLoaderLib, libEnv]],
+                 includes = listFiles(['irfLoader/*.h']),
+                 pfiles = listFiles(['pfiles/*.par']))
+else:
+    progEnv.Tool('irfLoaderLib')
+    progEnv.Tool('st_appLib')
+    progEnv.Tool('addLibrary', library = progEnv['cppunitLibs'])
+    test_irfLoaderBin = progEnv.Program('test_irfLoader', listFiles(['src/test/*.cxx']))
 
-gtirfsBin = progEnv.Program('gtirfs', listFiles(['src/gtirfs/*.cxx']))
+    gtirfsBin = progEnv.Program('gtirfs', listFiles(['src/gtirfs/*.cxx']))
 
-progEnv.Tool('registerTargets', package = 'irfLoader',
-             libraryCxts = [[irfLoaderLib, libEnv]],
-             testAppCxts = [[test_irfLoaderBin, progEnv]],
-             includes = listFiles(['irfLoader/*.h']),
-             binaryCxts = [[gtirfsBin,progEnv]],
-             pfiles = listFiles(['pfiles/*.par']))
+    progEnv.Tool('registerTargets', package = 'irfLoader',
+                 libraryCxts = [[irfLoaderLib, libEnv]],
+                 testAppCxts = [[test_irfLoaderBin, progEnv]],
+                 includes = listFiles(['irfLoader/*.h']),
+                 binaryCxts = [[gtirfsBin,progEnv]],
+                 pfiles = listFiles(['pfiles/*.par']))
