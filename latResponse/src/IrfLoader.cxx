@@ -275,6 +275,7 @@ void IrfLoader::read_caldb_indx() {
    for (size_t i(0); i < m_caldbNames.size(); i++) {
       getCaldbClassNames(m_caldbNames.at(i));
    }
+   delete table;
 }
 
 const std::vector<std::string> & 

@@ -104,6 +104,7 @@ void EfficiencyFactor::readFitsFile(const std::string & fitsfile) {
    m_p1_front = EfficiencyParameter(parVectors.at(1));
    m_p0_back = EfficiencyParameter(parVectors.at(2));
    m_p1_back = EfficiencyParameter(parVectors.at(3));
+   delete table;
 }
 
 double EfficiencyFactor::operator()(double energy, double met) const {

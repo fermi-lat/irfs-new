@@ -31,6 +31,7 @@ ParTables::ParTables(const std::string & fitsfile,
                                 "ctheta_lo", "ctheta_hi"};
    for (size_t i(0); i < 4; i++) {
       if (validFields.at(i) != boundsName[i]) {
+         delete table;
          std::ostringstream message;
          message << "latResponse::ParTables::ParTables: "
                  << "invalid header in " << fitsfile << "  "
