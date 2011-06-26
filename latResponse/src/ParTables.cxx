@@ -44,7 +44,6 @@ ParTables::ParTables(const std::string & fitsfile,
    for (size_t i(4); i < validFields.size(); i++) {
       const std::string & tablename(validFields.at(i));
       m_parNames.push_back(tablename);
-//      m_parTables.push_back(FitsTable(fitsfile, extname, tablename, nrow));
       m_parTables.insert(
          std::map<std::string, FitsTable>::
          value_type(tablename, FitsTable(fitsfile, extname, tablename, nrow)));

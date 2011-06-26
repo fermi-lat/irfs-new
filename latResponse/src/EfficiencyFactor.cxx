@@ -97,6 +97,7 @@ void EfficiencyFactor::readFitsFile(const std::string & fitsfile) {
       parVectors.push_back(values);
    }
    if (all_zeros) {
+      delete table;
       m_havePars = false;
       return;
    }
