@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-02-08-05 25-Jun-2011 jchiang missing delete in EfficiencyFactor.xx
  latResponse-02-08-04 23-Jun-2011 jchiang plug some memory leaks (missing deletes of tip::Table instance)
  latResponse-02-08-03 29-Mar-2011 jchiang skip P7TRANSIENT_V6::BACK psf normalization tests which fail at the 2% level at >250GeV and theta > 61.5
  latResponse-02-08-02 03-Dec-2010 jchiang bug-fix for psfIntegral in PsfIntegralCache: missing division by sigma^2 in direct integration outside of cache bounds
