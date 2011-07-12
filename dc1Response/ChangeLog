@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Jul 12 10:43:12 PDT 2011
+irfs/dc1Response
+
+Modified Files:
+	SConscript 
+Log Message:
+stag/GoGui_auto-tag
+    *
+------------------------------------------------------------
 User: jchiang  Tue Jul 12 10:35:47 PDT 2011
 GRBAnalysis-scons/irfs/dc1Response/src/test
 
