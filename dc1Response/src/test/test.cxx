@@ -2,6 +2,8 @@
  * $Header$
  */
 
+#include <cstdlib>
+
 #include <iostream>
 
 #include "facilities/commonUtilities.h"
@@ -10,6 +12,10 @@
 
 int main() {
    facilities::commonUtilities::setupEnvironment();
+   if (!std::getenv("CALDB")) {
+      std::cout << "CALDB not set, exiting." << std::endl;
+      std::exit(0);
+   }
    dc1Response::load_irfs();
    irfInterface::IrfsFactory * myFactory 
       = irfInterface::IrfsFactory::instance();

@@ -329,6 +329,11 @@ int main() {
 
    facilities::commonUtilities::setupEnvironment();
 
+   if (!std::getenv("CALDB")) {
+      std::cout << "CALDB not set, exiting." << std::endl;
+      std::exit(0);
+   }
+
    latResponse::IrfLoader myLoader;
    myLoader.loadIrfs();
 
