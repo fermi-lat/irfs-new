@@ -2,6 +2,14 @@
 TAG
 Tag name: GRBAnalysis-00-00-01, operation: add
 Package: dc1aResponse
+User: bregeon  Thu Aug 25 10:10:21 2011
+Files:
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: GRBAnalysis-00-00-01, operation: add
+Package: dc1aResponse
 User: bregeon  Thu Aug 25 10:02:48 2011
 Files:
   dc1aResponse/dc1aResponseLib.py  1.2
