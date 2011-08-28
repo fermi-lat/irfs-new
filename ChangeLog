@@ -2,6 +2,16 @@
 TAG
 Tag name: GRBAnalysis-01-00-01, operation: add
 Package: irfs
+User: bregeon  Sat Aug 27 17:00:49 2011
+Files:
+  irfs/cmt/requirements  1.33
+  irfs/doc/release.notes  1.30
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: GRBAnalysis-01-00-01, operation: add
+Package: irfs
 User: bregeon  Sat Aug 27 17:00:37 2011
 Files:
   irfs/.cvsignore  1.1.1.1
