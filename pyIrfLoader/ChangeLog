@@ -1,5 +1,13 @@
 ------------------------------------------------------------
 TAG
+Tag name: GRBAnalysis-01-00-02, operation: add
+Package: pyIrfLoader
+User: bregeon  Tue Aug 30 16:00:29 2011
+Files:
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: GRBAnalysis-01-00-01, operation: add
 Package: pyIrfLoader
 User: bregeon  Sat Aug 27 17:00:58 2011
