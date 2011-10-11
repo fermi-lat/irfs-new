@@ -80,6 +80,8 @@ private:
    void readScaling(const std::string & fitsfile,
                     const std::string & extname="EDISP_SCALING_PARAMS");
 
+   void renormalize();
+
    class EdispIntegrand {
    public:
       EdispIntegrand(double * pars, double etrue, double scaleFactor,

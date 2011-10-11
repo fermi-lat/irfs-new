@@ -40,6 +40,8 @@
 
 namespace latResponse {
 
+bool IrfLoader::s_interpolate_edisp(false);
+
 IrfLoader::IrfLoader() {
    read_caldb_indx();
    readCustomIrfNames();

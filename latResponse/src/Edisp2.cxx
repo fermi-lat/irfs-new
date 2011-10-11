@@ -18,8 +18,17 @@
 #include "st_facilities/GaussianQuadrature.h"
 
 #include "latResponse/FitsTable.h"
+#include "latResponse/IrfLoader.h"
 
 #include "Edisp2.h"
+
+namespace {
+   size_t binIndex(double x, const std::vector<double> & xx) {
+      std::vector<double>::const_iterator ix = 
+         std::upper_bound(xx.begin(), xx.end(), x);
+      return ix - xx.begin();
+   }
+}
 
 namespace latResponse {
 
@@ -27,6 +36,30 @@ Edisp2::Edisp2(const std::string & fitsfile,
                const std::string & extname, size_t nrow) 
    : m_parTables(fitsfile, extname, nrow), m_loge_last(0), m_costh_last(0) {
    readScaling(fitsfile);
+   renormalize();
+}
+
+void Edisp2::renormalize() {
+   const std::vector<double> & logEnergies(m_parTables.logEnergies());
+   const std::vector<double> & costhetas(m_parTables.costhetas());
+   for (size_t k(0); k < logEnergies.size(); k++) {
+      double loge(logEnergies[k]);
+      double energy(std::pow(10., loge));
+      for (size_t j(0); j < costhetas.size(); j++) {
+         double costh(costhetas[j]);
+         std::vector<double> my_pars;
+         m_parTables.getPars(k, j, my_pars);
+         EdispIntegrand foo(&my_pars[0], energy, scaleFactor(loge, costh), 
+                            *this);
+         double err(1e-7);
+         int ierr;
+         double norm = 
+            st_facilities::GaussianQuadrature::dgaus8(foo, energy/10.,
+                                                      energy*10., err, ierr);
+         my_pars[0] /= norm;
+         m_parTables.setPars(k, j, my_pars);
+      }
+   }
 }
 
 double Edisp2::value(double appEnergy,
@@ -75,6 +108,26 @@ double Edisp2::old_function(double xx, double * pars) const {
 }
 
 double Edisp2::scaleFactor(double logE, double costh) const {
+   if (!IrfLoader::interpolate_edisp()) {
+// Use midpoint of logE, costh bins in the FITS tabulations instead of
+// the passed values.  This ensures correct normalization via the
+// renormalize() member function. Note that the par values are not
+// interpolated anyways in the pars(...) member function.
+      const std::vector<double> & logEnergies(m_parTables.logEnergies());
+      size_t k = binIndex(logE, logEnergies);
+      if (k == logEnergies.size()) {
+         k -= 1;
+      }
+      const std::vector<double> & costhetas(m_parTables.costhetas());
+      size_t j = binIndex(costh, costhetas);
+      if (j == costhetas.size()) {
+         j -= 1;
+      }
+
+      logE = logEnergies[k];
+      costh = costhetas[j];
+   }
+
 // See handoff_response::Dispersion::scaleFactor
    costh = std::fabs(costh);
    double my_value(m_scalePars.at(0)*logE*logE +
@@ -102,14 +155,16 @@ double * Edisp2::pars(double energy, double costh) const {
    bool interpolate;
    m_parTables.getPars(loge, costh, m_pars, interpolate=false);
 
-   // Ensure proper normalization
-   EdispIntegrand foo(m_pars, energy, scaleFactor(loge, costh), *this);
-   double err(1e-5);
-   int ierr;
-   double norm = 
-      st_facilities::GaussianQuadrature::dgaus8(foo, energy/10.,
-                                                energy*10., err, ierr);
-   m_pars[0] /= norm;
+   if (IrfLoader::interpolate_edisp()) {
+// Ensure proper normalization
+      EdispIntegrand foo(m_pars, energy, scaleFactor(loge, costh), *this);
+      double err(1e-5);
+      int ierr;
+      double norm = 
+         st_facilities::GaussianQuadrature::dgaus8(foo, energy/10.,
+                                                   energy*10., err, ierr);
+      m_pars[0] /= norm;
+   }
 
    return m_pars;
 }

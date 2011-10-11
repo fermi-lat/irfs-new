@@ -34,8 +34,18 @@ public:
       return "LATRESPONSE";
    }
 
+   static void set_edisp_interpolation(bool flag) {
+      s_interpolate_edisp = flag;
+   }
+
+   static bool interpolate_edisp() {
+      return s_interpolate_edisp;
+   }
+
 private:
    
+   static bool s_interpolate_edisp;
+
    std::vector<std::string> m_caldbNames;
 
    std::map<std::string, std::vector<std::string> > m_subclasses;
