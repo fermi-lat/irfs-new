@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Oct 13 20:47:27 PDT 2011
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+speed ups (and approximations) for Edisp2
+    *
+------------------------------------------------------------
+User: jchiang  Thu Oct 13 20:47:27 PDT 2011
 ScienceTools-scons/irfs/latResponse/src
 
 Modified Files:
