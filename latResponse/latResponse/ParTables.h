@@ -55,6 +55,14 @@ public:
       return m_parTables.begin()->second.costhetas();
    }
 
+   const std::vector<double> & ebounds() const {
+      return m_parTables.begin()->second.ebounds();
+   }
+
+   const std::vector<double> & tbounds() const {
+      return m_parTables.begin()->second.tbounds();
+   }
+
    void getPars(size_t ilogE, size_t icosth, std::vector<double> & pars) const;
    
    void setPars(size_t ilogE, size_t icosth, const std::vector<double> & pars);

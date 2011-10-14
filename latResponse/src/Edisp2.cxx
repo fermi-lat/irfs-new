@@ -7,6 +7,7 @@
 */
 
 #include <cmath>
+#include <cstdlib>
 
 #include <algorithm>
 
@@ -49,8 +50,10 @@ void Edisp2::renormalize() {
          double costh(costhetas[j]);
          std::vector<double> my_pars;
          m_parTables.getPars(k, j, my_pars);
-         EdispIntegrand foo(&my_pars[0], energy, scaleFactor(loge, costh), 
-                            *this);
+
+         double scale_factor(scaleFactor(loge, costh));
+         EdispIntegrand foo(&my_pars[0], energy, scale_factor, *this);
+                            
          double err(1e-7);
          int ierr;
          double norm = 
@@ -79,6 +82,7 @@ double Edisp2::value(double appEnergy, double energy,
    (void)(phi);
    (void)(time);
    double costh(std::cos(theta*M_PI/180.));
+   costh = std::min(costh, m_parTables.costhetas().back());
    double xx((appEnergy - energy)/energy);
    xx /= scaleFactor(std::log10(energy), costh);
 
@@ -109,23 +113,24 @@ double Edisp2::old_function(double xx, double * pars) const {
 
 double Edisp2::scaleFactor(double logE, double costh) const {
    if (!IrfLoader::interpolate_edisp()) {
-// Use midpoint of logE, costh bins in the FITS tabulations instead of
-// the passed values.  This ensures correct normalization via the
-// renormalize() member function. Note that the par values are not
-// interpolated anyways in the pars(...) member function.
-      const std::vector<double> & logEnergies(m_parTables.logEnergies());
-      size_t k = binIndex(logE, logEnergies);
-      if (k == logEnergies.size()) {
-         k -= 1;
+      // Use midpoint of logE, costh bins in the FITS tabulations
+      // instead of the passed values.  This ensures correct
+      // normalization via the renormalize() member function. Note
+      // that the par values are not interpolated anyways in the
+      // pars(...) member function.
+      const std::vector<double> & ebounds(m_parTables.ebounds());
+      size_t k = binIndex(logE, ebounds) - 1;
+      if (k == ebounds.size()-1) {
+         k = ebounds.size() - 2;
       }
-      const std::vector<double> & costhetas(m_parTables.costhetas());
-      size_t j = binIndex(costh, costhetas);
-      if (j == costhetas.size()) {
-         j -= 1;
+      const std::vector<double> & tbounds(m_parTables.tbounds());
+      size_t j = binIndex(costh, tbounds) - 1;
+      if (j == -1) {
+         j = 0;
       }
 
-      logE = logEnergies[k];
-      costh = costhetas[j];
+      logE = m_parTables.logEnergies()[k];
+      costh = m_parTables.costhetas()[j];
    }
 
 // See handoff_response::Dispersion::scaleFactor
@@ -141,8 +146,9 @@ double Edisp2::scaleFactor(double logE, double costh) const {
 
 double * Edisp2::pars(double energy, double costh) const {
    double loge(std::log10(energy));
-   if (costh == 1.0) {
-      costh = 0.9999;   // restriction from handoff_response::RootEval
+   if (!IrfLoader::interpolate_edisp()) {
+      // Ensure use of highest cos(theta) bin.
+      costh = std::min(m_parTables.costhetas().back(), costh);
    }
 
    if (loge == m_loge_last && costh == m_costh_last) {
@@ -156,7 +162,7 @@ double * Edisp2::pars(double energy, double costh) const {
    m_parTables.getPars(loge, costh, m_pars, interpolate=false);
 
    if (IrfLoader::interpolate_edisp()) {
-// Ensure proper normalization
+      // Ensure proper normalization
       EdispIntegrand foo(m_pars, energy, scaleFactor(loge, costh), *this);
       double err(1e-5);
       int ierr;

@@ -307,42 +307,48 @@ void LatResponseTests::edisp_sampling() {
          for (std::vector<double>::const_iterator energy(energies.begin());
               energy != energies.end(); ++energy) {
             for (size_t j = 0; j < nsamp; j++) {
-                try{
-                    edisp.appEnergy(*energy, srcDir, zAxis, xAxis);
-                }catch(const std::exception& e){
-                    std::cerr << "caught sampling error, "
-                        << (*energy)<<", "<<srcDir.dec() <<", " 
-                        << zAxis.dec() << ", " <<xAxis.dec()  << std::endl;
-                    throw;
-                }
+               try {
+                  edisp.appEnergy(*energy, srcDir, zAxis, xAxis);
+               } catch(const std::exception & e) {
+                  std::cerr << "caught sampling error, "
+                            << (*energy)<<", "<<srcDir.dec() <<", " 
+                            << zAxis.dec() << ", " <<xAxis.dec()  << std::endl;
+                  throw;
+               }
             }
          }
       }
    }
 }
 
-int main() {
+int main(int iargc, char * argv[]) {
 #ifdef TRAP_FPE
 // Add floating point exception traps.
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
-
-   facilities::commonUtilities::setupEnvironment();
-
-   if (!std::getenv("CALDB")) {
-      std::cout << "CALDB not set, exiting." << std::endl;
-      std::exit(0);
-   }
-
    latResponse::IrfLoader myLoader;
    myLoader.loadIrfs();
-
-   CppUnit::TextTestRunner runner;
-   runner.addTest(LatResponseTests::suite());
-   bool result(runner.run());
-   if (result) {
-      return 0;
+   
+   if (iargc > 1 && std::string(argv[1]) == "-d") {
+      LatResponseTests testObj;
+      testObj.setUp();
+      testObj.edisp_normalization();
+      testObj.tearDown();
    } else {
-      return 1;
+      facilities::commonUtilities::setupEnvironment();
+      
+      if (!std::getenv("CALDB")) {
+         std::cout << "CALDB not set, exiting." << std::endl;
+         std::exit(0);
+      }
+      
+      CppUnit::TextTestRunner runner;
+      runner.addTest(LatResponseTests::suite());
+      bool result(runner.run());
+      if (result) {
+         return 0;
+      } else {
+         return 1;
+      }
    }
 }

@@ -98,18 +98,24 @@ value(double logenergy, double costh, bool interpolate) const {
       return (*m_interpolator)(logenergy, costh);
    }
 
-   if (logenergy <= m_logEnergies.at(1)) { // use first bin
-      logenergy = m_logEnergies.at(1);
-   }
+   // if (logenergy <= m_logEnergies.at(1)) { // use first bin
+   //    logenergy = m_logEnergies.at(1);
+   // }
 
    size_t ix = binIndex(logenergy, m_ebounds);
    if (ix == m_ebounds.size()) {
       ix -= 1;
    }
+   if (ix == 0) {
+      ix = 1;
+   }
    size_t iy = binIndex(costh, m_tbounds);
    if (iy == 0) {
       iy = 1;
-   } 
+   }
+   if (iy > m_mus.size()) {
+      iy = m_mus.size();
+   }
    size_t indx = (iy - 1)*m_logEnergies.size() + ix - 1;
 
    return m_values.at(indx);

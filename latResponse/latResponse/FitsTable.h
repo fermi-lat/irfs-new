@@ -73,6 +73,16 @@ public:
       return m_mus;
    }
 
+   // bounds in log10(E)
+   const std::vector<double> & ebounds() const {
+      return m_ebounds;
+   }
+
+   // bounds in cos(theta)
+   const std::vector<double> & tbounds() const {
+      return m_tbounds;
+   }
+
    double getPar(size_t ilogE, size_t icosth) const;
 
    void setPar(size_t ilogE, size_t icosth, double par);
