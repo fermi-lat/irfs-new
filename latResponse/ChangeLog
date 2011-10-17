@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sun Oct 16 22:53:25 PDT 2011
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx 
+Log Message:
+change default behavior, switch off interpolation in client code (i.e., in Likelihood package)
+    *
+------------------------------------------------------------
 User: jchiang  Thu Oct 13 20:47:27 PDT 2011
 ScienceTools-scons/irfs/latResponse/src/test
 
