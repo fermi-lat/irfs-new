@@ -326,6 +326,8 @@ int main(int iargc, char * argv[]) {
 // Add floating point exception traps.
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
+   facilities::commonUtilities::setupEnvironment();
+
    latResponse::IrfLoader myLoader;
    myLoader.loadIrfs();
    
@@ -335,7 +337,6 @@ int main(int iargc, char * argv[]) {
       testObj.edisp_normalization();
       testObj.tearDown();
    } else {
-      facilities::commonUtilities::setupEnvironment();
       
       if (!std::getenv("CALDB")) {
          std::cout << "CALDB not set, exiting." << std::endl;
