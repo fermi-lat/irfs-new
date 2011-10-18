@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct 18 07:58:26 PDT 2011
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+move setupEnvironment before IrfLoader constructor call
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-02-09-00, operation: add
 Package: latResponse
