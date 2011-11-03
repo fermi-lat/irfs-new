@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jrb  Thu Nov  3 16:16:26 PDT 2011
+ScienceTools-scons/irfs
+
+Modified Files:
+	SConscript 
+Log Message:
+install irfsLib.py
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-25-02, operation: add
 Package: irfs
