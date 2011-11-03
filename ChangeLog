@@ -1,4 +1,19 @@
 ------------------------------------------------------------
+TAG
+Tag name: irfs-00-09-04, operation: add
+Package: irfs
+User: jrb  Thu Nov  3 16:21:48 2011
+Files:
+  irfs/cmt/requirements  1.35
+  irfs/doc/release.notes  1.31
+  irfs/src/mainpage.h  1.1.1.1
+  irfs/.cvsignore  1.1.1.1
+  irfs/ChangeLog  1.200
+  irfs/irfsLib.py  1.1
+  irfs/SConscript  1.6
+
+    *
+------------------------------------------------------------
 User: jrb  Thu Nov  3 16:21:42 PDT 2011
 irfs/cmt
 
