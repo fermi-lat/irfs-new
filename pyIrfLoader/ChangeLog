@@ -1,4 +1,12 @@
 ------------------------------------------------------------
+TAG
+Tag name: ScienceTools-09-26-00, operation: add
+Package: pyIrfLoader
+User: jchiang  Mon Dec  5 15:49:10 2011
+Files:
+
+    *
+------------------------------------------------------------
 User: jchiang  Wed Nov  2 10:26:32 PDT 2011
 ScienceTools-scons/irfs/pyIrfLoader/python
 
