@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ caldb_release-04-01-00 25-Jan-2012 jchiang add P7SOURCE_V6
  caldb_release-04-00-00 31-May-2011 jchiang add P7*_V6 IRFs to caldb_release
  caldb_release-03-03-00 29-Mar-2011 jchiang add P6_V11_DIFFUSE irfs to caldb_release
  caldb_release-03-02-01 29-Mar-2011 jchiang add P6_V11_DIFFUSE irfs to caldb_release
