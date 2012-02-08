@@ -28,6 +28,9 @@ namespace irfInterface {
 double IEfficiencyFactor::value(double energy, double livetimefrac) const {
    // Since we do not have access to the front and back effective
    // areas separately, just return the average.
+   if (::getenv("OMIT_EFFICIENCY_FACTOR")) {
+      return 1;
+   }
    return (value(energy, livetimefrac, true) + 
            value(energy, livetimefrac, false))/2.;
 }
