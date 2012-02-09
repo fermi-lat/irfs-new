@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ irfInterface-03-00-06 08-Feb-2012 jchiang better handling of energy dispersion integration for cases where measured energy band is far from true energy
  irfInterface-03-00-05 28-Aug-2010 jchiang disable unneeded throw in test program
  irfInterface-03-00-04 03-Jun-2010 jchiang add CLHEP qualifiers in prep for CLHEP 2.0.4.6
  irfInterface-03-00-03 01-Jun-2010 jchiang add missing -DTRAP_FPE flag from posix build of test program
