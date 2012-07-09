@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jul  9 09:02:54 PDT 2012
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/ea
+
+Added Files:
+	aeff_P7CLEAN_V6MC_back.fits aeff_P7CLEAN_V6MC_front.fits 
+Log Message:
+add P7CLEAN_V6MC irfs
+    *
+------------------------------------------------------------
 TAG
 Tag name: GRBAnalysis-02-02-01, operation: add
 Package: caldb
