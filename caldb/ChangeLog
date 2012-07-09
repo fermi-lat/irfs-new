@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Jul  9 09:02:55 PDT 2012
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/psf
+
+Added Files:
+	psf_P7CLEAN_V6MC_back.fits psf_P7CLEAN_V6MC_front.fits 
+Log Message:
+add P7CLEAN_V6MC irfs
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jul  9 09:02:55 PDT 2012
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/edisp
 
 Added Files:
