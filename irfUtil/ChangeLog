@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Sep 12 14:22:22 PDT 2012
+ScienceTools-scons/irfs/irfUtil/src
+
+Modified Files:
+	HDgtcalf.c 
+Log Message:
+Steve's fix for file descriptor exhaustion
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-30-01, operation: add
 Package: irfUtil
