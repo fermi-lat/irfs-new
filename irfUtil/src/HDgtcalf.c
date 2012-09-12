@@ -548,6 +548,11 @@ cleanup:
     if(refval) free(refval);
     if(tmpfile) free(tmpfile);
     if(index) free(index);
+    if(fptr)
+      {
+        int close_status;
+        fits_close_file(fptr,&close_status);
+      }
      
     return *status;
 
@@ -577,7 +582,7 @@ static int gtcalidx (char* mode, char* missn,
      char cifdev[160], cifdir[160];
      char insdev[160], insdir[160];
 
-     FILE * fptr;
+     FILE * fptr = NULL;
      char msg[256];
      
      if(*status) return *status;  
@@ -632,6 +637,7 @@ static int gtcalidx (char* mode, char* missn,
 
 
 cleanup:
+ if(fptr) fclose(fptr);
  return *status;
 
 }
