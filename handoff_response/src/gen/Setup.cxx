@@ -8,7 +8,6 @@ $Header$
 #include "Setup.h"
 #include "embed_python/Module.h"
 
-#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <iterator>
