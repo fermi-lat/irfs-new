@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Sep 24 08:41:25 PDT 2012
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/ea
+
+Modified Files:
+	aeff_P7CLEAN_V6MC_back.fits aeff_P7CLEAN_V6MC_front.fits 
+Log Message:
+replace aeff_P7CLEAN_V6MC_*.fits files with versions that contain efficiency correction parameters
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-30-01, operation: add
 Package: caldb
