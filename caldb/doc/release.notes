@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ caldb-04-02-01 24-Sep-2012 jchiang replace aeff_P7CLEAN_V6MC*.fits files with versions that contain efficiency correction parameters
  caldb-04-02-00 09-Jul-2012 jchiang add P7CLEAN_V6MC irfs
  caldb-04-01-00 13-Oct-2011 jchiang add P7SOURCE_V6MC irfs
  caldb-04-00-00 28-Mar-2011 jchiang add Pass 7 IRFs
