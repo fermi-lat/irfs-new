@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Sep 24 23:17:51 PDT 2012
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat
+
+Added Files:
+	irf_index.fits 
+Log Message:
+bitmask mapping file
+    *
+------------------------------------------------------------
 TAG
 Tag name: caldb-04-02-01, operation: add
 Package: caldb
