@@ -138,35 +138,20 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    phi_dep.setTableData("PHIDEP1", irfTables["phi_dep_1"].values());
    phi_dep.setCbdValue("VERSION", irfVersion);
    phi_dep.setCbdValue("CLASS", latclass);
-   phi_dep.setKeyword("DETNAM", detname);      
+   phi_dep.setKeyword("DETNAM", detname);
    phi_dep.close();
-
-// The efficiency correction parameters will be filled with zeros by
-// default, indicating that no corrections have been computed.  This
-// extension can be filled later with a separate application.  If
-// there were a way to automate the efficiency parameter calculation,
-// then appropriate code could go here.
-   FitsFile efficiency("aeff_" + latclass + ".fits", "EFFICIENCY_PARAMS", 
-                       "aeff.tpl", newFile=false);
-   efficiency.setCbdValue("VERSION", irfVersion);
-   efficiency.setCbdValue("CLASS", latclass);
-   efficiency.setKeyword("DETNAM", detname);
-   efficiency.close();
 
 // Point spread function and angular deviation scaling parameters
    std::string psf_file("psf_" + latclass + ".fits");
    FitsFile psf(psf_file, "RPSF", "psf.tpl");
    psf.setGrid(irfTables["ncore"]);
    psf.setTableData("NCORE", irfTables["ncore"].values());
-   psf.setTableData("NTAIL", irfTables["ntail"].values());
-   psf.setTableData("SCORE", irfTables["score"].values());
-   psf.setTableData("STAIL", irfTables["stail"].values());
+   psf.setTableData("SIGMA", irfTables["sigma"].values());
    psf.setTableData("GCORE", irfTables["gcore"].values());
    psf.setTableData("GTAIL", irfTables["gtail"].values());
    psf.setCbdValue("VERSION", irfVersion);
    psf.setCbdValue("CLASS", latclass);
    psf.setKeyword("DETNAM", detname);
-   psf.setKeyword("PSFVER", 2);
    psf.close();
    
    /// @bug These are hard-wired values from
@@ -176,9 +161,6 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    FitsFile psfScaling(psf_file, "PSF_SCALING_PARAMS", "psf.tpl", 
                        newFile=false);
    psfScaling.setTableData("PSFSCALE", scalingPars);
-   psfScaling.setCbdValue("VERSION", irfVersion);
-   psfScaling.setCbdValue("CLASS", latclass);
-   psfScaling.setKeyword("DETNAM", detname);
    psfScaling.close();
 
 // Energy dispersion
@@ -211,14 +193,11 @@ void MakeFits::createFitsFiles(const std::string & rootClassName,
    // anonymous namespace:
    scalingPars.push_back(1.6);
    scalingPars.push_back(0.6);
-   scalingPars.push_back(1.5);
+   scalingPars.push_back(0.85);
 
    FitsFile edispScaling(edisp_file, "EDISP_SCALING_PARAMS", "edisp.tpl",
                          newFile=false);
    edispScaling.setTableData("EDISPSCALE", scalingPars);
-   edispScaling.setCbdValue("VERSION", irfVersion);
-   edispScaling.setCbdValue("CLASS", latclass);
-   edispScaling.setKeyword("DETNAM", detname);
    edispScaling.close();
 }
 

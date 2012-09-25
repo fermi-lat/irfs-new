@@ -4,23 +4,7 @@
 
   @verbatim
   $Id$
-  EOH
 
- handoff_response-04-05-06 27-May-2011    jrb Support for imminent GRBAnalysis-scons container
- handoff_response-04-05-05 03-Jun-2010 jchiang add CLHEP qualifiers in prep for CLHEP 2.0.4.6
- handoff_response-04-05-04 15-Apr-2010 jchiang add livetime efficiency corrections for P6_V*_DIFFUSE
- handoff_response-04-05-03 29-Mar-2010 jchiang add and set CALDB boundary keywords in all extensions of the IRF FITS files
- handoff_response-04-05-02 22-Feb-2010    jrb correct use of xxLib for libEnv
- handoff_response-04-05-01 02-Dec-2009  rando increase file size limit in MyAnalysis.cxx
- handoff_response-04-05-00 19-Nov-2009 jchiang add add_efficiency_pars application; add EFFICIENCY_PARAMS extension to aeff.tpl
- handoff_response-04-04-01 16-Nov-2009 jchiang disable package unit tests since new PointSpreadFunction implementation breaks loading of older irfs
- handoff_response-04-04-00 15-Nov-2009 jchiang new PSF implementation
-  15-Jul-09 v4r3p3 jrb    update SConscript
-  01-Jul-09 v4r3p2 JC     mac bug-fix from FSSC for gen/PhiDepHist.cxx
-  26-Apr-09 v4r3p1 JC     bug-fix in Dispersion.cxx from Riccardo
-  13-Apr-09 v4r3   JC     Update edisp pre-scaling parameters in make_fits;
-                          remove CBD-related keywords from PHI_DEPENDENCE
-                          extension in aeff files
   29-Jan-09 v4r2p2 JC     Riccardo's limits on phi-dependence fits and new
                           energy pre-scaling for edisp distributions
   21-Jan-09 v4r2p1 JC     remove assert placed during debugging

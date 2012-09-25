@@ -1,5 +1,5 @@
 package handoff_response
-version v4r5p6
+version v4r2p2
 
 author Toby Burnett <tburnett@u.washington.edu>
 author J. Chiang <jchiang@slac.stanford.edu>
@@ -65,8 +65,6 @@ application prune -s=gen/prune $(source)
 application makeirf -s=gen/makeirf $(source) 
 
 application make_fits -s=fits/make_fits $(source)
-
-application add_efficiency_pars -s=fits/add_efficiency_pars $(source)
 
 application aeff_phi_dep aeff_phi_dep/aeff_phi_dep.cxx
 

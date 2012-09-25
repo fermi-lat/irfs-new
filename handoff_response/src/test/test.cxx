@@ -310,8 +310,6 @@ void HandoffResponseTests::edisp_sampling() {
 }
 
 int main(int argc, char* argv[]) {
-   (void)(argc);
-   (void)(argv);
 #ifdef TRAP_FPE
 // Add floating point exception traps.
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
@@ -327,12 +325,12 @@ int main(int argc, char* argv[]) {
 //    }
     int rc(0);
 //     try{
-//         handoff_response::load_irfs();
+        handoff_response::load_irfs();
 
-//         CppUnit::TextTestRunner runner;
-//         runner.addTest(HandoffResponseTests::suite());
-//         bool result(runner.run());
-//         rc = result? 0:1;
+        CppUnit::TextTestRunner runner;
+        runner.addTest(HandoffResponseTests::suite());
+        bool result(runner.run());
+        rc = result? 0:1;
 //     } catch (const std::exception & eObj) {
 //         std::cout << "Caught exception: ";
 //         std::cout << eObj.what() << std::endl;

@@ -13,7 +13,6 @@ $Header$
 #include <cmath>
 #include <sstream>
 #include <stdexcept>
-#include <cstring>
 
 IrfBinner::IrfBinner(embed_python::Module& py) 
    : m_edispEnergyOverLap(0), m_edispAngleOverLap(0),

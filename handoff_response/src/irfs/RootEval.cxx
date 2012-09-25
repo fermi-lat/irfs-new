@@ -14,7 +14,6 @@ $Header$
 #include "TFile.h"
 #include "TH2F.h"
 
-#include <cstdlib>
 #include <sstream>
 #include <stdexcept>
 #include <string>
