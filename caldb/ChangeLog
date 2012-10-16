@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Oct 16 13:23:20 PDT 2012
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf
+
+Added Files:
+	irf_index.fits 
+Log Message:
+move irf_index.fits to bcf subdirectory
+    *
+------------------------------------------------------------
 User: jchiang  Tue Oct 16 13:23:19 PDT 2012
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat
 
