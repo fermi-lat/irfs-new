@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Sat Nov 10 19:25:30 PST 2012
+ScienceTools-scons/irfs/handoff_response/src/fits
+
+Modified Files:
+	FitsFile.cxx 
+Log Message:
+use st_facilities::Environment
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-30-01, operation: add
 Package: handoff_response
