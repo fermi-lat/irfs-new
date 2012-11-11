@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ caldb-04-02-03 10-Nov-2012 jchiang new location for irf_index.fits
  caldb-04-02-02 24-Sep-2012 jchiang add irf_index.fits for bit mask mapping to irf name
  caldb-04-02-01 24-Sep-2012 jchiang replace aeff_P7CLEAN_V6MC*.fits files with versions that contain efficiency correction parameters
  caldb-04-02-00 09-Jul-2012 jchiang add P7CLEAN_V6MC irfs
