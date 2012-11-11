@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ dc2Response-03-01-08 10-Nov-2012 jchiang ensure setupEnvironment() is called exactly once via st_facilities::Environment
  dc2Response-03-01-07 12-Jul-2011 jchiang include by-pass in test program for GRBAnalysis builds
  dc2Response-03-01-06 24-Feb-2010    jrb fix linking for mac
  dc2Response-03-01-05 22-Feb-2010    jrb correct use of xxLib for libEnv

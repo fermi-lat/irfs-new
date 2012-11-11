@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-02-09-02 10-Nov-2012 jchiang ensure setupEnvironment() is called exactly once via st_facilities::Environment
  latResponse-02-09-01 18-Oct-2011 jchiang fix test program
  latResponse-02-09-00 17-Oct-2011 jchiang tagging Edisp2 changes
  latResponse-02-08-06 12-Jul-2011 jchiang include by-pass in test program for GRBAnalysis builds
