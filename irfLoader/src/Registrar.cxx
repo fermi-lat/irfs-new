@@ -14,6 +14,8 @@
 
 #include "facilities/commonUtilities.h"
 
+#include "st_facilities/Environment.h"
+
 #include "irfInterface/IrfRegistry.h"
 
 // #include "dc1Response/IrfLoader.h"
@@ -30,8 +32,15 @@ namespace irfLoader {
 
 Registrar::Registrar() {
    char * caldb(::getenv("CALDB"));
-   facilities::commonUtilities::setupEnvironment();
+   /// This calls facilities::commonUtilities::setupEnvironment().
+   /// Using this Singleton instance instead of setupEnvironment()
+   /// ensures that it will only be called once so that any overridden
+   /// values will be preserved.
+   st_facilities::Environment::instance();
    if (caldb) {
+      /// Use the user-specified environment variable instead of the
+      /// one that would otherwise be opaquely forced upon the user by
+      /// facilities::commonUtilities::setupEnvironment().
       facilities::commonUtilities::setEnvironment("CALDB", caldb, true);
    }
    

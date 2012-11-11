@@ -19,9 +19,9 @@
 #include <cppunit/ui/text/TextTestRunner.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "facilities/commonUtilities.h"
-
 #include "astro/SkyDir.h"
+
+#include "st_facilities/Environment.h"
 
 #include "irfInterface/IrfsFactory.h"
 
@@ -326,8 +326,7 @@ int main(int iargc, char * argv[]) {
 // Add floating point exception traps.
    feenableexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW);
 #endif
-   facilities::commonUtilities::setupEnvironment();
-
+   st_facilities::Environment::instance();
    latResponse::IrfLoader myLoader;
    myLoader.loadIrfs();
    

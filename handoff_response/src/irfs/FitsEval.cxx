@@ -14,6 +14,7 @@
 #include "facilities/commonUtilities.h"
 
 #include "st_facilities/Env.h"
+#include "st_facilities/Environment.h"
 
 #include "irfUtil/Util.h"
 
@@ -62,7 +63,7 @@ FitsEval::FitsEval(const std::string & className,
    : RootEval(className + "/" + section), m_className(className), 
      m_section(section), m_version(version), m_date(date), 
      m_forceCaldb(forceCaldb) {
-   m_dataPath = facilities::commonUtilities::getDataPath("handoff_response");
+   m_dataPath = st_facilities::Environment::dataPath("handoff_response");
    readAeff();
    readEdisp();
    readPsf();

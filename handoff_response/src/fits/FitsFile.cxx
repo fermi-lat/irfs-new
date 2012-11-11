@@ -15,7 +15,7 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "st_facilities/Env.h"
+#include "st_facilities/Environment.h"
 #include "st_facilities/FitsUtil.h"
 #include "st_facilities/Util.h"
 
@@ -154,7 +154,8 @@ void FitsFile::prepareFile(const std::string & outfile,
       }
       std::string tplFile = 
          facilities::commonUtilities::joinPath(
-            facilities::commonUtilities::getDataPath("handoff_response"), templateFile);
+            st_facilities::Environment::dataPath("handoff_response"),
+            templateFile);
       fileSvc.createFile(outfile, tplFile);
    }
 

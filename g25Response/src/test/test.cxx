@@ -7,12 +7,12 @@
 
 #include <cstdlib>
 #include <iostream>
-#include "facilities/commonUtilities.h"
+#include "st_facilities/Environment.h"
 #include "irfInterface/IrfsFactory.h"
 #include "g25Response/loadIrfs.h"
 
 int main() {
-   facilities::commonUtilities::setupEnvironment();
+   st_facilities::Environment::instance();
    if (!std::getenv("CALDB")) {
       std::cout << "CALDB not set, exiting." << std::endl;
       std::exit(0);

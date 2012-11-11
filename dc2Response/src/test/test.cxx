@@ -9,7 +9,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
-#include "facilities/commonUtilities.h"
+#include "st_facilities/Environment.h"
 #include "irfInterface/IrfsFactory.h"
 #include "dc2Response/loadIrfs.h"
 
@@ -38,8 +38,7 @@ void checkPsf(irfInterface::Irfs * irf, float energy, float theta, float phi) {
 }
 
 int main(int argc, char* argv[]) {
-   facilities::commonUtilities::setupEnvironment();
-
+   st_facilities::Environment::instance();
    if (!std::getenv("CALDB")) {
       std::cout << "CALDB not set, exiting." << std::endl;
       std::exit(0);

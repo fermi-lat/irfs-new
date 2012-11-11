@@ -10,7 +10,7 @@
 
 #include <stdexcept>
 
-#include "facilities/commonUtilities.h"
+#include "st_facilities/Environment.h"
 #include "st_facilities/Util.h"
 
 #include "Hdcal.h"
@@ -24,9 +24,9 @@ HdCaldb::HdCaldb(const std::string & telescope, const std::string & instrument)
 
 // Check that CALDB files exist.
    st_facilities::Util::file_ok(
-      facilities::commonUtilities::getEnvironment("CALDBALIAS"));
+      st_facilities::Environment::getEnv("CALDBALIAS"));
    st_facilities::Util::file_ok(
-      facilities::commonUtilities::getEnvironment("CALDBCONFIG"));
+      st_facilities::Environment::getEnv("CALDBCONFIG"));
 
    for (int i = 0; i < s_maxret; i++) {
       m_filenames[i] = new char[m_filenamesize];

@@ -14,10 +14,11 @@
 #include "fits/IrfTable.h"
 #include "fits/IrfTableMap.h"
 
+#include "st_facilities/Environment.h"
 #include "facilities/commonUtilities.h"
 
 int main() {
-   std::string root_dir = facilities::commonUtilities::getDataPath("handoff_response");
+   std::string root_dir = st_facilities::Environment::dataPath("handoff_response");
    if (root_dir == "") {
       std::cout << "Unable to determine handoff_response data path" << std::endl;
       std::exit(1);
