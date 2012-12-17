@@ -1,4 +1,21 @@
 ------------------------------------------------------------
+User: jchiang  Mon Dec 17 13:00:01 PST 2012
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/ea
+
+Modified Files:
+	aeff_P7CLEAN_V6MC_back.fits aeff_P7CLEAN_V6MC_front.fits 
+Added Files:
+	aeff_P7REP_CLEAN_V10_back.fits aeff_P7REP_CLEAN_V10_front.fits 
+	aeff_P7REP_SOURCE_V10_back.fits 
+	aeff_P7REP_SOURCE_V10_front.fits 
+	aeff_P7REP_TRANSIENT_V10_back.fits 
+	aeff_P7REP_TRANSIENT_V10_front.fits 
+	aeff_P7REP_ULTRACLEAN_V10_back.fits 
+	aeff_P7REP_ULTRACLEAN_V10_front.fits 
+Log Message:
+add P7REP irfs, version V10
+    *
+------------------------------------------------------------
 User: jchiang  Mon Dec 17 13:00:00 PST 2012
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf
 
