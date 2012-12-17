@@ -1,4 +1,18 @@
 ------------------------------------------------------------
+User: jchiang  Mon Dec 17 13:00:02 PST 2012
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/psf
+
+Added Files:
+	psf_P7REP_CLEAN_V10_back.fits psf_P7REP_CLEAN_V10_front.fits 
+	psf_P7REP_SOURCE_V10_back.fits psf_P7REP_SOURCE_V10_front.fits 
+	psf_P7REP_TRANSIENT_V10_back.fits 
+	psf_P7REP_TRANSIENT_V10_front.fits 
+	psf_P7REP_ULTRACLEAN_V10_back.fits 
+	psf_P7REP_ULTRACLEAN_V10_front.fits 
+Log Message:
+add P7REP irfs, version V10
+    *
+------------------------------------------------------------
 User: jchiang  Mon Dec 17 13:00:01 PST 2012
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/edisp
 
