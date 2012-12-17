@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Dec 17 15:18:01 PST 2012
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+P7REP_TRANSIENT irfs are just a copy of P7TRANSIENT_V6, so apply same workaround in test program for the psf integration above 250GeV outside of 65 deg off-axis
+    *
+------------------------------------------------------------
+User: jchiang  Mon Dec 17 15:18:01 PST 2012
 ScienceTools-scons/irfs/latResponse/src
 
 Modified Files:
