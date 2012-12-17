@@ -135,7 +135,8 @@ double EfficiencyFactor::operator()(double energy, double met) const {
       ltfrac = m_livetimefrac.at(indx);
    }
 
-   return IEfficiencyFactor::value(energy, ltfrac);
+   double value = IEfficiencyFactor::value(energy, ltfrac);
+   return value;
 }
 
 double EfficiencyFactor::value(double energy, double livetimefrac,
@@ -146,10 +147,13 @@ double EfficiencyFactor::value(double energy, double livetimefrac,
 
    double logE(std::log10(energy));
 
+   double value(1);
    if (front) {
-      return m_p0_front(logE)*livetimefrac + m_p1_front(logE);
-   } 
-   return m_p0_back(logE)*livetimefrac + m_p1_back(logE);
+      value = m_p0_front(logE)*livetimefrac + m_p1_front(logE);
+   } else {
+      value = m_p0_back(logE)*livetimefrac + m_p1_back(logE);
+   }
+   return value;
 }
 
 void EfficiencyFactor::
