@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Dec 17 13:00:00 PST 2012
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf
+
+Modified Files:
+	irf_index.fits 
+Log Message:
+add P7REP irfs, version V10
+    *
+------------------------------------------------------------
+User: jchiang  Mon Dec 17 13:00:00 PST 2012
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat
 
 Modified Files:
