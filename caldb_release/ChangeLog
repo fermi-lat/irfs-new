@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Dec 17 20:55:59 PST 2012
+ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat
+
+Modified Files:
+	caldb.indx 
+Log Message:
+add P7REP irfs
+    *
+------------------------------------------------------------
 TAG
 Tag name: GRBAnalysis-02-02-02, operation: add
 Package: caldb_release
