@@ -44,19 +44,32 @@ namespace {
 namespace latResponse {
 
 Psf3::Psf3(const std::string & fitsfile, bool isFront,
-             const std::string & extname, size_t nrow) 
+           const std::string & extname, size_t nrow) 
    : PsfBase(fitsfile, isFront, extname), m_integralCache(0) {
    readFits(fitsfile, extname, nrow);
    normalize_pars();
 }
 
-Psf3::Psf3(const Psf3 & rhs) : PsfBase(rhs),
-                                  m_logEs(rhs.m_logEs),
-                                  m_energies(rhs.m_energies),
-                                  m_cosths(rhs.m_cosths),
-                                  m_thetas(rhs.m_thetas),
-                                  m_parVectors(rhs.m_parVectors),
-                                  m_integralCache(0) {}
+Psf3::Psf3(const Psf3 & other) : PsfBase(other),
+                                 m_logEs(other.m_logEs),
+                                 m_energies(other.m_energies),
+                                 m_cosths(other.m_cosths),
+                                 m_thetas(other.m_thetas),
+                                 m_parVectors(other.m_parVectors),
+                                 m_integralCache(0) {}
+
+Psf3 & Psf3::operator=(const Psf3 & rhs) {
+   if (this != &rhs) {
+      PsfBase::operator=(rhs);
+      m_logEs = rhs.m_logEs;
+      m_energies = rhs.m_energies;
+      m_cosths = rhs.m_cosths;
+      m_thetas = rhs.m_thetas;
+      m_parVectors = rhs.m_parVectors;
+      m_integralCache = 0;
+   }
+   return *this;
+}
 
 Psf3::~Psf3() {
    delete m_integralCache;

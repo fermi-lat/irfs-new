@@ -36,6 +36,20 @@ Aeff::Aeff(const std::string & fitsfile, const std::string & extname,
    }
 }
 
+Aeff::Aeff(const Aeff & other) 
+  : m_aeffTable(other.m_aeffTable),
+    m_phiDepPars(new ParTables(*other.m_phiDepPars)) {
+}
+
+Aeff & Aeff::operator=(const Aeff & rhs) {
+   if (this != &rhs) {
+      m_aeffTable = rhs.m_aeffTable;
+      delete m_phiDepPars;
+      m_phiDepPars = new ParTables(*rhs.m_phiDepPars);
+   }
+   return *this;
+}
+
 double Aeff::value(double energy, 
                    const astro::SkyDir & srcDir, 
                    const astro::SkyDir & scZAxis,

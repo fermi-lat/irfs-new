@@ -85,6 +85,21 @@ FitsTable::FitsTable(const FitsTable & rhs)
                                  0, 10, -1, 1);
 }
 
+FitsTable & FitsTable::operator=(const FitsTable & rhs) {
+   if (this != &rhs) {
+      delete m_interpolator;
+      m_interpolator = new Bilinear(*rhs.m_interpolator);
+      m_logEnergies = rhs.m_logEnergies;
+      m_mus = rhs.m_mus;
+      m_values = rhs.m_values;
+      m_ebounds = rhs.m_ebounds;
+      m_tbounds = rhs.m_tbounds;
+      m_minCosTheta = rhs.m_minCosTheta;
+      m_maxValue = rhs.m_maxValue;
+   }
+   return *this;
+}
+
 FitsTable::~FitsTable() { 
    delete m_interpolator;
 }

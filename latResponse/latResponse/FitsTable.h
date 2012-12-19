@@ -36,6 +36,8 @@ public:
 
    FitsTable(const FitsTable & other);
 
+   FitsTable & operator=(const FitsTable & rhs);
+
    ~FitsTable();
       
    /// @brief lookup a value from the table
@@ -87,13 +89,6 @@ public:
 
    void setPar(size_t ilogE, size_t icosth, double par);
    
-protected:
-
-   /// Disable copy assignment operator.
-   FitsTable & operator=(const FitsTable &) {
-      return *this;
-   }
-
 private:
 
    Bilinear * m_interpolator;

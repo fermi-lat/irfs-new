@@ -35,7 +35,9 @@ public:
    Psf3(const std::string & fitsfile, bool isFront=true,
          const std::string & extname="RPSF", size_t nrow=0);
 
-   Psf3(const Psf3 & rhs);
+   Psf3(const Psf3 & other);
+
+   Psf3 & operator=(const Psf3 & rhs);
 
    virtual ~Psf3();
 
@@ -85,13 +87,6 @@ public:
    }
 
    static int findIndex(const std::vector<double> & xx, double x);
-
-protected:
-
-   /// Disable this.
-   Psf3 & operator=(const Psf3 &) {
-      return *this;
-   }
 
 private:
 

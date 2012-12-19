@@ -6,8 +6,8 @@
  * $Header$
  */
   
-#ifndef handoff_Aeff_h
-#define handoff_Aeff_h
+#ifndef latResponse_Aeff_h
+#define latResponse_Aeff_h
 
 #include <string>
 #include <utility>
@@ -33,6 +33,10 @@ public:
    Aeff(const std::string & fitsfile, 
         const std::string & extname="EFFECTIVE AREA",
         size_t nrow=0);
+
+   Aeff(const Aeff & other);
+   
+   Aeff & operator=(const Aeff & rhs);
 
    virtual ~Aeff() {}
    

@@ -29,6 +29,8 @@ public:
 
    PsfBase(const PsfBase & rhs);
 
+   PsfBase & operator=(const PsfBase &);
+
    virtual ~PsfBase() {}
 
    virtual double scaleFactor(double energy, bool isFront) const;
@@ -36,11 +38,6 @@ public:
    typedef std::vector<irfInterface::AcceptanceCone *> AcceptanceConeVector_t;
 
 protected:
-
-   /// Disable this.
-   PsfBase & operator=(const PsfBase &) {
-      return *this;
-   }
 
    virtual double scaleFactor(double energy) const;
 
