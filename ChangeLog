@@ -1,5 +1,17 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-31-00, operation: add
+Package: irfs
+User: jchiang  Tue Dec 18 16:55:39 2012
+Files:
+  irfs/.cvsignore  1.1.1.1
+  irfs/ChangeLog  1.200
+  irfs/irfsLib.py  1.1
+  irfs/SConscript  1.6
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: GRBAnalysis-02-02-02, operation: add
 Package: irfs
 User: omodei  Tue Dec 11 17:21:33 2012
