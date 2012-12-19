@@ -39,7 +39,10 @@ Aeff::Aeff(const std::string & fitsfile, const std::string & extname,
 Aeff::Aeff(const Aeff & other) 
    : irfInterface::IAeff(other),
      m_aeffTable(other.m_aeffTable),
-     m_phiDepPars(new ParTables(*other.m_phiDepPars)) {
+     m_phiDepPars(0) {
+   if (other.m_phiDepPars != 0) {
+      m_phiDepPars = new ParTables(*other.m_phiDepPars);
+   }
 }
 
 Aeff & Aeff::operator=(const Aeff & rhs) {
@@ -47,7 +50,10 @@ Aeff & Aeff::operator=(const Aeff & rhs) {
       irfInterface::IAeff::operator=(rhs);
       m_aeffTable = rhs.m_aeffTable;
       delete m_phiDepPars;
-      m_phiDepPars = new ParTables(*rhs.m_phiDepPars);
+      m_phiDepPars = 0;
+      if (rhs.m_phiDepPars != 0) {
+         m_phiDepPars = new ParTables(*rhs.m_phiDepPars);
+      }
    }
    return *this;
 }
