@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Dec 19 13:43:51 PST 2012
+ScienceTools-scons/irfs/irfUtil/src
+
+Modified Files:
+	HdCaldb.cxx Util.cxx 
+Log Message:
+add HdCaldb::getFiles member function so that multiple irf files covering different epochs may be retrieved
+    *
+------------------------------------------------------------
+User: jchiang  Wed Dec 19 13:43:51 PST 2012
 ScienceTools-scons/irfs/irfUtil/irfUtil
 
 Modified Files:
