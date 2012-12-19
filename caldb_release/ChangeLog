@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Dec 18 16:53:13 PST 2012
+irfs/caldb_release
+
+Modified Files:
+	SConscript 
+Log Message:
+stag/GoGui_auto-tag
+    *
+------------------------------------------------------------
 User: jchiang  Mon Dec 17 20:56:00 PST 2012
 ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat/bcf/psf
 
