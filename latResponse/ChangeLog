@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Dec 19 13:41:26 PST 2012
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+add irfs to epoch-dependent composites via member function that passes pointers to the abstract types rather than assuming a subclass type and using the constructor
+    *
+------------------------------------------------------------
+User: jchiang  Wed Dec 19 13:41:26 PST 2012
 ScienceTools-scons/irfs/latResponse/src
 
 Modified Files:
