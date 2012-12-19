@@ -38,6 +38,7 @@ PsfBase::PsfBase(const PsfBase & other) : irfInterface::IPsf(other),
 
 PsfBase & PsfBase::operator=(const PsfBase & rhs) {
    if (this != &rhs) {
+      irfInterface::IPsf::operator=(rhs);
       m_par0 = rhs.m_par0;
       m_par1 = rhs.m_par1;
       m_index = rhs.m_index;

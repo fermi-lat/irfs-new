@@ -8,11 +8,22 @@
  * $Header$
  */
 
+#include <algorithm>
 #include <stdexcept>
+
+#include "facilities/Util.h"
+
+#include "tip/IFileSvc.h"
+#include "tip/Table.h"
+
+#include "astro/JulianDate.h"
 
 #include "EpochDep.h"
 
 namespace latResponse {
+
+EpochDep::EpochDep() : m_curr_index(0) {
+}
 
 void EpochDep::getEpochStart(const std::string & fitsfile,
                              const std::string & extname) {
@@ -31,10 +42,10 @@ void EpochDep::getEpochStart(const std::string & fitsfile,
    double hours = (std::atof(time_tokens[0].c_str()) 
                    + 60.*(std::atof(time_tokens[1].c_str()) 
                           + 60.*std::atof(time_tokens[2].c_str())));
-   jd = astro::JulianDate(std::atoi(date_tokens[0].c_str()),
-                          std::atoi(date_tokens[1].c_str()),
-                          std::atoi(date_tokens[2].c_str()),
-                          hours);
+   astro::JulianDate jd(std::atoi(date_tokens[0].c_str()),
+                        std::atoi(date_tokens[1].c_str()),
+                        std::atoi(date_tokens[2].c_str()),
+                        hours);
    double met = jd.seconds() - astro::JulianDate::missionStart().seconds();
    m_epochStart.push_back(met);
    delete table;
@@ -46,15 +57,16 @@ size_t EpochDep::index(double met) const {
         (met >= m_epochStart[m_curr_index] && 
          met <= m_epochStart[m_curr_index + 1]) ) {
       return m_curr_index;
-   }
-   std::vector<double>::const_iterator it 
-      =  std::upper_bound(m_epochStart.begin(), m_epochStart.end(), met);
-   if (it == m_epochStart.end()) {
+   } else if (met < m_epochStart.front()) {
       throw std::runtime_error("Requested MET not covered by selected IRFs.");
+   } else if (met >= m_epochStart.back()) {
+      m_curr_index = m_epochStart.size() - 1;
+   } else {
+      std::vector<double>::const_iterator it 
+         =  std::upper_bound(m_epochStart.begin(), m_epochStart.end(), met);
+      m_curr_index = it - m_epochStart.end() - 1;
    }
-   m_curr_index = it - m_epochStart.end() - 1;
-   m_start = m_epochStart[m_curr_index];
-   m_stop = m_epochStop[m_curr_index];
+   return m_curr_index;
 }
 
 } // namespace latResponse

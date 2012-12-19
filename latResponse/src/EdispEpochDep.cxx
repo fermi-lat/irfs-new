@@ -15,7 +15,7 @@ EdispEpochDep::EdispEpochDep(const std::vector<std::string> & fitsfiles,
                              const std::string & extname,
                              size_t nrow) {
    for (size_t i(0); i < fitsfiles.size(); i++) {
-      getEpochTimes(fitsfiles[i]);
+      getEpochStart(fitsfiles[i], extname);
       m_edisps.push_back(Edisp2(fitsfiles[i], extname, nrow));
    }
 }

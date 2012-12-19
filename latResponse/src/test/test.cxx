@@ -21,11 +21,19 @@
 
 #include "astro/SkyDir.h"
 
+#include "facilities/commonUtilities.h"
+
 #include "st_facilities/Environment.h"
 
 #include "irfInterface/IrfsFactory.h"
 
 #include "latResponse/IrfLoader.h"
+
+#include "AeffEpochDep.h"
+#include "PsfEpochDep.h"
+#include "EdispEpochDep.h"
+
+using facilities::commonUtilities;
 
 namespace {
    std::string getEnv(const std::string & envVarName) {
@@ -50,6 +58,8 @@ class LatResponseTests : public CppUnit::TestFixture {
    CPPUNIT_TEST(edisp_normalization);
    CPPUNIT_TEST(edisp_sampling);
 
+   CPPUNIT_TEST(epochDep_tests);
+
    CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -64,6 +74,8 @@ public:
 
    void edisp_normalization();
    void edisp_sampling();
+
+   void epochDep_tests();
 
 private:
 
@@ -320,6 +332,80 @@ void LatResponseTests::edisp_sampling() {
          }
       }
    }
+}
+
+void LatResponseTests::epochDep_tests() {
+   double energy(100);
+   double theta(20);
+   double phi(30);
+   double met0(252460801.);  // 2009-01-01 00:00:00 (in epoch 0)
+   double met1(283996802.);  // 2010-01-01 00:00:00 (in epoch 1)
+
+   std::string dataPath(st_facilities::Environment::dataPath("latResponse"));
+
+   // Effective area
+   std::vector<std::string> aeff_files;
+   aeff_files.push_back(commonUtilities::joinPath(dataPath,
+                                                  "aeff_epoch_0.fits"));
+   aeff_files.push_back(commonUtilities::joinPath(dataPath,
+                                                  "aeff_epoch_1.fits"));
+   latResponse::AeffEpochDep aeff(aeff_files);
+
+   latResponse::Aeff aeff_epoch0(aeff_files[0]);
+   latResponse::Aeff aeff_epoch1(aeff_files[1]);
+
+   CPPUNIT_ASSERT(aeff.value(energy, theta, phi, met0) == 
+                  aeff_epoch0.value(energy, theta, phi, met0));
+   CPPUNIT_ASSERT(aeff.value(energy, theta, phi, met0) != 
+                  aeff_epoch1.value(energy, theta, phi, met0));
+   CPPUNIT_ASSERT(aeff.value(energy, theta, phi, met1) == 
+                  aeff_epoch1.value(energy, theta, phi, met1));
+   CPPUNIT_ASSERT(aeff.value(energy, theta, phi, met1) != 
+                  aeff_epoch0.value(energy, theta, phi, met1));
+
+   // PSF
+   std::vector<std::string> psf_files;
+   psf_files.push_back(commonUtilities::joinPath(dataPath,
+                                                 "psf_epoch_0.fits"));
+   psf_files.push_back(commonUtilities::joinPath(dataPath,
+                                                 "psf_epoch_1.fits"));
+   latResponse::PsfEpochDep psf(psf_files);
+
+   latResponse::Psf3 psf_epoch0(psf_files[0]);
+   latResponse::Psf3 psf_epoch1(psf_files[1]);
+
+   double sep(15);
+
+   CPPUNIT_ASSERT(psf.value(sep, energy, theta, phi, met0) == 
+                  psf_epoch0.value(sep, energy, theta, phi, met0));
+   CPPUNIT_ASSERT(psf.value(sep, energy, theta, phi, met0) != 
+                  psf_epoch1.value(sep, energy, theta, phi, met0));
+   CPPUNIT_ASSERT(psf.value(sep, energy, theta, phi, met1) == 
+                  psf_epoch1.value(sep, energy, theta, phi, met1));
+   CPPUNIT_ASSERT(psf.value(sep, energy, theta, phi, met1) != 
+                  psf_epoch0.value(sep, energy, theta, phi, met1));
+
+   // Energy dispersion
+   std::vector<std::string> edisp_files;
+   edisp_files.push_back(commonUtilities::joinPath(dataPath,
+                                                   "edisp_epoch_0.fits"));
+   edisp_files.push_back(commonUtilities::joinPath(dataPath,
+                                                   "edisp_epoch_1.fits"));
+   latResponse::EdispEpochDep edisp(edisp_files);
+
+   latResponse::Edisp2 edisp_epoch0(edisp_files[0]);
+   latResponse::Edisp2 edisp_epoch1(edisp_files[1]);
+
+   double measE(120.);
+
+   CPPUNIT_ASSERT(edisp.value(measE, energy, theta, phi, met0) == 
+                  edisp_epoch0.value(measE, energy, theta, phi, met0));
+   CPPUNIT_ASSERT(edisp.value(measE, energy, theta, phi, met0) != 
+                  edisp_epoch1.value(measE, energy, theta, phi, met0));
+   CPPUNIT_ASSERT(edisp.value(measE, energy, theta, phi, met1) == 
+                  edisp_epoch1.value(measE, energy, theta, phi, met1));
+   CPPUNIT_ASSERT(edisp.value(measE, energy, theta, phi, met1) != 
+                  edisp_epoch0.value(measE, energy, theta, phi, met1));
 }
 
 int main(int iargc, char * argv[]) {

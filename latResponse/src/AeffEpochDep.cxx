@@ -17,7 +17,7 @@ AeffEpochDep::AeffEpochDep(const std::vector<std::string> & fitsfiles,
                            const std::string & extname,
                            size_t nrow) : m_upperLimit(0) {
    for (size_t i(0); i < fitsfiles.size(); i++) {
-      getEpochTimes(fitsfiles[i]);
+      getEpochStart(fitsfiles[i], extname);
       m_aeffs.push_back(Aeff(fitsfiles[i], extname, nrow));
       if (m_aeffs.back().upperLimit() > m_upperLimit) {
          m_upperLimit = m_aeffs.back().upperLimit();

@@ -37,12 +37,14 @@ Aeff::Aeff(const std::string & fitsfile, const std::string & extname,
 }
 
 Aeff::Aeff(const Aeff & other) 
-  : m_aeffTable(other.m_aeffTable),
-    m_phiDepPars(new ParTables(*other.m_phiDepPars)) {
+   : irfInterface::IAeff(other),
+     m_aeffTable(other.m_aeffTable),
+     m_phiDepPars(new ParTables(*other.m_phiDepPars)) {
 }
 
 Aeff & Aeff::operator=(const Aeff & rhs) {
    if (this != &rhs) {
+      irfInterface::IAeff::operator=(rhs);
       m_aeffTable = rhs.m_aeffTable;
       delete m_phiDepPars;
       m_phiDepPars = new ParTables(*rhs.m_phiDepPars);
@@ -74,8 +76,9 @@ double Aeff::value(double energy, double theta, double phi,
    }
    bool interpolate;
    double logE(std::log10(energy));
-   return m_aeffTable.value(logE, costheta, interpolate=true)*1e4
-      *phi_modulation(logE, costheta, phi, interpolate=false);
+   double aeff_value(m_aeffTable.value(logE, costheta, interpolate=true)*1e4);
+   double phi_mod(phi_modulation(logE, costheta, phi, interpolate=false));
+   return aeff_value*phi_mod;
 }
 
 double Aeff::phi_modulation(double par0, double par1, double phi) const {

@@ -16,7 +16,7 @@ PsfEpochDep::PsfEpochDep(const std::vector<std::string> & fitsfiles,
                          bool isFront, const std::string & extname,
                          size_t nrow) {
    for (size_t i(0); i < fitsfiles.size(); i++) {
-      getEpochTimes(fitsfiles[i]);
+      getEpochStart(fitsfiles[i], extname);
       m_psfs.push_back(Psf3(fitsfiles[i], isFront, extname, nrow));
    }
 }

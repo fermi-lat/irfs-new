@@ -21,6 +21,8 @@ namespace latResponse {
 
 class AeffEpochDep : public irfInterface::IAeff, EpochDep {
 
+public:
+
    AeffEpochDep(const std::vector<std::string> & fitsfiles, 
                 const std::string & extname="EFFECTIVE AREA",
                 size_t nrow=0);

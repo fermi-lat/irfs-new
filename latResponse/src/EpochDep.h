@@ -20,7 +20,7 @@ class EpochDep {
 
 protected:
 
-   EpochDep() {}
+   EpochDep();
 
    std::vector<double> m_epochStart;
    
