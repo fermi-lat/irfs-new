@@ -1,4 +1,18 @@
 ------------------------------------------------------------
+User: jchiang  Tue Dec 18 21:46:20 PST 2012
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Aeff.cxx Aeff.h FitsTable.cxx Psf3.cxx Psf3.h PsfBase.cxx 
+	PsfBase.h 
+Added Files:
+	AeffEpochDep.cxx AeffEpochDep.h EdispEpochDep.cxx 
+	EdispEpochDep.h EpochDep.cxx EpochDep.h PsfEpochDep.cxx 
+	PsfEpochDep.h 
+Log Message:
+EpochDep mix-in class and IRF classes to handle epoch-dependent irfs; implement needed copy assignment operators
+    *
+------------------------------------------------------------
 User: jchiang  Tue Dec 18 21:46:19 PST 2012
 ScienceTools-scons/irfs/latResponse/latResponse
 
