@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Wed Dec 19 13:41:26 PST 2012
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Aeff.h AeffEpochDep.cxx AeffEpochDep.h Edisp.h Edisp2.h 
+	EdispEpochDep.cxx EdispEpochDep.h EpochDep.cxx EpochDep.h 
+	Psf3.h PsfEpochDep.cxx PsfEpochDep.h 
+Log Message:
+add irfs to epoch-dependent composites via member function that passes pointers to the abstract types rather than assuming a subclass type and using the constructor
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-02-10-00, operation: add
 Package: latResponse
