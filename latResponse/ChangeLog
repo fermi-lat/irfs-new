@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Tue Dec 18 23:08:03 PST 2012
+ScienceTools-scons/irfs/latResponse/data
+
+Added Files:
+	aeff_epoch_0.fits aeff_epoch_1.fits edisp_epoch_0.fits 
+	edisp_epoch_1.fits psf_epoch_0.fits psf_epoch_1.fits 
+Log Message:
+test files and test code for epoch-dependent irfs
+    *
+------------------------------------------------------------
 User: jchiang  Tue Dec 18 21:46:20 PST 2012
 ScienceTools-scons/irfs/latResponse/src
 
