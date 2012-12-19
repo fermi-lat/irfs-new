@@ -22,7 +22,6 @@ namespace irfUtil {
  *
  * @author J. Chiang
  *
- * $Header$
  */
 
 class HdCaldb {
@@ -41,6 +40,16 @@ public:
               const std::string & filter = "NONE",
               const std::string & date = "2003-01-01", 
               const std::string & time = "00:00:00");
+
+   void getFiles(std::vector<std::string> & files,
+                 const std::string & detName,
+                 const std::string & respName,
+                 const std::string & expression,
+                 const std::string & filter="NONE",
+                 const std::string & startdate="2008-08-04",
+                 const std::string & starttime="00:00:00",
+                 const std::string & stopdate="2020-12-31",
+                 const std::string & stoptime="23:59:59");
 
 private:
 

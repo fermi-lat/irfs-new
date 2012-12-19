@@ -17,7 +17,6 @@ namespace irfUtil {
 /**
  * @class Util
  *
- * $Header$
  */
 
 class Util {

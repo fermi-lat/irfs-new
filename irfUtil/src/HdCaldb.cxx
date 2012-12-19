@@ -76,4 +76,34 @@ HdCaldb::operator()(const std::string & detName,
    return std::make_pair(filename, extnum);
 }
 
+void HdCaldb::getFiles(std::vector<std::string> & files,
+                       const std::string & detName,
+                       const std::string & respName,
+                       const std::string & expression,
+                       const std::string & filter,
+                       const std::string & startdate,
+                       const std::string & starttime,
+                       const std::string & stopdate,
+                       const std::string & stoptime) {
+   int nret;
+   int nfound(0);
+   int status(0);
+
+   HDgtcalf(m_telescope.c_str(), m_instrument.c_str(),
+            detName.c_str(), filter.c_str(), respName.c_str(),
+            startdate.c_str(), starttime.c_str(), 
+            stopdate.c_str(), stoptime.c_str(), expression.c_str(),
+            s_maxret, m_filenamesize, m_filenames, m_extnums, 
+            m_online, &nret, &nfound, &status);
+
+   if (status != 0 || nfound == 0) {
+      throw std::runtime_error(std::string("irfUtil::HdCaldb:\n")
+                               + "Error locating CALDB file.");
+   }
+   files.clear();
+   for (int i(0); i < nfound; i++) {
+      files.push_back(m_filenames[i]);
+   }
+}
+
 } // namespace irfUtil

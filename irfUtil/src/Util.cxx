@@ -38,9 +38,14 @@ void Util::getCaldbFile(const std::string &detName,
       std::string expression = "VERSION.eq." + version;
       std::pair<std::string, int> calfile;
       HdCaldb caldb_obj(telescope, instrument);
-      calfile = caldb_obj(detName, respName, expression, filter, date, time);
-      filename = calfile.first;
-      extnum = calfile.second + 1;
+      // calfile = caldb_obj(detName, respName, expression, filter, date, time);
+      // filename = calfile.first;
+      // extnum = calfile.second + 1;
+      std::vector<std::string> files;
+      caldb_obj.getFiles(files, detName, respName, expression, filter,
+                         date, time, date, time);
+      filename = files[0];
+      extnum = 1;
    } catch (...) {
       std::cout << "irfUtil::Util::getCaldbFile: \n"
                 << "Error trying to find filename and extension for \n"
