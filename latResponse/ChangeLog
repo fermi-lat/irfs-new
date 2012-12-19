@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Dec 18 23:38:51 PST 2012
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Aeff.cxx 
+Log Message:
+handle null pointer for m_phiDepPars in copy constructor and copy assignment operator
+    *
+------------------------------------------------------------
 User: jchiang  Tue Dec 18 23:08:03 PST 2012
 ScienceTools-scons/irfs/latResponse/src/test
 
