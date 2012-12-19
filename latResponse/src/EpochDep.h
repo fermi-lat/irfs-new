@@ -18,6 +18,12 @@ namespace latResponse {
 
 class EpochDep {
 
+public:
+
+   /// @return Validity start time from CVSD0001 keyword in MET.
+   static double epochStart(const std::string & fitsfile,
+                            const std::string & extname);
+
 protected:
 
    EpochDep();
@@ -26,8 +32,7 @@ protected:
    
    mutable size_t m_curr_index;
 
-   void getEpochStart(const std::string & fitsfile,
-                      const std::string & extname);
+   void appendEpoch(double epoch_start);
 
    size_t index(double met) const;
 

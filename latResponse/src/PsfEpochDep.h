@@ -12,8 +12,9 @@
 #include <string>
 #include <vector>
 
+#include "irfInterface/IPsf.h"
+
 #include "EpochDep.h"
-#include "Psf3.h"
 
 namespace latResponse {
 
@@ -21,12 +22,13 @@ class PsfEpochDep : public irfInterface::IPsf, EpochDep {
       
 public:
 
-   PsfEpochDep(const std::vector<std::string> & fitsfiles, 
-               bool isFront=true,
-               const std::string & extname="RPSF", 
-               size_t nrow=0);
+   PsfEpochDep();
 
-   virtual ~PsfEpochDep() {}
+   PsfEpochDep(const PsfEpochDep & other);
+
+   PsfEpochDep & operator=(const PsfEpochDep & rhs);
+
+   virtual ~PsfEpochDep();
 
    virtual double value(const astro::SkyDir & appDir, 
                         double energy, 
@@ -56,9 +58,11 @@ public:
       return new PsfEpochDep(*this);
    }
 
+   void addPsf(const irfInterface::IPsf & psf, double epoch_start);
+
 private:
 
-   std::vector<Psf3> m_psfs;
+   std::vector<irfInterface::IPsf *> m_psfs;
 
 };
 

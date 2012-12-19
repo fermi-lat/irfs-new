@@ -25,8 +25,8 @@ namespace latResponse {
 EpochDep::EpochDep() : m_curr_index(0) {
 }
 
-void EpochDep::getEpochStart(const std::string & fitsfile,
-                             const std::string & extname) {
+double EpochDep::epochStart(const std::string & fitsfile,
+                            const std::string & extname) {
    const tip::Table * table 
       = tip::IFileSvc::instance().readTable(fitsfile, extname);
    const tip::Header & header(table->getHeader());
@@ -34,6 +34,7 @@ void EpochDep::getEpochStart(const std::string & fitsfile,
    header["CVSD0001"].get(validity_start_date);
    std::string validity_start_time;
    header["CVST0001"].get(validity_start_time);
+   delete table;
 
    std::vector<std::string> date_tokens;
    facilities::Util::stringTokenize(validity_start_date, "-", date_tokens);
@@ -47,8 +48,11 @@ void EpochDep::getEpochStart(const std::string & fitsfile,
                         std::atoi(date_tokens[2].c_str()),
                         hours);
    double met = jd.seconds() - astro::JulianDate::missionStart().seconds();
-   m_epochStart.push_back(met);
-   delete table;
+   return met;
+}
+
+void EpochDep::appendEpoch(double epoch_start) {
+   m_epochStart.push_back(epoch_start);
 }
 
 size_t EpochDep::index(double met) const {

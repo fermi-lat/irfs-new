@@ -82,7 +82,7 @@ public:
    virtual double angularIntegral(double energy, double theta, double phi,
                                   double radius, double time=0) const;
 
-   virtual Psf3 * clone() {
+   virtual irfInterface::IPsf * clone() {
       return new Psf3(*this);
    }
 

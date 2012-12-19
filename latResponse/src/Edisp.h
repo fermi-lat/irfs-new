@@ -51,7 +51,7 @@ public:
                         double theta, double phi,
                         double time=0) const;
 
-   virtual Edisp * clone() {
+   virtual irfInterface::IEdisp * clone() {
       return new Edisp(*this);
    }
 

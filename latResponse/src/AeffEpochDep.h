@@ -14,7 +14,7 @@
 #include <string>
 #include <vector>
 
-#include "Aeff.h"
+#include "irfInterface/IAeff.h"
 #include "EpochDep.h"
 
 namespace latResponse {
@@ -23,11 +23,13 @@ class AeffEpochDep : public irfInterface::IAeff, EpochDep {
 
 public:
 
-   AeffEpochDep(const std::vector<std::string> & fitsfiles, 
-                const std::string & extname="EFFECTIVE AREA",
-                size_t nrow=0);
+   AeffEpochDep();
+
+   AeffEpochDep(const AeffEpochDep & other);
+
+   AeffEpochDep & operator=(const AeffEpochDep & rhs);
    
-   virtual ~AeffEpochDep() {}
+   virtual ~AeffEpochDep();
    
    virtual double value(double energy, 
                         const astro::SkyDir & srcDir, 
@@ -37,16 +39,18 @@ public:
    
    virtual double value(double energy, double theta, double phi,
                         double time) const;
-   
+
    virtual AeffEpochDep * clone() {
       return new AeffEpochDep(*this);
    }
 
    virtual double upperLimit() const;
 
+   void addAeff(const irfInterface::IAeff & aeff, double epoch_start);
+   
 private:
 
-   std::vector<Aeff> m_aeffs;
+   std::vector<irfInterface::IAeff *> m_aeffs;
 
    double m_upperLimit;
 

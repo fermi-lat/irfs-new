@@ -29,6 +29,9 @@
 
 #include "latResponse/IrfLoader.h"
 
+#include "Aeff.h"
+#include "Psf3.h"
+#include "Edisp2.h"
 #include "AeffEpochDep.h"
 #include "PsfEpochDep.h"
 #include "EdispEpochDep.h"
@@ -344,15 +347,20 @@ void LatResponseTests::epochDep_tests() {
    std::string dataPath(st_facilities::Environment::dataPath("latResponse"));
 
    // Effective area
-   std::vector<std::string> aeff_files;
-   aeff_files.push_back(commonUtilities::joinPath(dataPath,
-                                                  "aeff_epoch_0.fits"));
-   aeff_files.push_back(commonUtilities::joinPath(dataPath,
-                                                  "aeff_epoch_1.fits"));
-   latResponse::AeffEpochDep aeff(aeff_files);
+   latResponse::AeffEpochDep aeff;
 
-   latResponse::Aeff aeff_epoch0(aeff_files[0]);
-   latResponse::Aeff aeff_epoch1(aeff_files[1]);
+   std::string aeff0 = commonUtilities::joinPath(dataPath,
+                                                 "aeff_epoch_0.fits");
+   std::string aeff1 = commonUtilities::joinPath(dataPath,
+                                                 "aeff_epoch_1.fits");
+
+   latResponse::Aeff aeff_epoch0(aeff0);
+   latResponse::Aeff aeff_epoch1(aeff1);
+
+   aeff.addAeff(aeff_epoch0,
+                latResponse::EpochDep::epochStart(aeff0, "EFFECTIVE AREA"));
+   aeff.addAeff(aeff_epoch1,
+                latResponse::EpochDep::epochStart(aeff1, "EFFECTIVE AREA"));
 
    CPPUNIT_ASSERT(aeff.value(energy, theta, phi, met0) == 
                   aeff_epoch0.value(energy, theta, phi, met0));
@@ -364,15 +372,15 @@ void LatResponseTests::epochDep_tests() {
                   aeff_epoch0.value(energy, theta, phi, met1));
 
    // PSF
-   std::vector<std::string> psf_files;
-   psf_files.push_back(commonUtilities::joinPath(dataPath,
-                                                 "psf_epoch_0.fits"));
-   psf_files.push_back(commonUtilities::joinPath(dataPath,
-                                                 "psf_epoch_1.fits"));
-   latResponse::PsfEpochDep psf(psf_files);
+   latResponse::PsfEpochDep psf;
 
-   latResponse::Psf3 psf_epoch0(psf_files[0]);
-   latResponse::Psf3 psf_epoch1(psf_files[1]);
+   std::string psf0(commonUtilities::joinPath(dataPath, "psf_epoch_0.fits"));
+   std::string psf1(commonUtilities::joinPath(dataPath, "psf_epoch_1.fits"));
+                                                
+   latResponse::Psf3 psf_epoch0(psf0);
+   latResponse::Psf3 psf_epoch1(psf1);
+   psf.addPsf(psf_epoch0, latResponse::EpochDep::epochStart(psf0, "RPSF"));
+   psf.addPsf(psf_epoch1, latResponse::EpochDep::epochStart(psf1, "RPSF"));
 
    double sep(15);
 
@@ -386,15 +394,20 @@ void LatResponseTests::epochDep_tests() {
                   psf_epoch0.value(sep, energy, theta, phi, met1));
 
    // Energy dispersion
-   std::vector<std::string> edisp_files;
-   edisp_files.push_back(commonUtilities::joinPath(dataPath,
-                                                   "edisp_epoch_0.fits"));
-   edisp_files.push_back(commonUtilities::joinPath(dataPath,
-                                                   "edisp_epoch_1.fits"));
-   latResponse::EdispEpochDep edisp(edisp_files);
+   std::string edisp0(commonUtilities::joinPath(dataPath,
+                                                "edisp_epoch_0.fits"));
+   std::string edisp1(commonUtilities::joinPath(dataPath,
+                                                "edisp_epoch_1.fits"));
+   latResponse::EdispEpochDep edisp;
 
-   latResponse::Edisp2 edisp_epoch0(edisp_files[0]);
-   latResponse::Edisp2 edisp_epoch1(edisp_files[1]);
+   latResponse::Edisp2 edisp_epoch0(edisp0);
+   latResponse::Edisp2 edisp_epoch1(edisp1);
+
+   std::string extname("ENERGY DISPERSION");
+   edisp.addEdisp(edisp_epoch0,
+                  latResponse::EpochDep::epochStart(edisp0, extname));
+   edisp.addEdisp(edisp_epoch1,
+                  latResponse::EpochDep::epochStart(edisp1, extname));
 
    double measE(120.);
 

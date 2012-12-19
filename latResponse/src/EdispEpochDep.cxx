@@ -11,12 +11,31 @@
 
 namespace latResponse {
 
-EdispEpochDep::EdispEpochDep(const std::vector<std::string> & fitsfiles,
-                             const std::string & extname,
-                             size_t nrow) {
-   for (size_t i(0); i < fitsfiles.size(); i++) {
-      getEpochStart(fitsfiles[i], extname);
-      m_edisps.push_back(Edisp2(fitsfiles[i], extname, nrow));
+EdispEpochDep::EdispEpochDep() {
+}
+
+EdispEpochDep::EdispEpochDep(const EdispEpochDep & other) 
+   : irfInterface::IEdisp(other), EpochDep(other) {
+   for (size_t i(0); i < other.m_edisps.size(); i++) {
+      m_edisps.push_back(other.m_edisps[i]->clone());
+   }
+}
+
+EdispEpochDep & EdispEpochDep::operator=(const EdispEpochDep & rhs) {
+   irfInterface::IEdisp::operator=(rhs);
+   EpochDep::operator=(rhs);
+   for (size_t i(0); i < m_edisps.size(); i++) {
+      delete m_edisps[i];
+   }
+   m_edisps.clear();
+   for (size_t i(0); i < rhs.m_edisps.size(); i++) {
+      m_edisps.push_back(rhs.m_edisps[i]->clone());
+   }
+}
+
+EdispEpochDep::~EdispEpochDep() {
+   for (size_t i(0); i < m_edisps.size(); i++) {
+      delete m_edisps[i];
    }
 }
 
@@ -27,15 +46,21 @@ double EdispEpochDep::value(double appEnergy,
                             const astro::SkyDir & scXAxis,
                             double time) const {
    size_t indx(index(time));
-   return m_edisps[indx].value(appEnergy, energy, srcDir, scZAxis,
-                               scXAxis, time);
+   return m_edisps[indx]->value(appEnergy, energy, srcDir, scZAxis,
+                                scXAxis, time);
 }
 
 double EdispEpochDep::value(double appEnergy, double energy,
                             double theta, double phi,
                             double time) const {
    size_t indx(index(time));
-   return m_edisps[indx].value(appEnergy, energy, theta, phi, time);
+   return m_edisps[indx]->value(appEnergy, energy, theta, phi, time);
+}
+
+void EdispEpochDep::addEdisp(const irfInterface::IEdisp & edisp,
+                             double epoch_start) {
+   appendEpoch(epoch_start);
+   m_edisps.push_back(edisp.clone());
 }
 
 } // namespace latResponse

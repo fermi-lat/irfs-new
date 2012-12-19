@@ -10,10 +10,11 @@
 #ifndef latResponse_EdispEpochDep_h
 #define latResponse_EdispEpochDep_h
 
-#include <map>
+#include <string>
 #include <vector>
 
-#include "Edisp2.h"
+#include "irfInterface/IEdisp.h"
+
 #include "EpochDep.h"
 
 namespace latResponse {
@@ -22,11 +23,13 @@ class EdispEpochDep : public irfInterface::IEdisp, EpochDep {
 
 public:
 
-   EdispEpochDep(const std::vector<std::string> & fitsfiles,
-                 const std::string & extname="ENERGY DISPERSION",
-                 size_t nrow=0);
+   EdispEpochDep();
+
+   EdispEpochDep(const EdispEpochDep & other);
    
-   virtual ~EdispEpochDep() {}
+   EdispEpochDep & operator=(const EdispEpochDep & rhs);
+   
+   virtual ~EdispEpochDep();
 
    virtual double value(double appEnergy, 
                         double energy,
@@ -39,16 +42,20 @@ public:
                         double theta, double phi,
                         double time) const;
 
-   virtual EdispEpochDep * clone() {
+   virtual irfInterface::IEdisp * clone() {
       return new EdispEpochDep(*this);
    }
 
+   void addEdisp(const irfInterface::IEdisp & edisp,
+                 double epoch_start);
+
 private:
 
-   std::vector<Edisp2> m_edisps;
+   std::vector<irfInterface::IEdisp *> m_edisps;
 
 };
 
 } // namespace latResponse
 
 #endif // latResponse_EdispEpochDep_h
+

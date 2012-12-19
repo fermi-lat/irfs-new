@@ -49,7 +49,7 @@ public:
    virtual double value(double energy, double theta, double phi,
                         double time=0) const;
    
-   virtual Aeff * clone() {
+   virtual irfInterface::IAeff * clone() {
       return new Aeff(*this);
    }
 
