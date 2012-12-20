@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Dec 19 22:28:52 PST 2012
+ScienceTools-scons/irfs/irfInterface/src
+
+Modified Files:
+	IEdisp.cxx IEfficiencyFactor.cxx 
+Log Message:
+extend IEfficiencyFactor to accommodate time-dependence
+    *
+------------------------------------------------------------
+User: jchiang  Wed Dec 19 22:28:52 PST 2012
 ScienceTools-scons/irfs/irfInterface/irfInterface
 
 Modified Files:
