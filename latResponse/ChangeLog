@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Dec 19 22:31:49 PST 2012
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+refactor IrfLoader to enable epoch-dependent irfs; add EfficiencyFactorEpochDep
+    *
+------------------------------------------------------------
+User: jchiang  Wed Dec 19 22:31:49 PST 2012
 ScienceTools-scons/irfs/latResponse/src
 
 Modified Files:
