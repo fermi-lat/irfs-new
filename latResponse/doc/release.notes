@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-02-12-00 19-Dec-2012 jchiang refactor IrfLoader to enable epoch-dependent irfs; add EfficiencyFactorEpochDep
  latResponse-02-11-00 19-Dec-2012 jchiang interface changes to new epoch-dependent irfs
  latResponse-02-10-00 18-Dec-2012 jchiang EpochDep.h and associated epoch-dependent classes added
  latResponse-02-09-03 17-Dec-2012 jchiang P7REP_TRANSIENT irfs are the same as P7TRANSIENT, so apply same workaround for psf integration test at >250GeV and theta>65
