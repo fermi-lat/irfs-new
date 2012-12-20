@@ -25,14 +25,15 @@
 
 namespace irfInterface {
 
-double IEfficiencyFactor::value(double energy, double livetimefrac) const {
+double IEfficiencyFactor::value(double energy, double livetimefrac,
+                                double met) const {
    // Since we do not have access to the front and back effective
    // areas separately, just return the average.
    if (::getenv("OMIT_EFFICIENCY_FACTOR")) {
       return 1;
    }
-   return (value(energy, livetimefrac, true) + 
-           value(energy, livetimefrac, false))/2.;
+   return (value(energy, livetimefrac, true, met) + 
+           value(energy, livetimefrac, false, met))/2.;
 }
 
 void IEfficiencyFactor::readFt2File(std::string ft2file) {

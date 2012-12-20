@@ -33,12 +33,12 @@ public:
    virtual double operator()(double energy, double met) const = 0;
 
    virtual double value(double energy, double livetimefrac, 
-                        bool front) const = 0;
+                        bool front, double met=0) const = 0;
 
-   virtual double value(double energy, double livetimefrac) const;
+   virtual double value(double energy, double livetimefrac, double met=0) const;
 
    virtual void getLivetimeFactors(double energy, double & factor1, 
-                                   double & factor2) const = 0;
+                                   double & factor2, double met=0) const = 0;
 
    virtual IEfficiencyFactor * clone() const = 0;
 

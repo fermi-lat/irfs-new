@@ -43,6 +43,8 @@ double IEdisp::appEnergy(double energy,
    double emin(energy/10.);
    double emax(energy*10.);
    size_t nee(200);
+//    size_t nee(1000);
+//    size_t nee(2000);
    std::vector<double> energies;
    ::fill_energies(emin, emax, nee, energies);
    
