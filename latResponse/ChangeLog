@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Wed Dec 19 22:31:49 PST 2012
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Edisp2.h EfficiencyFactor.cxx EfficiencyFactor.h IrfLoader.cxx 
+Added Files:
+	EfficiencyFactorEpochDep.cxx EfficiencyFactorEpochDep.h 
+Log Message:
+refactor IrfLoader to enable epoch-dependent irfs; add EfficiencyFactorEpochDep
+    *
+------------------------------------------------------------
 User: jchiang  Wed Dec 19 22:31:48 PST 2012
 ScienceTools-scons/irfs/latResponse/latResponse
 
