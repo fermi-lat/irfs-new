@@ -32,9 +32,11 @@
 #include "Aeff.h"
 #include "Psf3.h"
 #include "Edisp2.h"
+#include "EfficiencyFactor.h"
 #include "AeffEpochDep.h"
 #include "PsfEpochDep.h"
 #include "EdispEpochDep.h"
+#include "EfficiencyFactorEpochDep.h"
 
 using facilities::commonUtilities;
 
@@ -419,6 +421,17 @@ void LatResponseTests::epochDep_tests() {
                   edisp_epoch1.value(measE, energy, theta, phi, met1));
    CPPUNIT_ASSERT(edisp.value(measE, energy, theta, phi, met1) != 
                   edisp_epoch0.value(measE, energy, theta, phi, met1));
+
+   // EfficiencyFactor
+   latResponse::EfficiencyFactorEpochDep eff;
+   latResponse::EfficiencyFactor eff_epoch0(aeff0);
+   latResponse::EfficiencyFactor eff_epoch1(aeff1);
+   eff.add(eff_epoch0, 
+           latResponse::EpochDep::epochStart(aeff0, "EFFICIENCY_PARAMS"));
+   eff.add(eff_epoch1, 
+           latResponse::EpochDep::epochStart(aeff1, "EFFICIENCY_PARAMS"));
+   CPPUNIT_ASSERT(eff(energy, met0) == eff_epoch0(energy, met0));
+   CPPUNIT_ASSERT(eff(energy, met1) == eff_epoch1(energy, met1));
 }
 
 int main(int iargc, char * argv[]) {

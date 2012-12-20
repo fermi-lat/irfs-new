@@ -140,7 +140,8 @@ double EfficiencyFactor::operator()(double energy, double met) const {
 }
 
 double EfficiencyFactor::value(double energy, double livetimefrac,
-                               bool front) const {
+                               bool front, double met) const {
+   (void)(met);
    if (!m_havePars) {
       return 1;
    }
@@ -157,7 +158,9 @@ double EfficiencyFactor::value(double energy, double livetimefrac,
 }
 
 void EfficiencyFactor::
-getLivetimeFactors(double energy, double & factor1, double & factor2) const {
+getLivetimeFactors(double energy, double & factor1, double & factor2,
+                   double met) const {
+   (void)(met);
    if (!m_havePars) {
       factor1 = 1;
       factor2 = 0;

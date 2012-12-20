@@ -11,6 +11,13 @@
 
 #include "irfInterface/IrfLoader.h"
 
+namespace irfInterface {
+   class IAeff;
+   class IPsf;
+   class IEdisp;
+   class IEfficiencyFactor;
+}
+
 namespace latResponse {
 
 /**
@@ -88,6 +95,18 @@ private:
    int edispVersion(const std::string & fitsfile) const;
 
    int psfVersion(const std::string & fitsfile) const;
+
+   irfInterface::IAeff * aeff(const std::string & aeff_file,
+                              size_t nrow) const;
+
+   irfInterface::IPsf * psf(const std::string & psf_file, bool front,
+                            size_t nrow) const;
+
+   irfInterface::IEdisp * edisp(const std::string & edisp_file,
+                                size_t nrow) const;
+
+   irfInterface::IEfficiencyFactor * 
+   efficiency_factor(const std::string & aeff_file) const;
 
 };
 

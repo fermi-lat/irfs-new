@@ -37,10 +37,11 @@ public:
 
    virtual double operator()(double energy, double met) const;
 
-   virtual double value(double energy, double livetimefrac, bool front) const;
+   virtual double value(double energy, double livetimefrac, bool front,
+                        double met=0) const;
 
    virtual void getLivetimeFactors(double energy, double & factor1, 
-                                   double & factor2) const;
+                                   double & factor2, double met=0) const;
 
    virtual IEfficiencyFactor * clone() const {
       return new EfficiencyFactor(*this);

@@ -131,16 +131,6 @@ void IrfLoader::addIrfs(const std::string & aeff_file,
                         const std::string & irfName) const {
    irfInterface::IrfsFactory * myFactory(irfInterface::IrfsFactory::instance());
    for (size_t i(0); i < subclasses(irfName).size(); i++) {
-      irfInterface::IAeff * aeff(new Aeff(aeff_file, "EFFECTIVE AREA", i));
-
-      EfficiencyFactor * efficiencyFactor(0);
-      try {
-         efficiencyFactor = new EfficiencyFactor(aeff_file);
-      } catch (tip::TipException &) {
-         // Do nothing.
-      }
-
-      irfInterface::IPsf * psf;
       std::string class_name(subclasses(irfName).at(i));
       bool front;
       if (convType == 0) {
@@ -150,36 +140,60 @@ void IrfLoader::addIrfs(const std::string & aeff_file,
          class_name += "::BACK";
          front = false;
       }
-      switch (psfVersion(psf_file)) {
-      case 1:
-         psf = new Psf(psf_file, front, "RPSF", i);
-         break;
-      case 2:
-         psf = new Psf2(psf_file, front, "RPSF", i);
-         break;
-      case 3:
-         psf = new Psf3(psf_file, front, "RPSF", i);
-         break;
-      default:
-         throw std::runtime_error("PSF version not found.");
-      }
-      irfInterface::IEdisp * edisp(0);
-      if (edispVersion(edisp_file) == 2) {
-         edisp = new Edisp2(edisp_file, "ENERGY DISPERSION", i);
-      } else {
-         edisp = new Edisp(edisp_file, "ENERGY DISPERSION", i);
-      }
 
       size_t irfID(i*2 + convType);
 
-      irfInterface::Irfs * irfs(new irfInterface::Irfs(aeff, psf, edisp, 
-                                                       irfID));
-      if (efficiencyFactor) {
-         irfs->setEfficiencyFactor(efficiencyFactor);
-         delete efficiencyFactor;
+      irfInterface::Irfs * 
+         irfs = new irfInterface::Irfs(aeff(aeff_file, i),
+                                       psf(psf_file, front, i),
+                                       edisp(edisp_file, i),
+                                       irfID);
+      irfInterface::IEfficiencyFactor * eff(efficiency_factor(aeff_file));
+      if (eff) {
+         irfs->setEfficiencyFactor(eff);
+         delete eff;
       }
 
       myFactory->addIrfs(class_name, irfs);
+   }
+}
+
+irfInterface::IAeff * 
+IrfLoader::aeff(const std::string & aeff_file, size_t nrow) const {
+   return new Aeff(aeff_file, "EFFECTIVE AREA", nrow);
+}
+
+irfInterface::IPsf * 
+IrfLoader::psf(const std::string & psf_file, bool front, size_t nrow) const {
+   switch (psfVersion(psf_file)) {
+   case 1:
+      return new Psf(psf_file, front, "RPSF", nrow);
+      break;
+   case 2:
+      return new Psf2(psf_file, front, "RPSF", nrow);
+      break;
+   case 3:
+      return new Psf3(psf_file, front, "RPSF", nrow);
+      break;
+   default:
+      throw std::runtime_error("PSF version not found.");
+   }
+}
+
+irfInterface::IEdisp *
+IrfLoader::edisp(const std::string & edisp_file, size_t nrow) const {
+   if (edispVersion(edisp_file) == 2) {
+      return new Edisp2(edisp_file, "ENERGY DISPERSION", nrow);
+   }
+   return new Edisp(edisp_file, "ENERGY DISPERSION", nrow);
+}
+
+irfInterface::IEfficiencyFactor *
+IrfLoader::efficiency_factor(const std::string & aeff_file) const {
+   try {
+      return new EfficiencyFactor(aeff_file);
+   } catch (tip::TipException &) {
+      return 0;
    }
 }
 
