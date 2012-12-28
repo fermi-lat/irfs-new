@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Dec 28 08:31:14 PST 2012
+ScienceTools-scons/irfs/irfUtil/src
+
+Modified Files:
+	HdCaldb.cxx Util.cxx 
+Log Message:
+pass extension numbers from HDgtcalf
+    *
+------------------------------------------------------------
 User: jchiang  Fri Dec 28 08:31:13 PST 2012
 ScienceTools-scons/irfs/irfUtil/irfUtil
 
