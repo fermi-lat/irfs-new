@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Dec 28 08:31:13 PST 2012
+ScienceTools-scons/irfs/irfUtil/irfUtil
+
+Modified Files:
+	HdCaldb.h 
+Log Message:
+pass extension numbers from HDgtcalf
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfUtil-00-05-00, operation: add
 Package: irfUtil
