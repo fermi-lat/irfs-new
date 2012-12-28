@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ irfUtil-00-05-01 28-Dec-2012 jchiang pass extension numbers from HDgtcalf so that DC1 and G25 irfs can be accessed
  irfUtil-00-05-00 19-Dec-2012 jchiang use HdlCaldb::getFiles() (which supports multi-epoch irfs)
  irfUtil-00-04-06 10-Nov-2012 jchiang ensure setupEnvironment() is called exactly once via st_facilities::Environment
  irfUtil-00-04-05 12-Sep-2012 jchiang Steve F.'s fix for STARCH-17@JIRA
