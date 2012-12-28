@@ -77,6 +77,7 @@ HdCaldb::operator()(const std::string & detName,
 }
 
 void HdCaldb::getFiles(std::vector<std::string> & files,
+                       std::vector<int> & extnums,
                        const std::string & detName,
                        const std::string & respName,
                        const std::string & expression,
@@ -101,8 +102,10 @@ void HdCaldb::getFiles(std::vector<std::string> & files,
                                + "Error locating CALDB file.");
    }
    files.clear();
+   extnums.clear();
    for (int i(0); i < nfound; i++) {
       files.push_back(m_filenames[i]);
+      extnums.push_back(m_extnums[i]);
    }
 }
 

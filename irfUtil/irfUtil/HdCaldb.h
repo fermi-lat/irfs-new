@@ -42,6 +42,7 @@ public:
               const std::string & time = "00:00:00");
 
    void getFiles(std::vector<std::string> & files,
+                 std::vector<int> & extnums,
                  const std::string & detName,
                  const std::string & respName,
                  const std::string & expression,

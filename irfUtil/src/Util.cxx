@@ -42,10 +42,11 @@ void Util::getCaldbFile(const std::string &detName,
       // filename = calfile.first;
       // extnum = calfile.second + 1;
       std::vector<std::string> files;
-      caldb_obj.getFiles(files, detName, respName, expression, filter,
+      std::vector<int> extnums;
+      caldb_obj.getFiles(files, extnums, detName, respName, expression, filter,
                          date, time, date, time);
       filename = files[0];
-      extnum = 1;
+      extnum = extnums[0] + 1;
    } catch (...) {
       std::cout << "irfUtil::Util::getCaldbFile: \n"
                 << "Error trying to find filename and extension for \n"
