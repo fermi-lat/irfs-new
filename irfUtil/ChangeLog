@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan  7 17:20:59 PST 2013
+ScienceTools-scons/irfs/irfUtil/irfUtil
+
+Modified Files:
+	HdCaldb.h 
+Log Message:
+add some doxygen comments explaining the argumentes
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-31-01, operation: add
 Package: irfUtil
