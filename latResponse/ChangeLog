@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Jan  7 23:24:25 PST 2013
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+handle time-dependent irfs
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan  7 23:24:25 PST 2013
 ScienceTools-scons/irfs/latResponse/src
 
 Modified Files:
