@@ -126,14 +126,16 @@ void LatResponseTests::psf_zero_separation() {
 
    double delta_sep(1e-4);
    double tol(1e-3);
+
+   double time(239846401.);  // 08Aug2008 00:00:00
    
    for (std::vector<std::string>::const_iterator name = m_irfNames.begin();
         name != m_irfNames.end(); ++name) {
       irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
       const irfInterface::IPsf & psf(*myIrfs->psf());
       for (theta = 0; theta < 70; theta += 5.) {
-         double value0(psf.value(0, energy, theta, phi));
-         double value1(psf.value(delta_sep, energy, theta, phi));
+         double value0(psf.value(0, energy, theta, phi, time));
+         double value1(psf.value(delta_sep, energy, theta, phi, time));
          if (std::fabs((value0 - value1)/value0) >= tol) {
             std::cout << *name << ": \n";
             std::cout << "theta = " << theta << ": "
@@ -148,6 +150,7 @@ void LatResponseTests::psf_zero_separation() {
 
 void LatResponseTests::psf_normalization() {
    double phi(0);
+   double time(239846401.);  // 08Aug2008 00:00:00
 
    double tol(2e-2);
 
@@ -206,7 +209,7 @@ void LatResponseTests::psf_normalization() {
             std::vector<double> psf_values;
             for (size_t i = 0; i < psi.size(); i++) {
                psf_values.push_back(psf.value(psi[i], *energy, 
-                                              *theta, phi));
+                                              *theta, phi, time));
             }
             
             double integral(0);
@@ -216,7 +219,8 @@ void LatResponseTests::psf_normalization() {
                   *(psi[i+1] - psi[i])*M_PI/180.;
             }
             integral *= 2.*M_PI;
-            double angInt(psf.angularIntegral(*energy, *theta, phi, psimax));
+            double angInt(psf.angularIntegral(*energy, *theta, phi, psimax,
+                                              time));
             if (std::fabs(integral - 1.) >= tol) { 
                std::cout << *energy  << "      " 
                          << *theta   << "           "
@@ -234,6 +238,7 @@ void LatResponseTests::psf_normalization() {
 }
 
 void LatResponseTests::edisp_normalization() {
+   double time(239846401.);  // 08Aug2008 00:00:00
 
    std::vector<double> energies;
    double emin(30);
@@ -274,7 +279,7 @@ void LatResponseTests::edisp_normalization() {
          for (std::vector<double>::const_iterator theta(thetas.begin());
               theta != thetas.end(); ++theta) {
             double integral(edisp.integral(elower, eupper, *energy,
-                                           *theta, phi));
+                                           *theta, phi, time));
             if (std::fabs(integral - 1.) >= tol) {
                std::cout << *energy << "     "
                          << *theta  << "          "
@@ -314,6 +319,7 @@ void LatResponseTests::edisp_sampling() {
 
    astro::SkyDir zAxis(0, 0);
    astro::SkyDir xAxis(90, 0);
+   double time(239846401.);  // 08Aug2008 00:00:00
 
    for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
         name != m_irfNames.end(); ++name) {
@@ -326,7 +332,7 @@ void LatResponseTests::edisp_sampling() {
               energy != energies.end(); ++energy) {
             for (size_t j = 0; j < nsamp; j++) {
                try {
-                  edisp.appEnergy(*energy, srcDir, zAxis, xAxis);
+                  edisp.appEnergy(*energy, srcDir, zAxis, xAxis, time);
                } catch(const std::exception & e) {
                   std::cerr << "caught sampling error, "
                             << (*energy)<<", "<<srcDir.dec() <<", " 

@@ -15,7 +15,9 @@ EfficiencyFactorEpochDep::EfficiencyFactorEpochDep() {
 }
 
 EfficiencyFactorEpochDep::
-EfficiencyFactorEpochDep(const EfficiencyFactorEpochDep & other) {
+EfficiencyFactorEpochDep(const EfficiencyFactorEpochDep & other) 
+   : irfInterface::IEfficiencyFactor(other),
+     EpochDep(other) {
    for (size_t i(0); i < other.m_effs.size(); i++) {
       m_effs.push_back(other.m_effs[i]->clone());
    }
@@ -24,6 +26,8 @@ EfficiencyFactorEpochDep(const EfficiencyFactorEpochDep & other) {
 EfficiencyFactorEpochDep & 
 EfficiencyFactorEpochDep::operator=(const EfficiencyFactorEpochDep & rhs) {
    if (this != &rhs) {
+      irfInterface::IEfficiencyFactor::operator=(rhs);
+      EpochDep::operator=(rhs);
       for (size_t i(0); i < m_effs.size(); i++) {
          delete m_effs[i];
       }

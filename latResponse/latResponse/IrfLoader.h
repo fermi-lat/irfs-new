@@ -18,6 +18,10 @@ namespace irfInterface {
    class IEfficiencyFactor;
 }
 
+namespace irfUtil {
+   class HdCaldb;
+}
+
 namespace latResponse {
 
 /**
@@ -31,7 +35,7 @@ public:
 
    IrfLoader();
 
-   virtual ~IrfLoader() {}
+   virtual ~IrfLoader();
 
    virtual void registerEventClasses() const;
 
@@ -61,6 +65,8 @@ private:
 
    std::vector<std::string> m_customIrfNames;
 
+   irfUtil::HdCaldb * m_hdcaldb;
+
    void addIrfs(const std::string & version, 
                 const std::string & detector,
                 int convType, 
@@ -77,6 +83,13 @@ private:
    void addIrfs(const std::string & aeff_file,
                 const std::string & psf_file,
                 const std::string & edisp_file,
+                int convType,
+                const std::string & irfName) const;
+
+   void addIrfs(const std::vector<std::string> & aeff_files,
+                const std::vector<std::string> & psf_files,
+                const std::vector<std::string> & edisp_files,
+                const std::vector<int> & hdus,
                 int convType,
                 const std::string & irfName) const;
 
