@@ -1,5 +1,25 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan  9 12:40:17 PST 2013
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/psf
+
+Modified Files:
+	psf_P7CLEAN_V6MC_back.fits psf_P7CLEAN_V6MC_front.fits 
+	psf_P7CLEAN_V6_back.fits psf_P7CLEAN_V6_front.fits 
+	psf_P7REP_CLEAN_V10_back.fits psf_P7REP_CLEAN_V10_front.fits 
+	psf_P7REP_SOURCE_V10_back.fits psf_P7REP_SOURCE_V10_front.fits 
+	psf_P7REP_TRANSIENT_V10_back.fits 
+	psf_P7REP_TRANSIENT_V10_front.fits 
+	psf_P7REP_ULTRACLEAN_V10_back.fits 
+	psf_P7REP_ULTRACLEAN_V10_front.fits 
+	psf_P7SOURCE_V6MC_back.fits psf_P7SOURCE_V6MC_front.fits 
+	psf_P7SOURCE_V6_back.fits psf_P7SOURCE_V6_front.fits 
+	psf_P7TRANSIENT_V6_back.fits psf_P7TRANSIENT_V6_front.fits 
+	psf_P7ULTRACLEAN_V6_back.fits psf_P7ULTRACLEAN_V6_front.fits 
+Log Message:
+fix CCNM0001 keywords in pass 7 irf files and re-register in caldb.indx
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan  9 12:40:17 PST 2013
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/edisp
 
 Modified Files:
