@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jan  9 12:40:16 PST 2013
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat
+
+Modified Files:
+	caldb.indx 
+Log Message:
+fix CCNM0001 keywords in pass 7 irf files and re-register in caldb.indx
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-31-01, operation: add
 Package: caldb
