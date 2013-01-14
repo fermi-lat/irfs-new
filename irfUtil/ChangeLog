@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Jan 14 14:58:42 PST 2013
+ScienceTools-scons/irfs/irfUtil/src
+
+Modified Files:
+	HdCaldb.cxx Util.cxx 
+Log Message:
+clean up interface, add HdCaldb::getFiles to enable multi-epoch irfs, add test program
+    *
+------------------------------------------------------------
+User: jchiang  Mon Jan 14 14:58:42 PST 2013
 ScienceTools-scons/irfs/irfUtil/irfUtil
 
 Modified Files:
