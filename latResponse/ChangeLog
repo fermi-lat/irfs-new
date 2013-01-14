@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Jan 14 15:03:30 PST 2013
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Edisp2.cxx Edisp2.h IrfLoader.cxx 
+Log Message:
+delay edisp2 renormalization until it's needed (thereby speeding up gtirfs); allow for aeff, psf, and edisp IRFs to have different epochs
+    *
+------------------------------------------------------------
 User: jchiang  Mon Jan  7 23:24:25 PST 2013
 ScienceTools-scons/irfs/latResponse/src/test
 
