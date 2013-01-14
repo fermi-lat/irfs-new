@@ -8,7 +8,8 @@
 int main() {
    std::string detname("FRONT");
    std::string respname("EFF_AREA");
-   std::string irfName("TESTIRFS");
+//   std::string irfName("TESTIRFS");
+   std::string irfName("P7REP_SOURCE_V10");
    try {
       irfUtil::HdCaldb hdcaldb;
       std::vector<std::string> files;
