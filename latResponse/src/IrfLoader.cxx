@@ -18,6 +18,8 @@
 #include "tip/IFileSvc.h"
 #include "tip/Table.h"
 
+#include "st_stream/StreamFormatter.h"
+
 #include "st_facilities/Env.h"
 #include "st_facilities/FitsUtil.h"
 #include "st_facilities/Util.h"
@@ -42,7 +44,6 @@
 #include "Psf2.h"
 #include "Psf3.h"
 #include "PsfEpochDep.h"
-
 namespace latResponse {
 
 bool IrfLoader::s_interpolate_edisp(true);
@@ -122,14 +123,19 @@ void IrfLoader::addIrfs(const std::string & version,
    std::vector<std::string> edisp_files;
    std::vector<int> hdus;
 
-   std::string expression("VERSION.eq." + version);
+   m_hdcaldb->getFiles(aeff_files, hdus, detector, "EFF_AREA", irfName);
+   m_hdcaldb->getFiles(psf_files, hdus, detector, "RPSF", irfName);
+   m_hdcaldb->getFiles(edisp_files, hdus, detector, "EDISP", irfName);
 
-   m_hdcaldb->getFiles(aeff_files, hdus, detector, "EFF_AREA", expression);
-   m_hdcaldb->getFiles(psf_files, hdus, detector, "RPSF", expression);
-   m_hdcaldb->getFiles(edisp_files, hdus, detector, "EDISP", expression);
-
-//   addIrfs(aeff_files[0], psf_files[0], edisp_files[0], convType, irfName);
-   addIrfs(aeff_files, psf_files, edisp_files, hdus, convType, irfName);
+   if (aeff_files.size() == 1 && psf_files.size() == 1 
+       && edisp_files.size() == 1) {
+      addIrfs(aeff_files[0], psf_files[0], edisp_files[0], convType, irfName);
+   } else {
+      addIrfs(aeff_files, psf_files, edisp_files, hdus, convType, irfName);
+      st_stream::StreamFormatter formatter("latResponse::IrfLoader",
+                                           "addIrfs", 4);
+      formatter.info() << "multiple epoch IRF: " << irfName << std::endl;
+   }
 }
 
 void IrfLoader::addIrfs(const std::string & aeff_file, 
@@ -195,15 +201,19 @@ addIrfs(const std::vector<std::string> & aeff_files,
          irfInterface::IAeff * aeff_component(aeff(aeff_files[j], i));
          my_aeff->addAeff(*aeff_component, epoch_start);
          delete aeff_component;
-
+      }
+      for (size_t j(0); j < psf_files.size(); j++) {
+         double epoch_start(EpochDep::epochStart(psf_files[j], "RPSF"));
          irfInterface::IPsf * psf_component(psf(psf_files[j], front, i));
          my_psf->addPsf(*psf_component, epoch_start);
          delete psf_component;
-
+      }
+      for (size_t j(0); j < edisp_files.size(); j++) {
+         double epoch_start(EpochDep::epochStart(edisp_files[j], 
+                                                 "ENERGY DISPERSION"));
          irfInterface::IEdisp * edisp_component(edisp(edisp_files[j], i));
          my_edisp->addEdisp(*edisp_component, epoch_start);
          delete edisp_component;
-
       }
       irfInterface::Irfs * 
          irfs = new irfInterface::Irfs(my_aeff, my_psf, my_edisp, irfID);
@@ -386,8 +396,7 @@ void IrfLoader::getCaldbClassNames(const std::string & irfName,
                                    const std::string & date) {
    std::vector<std::string> fitsfiles;
    std::vector<int> hdus;
-   m_hdcaldb->getFiles(fitsfiles, hdus, "FRONT", "EFF_AREA",
-                       "VERSION.eq." + irfName);
+   m_hdcaldb->getFiles(fitsfiles, hdus, "FRONT", "EFF_AREA", irfName);
    m_subclasses[irfName] = std::vector<std::string>();
    buildClassNames(fitsfiles[0], irfName, m_subclasses[irfName]);
 }
@@ -400,15 +409,12 @@ void IrfLoader::buildClassNames(const std::string & fitsfile,
       classNames.push_back(irfName);
       return;
    }
-   std::cout << irfName << ": ";
    for (size_t i(0); i < numClasses; i++) {
       std::ostringstream subclass;
 //      subclass << irfName << "_" << std::setw(2) << std::setfill('0') << i;
       subclass << irfName << "_" << i;
       classNames.push_back(subclass.str());
-      std::cout << classNames.back() << "  ";
    }
-   std::cout << std::endl;
 }
 
 size_t IrfLoader::getNumRows(const std::string & fitsfile) {
@@ -471,4 +477,3 @@ int IrfLoader::psfVersion(const std::string & fitsfile) const {
 }
 
 } // namespace latResponse
-

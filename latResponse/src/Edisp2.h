@@ -75,6 +75,8 @@ private:
    double m_p2;
    double m_t0;
 
+   bool m_renormalized;
+
    double old_function(double xx, double * pars) const;
 
    void readScaling(const std::string & fitsfile,

@@ -35,9 +35,9 @@ namespace latResponse {
 
 Edisp2::Edisp2(const std::string & fitsfile, 
                const std::string & extname, size_t nrow) 
-   : m_parTables(fitsfile, extname, nrow), m_loge_last(0), m_costh_last(0) {
+   : m_parTables(fitsfile, extname, nrow), m_loge_last(0), m_costh_last(0),
+     m_renormalized(false) {
    readScaling(fitsfile);
-   renormalize();
 }
 
 void Edisp2::renormalize() {
@@ -63,6 +63,7 @@ void Edisp2::renormalize() {
          m_parTables.setPars(k, j, my_pars);
       }
    }
+   m_renormalized = true;
 }
 
 double Edisp2::value(double appEnergy,
@@ -145,6 +146,9 @@ double Edisp2::scaleFactor(double logE, double costh) const {
 }
 
 double * Edisp2::pars(double energy, double costh) const {
+   if (!m_renormalized) {
+      renormalize();
+   }
    double loge(std::log10(energy));
    if (!IrfLoader::interpolate_edisp()) {
       // Ensure use of highest cos(theta) bin.
