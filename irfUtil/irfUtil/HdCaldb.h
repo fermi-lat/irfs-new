@@ -42,30 +42,17 @@ public:
               const std::string & time = "00:00:00");
 
 
-   /// Find all IRF files and extensions via the HDgtcalf function.
+   /// Find all IRF files and extensions regardless of validity time
    /// @param files Found filenames.
    /// @param extnums Corresponding HDU numbers.
    /// @param detName "FRONT" or "BACK" for the LAT
    /// @param respName "EFF_AREA", "RPSF", or "EDISP"
-   /// @param expression "VERSION.eq.%s" % irf_version, 
-   ///        where, e.g., irf_version="P7_SOURCE_V6"
-   /// @param filter Leave at default value of "NONE"
-   /// @param startdate Start date for query.  Leave at default value 
-   ///        (mission start).
-   /// @param starttime Start time for query.  Leave at default value.
-   /// @param stopdate Stop date for query.  Leave at default value 
-   ///        (far in the future).
-   /// @param stoptime Stop time for query.  Leave at default value.
+   /// @param irfName IRF name, e.g., "P7_SOURCE_V6"
    void getFiles(std::vector<std::string> & files,
                  std::vector<int> & extnums,
                  const std::string & detName,
                  const std::string & respName,
-                 const std::string & expression,
-                 const std::string & filter="NONE",
-                 const std::string & startdate="2008-08-04",
-                 const std::string & starttime="00:00:00",
-                 const std::string & stopdate="2020-12-31",
-                 const std::string & stoptime="23:59:59");
+                 const std::string & irfName);
 
 private:
 

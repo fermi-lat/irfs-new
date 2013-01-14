@@ -25,15 +25,16 @@ public:
 
    virtual ~Util() {}
 
-   static void getCaldbFile(const std::string &detName, 
-                            const std::string &respName,
-                            const std::string &version,
-                            std::string &filename, long &extnum,
-                            const std::string & telescope = "GLAST",
-                            const std::string & instrument = "LAT",
-                            const std::string & filter = "NONE",
-                            const std::string & date = "2003-01-01",
-                            const std::string & time = "00:00:00");
+   static void getCaldbFile(const std::string & detName, 
+                            const std::string & respName,
+                            const std::string & version,
+                            std::string & filename,
+                            long & extnum,
+                            const std::string & telescope="GLAST",
+                            const std::string & instrument="LAT",
+                            const std::string & filter="NONE",
+                            const std::string & date="-",
+                            const std::string & time="-");
 
 protected:
 
