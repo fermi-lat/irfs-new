@@ -49,7 +49,7 @@ protected:
    Glast25() {}
 
    Glast25(const std::string &filename, int hdu) 
-      : m_filename(filename), m_hdu(hdu) {}
+      : m_filename(filename), m_hdu(hdu + 1) {}
 
    std::string m_filename;
    int m_hdu;

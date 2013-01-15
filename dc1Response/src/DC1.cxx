@@ -34,13 +34,14 @@ DC1::DC1(const std::string &filename, bool havePars)
 }
 
 DC1::DC1(const std::string &filename, int hdu, int npars) 
-   : m_filename(filename), m_hdu(hdu), m_npars(npars), m_have_FITS_data(true) {
+   : m_filename(filename), m_hdu(hdu+1), m_npars(npars), 
+     m_have_FITS_data(true) {
    readGridBoundaries();
    readFitParams();
 }
 
 DC1::DC1(const std::string &filename, int hdu) 
-   : m_filename(filename), m_hdu(hdu), m_have_FITS_data(true) {
+   : m_filename(filename), m_hdu(hdu+1), m_have_FITS_data(true) {
 }
 
 DC1::DC1(const DC1 &rhs) {

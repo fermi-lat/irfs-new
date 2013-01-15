@@ -41,7 +41,7 @@ namespace g25Response {
 
 EdispGlast25::EdispGlast25(const std::string &filename, int hdu) 
    : m_haveEdisp(true), m_fracSig(0) {
-
+   hdu += 1;
    if (hdu < 2 || hdu > 4) {
       std::ostringstream errorMessage;
       errorMessage << "g25Response::EdispGlast25:\n"
