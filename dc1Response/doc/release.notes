@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ dc1Response-02-00-08 14-Jan-2013 jchiang handle cfitsio fencepost error
  dc1Response-02-00-07 10-Nov-2012 jchiang ensure setupEnvironment() is called exactly once via st_facilities::Environment
  dc1Response-02-00-06 12-Jul-2011 jchiang include by-pass in test program for GRBAnalysis builds
  dc1Response-02-00-05 24-Feb-2010    jrb fix linking for mac
