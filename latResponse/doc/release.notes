@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-03-00-00 14-Jan-2013 jchiang Handle multi-epoch IRFs using EpochDep classes
  latResponse-02-12-00 19-Dec-2012 jchiang refactor IrfLoader to enable epoch-dependent irfs; add EfficiencyFactorEpochDep
  latResponse-02-11-00 19-Dec-2012 jchiang interface changes to new epoch-dependent irfs
  latResponse-02-10-00 18-Dec-2012 jchiang EpochDep.h and associated epoch-dependent classes added
