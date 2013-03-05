@@ -2,6 +2,16 @@
 TAG
 Tag name: ScienceTools-09-31-02, operation: add
 Package: irfs
+User: jchiang  Tue Mar  5 09:40:03 2013
+Files:
+  irfs/cmt/requirements  1.35
+  irfs/doc/release.notes  1.31
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: ScienceTools-09-31-02, operation: add
+Package: irfs
 User: jchiang  Tue Mar  5 09:39:51 2013
 Files:
   irfs/.cvsignore  1.1.1.1
