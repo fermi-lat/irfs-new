@@ -7,6 +7,8 @@ $Header$
 #ifndef MYANALYSIS_H
 #define MYANALYSIS_H
 
+#include <map>
+
 #include "Root_base.h"
 
 // ROOT
@@ -46,7 +48,7 @@ public:
 
 private:
 
-    std::string  m_summary_filename;
+    std::string m_summary_filename;
     std::string m_cuts;
 
     //! the input file with the TTree
@@ -60,6 +62,12 @@ private:
     std::vector<std::string> m_files; ///< input file description (for TChain)
     std::vector<std::string> m_branchNames; ///< branches to keep in prune
 
+   /// Configure the merit tuple tree name via Data.tree_name variable in
+   /// the python setup file. Default is "MeritTuple".
+   std::string m_tree_name;
+
+   /// Allow for friend trees on a per file basis.
+   std::map<std::string, std::vector<std::string> > m_friend_tree_files;
 };
 
 #endif

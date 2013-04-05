@@ -17,14 +17,27 @@
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 MyAnalysis::MyAnalysis(embed_python::Module& py)
-:m_out(0)
+   : m_tree_name("MeritTuple"), m_out(0)
 {
     // get file information from input description 
     // first, file list
 
 
     py.getList("Data.files", m_files);
-    std::cout << "Reading from " << m_files.size() << " filelists" << std::endl;
+    std::cout << "Reading from " << m_files.size() 
+              << " filelists" << std::endl;
+    try {
+       py.getValue("Data.tree_name", m_tree_name);
+    } catch (std::invalid_argument &) {
+       // Use default value of "MeritTuple"
+    }
+    std::cout << "Using tree named " << m_tree_name << std::endl;
+
+    try {
+       py.getDict("Data.friends", m_friend_tree_files);
+    } catch (std::invalid_argument &) {
+       /// do nothing, leaving friend tree file list empty
+    }
 
     // then set of info
     py.getValue("Prune.cuts", m_cuts);
@@ -41,49 +54,93 @@ MyAnalysis::~MyAnalysis()
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void MyAnalysis::open_input_file()
-{
-    static std::string tree_name("MeritTuple");
-    std::cout << "Creating TChain(\"MeritTuple\") and adding files matching "
-        << m_summary_filename << std::endl;
+void MyAnalysis::open_input_file() {
+    std::cout << "Creating TChain(\""
+              << m_tree_name 
+              << "\") and adding files matching "
+              << m_summary_filename << std::endl;
 
-    m_input_tree = new TChain("MeritTuple");
+    m_input_tree = new TChain(m_tree_name.c_str());
     m_input_tree->SetMaxTreeSize(500000000000LL); // 500 gigs?
 
     // reprocessing the original file 
     m_input_tree->Add(m_summary_filename.c_str());
 
-
-    if( m_input_tree==0 || m_input_tree->GetEntries()==0) {
-        std::cerr << "Did not find tree \"" << tree_name << "\" in the input file" << std::endl;
-        throw "did not find the TTree";
+    if (m_input_tree==0) {
+       std::ostringstream message;
+       message << "MyAnalysis::open_input_file: "
+               << "Did not find tree " << m_tree_name 
+               << " in the input file";
+       throw std::runtime_error(message.str());
     }
-    std::cout << "Tree " << m_input_tree->GetTitle() 
-        << " has " << m_input_tree->GetEntries() << " entries." << std::endl;
 
-    m_tree= m_input_tree;
+    if (m_input_tree->GetEntries()==0) {
+       std::ostringstream message;
+       message << "MyAnalysis::open_input_file: "
+               << "Input tree " << m_tree_name 
+               << " from file " << m_summary_filename
+               << " has zero entries.";
+       throw std::runtime_error(message.str());
+    }
+
+    std::cout << "Tree " << m_input_tree->GetTitle() 
+              << " has " << m_input_tree->GetEntries() 
+              << " entries." << std::endl;
+
+    m_tree = m_input_tree;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void MyAnalysis::makeCutTree()
-{
-    static std::string tree_name("MeritTuple");
-    std::cout << "Creating TChain(\"MeritTuple\") from files" << std::endl;
+void MyAnalysis::makeCutTree() {
+    std::cout << "Creating TChain(\""
+              << m_tree_name 
+              << "\") from files:" << std::endl;
 
-    m_input_tree = new TChain(tree_name.c_str());
+    m_input_tree = new TChain(m_tree_name.c_str());
     m_input_tree->SetMaxTreeSize(500000000000LL); // 500 gigs?
 
-    for( std::vector<std::string>::const_iterator sit = m_files.begin(); sit!=m_files.end(); ++sit){
+    for (std::vector<std::string>::const_iterator sit = m_files.begin();
+         sit!=m_files.end(); ++sit){
         std::cout << "\t" << *sit << std::endl;
         m_input_tree->Add((*sit).c_str());
     }
+
+    if (!m_friend_tree_files.empty()) {
+       std::cout << "Creating friend TChains." << std::endl;
+       size_t nfriends(m_friend_tree_files.begin()->second.size());
+       /// Create TChains of friend trees.
+       std::map<std::string, TChain *> friend_chains;
+       for (size_t i(0); i < m_files.size(); i++) {
+          std::string & filename(m_files[i]);
+          friend_chains[filename] = new TChain(m_tree_name.c_str());
+          const std::vector<std::string> & 
+             friend_files(m_friend_tree_files[filename]);
+          if (nfriends != friend_files.size()) {
+             std::ostringstream message;
+             message << "Inconsistent number of friend files for input file "
+                     << filename;
+             throw std::runtime_error(message.str());
+          }
+          for (size_t j(0); j < friend_files.size(); j++) {
+             friend_chains[filename]->Add(friend_files[j].c_str());
+          }
+       }
+       /// Add each TChain as a friend of the corresponding main TChain.
+       std::map<std::string, TChain *>::const_iterator
+          it(friend_chains.begin());
+       for ( ; it != friend_chains.end(); ++it) {
+          m_input_tree->AddFriend(it->second);
+       }
+    }
+
     std::cout << "Copying cut tree, using cuts "<< m_cuts << std::endl;
-    if( !m_summary_filename.empty() ){
+    if (!m_summary_filename.empty()) {
         m_out = new TFile(m_summary_filename.c_str(), "recreate");
     }
 
     m_input_tree->SetBranchStatus("*", 0);
-    for(std::vector<std::string>::const_iterator i=m_branchNames.begin(); i!=m_branchNames.end(); ++i){
+    for (std::vector<std::string>::const_iterator i=m_branchNames.begin();
+         i!=m_branchNames.end(); ++i){
         m_input_tree->SetBranchStatus((*i).c_str(), 1);
     }
     m_tree = m_input_tree->CopyTree(m_cuts.c_str());

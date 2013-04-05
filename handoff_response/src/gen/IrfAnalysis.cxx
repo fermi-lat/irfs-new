@@ -33,6 +33,10 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,int set, embed_python::Module
 : MyAnalysis(py)
 , m_binner(py)  // initilize the binner
 , m_filename_root(output_folder+"/")
+, m_bestXDir("CTBBestXDir")
+, m_bestYDir("CTBBestYDir")
+, m_bestZDir("CTBBestZDir")
+, m_bestEnergy("CTBBestEnergy")
 , m_set(set)
 , m_setname( m_set==1? "front":"back")
 , m_outputfile(std::string(set==1? "front":"back")+".root")
@@ -48,6 +52,21 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,int set, embed_python::Module
     py.getValue("parameterFile", m_parameterFile);
 
     py.getValue("Data.generate_area", m_generate_area);
+
+    try {
+       py.getValue("Data.var_xdir", m_bestXDir);
+       py.getValue("Data.var_ydir", m_bestYDir);
+       py.getValue("Data.var_zdir", m_bestZDir);
+       py.getValue("Data.var_energy", m_bestEnergy);
+    } catch (std::invalid_argument &) {
+       /// These are missing, so use defaults.
+    }
+    std::cout << "Using variables "
+              << m_bestXDir << ", "
+              << m_bestYDir << ", "
+              << m_bestZDir << ", "
+              << m_bestEnergy << std::endl;
+
     std::vector<double> generated, logemins, logemaxes;
     py.getList("Data.generated", generated);
     py.getList("Data.logemin", logemins);
@@ -90,16 +109,13 @@ case 2: out() << "back events"; break;
     TreeWrapper mytree(&tree()); // sets current TTree
     TreeWrapper::Leaf // create TLeaf-wrappers from the current TTree 
         McEnergy("McEnergy")
-        , CTBBestEnergy("CTBBestEnergy")
-
+        , CTBBestEnergy(m_bestEnergy)
         , McXDir("McXDir")
         , McYDir("McYDir")
         , McZDir("McZDir")
-
-        , fitxdir("CTBBestXDir")
-        , fitydir("CTBBestYDir")
-        , fitzdir("CTBBestZDir")
-
+        , fitxdir(m_bestXDir)
+        , fitydir(m_bestYDir)
+        , fitzdir(m_bestZDir)
         , Tkr1FirstLayer("Tkr1FirstLayer")
         , EvtRun("EvtRun" ) // to count runs
         ;

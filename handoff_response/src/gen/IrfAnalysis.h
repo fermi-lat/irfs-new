@@ -90,6 +90,14 @@ private:
     double m_generate_area;
     std::string m_name;
     std::string m_filename_root;
+
+   /// Data members to allow configurable selection of merit variables
+   /// for reconstructed direction cosines and energy.
+   std::string m_bestXDir;
+   std::string m_bestYDir;
+   std::string m_bestZDir;
+   std::string m_bestEnergy;
+
     
     PsfPlots* m_psf;    ///< manage PSF plots
     DispPlots* m_disp; ///< manage energy dispersion plots
