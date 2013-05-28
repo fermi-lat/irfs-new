@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue May 28 08:15:09 PDT 2013
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+special handling for P7REP_TRANSIENT_V15_BACK irfs in test program
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-31-02, operation: add
 Package: latResponse
