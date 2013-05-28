@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon May 27 21:27:42 PDT 2013
+ScienceTools-scons/irfs/caldb/python
+
+Added Files:
+	fix_calib_keywords.py 
+Log Message:
+add script to correct EXTNAME value in irf files
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-31-02, operation: add
 Package: caldb
