@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon May 27 21:42:25 PDT 2013
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat
+
+Modified Files:
+	caldb.indx 
+Log Message:
+add P7REP_*_V15 irfs
+    *
+------------------------------------------------------------
 User: jchiang  Mon May 27 21:40:20 PDT 2013
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/psf
 
