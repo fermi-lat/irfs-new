@@ -2,6 +2,15 @@
 TAG
 Tag name: ScienceTools-09-32-03, operation: add
 Package: irfs
+User: heather  Fri Jun  7 08:34:14 2013
+Files:
+  irfs/cmt/requirements  1.35
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: ScienceTools-09-32-03, operation: add
+Package: irfs
 User: heather  Fri Jun  7 08:33:21 2013
 Files:
   irfs/.cvsignore  1.1.1.1
