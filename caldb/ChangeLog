@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Jul 19 08:53:23 PDT 2013
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat
+
+Modified Files:
+	caldb.indx 
+Log Message:
+re-check in correct version of caldb.indx (one that includes the P7_*V15 irfs
+    *
+------------------------------------------------------------
 User: jperkins  Fri Jun 28 13:45:33 PDT 2013
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat
 
