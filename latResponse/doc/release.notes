@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-03-00-02 02-Aug-2013 jchiang suppress const correctness warning
  latResponse-03-00-01 28-May-2013 jchiang pecial handling for P7REP_TRANSIENT_V15_BACK irfs in test program
  latResponse-03-00-00 14-Jan-2013 jchiang Handle multi-epoch IRFs using EpochDep classes
  latResponse-02-12-00 19-Dec-2012 jchiang refactor IrfLoader to enable epoch-dependent irfs; add EfficiencyFactorEpochDep
