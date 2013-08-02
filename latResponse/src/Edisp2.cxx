@@ -147,7 +147,7 @@ double Edisp2::scaleFactor(double logE, double costh) const {
 
 double * Edisp2::pars(double energy, double costh) const {
    if (!m_renormalized) {
-      renormalize();
+      const_cast<Edisp2 *>(this)->renormalize();
    }
    double loge(std::log10(energy));
    if (!IrfLoader::interpolate_edisp()) {
