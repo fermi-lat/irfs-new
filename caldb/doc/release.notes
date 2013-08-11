@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ caldb-05-01-01 10-Aug-2013 jchiang add bit mappings to irfs_index.fits for P7REP irfs
  caldb-05-01-00 27-May-2013 jchiang add P7REP_*_V15 irfs
  caldb-05-00-00 14-Jan-2013 jchiang Corrected CALDB boundary keywords in Pass7 and later files, updated caldb.indx accordingly
  caldb-04-03-00 17-Dec-2012 jchiang add P7REP irfs, version V10
