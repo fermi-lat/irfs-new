@@ -1,4 +1,18 @@
 ------------------------------------------------------------
+User: jchiang  Wed Aug 21 15:33:48 PDT 2013
+ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat/bcf/psf
+
+Added Files:
+	psf_P7REP_CLEAN_V15_back.fits psf_P7REP_CLEAN_V15_front.fits 
+	psf_P7REP_SOURCE_V15_back.fits psf_P7REP_SOURCE_V15_front.fits 
+	psf_P7REP_TRANSIENT_V15_back.fits 
+	psf_P7REP_TRANSIENT_V15_front.fits 
+	psf_P7REP_ULTRACLEAN_V15_back.fits 
+	psf_P7REP_ULTRACLEAN_V15_front.fits 
+Log Message:
+add P7REP_*_V15 irfs to irfs/caldb_release; update caldb.indx and irf_index.fits
+    *
+------------------------------------------------------------
 User: jchiang  Wed Aug 21 15:33:47 PDT 2013
 ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp
 
