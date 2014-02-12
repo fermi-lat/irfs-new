@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Feb 11 16:28:10 PST 2014
+ScienceTools-scons/irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+remove automatic partitioning into front and back sections; clean up and apply coding conventions
+    *
+------------------------------------------------------------
+User: jchiang  Tue Feb 11 16:28:10 PST 2014
 ScienceTools-scons/irfs/handoff_response/src/fits
 
 Modified Files:
