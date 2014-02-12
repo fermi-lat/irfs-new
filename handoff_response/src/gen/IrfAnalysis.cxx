@@ -198,8 +198,8 @@ void IrfAnalysis::fit(bool make_plots, std::string output_type) {
 }
 
 void IrfAnalysis::writeFitParameters(std::string outputFile) { 
-    // Create or update the new Root file.
-    TFile* file = new TFile(outputFile.c_str(), "UPDATE");
+   // Open the output file, overwriting any existing file.
+    TFile* file = new TFile(outputFile.c_str(), "RECREATE");
 
     // add directory if not already there
     TDirectory* td = file->mkdir((m_classname).c_str());
@@ -222,52 +222,3 @@ void IrfAnalysis::writeFitParameters(std::string outputFile) {
     current_time(out());
 }
 
-void IrfAnalysis::makeParameterTuple() {
-#if 0 ///@todo clean up this mess
-    TTree* tree = new TTree("parameters", "table of parameter values");
-
-    double entries;
-    //double  aeff;
-    double energy, anglebin;
-
-    tree->Branch("energy",   &energy,  "energy/D");
-    tree->Branch("anglebin", &anglebin,"anglebin/D");
-    tree->Branch("entries",  &entries, "entries/D"); 
-    //tree->Branch("aeff",     &aeff,    "aeff/D");
-
-    // make branches to store psf fit parameters
-    int psf_npars=PointSpreadFunction::npars();
-    std::vector<double> psf_params(psf_npars);
-    for( int i=0; i< psf_npars; ++i){
-        tree->Branch(PointSpreadFunction::parname(i),
-            &psf_params[i], (std::string(PointSpreadFunction::parname(i))+"/D").c_str());
-    }
-
-    // make branches to store dispersion fit parameters (except for normalization)
-    int disp_npars=Dispersion::npars();
-    std::vector<double> disp_params(disp_npars);
-
-    for( int i=0; i< disp_npars; ++i){
-        tree->Branch(Dispersion::parname(i),
-            &disp_params[i], (std::string(Dispersion::parname(i))+"/D").c_str());
-    }
-
-    // loop through the two sets of histograms, extracting info from each
-    int index(0);
-    DispPlots::DispList::const_iterator disp_it = m_disp->hists().begin();
-    PsfPlots::PSFlist::const_iterator psf_it = m_psf->hists().begin();
-    for( ; psf_it!=m_psf->hists().end();  ++psf_it, ++disp_it)   {
-
-        (*psf_it).getFitPars(psf_params);
-        (*disp_it).getFitPars(disp_params);
-        entries = (*psf_it).entries();
-        //  aeff = entries* aeff_per_event();
-        anglebin = index/IrfAnalysis::angle_bins;
-        energy = IrfAnalysis::eCenter(index++);
-
-        tree->Fill();
-    }
-    tree->Write();
-#endif
-
-}

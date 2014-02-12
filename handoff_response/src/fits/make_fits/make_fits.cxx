@@ -178,11 +178,16 @@ void MakeFits::createFitsFiles(const std::string & className,
    double edisp_front[] = {0.0210, 0.058, -0.207, -0.213, 0.042, 0.564};
    double edisp_back[] = {0.0215, 0.0507, -0.22, -0.243, 0.065, 0.584};
    
-   if (detname == "FRONT") {
-      scalingPars = std::vector<double>(edisp_front, edisp_front + 6);
-   } else { // BACK
-      scalingPars = std::vector<double>(edisp_back, edisp_back + 6);
-   }
+   // if (detname == "FRONT") {
+   //    scalingPars = std::vector<double>(edisp_front, edisp_front + 6);
+   // } else { // BACK
+   //    scalingPars = std::vector<double>(edisp_back, edisp_back + 6);
+   // }
+
+   /// @bug Since the forced front/back partitioning has been removed,
+   /// Dispersion::scaleFactor always uses the front parameters.
+   /// Therefore, only write the front parameters to the FITS file.
+   scalingPars = std::vector<double>(edisp_front, edisp_front + 6);
 
    /// @bug Append other hard-wired values from gen/Dispersion 
    // anonymous namespace:

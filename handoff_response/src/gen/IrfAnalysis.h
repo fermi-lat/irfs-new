@@ -92,7 +92,6 @@ public:
 protected:
 
    void project();
-   void makeParameterTuple();
 
 private:
 

@@ -101,9 +101,5 @@ class EffectiveAreaBins(Bins):
     angle_bin_edges = num.arange(Bins.angle_bins*anglebinfactor+1)*Bins.deltaCostheta/anglebinfactor+Bins.cthmin
 
 
-
-# where to write the output parameter tables - disable if null
-parameterFile = '../parameters.root'
-
 # the log file - to cout if null
 logFile = 'log.txt'

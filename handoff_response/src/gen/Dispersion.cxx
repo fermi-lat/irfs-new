@@ -129,11 +129,16 @@ double Dispersion::scaleFactor(double energy,double  zdir, bool thin)
 
   double vars[2]; vars[0]=::log10(energy); vars[1]=::fabs(zdir);
 
-  if( thin ){
-    return edisp_scale_func(vars,coef_thin); 
-  }else{
-    return edisp_scale_func(vars,coef_thick); 
-  }
+  /// *Always* return the front parameters since the front/back
+  /// infrastructure has been removed and makefits cannot infer
+  /// which scaling to write.  makefits will always write the front 
+  /// parameters.
+   return edisp_scale_func(vars,coef_thin); 
+  // if( thin ){
+  //   return edisp_scale_func(vars,coef_thin); 
+  // }else{
+  //   return edisp_scale_func(vars,coef_thick); 
+  // }
 }
 
 double Dispersion::function(double* delta, double* par) {
