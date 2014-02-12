@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Feb 12 11:26:13 PST 2014
+ScienceTools-scons/irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx IrfAnalysis.cxx IrfAnalysis.h Setup.cxx 
+Log Message:
+re-implement src/gen/Setup.cxx so that all info is passed via a setup module that is required to be provided at the command line; use front parameters for energy dispersion scaling in *all* cases since front/back forced partitioning has been removed; force users to specify parameterFile in the setup module
+    *
+------------------------------------------------------------
+User: jchiang  Wed Feb 12 11:26:13 PST 2014
 ScienceTools-scons/irfs/handoff_response/src/fits/make_fits
 
 Modified Files:
