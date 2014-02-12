@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 11 16:28:10 PST 2014
+ScienceTools-scons/irfs/handoff_response/handoff_response
+
+Modified Files:
+	IrfEval.h 
+Log Message:
+remove automatic partitioning into front and back sections; clean up and apply coding conventions
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 11 16:28:09 PST 2014
 ScienceTools-scons/irfs/handoff_response
 
