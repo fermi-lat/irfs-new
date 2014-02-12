@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Tue Feb 11 16:39:30 PST 2014
+ScienceTools-scons/irfs/handoff_response/src/gen/makeirf
+
+Added Files:
+	makeirf.cxx 
+Removed Files:
+	irf.cxx 
+Log Message:
+use application name for .cxx source file name
+    *
+------------------------------------------------------------
 User: jchiang  Tue Feb 11 16:28:10 PST 2014
 ScienceTools-scons/irfs/handoff_response/src/irfs
 
