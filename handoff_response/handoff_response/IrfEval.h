@@ -14,7 +14,6 @@ namespace handoff_response {
 /** @class IrfEval
     @brief Evaluate the functions
 
-
 */
 class IrfEval {
 public:
@@ -58,9 +57,17 @@ public:
     */
     virtual double dispersion(double emeas, double energy, double theta=0, double phi=0)=0;
 
-    const std::string& eventClass()const{return m_type;}
+   const std::string & eventClass() const {
+      return m_type;
+   }
 
-    bool isFront()const{return m_front;}
+   void setFront(bool is_front) {
+      m_front = is_front;
+   }
+
+   bool isFront() const {
+      return m_front;
+   }
 
 protected:
 
@@ -72,8 +79,6 @@ private:
     std::string m_type;
 
     bool m_front;
-
-
 
 };
 

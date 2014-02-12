@@ -1,5 +1,6 @@
-/** @file MyAnalysis.cxx
-*/
+/** 
+ * @file MyAnalysis.cxx
+ */
 #include "MyAnalysis.h"
 #include "TreeWrapper.h"
 
@@ -14,83 +15,76 @@
 #include <stdexcept>
 #include "embed_python/Module.h"
 
-
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 MyAnalysis::MyAnalysis(embed_python::Module& py)
-   : m_tree_name("MeritTuple"), m_out(0)
-{
-    // get file information from input description 
-    // first, file list
+   : m_tree_name("MeritTuple"), m_out(0) {
+   // get file information from input description 
+   // first, file list
+   
+   py.getList("Data.files", m_files);
+   std::cout << "Reading from " << m_files.size() 
+             << " filelists" << std::endl;
+   try {
+      py.getValue("Data.tree_name", m_tree_name);
+   } catch (std::invalid_argument &) {
+      // Use default value of "MeritTuple"
+   }
+   std::cout << "Using tree named " << m_tree_name << std::endl;
 
+   try {
+      py.getDict("Data.friends", m_friend_tree_files);
+   } catch (std::invalid_argument &) {
+      /// do nothing, leaving friend tree file list empty
+   }
 
-    py.getList("Data.files", m_files);
-    std::cout << "Reading from " << m_files.size() 
-              << " filelists" << std::endl;
-    try {
-       py.getValue("Data.tree_name", m_tree_name);
-    } catch (std::invalid_argument &) {
-       // Use default value of "MeritTuple"
-    }
-    std::cout << "Using tree named " << m_tree_name << std::endl;
+   // then set of info
+   py.getValue("Prune.cuts", m_cuts);
+   py.getValue("Prune.fileName", m_summary_filename);
+   py.getList("Prune.branchNames", m_branchNames);
 
-    try {
-       py.getDict("Data.friends", m_friend_tree_files);
-    } catch (std::invalid_argument &) {
-       /// do nothing, leaving friend tree file list empty
-    }
-
-    // then set of info
-    py.getValue("Prune.cuts", m_cuts);
-    py.getValue("Prune.fileName", m_summary_filename);
-    py.getList("Prune.branchNames", m_branchNames);
-
-    current_time();
-}
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-MyAnalysis::~MyAnalysis()
-{
-    current_time();
-    delete m_out;
+   current_time();
 }
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MyAnalysis::~MyAnalysis() {
+   current_time();
+   delete m_out;
+}
+
 void MyAnalysis::open_input_file() {
-    std::cout << "Creating TChain(\""
-              << m_tree_name 
-              << "\") and adding files matching "
-              << m_summary_filename << std::endl;
+   std::cout << "Creating TChain(\""
+             << m_tree_name 
+             << "\") and adding files matching "
+             << m_summary_filename << std::endl;
 
-    m_input_tree = new TChain(m_tree_name.c_str());
-    m_input_tree->SetMaxTreeSize(500000000000LL); // 500 gigs?
+   m_input_tree = new TChain(m_tree_name.c_str());
+   m_input_tree->SetMaxTreeSize(500000000000LL); // 500 gigs?
 
-    // reprocessing the original file 
-    m_input_tree->Add(m_summary_filename.c_str());
+   // reprocessing the original file 
+   m_input_tree->Add(m_summary_filename.c_str());
 
-    if (m_input_tree==0) {
-       std::ostringstream message;
-       message << "MyAnalysis::open_input_file: "
-               << "Did not find tree " << m_tree_name 
-               << " in the input file";
-       throw std::runtime_error(message.str());
-    }
+   if (m_input_tree==0) {
+      std::ostringstream message;
+      message << "MyAnalysis::open_input_file: "
+              << "Did not find tree " << m_tree_name 
+              << " in the input file";
+      throw std::runtime_error(message.str());
+   }
 
-    if (m_input_tree->GetEntries()==0) {
-       std::ostringstream message;
-       message << "MyAnalysis::open_input_file: "
-               << "Input tree " << m_tree_name 
-               << " from file " << m_summary_filename
-               << " has zero entries.";
-       throw std::runtime_error(message.str());
-    }
+   if (m_input_tree->GetEntries()==0) {
+      std::ostringstream message;
+      message << "MyAnalysis::open_input_file: "
+              << "Input tree " << m_tree_name 
+              << " from file " << m_summary_filename
+              << " has zero entries.";
+      throw std::runtime_error(message.str());
+   }
+   
+   std::cout << "Tree " << m_input_tree->GetTitle() 
+             << " has " << m_input_tree->GetEntries() 
+             << " entries." << std::endl;
 
-    std::cout << "Tree " << m_input_tree->GetTitle() 
-              << " has " << m_input_tree->GetEntries() 
-              << " entries." << std::endl;
-
-    m_tree = m_input_tree;
+   m_tree = m_input_tree;
 }
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void MyAnalysis::makeCutTree() {
     std::cout << "Creating TChain(\""
               << m_tree_name 

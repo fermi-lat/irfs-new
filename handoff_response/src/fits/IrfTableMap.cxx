@@ -32,14 +32,10 @@ IrfTableMap::IrfTableMap(const std::string & irfTables,
 
    TDirectory * irfs = 
       dynamic_cast<TDirectory *>(rootfile->Get(tokens.at(0).c_str()));
-   TDirectory * section = 
-      dynamic_cast<TDirectory *>(irfs->Get(tokens.at(1).c_str()));
-
-   readTableNames(section);
+   readTableNames(irfs);
 
    for (size_t i = 0; i < m_keys.size(); i++) {
-      TH2F * table =
-         dynamic_cast<TH2F *>(section->Get(m_keys.at(i).c_str()));
+      TH2F * table = dynamic_cast<TH2F *>(irfs->Get(m_keys.at(i).c_str()));
       m_tables[m_keys.at(i)] = IrfTable(table);
    }
    delete rootfile;

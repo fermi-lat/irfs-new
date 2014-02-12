@@ -62,10 +62,6 @@ private:
 
    static std::string s_cvs_id;
 
-   void parseName(const std::string & rootClassName,
-                  std::string & className, 
-                  std::string & section);
-
    void createFitsFiles(const std::string & rootClassName,
                         const std::string & rootfile);
 
@@ -90,37 +86,18 @@ std::string MakeFits::par(const std::string & key) const {
    return value;
 }
 
-void MakeFits::parseName(const std::string & rootClassName,
-                         std::string & className, 
-                         std::string & section) {
-   std::vector<std::string> tokens;
-   facilities::Util::stringTokenize(rootClassName, "/", tokens);
-   className = tokens.at(0);
-   section = tokens.at(1);
-}
-
-void MakeFits::createFitsFiles(const std::string & rootClassName,
+void MakeFits::createFitsFiles(const std::string & className,
                                const std::string & rootfile) {
    using handoff_response::IrfTableMap;
    using handoff_response::FitsFile;
 
    bool newFile;
 
-   std::string className, section;
-   parseName(rootClassName, className, section);
-   IrfTableMap irfTables(className + "::" + section, rootfile);
+   IrfTableMap irfTables(className, rootfile);
    std::string irfVersion(par("IRF_version"));
-   std::string latclass(className + "_" + section);
-   std::string detname;
-   if (rootClassName.find("front") != std::string::npos) {
-      detname = "FRONT";
-   } else if (rootClassName.find("back") != std::string::npos) {
-      detname = "BACK";
-   } else {
-      throw std::runtime_error("Unrecognized detector name in class "
-                               + rootClassName);
-   }
-      
+   std::string latclass(className);
+   std::string detname("LAT");
+
 // Effective area
    FitsFile aeff("aeff_" + latclass + ".fits", "EFFECTIVE AREA", "aeff.tpl");
    aeff.setGrid(irfTables["aeff"]);
