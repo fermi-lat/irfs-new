@@ -22,6 +22,7 @@ namespace irfInterface {
  *
  * @author J. Chiang
  *    
+ * $Header$
  */
 
 class IAeff {

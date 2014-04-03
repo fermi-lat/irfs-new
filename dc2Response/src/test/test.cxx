@@ -7,9 +7,7 @@
  */
 
 #include <cmath>
-#include <cstdlib>
 #include <iostream>
-#include "st_facilities/Environment.h"
 #include "irfInterface/IrfsFactory.h"
 #include "dc2Response/loadIrfs.h"
 
@@ -35,30 +33,24 @@ void checkPsf(irfInterface::Irfs * irf, float energy, float theta, float phi) {
    Integral*=M_PI/180.;//remormalize step in the integration above
    Integral*=2*M_PI;//No dependance on phi
    std::cout<<"Integral from 0 to 50 degrees : "<<Integral<<std::endl;
-}
+};
 
 int main(int argc, char* argv[]) {
-   st_facilities::Environment::instance();
-   if (!std::getenv("CALDB")) {
-      std::cout << "CALDB not set, exiting." << std::endl;
-      std::exit(0);
-   }
-
-   float energy = 1000.;            //MeV
-   float theta = 0.*M_PI/180.;
-   float phi = 0.*M_PI/180.;  
+   float energy=1000.;//MeV
+   float theta=0.*M_PI/180.;
+   float phi=0.*M_PI/180.;  
    switch (argc){
    case 2 :
-      energy = std::atof(argv[1]);
+      energy=std::atof(argv[1]);
       break;
    case 3 :
-      energy = std::atof(argv[1]);
-      theta = std::atof(argv[2])*M_PI/180.;
+      energy=std::atof(argv[1]);
+      theta=std::atof(argv[2])*M_PI/180.;
       break;
    case 4 :
-      energy = std::atof(argv[1]);
-      theta = std::atof(argv[2])*M_PI/180.;
-      phi = std::atof(argv[3])*M_PI/180.;
+      energy=std::atof(argv[1]);
+      theta=std::atof(argv[2])*M_PI/180.;
+      phi=std::atof(argv[3])*M_PI/180.;
       break;
    default :
       break;

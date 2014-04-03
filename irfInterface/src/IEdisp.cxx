@@ -43,8 +43,6 @@ double IEdisp::appEnergy(double energy,
    double emin(energy/10.);
    double emax(energy*10.);
    size_t nee(200);
-//    size_t nee(1000);
-//    size_t nee(2000);
    std::vector<double> energies;
    ::fill_energies(emin, emax, nee, energies);
    
@@ -86,17 +84,7 @@ double IEdisp::integral(double emin, double emax, double energy,
 double IEdisp::integral(double emin, double emax, double energy,
                         double theta, double phi, double time) const {
    EdispIntegrand func(*this, energy, theta, phi, time);
-   double value(0);
-   try {
-      value = adhocIntegrator(func, emin, emax);
-   } catch (st_facilities::GaussianQuadrature::dgaus8Exception & eObj) {
-      if (energy/emin < 1e-3 || energy/emax > 1e3) {
-         value = 0;
-      } else {
-         throw;
-      }
-   }
-   return value;
+   return adhocIntegrator(func, emin, emax);
 }
 
 double IEdisp::meanAppEnergy(double energy,
@@ -168,12 +156,7 @@ double IEdisp::meanTrueEnergy(double appEnergy, double theta, double phi,
 double IEdisp::adhocIntegrator(const EdispIntegrand & func, 
                                double emin, double emax) const {
    double err(1e-7);
-   double integral(0);
-   try {
-      integral = accuracyKluge(func, emin, emax, err);
-   } catch(st_facilities::GaussianQuadrature::dgaus8Exception & eObj) {
-      integral = 0;
-   }
+   double integral = accuracyKluge(func, emin, emax, err);
    if (integral == 0) {
       emin = std::max(emin, 1e-5);
       size_t npts(4);
@@ -181,7 +164,7 @@ double IEdisp::adhocIntegrator(const EdispIntegrand & func,
       double e0(emin);
       double e1(emin*efactor);
       for (size_t i(0); i < npts; i++) {
-         integral += accuracyKluge(func, e0, e1, err);
+         integral += accuracyKluge(func, emin, emax, err);
          e0 *= efactor;
          e1 *= efactor;
       }
