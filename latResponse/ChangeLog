@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: heather  Tue Apr  8 15:31:27 PDT 2014
+irfs/latResponse
+
+Modified Files:
+	SConscript 
+Log Message:
+fix SConscript version
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-03-00-03, operation: add
 Package: latResponse
