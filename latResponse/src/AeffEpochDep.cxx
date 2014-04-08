@@ -69,7 +69,7 @@ double AeffEpochDep::upperLimit() const {
 void AeffEpochDep::addAeff(const irfInterface::IAeff & aeff,
                            double epoch_start) {
    appendEpoch(epoch_start);
-   m_aeffs.push_back(aeff.clone());
+   m_aeffs.push_back(const_cast<irfInterface::IAeff &>(aeff).clone());
    if (aeff.upperLimit() > m_upperLimit) {
       m_upperLimit = aeff.upperLimit();
    }

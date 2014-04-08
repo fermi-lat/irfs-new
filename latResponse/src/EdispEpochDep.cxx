@@ -60,7 +60,7 @@ double EdispEpochDep::value(double appEnergy, double energy,
 void EdispEpochDep::addEdisp(const irfInterface::IEdisp & edisp,
                              double epoch_start) {
    appendEpoch(epoch_start);
-   m_edisps.push_back(edisp.clone());
+   m_edisps.push_back(const_cast<irfInterface::IEdisp &>(edisp).clone());
 }
 
 } // namespace latResponse

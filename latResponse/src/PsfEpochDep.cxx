@@ -81,7 +81,7 @@ angularIntegral(double energy, double theta, double phi,
 void PsfEpochDep::addPsf(const irfInterface::IPsf & psf,
                          double epoch_start) {
    appendEpoch(epoch_start);
-   m_psfs.push_back(psf.clone());
+   m_psfs.push_back(const_cast<irfInterface::IPsf &>(psf).clone());
 }
 
 } // namespace latResponse
