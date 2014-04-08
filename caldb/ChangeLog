@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: heather  Tue Apr  8 15:26:12 PDT 2014
+irfs/caldb
+
+Modified Files:
+	SConscript 
+Log Message:
+fix SConscript version
+    *
+------------------------------------------------------------
 User: glastrm  Thu Apr  3 14:31:36 PDT 2014
 irfs/caldb
 
