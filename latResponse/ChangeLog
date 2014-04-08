@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr  8 09:47:27 PDT 2014
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	AeffEpochDep.cxx EdispEpochDep.cxx PsfEpochDep.cxx 
+Log Message:
+const correctness workaround
+    *
+------------------------------------------------------------
 User: glastrm  Thu Apr  3 14:32:01 PDT 2014
 irfs/latResponse
 
