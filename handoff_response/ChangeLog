@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: rando  Fri May 16 00:51:05 PDT 2014
+ScienceTools-scons/irfs/handoff_response/src/gen
+
+Modified Files:
+	IrfAnalysis.cxx 
+Log Message:
+calculation of angular deviation is now exact
+
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-33-01, operation: add
 Package: handoff_response
