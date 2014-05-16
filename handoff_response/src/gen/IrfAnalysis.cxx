@@ -148,15 +148,23 @@ void IrfAnalysis::project() {
       // calculate theta, phi components of the error
       HepGeom::Vector3D<double>
          mc_dir(McXDir, McYDir, McZDir), 
-         fit_dir(fitxdir, fitydir, fitzdir),
-         mc_error(mc_dir - fit_dir),
-         zhat(0, 0, 1),
-         phi_hat = zhat.cross(mc_dir).unit(),
-         theta_hat = phi_hat.cross(mc_dir).unit();
+	fit_dir(fitxdir, fitydir, fitzdir);
 
-      double phi_err = mc_error*phi_hat,
-         theta_err = mc_error*theta_hat,
-         diff = sqrt(sqr(theta_err) + sqr(phi_err));
+      /*	
+	//Approximated version to check theta- and phi- projections
+	HepGeom::Vector3D<double>
+	mc_error(mc_dir - fit_dir),
+	zhat(0, 0, 1),
+	phi_hat = zhat.cross(mc_dir).unit(),
+	theta_hat = phi_hat.cross(mc_dir).unit();
+
+	double phi_err = mc_error*phi_hat,
+	theta_err = mc_error*theta_hat,
+	diff = sqrt(sqr(theta_err) + sqr(phi_err));
+      */
+
+      //exact version
+      double diff=mc_dir.angle(fit_dir);
       
       // choose one of the following
       double measured_energy = CTBBestEnergy, 
