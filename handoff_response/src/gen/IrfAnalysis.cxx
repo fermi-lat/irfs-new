@@ -36,7 +36,8 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,
      m_bestXDir("CTBBestXDir"),
      m_bestYDir("CTBBestYDir"),
      m_bestZDir("CTBBestZDir"),
-     m_bestEnergy("CTBBestEnergy") {
+     m_bestEnergy("CTBBestEnergy"),
+     m_front_only_psf_scaling(false) {
    std::string logfile;
    std::string selectionName;
 
@@ -70,6 +71,20 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,
              << m_bestYDir << ", "
              << m_bestZDir << ", "
              << m_bestEnergy << std::endl;
+
+   try {
+      int front_only;
+      py.getValue("Data.front_only_psf_scaling", front_only);
+      if (front_only) {
+         m_front_only_psf_scaling = true;
+         std::cout << "Using front psf scaling for all events (front and back)"
+                   << std::endl;
+      } else {
+         m_front_only_psf_scaling = false;
+      }
+   } catch (std::invalid_argument &) {
+      /// use default of false
+   }
 
    std::vector<double> generated, logemins, logemaxes;
    py.getList("Data.generated", generated);
@@ -172,7 +187,7 @@ void IrfAnalysis::project() {
          //ratio =measured_energy/mc_energy,
          dsp = measured_energy/mc_energy - 1;
 
-      m_psf->fill(diff, McEnergy, McZDir, front);
+      m_psf->fill(diff, McEnergy, McZDir, front || m_front_only_psf_scaling);
       m_disp->fill(dsp, McEnergy, McZDir, front);
       m_aeff->fill(mc_energy, McZDir, front, total);
       m_phi_dep->fill(McXDir, McYDir, McEnergy, McZDir);

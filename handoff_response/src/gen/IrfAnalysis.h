@@ -114,6 +114,10 @@ private:
    EffectiveArea* m_aeff;
    AeffPhiDep * m_phi_dep;
 
+   // Flag to indicate that front scaling for PSF shall be used
+   // for both front and back events.
+   bool m_front_only_psf_scaling;
+
    std::ostream * m_log;
    /// event class, derived from folder name
    std::string m_classname; 
