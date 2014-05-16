@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri May 16 09:57:24 PDT 2014
+ScienceTools-scons/irfs/handoff_response/src/gen
+
+Modified Files:
+	IrfAnalysis.cxx IrfAnalysis.h 
+Log Message:
+add option to use just the front psf scaling factor for all events
+    *
+------------------------------------------------------------
 User: rando  Fri May 16 00:51:05 PDT 2014
 ScienceTools-scons/irfs/handoff_response/src/gen
 
