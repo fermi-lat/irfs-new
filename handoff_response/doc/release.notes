@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ handoff_response-05-01-00 16-May-2014 jchiang add option to use just the front psf scaling factor for all events
  handoff_response-05-00-00 12-Feb-2014 jchiang remove front/back forced partitioning to support event types in Pass 8; rationalize user interface somewhat
  handoff_response-04-06-00 05-Apr-2013 jchiang enable specification of friend trees and reconstructed direction and energy variables in setup.py as input to prune and makeirf
  handoff_response-04-05-07 10-Nov-2012 jchiang ensure setupEnvironment() is called exactly once via st_facilities::Environment
