@@ -53,28 +53,58 @@ astro::SkyDir IPsf::appDir(double energy,
    static double phi(0);
    setStaticVariables(energy, theta, phi, time, this);
 
-// Form cumlative distribution in psi (polar angle from source direction)
-   std::vector<double> integrand;
-   for (std::vector<double>::iterator psi(s_psi_values.begin());
-        psi != s_psi_values.end(); ++psi) {
-      integrand.push_back(coneIntegrand(&(*psi)));
-   }
+   // Draw offset angle.
+   double psi;
+   if (::getenv("USE_OLD_IPSF_SAMPLER")) {
+      // Form cumlative distribution in psi (polar angle from source direction)
+      std::vector<double> integrand;
+      for (std::vector<double>::iterator psi(s_psi_values.begin());
+           psi != s_psi_values.end(); ++psi) {
+         integrand.push_back(coneIntegrand(&(*psi)));
+      }
 
-   std::vector<double> integralDist;
-   integralDist.push_back(0);
-   for (size_t i = 1; i < s_psi_values.size(); i++) {
-      integralDist.push_back(integralDist.at(i-1) + 
-                             (integrand.at(i) + integrand.at(i-1))/2.
-                             *(s_psi_values.at(i) - s_psi_values.at(i-1)));
-   }
+      std::vector<double> integralDist;
+      integralDist.push_back(0);
+      for (size_t i = 1; i < s_psi_values.size(); i++) {
+         integralDist.push_back(integralDist.at(i-1) + 
+                                (integrand.at(i) + integrand.at(i-1))/2.
+                                *(s_psi_values.at(i) - s_psi_values.at(i-1)));
+      }
    
-   double xi(CLHEP::RandFlat::shoot()*integralDist.back());
-   size_t indx = std::upper_bound(integralDist.begin(), integralDist.end(), xi)
-      - integralDist.begin() - 1;
-   double psi( (xi - integralDist.at(indx))
-               /(integralDist.at(indx+1) - integralDist.at(indx))
-               *(s_psi_values.at(indx+1) - s_psi_values.at(indx))
-               + s_psi_values.at(indx));
+      double xi(CLHEP::RandFlat::shoot()*integralDist.back());
+      size_t indx(std::upper_bound(integralDist.begin(), integralDist.end(), xi)
+                  - integralDist.begin() - 1);
+      psi = ((xi - integralDist.at(indx))
+             /(integralDist.at(indx+1) - integralDist.at(indx))
+             *(s_psi_values.at(indx+1) - s_psi_values.at(indx))
+             + s_psi_values.at(indx));
+   } else {
+      const std::vector<double> & xx(s_psi_values);
+      std::vector<double> yy;
+      std::vector<double> aa;
+      std::vector<double> bb;
+      yy.push_back(coneIntegrand(&s_psi_values[0]));
+      std::vector<double> integralDist;
+      integralDist.push_back(0);
+      for (size_t i(1); i < s_psi_values.size(); i++) {
+         yy.push_back(coneIntegrand(&s_psi_values[i]));
+         aa.push_back((yy[i] - yy[i-1])/(xx[i] - xx[i-1]));
+         bb.push_back(yy[i-1] - xx[i-1]*aa.back());
+         double value(integralDist.back()
+                      + aa.back()*(xx[i]*xx[i] - xx[i-1]*xx[i-1])/2. 
+                      + bb.back()*(xx[i] - xx[i-1]));
+         integralDist.push_back(value);
+      }
+      double xi(CLHEP::RandFlat::shoot()*integralDist.back());
+      size_t indx(std::upper_bound(integralDist.begin(), integralDist.end(), xi)
+                  - integralDist.begin() - 1);
+      double AA(aa[indx]/2.);
+      double BB(bb[indx]);
+      double CC(integralDist[indx] - xi 
+                - aa[indx]*xx[indx]*xx[indx]/2. - bb[indx]*xx[indx]);
+      psi = (std::sqrt(BB*BB - 4.*AA*CC) - BB)/2./AA;
+   }
+      
    double azimuth(2.*M_PI*CLHEP::RandFlat::shoot());
    
    astro::SkyDir appDir(srcDir);
@@ -97,8 +127,9 @@ double IPsf::angularIntegral(double energy, double theta,
    double err(1e-5);
    long ierr(0);
    double zero(0);
-   integral = st_facilities::GaussianQuadrature::integrate(&coneIntegrand, zero, radius,
-                                               err, ierr);
+   integral = st_facilities::GaussianQuadrature::integrate(&coneIntegrand,
+                                                           zero, radius,
+                                                           err, ierr);
    return integral;
 }
 
