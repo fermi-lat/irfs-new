@@ -103,6 +103,7 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,
       // Use defaults.
    }
    try {
+      edisp_pars.clear();
       py.getList("Edisp.back_pars", edisp_pars);
       edisp_back = edisp_pars;
    } catch (std::invalid_argument &) {
@@ -123,19 +124,6 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,
    }
    std::cout << std::endl;
 
-   try {
-      int front_only;
-      py.getValue("Data.front_only_psf_scaling", front_only);
-      if (front_only) {
-         m_front_only_psf_scaling = true;
-         std::cout << "Using front psf scaling for all events (front and back)"
-                   << std::endl;
-      } else {
-         m_front_only_psf_scaling = false;
-      }
-   } catch (std::invalid_argument &) {
-      /// use default of false
-   }
 
    std::vector<double> generated, logemins, logemaxes;
    py.getList("Data.generated", generated);
