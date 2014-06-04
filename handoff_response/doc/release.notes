@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ handoff_response-05-02-01 04-Jun-2014 jchiang bug-fix: clear edisp_pars first before reading in edisp_back params
  handoff_response-05-02-00 04-Jun-2014 jchiang allow users to set scaling function parameters for PSF and edisp via setup.py and propagate to FITS output via root parameter file
  handoff_response-05-01-00 16-May-2014 jchiang add option to use just the front psf scaling factor for all events
  handoff_response-05-00-00 12-Feb-2014 jchiang remove front/back forced partitioning to support event types in Pass 8; rationalize user interface somewhat
