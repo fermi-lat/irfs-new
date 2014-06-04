@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jun  4 12:34:33 PDT 2014
+ScienceTools-scons/irfs/handoff_response/src/irfs
+
+Modified Files:
+	Psf.cxx 
+Log Message:
+allow users to configure PSF and edisp scaling parameters from setup.py and propagate to FITS output via parameter file
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jun  4 12:34:33 PDT 2014
 ScienceTools-scons/irfs/handoff_response/src/gen
 
 Modified Files:
