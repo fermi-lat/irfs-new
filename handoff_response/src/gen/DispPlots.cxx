@@ -169,7 +169,26 @@ void DispPlots::fillParameterTables()
 
     }
 
+    // Write scaleFactor parameter values
+    std::vector<double> front_pars, back_pars;
+    std::vector<float> index_values;
+    Dispersion::getScaleFactorParameters(front_pars, back_pars);
+    // fill lower bin edges with index values
+    size_t nbins(front_pars.size() + back_pars.size());
+    for (size_t i(0); i < nbins; i++) {
+       index_values.push_back(static_cast<float>(i));
+    }
+    std::string histname("edisp_scaling_params");
+    TH1F * h1 = new TH1F(histname.c_str(), 
+                         (histname + ";index").c_str(),
+                         nbins, &index_values[0]);
+    for (size_t i(0); i < front_pars.size(); i++) {
+       h1->SetBinContent(i, front_pars[i]);
+    }
+    for (size_t i(0); i < back_pars.size(); i++) {
+       size_t index(front_pars.size() + i);
+       h1->SetBinContent(index, back_pars[i]);
+    }
+    h1->GetXaxis()->CenterTitle();
+    h1->Write();
 }
-
-
-

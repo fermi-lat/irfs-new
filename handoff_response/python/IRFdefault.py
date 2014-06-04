@@ -100,6 +100,11 @@ class EffectiveAreaBins(Bins):
     anglebinfactor=4 # bins multiplier
     angle_bin_edges = num.arange(Bins.angle_bins*anglebinfactor+1)*Bins.deltaCostheta/anglebinfactor+Bins.cthmin
 
+class PSF(object):
+    pass
+
+class Edisp(object):
+    pass
 
 # the log file - to cout if null
 logFile = 'log.txt'

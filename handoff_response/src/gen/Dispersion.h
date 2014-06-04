@@ -42,6 +42,14 @@ public:
 
     /// scale factor to apply to data
     static double scaleFactor(double energy, double zdir, bool front);
+   
+   /// Set the scale factor parameters
+   static void setScaleFactorParameters(const std::vector<double> & edisp_front,
+                                        const std::vector<double> & edisp_back);
+
+   /// Get the scale factor parameters
+   static void getScaleFactorParameters(std::vector<double> & edisp_front,
+                                        std::vector<double> & edisp_back);
 
     /// access to the function itself
     static double function(double* delta, double* par);
@@ -67,6 +75,9 @@ private:
 
     double m_quant[2]; // for 68,95% quantiles
     double m_tail;     // fraction in tail beyond fit range
+
+   static double s_coef_thin[6];
+   static double s_coef_thick[6];
 
     void reorder_parameters();
     void setFitPars(double * pars, double * pmin, double * pmax);

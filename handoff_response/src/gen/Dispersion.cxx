@@ -14,6 +14,7 @@ $Header$
 
 #include <cmath>
 #include <iomanip>
+#include <stdexcept>
 
 namespace {
     // histogram parameters
@@ -59,6 +60,13 @@ namespace {
   }
   
 }// anon namespace
+
+// following numbers determined empirically to roughly 
+// make the 68% containment radius be 1.0 independent of energy
+double Dispersion::s_coef_thin[6] = {0.0210, 0.058, -0.207,
+                                     -0.213, 0.042, 0.564};
+double Dispersion::s_coef_thick[6] = {0.0215, 0.0507, -0.22,
+                                      -0.243, 0.065, 0.584};
 
 // External versions.
 
@@ -119,8 +127,8 @@ double Dispersion::scaleFactor(double energy,double  zdir, bool thin)
   //use a TFunction so that all this stuff could be read from fits file
 
    
-  static double coef_thin[] ={0.0210,0.058,-0.207,-0.213,0.042,0.564};
-  static double coef_thick[]={0.0215,0.0507,-0.22,-0.243,0.065,0.584};
+  // static double coef_thin[] ={0.0210,0.058,-0.207,-0.213,0.042,0.564};
+  // static double coef_thick[]={0.0215,0.0507,-0.22,-0.243,0.065,0.584};
   
   //x is McLogEnergy, y is fabs(McZDir)
   static const char funcdef[]="[0]*x*x+[1]*y*y + [2]*x + [3]*y + [4]*x*y + [5]";
@@ -129,16 +137,36 @@ double Dispersion::scaleFactor(double energy,double  zdir, bool thin)
 
   double vars[2]; vars[0]=::log10(energy); vars[1]=::fabs(zdir);
 
-  /// *Always* return the front parameters since the front/back
-  /// infrastructure has been removed and makefits cannot infer
-  /// which scaling to write.  makefits will always write the front 
-  /// parameters.
-   return edisp_scale_func(vars,coef_thin); 
-  // if( thin ){
-  //   return edisp_scale_func(vars,coef_thin); 
-  // }else{
-  //   return edisp_scale_func(vars,coef_thick); 
-  // }
+  if( thin ){
+    return edisp_scale_func(vars,s_coef_thin); 
+  }else{
+    return edisp_scale_func(vars,s_coef_thick); 
+  }
+}
+
+void Dispersion::
+setScaleFactorParameters(const std::vector<double> & edisp_front,
+                         const std::vector<double> & edisp_back) {
+   if (edisp_front.size() != 6 || edisp_back.size() !=6) {
+      throw std::runtime_error("Dispersion::setScaleFactorParameters:\n"
+                               "each of edisp_[front,back] must have "
+                               "exactly 6 values.");
+   }
+   for (size_t i(0); i < edisp_front.size(); i++) {
+      s_coef_thin[i] = edisp_front[i];
+      s_coef_thick[i] = edisp_back[i];
+   }
+}
+
+void Dispersion::
+getScaleFactorParameters(std::vector<double> & edisp_front,
+                         std::vector<double> & edisp_back) {
+   edisp_front.clear();
+   edisp_back.clear();
+   for (size_t i(0); i < 6; i++) {
+      edisp_front.push_back(s_coef_thin[i]);
+      edisp_back.push_back(s_coef_thick[i]);
+   }
 }
 
 double Dispersion::function(double* delta, double* par) {

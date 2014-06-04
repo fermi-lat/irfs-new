@@ -65,7 +65,7 @@ void PsfPlots::fill(double angle_diff, double energy, double costheta, bool fron
     int e_bin = binner().energy_bin(energy);        if( e_bin<0 || e_bin>= binner().energy_bins() )return;
 
 //     int id =  binner().ident(e_bin, z_bin);
-    double scaled_delta =angle_diff/PointSpreadFunction::scaleFactor(energy, costheta, front);
+     double scaled_delta =angle_diff/PointSpreadFunction::scaleFactor(energy, costheta, front);
 
 //     m_hists[id].fill(scaled_delta);
 
@@ -172,6 +172,23 @@ void PsfPlots::fillParameterTables()
 
     }
 
+    // Write scaleFactor parameter values
+    std::vector<double> psf_pars;
+    std::vector<float> index_values;
+    PointSpreadFunction::getScaleFactorParameters(psf_pars);
+    // fill lower bin edges with index values
+    for (size_t i(0); i < psf_pars.size(); i++) {
+       index_values.push_back(static_cast<float>(i));
+    }
+    std::string histname("psf_scaling_params");
+    TH1F * h1 = new TH1F(histname.c_str(), 
+                         (histname + ";index").c_str(),
+                         psf_pars.size(), &index_values[0]);
+    for (size_t i(0); i < psf_pars.size(); i++) {
+       h1->SetBinContent(i, psf_pars[i]);
+    }
+    h1->GetXaxis()->CenterTitle();
+    h1->Write();
 }
 
 

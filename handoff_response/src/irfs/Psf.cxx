@@ -66,10 +66,10 @@ namespace {
       bool front;
 // Smallest angular scales expected at highest energies, also use
 // hard-wired values for scaled sigma range in PointSpreadFunction.cxx
-      double sigmin(PointSpreadFunction::scaleFactor(5.62e6, zdir=1, 
-                                                     front=true)*0.15);
-      double sigmax(PointSpreadFunction::scaleFactor(30, zdir,
-                                                     front=false)*2.0);
+      PointSpreadFunction psf;
+      double sigmin(psf.scaleFactor(5.62e6, zdir=1, front=true)*0.15);
+      double sigmax(psf.scaleFactor(30, zdir, front=false)*2.0);
+
       logArray(sigmin, sigmax, nsig, sigmas);
    }
 

@@ -10,6 +10,8 @@
 #include "EffectiveArea.h"
 #include "AeffPhiDep.h"
 #include "TreeWrapper.h"
+#include "Dispersion.h"
+#include "PointSpreadFunction.h"
 #include "embed_python/Module.h"
 
 #include "CLHEP/Geometry/Vector3D.h"
@@ -71,6 +73,55 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,
              << m_bestYDir << ", "
              << m_bestZDir << ", "
              << m_bestEnergy << std::endl;
+
+   // Get PSF scaling parameters from input file.
+   std::vector<double> psf_pars;
+   try {
+      py.getList("PSF.pars", psf_pars);
+      PointSpreadFunction::setScaleFactorParameters(psf_pars);
+   } catch (std::invalid_argument &) {
+      /// Use defaults set in PointSpreadFunction.cxx
+   }
+   // Report the parameters used.
+   PointSpreadFunction::getScaleFactorParameters(psf_pars);
+   std::cout << "Using PSF scale factor parameters:\n";
+   for (size_t i(0); i < psf_pars.size(); i++) {
+      std::cout << psf_pars[i] << "  ";
+   }
+   std::cout << std::endl;
+
+   // Get the default parameters set in Dispersion.cxx
+   std::vector<double> edisp_front, edisp_back;
+   Dispersion::getScaleFactorParameters(edisp_front, edisp_back);
+
+   // Get energy dispersion scale parameters from input file.
+   std::vector<double> edisp_pars;
+   try {
+      py.getList("Edisp.front_pars", edisp_pars);
+      edisp_front = edisp_pars;
+   } catch (std::invalid_argument &) {
+      // Use defaults.
+   }
+   try {
+      py.getList("Edisp.back_pars", edisp_pars);
+      edisp_back = edisp_pars;
+   } catch (std::invalid_argument &) {
+      // Use defaults.
+   }
+   Dispersion::setScaleFactorParameters(edisp_front, edisp_back);
+
+   // Report the parameters used.
+   Dispersion::getScaleFactorParameters(edisp_front, edisp_back);
+   std::cout << "Using energy dispersion front parameters:" << std::endl;
+   for (size_t i(0); i < edisp_front.size(); i++) {
+      std::cout << edisp_front[i] << "  ";
+   }
+   std::cout << std::endl;
+   std::cout << "Using energy dispersion back parameters:" << std::endl;
+   for (size_t i(0); i < edisp_back.size(); i++) {
+      std::cout << edisp_back[i] << "  ";
+   }
+   std::cout << std::endl;
 
    try {
       int front_only;

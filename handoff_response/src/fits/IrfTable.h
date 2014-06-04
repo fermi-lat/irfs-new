@@ -12,15 +12,15 @@
 
 #include <vector>
 
+class TH1F;
 class TH2F;
 
 namespace handoff_response {
 
 /**
  * @class IrfTable
- * @brief Abstraction for a ROOT TH2F table.
+ * @brief Abstraction for ROOT TH1F and TH2F tables.
  * 
- * @author J. Chiang
  */
 
 class IrfTable {
@@ -28,6 +28,8 @@ class IrfTable {
 public:
 
    IrfTable() {}
+
+   IrfTable(TH1F * table);
 
    IrfTable(TH2F * table);
 
@@ -51,6 +53,14 @@ public:
       return m_values.at(index(x, y));
    }
 
+   double operator()(size_t i) const {
+      return m_values.at(index(i));
+   }
+
+   double operator()(double x) const {
+      return m_values.at(index(x));
+   }
+
 private:
 
    std::vector<double> m_xaxis;
@@ -62,6 +72,10 @@ private:
    size_t index(size_t i, size_t j) const;
 
    size_t index(double x, double y) const;
+
+   size_t index(size_t i) const;
+
+   size_t index(double x) const;
 };
 
 } // namespace handoff_response

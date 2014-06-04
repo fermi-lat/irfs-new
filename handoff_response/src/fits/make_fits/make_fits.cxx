@@ -146,13 +146,13 @@ void MakeFits::createFitsFiles(const std::string & className,
    psf.setKeyword("PSFVER", 2);
    psf.close();
    
-   /// @bug These are hard-wired values from
-   /// gen/PointSpreadFunction::scaleFactor!
-   double scaling_pars[] = {5.8e-2, 3.77e-4, 9.6e-2, 1.3e-3, -0.8};
-   std::vector<double> scalingPars(scaling_pars, scaling_pars + 5);
+   // /// @bug These are hard-wired values from
+   // /// gen/PointSpreadFunction::scaleFactor!
+   // double scaling_pars[] = {5.8e-2, 3.77e-4, 9.6e-2, 1.3e-3, -0.8};
+   // std::vector<double> scalingPars(scaling_pars, scaling_pars + 5);
    FitsFile psfScaling(psf_file, "PSF_SCALING_PARAMS", "psf.tpl", 
                        newFile=false);
-   psfScaling.setTableData("PSFSCALE", scalingPars);
+   psfScaling.setTableData("PSFSCALE", irfTables["psf_scaling_params"].values());
    psfScaling.setCbdValue("VERSION", irfVersion);
    psfScaling.setCbdValue("CLASS", latclass);
    psfScaling.setKeyword("DETNAM", detname);
@@ -174,20 +174,22 @@ void MakeFits::createFitsFiles(const std::string & className,
    edisp.setKeyword("EDISPVER", 2);
    edisp.close();
 
-   /// @bug These are hard-wired values in gen/Dispersion::scaleFactor()!!
-   double edisp_front[] = {0.0210, 0.058, -0.207, -0.213, 0.042, 0.564};
-   double edisp_back[] = {0.0215, 0.0507, -0.22, -0.243, 0.065, 0.584};
+   // /// @bug These are hard-wired values in gen/Dispersion::scaleFactor()!!
+   // double edisp_front[] = {0.0210, 0.058, -0.207, -0.213, 0.042, 0.564};
+   // double edisp_back[] = {0.0215, 0.0507, -0.22, -0.243, 0.065, 0.584};
    
-   // if (detname == "FRONT") {
-   //    scalingPars = std::vector<double>(edisp_front, edisp_front + 6);
-   // } else { // BACK
-   //    scalingPars = std::vector<double>(edisp_back, edisp_back + 6);
-   // }
-
-   /// @bug Since the forced front/back partitioning has been removed,
-   /// Dispersion::scaleFactor always uses the front parameters.
-   /// Therefore, only write the front parameters to the FITS file.
-   scalingPars = std::vector<double>(edisp_front, edisp_front + 6);
+   std::vector<double> scalingPars;
+   const std::vector<double> & edisp_pars(irfTables["edisp_scaling_params"].values());
+   size_t npars(edisp_pars.size());
+   if (detname == "FRONT") {
+      for (size_t i(0); i < npars/2; i++) {
+         scalingPars.push_back(edisp_pars[i]);
+      }
+   } else { // BACK
+      for (size_t i(npars/2); i < npars; i++) {
+         scalingPars.push_back(edisp_pars[i]);
+      }
+   }
 
    /// @bug Append other hard-wired values from gen/Dispersion 
    // anonymous namespace:

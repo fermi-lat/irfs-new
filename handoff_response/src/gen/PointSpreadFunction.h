@@ -19,10 +19,10 @@ class PointSpreadFunction {
 
 public:
 
-    PointSpreadFunction(std::string histname,
-        std::string title);
+   PointSpreadFunction();
 
-    PointSpreadFunction():m_count(-1){} // default 
+   PointSpreadFunction(std::string histname, std::string title);
+
     ~PointSpreadFunction();
 
     /// add a point with a scaled angular difference delta
@@ -41,7 +41,12 @@ public:
     void getFitPars(std::vector<double> & pars)const;
 
     /// scale factor to apply to data
-    static double scaleFactor(double energy, double zdir, bool front);
+   static double scaleFactor(double energy, double zdir, bool front);
+
+   /// Set the scaleFactor scaling parameters.
+   static void setScaleFactorParameters(const std::vector<double> & pars);
+
+   static void getScaleFactorParameters(std::vector<double> & pars);
 
     /// access to the function itself
     static double function(double* delta, double* par);
@@ -69,6 +74,10 @@ private:
 
     double m_quant[2]; // for 68,95% quantiles
     double m_tail;     // fraction in tail beyond fit range
+
+   static double s_coef_thin[2];
+   static double s_coef_thick[2];
+   static double s_scale_factor_index;
 
     void reorder_parameters();
     void setFitPars(double * pars, double * pmin, double * pmax);

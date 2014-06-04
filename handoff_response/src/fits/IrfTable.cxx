@@ -16,6 +16,20 @@
 
 namespace handoff_response {
 
+IrfTable::IrfTable(TH1F * table) {
+   TAxis * xx = table->GetXaxis();
+   int nbins(xx->GetNbins() + 2);
+   m_xaxis.clear();
+   for (int i = 1; i < nbins; i++) {
+      m_xaxis.push_back(xx->GetBinLowEdge(i));
+   }
+
+   m_values.clear();
+   for (size_t i = 0; i < m_xaxis.size()-1; i++) {
+      m_values.push_back(table->GetBinContent(i));
+   }
+}
+
 IrfTable::IrfTable(TH2F * table) {
    TAxis * xx = table->GetXaxis();
    int nbins(xx->GetNbins() + 2);
@@ -39,7 +53,7 @@ IrfTable::IrfTable(TH2F * table) {
    }
 }
 
-size_t IrfTable::index(size_t i , size_t j) const {
+size_t IrfTable::index(size_t i, size_t j) const {
    if (i >= m_xaxis.size()) {
       throw std::runtime_error("Request for x index outside of table bounds.");
    }
@@ -64,6 +78,24 @@ size_t IrfTable::index(double x, double y) const {
    size_t i = ix - m_xaxis.begin() - 1;
    size_t j = iy - m_yaxis.begin() - 1;
    return index(i, j);
+}
+
+size_t IrfTable::index(size_t i) const {
+   if (i >= m_xaxis.size()) {
+      throw std::runtime_error("Request for x index outside of table bounds.");
+   }
+   return i;
+}
+
+size_t IrfTable::index(double x) const {
+   std::vector<double>::const_iterator ix =
+      std::upper_bound(m_xaxis.begin(), m_xaxis.end(), x);
+   if (ix == m_xaxis.end()) {
+      throw std::runtime_error("Request for x value outside of table bounds.");
+   }
+
+   size_t i = ix - m_xaxis.begin() - 1;
+   return index(i);
 }
 
 } // namespace handoff_response

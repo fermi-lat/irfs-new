@@ -14,6 +14,7 @@ $Header$
 
 #include <cmath>
 #include <iomanip>
+#include <stdexcept>
 
 namespace {
     // histogram parameters
@@ -103,6 +104,10 @@ namespace {
     }
 }// anon namespace
 
+double PointSpreadFunction::s_coef_thin[2] = {5.8e-2, 3.77e-4};
+double PointSpreadFunction::s_coef_thick[2] = {9.6e-2, 1.3e-3};
+double PointSpreadFunction::s_scale_factor_index(-0.8);
+
 // External versions.
 
 /// @param *x Pointer to the angular deviation in radians.
@@ -150,14 +155,14 @@ int PointSpreadFunction::npars(){return sizeof(names)/sizeof(void*);}
 std::vector<std::string>
       PointSpreadFunction::pnames(names, names+npars());
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 PointSpreadFunction::PointSpreadFunction(std::string histname, 
                                          std::string title)
                                          
-: m_hist( new TH1F(histname.c_str(),  title.c_str(),  nbins, xmin, xmax))
-, m_fitfunc(TF1("psf-fit", psf_with_tail, fitrange[0], fitrange[1], npars()))
-, m_count(0)
-{
+   : m_hist(new TH1F(histname.c_str(),  title.c_str(),  nbins, xmin, xmax)),
+     m_fitfunc(TF1("psf-fit", psf_with_tail, fitrange[0], fitrange[1],npars())),
+     m_count(0) {
+   
     hist().GetXaxis()->SetTitle("log10(scaled deviation)");
 
     for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++) {
@@ -166,6 +171,10 @@ PointSpreadFunction::PointSpreadFunction(std::string histname,
     }
 
     m_fitfunc.SetLineWidth(1);
+}
+
+PointSpreadFunction::PointSpreadFunction()
+   : m_count(-1) {
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -225,22 +234,40 @@ void PointSpreadFunction::summarize(std::ostream & out)
     out << std::endl;
 }
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-double PointSpreadFunction::scaleFactor(double energy,double /* zdir*/, bool thin)
-{
-    // following numbers determined empirically to roughly 
-    // make the 68% containment radius be 1.0 independent of energy
-    static double 
-        coef_thin[] ={58e-3,  377e-6},
-        coef_thick[]={96e-3, 1300e-6},
-        power = -0.80;
 
-    double t = pow( energy/100., power);
-    if( thin ){
-        return sqrt( sqr(coef_thin[0]*t) + sqr( coef_thin[1]) ); 
-    }else{
-        return sqrt( sqr(coef_thick[0]*t) + sqr( coef_thick[1]) ); 
-    }
+double PointSpreadFunction::
+scaleFactor(double energy, double zdir, bool thin) {
+   (void)(zdir);
+   
+   double t(std::pow(energy/100., s_scale_factor_index));
+   if (thin) {
+      return std::sqrt(::sqr(s_coef_thin[0]*t) + ::sqr(s_coef_thin[1])); 
+   } else {
+      return std::sqrt(::sqr(s_coef_thick[0]*t) + ::sqr(s_coef_thick[1])); 
+   }
+}
+
+void PointSpreadFunction::
+setScaleFactorParameters(const std::vector<double> & pars) {
+   if (pars.size() != 5) {
+      throw std::runtime_error("PointSpreadFunction::setScaleFactorParameters:\n"
+                               "Input pars must be of size 5");
+   }
+   s_coef_thin[0] = pars[0];
+   s_coef_thin[1] = pars[1];
+   s_coef_thick[0] = pars[2];
+   s_coef_thick[1] = pars[3];
+   s_scale_factor_index = pars[4];
+}
+
+void PointSpreadFunction::
+getScaleFactorParameters(std::vector<double> & pars) {
+   pars.resize(5, 0);
+   pars[0] = s_coef_thin[0];
+   pars[1] = s_coef_thin[1];
+   pars[2] = s_coef_thick[0];
+   pars[3] = s_coef_thick[1];
+   pars[4] = s_scale_factor_index;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
