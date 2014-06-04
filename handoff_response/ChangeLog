@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jun  4 12:53:26 PDT 2014
+ScienceTools-scons/irfs/handoff_response/src/gen
+
+Modified Files:
+	IrfAnalysis.cxx 
+Log Message:
+bug-fix: clear edisp_pars before reading in edisp_back params
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-05-02-00, operation: add
 Package: handoff_response
