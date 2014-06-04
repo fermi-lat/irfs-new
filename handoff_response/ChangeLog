@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jun  4 12:34:33 PDT 2014
+ScienceTools-scons/irfs/handoff_response/src/gen
+
+Modified Files:
+	DispPlots.cxx Dispersion.cxx Dispersion.h IrfAnalysis.cxx 
+	PointSpreadFunction.cxx PointSpreadFunction.h PsfPlots.cxx 
+Log Message:
+allow users to configure PSF and edisp scaling parameters from setup.py and propagate to FITS output via parameter file
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jun  4 12:34:33 PDT 2014
 ScienceTools-scons/irfs/handoff_response/src/fits/make_fits
 
 Modified Files:
