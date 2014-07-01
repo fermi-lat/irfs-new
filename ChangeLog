@@ -1,5 +1,20 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-09-34-00, operation: add
+Package: irfs
+User: glastrm  Tue Jul  1 14:02:59 2014
+Files:
+  irfs/.cvsignore  1.1.1.1
+  irfs/ChangeLog  1.200
+  irfs/irfsLib.py  1.1
+  irfs/SConscript  1.6
+  irfs/cmt/requirements  1.35
+  irfs/doc/release.notes  1.31
+  irfs/src/mainpage.h  1.1.1.1
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: ScienceTools-09-33-03, operation: add
 Package: irfs
 User: jchiang  Fri May 23 13:06:44 2014
