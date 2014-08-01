@@ -17,6 +17,8 @@
 
 #include "latResponse/ParTables.h"
 
+#include "IrfInterpolator.h"
+
 namespace latResponse {
 
 /**
@@ -59,6 +61,12 @@ public:
 
    double scaleFactor(double energy, double costheta) const;
 
+   double evaluate(double emeas, double etrue, double energy,
+                   double theta, double phi, double time, 
+                   double * pars) const;
+
+   void renormalize(double logE, double costh, double * params) const;
+
 private:
 
    ParTables m_parTables;
@@ -67,6 +75,8 @@ private:
    mutable double m_costh_last;
 
    mutable double m_pars[10];
+
+   IrfInterpolator m_interpolator;
 
    double * pars(double energy, double costh) const;
 

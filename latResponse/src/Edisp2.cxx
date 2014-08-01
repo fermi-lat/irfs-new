@@ -36,8 +36,19 @@ namespace latResponse {
 Edisp2::Edisp2(const std::string & fitsfile, 
                const std::string & extname, size_t nrow) 
    : m_parTables(fitsfile, extname, nrow), m_loge_last(0), m_costh_last(0),
-     m_renormalized(false) {
+     m_renormalized(false), m_interpolator(fitsfile, extname, nrow) {
    readScaling(fitsfile);
+}
+
+void Edisp2::renormalize(double logE, double costh, double * params) const {
+   double energy(std::pow(10., logE));
+   double scale_factor(scaleFactor(logE, costh));
+   EdispIntegrand foo(params, energy, scale_factor, *this);
+   double err(1e-7);
+   int ierr;
+   double norm(st_facilities::GaussianQuadrature::dgaus8(foo, energy/10., energy*10,
+                                                         err, ierr));
+   params[0] /= norm;
 }
 
 void Edisp2::renormalize() {
@@ -50,16 +61,7 @@ void Edisp2::renormalize() {
          double costh(costhetas[j]);
          std::vector<double> my_pars;
          m_parTables.getPars(k, j, my_pars);
-
-         double scale_factor(scaleFactor(loge, costh));
-         EdispIntegrand foo(&my_pars[0], energy, scale_factor, *this);
-                            
-         double err(1e-7);
-         int ierr;
-         double norm = 
-            st_facilities::GaussianQuadrature::dgaus8(foo, energy/10.,
-                                                      energy*10., err, ierr);
-         my_pars[0] /= norm;
+         renormalize(loge, costh, &my_pars[0]);
          m_parTables.setPars(k, j, my_pars);
       }
    }
@@ -78,18 +80,30 @@ double Edisp2::value(double appEnergy,
    return value(appEnergy, energy, theta, phi, time);
 }
 
+double Edisp2::evaluate(double emeas, double etrue,
+                        double energy, double theta, double phi, double time,
+                        double * pars) const {
+   (void)(phi);
+   (void)(time);
+   double xx((emeas - energy)/energy);
+   double costh(std::cos(theta*M_PI/180.));
+   costh = std::min(costh, m_parTables.costhetas().back());
+   xx /= scaleFactor(std::log10(energy), costh);
+   return old_function(xx, pars)/energy;
+}
+
 double Edisp2::value(double appEnergy, double energy,
                      double theta, double phi, double time) const {
+   if (::getenv("USE_EDISP_INTERP")) {
+      return m_interpolator.evaluate(this, appEnergy, energy, energy,
+                                     theta, phi, time);
+   }
    (void)(phi);
    (void)(time);
    double costh(std::cos(theta*M_PI/180.));
    costh = std::min(costh, m_parTables.costhetas().back());
-   double xx((appEnergy - energy)/energy);
-   xx /= scaleFactor(std::log10(energy), costh);
-
    double * my_pars(pars(energy, costh));
-   
-   return old_function(xx, my_pars)/energy;
+   return evaluate(appEnergy, energy, energy, theta, phi, time, my_pars);
 }
 
 double Edisp2::old_function(double xx, double * pars) const {
