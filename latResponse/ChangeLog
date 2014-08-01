@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Fri Aug  1 14:45:00 PDT 2014
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Edisp2.cxx Edisp2.h 
+Added Files:
+	IrfInterpolator.cxx IrfInterpolator.h 
+Log Message:
+interpolate energy dispersion distributions between parameter bins in logE-costh space
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-34-01, operation: add
 Package: latResponse
