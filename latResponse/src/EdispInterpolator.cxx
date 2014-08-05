@@ -1,5 +1,5 @@
 /**
- * @file IrfInterpolator.cxx
+ * @file EdispInterpolator.cxx
  * @brief Bilinear interoplator of IRF distributions.
  * @author J. Chiang
  *
@@ -18,7 +18,7 @@
 
 #include "latResponse/FitsTable.h"
 
-#include "IrfInterpolator.h"
+#include "EdispInterpolator.h"
 
 namespace {
    double sqr(double x) {
@@ -39,17 +39,18 @@ namespace {
 
 namespace latResponse {
 
-IrfInterpolator::IrfInterpolator(const std::string & fitsfile,
-                                 const std::string & extname,
-                                 size_t nrow)
-   : m_fitsfile(fitsfile), m_extname(extname), m_nrow(nrow), m_renormalized(false) {
+EdispInterpolator::EdispInterpolator(const std::string & fitsfile,
+                                     const std::string & extname,
+                                     size_t nrow)
+   : m_fitsfile(fitsfile), m_extname(extname), m_nrow(nrow),
+     m_renormalized(false) {
    readFits();
 }
 
-IrfInterpolator::~IrfInterpolator() throw() {
+EdispInterpolator::~EdispInterpolator() throw() {
 }
 
-void IrfInterpolator::readFits() {
+void EdispInterpolator::readFits() {
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
    const tip::Table * table(fileSvc.readTable(m_fitsfile, m_extname));
    const std::vector<std::string> & validFields(table->getValidFields());
@@ -131,14 +132,14 @@ void IrfInterpolator::readFits() {
    delete table;
 }
 
-void IrfInterpolator::generateBoundaries(const std::vector<double> & x,
-                                         const std::vector<double> & y,
-                                         const std::vector<double> & values,
-                                         std::vector<double> & xout,
-                                         std::vector<double> & yout,
-                                         std::vector<double> & values_out, 
-                                         double xlo, double xhi,
-                                         double ylo, double yhi) {
+void EdispInterpolator::generateBoundaries(const std::vector<double> & x,
+                                           const std::vector<double> & y,
+                                           const std::vector<double> & values,
+                                           std::vector<double> & xout,
+                                           std::vector<double> & yout,
+                                           std::vector<double> & values_out, 
+                                           double xlo, double xhi,
+                                           double ylo, double yhi) {
    xout.resize(x.size() + 2);
    std::copy(x.begin(), x.end(), xout.begin() + 1);
    xout.front() = xlo;
@@ -169,12 +170,12 @@ void IrfInterpolator::generateBoundaries(const std::vector<double> & x,
    values_out.push_back(array(y.size()-1, x.size()-1));
 }
 
-void IrfInterpolator::getCornerPars(double energy, double theta,
-                                    double phi, double time,
-                                    double & tt, double & uu,
-                                    std::vector<double> & cornerEnergies,
-                                    std::vector<double> & cornerThetas,
-                                    std::vector<size_t> & indx) const {
+void EdispInterpolator::getCornerPars(double energy, double theta,
+                                      double phi, double time,
+                                      double & tt, double & uu,
+                                      std::vector<double> & cornerEnergies,
+                                      std::vector<double> & cornerThetas,
+                                      std::vector<size_t> & indx) const {
    (void)(phi);
    (void)(time);
    double logE(std::log10(energy));
@@ -200,7 +201,7 @@ void IrfInterpolator::getCornerPars(double energy, double theta,
    indx[3] = xsize*(j) + (i-1);
 }
 
-int IrfInterpolator::findIndex(const std::vector<double> & xx, double x) {
+int EdispInterpolator::findIndex(const std::vector<double> & xx, double x) {
    typedef std::vector<double>::const_iterator const_iterator_t;
 
    const_iterator_t ix(std::upper_bound(xx.begin(), xx.end(), x));

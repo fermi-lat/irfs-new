@@ -46,8 +46,8 @@ void Edisp2::renormalize(double logE, double costh, double * params) const {
    EdispIntegrand foo(params, energy, scale_factor, *this);
    double err(1e-7);
    int ierr;
-   double norm(st_facilities::GaussianQuadrature::dgaus8(foo, energy/10., energy*10,
-                                                         err, ierr));
+   double norm(st_facilities::GaussianQuadrature::dgaus8(foo, energy/30.,
+                                                         energy*30, err, ierr));
    params[0] /= norm;
 }
 
@@ -80,8 +80,8 @@ double Edisp2::value(double appEnergy,
    return value(appEnergy, energy, theta, phi, time);
 }
 
-double Edisp2::evaluate(double emeas, double etrue,
-                        double energy, double theta, double phi, double time,
+double Edisp2::evaluate(double emeas, double energy,
+                        double theta, double phi, double time,
                         double * pars) const {
    (void)(phi);
    (void)(time);
@@ -95,7 +95,7 @@ double Edisp2::evaluate(double emeas, double etrue,
 double Edisp2::value(double appEnergy, double energy,
                      double theta, double phi, double time) const {
    if (::getenv("USE_EDISP_INTERP")) {
-      return m_interpolator.evaluate(this, appEnergy, energy, energy,
+      return m_interpolator.evaluate(*this, appEnergy, energy,
                                      theta, phi, time);
    }
    (void)(phi);
@@ -103,7 +103,7 @@ double Edisp2::value(double appEnergy, double energy,
    double costh(std::cos(theta*M_PI/180.));
    costh = std::min(costh, m_parTables.costhetas().back());
    double * my_pars(pars(energy, costh));
-   return evaluate(appEnergy, energy, energy, theta, phi, time, my_pars);
+   return evaluate(appEnergy, energy, theta, phi, time, my_pars);
 }
 
 double Edisp2::old_function(double xx, double * pars) const {

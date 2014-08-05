@@ -1,5 +1,5 @@
 /**
- * @file IrfInterpolator
+ * @file EdispInterpolator
  * @brief Class to perform bilinear interpolation of IRF distributions
  * on the log(energy)-cos(theta) grid on which IRF parameters are fit.
  * @author J. Chiang
@@ -7,8 +7,8 @@
  * $Header$
  */
 
-#ifndef latResponse_IrfInterpolator_h
-#define latResponse_IrfInterpolator_h
+#ifndef latResponse_EdispInterpolator_h
+#define latResponse_EdispInterpolator_h
 
 #include <cmath>
 
@@ -20,19 +20,19 @@
 
 namespace latResponse {
 
-class IrfInterpolator {
+class EdispInterpolator {
 
 public:
 
-   IrfInterpolator(const std::string & fitsfile,
+   EdispInterpolator(const std::string & fitsfile,
                    const std::string & extname,
                    size_t nrow);
 
-   ~IrfInterpolator() throw();
+   ~EdispInterpolator() throw();
 
+#ifndef SWIG
    template<class IrfClass>
-   double evaluate(const IrfClass * irfClass,
-                   double xmeas, double xtrue, 
+   double evaluate(const IrfClass & irfClass, double emeas, 
                    double energy, double theta, double phi,
                    double time=0) const {
       if (!m_renormalized) {
@@ -41,8 +41,8 @@ public:
          size_t ipars(0);
          for (size_t j(0); j < m_cosths.size(); j++) {
             for (size_t k(0); k < m_logEs.size(); k++, ipars++) {
-               irfClass->renormalize(m_logEs[k], m_cosths[j], 
-                                     const_cast<double *>(&m_parVectors[ipars][0]));
+               irfClass.renormalize(m_logEs[k], m_cosths[j], 
+                                    const_cast<double *>(&m_parVectors[ipars][0]));
             }
          }
          m_renormalized = true;
@@ -54,15 +54,21 @@ public:
       getCornerPars(energy, theta, phi, time, tt, uu, 
                     cornerEnergies, cornerThetas, index);
       std::vector<double> yvals(4);
+      double scaled_energy((emeas - energy)/energy);
       for (size_t i(0); i < 4; i++) {
-         yvals[i] = irfClass->evaluate(xmeas, cornerEnergies[i],
-                                       cornerEnergies[i], cornerThetas[i],
-                                       phi, time,
-                                       const_cast<double *>(&m_parVectors[index[i]][0]));
+         double my_emeas(cornerEnergies[i]*scaled_energy + cornerEnergies[i]);
+         yvals[i] = irfClass.evaluate(my_emeas, cornerEnergies[i],
+                                      cornerThetas[i], phi, time,
+                                      const_cast<double *>(&m_parVectors[index[i]][0]));
+         /// By using my_emeas, we are effectively rescaling the x-axis
+         /// by the ratio of true energies. This extra factor is the
+         /// Jacobian of that transformation.
+         yvals[i] *= cornerEnergies[i]/energy;
       }
       double my_value(Bilinear::evaluate(tt, uu, &yvals[0]));
       return my_value;
    }
+#endif // SWIG
 
    const std::string & fitsfile() const {
       return m_fitsfile;
@@ -73,6 +79,12 @@ public:
    size_t nrow() const {
       return m_nrow;
    }
+
+   void getCornerPars(double energy, double theta, double phi, double time,
+                      double & tt, double & uu,
+                      std::vector<double> & cornerEnergies,
+                      std::vector<double> & cornerThetas,
+                      std::vector<size_t> & index) const;
 
 private:
 
@@ -89,12 +101,6 @@ private:
 
    void readFits();
 
-   void getCornerPars(double energy, double theta, double phi, double time,
-                      double & tt, double & uu,
-                      std::vector<double> & cornerEnergies,
-                      std::vector<double> & cornerThetas,
-                      std::vector<size_t> & index) const;
-
    static int findIndex(const std::vector<double> & xx, double x);
 
    static void generateBoundaries(const std::vector<double> & x,
@@ -110,4 +116,4 @@ private:
 
 } // namespace latResponse
 
-#endif // latResponse_IrfInterpolator_h
+#endif // latResponse_EdispInterpolator_h
