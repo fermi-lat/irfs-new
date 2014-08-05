@@ -1,4 +1,17 @@
 ------------------------------------------------------------
+User: jchiang  Tue Aug  5 11:18:01 PDT 2014
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Edisp2.cxx Edisp2.h 
+Added Files:
+	EdispInterpolator.cxx EdispInterpolator.h 
+Removed Files:
+	IrfInterpolator.cxx IrfInterpolator.h 
+Log Message:
+rename IrfInterpolator to EdispInterpolator; use delta E/Etrue as dependent variable
+    *
+------------------------------------------------------------
 User: jchiang  Fri Aug  1 14:45:00 PDT 2014
 ScienceTools-scons/irfs/latResponse/src
 
