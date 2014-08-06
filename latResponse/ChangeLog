@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Aug  6 08:44:12 PDT 2014
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+include scaleFactor in Jacobian in interpolated edisp
+    *
+------------------------------------------------------------
+User: jchiang  Wed Aug  6 08:44:12 PDT 2014
 ScienceTools-scons/irfs/latResponse/src
 
 Modified Files:
