@@ -36,8 +36,13 @@ namespace latResponse {
 Edisp2::Edisp2(const std::string & fitsfile, 
                const std::string & extname, size_t nrow) 
    : m_parTables(fitsfile, extname, nrow), m_loge_last(0), m_costh_last(0),
-     m_renormalized(false), m_interpolator(fitsfile, extname, nrow) {
+     m_renormalized(false), m_fitsfile(fitsfile), m_extname(extname),
+     m_nrow(nrow), m_interpolator(0) {
    readScaling(fitsfile);
+}
+
+Edisp2::~Edisp2() {
+   delete m_interpolator;
 }
 
 void Edisp2::renormalize(double logE, double costh, double * params) const {
@@ -95,8 +100,11 @@ double Edisp2::evaluate(double emeas, double energy,
 double Edisp2::value(double appEnergy, double energy,
                      double theta, double phi, double time) const {
    if (::getenv("USE_EDISP_INTERP")) {
-      return m_interpolator.evaluate(*this, appEnergy, energy,
-                                     theta, phi, time);
+      if (m_interpolator == 0) {
+         m_interpolator = new EdispInterpolator(m_fitsfile, m_extname, m_nrow);
+      }
+      return m_interpolator->evaluate(*this, appEnergy, energy,
+                                      theta, phi, time);
    }
    (void)(phi);
    (void)(time);
@@ -127,7 +135,7 @@ double Edisp2::old_function(double xx, double * pars) const {
 }
 
 double Edisp2::scaleFactor(double logE, double costh) const {
-   if (!IrfLoader::interpolate_edisp()) {
+   if (!IrfLoader::interpolate_edisp() && m_interpolator==0) {
       // Use midpoint of logE, costh bins in the FITS tabulations
       // instead of the passed values.  This ensures correct
       // normalization via the renormalize() member function. Note

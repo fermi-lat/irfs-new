@@ -54,16 +54,21 @@ public:
       getCornerPars(energy, theta, phi, time, tt, uu, 
                     cornerEnergies, cornerThetas, index);
       std::vector<double> yvals(4);
-      double scaled_energy((emeas - energy)/energy);
+      double sf(irfClass.scaleFactor(std::log10(energy),
+                                     std::cos(theta*M_PI/180.)));
+      double scaled_energy = (emeas - energy)/energy/sf;
       for (size_t i(0); i < 4; i++) {
-         double my_emeas(cornerEnergies[i]*scaled_energy + cornerEnergies[i]);
+         double my_sf(irfClass.scaleFactor(std::log10(cornerEnergies[i]), 
+                                           std::cos(cornerThetas[i]*M_PI/180.)));
+         double my_emeas = cornerEnergies[i]*(my_sf*scaled_energy + 1.);
          yvals[i] = irfClass.evaluate(my_emeas, cornerEnergies[i],
                                       cornerThetas[i], phi, time,
                                       const_cast<double *>(&m_parVectors[index[i]][0]));
-         /// By using my_emeas, we are effectively rescaling the x-axis
-         /// by the ratio of true energies. This extra factor is the
-         /// Jacobian of that transformation.
-         yvals[i] *= cornerEnergies[i]/energy;
+         /// By using my_emeas, we are effectively rescaling the
+         /// x-axis by the ratio of true energies. The additional
+         /// factor applied here is the Jacobian of that
+         /// transformation.
+         yvals[i] *= (cornerEnergies[i]*my_sf)/(energy*sf);
       }
       double my_value(Bilinear::evaluate(tt, uu, &yvals[0]));
       return my_value;
@@ -80,12 +85,6 @@ public:
       return m_nrow;
    }
 
-   void getCornerPars(double energy, double theta, double phi, double time,
-                      double & tt, double & uu,
-                      std::vector<double> & cornerEnergies,
-                      std::vector<double> & cornerThetas,
-                      std::vector<size_t> & index) const;
-
 private:
 
    std::string m_fitsfile;
@@ -100,6 +99,12 @@ private:
    std::vector<std::vector<double> > m_parVectors;
 
    void readFits();
+
+   void getCornerPars(double energy, double theta, double phi, double time,
+                      double & tt, double & uu,
+                      std::vector<double> & cornerEnergies,
+                      std::vector<double> & cornerThetas,
+                      std::vector<size_t> & index) const;
 
    static int findIndex(const std::vector<double> & xx, double x);
 

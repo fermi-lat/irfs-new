@@ -33,7 +33,7 @@ public:
           const std::string & extname="ENERGY DISPERSION",
           size_t nrow=0);
 
-   virtual ~Edisp2() {}
+   virtual ~Edisp2();
 
    /// A member function returning the energy dispersion function.
    /// @param appEnergy measured photon energy in MeV.
@@ -74,7 +74,13 @@ private:
 
    mutable double m_pars[10];
 
-   EdispInterpolator m_interpolator;
+   bool m_renormalized;
+
+   std::string m_fitsfile;
+   std::string m_extname;
+   size_t m_nrow;
+
+   mutable EdispInterpolator * m_interpolator;
 
    double * pars(double energy, double costh) const;
 
@@ -82,8 +88,6 @@ private:
    double m_p1;
    double m_p2;
    double m_t0;
-
-   bool m_renormalized;
 
    double old_function(double xx, double * pars) const;
 

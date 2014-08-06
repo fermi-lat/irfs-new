@@ -266,7 +266,7 @@ void LatResponseTests::edisp_normalization() {
    bool integralFailures(false);
    std::cout << "Energy dispersion integral values that fail "
              << int(tol*100) << "% tolerance: \n"
-             << "energy  inclination  integral \n";
+             << "energy  inclination  integral  (integral - 1) \n";
 
    for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
         name != m_irfNames.end(); ++name) {
@@ -284,7 +284,8 @@ void LatResponseTests::edisp_normalization() {
             if (std::fabs(integral - 1.) >= tol) {
                std::cout << *energy << "     "
                          << *theta  << "          "
-                         << integral << std::endl;
+                         << integral << "     "
+                         << (integral - 1) << std::endl;
                integralFailures = true;
             }
 //            CPPUNIT_ASSERT(std::fabs(integral - 1.) < tol);
