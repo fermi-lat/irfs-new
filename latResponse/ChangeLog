@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Aug  6 08:44:12 PDT 2014
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Edisp2.cxx Edisp2.h EdispInterpolator.h 
+Log Message:
+include scaleFactor in Jacobian in interpolated edisp
+    *
+------------------------------------------------------------
 User: jchiang  Tue Aug  5 11:18:01 PDT 2014
 ScienceTools-scons/irfs/latResponse/src
 
