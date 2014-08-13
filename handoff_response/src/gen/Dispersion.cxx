@@ -11,6 +11,7 @@ $Header$
 #include "TPaveStats.h"
 #include "TList.h"
 #include "TF2.h"
+#include "TMath.h"
 
 #include <cmath>
 #include <iomanip>
@@ -30,7 +31,6 @@ namespace {
   static double fitrange[]={-7, 7};
   static int min_entries(10);
   static int fit_tries=3; // try a fit this many times before giving up
-
   double edisp_func(double * x, double * par)
   {
     
@@ -58,6 +58,43 @@ namespace {
     //else
     return par[0]*g1;
   }
+
+  //Asymetric Generalized Gaussian
+  //the function is smooth for a>1 and normalized to 1
+  //It is an asymetric gaussian if a=2 and a strict gaussian if a=2 and k=1, with standard deviation equal to s/sqrt(2)
+  double g(double  x,double  s,double  a,double  k,double  b)
+  {
+    double prefactor1  = a/(s*TMath::Gamma(1./a));
+    double prefactor2  = k/(1+pow(k,2));
+    double value=x-b;
+    if(value>=0){
+      value*=k/s;
+    }else{
+      value*=-1/(s*k);
+    }
+    return prefactor1*prefactor2*std::exp(-pow(value,a));
+  }
+  //edisp function version 2 : uses the asymetric generalized gaussian
+  double edisp_func2(double * x, double * par)
+  {
+    double F       = par[0];
+    double S1      = par[1];
+    double K1      = par[2];
+    double BIAS    = par[3];
+    double S2      = par[4];
+    double K2      = par[5];
+    double PINDEX1 = par[6];
+    double PINDEX2 = par[7];
+    
+    double g1 = g(x[0],S1,PINDEX1,K1,BIAS);
+    double g2 = g(x[0],S2,PINDEX2,K2,BIAS);
+ 
+    double result    = F*g1+(1.-F)*g2;
+    float  bin_width = (xmax-xmin)/nbins;
+    
+    return bin_width*result;
+  }
+
   
 }// anon namespace
 
