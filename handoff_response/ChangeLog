@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Wed Aug 13 16:23:07 PDT 2014
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx 
+Log Message:
+add the new edisp function : a generalized asymetric gaussian
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-34-01, operation: add
 Package: handoff_response
