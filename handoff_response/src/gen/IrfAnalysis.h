@@ -91,7 +91,7 @@ public:
 
 protected:
 
-   void project();
+   void project(embed_python::Module & );
 
 private:
 

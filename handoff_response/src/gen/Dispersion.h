@@ -20,9 +20,9 @@ class Dispersion {
 public:
 
     Dispersion(std::string histname,
-        std::string title);
+        std::string title, unsigned int edisp_version=1);
 
-    Dispersion():m_count(-1){} // default 
+ Dispersion():m_count(-1),m_edisp_version(1){} // default 
     ~Dispersion();
 
     /// add a point with a scaled angular difference delta
@@ -51,8 +51,11 @@ public:
    static void getScaleFactorParameters(std::vector<double> & edisp_front,
                                         std::vector<double> & edisp_back);
 
-    /// access to the function itself
-    static double function(double* delta, double* par);
+   /// access to the function itself
+   static double function(double* delta, double* par);
+
+    /// call operator for object, turning Dispersion into a functor
+    double operator()(double* delta, double* par);
 
     double entries()const{return m_count;}
 
@@ -72,6 +75,7 @@ private:
     TF1 m_fitfunc; ///< the fit function
 
     int m_count; ///< number of entries
+    unsigned int m_edisp_version;
 
     double m_quant[2]; // for 68,95% quantiles
     double m_tail;     // fraction in tail beyond fit range

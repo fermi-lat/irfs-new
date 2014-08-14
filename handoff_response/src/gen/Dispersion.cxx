@@ -117,12 +117,14 @@ std::vector<std::string>
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Dispersion::Dispersion(std::string histname, 
-                                         std::string title)
+		       std::string title,
+		       unsigned int edisp_version)
                                          
 : m_hist( new TH1F(histname.c_str(),  title.c_str(),  nbins, xmin, xmax))
-, m_fitfunc(TF1("edisp-fit", edisp_func, fitrange[0], fitrange[1], npars()))
-, m_count(0)
+, m_count(0), m_edisp_version(edisp_version)
 {
+    m_fitfunc=TF1("edisp-fit", *this, fitrange[0], fitrange[1], npars());
+
     hist().GetXaxis()->SetTitle("scaled deviation");
 
     for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++) {
@@ -207,7 +209,16 @@ getScaleFactorParameters(std::vector<double> & edisp_front,
 }
 
 double Dispersion::function(double* delta, double* par) {
-  return edisp_func(delta,par);
+  //static function does not work with P8 for now....
+    return edisp_func(delta,par);
+}
+
+double Dispersion::operator()(double* delta, double* par) {
+  if(m_edisp_version==1) {
+     return edisp_func(delta,par);
+  } else {
+    return edisp_func2(delta,par);
+  }
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

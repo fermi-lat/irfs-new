@@ -31,7 +31,7 @@ namespace {
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-DispPlots::DispPlots( IrfAnalysis& irf, std::ostream& log)
+DispPlots::DispPlots( IrfAnalysis& irf, std::ostream& log, unsigned int edisp_version)
 : m_irf(irf)
 , m_binner(irf.binner())
 , m_log(&log)
@@ -49,7 +49,7 @@ DispPlots::DispPlots( IrfAnalysis& irf, std::ostream& log)
                 title <<  binner().angle(0) << "-"<< binner().angle(binner().angle_bins()-2) << " scaled";
             }
             m_hists[id]=Dispersion(IrfBinner::hist_name(abin, ebin, "disp")
-                , title.str());
+				   , title.str(),edisp_version);
         }
     }
 }

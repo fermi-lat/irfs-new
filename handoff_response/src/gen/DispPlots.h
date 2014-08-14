@@ -17,7 +17,7 @@ class IrfBinner;
 
 class DispPlots {
 public:
-    DispPlots( IrfAnalysis& irf, std::ostream& log=std::cout);
+  DispPlots( IrfAnalysis& irf, std::ostream& log=std::cout, unsigned int edisp_version=1);
     ~DispPlots();
 
     void fill(double deviat, double energy, double costheta, bool front);

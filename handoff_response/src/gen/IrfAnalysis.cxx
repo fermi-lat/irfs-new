@@ -138,10 +138,10 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,
    current_time(out());
    out() << "Event class is " << m_classname << std::endl;
 
-   project();
+   project(py);
 }
 
-void IrfAnalysis::project() {
+void IrfAnalysis::project(embed_python::Module & py) {
    open_input_file();
    // for the histograms
    TFile * m_hist_file= new TFile(summary_filename().c_str(), "recreate");
@@ -151,10 +151,17 @@ void IrfAnalysis::project() {
          << summary_filename() << std::endl;
    std::cout << std::endl;
 
-   //---- declare the PSF plots------
+   //---- declare the IRF plots------
    //---------------------------
    m_psf = new PsfPlots(*this, out());
-   m_disp = new DispPlots(*this, out());
+
+   // choose what edisp version to use -----------------------------
+   int edisp_version=1;
+   try{
+     py.getValue("Edisp.Version", edisp_version);
+   } catch(std::invalid_argument &){;}
+   m_disp = new DispPlots(*this, out(), edisp_version);
+
    m_aeff = new EffectiveArea(*this, out());
    m_phi_dep = new AeffPhiDep(*this);
 
