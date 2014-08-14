@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: cohen  Wed Aug 13 18:41:47 PDT 2014
+irfs/handoff_response/src/gen
+
+Modified Files:
+	DispPlots.cxx DispPlots.h Dispersion.cxx Dispersion.h 
+	IrfAnalysis.cxx IrfAnalysis.h 
+Log Message:
+add a switch between the 2 edisp functionals from the python script all the way to Dispersion class. Defaults to old method as the static parameters are still an issue
+    *
+------------------------------------------------------------
 User: cohen  Wed Aug 13 16:23:07 PDT 2014
 irfs/handoff_response/src/gen
 
