@@ -124,6 +124,9 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,
    }
    std::cout << std::endl;
 
+   //Now load the fit parameters
+   std::map<std::string,std::vector<double> > fit_pars;
+   py.getDict("Edisp.fit_pars", fit_pars);
 
    std::vector<double> generated, logemins, logemaxes;
    py.getList("Data.generated", generated);
@@ -155,12 +158,7 @@ void IrfAnalysis::project(embed_python::Module & py) {
    //---------------------------
    m_psf = new PsfPlots(*this, out());
 
-   // choose what edisp version to use -----------------------------
-   int edisp_version=1;
-   try{
-     py.getValue("Edisp.Version", edisp_version);
-   } catch(std::invalid_argument &){;}
-   m_disp = new DispPlots(*this, out(), edisp_version);
+   m_disp = new DispPlots(*this, out(), py);
 
    m_aeff = new EffectiveArea(*this, out());
    m_phi_dep = new AeffPhiDep(*this);

@@ -16,6 +16,7 @@ $Header$
 #include <cmath>
 #include <iomanip>
 #include <stdexcept>
+#include <map>
 
 namespace {
     // histogram parameters
@@ -118,20 +119,38 @@ std::vector<std::string>
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Dispersion::Dispersion(std::string histname, 
 		       std::string title,
-		       unsigned int edisp_version)
+		       embed_python::Module & py)
                                          
 : m_hist( new TH1F(histname.c_str(),  title.c_str(),  nbins, xmin, xmax))
-, m_count(0), m_edisp_version(edisp_version)
+, m_count(0)
 {
-    m_fitfunc=TF1("edisp-fit", *this, fitrange[0], fitrange[1], npars());
+  hist().GetXaxis()->SetTitle("scaled deviation");
 
-    hist().GetXaxis()->SetTitle("scaled deviation");
+  // choose what edisp version to use -----------------------------
+  int edisp_version=1;
+  try{
+    py.getValue("Edisp.Version", edisp_version);
+  } catch(std::invalid_argument &){;}
+  m_edisp_version=edisp_version;
 
-    for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++) {
-        m_fitfunc.SetParLimits(i, pmin[i], pmax[i]);
-        m_fitfunc.SetParName(i, pnames[i].c_str());
-    }
-    m_fitfunc.SetLineWidth(1);
+  std::map<std::string,std::vector<double> > parmap;
+  try{
+    py.getDict("Edisp.fit_pars", parmap);
+  } catch(std::invalid_argument &){;}
+
+  m_fitfunc=TF1("edisp-fit", *this, fitrange[0], fitrange[1], parmap.size());
+
+  std::map<std::string,std::vector<double> >::const_iterator 
+    it = parmap.begin();
+  for (unsigned int i=0;i<parmap.size();i++){
+    m_fitfunc.SetParName(i, ((*it).first).c_str());
+    std::vector<double> par_values = (*it).second;
+    m_fitfunc.SetParameter(i, par_values[0]);
+    m_fitfunc.SetParLimits(i, par_values[1], par_values[2]);
+    it++;
+  }
+
+  m_fitfunc.SetLineWidth(1);
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -208,6 +227,7 @@ getScaleFactorParameters(std::vector<double> & edisp_front,
    }
 }
 
+
 double Dispersion::function(double* delta, double* par) {
   //static function does not work with P8 for now....
     return edisp_func(delta,par);
@@ -235,7 +255,7 @@ void Dispersion::fit(std::string opts)
         h.Scale(1./scale);
     }
 
-    m_fitfunc.SetParameters(pinit);
+    //m_fitfunc.SetParameters(pinit);
     if( m_count > min_entries ) {
       int fitcount=0;
       int fitres=-1;

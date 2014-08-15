@@ -31,7 +31,9 @@ namespace {
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-DispPlots::DispPlots( IrfAnalysis& irf, std::ostream& log, unsigned int edisp_version)
+DispPlots::DispPlots( IrfAnalysis& irf, 
+		      std::ostream& log, 
+		      embed_python::Module & py)
 : m_irf(irf)
 , m_binner(irf.binner())
 , m_log(&log)
@@ -49,7 +51,7 @@ DispPlots::DispPlots( IrfAnalysis& irf, std::ostream& log, unsigned int edisp_ve
                 title <<  binner().angle(0) << "-"<< binner().angle(binner().angle_bins()-2) << " scaled";
             }
             m_hists[id]=Dispersion(IrfBinner::hist_name(abin, ebin, "disp")
-				   , title.str(),edisp_version);
+				   , title.str(), py);
         }
     }
 }

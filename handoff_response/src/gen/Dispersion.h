@@ -8,6 +8,7 @@ $Header$
 #ifndef IRF_Dispersion_h
 #define IRF_Dispersion_h
 
+#include "embed_python/Module.h"
 
 #include "TF1.h"
 #include <string>
@@ -20,7 +21,7 @@ class Dispersion {
 public:
 
     Dispersion(std::string histname,
-        std::string title, unsigned int edisp_version=1);
+        std::string title, embed_python::Module &);
 
  Dispersion():m_count(-1),m_edisp_version(1){} // default 
     ~Dispersion();
@@ -61,7 +62,6 @@ public:
 
     ///! list of names
     static std::vector<std::string> pnames;
-
     static const char* parname(int i);
     static int npars();
 
@@ -73,6 +73,8 @@ private:
     TH1F* m_hist;  ///< managed histogram
     TH1F* m_cumhist; ///< a cumulative histogram, generated before fit
     TF1 m_fitfunc; ///< the fit function
+
+    //    std::map<std::string,std::vector<double> > m_parmap;
 
     int m_count; ///< number of entries
     unsigned int m_edisp_version;

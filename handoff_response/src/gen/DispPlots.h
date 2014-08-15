@@ -9,6 +9,8 @@ class IrfAnalysis;
 class IrfBinner;
 
 #include "Dispersion.h"
+#include "embed_python/Module.h"
+
 #include <vector>
 
 /** @class DispPlots
@@ -17,7 +19,7 @@ class IrfBinner;
 
 class DispPlots {
 public:
-  DispPlots( IrfAnalysis& irf, std::ostream& log=std::cout, unsigned int edisp_version=1);
+    DispPlots( IrfAnalysis&, std::ostream&, embed_python::Module & );
     ~DispPlots();
 
     void fill(double deviat, double energy, double costheta, bool front);
