@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Fri Aug 15 06:29:32 PDT 2014
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx Dispersion.h 
+Log Message:
+remove pinit pmin and pmax static arrays, not used anymore
+    *
+------------------------------------------------------------
 User: cohen  Fri Aug 15 04:53:17 PDT 2014
 irfs/handoff_response/src/gen
 
