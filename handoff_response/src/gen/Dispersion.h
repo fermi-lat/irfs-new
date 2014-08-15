@@ -74,8 +74,6 @@ private:
     TH1F* m_cumhist; ///< a cumulative histogram, generated before fit
     TF1 m_fitfunc; ///< the fit function
 
-    //    std::map<std::string,std::vector<double> > m_parmap;
-
     int m_count; ///< number of entries
     unsigned int m_edisp_version;
 
@@ -86,7 +84,6 @@ private:
    static double s_coef_thick[6];
 
     void reorder_parameters();
-    void setFitPars(double * pars, double * pmin, double * pmax);
 };
 
 #endif

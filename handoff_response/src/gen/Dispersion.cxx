@@ -24,9 +24,6 @@ namespace {
     static int nbins=100;
 
   static const char* names[]={"norm","ls1", "rs1", "bias", "ls2",  "rs2"};
-  static double pinit[] ={0.1,   0.5,   0.5,      0.0,    0.1,       0.1};
-  static double pmin[]  ={0.,    0.05,   0.05,   -0.5,    1e-5,   1e-5};
-  static double pmax[]  ={1e6,   9,     9,      0.5,   10,      10};
   static double pindex[]={1.6,0.6};
   static double psplit(1.5); //tuned for a better fit
   static double fitrange[]={-7, 7};
@@ -183,11 +180,7 @@ double Dispersion::scaleFactor(double energy,double  zdir, bool thin)
   // following numbers determined empirically to roughly 
   // make the 68% containment radius be 1.0 independent of energy
   //use a TFunction so that all this stuff could be read from fits file
-
    
-  // static double coef_thin[] ={0.0210,0.058,-0.207,-0.213,0.042,0.564};
-  // static double coef_thick[]={0.0215,0.0507,-0.22,-0.243,0.065,0.584};
-  
   //x is McLogEnergy, y is fabs(McZDir)
   static const char funcdef[]="[0]*x*x+[1]*y*y + [2]*x + [3]*y + [4]*x*y + [5]";
 
@@ -268,14 +261,6 @@ void Dispersion::fit(std::string opts)
     }
 }
 
-void Dispersion::setFitPars(double * pars, double * pmin,
-                                     double * pmax) {
-   for (int i = 0; i < npars(); i++) {
-      m_fitfunc.SetParLimits(i, pmin[i], pmax[i]);
-   }
-   m_fitfunc.SetParameters(pars);
-}
- 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void Dispersion::draw(double ymin, double ymax, bool ylog)
 {
