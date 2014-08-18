@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Mon Aug 18 09:45:26 PDT 2014
+irfs/handoff_response/pfiles
+
+Modified Files:
+	make_fits.par 
+Log Message:
+introspection is a different issue here, as it needs to also deal with fits templates.... use a parfile parameter for now, though it is still unappealing
+    *
+------------------------------------------------------------
 User: cohen  Fri Aug 15 06:29:32 PDT 2014
 irfs/handoff_response/src/gen
 
