@@ -271,18 +271,32 @@ void IrfAnalysis::writeFitParameters(std::string outputFile) {
     // add directory if not already there
     TDirectory* td = file->mkdir((m_classname).c_str());
 
-    bool check = file->cd((std::string("/")+m_classname).c_str());
-    if( ! check) throw("could not cd to /"+m_classname);
+    std::string classpath=std::string("/")+m_classname;
+    bool check = file->cd(classpath.c_str());
+    if( ! check) throw("could not cd to "+classpath);
 
     out() << "Writing summaries to " << outputFile << "/"
           << m_classname << std::endl;
 
     // now make 2-D histograms of the values
+    TDirectory* psfdir=td->mkdir("PSF");
+    check = psfdir->cd();
+    if( ! check) throw(strcat("could not cd to ",psfdir->GetPath()));
     m_psf->fillParameterTables();
+
+    TDirectory* dispdir=td->mkdir("EDISP");
+    check = dispdir->cd();
+    if( ! check) throw(strcat("could not cd to ",dispdir->GetPath()));
     m_disp->fillParameterTables();
 
+    TDirectory* aeffdir=td->mkdir("AEFF");
+    check = aeffdir->cd();
+    if( ! check) throw(strcat("could not cd to ",aeffdir->GetPath()));
     m_aeff->fillParameterTables();
 
+    TDirectory* phidir=td->mkdir("PHIDEP");
+    check = phidir->cd();
+    if( ! check) throw(strcat("could not cd to ",phidir->GetPath()));
     m_phi_dep->fillParameterTables();
 
     delete file;

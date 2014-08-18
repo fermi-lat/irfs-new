@@ -148,15 +148,17 @@ void DispPlots::fillParameterTables()
     // binning according to energy and costheta bins 
     // (skip norm, the first one)
 
-    for( int i = 0; i< Dispersion::npars(); ++i){
-        std::string name(Dispersion::parname(i));
+    //use first Dispersion object to get the global info on fit parameter number and names :
+    std::vector<std::string>  names=m_hists[0].getFitParNames();
+    int npars = names.size();
+    for( int i = 0; i<npars; ++i){
+        std::string name(names[i]);
         TH2F* h2 = new TH2F(name.c_str(), (name+";log energy; costheta").c_str() 
             ,binner().energy_bins(), &*binner().energy_bin_edges().begin()
             ,binner().angle_bins(),  &*binner().angle_bin_edges().begin()
         );
 
         std::vector<double> pars;
-
         int index(0);
         for( Displist::iterator it = m_hists.begin(); it!=m_hists.end(); ++it, ++index){
             it->getFitPars(pars);

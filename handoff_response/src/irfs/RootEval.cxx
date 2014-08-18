@@ -67,9 +67,9 @@ RootEval::RootEval(TFile * f, std::string eventtype)
   : IrfEval(eventtype),
     m_f(f), m_loge_last(0), m_costh_last(0), 
     m_loge_last_edisp(0), m_costh_last_edisp(0),
-    m_aeff(setupHist("aeff")) {
-   setupParameterTables(PointSpreadFunction::pnames, m_psfTables);
-   setupParameterTables(Dispersion::pnames, m_dispTables);
+    m_aeff(setupHist("AEFF/aeff")) {
+  setupParameterTables("PSF", m_psfTables);
+  setupParameterTables("EDISP", m_dispTables);
 }
 
 RootEval::~RootEval() {
@@ -77,12 +77,20 @@ RootEval::~RootEval() {
 }
 
 void RootEval::
-setupParameterTables(const std::vector<std::string> & names,
+setupParameterTables(const std::string & dirname,
                      std::vector<Table *> & tables) {
-   for (std::vector<std::string>::const_iterator it(names.begin());
-        it != names.end(); ++it) {
-      const std::string& name(*it);
-      tables.push_back(setupHist(name));
+  std::string fullname(eventClass()+"/"+dirname);
+  bool check=m_f->cd(fullname.c_str());
+  if(!check) throw("could not cd to "+fullname);
+  TDirectory *curdir = gDirectory;
+  TList * keys = curdir->GetListOfKeys();
+  for (int i = 0; i< keys->GetEntries(); ++i) {
+    std::string histname(keys->At(i)->GetName());
+    //the scaling pars histo are dealt with separately
+    if(histname.find("scaling_params")==std::string::npos){
+      std::cout<<fullname<<" "<<histname<<std::endl;
+      tables.push_back(setupHist(dirname+"/"+histname));
+    }
    }
 }
 
@@ -144,7 +152,7 @@ void RootEval::getPsfPars(double energy, double inclination,
 }
 
 Table * RootEval::setupHist(std::string name) {
-   std::string fullname(eventClass()+"/"+name);
+  std::string fullname(eventClass()+"/"+name);
    TH2F* h2 = (TH2F*)m_f->GetObjectChecked((fullname).c_str(), "TH2F");
    if (h2==0) {
       throw std::invalid_argument("RootEval: could not find plot "+fullname);

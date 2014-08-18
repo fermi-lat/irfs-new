@@ -77,7 +77,7 @@ private:
     double * disp_par(double energy, double costh);
 
     Table* setupHist( std::string name);
-    void setupParameterTables(const std::vector<std::string>& names, 
+    void setupParameterTables(const std::string& name, 
                               std::vector<Table*>&tables);
 
    double m_loge_last;

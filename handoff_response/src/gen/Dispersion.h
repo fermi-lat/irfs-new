@@ -41,6 +41,10 @@ public:
     /// get vector of fit parameters (all zero if not fit)
     void getFitPars(std::vector<double> & pars)const;
 
+    inline int getFitParSize(){return m_parmap.size();}
+    
+    std::vector<std::string> getFitParNames();
+
     /// scale factor to apply to data
     static double scaleFactor(double energy, double zdir, bool front);
    
@@ -73,6 +77,8 @@ private:
     TH1F* m_hist;  ///< managed histogram
     TH1F* m_cumhist; ///< a cumulative histogram, generated before fit
     TF1 m_fitfunc; ///< the fit function
+
+    std::map<std::string,std::vector<double> > m_parmap;
 
     int m_count; ///< number of entries
     unsigned int m_edisp_version;

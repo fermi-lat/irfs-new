@@ -46,7 +46,7 @@ private:
 
    std::vector<std::string> m_keys;
 
-   void readTableNames(TDirectory * section);
+   void readTableNames(TDirectory * section,bool no_clear);
 
 };
 

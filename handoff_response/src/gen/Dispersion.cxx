@@ -130,16 +130,15 @@ Dispersion::Dispersion(std::string histname,
   } catch(std::invalid_argument &){;}
   m_edisp_version=edisp_version;
 
-  std::map<std::string,std::vector<double> > parmap;
   try{
-    py.getDict("Edisp.fit_pars", parmap);
+    py.getDict("Edisp.fit_pars", m_parmap);
   } catch(std::invalid_argument &){;}
 
-  m_fitfunc=TF1("edisp-fit", *this, fitrange[0], fitrange[1], parmap.size());
+  m_fitfunc=TF1("edisp-fit", *this, fitrange[0], fitrange[1], m_parmap.size());
 
   std::map<std::string,std::vector<double> >::const_iterator 
-    it = parmap.begin();
-  for (unsigned int i=0;i<parmap.size();i++){
+    it = m_parmap.begin();
+  for (unsigned int i=0;i<m_parmap.size();i++){
     m_fitfunc.SetParName(i, ((*it).first).c_str());
     std::vector<double> par_values = (*it).second;
     m_fitfunc.SetParameter(i, par_values[0]);
@@ -150,6 +149,14 @@ Dispersion::Dispersion(std::string histname,
   m_fitfunc.SetLineWidth(1);
 }
 
+std::vector<std::string> Dispersion::getFitParNames() {
+  std::vector<std::string> names;
+  std::map<std::string,std::vector<double> >::const_iterator 
+    it = m_parmap.begin();
+  for(;it!=m_parmap.end();it++){
+    names.push_back((*it).first);}
+  return names;
+}
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Dispersion::~Dispersion()
 {}
