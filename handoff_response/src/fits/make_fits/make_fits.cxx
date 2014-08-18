@@ -160,20 +160,36 @@ void MakeFits::createFitsFiles(const std::string & className,
 
 // Energy dispersion
    std::string edisp_file("edisp_" + latclass + ".fits");
-   FitsFile edisp(edisp_file, "ENERGY DISPERSION", "edisp.tpl");
-   edisp.setGrid(irfTables["norm"]);
-   edisp.setTableData("NORM", irfTables["norm"].values());
-   edisp.setTableData("LS1", irfTables["ls1"].values());
-   edisp.setTableData("RS1", irfTables["rs1"].values());
-   edisp.setTableData("BIAS", irfTables["bias"].values());
-   edisp.setTableData("LS2", irfTables["ls2"].values());
-   edisp.setTableData("RS2", irfTables["rs2"].values());
-   edisp.setCbdValue("VERSION", irfVersion);
-   edisp.setCbdValue("CLASS", latclass);
-   edisp.setKeyword("DETNAM", detname);
-   edisp.setKeyword("EDISPVER", 2);
-   edisp.close();
-
+   bool use_new_edisp=m_pars["new_edisp"];
+   if(use_new_edisp){
+     FitsFile edisp(edisp_file, "ENERGY DISPERSION", "edisp2.tpl");
+     edisp.setGrid(irfTables["f"]);
+     edisp.setTableData("F", irfTables["f"].values());
+     edisp.setTableData("S1", irfTables["s1"].values());
+     edisp.setTableData("K1", irfTables["k1"].values());
+     edisp.setTableData("BIAS", irfTables["bias"].values());
+     edisp.setTableData("S2", irfTables["s2"].values());
+     edisp.setTableData("K2", irfTables["k2"].values()); 
+     edisp.setCbdValue("VERSION", irfVersion);
+     edisp.setCbdValue("CLASS", latclass);
+     edisp.setKeyword("DETNAM", detname);
+     edisp.setKeyword("EDISPVER", 2);
+     edisp.close(); 
+   } else {
+     FitsFile edisp(edisp_file, "ENERGY DISPERSION", "edisp.tpl");
+     edisp.setGrid(irfTables["norm"]);
+     edisp.setTableData("NORM", irfTables["norm"].values());
+     edisp.setTableData("LS1", irfTables["ls1"].values());
+     edisp.setTableData("RS1", irfTables["rs1"].values());
+     edisp.setTableData("BIAS", irfTables["bias"].values());
+     edisp.setTableData("LS2", irfTables["ls2"].values());
+     edisp.setTableData("RS2", irfTables["rs2"].values()); 
+     edisp.setCbdValue("VERSION", irfVersion);
+     edisp.setCbdValue("CLASS", latclass);
+     edisp.setKeyword("DETNAM", detname);
+     edisp.setKeyword("EDISPVER", 1);
+     edisp.close();
+   }
    // /// @bug These are hard-wired values in gen/Dispersion::scaleFactor()!!
    // double edisp_front[] = {0.0210, 0.058, -0.207, -0.213, 0.042, 0.564};
    // double edisp_back[] = {0.0215, 0.0507, -0.22, -0.243, 0.065, 0.584};
@@ -232,4 +248,5 @@ void MakeFits::run() {
       formatter.info() << *name << std::endl;
       createFitsFiles(*name, rootfile);
    }
+   formatter.info()<<"success!\n";
 }
