@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: cohen  Mon Aug 18 09:48:54 PDT 2014
+irfs/handoff_response/src/gen
+
+Modified Files:
+	DispPlots.cxx Dispersion.cxx Dispersion.h IrfAnalysis.cxx 
+Log Message:
+remove some dependence on static name list from Dispersion and PointSpreadFunction class, and rely on the structure of the ROOT file instead
+    *
+------------------------------------------------------------
+User: cohen  Mon Aug 18 09:48:54 PDT 2014
 irfs/handoff_response/src/fits
 
 Modified Files:
