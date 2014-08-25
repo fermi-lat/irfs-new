@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Mon Aug 25 00:40:07 PDT 2014
+irfs/handoff_response/data
+
+Added Files:
+	edisp2.tpl 
+Log Message:
+edisp2.tpl added for the new dispersion fits output
+    *
+------------------------------------------------------------
 User: cohen  Mon Aug 18 09:48:54 PDT 2014
 irfs/handoff_response/src/irfs
 
