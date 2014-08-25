@@ -170,6 +170,8 @@ void MakeFits::createFitsFiles(const std::string & className,
      edisp.setTableData("BIAS", irfTables["bias"].values());
      edisp.setTableData("S2", irfTables["s2"].values());
      edisp.setTableData("K2", irfTables["k2"].values()); 
+     edisp.setTableData("PINDEX1", irfTables["pindex1"].values()); 
+     edisp.setTableData("PINDEX2", irfTables["pindex2"].values()); 
      edisp.setCbdValue("VERSION", irfVersion);
      edisp.setCbdValue("CLASS", latclass);
      edisp.setKeyword("DETNAM", detname);
