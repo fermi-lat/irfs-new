@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Wed Aug 27 13:19:35 PDT 2014
+irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+fix two bugs : in dealing with FRONT and BACK for the scaling parameters, and in adding hardcoded parameters only for old edisp
+    *
+------------------------------------------------------------
 User: cohen  Mon Aug 25 01:31:05 PDT 2014
 irfs/handoff_response/src/fits/make_fits
 
