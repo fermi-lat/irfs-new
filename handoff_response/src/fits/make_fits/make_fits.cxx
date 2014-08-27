@@ -170,7 +170,7 @@ void MakeFits::createFitsFiles(const std::string & className,
      edisp.setTableData("BIAS", irfTables["bias"].values());
      edisp.setTableData("S2", irfTables["s2"].values());
      edisp.setTableData("K2", irfTables["k2"].values()); 
-     edisp.setTableData("PINDEX1", irfTables["pindex1"].values()); 
+     edisp.setTableData("PINDEX1", irfTables["pindex1"].values());
      edisp.setTableData("PINDEX2", irfTables["pindex2"].values()); 
      edisp.setCbdValue("VERSION", irfVersion);
      edisp.setCbdValue("CLASS", latclass);
@@ -199,7 +199,7 @@ void MakeFits::createFitsFiles(const std::string & className,
    std::vector<double> scalingPars;
    const std::vector<double> & edisp_pars(irfTables["edisp_scaling_params"].values());
    size_t npars(edisp_pars.size());
-   if (detname == "FRONT") {
+   if (irfVersion.find("front") != std::string::npos) {
       for (size_t i(0); i < npars/2; i++) {
          scalingPars.push_back(edisp_pars[i]);
       }
@@ -211,10 +211,13 @@ void MakeFits::createFitsFiles(const std::string & className,
 
    /// @bug Append other hard-wired values from gen/Dispersion 
    // anonymous namespace:
-   scalingPars.push_back(1.6);
-   scalingPars.push_back(0.6);
-   scalingPars.push_back(1.5);
-
+   //relevant only for the old edisp functional
+   if(!use_new_edisp){
+     scalingPars.push_back(1.6);
+     scalingPars.push_back(0.6);
+     scalingPars.push_back(1.5);
+   }
+   //this call to edisp.tpl for both version should be fine, as the structure of this extension does not change, only the size of the array.
    FitsFile edispScaling(edisp_file, "EDISP_SCALING_PARAMS", "edisp.tpl",
                          newFile=false);
    edispScaling.setTableData("EDISPSCALE", scalingPars);
