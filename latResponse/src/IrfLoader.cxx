@@ -37,6 +37,7 @@
 #include "CaldbDate.h"
 #include "Edisp.h"
 #include "Edisp2.h"
+#include "Edisp3.h"
 #include "EdispEpochDep.h"
 #include "EfficiencyFactor.h"
 #include "EfficiencyFactorEpochDep.h"
@@ -272,6 +273,8 @@ irfInterface::IEdisp *
 IrfLoader::edisp(const std::string & edisp_file, size_t nrow) const {
    if (edispVersion(edisp_file) == 2) {
       return new Edisp2(edisp_file, "ENERGY DISPERSION", nrow);
+   } else if (edispVersion(edisp_file) == 3) {
+      return new Edisp3(edisp_file, "ENERGY DISPERSION", nrow);
    }
    return new Edisp(edisp_file, "ENERGY DISPERSION", nrow);
 }

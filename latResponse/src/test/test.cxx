@@ -275,8 +275,9 @@ void LatResponseTests::edisp_normalization() {
       const irfInterface::IEdisp & edisp(*myIrfs->edisp());
       for (std::vector<double>::const_iterator energy(energies.begin());
            energy != energies.end(); ++energy) {
-         double elower(*energy/10.);
-         double eupper(*energy*10.);
+         double efactor(30);
+         double elower(*energy/efactor);
+         double eupper(*energy*efactor);
          for (std::vector<double>::const_iterator theta(thetas.begin());
               theta != thetas.end(); ++theta) {
             double integral(edisp.integral(elower, eupper, *energy,
