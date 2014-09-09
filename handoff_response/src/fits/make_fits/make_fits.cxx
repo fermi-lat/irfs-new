@@ -175,7 +175,7 @@ void MakeFits::createFitsFiles(const std::string & className,
      edisp.setCbdValue("VERSION", irfVersion);
      edisp.setCbdValue("CLASS", latclass);
      edisp.setKeyword("DETNAM", detname);
-     edisp.setKeyword("EDISPVER", 2);
+     edisp.setKeyword("EDISPVER", 3);
      edisp.close(); 
    } else {
      FitsFile edisp(edisp_file, "ENERGY DISPERSION", "edisp.tpl");
