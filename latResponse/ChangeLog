@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Tue Sep  9 15:49:28 PDT 2014
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx 
+Added Files:
+	Edisp3.cxx Edisp3.h 
+Log Message:
+add Edisp3 implementation
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-34-02, operation: add
 Package: latResponse
