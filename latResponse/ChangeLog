@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Sep  9 15:49:28 PDT 2014
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+add Edisp3 implementation
+    *
+------------------------------------------------------------
+User: jchiang  Tue Sep  9 15:49:28 PDT 2014
 ScienceTools-scons/irfs/latResponse/src
 
 Modified Files:
