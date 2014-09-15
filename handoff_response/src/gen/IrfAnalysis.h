@@ -54,7 +54,7 @@ public:
        /// @param logemin minimum log10(McEnergy)
        /// @param logemax maxiumum log10(McEnergy)
        
-       Normalization(int generated, double logemin, double logemax)
+       Normalization(double generated, double logemin, double logemax)
           :m_events(generated)
           ,m_low(logemin)
           ,m_high(logemax)
@@ -62,15 +62,14 @@ public:
        bool in_range(double loge, double costh) const {
           return loge>m_low && loge<=m_high && costh>0 && costh<=1;
        } 
-       int generated()const{return m_events;}
+       double generated()const{return m_events;}
        double logemin()const{return m_low;}
        double logemax()const{return m_high;}
        double value(double loge, double costh) const {
           return in_range(loge, costh) ? m_events/(m_high-m_low) : 0;
        } 
     private:
-       int m_events;
-       double  m_low, m_high;
+       double m_events, m_low, m_high;
     };
 
    const std::vector<Normalization> & normalization() const {

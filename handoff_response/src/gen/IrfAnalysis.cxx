@@ -133,7 +133,7 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,
    py.getList("Data.logemin", logemins);
    py.getList("Data.logemax", logemaxes);
    for (size_t i=0; i<generated.size(); ++i) {
-      normalization().push_back(Normalization(static_cast<int>(generated[i]),
+      normalization().push_back(Normalization(generated[i],
                                               logemins[i], logemaxes[i]));
    }
 
