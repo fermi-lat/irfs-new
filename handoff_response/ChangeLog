@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: rando  Mon Sep 15 08:23:50 PDT 2014
+irfs/handoff_response/src/gen
+
+Modified Files:
+	IrfAnalysis.cxx IrfAnalysis.h 
+Log Message:
+Changed number of generated events into a double, casting caused overflow
+
+    *
+------------------------------------------------------------
 User: jchiang  Tue Sep  9 10:59:29 PDT 2014
 ScienceTools-scons/irfs/handoff_response/src/fits/make_fits
 
