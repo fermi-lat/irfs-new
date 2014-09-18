@@ -12,6 +12,7 @@ $Header$
 #include "TList.h"
 #include "TF2.h"
 #include "TMath.h"
+#include "TFitResultPtr.h"
 
 #include <cmath>
 #include <iomanip>
@@ -75,19 +76,21 @@ namespace {
   //edisp function version 2 : uses the asymetric generalized gaussian
   double edisp_func2(double * x, double * par)
   {
-    double F       = par[0];
-    double S1      = par[1];
+    double BIAS    = par[0];
+    double F       = par[1];
     double K1      = par[2];
-    double BIAS    = par[3];
-    double S2      = par[4];
-    double K2      = par[5];
-    double PINDEX1 = par[6];
-    double PINDEX2 = par[7];
+    double K2      = par[3];
+    double PINDEX1 = par[4];
+    double PINDEX2 = par[5];
+    double S1      = par[6];
+    double S2      = par[7];
     
     double g1 = g(x[0],S1,PINDEX1,K1,BIAS);
     double g2 = g(x[0],S2,PINDEX2,K2,BIAS);
- 
-    double result    = F*g1+(1.-F)*g2;
+    double result = 0.;
+    if(F==1){result=g1;}
+    else if(F==0){result=g2;}
+    else {result=F*g1+(1.-F)*g2;}
     float  bin_width = (xmax-xmin)/nbins;
     
     return bin_width*result;
@@ -236,7 +239,7 @@ double Dispersion::function(double* delta, double* par) {
 double Dispersion::operator()(double* delta, double* par) {
   if(m_edisp_version==1) {
      return edisp_func(delta,par);
-  } else {
+  } else { 
     return edisp_func2(delta,par);
   }
 }
@@ -245,7 +248,7 @@ double Dispersion::operator()(double* delta, double* par) {
 void Dispersion::fit(std::string opts)
 {
   
-    std::cout << "\rProcessing " << hist().GetTitle();
+  std::cout << "\rProcessing " << hist().GetTitle()<<std::endl;
     TH1F & h = hist(); 
 
     // normalize the distribution
@@ -254,16 +257,15 @@ void Dispersion::fit(std::string opts)
         h.Sumw2(); // needed to preserve errors
         h.Scale(1./scale);
     }
-
-    //m_fitfunc.SetParameters(pinit);
     if( m_count > min_entries ) {
       int fitcount=0;
-      int fitres=-1;
+      int fitStatus=-1;
       // fit till convergence or for a set number of times
       // Minuit at times gives up for no reason
-      while ((fitres!=0)&&(fitcount<fit_tries)) {
+      while ((fitStatus!=0)&&(fitcount<fit_tries)) {
 	fitcount++;
-        fitres=h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
+        TFitResultPtr fitRes=h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
+	fitStatus = fitRes;
       }
     }
 }
