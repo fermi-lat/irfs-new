@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Thu Sep 18 03:12:37 PDT 2014
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx 
+Log Message:
+fix a nasty bug in the ordering of the parameter array
+    *
+------------------------------------------------------------
 User: rando  Mon Sep 15 08:23:50 PDT 2014
 irfs/handoff_response/src/gen
 
