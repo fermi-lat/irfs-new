@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Sep 19 08:06:05 PDT 2014
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Edisp3.cxx 
+Log Message:
+add BIAS2
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-03-02-00, operation: add
 Package: latResponse
