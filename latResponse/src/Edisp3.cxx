@@ -101,17 +101,19 @@ double Edisp3::value(double appEnergy, double energy,
 
 double Edisp3::thibaut_function(double xx, double * pars) const {
 // See https://confluence.slac.stanford.edu/x/URDlCQ
-// Parameter ordering in FITS file: F, S1, K1, BIAS, S2, K2, PINDEX1, PINDEX2
+// Parameter ordering in FITS file: F, S1, K1, BIAS, BIAS2, 
+// S2, K2, PINDEX1, PINDEX2
    double F(pars[0]);
    double S1(pars[1]);
    double K1(pars[2]);
    double BIAS(pars[3]);
-   double S2(pars[4]);
-   double K2(pars[5]);
-   double PINDEX1(pars[6]);
-   double PINDEX2(pars[7]);
+   double BIAS2(pars[4]);
+   double S2(pars[5]);
+   double K2(pars[6]);
+   double PINDEX1(pars[7]);
+   double PINDEX2(pars[8]);
    double value(F*thibaut_base_function(xx, S1, K1, BIAS, PINDEX1)
-                + (1 - F)*thibaut_base_function(xx, S2, K2, BIAS, PINDEX2));
+                + (1 - F)*thibaut_base_function(xx, S2, K2, BIAS2, PINDEX2));
    return value;
 }
 
