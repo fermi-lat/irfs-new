@@ -77,16 +77,17 @@ namespace {
   double edisp_func2(double * x, double * par)
   {
     double BIAS    = par[0];
-    double F       = par[1];
-    double K1      = par[2];
-    double K2      = par[3];
-    double PINDEX1 = par[4];
-    double PINDEX2 = par[5];
-    double S1      = par[6];
-    double S2      = par[7];
+    double BIAS2    = par[1];
+    double F       = par[2];
+    double K1      = par[3];
+    double K2      = par[4];
+    double PINDEX1 = par[5];
+    double PINDEX2 = par[6];
+    double S1      = par[7];
+    double S2      = par[8];
     
     double g1 = g(x[0],S1,PINDEX1,K1,BIAS);
-    double g2 = g(x[0],S2,PINDEX2,K2,BIAS);
+    double g2 = g(x[0],S2,PINDEX2,K2,BIAS2);
     double result = 0.;
     if(F==1){result=g1;}
     else if(F==0){result=g2;}
@@ -266,6 +267,7 @@ void Dispersion::fit(std::string opts)
 	fitcount++;
         TFitResultPtr fitRes=h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
 	fitStatus = fitRes;
+	std::cout<<fitStatus<<std::endl;
       }
     }
 }

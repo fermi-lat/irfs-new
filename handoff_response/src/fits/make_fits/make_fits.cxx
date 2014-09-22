@@ -168,6 +168,7 @@ void MakeFits::createFitsFiles(const std::string & className,
      edisp.setTableData("S1", irfTables["s1"].values());
      edisp.setTableData("K1", irfTables["k1"].values());
      edisp.setTableData("BIAS", irfTables["bias"].values());
+     edisp.setTableData("BIAS2", irfTables["bias2"].values());
      edisp.setTableData("S2", irfTables["s2"].values());
      edisp.setTableData("K2", irfTables["k2"].values()); 
      edisp.setTableData("PINDEX1", irfTables["pindex1"].values());
