@@ -51,8 +51,8 @@ void Edisp2::renormalize(double logE, double costh, double * params) const {
    EdispIntegrand foo(params, energy, scale_factor, *this);
    double err(1e-7);
    int ierr;
-   double norm(st_facilities::GaussianQuadrature::dgaus8(foo, energy/30.,
-                                                         energy*30, err, ierr));
+   double norm(st_facilities::GaussianQuadrature::dgaus8(foo, energy/10.,
+                                                         energy*10, err, ierr));
    params[0] /= norm;
 }
 
@@ -93,8 +93,9 @@ double Edisp2::evaluate(double emeas, double energy,
    double xx((emeas - energy)/energy);
    double costh(std::cos(theta*M_PI/180.));
    costh = std::min(costh, m_parTables.costhetas().back());
-   xx /= scaleFactor(std::log10(energy), costh);
-   return old_function(xx, pars)/energy;
+   double scale_factor(scaleFactor(std::log10(energy), costh));
+   xx /= scale_factor;
+   return old_function(xx, pars)/energy/scale_factor;
 }
 
 double Edisp2::value(double appEnergy, double energy,

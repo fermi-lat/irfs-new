@@ -249,6 +249,11 @@ void LatResponseTests::edisp_normalization() {
    for (size_t i = 0; i < nee; i++) {
       energies.push_back(emin*std::exp(i*dee));
    }
+   /// Add specific values where Pass 8 has problems.
+   energies.push_back(133.4);
+   energies.push_back(421.7);
+   energies.push_back(749.9);
+   energies.push_back(2371.4);
 
    std::vector<double> thetas;
    double thmin(0);
@@ -258,6 +263,10 @@ void LatResponseTests::edisp_normalization() {
    for (size_t i = 0; i < nth; i++) {
       thetas.push_back(i*dth + thmin);
    }
+   /// Add specific values where Pass 8 has problems.
+   thetas.push_back(49.46);
+   thetas.push_back(63.26);
+   thetas.push_back(75.52);
 
    double phi(0);
 
@@ -270,12 +279,15 @@ void LatResponseTests::edisp_normalization() {
 
    for (std::vector<std::string>::const_iterator name(m_irfNames.begin());
         name != m_irfNames.end(); ++name) {
+      // if ((*name).find("P8_SOURCE") == std::string::npos) {
+      //    continue;
+      // }
       std::cout << *name << ": \n";
       irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
       const irfInterface::IEdisp & edisp(*myIrfs->edisp());
       for (std::vector<double>::const_iterator energy(energies.begin());
            energy != energies.end(); ++energy) {
-         double efactor(30);
+         double efactor(10);
          double elower(*energy/efactor);
          double eupper(*energy*efactor);
          for (std::vector<double>::const_iterator theta(thetas.begin());

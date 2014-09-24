@@ -105,7 +105,7 @@ private:
 
       double operator()(double emeas) const {
          double xx((emeas - m_etrue)/m_etrue/m_scaleFactor);
-         return m_self.old_function(xx, m_pars)/m_etrue;
+         return m_self.old_function(xx, m_pars)/m_etrue/m_scaleFactor;
       }
 
    private:

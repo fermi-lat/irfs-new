@@ -64,13 +64,13 @@ public:
          yvals[i] = irfClass.evaluate(my_emeas, cornerEnergies[i],
                                       cornerThetas[i], phi, time,
                                       const_cast<double *>(&m_parVectors[index[i]][0]));
-         /// By using my_emeas, we are effectively rescaling the
-         /// x-axis by the ratio of true energies. The additional
-         /// factor applied here is the Jacobian of that
-         /// transformation.
-         yvals[i] *= (cornerEnergies[i]*my_sf)/(energy*sf);
+         /// irfClass.evaluate(...) includes the Jacobian factor to
+         /// convert to dp/d(emeas), but we want to interpolate on
+         /// dp/dx, so we remove that factor at each corner of the
+         /// grid element.
+         yvals[i] *= cornerEnergies[i]*my_sf;
       }
-      double my_value(Bilinear::evaluate(tt, uu, &yvals[0]));
+      double my_value(Bilinear::evaluate(tt, uu, &yvals[0])/energy/sf);
       return my_value;
    }
 #endif // SWIG

@@ -1,6 +1,6 @@
 /**
  * @file EdispInterpolator.cxx
- * @brief Bilinear interoplator of IRF distributions.
+ * @brief Bilinear interoplator of energy dispersion distributions.
  * @author J. Chiang
  *
  * $Header$
