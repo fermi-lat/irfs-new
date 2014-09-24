@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-03-02-01 24-Sep-2014 jchiang fix Edisp2 normalization when using interpolation scheme
  latResponse-03-02-00 09-Sep-2014 jchiang add Edisp3 for third generation energy dispersion parameterization
  latResponse-03-01-00 06-Aug-2014 jchiang add distribution interpolation to energy dispersion for P7 and later
  latResponse-03-00-03 08-Apr-2014 jchiang const fixes
