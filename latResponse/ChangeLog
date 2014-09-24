@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Sep 24 15:53:36 PDT 2014
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Edisp2.cxx Edisp2.h EdispInterpolator.cxx EdispInterpolator.h 
+Log Message:
+fix normalization issue for Edisp2 when using interpolation; add edisp normalzaiton test cases specific to Pass 8
+    *
+------------------------------------------------------------
 User: jchiang  Fri Sep 19 08:06:05 PDT 2014
 ScienceTools-scons/irfs/latResponse/src
 
