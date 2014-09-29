@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: mdwood  Sun Sep 28 21:21:24 PDT 2014
+ScienceTools-scons/irfs/handoff_response/src/gen
+
+Modified Files:
+	IrfAnalysis.cxx IrfAnalysis.h 
+Added Files:
+	FisheyeHist.cxx FisheyeHist.h FisheyePlots.cxx FisheyePlots.h 
+Log Message:
+New classes for evaluation of fisheye correction.
+    *
+------------------------------------------------------------
 User: bruel  Sun Sep 28 18:39:00 PDT 2014
 irfs/handoff_response/src/gen
 
