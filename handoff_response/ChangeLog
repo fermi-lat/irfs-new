@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Sun Sep 28 21:21:25 PDT 2014
+ScienceTools-scons/irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+New classes for evaluation of fisheye correction.
+    *
+------------------------------------------------------------
 User: mdwood  Sun Sep 28 21:21:24 PDT 2014
 ScienceTools-scons/irfs/handoff_response/src/gen
 
