@@ -6,6 +6,7 @@
 
 #include "IrfAnalysis.h"
 #include "PsfPlots.h"
+#include "FisheyePlots.h"
 #include "DispPlots.h"
 #include "EffectiveArea.h"
 #include "AeffPhiDep.h"
@@ -163,6 +164,8 @@ void IrfAnalysis::project(embed_python::Module & py) {
    m_aeff = new EffectiveArea(*this, out());
    m_phi_dep = new AeffPhiDep(*this);
 
+   m_fisheye = new FisheyePlots(*this,out(),py);
+
    std::cout << "Selecting columns in tree " << tree().GetName() << std::endl;
    TreeWrapper mytree(&tree()); // sets current TTree
    TreeWrapper::Leaf // create TLeaf-wrappers from the current TTree 
@@ -209,18 +212,17 @@ void IrfAnalysis::project(embed_python::Module & py) {
          mc_dir(McXDir, McYDir, McZDir), 
 	fit_dir(fitxdir, fitydir, fitzdir);
 
-      /*	
-	//Approximated version to check theta- and phi- projections
-	HepGeom::Vector3D<double>
-	mc_error(mc_dir - fit_dir),
-	zhat(0, 0, 1),
+
+      //Approximated version to check theta- and phi- projections
+      HepGeom::Vector3D<double> 
+	mc_error(mc_dir - fit_dir), zhat(0, 0, 1),
 	phi_hat = zhat.cross(mc_dir).unit(),
 	theta_hat = phi_hat.cross(mc_dir).unit();
 
-	double phi_err = mc_error*phi_hat,
-	theta_err = mc_error*theta_hat,
-	diff = sqrt(sqr(theta_err) + sqr(phi_err));
-      */
+      double phi_err = mc_error*phi_hat,
+	theta_err = mc_error*theta_hat;
+	//	diff = sqrt(sqr(theta_err) + sqr(phi_err));
+
 
       //exact version
       double diff=mc_dir.angle(fit_dir);
@@ -231,6 +233,11 @@ void IrfAnalysis::project(embed_python::Module & py) {
          //ratio =measured_energy/mc_energy,
          dsp = measured_energy/mc_energy - 1;
 
+      // std::cout << Tkr1FirstLayer << " " 
+      // 		<< front << " " << m_front_only_psf_scaling
+      // 		<< std::endl;
+
+      m_fisheye->fill(theta_err, McEnergy, McZDir, front);
       m_psf->fill(diff, McEnergy, McZDir, front || m_front_only_psf_scaling);
       m_disp->fill(dsp, McEnergy, McZDir, front);
       m_aeff->fill(mc_energy, McZDir, front, total);
@@ -247,6 +254,7 @@ void IrfAnalysis::project(embed_python::Module & py) {
 
 void IrfAnalysis::fit(bool make_plots, std::string output_type) {
    m_psf->fit(); 
+   m_fisheye->fit(); 
    m_disp->fit();
    m_phi_dep->fit();
    
@@ -255,6 +263,7 @@ void IrfAnalysis::fit(bool make_plots, std::string output_type) {
    m_aeff->summarize();
    if (make_plots) {
       m_psf->draw(m_filename_root + "_psf." + output_type);
+      m_fisheye->draw(m_filename_root + "_fisheye." + output_type);
       m_disp->draw(m_filename_root + "_disp." + output_type);
       m_aeff->draw(m_filename_root + "_aeff." + output_type);
       m_phi_dep->draw(m_filename_root + "_phi_dep." + output_type);
@@ -283,6 +292,11 @@ void IrfAnalysis::writeFitParameters(std::string outputFile) {
     check = psfdir->cd();
     if( ! check) throw(strcat("could not cd to ",psfdir->GetPath()));
     m_psf->fillParameterTables();
+
+    TDirectory* fisheyedir=td->mkdir("FISHEYE");
+    check = fisheyedir->cd();
+    if( ! check) throw(strcat("could not cd to ",fisheyedir->GetPath()));
+    m_fisheye->fillParameterTables();
 
     TDirectory* dispdir=td->mkdir("EDISP");
     check = dispdir->cd();

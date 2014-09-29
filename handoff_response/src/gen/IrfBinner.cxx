@@ -15,13 +15,13 @@ $Header$
 #include <stdexcept>
 #include <cstring>
 
-IrfBinner::IrfBinner(embed_python::Module& py) 
+IrfBinner::IrfBinner(embed_python::Module& py, const std::string& prefix) 
    : m_edispEnergyOverLap(0), m_edispAngleOverLap(0),
      m_psfEnergyOverLap(0), m_psfAngleOverLap(0)
 {
     // get the angle and energy bin edges
-    py.getList("Bins.angle_bin_edges", m_angle_bin_edges);
-    py.getList("Bins.energy_bin_edges", m_energy_bin_edges);
+    py.getList(prefix+".angle_bin_edges", m_angle_bin_edges);
+    py.getList(prefix+".energy_bin_edges", m_energy_bin_edges);
     m_ebins = m_energy_bin_edges.size()-1;
     m_abins = m_angle_bin_edges.size()-1;
 
@@ -30,15 +30,15 @@ IrfBinner::IrfBinner(embed_python::Module& py)
     }
 
     try {
-       py.getValue("Bins.edisp_energy_overlap", m_edispEnergyOverLap);
-       py.getValue("Bins.edisp_angle_overlap", m_edispAngleOverLap);
+       py.getValue(prefix+".edisp_energy_overlap", m_edispEnergyOverLap);
+       py.getValue(prefix+".edisp_angle_overlap", m_edispAngleOverLap);
     } catch (std::invalid_argument &) {
        // use defaults
     }
 
     try {
-       py.getValue("Bins.psf_energy_overlap", m_psfEnergyOverLap);
-       py.getValue("Bins.psf_angle_overlap", m_psfAngleOverLap);
+       py.getValue(prefix+".psf_energy_overlap", m_psfEnergyOverLap);
+       py.getValue(prefix+".psf_angle_overlap", m_psfAngleOverLap);
     } catch (std::invalid_argument &) {
        // use defaults
     }
@@ -75,6 +75,12 @@ int IrfBinner::hist_id(int ebin, int abin) const {
 double IrfBinner::eCenter(int j)const{
     double loge_mean( 0.5*(m_energy_bin_edges[j] + m_energy_bin_edges[j+1]) );
     return pow(10.0, loge_mean);
+}
+
+double IrfBinner::cthCenter(int j)const{
+  double cth_mean( 0.5*(m_angle_bin_edges[m_abins - j] + 
+			m_angle_bin_edges[m_abins - (j+1)]) );
+  return cth_mean;
 }
 
 

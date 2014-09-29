@@ -9,6 +9,7 @@
 #include <string>
 
 class PsfPlots;
+class FisheyePlots;
 class DispPlots;
 class EffectiveArea;
 class AeffPhiDep;
@@ -109,6 +110,7 @@ private:
    std::string m_bestEnergy;
     
    PsfPlots* m_psf;
+   FisheyePlots* m_fisheye;
    DispPlots* m_disp;
    EffectiveArea* m_aeff;
    AeffPhiDep * m_phi_dep;

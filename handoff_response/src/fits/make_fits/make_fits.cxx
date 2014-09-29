@@ -144,7 +144,6 @@ void MakeFits::createFitsFiles(const std::string & className,
    psf.setCbdValue("CLASS", latclass);
    psf.setKeyword("DETNAM", detname);
    psf.setKeyword("PSFVER", 2);
-   psf.close();
    
    // /// @bug These are hard-wired values from
    // /// gen/PointSpreadFunction::scaleFactor!
@@ -157,6 +156,14 @@ void MakeFits::createFitsFiles(const std::string & className,
    psfScaling.setCbdValue("CLASS", latclass);
    psfScaling.setKeyword("DETNAM", detname);
    psfScaling.close();
+
+   FitsFile fisheye(psf_file, "FISHEYE_CORRECTION", "psf.tpl",
+		    newFile=false);
+   fisheye.setGrid(irfTables["fisheye_mean"]);
+   fisheye.setTableData("MEAN", irfTables["fisheye_mean"].values());
+   fisheye.setTableData("MEDIAN", irfTables["fisheye_median"].values());
+   fisheye.setTableData("PEAK", irfTables["fisheye_peak"].values());
+   fisheye.close();
 
 // Energy dispersion
    std::string edisp_file("edisp_" + latclass + ".fits");

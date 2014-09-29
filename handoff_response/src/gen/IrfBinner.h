@@ -4,6 +4,8 @@
     $Header$
 
     */
+#ifndef IRF_IrfBinner_h
+#define IRF_IrfBinner_h
 
 #include <vector>
 #include <string>
@@ -11,7 +13,7 @@ namespace embed_python { class Module; }
 
 class IrfBinner {
 public:
-    IrfBinner(embed_python::Module& py);
+    IrfBinner(embed_python::Module& py, const std::string& prefix="Bins");
 
     /// arrays of bin edges
     const std::vector<double>& energy_bin_edges()const{return m_energy_bin_edges;}
@@ -36,6 +38,9 @@ public:
 
     /// energy (MeV) 
     double eCenter(int j)const; 
+
+    /// CosTheta
+    double cthCenter(int j)const; 
 
      /**
     these two functions define indexing in the vector arrays of histogram pointers
@@ -77,14 +82,15 @@ public:
    } 
 
 private:
-     std::vector<double> m_angle_bin_edges, m_energy_bin_edges;
+   std::vector<double> m_angle_bin_edges, m_energy_bin_edges;
+   
    // define angles in degrees for labels
-    std::vector<int> m_angles;
+   std::vector<int> m_angles;
 
 
-    size_t m_ebins, m_abins;
-
-    std::string m_name;
+   size_t m_ebins, m_abins;
+   
+   std::string m_name;
 
    int m_edispEnergyOverLap;
    int m_edispAngleOverLap;
@@ -92,3 +98,5 @@ private:
    int m_psfEnergyOverLap;
    int m_psfAngleOverLap;
 };
+
+#endif

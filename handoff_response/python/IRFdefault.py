@@ -59,17 +59,33 @@ except ImportError:
 
 #define default binning as attributes of object Bins
 class Bins(object):
+
+    @classmethod
+    def set_energy_bins(cls,logemin=None,logemax=None,logedelta=None):
+        """Convenience method for initializing energy bin edge vector."""
+        if logemin is not None: cls.logemin = logemin
+        if logemax is not None: cls.logemax = logemax
+        if logedelta is not None: cls.logedelta = logedelta
+        
+        cls.energy_bins = int((cls.logemax-cls.logemin)/cls.logedelta)
+        cls.energy_bin_edges = (num.arange(cls.energy_bins+1)*
+                                cls.logedelta+cls.logemin).tolist()
+
+    @classmethod
+    def set_angle_bins(cls,cthmin=None,cthdelta=None):
+        """Convenience method for initializing cosTheta bin edge vector."""
+        if cthmin is not None: cls.cthmin = cthmin
+        if cthdelta is not None: cls.cthdelta = cthdelta
+
+        cls.angle_bins = int((1.0-cls.cthmin)/cls.cthdelta)    
+        cls.angle_bin_edges = num.arange(cls.angle_bins+1)*cls.cthdelta+cls.cthmin
+
     logemin = 1.25
     logemax = 5.75
     logedelta = 0.25 #4 per decade
-    energy_bins = int((logemax-logemin)/logedelta)
-    energy_bin_edges = (num.arange(energy_bins+1)*logedelta+logemin).tolist()
-    
-    deltaCostheta = 0.1
-    cthmin = 0.2;
-    angle_bins = int((1-cthmin)/deltaCostheta)
-    
-    angle_bin_edges = num.arange(angle_bins+1)*deltaCostheta+cthmin
+
+    cthdelta = 0.1
+    cthmin = 0.2
 
     # no overlap with adjacent bins for energy dispersion fits
     edisp_energy_overlap = 0  
@@ -78,11 +94,45 @@ class Bins(object):
     # no overlap with adjacent bins for psf fits
     psf_energy_overlap = 0  
     psf_angle_overlap = 0
+
+Bins.set_energy_bins()
+Bins.set_angle_bins()
+    
+class FisheyeBins(Bins):
+    """
+    subclass of Bins for finer binning of fisheye correction
+    """
+    
+    logemin = Bins.logemin
+    logemax = Bins.logemax
+    logedelta = 0.125
+
+    cthmin = 0.2
+    cthdelta = 0.05
+
+FisheyeBins.set_energy_bins()
+FisheyeBins.set_angle_bins()
     
 class EffectiveAreaBins(Bins):
     """
     subclass of Bins for finer binning of effective area
     """
+
+    @classmethod
+    def set_energy_bins(cls,logemin=None,logemax=None):
+
+        if logemin is not None: cls.logemin = logemin
+        if logemax is not None: cls.logemax = logemax
+        
+        cls.energy_bin_edges = []
+        x = cls.logemin
+        factor = cls.ebinfactor
+        while x<cls.logemax+0.01:
+            if x>= cls.ebreak: factor = cls.ebinhigh
+            cls.energy_bin_edges.append(x)
+            x += cls.logedelta/factor
+
+    
     logemin = Bins.logemin
     logemax = Bins.logemax
     ebreak = 4.25
@@ -98,7 +148,7 @@ class EffectiveAreaBins(Bins):
         energy_bin_edges.append(x)
         x += logedelta/factor
     anglebinfactor=4 # bins multiplier
-    angle_bin_edges = num.arange(Bins.angle_bins*anglebinfactor+1)*Bins.deltaCostheta/anglebinfactor+Bins.cthmin
+    angle_bin_edges = num.arange(Bins.angle_bins*anglebinfactor+1)*Bins.cthdelta/anglebinfactor+Bins.cthmin
 
 class PSF(object):
     pass
