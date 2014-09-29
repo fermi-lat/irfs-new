@@ -89,6 +89,9 @@ private:
    static double s_coef_thin[6];
    static double s_coef_thick[6];
 
+   double biaslimit;
+   double bias2limit;
+
     void reorder_parameters();
 };
 

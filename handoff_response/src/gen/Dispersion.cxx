@@ -21,13 +21,13 @@ $Header$
 
 namespace {
     // histogram parameters
-    static double xmin=-7.5, xmax=7.5; 
-    static int nbins=100;
+    static double xmin=-15, xmax=15; 
+    static int nbins=200;
 
   static const char* names[]={"norm","ls1", "rs1", "bias", "ls2",  "rs2"};
   static double pindex[]={1.6,0.6};
   static double psplit(1.5); //tuned for a better fit
-  static double fitrange[]={-7, 7};
+  static double fitrange[]={-15, 15};
   static int min_entries(10);
   static int fit_tries=3; // try a fit this many times before giving up
   double edisp_func(double * x, double * par)
@@ -139,6 +139,9 @@ Dispersion::Dispersion(std::string histname,
   } catch(std::invalid_argument &){;}
 
   m_fitfunc=TF1("edisp-fit", *this, fitrange[0], fitrange[1], m_parmap.size());
+  biaslimit = 3;
+  bias2limit = 3;
+  if(m_edisp_version==1) m_fitfunc.SetRange(-7,7);
 
   std::map<std::string,std::vector<double> >::const_iterator 
     it = m_parmap.begin();
@@ -147,6 +150,8 @@ Dispersion::Dispersion(std::string histname,
     std::vector<double> par_values = (*it).second;
     m_fitfunc.SetParameter(i, par_values[0]);
     m_fitfunc.SetParLimits(i, par_values[1], par_values[2]);
+    if(i==0) biaslimit = par_values[2];
+    if(i==1) bias2limit = par_values[2];
     it++;
   }
 
@@ -258,6 +263,16 @@ void Dispersion::fit(std::string opts)
         h.Sumw2(); // needed to preserve errors
         h.Scale(1./scale);
     }
+
+    double mybias = h.GetMean();
+    if(m_edisp_version==2)
+      {
+        m_fitfunc.SetParameter(0,mybias);
+        m_fitfunc.SetParameter(1,mybias);
+        m_fitfunc.SetParLimits(0,mybias-biaslimit,mybias+biaslimit);
+        m_fitfunc.SetParLimits(1,mybias-bias2limit,mybias+bias2limit);
+      }
+
     if( m_count > min_entries ) {
       int fitcount=0;
       int fitStatus=-1;
