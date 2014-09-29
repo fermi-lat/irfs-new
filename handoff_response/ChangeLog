@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: bruel  Sun Sep 28 18:39:00 PDT 2014
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx 
+Log Message:
+PhBruel: change hist range and bias initialization
+    *
+------------------------------------------------------------
 User: bruel  Sun Sep 28 18:38:57 PDT 2014
 irfs/handoff_response/src/gen
 
