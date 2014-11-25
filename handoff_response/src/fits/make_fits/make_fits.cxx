@@ -143,7 +143,7 @@ void MakeFits::createFitsFiles(const std::string & className,
    psf.setCbdValue("VERSION", irfVersion);
    psf.setCbdValue("CLASS", latclass);
    psf.setKeyword("DETNAM", detname);
-   psf.setKeyword("PSFVER", 2);
+   psf.setKeyword("PSFVER", 3);
    
    // /// @bug These are hard-wired values from
    // /// gen/PointSpreadFunction::scaleFactor!
