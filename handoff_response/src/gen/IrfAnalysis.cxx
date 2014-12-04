@@ -125,10 +125,6 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,
    }
    std::cout << std::endl;
 
-   //Now load the fit parameters
-   std::map<std::string,std::vector<double> > fit_pars;
-   py.getDict("Edisp.fit_pars", fit_pars);
-
    std::vector<double> generated, logemins, logemaxes;
    py.getList("Data.generated", generated);
    py.getList("Data.logemin", logemins);
