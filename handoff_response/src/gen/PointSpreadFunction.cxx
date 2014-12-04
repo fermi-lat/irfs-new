@@ -166,7 +166,7 @@ PointSpreadFunction::PointSpreadFunction(std::string histname,
   hist().GetXaxis()->SetTitle("log10(scaled deviation)");
   
   try{
-    py.getDict("Psf.fit_pars", m_parmap);
+    py.getDict("PSF.fit_pars", m_parmap);
   } catch(std::invalid_argument &){;}
 
   m_fitfunc=TF1("psf-fit", psf_with_tail, fitrange[0], fitrange[1],m_parmap.size());
