@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Thu Dec  4 00:11:07 PST 2014
+irfs/handoff_response/src/gen
+
+Modified Files:
+	IrfAnalysis.cxx 
+Log Message:
+remove useless scorie from previous iteration on the code
+    *
+------------------------------------------------------------
 User: rando  Mon Nov 24 23:40:37 PST 2014
 irfs/handoff_response/src/fits/make_fits
 
