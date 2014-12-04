@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ handoff_response-05-04-00 04-Dec-2014  cohen make fit params settable through python for PSF
  handoff_response-05-03-00 29-Sep-2014 jchiang more changes to support Pass 8: new edisp parameter, BIAS2; improved fitting of edisp distributions; classes to provied fisheye corrections
  handoff_response-05-02-01 04-Jun-2014 jchiang bug-fix: clear edisp_pars first before reading in edisp_back params
  handoff_response-05-02-00 04-Jun-2014 jchiang allow users to set scaling function parameters for PSF and edisp via setup.py and propagate to FITS output via root parameter file
