@@ -11,6 +11,8 @@ class IrfAnalysis;
 class IrfBinner;
 
 #include "PointSpreadFunction.h"
+#include "embed_python/Module.h"
+
 #include <vector>
 
 /** @class PSFPlots
@@ -19,7 +21,7 @@ class IrfBinner;
 
 class PsfPlots {
 public:
-    PsfPlots( IrfAnalysis& irf, std::ostream& log=std::cout);
+    PsfPlots( IrfAnalysis& irf, std::ostream&, embed_python::Module & );
     ~PsfPlots();
 
     void fill(double diff, double energy, double costheta, bool front);

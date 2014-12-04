@@ -153,7 +153,7 @@ void IrfAnalysis::project(embed_python::Module & py) {
 
    //---- declare the IRF plots------
    //---------------------------
-   m_psf = new PsfPlots(*this, out());
+   m_psf = new PsfPlots(*this, out(), py);
 
    m_disp = new DispPlots(*this, out(), py);
 

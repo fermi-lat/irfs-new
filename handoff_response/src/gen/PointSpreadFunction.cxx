@@ -52,12 +52,12 @@ namespace {
     /// @param logx Pointer to log10 of scaled angular deviation.
     double psf_with_tail(double * logx, double * p)
     {
-       double ncore(p[0]);
-       double ntail(p[1]);
-       double score(p[2]);
-       double stail(p[3]);
-       double gcore(p[4]);
-       double gtail(p[5]);
+       double gcore(p[0]);
+       double gtail(p[1]);
+       double ncore(p[2]);
+       double ntail(p[3]);
+       double score(p[4]);
+       double stail(p[5]);
 
        double x = pow(10., (*logx));
        double rcore = x/score;
@@ -71,12 +71,12 @@ namespace {
 
     double psf_integral(double * logx, double * p)
     {
-       double ncore(p[0]);
-       double ntail(p[1]);
-       double score(p[2]);
-       double stail(p[3]);
-       double gcore(p[4]);
-       double gtail(p[5]);
+       double gcore(p[0]);
+       double gtail(p[1]);
+       double ncore(p[2]);
+       double ntail(p[3]);
+       double score(p[4]);
+       double stail(p[5]);
 
        double x = pow(10., (*logx));
        double rcore = x/score;
@@ -157,20 +157,39 @@ std::vector<std::string>
 
 
 PointSpreadFunction::PointSpreadFunction(std::string histname, 
-                                         std::string title)
+                                         std::string title,
+                                         embed_python::Module & py)
                                          
-   : m_hist(new TH1F(histname.c_str(),  title.c_str(),  nbins, xmin, xmax)),
-     m_fitfunc(TF1("psf-fit", psf_with_tail, fitrange[0], fitrange[1],npars())),
-     m_count(0) {
-   
-    hist().GetXaxis()->SetTitle("log10(scaled deviation)");
+  : m_hist(new TH1F(histname.c_str(),  title.c_str(),  nbins, xmin, xmax)),
+    m_count(0) {
+  
+  hist().GetXaxis()->SetTitle("log10(scaled deviation)");
+  
+  try{
+    py.getDict("Psf.fit_pars", m_parmap);
+  } catch(std::invalid_argument &){;}
 
-    for (unsigned int i = 0; i < sizeof(pmin)/sizeof(double); i++) {
-        m_fitfunc.SetParLimits(i, pmin[i], pmax[i]);
-        m_fitfunc.SetParName(i, pnames[i].c_str());
-    }
+  m_fitfunc=TF1("psf-fit", psf_with_tail, fitrange[0], fitrange[1],m_parmap.size());
 
-    m_fitfunc.SetLineWidth(1);
+  std::map<std::string,std::vector<double> >::const_iterator 
+    it = m_parmap.begin();
+  for (unsigned int i=0;i<m_parmap.size();i++){
+    m_fitfunc.SetParName(i, ((*it).first).c_str());
+    //defer parameter settings to the fit function, 
+    //after modification of the initial histogram
+    it++;
+  }
+
+  m_fitfunc.SetLineWidth(1);
+}
+
+std::vector<std::string> PointSpreadFunction::getFitParNames() {
+  std::vector<std::string> names;
+  std::map<std::string,std::vector<double> >::const_iterator 
+    it = m_parmap.begin();
+  for(;it!=m_parmap.end();it++){
+    names.push_back((*it).first);}
+  return names;
 }
 
 PointSpreadFunction::PointSpreadFunction()
@@ -217,7 +236,7 @@ void PointSpreadFunction::summarize(std::ostream & out)
         if( params[0]>0) { 
             out << std::setw(10) <<  std::setprecision(1) << m_fitfunc.GetChisquare();
 
-            for( int j=0; j< npars(); ++j){
+            for( int j=0; j<m_parmap.size(); ++j){
                 // fit was done -- summarize the parameters
                 out << std::setw(10) <<  std::setprecision(3) << params[j];
             }
@@ -276,7 +295,7 @@ void PointSpreadFunction::fit(std::string opts)
     // create the cumulative histgram before changing this one
     m_cumhist = cumulative_hist(hist());
 
-    std::cout << "\rProcessing " << hist().GetTitle();
+    std::cout << "\rProcessing " << hist().GetTitle()<<std::endl;
     TH1F & h = hist(); 
 
     // now add overflow to last bin
@@ -310,19 +329,28 @@ void PointSpreadFunction::fit(std::string opts)
         h.SetBinContent(k, y/jacobian); 
         h.SetBinError(k, dy/jacobian);
     }
-    m_fitfunc.SetParameters(pinit);
+    std::map<std::string,std::vector<double> >::const_iterator 
+      it = m_parmap.begin();
+    for (unsigned int i=0;i<m_parmap.size();i++){
+      //std::cout<<m_fitfunc.GetParName(i)<<std::endl;
+      std::vector<double> par_values = (*it).second;
+      m_fitfunc.SetParameter(i, par_values[0]);
+      m_fitfunc.SetParLimits(i, par_values[1], par_values[2]);
+      it++;
+    }
+    //m_fitfunc.SetParameters(pinit);
     if( m_count > min_entries ) {
-        h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
+      h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
     }
 }
 
-void PointSpreadFunction::setFitPars(double * pars, double * pmin,
-                                     double * pmax) {
-   for (int i = 0; i < npars(); i++) {
-      m_fitfunc.SetParLimits(i, pmin[i], pmax[i]);
-   }
-   m_fitfunc.SetParameters(pars);
-}
+// void PointSpreadFunction::setFitPars(double * pars, double * pmin,
+//                                      double * pmax) {
+//    for (int i = 0; i < npars(); i++) {
+//       m_fitfunc.SetParLimits(i, pmin[i], pmax[i]);
+//    }
+//    m_fitfunc.SetParameters(pars);
+// }
  
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void PointSpreadFunction::draw(double ymin, double ymax, bool ylog)

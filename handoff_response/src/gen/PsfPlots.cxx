@@ -32,7 +32,8 @@ namespace {
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-PsfPlots::PsfPlots( IrfAnalysis& irf, std::ostream& log)
+PsfPlots::PsfPlots( IrfAnalysis& irf, std::ostream& log, 
+		      embed_python::Module & py)
 : m_irf(irf)
 , m_binner(irf.binner())
 , m_log(&log)
@@ -50,7 +51,7 @@ PsfPlots::PsfPlots( IrfAnalysis& irf, std::ostream& log)
                 title <<  binner().angle(0) << "-"<< binner().angle(binner().angle_bins()-2) << " degrees";
             }
             m_hists[id]=PointSpreadFunction(IrfBinner::hist_name(abin, ebin, "psf")
-                , title.str());
+                                            , title.str(), py);
         }
     }
 }
@@ -149,8 +150,10 @@ void PsfPlots::fillParameterTables()
     // binning according to energy and costheta bins 
     // (skip norm, the first one)
 
-    for( int i = 0; i< PointSpreadFunction::npars(); ++i){
-        std::string name(PointSpreadFunction::parname(i));
+    std::vector<std::string>  names=m_hists[0].getFitParNames();
+    int npars = names.size();
+    for( int i = 0; i<npars; ++i){
+        std::string name(names[i]);
         TH2F* h2 = new TH2F(name.c_str(), (name+";log energy; costheta").c_str() 
             ,binner().energy_bins(), &*binner().energy_bin_edges().begin()
             ,binner().angle_bins(),  &*binner().angle_bin_edges().begin()

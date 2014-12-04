@@ -8,6 +8,7 @@ $Header$
 #ifndef IRF_PointSpreadFunction_h
 #define IRF_PointSpreadFunction_h
 
+#include "embed_python/Module.h"
 
 #include "TF1.h"
 #include <string>
@@ -21,7 +22,8 @@ public:
 
    PointSpreadFunction();
 
-   PointSpreadFunction(std::string histname, std::string title);
+   PointSpreadFunction(std::string histname, 
+                       std::string title, embed_python::Module &);
 
     ~PointSpreadFunction();
 
@@ -39,6 +41,8 @@ public:
 
     /// get vector of fit parameters (all zero if not fit)
     void getFitPars(std::vector<double> & pars)const;
+
+    std::vector<std::string> getFitParNames();
 
     /// scale factor to apply to data
    static double scaleFactor(double energy, double zdir, bool front);
@@ -70,6 +74,8 @@ private:
     TH1F* m_cumhist; ///< a cumulative histogram, generated before fit
     TF1 m_fitfunc; ///< the fit function
 
+    std::map<std::string,std::vector<double> > m_parmap;
+
     int m_count; ///< number of entries
 
     double m_quant[2]; // for 68,95% quantiles
@@ -80,7 +86,7 @@ private:
    static double s_scale_factor_index;
 
     void reorder_parameters();
-    void setFitPars(double * pars, double * pmin, double * pmax);
+    //void setFitPars(double * pars, double * pmin, double * pmax);
 };
 
 #endif
