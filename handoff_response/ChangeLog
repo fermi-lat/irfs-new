@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: cohen  Thu Dec  4 00:20:32 PST 2014
+irfs/handoff_response/src/gen
+
+Modified Files:
+	IrfAnalysis.cxx PointSpreadFunction.cxx PointSpreadFunction.h 
+	PsfPlots.cxx PsfPlots.h 
+Log Message:
+make fit params settable through python for PSF
+    *
+------------------------------------------------------------
 User: cohen  Thu Dec  4 00:11:07 PST 2014
 irfs/handoff_response/src/gen
 
