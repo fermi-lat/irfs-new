@@ -282,7 +282,6 @@ void Dispersion::fit(std::string opts)
 	fitcount++;
         TFitResultPtr fitRes=h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
 	fitStatus = fitRes;
-	std::cout<<fitStatus<<std::endl;
       }
     }
 }
