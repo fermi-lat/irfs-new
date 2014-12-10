@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Wed Dec 10 05:35:32 PST 2014
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx 
+Log Message:
+remove a useless cout
+    *
+------------------------------------------------------------
 User: cohen  Wed Dec 10 05:07:52 PST 2014
 irfs/handoff_response/src/gen
 
