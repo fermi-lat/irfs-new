@@ -23,9 +23,6 @@ namespace {
 
     // specify fit function
     static const char* names[] = {"ncore", "ntail" , "score" , "stail", "gcore", "gtail"};
-    static double pinit[] = {0.2, 0.05,  0.5, 2.5,  2, 3};
-    static double pmin[] =  {1e-6, 1e-6,  0.1, 0.1,  1.001, 1.001};
-    static double pmax[] =  {1., 1.,  5.0, 5.0,  20.0, 20.0};
 
     static double fitrange[] = {xmin, xmax};
 //    static double ub = 10.;  // revisit this choice of ub
@@ -338,7 +335,7 @@ void PointSpreadFunction::fit(std::string opts)
       m_fitfunc.SetParLimits(i, par_values[1], par_values[2]);
       it++;
     }
-    //m_fitfunc.SetParameters(pinit);
+
     if( m_count > min_entries ) {
       h.Fit(&m_fitfunc,opts.c_str()); // fit only specified range
     }
