@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Wed Dec 10 05:07:52 PST 2014
+irfs/handoff_response/src/gen
+
+Modified Files:
+	PointSpreadFunction.cxx 
+Log Message:
+remove now obsolete inirial parameter values
+    *
+------------------------------------------------------------
 User: cohen  Thu Dec  4 03:25:41 PST 2014
 irfs/handoff_response/src/gen
 
