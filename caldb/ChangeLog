@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Tue Dec 16 15:04:21 PST 2014
+ScienceTools-scons/irfs/caldb/python
+
+Modified Files:
+	update_caldb_indx.py update_checksums.py 
+Added Files:
+	irf_index.txt make_irf_index.py 
+Log Message:
+add make_irf_index.py for pass support
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-34-03, operation: add
 Package: caldb
