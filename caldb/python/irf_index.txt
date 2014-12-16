@@ -1,0 +1,28 @@
+event_class:
+P7TRANSIENT_V6      0         3
+P7SOURCE_V6         2         3
+P7CLEAN_V6          3         3
+P7ULTRACLEAN        4         3
+P7REP_TRANSIENT_V10 0         3
+P7REP_SOURCE_V10    2         3
+P7REP_CLEAN_V10     3         3
+P7REP_ULTRACLEAN_V10 4         3
+P7REP_TRANSIENT_V15 0         3
+P7REP_SOURCE_V15    2         3
+P7REP_CLEAN_V15     3         3
+P7REP_ULTRACLEAN_V15 4         3
+P8_SOURCE_V5        7        1023
+P8_CLEAN_V5         8        1023
+P8_ULTRACLEAN_V5    9        1023
+
+event_type:
+FRONT               0
+BACK                1
+PSF0                2
+PSF1                3
+PSF2                4
+PSF3                5
+EDISP0              6
+EDISP1              7
+EDISP2              8
+EDISP3              9

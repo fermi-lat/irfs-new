@@ -13,7 +13,11 @@ udcif = GtApp('udcif')
 #suffixes = ("P7_v1_diff", "P7_v1_source", "P7_v1_trans", "P7_v1_S3")
 #suffixes = ("P6_v8_diff", )
 #suffixes = ("P6_v7_trans", "P6_v7_source", "P6_v7_diff")
-suffixes = ("p6_v3_dataclean",)
+#suffixes = ("p6_v3_dataclean",)
+suffixes = ("P7TRANSIENT_V6", "P7SOURCE_V6", "P7CLEAN_V6", "P7ULTRACLEAN_V6", 
+            "P7SOURCE_V6MC", 
+            "P7REP_TRANSIENT_V10", "P7REP_SOURCE_V10", 
+            "P7REP_CLEAN_V10", "P7REP_ULTRACLEAN_V10")
 
 for item in suffixes:
     for prefix, loc in zip(("aeff", "psf", "edisp"), ("ea", "psf", "edisp")):

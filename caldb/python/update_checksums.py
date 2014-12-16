@@ -11,7 +11,7 @@ from GtApp import GtApp
 fverify = GtApp('fverify')
 fchecksum = GtApp('fchecksum')
 
-infiles, outfiles = os.popen4('/usr/bin/find . -name *.fits -print' )
+infiles, outfiles = os.popen4('/usr/bin/find . -name \*.fits -print' )
 
 warnings = []
 errors = []
