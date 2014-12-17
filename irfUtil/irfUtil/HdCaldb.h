@@ -33,6 +33,17 @@ public:
 
    ~HdCaldb();
 
+
+   /// @return IRF file and extension number corresponding to the 
+   /// specified date and time.
+   /// @param detName One of FRONT, BACK, PSF[0-3], EDISP[0-3]
+   /// @param respName This is the CAL_CNAM field in caldb.indx and
+   ///        the CCNM0001 keyword value in the IRF file header.  
+   ///        Can be "EFF_AREA", "RPSF", "EDISP", "EFF_PARS", "PHI_DEP",
+   ///        "PSF_SCALE", "FISHEYE", "EDISP_SCALE".
+   /// @param filter Not used.
+   /// @param date Date in UTC
+   /// @param time Time in UTC
    std::pair<std::string, int> 
    operator()(const std::string & detName,  
               const std::string & respName,
