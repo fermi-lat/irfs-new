@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Dec 16 19:34:59 PST 2014
+ScienceTools-scons/irfs/irfUtil/irfUtil
+
+Added Files:
+	IrfHdus.h 
+Log Message:
+add IrfHdus class for handling consolidated Pass 8 irf files
+    *
+------------------------------------------------------------
 User: jchiang  Tue Dec 16 19:34:51 PST 2014
 ScienceTools-scons/irfs/irfUtil/src
 
