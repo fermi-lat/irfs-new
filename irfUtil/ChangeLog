@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Dec 16 19:36:48 PST 2014
+ScienceTools-scons/irfs/irfUtil/src
+
+Modified Files:
+	Util.cxx 
+Log Message:
+add static functions to parse irf_index.fits file
+    *
+------------------------------------------------------------
 User: jchiang  Tue Dec 16 19:36:40 PST 2014
 ScienceTools-scons/irfs/irfUtil/irfUtil
 
