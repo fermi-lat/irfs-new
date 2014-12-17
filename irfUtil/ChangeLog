@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Dec 16 19:35:45 PST 2014
+ScienceTools-scons/irfs/irfUtil/irfUtil
+
+Modified Files:
+	HdCaldb.h 
+Log Message:
+add doxy comments
+    *
+------------------------------------------------------------
 User: jchiang  Tue Dec 16 19:34:59 PST 2014
 ScienceTools-scons/irfs/irfUtil/irfUtil
 
