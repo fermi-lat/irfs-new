@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Dec 16 19:34:51 PST 2014
+ScienceTools-scons/irfs/irfUtil/src
+
+Added Files:
+	IrfHdus.cxx 
+Log Message:
+add IrfHdus class for handling consolidated Pass 8 irf files
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-34-03, operation: add
 Package: irfUtil
