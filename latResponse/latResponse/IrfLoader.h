@@ -59,18 +59,14 @@ private:
 
    std::vector<std::string> m_caldbNames;
 
-   std::map<std::string, std::vector<std::string> > m_subclasses;
-
    std::string m_customIrfDir;
 
    std::vector<std::string> m_customIrfNames;
 
    irfUtil::HdCaldb * m_hdcaldb;
 
-   void addIrfs(const std::string & version, 
-                const std::string & detector,
-                int convType, 
-                const std::string & date="2008-01-30") const;
+   void addIrfs(const std::string & irfName, 
+                const std::string & eventType) const;
 
    void read_caldb_indx();
 
@@ -83,40 +79,31 @@ private:
    void addIrfs(const std::string & aeff_file,
                 const std::string & psf_file,
                 const std::string & edisp_file,
-                int convType,
-                const std::string & irfName) const;
+                const std::string & irfName,
+                const std::string & eventType) const;
 
    void addIrfs(const std::vector<std::string> & aeff_files,
                 const std::vector<std::string> & psf_files,
                 const std::vector<std::string> & edisp_files,
                 const std::vector<int> & hdus,
-                int convType,
-                const std::string & irfName) const;
-
-   const std::vector<std::string> & 
-   subclasses(const std::string & irfName) const;
+                const std::string & irfName,
+                const std::string & eventType) const;
 
    void getCaldbClassNames(const std::string & irfName,
                            const std::string & date="2008-01-30");
-   
-   void buildClassNames(const std::string & fitsfile, 
-                        const std::string & irfName,
-                        std::vector<std::string> & classNames) const;
-
-   static size_t getNumRows(const std::string & fitsfile);
 
    int edispVersion(const std::string & fitsfile) const;
 
    int psfVersion(const std::string & fitsfile) const;
 
    irfInterface::IAeff * aeff(const std::string & aeff_file,
-                              size_t nrow) const;
+                              size_t nrow=0) const;
 
    irfInterface::IPsf * psf(const std::string & psf_file, bool front,
-                            size_t nrow) const;
+                            size_t nrow=0) const;
 
    irfInterface::IEdisp * edisp(const std::string & edisp_file,
-                                size_t nrow) const;
+                                size_t nrow=0) const;
 
    irfInterface::IEfficiencyFactor * 
    efficiency_factor(const std::string & aeff_file) const;

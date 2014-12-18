@@ -29,6 +29,8 @@
 #include "irfInterface/IrfsFactory.h"
 
 #include "irfUtil/HdCaldb.h"
+#include "irfUtil/IrfHdus.h"
+#include "irfUtil/Util.h"
 
 #include "latResponse/IrfLoader.h"
 
@@ -63,26 +65,20 @@ void IrfLoader::registerEventClasses() const {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
    for (size_t i(0); i < m_caldbNames.size(); i++) {
       const std::string & irfName(m_caldbNames.at(i));
-      const std::vector<std::string> & sub_classes(subclasses(irfName));
       std::vector<std::string> classNames;
-      for (size_t j(0); j < sub_classes.size(); j++) {
-         classNames.push_back(sub_classes.at(j) + "::FRONT");
-         registry.registerEventClass(classNames.back(), classNames.back());
-         classNames.push_back(sub_classes.at(j) + "::BACK");
-         registry.registerEventClass(classNames.back(), classNames.back());
-      }
+      classNames.push_back(irfName + "::FRONT");
+      registry.registerEventClass(classNames.back(), classNames.back());
+      classNames.push_back(irfName + "::BACK");
+      registry.registerEventClass(classNames.back(), classNames.back());
       registry.registerEventClasses(irfName, classNames);
    }
    for (size_t i(0); i < m_customIrfNames.size(); i++) {
       const std::string & irfName(m_customIrfNames.at(i));
-      const std::vector<std::string> & sub_classes(subclasses(irfName));
       std::vector<std::string> classNames;
-      for (size_t j(0); j < sub_classes.size(); j++) {
-         classNames.push_back(sub_classes.at(j) + "::FRONT");
-         registry.registerEventClass(classNames.back(), classNames.back());
-         classNames.push_back(sub_classes.at(j) + "::BACK");
-         registry.registerEventClass(classNames.back(), classNames.back());
-      }
+      classNames.push_back(irfName + "::FRONT");
+      registry.registerEventClass(classNames.back(), classNames.back());
+      classNames.push_back(irfName + "::BACK");
+      registry.registerEventClass(classNames.back(), classNames.back());
       registry.registerEventClasses(m_customIrfNames.at(i), classNames);
    }
 // kluge to allow for HANDOFF irfs for backwards compatibility with old
@@ -107,10 +103,17 @@ void IrfLoader::loadIrfs() const {
 }
 
 void IrfLoader::addIrfs(const std::string & version, 
-                        const std::string & detector,
-                        int convType,
-                        const std::string & date) const {
+                        const std::string & detector) const {
    std::string irfName(version);
+   /// The convType variable is required by the pre-Pass 8 PSF classes
+   /// to determine which PSF scaling parameters to use.  It need only
+   /// differ from zero for BACK section IRFs, but for
+   /// backwards-compatibility, Pass 8 and later IRFs must support
+   /// convType=1.
+   int convType(0);
+   if (detector == "BACK") {
+      convType = 1;
+   }
 
    irfInterface::IrfsFactory * myFactory(irfInterface::IrfsFactory::instance());
    const std::vector<std::string> & irfNames(myFactory->irfNames());
@@ -119,14 +122,15 @@ void IrfLoader::addIrfs(const std::string & version,
    if (std::count(irfNames.begin(), irfNames.end(), irfName+"::"+detector)) {
       return;
    }
-   std::vector<std::string> aeff_files;
-   std::vector<std::string> psf_files;
-   std::vector<std::string> edisp_files;
-   std::vector<int> hdus;
 
-   m_hdcaldb->getFiles(aeff_files, hdus, detector, "EFF_AREA", irfName);
-   m_hdcaldb->getFiles(psf_files, hdus, detector, "RPSF", irfName);
-   m_hdcaldb->getFiles(edisp_files, hdus, detector, "EDISP", irfName);
+// Retrieve the filenames and hdus associated with each IRF component.
+
+   irfUtil::IrfHdus aeff_hdus(irf_name, detector,
+                              irfUtil::IrfHdus::s_aeff_cnames);
+   irfUtil::IrfHdus psf_hdus(irf_name, detector,
+                             irfUtil::IrfHdus::s_psf_cnames);
+   irfUtil::IrfHdus edisp_hdus(irf_name, detector,
+                               irfUtil::IrfHdus::s_edisp_cnames);
 
    if (aeff_files.size() == 1 && psf_files.size() == 1 
        && edisp_files.size() == 1) {
@@ -139,38 +143,37 @@ void IrfLoader::addIrfs(const std::string & version,
    }
 }
 
+   void IrfLoader::addIrfs(const irfUtil::IrfHdus & aeff_hdus,
+                           
+
 void IrfLoader::addIrfs(const std::string & aeff_file, 
                         const std::string & psf_file,
                         const std::string & edisp_file,
-                        int convType,
-                        const std::string & irfName) const {
+                        const std::string & irfName,
+                        const std::string & eventType) const {
    irfInterface::IrfsFactory * myFactory(irfInterface::IrfsFactory::instance());
-   for (size_t i(0); i < subclasses(irfName).size(); i++) {
-      std::string class_name(subclasses(irfName).at(i));
-      bool front;
-      if (convType == 0) {
-         class_name += "::FRONT";
-         front = true;
-      } else {
-         class_name += "::BACK";
-         front = false;
-      }
-
-      size_t irfID(i*2 + convType);
-
-      irfInterface::Irfs * 
-         irfs = new irfInterface::Irfs(aeff(aeff_file, i),
-                                       psf(psf_file, front, i),
-                                       edisp(edisp_file, i),
-                                       irfID);
-      irfInterface::IEfficiencyFactor * eff(efficiency_factor(aeff_file));
-      if (eff) {
-         irfs->setEfficiencyFactor(eff);
-         delete eff;
-      }
-
-      myFactory->addIrfs(class_name, irfs);
+   std::string class_name(irfName + "::" + eventType);
+   bool front(true);
+   if (eventType == "BACK") {
+      front = false;
    }
+
+   std::map<std::string, unsigned int>::evtype_mapping;
+   irfUtil::Util::get_event_type_mapping(irfName, evtype_mapping);
+   unsigned int irfID(evtype_mapping[eventType]);
+
+   irfInterface::Irfs * 
+      irfs = new irfInterface::Irfs(aeff(aeff_file),
+                                    psf(psf_file, front),
+                                    edisp(edisp_file),
+                                    irfID);
+   irfInterface::IEfficiencyFactor * eff(efficiency_factor(aeff_file));
+   if (eff) {
+      irfs->setEfficiencyFactor(eff);
+      delete eff;
+   }
+
+   myFactory->addIrfs(class_name, irfs);
 }
 
 void IrfLoader::
@@ -181,74 +184,72 @@ addIrfs(const std::vector<std::string> & aeff_files,
         int convType,
         const std::string & irfName) const {
    irfInterface::IrfsFactory *myFactory(irfInterface::IrfsFactory::instance());
-   for (size_t i(0); i < subclasses(irfName).size(); i++) {
-      std::string class_name(subclasses(irfName).at(i));
-      bool front;
-      if (convType == 0) {
-         class_name += "::FRONT";
-         front = true;
-      } else {
-         class_name += "::BACK";
-         front = false;
-      }
-
-      size_t irfID(i*2 + convType);
-      AeffEpochDep * my_aeff(new AeffEpochDep());
-      PsfEpochDep * my_psf(new PsfEpochDep());
-      EdispEpochDep * my_edisp(new EdispEpochDep());
-      for (size_t j(0); j < aeff_files.size(); j++) {
-         double epoch_start(EpochDep::epochStart(aeff_files[j], 
-                                                 "EFFECTIVE AREA"));
-         irfInterface::IAeff * aeff_component(aeff(aeff_files[j], i));
-         my_aeff->addAeff(*aeff_component, epoch_start);
-         delete aeff_component;
-      }
-      for (size_t j(0); j < psf_files.size(); j++) {
-         double epoch_start(EpochDep::epochStart(psf_files[j], "RPSF"));
-         irfInterface::IPsf * psf_component(psf(psf_files[j], front, i));
-         my_psf->addPsf(*psf_component, epoch_start);
-         delete psf_component;
-      }
-      for (size_t j(0); j < edisp_files.size(); j++) {
-         double epoch_start(EpochDep::epochStart(edisp_files[j], 
-                                                 "ENERGY DISPERSION"));
-         irfInterface::IEdisp * edisp_component(edisp(edisp_files[j], i));
-         my_edisp->addEdisp(*edisp_component, epoch_start);
-         delete edisp_component;
-      }
-      irfInterface::Irfs * 
-         irfs = new irfInterface::Irfs(my_aeff, my_psf, my_edisp, irfID);
-
-      /// Add efficiency factors.  This needs to be a separate loop
-      /// for backwards compatibility for IRFs that don't have
-      /// efficiency factor extensions.
-      irfInterface::IEfficiencyFactor * eff_component = 
-         efficiency_factor(aeff_files[0]);
-      if (eff_component) {
-         // If first file has an efficiency factor extension, then
-         // proceed as if they all do.
-         EfficiencyFactorEpochDep * my_eff(new EfficiencyFactorEpochDep());
-         my_eff->add(*eff_component,
-                     EpochDep::epochStart(aeff_files[0], "EFFECTIVE AREA"));
-         delete eff_component;
-         for (size_t j(1); j < aeff_files.size(); j++) {
-            eff_component = efficiency_factor(aeff_files[j]);
-            if (!eff_component) {
-               throw std::runtime_error("Missing EFFICIENCY_PARAMS extension");
-            }
-            my_eff->add(*eff_component, 
-                        EpochDep::epochStart(aeff_files[j], "EFFECTIVE AREA"));
-            delete eff_component;
-         }
-         irfs->setEfficiencyFactor(my_eff);
-         delete my_eff;
-      }
-      myFactory->addIrfs(class_name, irfs);
+   std::string class_name(irfName);
+   bool front;
+   if (convType == 0) {
+      class_name += "::FRONT";
+      front = true;
+   } else {
+      class_name += "::BACK";
+      front = false;
    }
+
+   size_t irfID(convType);
+   AeffEpochDep * my_aeff(new AeffEpochDep());
+   PsfEpochDep * my_psf(new PsfEpochDep());
+   EdispEpochDep * my_edisp(new EdispEpochDep());
+   for (size_t j(0); j < aeff_files.size(); j++) {
+      double epoch_start(EpochDep::epochStart(aeff_files[j], 
+                                              "EFFECTIVE AREA"));
+      irfInterface::IAeff * aeff_component(aeff(aeff_files[j]));
+      my_aeff->addAeff(*aeff_component, epoch_start);
+      delete aeff_component;
+   }
+   for (size_t j(0); j < psf_files.size(); j++) {
+      double epoch_start(EpochDep::epochStart(psf_files[j], "RPSF"));
+      irfInterface::IPsf * psf_component(psf(psf_files[j], front));
+      my_psf->addPsf(*psf_component, epoch_start);
+      delete psf_component;
+   }
+   for (size_t j(0); j < edisp_files.size(); j++) {
+      double epoch_start(EpochDep::epochStart(edisp_files[j], 
+                                              "ENERGY DISPERSION"));
+      irfInterface::IEdisp * edisp_component(edisp(edisp_files[j]));
+      my_edisp->addEdisp(*edisp_component, epoch_start);
+      delete edisp_component;
+   }
+   irfInterface::Irfs * 
+      irfs = new irfInterface::Irfs(my_aeff, my_psf, my_edisp, irfID);
+   
+   /// Add efficiency factors.  This needs to be a separate loop
+   /// for backwards compatibility for IRFs that don't have
+   /// efficiency factor extensions.
+   irfInterface::IEfficiencyFactor * eff_component = 
+      efficiency_factor(aeff_files[0]);
+   if (eff_component) {
+      // If first file has an efficiency factor extension, then
+      // proceed as if they all do.
+      EfficiencyFactorEpochDep * my_eff(new EfficiencyFactorEpochDep());
+      my_eff->add(*eff_component,
+                  EpochDep::epochStart(aeff_files[0], "EFFECTIVE AREA"));
+      delete eff_component;
+      for (size_t j(1); j < aeff_files.size(); j++) {
+         eff_component = efficiency_factor(aeff_files[j]);
+         if (!eff_component) {
+            throw std::runtime_error("Missing EFFICIENCY_PARAMS extension");
+         }
+         my_eff->add(*eff_component, 
+                     EpochDep::epochStart(aeff_files[j], "EFFECTIVE AREA"));
+         delete eff_component;
+      }
+      irfs->setEfficiencyFactor(my_eff);
+      delete my_eff;
+   }
+   myFactory->addIrfs(class_name, irfs);
 }
 
 irfInterface::IAeff * 
-IrfLoader::aeff(const std::string & aeff_file, size_t nrow) const {
+IrfLoader::aeff(const std::string & aeff_file, int hdu) const {
    return new Aeff(aeff_file, "EFFECTIVE AREA", nrow);
 }
 
@@ -303,14 +304,6 @@ void IrfLoader::readCustomIrfNames() {
 
    facilities::Util::stringTokenize(custom_irf_names, ", ", m_customIrfNames);
 
-   for (size_t i(0); i < m_customIrfNames.size(); i++) {
-      std::string basename("aeff_" + m_customIrfNames.at(i) + "_front.fits");
-      std::string aeff_file = 
-         facilities::commonUtilities::joinPath(m_customIrfDir, basename);
-      m_subclasses[m_customIrfNames.at(i)] = std::vector<std::string>();
-      buildClassNames(aeff_file, m_customIrfNames.at(i),
-                      m_subclasses[m_customIrfNames.at(i)]);
-   }
 //    std::cout << "Adding custom IRFs: " << std::endl;
 //    for (size_t i(0); i < m_customIrfNames.size(); i++) {
 //       std::cout << m_customIrfNames.at(i) << std::endl;
@@ -348,6 +341,8 @@ void IrfLoader::loadCustomIrfs() const {
 }
 
 void IrfLoader::read_caldb_indx() {
+   /// Read the caldb.indx file and extract the IRF names from the
+   /// CAL_CBD column.
    m_caldbNames.clear();
    char * caldb_path = ::getenv("CALDB");
    if (!caldb_path) {
@@ -379,58 +374,14 @@ void IrfLoader::read_caldb_indx() {
          }
       }
    }
-   for (size_t i(0); i < m_caldbNames.size(); i++) {
-      getCaldbClassNames(m_caldbNames.at(i));
-   }
    delete table;
-}
-
-const std::vector<std::string> & 
-IrfLoader::subclasses(const std::string & irfName) const {
-   std::map<std::string, std::vector<std::string> >::const_iterator
-      it = m_subclasses.find(irfName);
-   if (it == m_subclasses.end()) {
-      throw std::runtime_error("IRF named " + irfName + " not found.");
-   }
-   return it->second;
-}
-
-void IrfLoader::getCaldbClassNames(const std::string & irfName,
-                                   const std::string & date) {
-   std::vector<std::string> fitsfiles;
-   std::vector<int> hdus;
-   m_hdcaldb->getFiles(fitsfiles, hdus, "FRONT", "EFF_AREA", irfName);
-   m_subclasses[irfName] = std::vector<std::string>();
-   buildClassNames(fitsfiles[0], irfName, m_subclasses[irfName]);
-}
-
-void IrfLoader::buildClassNames(const std::string & fitsfile,
-                                const std::string & irfName,
-                                std::vector<std::string> & classNames) const {
-   size_t numClasses(getNumRows(fitsfile));
-   if (numClasses == 1) {
-      classNames.push_back(irfName);
-      return;
-   }
-   for (size_t i(0); i < numClasses; i++) {
-      std::ostringstream subclass;
-//      subclass << irfName << "_" << std::setw(2) << std::setfill('0') << i;
-      subclass << irfName << "_" << i;
-      classNames.push_back(subclass.str());
-   }
-}
-
-size_t IrfLoader::getNumRows(const std::string & fitsfile) {
-   std::string extname;
-   st_facilities::FitsUtil::getFitsHduName(fitsfile, 2, extname);
-   const tip::Table * table = 
-      tip::IFileSvc::instance().readTable(fitsfile, extname);
-   size_t numRows(table->getNumRecords());
-   delete table;
-   return numRows;
 }
 
 void IrfLoader::find_cif(std::string & caldb_indx) const {
+   /// This returns the path to the caldb.indx file starting from
+   /// $CALDB.  For LAT data, this path is typically
+   /// "data/glast/lat/caldb.indx".  This information is ascertained
+   /// from the $CALDBCONFIG file.
    char * caldb_config = ::getenv("CALDBCONFIG");
    if (!caldb_config) {
       throw std::runtime_error("CALDBCONFIG env var not set");

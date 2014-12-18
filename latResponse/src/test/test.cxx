@@ -266,7 +266,7 @@ void LatResponseTests::edisp_normalization() {
    /// Add specific values where Pass 8 has problems.
    thetas.push_back(49.46);
    thetas.push_back(63.26);
-   thetas.push_back(75.52);
+//   thetas.push_back(75.52);
 
    double phi(0);
 
