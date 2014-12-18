@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Dec 18 07:45:49 PST 2014
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+begin changes to support Pass 8 irfs
+    *
+------------------------------------------------------------
+User: jchiang  Thu Dec 18 07:45:49 PST 2014
 ScienceTools-scons/irfs/latResponse/src
 
 Modified Files:
