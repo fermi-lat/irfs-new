@@ -15,9 +15,20 @@
 
 namespace irfUtil {
 
+const char * aeff_cnames[3] = {"EFF_AREA", "PHI_DEP", "EFFICIENCY_PARS"};
+const char * psf_cnames[3] = {"RPSF", "PSF_SCALING", "FISHEYE_CORR"};
+const char * edisp_cnames[2] = {"EDISP", "EDISP_SCALING"};
+
+std::vector<std::string> IrfHdus::s_aeff_cnames(aeff_cnames, aeff_cnames+3);
+                                                
+std::vector<std::string> IrfHdus::s_psf_cnames(psf_cnames, psf_cnames+2);
+                                               
+std::vector<std::string> IrfHdus::s_edisp_cnames(edisp_cnames, edisp_cnames+2);
+
 IrfHdus::IrfHdus(const std::string & irf_name,
                  const std::string & event_type,
-                 const std::vector<std::string> & cnames) {
+                 const std::vector<std::string> & cnames) 
+   : m_cnames(cnames) {
    irfUtil::HdCaldb hdcaldb("GLAST", "LAT");
 
    for (size_t i(0); i < cnames.size(); i++) {
@@ -45,6 +56,29 @@ IrfHdus::operator()(const std::string & cname) const {
                                + " not found.");
    }
    return it->second;
+}
+
+size_t IrfHdus::numEpochs() const {
+   return m_file_hdus.begin()->second.size();
+}
+
+const std::vector<std::string> & IrfHdus::cnames() const {
+   return m_cnames;
+}
+
+IrfHdus IrfHdus::aeff(const std::string & irf_name,
+                      const std::string & event_type) {
+   return IrfHdus(irf_name, event_type, s_aeff_cnames);
+}
+
+IrfHdus IrfHdus::psf(const std::string & irf_name,
+                     const std::string & event_type) {
+   return IrfHdus(irf_name, event_type, s_psf_cnames);
+}
+
+IrfHdus IrfHdus::edisp(const std::string & irf_name,
+                       const std::string & event_type) {
+   return IrfHdus(irf_name, event_type, s_edisp_cnames);
 }
 
 } // namespace latResponse

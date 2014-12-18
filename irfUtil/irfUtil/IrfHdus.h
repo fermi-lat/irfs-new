@@ -36,8 +36,29 @@ public:
    ///         This is a vector to accommodate epoch dependent IRFs.
    /// @param cname IRF component name
    const FilenameHduPairs_t & operator()(const std::string & cname) const;
+   
+   /// @return Number of epochs.
+   size_t numEpochs() const;
+
+   /// @return The CNAM values for this IRF component.
+   const std::vector<std::string> & cnames() const;
+
+   // @brief Factory methods for the three IRF components.
+   static IrfHdus aeff(const std::string & irf_name,
+                       const std::string & event_type);
+   static IrfHdus psf(const std::string & irf_name,
+                      const std::string & event_type);
+   static IrfHdus edisp(const std::string & irf_name,
+                        const std::string & event_type);
+
+   /// @brief cnames for the three IRF components.
+   static std::vector<std::string> s_aeff_cnames;
+   static std::vector<std::string> s_psf_cnames;
+   static std::vector<std::string> s_edisp_cnames;
 
 private:
+
+   const std::vector<std::string> & m_cnames;
 
    std::map<std::string, FilenameHduPairs_t> m_file_hdus;
 

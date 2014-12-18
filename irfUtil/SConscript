@@ -12,9 +12,12 @@ irfUtilLib = libEnv.StaticLibrary('irfUtil',
 
 progEnv.Tool('irfUtilLib')
 
-test_irfUtil = progEnv.Program('test_irfUtil', listFiles(['src/test/*.cxx']))
+test_irfUtil = progEnv.Program('test_irfUtil', listFiles(['src/test/test.cxx']))
+
+p8_test_irfUtil = progEnv.Program('p8_test_irfUtil', listFiles(['src/test/p8_test.cxx']))
 
 progEnv.Tool('registerTargets', package='irfUtil',
              staticLibraryCxts=[[irfUtilLib, libEnv]],
-             testAppCxts=[[test_irfUtil, progEnv]],
+             testAppCxts=[[test_irfUtil, progEnv],
+                          [p8_test_irfUtil, progEnv]],
              includes=listFiles(['irfUtil/*.h']), recursive=True)
