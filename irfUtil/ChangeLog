@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Thu Dec 18 07:44:34 PST 2014
+ScienceTools-scons/irfs/irfUtil/src
+
+Modified Files:
+	IrfHdus.cxx 
+Log Message:
+pass 8 test program, IrfHdus factory functions
+    *
+------------------------------------------------------------
+User: jchiang  Thu Dec 18 07:44:34 PST 2014
 ScienceTools-scons/irfs/irfUtil/irfUtil
 
 Modified Files:
