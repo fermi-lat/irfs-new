@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Thu Dec 18 22:24:02 PST 2014
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Aeff.cxx Aeff.h Edisp3.cxx Edisp3.h EfficiencyFactor.cxx 
+	EfficiencyFactor.h IrfLoader.cxx Psf3.cxx Psf3.h PsfBase.cxx 
+	PsfBase.h 
+Log Message:
+Pass 8 development in progress
+    *
+------------------------------------------------------------
 User: jchiang  Thu Dec 18 22:24:01 PST 2014
 ScienceTools-scons/irfs/latResponse/latResponse
 
