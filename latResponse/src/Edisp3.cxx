@@ -45,12 +45,24 @@ namespace {
 
 namespace latResponse {
 
+Edisp3::Edisp3(const irfUtil::IrfHdus & edisp_hdus, size_t iepoch,
+               size_t nrow) 
+   : m_fitsfile(edisp_hdus("EDISP").at(iepoch).first), 
+     m_extname(edisp_hdus("EDISP").at(iepoch).second), m_nrow(nrow),
+     m_parTables(m_fitsfile, m_extname, m_nrow),
+     m_loge_last(0), m_costh_last(0), m_interpolator(0) {
+   readScaling(edisp_hdus("EDISP_SCALING").at(iepoch).first,
+               edisp_hdus("EDISP_SCALING").at(iepoch).second);
+}
+
 Edisp3::Edisp3(const std::string & fitsfile, 
-               const std::string & extname, size_t nrow) 
+               const std::string & extname, 
+               const std::string & scaling_extname,
+               size_t nrow) 
    : m_parTables(fitsfile, extname, nrow), m_loge_last(0), m_costh_last(0),
      m_fitsfile(fitsfile), m_extname(extname),
      m_nrow(nrow), m_interpolator(0) {
-   readScaling(fitsfile);
+   readScaling(fitsfile, scaling_extname);
 }
 
 Edisp3::~Edisp3() {

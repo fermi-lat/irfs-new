@@ -17,6 +17,10 @@
 
 #include "latResponse/FitsTable.h"
 
+namespace irfUtil {
+   class IrfHdus;
+}
+
 namespace latResponse {
 
    class ParTables;
@@ -29,6 +33,9 @@ namespace latResponse {
 class Aeff : public irfInterface::IAeff {
 
 public:
+
+   Aeff(const irfUtil::IrfHdus & irf_hdus, size_t iepoch=0, 
+        size_t nrow=0);
 
    Aeff(const std::string & fitsfile, 
         const std::string & extname="EFFECTIVE AREA",

@@ -14,6 +14,10 @@
 
 #include "PsfBase.h"
 
+namespace irfUtil {
+   class IrfHdus;
+}
+
 namespace latResponse {
 
 class PsfIntegralCache;
@@ -32,8 +36,10 @@ class Psf3 : public PsfBase {
 
 public:
 
+   Psf3(const irfUtil::IrfHdus & psf_hdus, size_t iepoch, size_t nrow=0);
+   
    Psf3(const std::string & fitsfile, bool isFront=true,
-         const std::string & extname="RPSF", size_t nrow=0);
+        const std::string & extname="RPSF", size_t nrow=0);
 
    Psf3(const Psf3 & other);
 

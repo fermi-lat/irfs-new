@@ -13,12 +13,28 @@
 
 #include "tip/TipException.h"
 
+#include "irfUtil/IrfHdus.h"
+
 #include "latResponse/FitsTable.h"
 #include "latResponse/ParTables.h"
 
 #include "Aeff.h"
 
 namespace latResponse {
+
+Aeff::Aeff(const irfUtil::IrfHdus & irf_hdus, size_t iepoch, size_t nrow) 
+   : m_aeffTable(irf_hdus("EFF_AREA").at(iepoch).first,
+                 irf_hdus("EFF_AREA").at(iepoch).second,
+                 "EFFAREA", nrow),
+     m_phiDepPars(0), m_usePhiDependence(false) {
+   try {
+      m_phiDepPars = new ParTables(irf_hdus("PHI_DEP").at(iepoch).first,
+                                   irf_hdus("PHI_DEP").at(iepoch).second,
+                                   nrow);
+      m_usePhiDependence = true;
+   } catch (tip::TipException & eobj) {
+   }
+}
 
 Aeff::Aeff(const std::string & fitsfile, const std::string & extname,
            size_t nrow)

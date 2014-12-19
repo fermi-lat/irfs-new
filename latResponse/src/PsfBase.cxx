@@ -26,8 +26,9 @@ namespace {
 namespace latResponse {
 
 PsfBase::PsfBase(const std::string & fitsfile, bool isFront,
-                 const std::string & extname) {
-   readScaling(fitsfile, isFront);
+                 const std::string & extname,
+                 const std::string & scaling_extname) {
+   readScaling(fitsfile, isFront, scaling_extname);
 }
 
 PsfBase::PsfBase(const PsfBase & other) : irfInterface::IPsf(other),

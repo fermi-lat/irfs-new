@@ -25,7 +25,8 @@ class PsfBase : public irfInterface::IPsf {
 public:
 
    PsfBase(const std::string & fitsfile, bool isFront,
-           const std::string & extname="RPSF");
+           const std::string & extname="RPSF", 
+           const std::string & scaling_extname="PSF_SCALING_PARAMS");
 
    PsfBase(const PsfBase & rhs);
 
@@ -52,7 +53,7 @@ private:
    std::vector<double> m_psf_pars;
 
    void readScaling(const std::string & fitsfile, bool isFront,
-                    const std::string & extname="PSF_SCALING_PARAMS");
+                    const std::string & extname);
 };
 
 } // namespace latResponse

@@ -65,8 +65,8 @@ private:
 
    irfUtil::HdCaldb * m_hdcaldb;
 
-   void addIrfs(const std::string & irfName, 
-                const std::string & eventType) const;
+   void addIrfs(const std::string & irf_name, 
+                const std::string & event_type) const;
 
    void read_caldb_indx();
 
@@ -76,37 +76,37 @@ private:
 
    void find_cif(std::string & caldb_indx) const;
 
-   void addIrfs(const std::string & aeff_file,
-                const std::string & psf_file,
-                const std::string & edisp_file,
-                const std::string & irfName,
-                const std::string & eventType) const;
+   void addIrfs(const std::string & irf_name,
+                const std::string & event_type) const;
 
-   void addIrfs(const std::vector<std::string> & aeff_files,
-                const std::vector<std::string> & psf_files,
-                const std::vector<std::string> & edisp_files,
-                const std::vector<int> & hdus,
-                const std::string & irfName,
-                const std::string & eventType) const;
+   int edispVersion(const std::string & fitsfile,
+                    const std::string & extname) const;
 
-   void getCaldbClassNames(const std::string & irfName,
-                           const std::string & date="2008-01-30");
+   int psfVersion(const std::string & fitsfile,
+                  const std::string & extname) const;
 
-   int edispVersion(const std::string & fitsfile) const;
+   /// @return Single or multi-epoch Aeff.
+   irfInterface::IAeff * aeff(const irfUtil::IrfHdus & aeff_hdus) const;
 
-   int psfVersion(const std::string & fitsfile) const;
+   /// @return Single or multi-epoch Psf.
+   irfInterface::IPsf * psf(const irfUtil::IrfHdus & psf_hdus) const;
 
-   irfInterface::IAeff * aeff(const std::string & aeff_file,
-                              size_t nrow=0) const;
+   /// @return Single epoch Psf.  Needed to select desired Psf,
+   /// Psf2 or Psf3 based on psfVersion return value.
+   irfInterface::IPsf * psf(const irfUtil::IrfHdus & psf_hdus,
+                            size_t iepoch) const;
 
-   irfInterface::IPsf * psf(const std::string & psf_file, bool front,
-                            size_t nrow=0) const;
+   /// @return Single or multi-epoch Edisp.
+   irfInterface::IEdisp * edisp(const irfUtil::IrfHdus & edisp_hdus) const;
 
-   irfInterface::IEdisp * edisp(const std::string & edisp_file,
-                                size_t nrow=0) const;
+   /// @return Single epoch Edisp.  Needed to select Edisp,
+   /// Edisp2 or Edisp3 based on edispVersion return value.
+   irfInterface::IEdisp * edisp(const irfUtil::IrfHdus & edisp_hdus,
+                                size_t iepoch) const;
 
+   /// @return Single or multi-epoch EfficiencyFactor.
    irfInterface::IEfficiencyFactor * 
-   efficiency_factor(const std::string & aeff_file) const;
+   efficiency_factor(const irfUtil::IrfHdus & aeff_hdus) const;
 
 };
 

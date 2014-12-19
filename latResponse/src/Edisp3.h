@@ -31,6 +31,7 @@ public:
 
    Edisp3(const std::string & fitsfile,
           const std::string & extname="ENERGY DISPERSION",
+          const std::string & scaling_extname="EDISP_SCALING_PARAMS",
           size_t nrow=0);
 
    virtual ~Edisp3();
@@ -74,6 +75,10 @@ public:
 
 private:
 
+   std::string m_fitsfile;
+   std::string m_extname;
+   size_t m_nrow;
+
    ParTables m_parTables;
 
    mutable double m_loge_last;
@@ -81,9 +86,6 @@ private:
 
    mutable double m_pars[10];
 
-   std::string m_fitsfile;
-   std::string m_extname;
-   size_t m_nrow;
 
    mutable EdispInterpolator * m_interpolator;
 
@@ -99,7 +101,7 @@ private:
                                 double bb, double pp) const;
 
    void readScaling(const std::string & fitsfile,
-                    const std::string & extname="EDISP_SCALING_PARAMS");
+                    const std::string & extname);
 
    class EdispIntegrand {
    public:

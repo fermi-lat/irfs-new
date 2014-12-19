@@ -24,6 +24,8 @@
 
 #include "st_facilities/Util.h"
 
+#include "irfUtil/IrfHdus.h"
+
 #include "latResponse/FitsTable.h"
 
 #include "EfficiencyFactor.h"
@@ -42,6 +44,14 @@ EfficiencyFactor() : m_havePars(false) {
 EfficiencyFactor::
 EfficiencyFactor(const std::string & parfile) : m_havePars(true) {
    readPars(parfile);
+}
+
+EfficiencyFactor::
+EfficiencyFactor(const irfUtil::IrfHdus & aeff_hdus, size_t iepoch) 
+   : m_havePars(true) {
+   const std::string & fitsfile(aeff_hdus("EFFICIENCY_PARS")[iepoch].first);
+   const std::string & extname(aeff_hdus("EFFICIENCY_PARS")[iepoch].second);
+   readFitsFile(fitsfile, extname);
 }
 
 void EfficiencyFactor::
@@ -75,9 +85,10 @@ readPars(std::string parfile) {
    m_p1_back = EfficiencyParameter(parVectors.at(3));
 }
 
-void EfficiencyFactor::readFitsFile(const std::string & fitsfile) {
+void EfficiencyFactor::readFitsFile(const std::string & fitsfile,
+                                    const std::string & extname) {
    const tip::Table * table = 
-      tip::IFileSvc::instance().readTable(fitsfile, "EFFICIENCY_PARAMS");
+      tip::IFileSvc::instance().readTable(fitsfile, extname);
 
    long nrows;
    table->getHeader()["NAXIS2"].get(nrows);

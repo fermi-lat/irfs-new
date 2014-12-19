@@ -19,6 +19,10 @@
 
 #include "irfInterface/IEfficiencyFactor.h"
 
+namespace irfUtil {
+   class IrfHdus;
+}
+
 namespace latResponse {
 
 /**
@@ -99,7 +103,8 @@ private:
 
    void readPars(std::string parfile);
 
-   void readFitsFile(const std::string & fitsfile);
+   void readFitsFile(const std::string & fitsfile,
+                     const std::string & extname="EFFICIENCY_PARAMS");
 
 };
 

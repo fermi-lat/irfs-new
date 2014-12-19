@@ -43,6 +43,17 @@ namespace {
 
 namespace latResponse {
 
+Psf3::Psf3(const irfUtil::IrfHdus & psf_hdus, size_t iepoch, size_t nrow) 
+   : PsfBase(psf_hdus("RPSF").at(iepoch).first,
+             psf_hdus.convType() == 0,
+             psf_hdus("RPSF").at(iepoch).second,
+             psf_hdus("PSF_SCALING").at(iepoch).second),
+     m_integralCache(0) {
+   readFits(psf_hdus("RPSF").at(iepoch).first,
+            psf_hdus("RPSF").at(iepoch).second, nrow);
+   normalize_pars();
+}
+
 Psf3::Psf3(const std::string & fitsfile, bool isFront,
            const std::string & extname, size_t nrow) 
    : PsfBase(fitsfile, isFront, extname), m_integralCache(0) {
