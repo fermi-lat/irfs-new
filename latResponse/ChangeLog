@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Dec 18 22:24:01 PST 2014
+ScienceTools-scons/irfs/latResponse/latResponse
+
+Modified Files:
+	IrfLoader.h 
+Log Message:
+Pass 8 development in progress
+    *
+------------------------------------------------------------
 User: jchiang  Thu Dec 18 07:45:49 PST 2014
 ScienceTools-scons/irfs/latResponse/src/test
 
