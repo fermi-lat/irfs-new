@@ -16,13 +16,13 @@ P8_CLEAN_V5         8        1023
 P8_ULTRACLEAN_V5    9        1023
 
 event_type:
-FRONT               0
-BACK                1
-PSF0                2
-PSF1                3
-PSF2                4
-PSF3                5
-EDISP0              6
-EDISP1              7
-EDISP2              8
-EDISP3              9
+FRONT               0       0
+BACK                1       0
+PSF0                2       1
+PSF1                3       1
+PSF2                4       1
+PSF3                5       1
+EDISP0              6       2
+EDISP1              7       2
+EDISP2              8       2
+EDISP3              9       2
