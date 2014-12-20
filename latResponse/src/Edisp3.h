@@ -17,6 +17,10 @@
 #include "latResponse/ParTables.h"
 #include "EdispInterpolator.h"
 
+namespace irfUtil {
+   class IrfHdus;
+}
+
 namespace latResponse {
 
 /**
@@ -28,6 +32,9 @@ namespace latResponse {
 class Edisp3 : public irfInterface::IEdisp {
 
 public:
+
+   Edisp3(const irfUtil::IrfHdus & edisp_hdus, size_t epoch=0,
+          size_t nrow=0);
 
    Edisp3(const std::string & fitsfile,
           const std::string & extname="ENERGY DISPERSION",

@@ -18,6 +18,8 @@
 
 #include "st_facilities/GaussianQuadrature.h"
 
+#include "irfUtil/IrfHdus.h"
+
 #include "latResponse/FitsTable.h"
 #include "latResponse/IrfLoader.h"
 

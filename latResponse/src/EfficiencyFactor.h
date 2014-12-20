@@ -35,6 +35,8 @@ public:
 
    EfficiencyFactor();
 
+   EfficiencyFactor(const irfUtil::IrfHdus & aeff_hdus, size_t iepoch);
+
    EfficiencyFactor(const std::string & parfile);
 
    virtual ~EfficiencyFactor() throw() {}

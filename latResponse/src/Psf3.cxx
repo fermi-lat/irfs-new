@@ -17,6 +17,8 @@
 #include "tip/IFileSvc.h"
 #include "tip/Table.h"
 
+#include "irfUtil/IrfHdus.h"
+
 #include "latResponse/Bilinear.h"
 #include "latResponse/FitsTable.h"
 

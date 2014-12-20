@@ -26,7 +26,8 @@ Aeff::Aeff(const irfUtil::IrfHdus & irf_hdus, size_t iepoch, size_t nrow)
    : m_aeffTable(irf_hdus("EFF_AREA").at(iepoch).first,
                  irf_hdus("EFF_AREA").at(iepoch).second,
                  "EFFAREA", nrow),
-     m_phiDepPars(0), m_usePhiDependence(false) {
+     m_phiDepPars(0) {
+   m_usePhiDependence = false;
    try {
       m_phiDepPars = new ParTables(irf_hdus("PHI_DEP").at(iepoch).first,
                                    irf_hdus("PHI_DEP").at(iepoch).second,

@@ -47,6 +47,12 @@
 #include "Psf2.h"
 #include "Psf3.h"
 #include "PsfEpochDep.h"
+
+namespace {
+   typedef std::map<std::string, std::pair<unsigned int, unsigned int> > 
+   EventTypeMapping_t;
+}
+
 namespace latResponse {
 
 bool IrfLoader::s_interpolate_edisp(true);
@@ -65,12 +71,25 @@ void IrfLoader::registerEventClasses() const {
    irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
    for (size_t i(0); i < m_caldbNames.size(); i++) {
       const std::string & irfName(m_caldbNames.at(i));
-      std::vector<std::string> classNames;
-      classNames.push_back(irfName + "::FRONT");
-      registry.registerEventClass(classNames.back(), classNames.back());
-      classNames.push_back(irfName + "::BACK");
-      registry.registerEventClass(classNames.back(), classNames.back());
-      registry.registerEventClasses(irfName, classNames);
+      // Get event_type partition info.
+      EventTypeMapping_t event_type_mapping;
+      std::vector<unsigned int> partitions;
+      irfUtil::Util::get_event_type_mapping(irfName, event_type_mapping,
+                                            partitions);
+      for (size_t ip(0); ip < partitions.size(); ip++) {
+         std::vector<std::string> classNames;
+         EventTypeMapping_t::const_iterator it(event_type_mapping.begin());
+         for ( ; it != event_type_mapping.end(); ++it) {
+            if (it->second.second == partitions[ip]) {
+               classNames.push_back(irfName + "::" + it->first);
+               registry.registerEventClass(classNames.back(),classNames.back());
+            }
+         }
+         std::ostringstream partition_id;
+         partition_id << "_" << partitions[ip];
+         registry.registerEventClasses(irfName + partition_id.str(), 
+                                       classNames);
+      }
    }
    for (size_t i(0); i < m_customIrfNames.size(); i++) {
       const std::string & irfName(m_customIrfNames.at(i));
@@ -95,11 +114,10 @@ void IrfLoader::registerEventClasses() const {
 
 void IrfLoader::loadIrfs() const {
    for (size_t i(0); i < m_caldbNames.size(); i++) {
-      std::map<std::string, unsigned int> event_type_mapping;
+      EventTypeMapping_t event_type_mapping;
       irfUtil::Util::get_event_type_mapping(m_caldbNames[i],
                                             event_type_mapping);
-      std::map<std::string, unsigned int>::const_iterator 
-         it(event_type_mapping.begin());
+      EventTypeMapping_t::const_iterator it(event_type_mapping.begin());
       for ( ; it != event_type_mapping.end(); ++it) {
          addIrfs(m_caldbNames[i], it->first);
       }
@@ -132,16 +150,15 @@ void IrfLoader::addIrfs(const std::string & irf_name,
       irfs->setEfficiencyFactor(eff);
       delete eff;
    }
-   myFactory->addIrfs(irf_name + "::" + event_type, irfs)
+   myFactory->addIrfs(irf_name + "::" + event_type, irfs);
 }
 
 irfInterface::IAeff * 
 IrfLoader::aeff(const irfUtil::IrfHdus & aeff_hdus) const {
-   irfInterface::IAeff * my_aeff(0);
    if (aeff_hdus.numEpochs() == 1) {
-      my_aeff = new Aeff(aeff_hdus, 0);
+      return new Aeff(aeff_hdus, 0);
    } else {
-      my_aeff = new AeffEpochDep();
+      AeffEpochDep * my_aeff(new AeffEpochDep());
       const std::vector<std::pair<std::string, std::string> > &
          filename_hdu_pairs(aeff_hdus("EFF_AREA"));
       for (size_t j(0); j < aeff_hdus.numEpochs(); j++) {
@@ -151,17 +168,17 @@ IrfLoader::aeff(const irfUtil::IrfHdus & aeff_hdus) const {
          my_aeff->addAeff(*aeff_component, epoch_start);
          delete aeff_component;
       }
+      return my_aeff;
    }
-   return my_aeff;
+   return 0;
 }
 
 irfInterface::IPsf * 
-irfLoader::psf(const irfUtil::IrfHdus & psf_hdus) const {
-   irfInterface::IPsf * my_psf(0);
+IrfLoader::psf(const irfUtil::IrfHdus & psf_hdus) const {
    if (psf_hdus.numEpochs() == 1) {
-      my_psf = psf(psf_hdus, 0);
+      return psf(psf_hdus, 0);
    } else {
-      my_psf = new PsfEpochDep();
+      PsfEpochDep * my_psf(new PsfEpochDep());
       const std::vector<std::pair<std::string, std::string> > &
          filename_hdu_pairs(psf_hdus("RPSF"));
       for (size_t j(0); j < psf_hdus.numEpochs(); j++) {
@@ -171,8 +188,9 @@ irfLoader::psf(const irfUtil::IrfHdus & psf_hdus) const {
          my_psf->addPsf(*psf_component, epoch_start);
          delete psf_component;
       }
+      return my_psf;
    }
-   return my_psf;
+   return 0;
 }
 
 irfInterface::IPsf * IrfLoader::psf(const irfUtil::IrfHdus & psf_hdus, 
@@ -199,12 +217,11 @@ irfInterface::IPsf * IrfLoader::psf(const irfUtil::IrfHdus & psf_hdus,
 }
 
 irfInterface::IEdisp * 
-IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus) {
-   irfInterface::IEdisp * my_edisp(0);
+IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus) const {
    if (edisp_hdus.numEpochs() == 1) {
-      my_edisp = edisp(edisp_hdus, 0);
+      return edisp(edisp_hdus, 0);
    } else {
-      my_edisp = new EdispEpochDep();
+      EdispEpochDep * my_edisp(new EdispEpochDep());
       const std::vector<std::pair<std::string, std::string> > &
          filename_hdu_pairs(edisp_hdus("EDISP"));
       for (size_t j(0); j < edisp_hdus.numEpochs(); j++) {
@@ -214,12 +231,13 @@ IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus) {
          my_edisp->addEdisp(*edisp_component, epoch_start);
          delete edisp_component;
       }
+      return my_edisp;
    }
-   return my_edisp;
+   return 0;
 }
 
 irfInterface::IEdisp * 
-IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus, size_t iepoch) {
+IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus, size_t iepoch) const {
    const std::vector<std::pair<std::string, std::string> > &
       filename_hdu_pairs(edisp_hdus("EDISP"));
    const std::string & edisp_file(filename_hdu_pairs[iepoch].first);
@@ -245,9 +263,9 @@ IrfLoader::efficiency_factor(const irfUtil::IrfHdus & aeff_hdus) const {
    irfInterface::IEfficiencyFactor * my_eff(0);
    try {
       if (aeff_hdus.numEpochs() == 1) {
-         my_eff = new EfficiencyFactor(aeff_hdus, 0);
+         return new EfficiencyFactor(aeff_hdus, 0);
       } else {
-         my_eff = new EfficiencyFactorEpochDep();
+         EfficiencyFactorEpochDep * my_eff(new EfficiencyFactorEpochDep());
          const std::vector<std::pair<std::string, std::string> > &
             filename_hdu_pairs(aeff_hdus("EFFICIENCY_PARS"));
          for (size_t j(0); j < aeff_hdus.numEpochs(); j++) {
@@ -258,11 +276,12 @@ IrfLoader::efficiency_factor(const irfUtil::IrfHdus & aeff_hdus) const {
             my_eff->add(*eff_component, epoch_start);
             delete eff_component;
          }
+         return my_eff;
       }
    } catch (tip::TipException &) {
       return 0;
    }
-   return my_eff;
+   return 0;
 }
 
 void IrfLoader::readCustomIrfNames() {
@@ -287,33 +306,33 @@ void IrfLoader::readCustomIrfNames() {
 }
 
 void IrfLoader::loadCustomIrfs() const {
-   const std::string & irfDir(m_customIrfDir);
+   // const std::string & irfDir(m_customIrfDir);
 
-   irfInterface::IrfsFactory * myFactory(irfInterface::IrfsFactory::instance());
-   const std::vector<std::string> & irfNames(myFactory->irfNames());
+   // irfInterface::IrfsFactory * myFactory(irfInterface::IrfsFactory::instance());
+   // const std::vector<std::string> & irfNames(myFactory->irfNames());
 
-   for (size_t i(0); i < m_customIrfNames.size(); i++) {
-      const std::string & irfName(m_customIrfNames.at(i));
-      if (!std::count(irfNames.begin(), irfNames.end(), irfName + "::FRONT")) {
-         std::string section("front");
-         std::string aeff_file = st_facilities::Env
-            ::appendFileName(irfDir, "aeff_"+irfName+"_"+section+".fits");
-         std::string psf_file = st_facilities::Env
-            ::appendFileName(irfDir, "psf_"+irfName+"_"+section+".fits");
-         std::string edisp_file = st_facilities::Env
-            ::appendFileName(irfDir,"edisp_"+irfName+"_"+section+".fits");
-         addIrfs(aeff_file, psf_file, edisp_file, 0, irfName);
+   // for (size_t i(0); i < m_customIrfNames.size(); i++) {
+   //    const std::string & irfName(m_customIrfNames.at(i));
+   //    if (!std::count(irfNames.begin(), irfNames.end(), irfName + "::FRONT")) {
+   //       std::string section("front");
+   //       std::string aeff_file = st_facilities::Env
+   //          ::appendFileName(irfDir, "aeff_"+irfName+"_"+section+".fits");
+   //       std::string psf_file = st_facilities::Env
+   //          ::appendFileName(irfDir, "psf_"+irfName+"_"+section+".fits");
+   //       std::string edisp_file = st_facilities::Env
+   //          ::appendFileName(irfDir,"edisp_"+irfName+"_"+section+".fits");
+   //       addIrfs(aeff_file, psf_file, edisp_file, 0, irfName);
 
-         section = "back";
-         aeff_file = st_facilities::Env
-            ::appendFileName(irfDir, "aeff_"+irfName+"_"+section+".fits");
-         psf_file = st_facilities::Env
-            ::appendFileName(irfDir, "psf_"+irfName+"_"+section+".fits");
-         edisp_file = st_facilities::Env
-            ::appendFileName(irfDir,"edisp_"+irfName+"_"+section+".fits");
-         addIrfs(aeff_file, psf_file, edisp_file, 1, irfName);
-      }
-   }
+   //       section = "back";
+   //       aeff_file = st_facilities::Env
+   //          ::appendFileName(irfDir, "aeff_"+irfName+"_"+section+".fits");
+   //       psf_file = st_facilities::Env
+   //          ::appendFileName(irfDir, "psf_"+irfName+"_"+section+".fits");
+   //       edisp_file = st_facilities::Env
+   //          ::appendFileName(irfDir,"edisp_"+irfName+"_"+section+".fits");
+   //       addIrfs(aeff_file, psf_file, edisp_file, 1, irfName);
+   //    }
+   // }
 }
 
 void IrfLoader::read_caldb_indx() {
@@ -376,9 +395,8 @@ void IrfLoader::find_cif(std::string & caldb_indx) const {
    throw std::runtime_error("GLAST LAT not found in caldb.config file");
 }
 
-int IrfLoader::edispVersion(const std::string & fitsfile) const {
-   std::string extname;
-   st_facilities::FitsUtil::getFitsHduName(fitsfile, 2, extname);
+int IrfLoader::edispVersion(const std::string & fitsfile, 
+                            const std::string & extname) const {
    const tip::Table * table = 
       tip::IFileSvc::instance().readTable(fitsfile, extname);
    int version(1);
