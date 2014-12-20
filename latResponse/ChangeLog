@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Fri Dec 19 22:06:34 PST 2014
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Aeff.cxx Edisp3.cxx Edisp3.h EfficiencyFactor.h IrfLoader.cxx 
+	Psf3.cxx 
+Log Message:
+apparently working IrfLoader (save for custom irfs)
+    *
+------------------------------------------------------------
 User: jchiang  Thu Dec 18 22:24:02 PST 2014
 ScienceTools-scons/irfs/latResponse/src
 
