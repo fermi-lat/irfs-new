@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Dec 22 21:47:05 PST 2014
+ScienceTools-scons/irfs/caldb/python
+
+Modified Files:
+	irf_index.txt make_irf_index.py 
+Log Message:
+save partition name instead of integer index
+    *
+------------------------------------------------------------
+User: jchiang  Mon Dec 22 21:47:05 PST 2014
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf
 
 Modified Files:
