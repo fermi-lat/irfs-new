@@ -11,6 +11,7 @@
 #include <stdexcept>
 
 #include "irfUtil/HdCaldb.h"
+#include "irfUtil/Util.h"
 #include "irfUtil/IrfHdus.h"
 
 namespace irfUtil {
@@ -28,7 +29,15 @@ std::vector<std::string> IrfHdus::s_edisp_cnames(edisp_cnames, edisp_cnames+2);
 IrfHdus::IrfHdus(const std::string & irf_name,
                  const std::string & event_type,
                  const std::vector<std::string> & cnames) 
-   : m_cnames(cnames) {
+   : m_cnames(cnames), m_convType(0) {
+   if (event_type == "BACK") {
+      /// The m_convType value is required by the pre-Pass 8 PSF
+      /// classes to determine which PSF scaling parameters to use.
+      /// It need only differ from zero for BACK section IRFs, but for
+      /// backwards-compatibility, Pass 8 and later IRFs must support
+      /// m_convType=1.
+      m_convType = 1;
+   }
    irfUtil::HdCaldb hdcaldb("GLAST", "LAT");
 
    for (size_t i(0); i < cnames.size(); i++) {
@@ -43,6 +52,10 @@ IrfHdus::IrfHdus(const std::string & irf_name,
       }
       m_file_hdus[cnames[i]] = fh_pairs;
    }
+
+   std::map<std::string, std::pair<unsigned int, std::string> > evtype_mapping;
+   irfUtil::Util::get_event_type_mapping(irf_name, evtype_mapping);
+   m_bitPos = evtype_mapping[event_type].first;
 }
 
 typedef std::vector< std::pair<std::string, std::string> > FilenameHduPairs_t;
@@ -56,6 +69,14 @@ IrfHdus::operator()(const std::string & cname) const {
                                + " not found.");
    }
    return it->second;
+}
+
+unsigned int IrfHdus::bitPos() const {
+   return m_bitPos;
+}
+
+int IrfHdus::convType() const {
+   return m_convType;
 }
 
 size_t IrfHdus::numEpochs() const {

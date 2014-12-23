@@ -98,7 +98,17 @@ get_event_class_mapping(std::map<std::string, unsigned int> & mapping) {
 
 void Util::
 get_event_type_mapping(const std::string & event_class,
-                       std::map<std::string, unsigned int> & mapping) {
+                       std::map<std::string, 
+                       std::pair<unsigned int, std::string> > & mapping) {
+   std::vector<std::string> partitions;
+   get_event_type_mapping(event_class, mapping, partitions);
+}
+
+void Util::
+get_event_type_mapping(const std::string & event_class,
+                       std::map<std::string, 
+                       std::pair<unsigned int, std::string> > & mapping,
+                       std::vector<std::string> & partitions) {
    mapping.clear();
 
    // Find the irf_index.fits file.
@@ -129,11 +139,17 @@ get_event_type_mapping(const std::string & event_class,
       = tip::IFileSvc::instance().readTable(irf_index, "EVENT_TYPE_MAPPING");
    std::string event_type;
    int bitpos;
+   std::string partition;
+   partitions.clear();
    for (it = evtype_map->begin(); it != evtype_map->end(); ++it) {
       row["event_type"].get(event_type);
       row["bitposition"].get(bitpos);
+      row["event_type_partition"].get(partition);
       if ((allowed_evtypes >> bitpos) & 1) {
-         mapping[event_type] = bitpos;
+         mapping[event_type] = std::make_pair(bitpos, partition);
+      }
+      if (partitions.empty() || partition != partitions.back()) {
+         partitions.push_back(partition);
       }
    }
    delete evtype_map;

@@ -10,6 +10,7 @@
 #include "irfUtil/IrfHdus.h"
 
 void print_hdus(const irfUtil::IrfHdus & my_hdus) {
+   std::cout << "irfID: " << my_hdus.bitPos() << std::endl;
    const std::vector<std::string> & cnames(my_hdus.cnames());
    for (size_t i(0); i < cnames.size(); i++) {
       const std::vector<std::pair<std::string, std::string> > 
@@ -80,18 +81,20 @@ int main() {
       std::cout << it->first << "  " << it->second << std::endl;
    }
 
+   std::map<std::string, std::pair<unsigned int, std::string> > evtype_mapping;
+
    std::cout << "\nP7REP_SOURCE_V10 event types:\n";
-   irfUtil::Util::get_event_type_mapping("P7REP_SOURCE_V10", mapping);
-   for (std::map<std::string, unsigned int>::const_iterator it(mapping.begin());
-        it != mapping.end(); ++it) {
-      std::cout << it->first << "  " << it->second << std::endl;
+   irfUtil::Util::get_event_type_mapping("P7REP_SOURCE_V10", evtype_mapping);
+   for (std::map<std::string, std::pair<unsigned int, std::string> >::const_iterator 
+           it(evtype_mapping.begin()); it != evtype_mapping.end(); ++it) {
+      std::cout << it->first << "  " << it->second.first << std::endl;
    }
 
    std::cout << "\nP8_SOURCE_V5 event types:\n";
-   irfUtil::Util::get_event_type_mapping("P8_SOURCE_V5", mapping);
-   for (std::map<std::string, unsigned int>::const_iterator it(mapping.begin());
-        it != mapping.end(); ++it) {
-      std::cout << it->first << "  " << it->second << std::endl;
+   irfUtil::Util::get_event_type_mapping("P8_SOURCE_V5", evtype_mapping);
+   for (std::map<std::string, std::pair<unsigned int, std::string> >::const_iterator 
+           it(evtype_mapping.begin()); it != evtype_mapping.end(); ++it) {
+      std::cout << it->first << "  " << it->second.first << std::endl;
    }
 
 /// Check that tip can read by extension number.
@@ -131,12 +134,17 @@ int main() {
    delete table;
 
 /// Test IrfHdus class
+   // irfUtil::IrfHdus empty_hdus("Un_irf", "Un_event_type",
+   //                             irfUtil::IrfHdus::s_aeff_cnames);
+   // std::cout << "Contents of empty_hdus: " 
+   //           << empty_hdus.numEpochs() << std::endl;
+
    std::cout << "\nP8_SOURCE_V5, PSF0, aeff:" << std::endl;
    print_hdus(irfUtil::IrfHdus::aeff("P8_SOURCE_V5", "PSF0"));
 
-   std::cout << "\nP8_CLEAN_V5, PSF1, psf:" << std::endl;
+   std::cout << "\nP8_CLEAN_V5, EDISP1, psf:" << std::endl;
    try {
-      print_hdus(irfUtil::IrfHdus::psf("P8_CLEAN_V5", "PSF1"));
+      print_hdus(irfUtil::IrfHdus::psf("P8_CLEAN_V5", "EDISP1"));
    } catch (...) {
    }
 

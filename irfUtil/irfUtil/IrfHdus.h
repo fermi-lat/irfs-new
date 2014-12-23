@@ -36,6 +36,13 @@ public:
    ///         This is a vector to accommodate epoch dependent IRFs.
    /// @param cname IRF component name
    const FilenameHduPairs_t & operator()(const std::string & cname) const;
+
+   /// @return Bit position of designated irf_name-event_type combination.
+   unsigned int bitPos() const;
+
+   /// @return Conversion type (BACK=1, all others=0) for
+   /// backwards-compatibility with pre-Pass 8 irfs.
+   int convType() const;
    
    /// @return Number of epochs.
    size_t numEpochs() const;
@@ -61,6 +68,10 @@ private:
    const std::vector<std::string> & m_cnames;
 
    std::map<std::string, FilenameHduPairs_t> m_file_hdus;
+
+   unsigned int m_bitPos;
+
+   int m_convType;
 
 };
 
