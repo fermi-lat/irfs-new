@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Dec 22 21:44:55 PST 2014
+ScienceTools-scons/irfs/irfUtil/src
+
+Modified Files:
+	IrfHdus.cxx Util.cxx 
+Log Message:
+event_type mapping code
+    *
+------------------------------------------------------------
+User: jchiang  Mon Dec 22 21:44:55 PST 2014
 ScienceTools-scons/irfs/irfUtil/irfUtil
 
 Modified Files:
