@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Mon Dec 22 21:46:03 PST 2014
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx 
+Log Message:
+partition suffix handling
+    *
+------------------------------------------------------------
+User: jchiang  Mon Dec 22 21:46:03 PST 2014
 ScienceTools-scons/irfs/latResponse/latResponse
 
 Modified Files:

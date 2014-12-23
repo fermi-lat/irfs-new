@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Dec 22 21:47:05 PST 2014
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf
+
+Modified Files:
+	irf_index.fits 
+Log Message:
+save partition name instead of integer index
+    *
+------------------------------------------------------------
 User: jchiang  Fri Dec 19 20:55:50 PST 2014
 ScienceTools-scons/irfs/caldb/python
 
