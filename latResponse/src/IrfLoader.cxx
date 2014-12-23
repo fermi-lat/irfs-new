@@ -49,7 +49,7 @@
 #include "PsfEpochDep.h"
 
 namespace {
-   typedef std::map<std::string, std::pair<unsigned int, unsigned int> > 
+   typedef std::map<std::string, std::pair<unsigned int, std::string> > 
    EventTypeMapping_t;
 }
 
@@ -73,7 +73,7 @@ void IrfLoader::registerEventClasses() const {
       const std::string & irfName(m_caldbNames.at(i));
       // Get event_type partition info.
       EventTypeMapping_t event_type_mapping;
-      std::vector<unsigned int> partitions;
+      std::vector<std::string> partitions;
       irfUtil::Util::get_event_type_mapping(irfName, event_type_mapping,
                                             partitions);
       for (size_t ip(0); ip < partitions.size(); ip++) {
@@ -86,7 +86,9 @@ void IrfLoader::registerEventClasses() const {
             }
          }
          std::ostringstream partition_id;
-         partition_id << "_" << partitions[ip];
+         if (partitions[ip] != "none") {
+            partition_id << "_" << partitions[ip];
+         }
          registry.registerEventClasses(irfName + partition_id.str(), 
                                        classNames);
       }

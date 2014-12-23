@@ -20,6 +20,7 @@ namespace irfInterface {
 
 namespace irfUtil {
    class HdCaldb;
+   class IrfHdus;
 }
 
 namespace latResponse {
@@ -75,9 +76,6 @@ private:
    void loadCustomIrfs() const;
 
    void find_cif(std::string & caldb_indx) const;
-
-   void addIrfs(const std::string & irf_name,
-                const std::string & event_type) const;
 
    int edispVersion(const std::string & fitsfile,
                     const std::string & extname) const;
