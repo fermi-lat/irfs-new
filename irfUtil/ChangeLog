@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan  7 14:55:21 PST 2015
+ScienceTools-scons/irfs/irfUtil/src
+
+Modified Files:
+	Util.cxx 
+Log Message:
+get inverse-mapping of full bitmask by partition name
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan  7 14:55:21 PST 2015
 ScienceTools-scons/irfs/irfUtil/irfUtil
 
 Modified Files:
