@@ -1,5 +1,15 @@
 ------------------------------------------------------------
 User: jchiang  Wed Jan  7 13:29:09 PST 2015
+ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat/bcf/psf
+
+Modified Files:
+	psf_P7CLEAN_V6_back.fits psf_P7CLEAN_V6_front.fits 
+	psf_P7SOURCE_V6_back.fits 
+Log Message:
+make caldb.indx and irf files more CALDB compliant and remove pre-Pass 7 irfs (which are not CALDB-compliant) from caldb.indx
+    *
+------------------------------------------------------------
+User: jchiang  Wed Jan  7 13:29:09 PST 2015
 ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat/bcf
 
 Modified Files:
