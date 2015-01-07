@@ -74,8 +74,9 @@ void IrfLoader::registerEventClasses() const {
       // Get event_type partition info.
       EventTypeMapping_t event_type_mapping;
       std::vector<std::string> partitions;
+      std::map<std::string, unsigned int> bitmask_by_partition;
       irfUtil::Util::get_event_type_mapping(irfName, event_type_mapping,
-                                            partitions);
+                                            partitions, bitmask_by_partition);
       for (size_t ip(0); ip < partitions.size(); ip++) {
          std::vector<std::string> classNames;
          EventTypeMapping_t::const_iterator it(event_type_mapping.begin());
@@ -87,10 +88,12 @@ void IrfLoader::registerEventClasses() const {
          }
          std::ostringstream partition_id;
          if (partitions[ip] != "none") {
-            partition_id << "_" << partitions[ip];
+            partition_id << " (" << partitions[ip] << ")";
          }
-         registry.registerEventClasses(irfName + partition_id.str(), 
-                                       classNames);
+         if (!classNames.empty()) {
+            registry.registerEventClasses(irfName + partition_id.str(), 
+                                          classNames);
+         }
       }
    }
    for (size_t i(0); i < m_customIrfNames.size(); i++) {
