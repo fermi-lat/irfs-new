@@ -49,7 +49,9 @@ public:
                                       std::map<std::string,
                                       std::pair<unsigned int, std::string> >
                                       & event_type_mapping,
-                                      std::vector<std::string> & partitions);
+                                      std::vector<std::string> & partitions,
+                                      std::map<std::string, unsigned int> 
+                                      & bitmask_by_partition);
 
 protected:
 

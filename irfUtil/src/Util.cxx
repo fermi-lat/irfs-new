@@ -6,6 +6,8 @@
  * $Header$
  */
 
+#include <cmath>
+
 #include <iostream>
 #include <stdexcept>
 #include <utility>
@@ -101,15 +103,19 @@ get_event_type_mapping(const std::string & event_class,
                        std::map<std::string, 
                        std::pair<unsigned int, std::string> > & mapping) {
    std::vector<std::string> partitions;
-   get_event_type_mapping(event_class, mapping, partitions);
+   std::map<std::string, unsigned int> bitmasks_by_partition;
+   get_event_type_mapping(event_class, mapping, partitions, 
+                          bitmasks_by_partition);
 }
 
 void Util::
 get_event_type_mapping(const std::string & event_class,
                        std::map<std::string, 
                        std::pair<unsigned int, std::string> > & mapping,
-                       std::vector<std::string> & partitions) {
+                       std::vector<std::string> & partitions,
+                       std::map<std::string, unsigned int> & bitmasks_by_partition) {
    mapping.clear();
+   bitmasks_by_partition.clear();
 
    // Find the irf_index.fits file.
    std::string sub_path;
@@ -122,7 +128,7 @@ get_event_type_mapping(const std::string & event_class,
       = tip::IFileSvc::instance().readTable(irf_index, "BITMASK_MAPPING");
    tip::Table::ConstIterator it(evclass_map->begin());
    tip::ConstTableRecord & row = *it;
-   unsigned int allowed_evtypes;
+   unsigned int allowed_evtypes(0);
    std::string my_event_class;
    for ( ; it != evclass_map->end(); ++it) {
       row["event_class"].get(my_event_class);
@@ -153,7 +159,18 @@ get_event_type_mapping(const std::string & event_class,
       }
    }
    delete evtype_map;
-}
 
+   // Initialize map of partition_name -> full bit mask.
+   for (size_t i(0); i < partitions.size(); i++) {
+      bitmasks_by_partition[partitions[i]] = 0;
+   }
+   // Add bit-wise contributions to get full masks for each partition.
+   for (std::map<std::string, 
+           std::pair<unsigned int, std::string> >::const_iterator 
+           itor(mapping.begin()); itor != mapping.end(); ++itor) {
+      bitmasks_by_partition[itor->second.second] 
+         += std::pow(2, itor->second.first);
+   }
+}
 
 } // namespace irfUtil
