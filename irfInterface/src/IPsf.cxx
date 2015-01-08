@@ -58,9 +58,9 @@ astro::SkyDir IPsf::appDir(double energy,
    if (::getenv("USE_OLD_IPSF_SAMPLER")) {
       // Form cumlative distribution in psi (polar angle from source direction)
       std::vector<double> integrand;
-      for (std::vector<double>::iterator psi(s_psi_values.begin());
-           psi != s_psi_values.end(); ++psi) {
-         integrand.push_back(coneIntegrand(&(*psi)));
+      for (std::vector<double>::iterator psi_it(s_psi_values.begin());
+           psi_it != s_psi_values.end(); ++psi_it) {
+         integrand.push_back(coneIntegrand(&(*psi_it)));
       }
 
       std::vector<double> integralDist;
