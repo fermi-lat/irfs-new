@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ caldb-06-00-00 08-Jan-2015 jchiang Pass 8-related changes; pre-Pass 7 irfs disabled; made Pass 7 files and entries in caldb.indx more fully CALDB compliant
  caldb-05-01-01 10-Aug-2013 jchiang add bit mappings to irfs_index.fits for P7REP irfs
  caldb-05-01-00 27-May-2013 jchiang add P7REP_*_V15 irfs
  caldb-05-00-00 14-Jan-2013 jchiang Corrected CALDB boundary keywords in Pass7 and later files, updated caldb.indx accordingly
