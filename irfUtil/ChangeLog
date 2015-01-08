@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Thu Jan  8 13:09:43 PST 2015
+ScienceTools-scons/irfs/irfUtil/src
+
+Modified Files:
+	Util.cxx 
+Log Message:
+resolve pow-function ambiguity for older gcc compiler
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfUtil-02-00-00, operation: add
 Package: irfUtil
