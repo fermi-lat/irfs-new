@@ -169,7 +169,8 @@ get_event_type_mapping(const std::string & event_class,
            std::pair<unsigned int, std::string> >::const_iterator 
            itor(mapping.begin()); itor != mapping.end(); ++itor) {
       bitmasks_by_partition[itor->second.second] 
-         += std::pow(2, itor->second.first);
+         += static_cast<unsigned int>(std::pow(2., 
+                                               static_cast<double>(itor->second.first)));
    }
 }
 
