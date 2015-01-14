@@ -98,19 +98,17 @@ double Edisp3::evaluate(double emeas, double energy,
 
 double Edisp3::value(double appEnergy, double energy,
                      double theta, double phi, double time) const {
-   if (::getenv("USE_EDISP_INTERP")) {
-      if (m_interpolator == 0) {
-         m_interpolator = new EdispInterpolator(m_fitsfile, m_extname, m_nrow);
-      }
-      return m_interpolator->evaluate(*this, appEnergy, energy,
-                                      theta, phi, time);
+   if (::getenv("DISABLE_EDISP_INTERP")) {
+      double costh(std::cos(theta*M_PI/180.));
+      costh = std::min(costh, m_parTables.costhetas().back());
+      double * my_pars(pars(energy, costh));
+      return evaluate(appEnergy, energy, theta, phi, time, my_pars);
    }
-   (void)(phi);
-   (void)(time);
-   double costh(std::cos(theta*M_PI/180.));
-   costh = std::min(costh, m_parTables.costhetas().back());
-   double * my_pars(pars(energy, costh));
-   return evaluate(appEnergy, energy, theta, phi, time, my_pars);
+   if (m_interpolator == 0) {
+      m_interpolator = new EdispInterpolator(m_fitsfile, m_extname, m_nrow);
+   }
+   return m_interpolator->evaluate(*this, appEnergy, energy,
+                                   theta, phi, time);
 }
 
 double Edisp3::thibaut_function(double xx, double * pars) const {
