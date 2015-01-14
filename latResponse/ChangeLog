@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Wed Jan 14 08:02:54 PST 2015
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Edisp2.cxx Edisp3.cxx 
+Log Message:
+make interpolation of the edisp distributions the default behavior in Edisp[23]
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-04-00-00, operation: add
 Package: latResponse
