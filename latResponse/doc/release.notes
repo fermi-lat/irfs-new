@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-04-00-01 14-Jan-2015 jchiang make interpolation of the edisp distributions the default in Edisp[23]
  latResponse-04-00-00 08-Jan-2015 jchiang Pass 8-related development
  latResponse-03-02-01 24-Sep-2014 jchiang fix Edisp2 normalization when using interpolation scheme
  latResponse-03-02-00 09-Sep-2014 jchiang add Edisp3 for third generation energy dispersion parameterization
