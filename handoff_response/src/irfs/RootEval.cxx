@@ -51,7 +51,7 @@ namespace {
 
       double operator()(double emeas) const {
         double xx((emeas - m_etrue)/m_etrue);
-                   //                   /Dispersion::scaleFactor(m_etrue, m_costh, m_isFront));
+                   //          /Dispersion::scaleFactor(m_etrue, m_costh, m_isFront));
          return Dispersion::function(&xx, m_pars)/m_etrue;
       }
 
@@ -180,7 +180,7 @@ double * RootEval::psf_par(double energy, double costh) {
    
    // rescale the sigma value after interpolation
    static double zdir(1.0);
-   par[1] *= PointSpreadFunction::scaleFactor(energy, zdir, isFront());
+   //par[1] *= PointSpreadFunction::scaleFactor(energy, zdir, isFront());
    
    if (par[1] == 0 || par[2] == 0 || par[3] == 0) {
       std::ostringstream message;
