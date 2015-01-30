@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Fri Jan 30 00:45:19 PST 2015
+irfs/handoff_response/pfiles
+
+Modified Files:
+	make_fits.par 
+Log Message:
+switch new_edisp hidden par to yes by default
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-09-35-02, operation: add
 Package: handoff_response
