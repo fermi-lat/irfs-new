@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Fri Jan 30 03:25:18 PST 2015
+irfs/handoff_response/src/gen
+
+Modified Files:
+	DispPlots.h DispPlots.cxx IrfAnalysis.cxx 
+Log Message:
+move the reading of scaling parameters for EDISP from IrfAnalysis to DispPlots, and use a private member there to avoid calling back Dispersion object to retrieve this info. Fix the scaling pars histogram so that it draws ok in root
+    *
+------------------------------------------------------------
 User: cohen  Fri Jan 30 00:45:19 PST 2015
 irfs/handoff_response/pfiles
 
