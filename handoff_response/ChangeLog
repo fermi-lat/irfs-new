@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Fri Jan 30 04:59:16 PST 2015
+irfs/handoff_response/src/gen
+
+Modified Files:
+	PointSpreadFunction.h PointSpreadFunction.cxx 
+Log Message:
+remove the static pars and replace with a member vector, clean the front/back syntax
+    *
+------------------------------------------------------------
 User: cohen  Fri Jan 30 04:57:54 PST 2015
 irfs/handoff_response/src/gen
 
