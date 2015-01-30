@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Fri Jan 30 04:57:54 PST 2015
+irfs/handoff_response/src/gen
+
+Modified Files:
+	PsfPlots.h PsfPlots.cxx 
+Log Message:
+set the scaling parameters in PsfPlots, and fix the corresponding histogram
+    *
+------------------------------------------------------------
 User: cohen  Fri Jan 30 04:56:11 PST 2015
 irfs/handoff_response/src/gen
 
