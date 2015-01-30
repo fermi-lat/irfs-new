@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Fri Jan 30 03:35:01 PST 2015
+irfs/handoff_response/src/irfs
+
+Modified Files:
+	RootEval.cxx 
+Log Message:
+RootEval has code that uses a lot of now obsolete interface with front/back distinction, and which is not used by makefits.... so I just comment this part which now breaks this non-exercized part of the code. This needs a cleaning, for instance moving whatever is really needed by make_fits there
+    *
+------------------------------------------------------------
 User: cohen  Fri Jan 30 03:32:01 PST 2015
 irfs/handoff_response/src/gen
 
