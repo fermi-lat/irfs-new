@@ -18,6 +18,7 @@
 #include <cmath>
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
 
 namespace {
 #if 1 // log-scale plots to see tails
@@ -38,6 +39,18 @@ DispPlots::DispPlots( IrfAnalysis& irf,
 , m_binner(irf.binner())
 , m_log(&log)
 {
+   // Get energy dispersion scale parameters from input file.
+   //std::vector<double> scaling_pars;
+   try {
+      py.getList("Edisp.scaling_pars", m_edisp_scaling_pars);
+      std::cout << "Using energy dispersion scaling parameters:" << std::endl;
+      for (size_t i(0); i < m_edisp_scaling_pars.size(); i++) {
+        std::cout << m_edisp_scaling_pars[i] << "  ";
+      }
+      std::cout << std::endl;
+   } catch(std::invalid_argument &) {
+     throw std::runtime_error("DispPlots//DispPlots: Edisp.scaling_pars not found in python setup script!");
+   }
 
     m_hists.resize(binner().size());
     for (int ebin = 0; ebin < binner().energy_bins(); ++ebin) {
@@ -52,6 +65,7 @@ DispPlots::DispPlots( IrfAnalysis& irf,
             }
             m_hists[id]=Dispersion(IrfBinner::hist_name(abin, ebin, "disp")
 				   , title.str(), py);
+            m_hists[id].setScaleFactorParameters(m_edisp_scaling_pars);
         }
     }
 }
@@ -66,7 +80,7 @@ void DispPlots::fill(double deviat, double energy, double costheta, bool front)
     int e_bin = binner().energy_bin(energy);        if( e_bin<0 || e_bin>= binner().energy_bins() )return;
 
 //     int id =  binner().ident(e_bin, z_bin);
-    double scaled_delta =deviat/Dispersion::scaleFactor(energy, costheta, front);
+    double scaled_delta =deviat/Dispersion::scaleFactor(energy, costheta,m_edisp_scaling_pars);
 
 //     m_hists[id].fill(scaled_delta);
 
@@ -174,24 +188,13 @@ void DispPlots::fillParameterTables()
     }
 
     // Write scaleFactor parameter values
-    std::vector<double> front_pars, back_pars;
-    std::vector<float> index_values;
-    Dispersion::getScaleFactorParameters(front_pars, back_pars);
-    // fill lower bin edges with index values
-    size_t nbins(front_pars.size() + back_pars.size());
-    for (size_t i(0); i < nbins; i++) {
-       index_values.push_back(static_cast<float>(i));
-    }
+    size_t nbins(m_edisp_scaling_pars.size());
     std::string histname("edisp_scaling_params");
     TH1F * h1 = new TH1F(histname.c_str(), 
                          (histname + ";index").c_str(),
-                         nbins, &index_values[0]);
-    for (size_t i(0); i < front_pars.size(); i++) {
-       h1->SetBinContent(i, front_pars[i]);
-    }
-    for (size_t i(0); i < back_pars.size(); i++) {
-       size_t index(front_pars.size() + i);
-       h1->SetBinContent(index, back_pars[i]);
+                         nbins, 0,nbins-1);
+    for (size_t i(0); i < m_edisp_scaling_pars.size(); i++) {
+       h1->SetBinContent(i, m_edisp_scaling_pars[i]);
     }
     h1->GetXaxis()->CenterTitle();
     h1->Write();

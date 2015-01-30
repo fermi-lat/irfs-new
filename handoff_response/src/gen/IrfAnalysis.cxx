@@ -91,40 +91,6 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,
    }
    std::cout << std::endl;
 
-   // Get the default parameters set in Dispersion.cxx
-   std::vector<double> edisp_front, edisp_back;
-   Dispersion::getScaleFactorParameters(edisp_front, edisp_back);
-
-   // Get energy dispersion scale parameters from input file.
-   std::vector<double> edisp_pars;
-   try {
-      py.getList("Edisp.front_pars", edisp_pars);
-      edisp_front = edisp_pars;
-   } catch (std::invalid_argument &) {
-      // Use defaults.
-   }
-   try {
-      edisp_pars.clear();
-      py.getList("Edisp.back_pars", edisp_pars);
-      edisp_back = edisp_pars;
-   } catch (std::invalid_argument &) {
-      // Use defaults.
-   }
-   Dispersion::setScaleFactorParameters(edisp_front, edisp_back);
-
-   // Report the parameters used.
-   Dispersion::getScaleFactorParameters(edisp_front, edisp_back);
-   std::cout << "Using energy dispersion front parameters:" << std::endl;
-   for (size_t i(0); i < edisp_front.size(); i++) {
-      std::cout << edisp_front[i] << "  ";
-   }
-   std::cout << std::endl;
-   std::cout << "Using energy dispersion back parameters:" << std::endl;
-   for (size_t i(0); i < edisp_back.size(); i++) {
-      std::cout << edisp_back[i] << "  ";
-   }
-   std::cout << std::endl;
-
    std::vector<double> generated, logemins, logemaxes;
    py.getList("Data.generated", generated);
    py.getList("Data.logemin", logemins);

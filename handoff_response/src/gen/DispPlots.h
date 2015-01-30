@@ -46,6 +46,8 @@ protected:
     std::ostream * m_log;
     std::ostream& out() {return *m_log;}
 
+private:
+    std::vector<double> m_edisp_scaling_pars;
 };
 
 #endif
