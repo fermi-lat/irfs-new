@@ -75,21 +75,6 @@ IrfAnalysis::IrfAnalysis(std::string output_folder,
              << m_bestZDir << ", "
              << m_bestEnergy << std::endl;
 
-   // Get PSF scaling parameters from input file.
-   std::vector<double> psf_pars;
-   try {
-      py.getList("PSF.pars", psf_pars);
-      PointSpreadFunction::setScaleFactorParameters(psf_pars);
-   } catch (std::invalid_argument &) {
-      /// Use defaults set in PointSpreadFunction.cxx
-   }
-   // Report the parameters used.
-   PointSpreadFunction::getScaleFactorParameters(psf_pars);
-   std::cout << "Using PSF scale factor parameters:\n";
-   for (size_t i(0); i < psf_pars.size(); i++) {
-      std::cout << psf_pars[i] << "  ";
-   }
-   std::cout << std::endl;
 
    std::vector<double> generated, logemins, logemaxes;
    py.getList("Data.generated", generated);
@@ -199,9 +184,9 @@ void IrfAnalysis::project(embed_python::Module & py) {
       // 		<< front << " " << m_front_only_psf_scaling
       // 		<< std::endl;
 
-      m_fisheye->fill(theta_err, McEnergy, McZDir, front);
-      m_psf->fill(diff, McEnergy, McZDir, front || m_front_only_psf_scaling);
-      m_disp->fill(dsp, McEnergy, McZDir, front);
+      m_fisheye->fill(theta_err, McEnergy, McZDir);
+      m_psf->fill(diff, McEnergy, McZDir);
+      m_disp->fill(dsp, McEnergy, McZDir);
       m_aeff->fill(mc_energy, McZDir, front, total);
       m_phi_dep->fill(McXDir, McYDir, McEnergy, McZDir);
    }
