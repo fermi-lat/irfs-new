@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Fri Jan 30 03:32:01 PST 2015
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.cxx Dispersion.h 
+Log Message:
+remove all the references to front/back scaling parameters, and replace with a private member m_scaling_pars. Move scaleFactor to a static function so that DispPlots can access it more cleanly. Note that in theory Dispersion does not need to know of the scaling params anymore as the scaled deviation is computed in DispPlots directly, but I leave this code there for now
+    *
+------------------------------------------------------------
 User: cohen  Fri Jan 30 03:25:18 PST 2015
 irfs/handoff_response/src/gen
 
