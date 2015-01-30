@@ -20,6 +20,7 @@ $Header$
 #include <cmath>
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
 
 namespace {
 #if 1 // log-scale plots to see tails
@@ -39,6 +40,17 @@ FisheyePlots::FisheyePlots( IrfAnalysis& irf, std::ostream& log,
     m_binner(py,"FisheyeBins"),
     m_log(&log)
 {
+   try {
+      py.getList("PSF.scaling_pars", m_psf_scaling_pars);
+      std::cout << "FisheyePlots : using PSF scaling parameters:" << std::endl;
+      for (size_t i(0); i < m_psf_scaling_pars.size(); i++) {
+        std::cout << m_psf_scaling_pars[i] << "  ";
+      }
+      std::cout << std::endl;
+   } catch(std::invalid_argument &) {
+     throw std::runtime_error("FisheyePlots::FisheyePlots: PSF.scaling_pars not found in python setup script!");
+   }
+
   m_hists.resize(m_binner.energy_bins()*m_binner.angle_bins());
   for (int ebin = 0; ebin < m_binner.energy_bins(); ++ebin) {
     for (int abin = 0; abin < m_binner.angle_bins(); ++abin) {
@@ -60,7 +72,7 @@ FisheyePlots::~FisheyePlots()
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 void FisheyePlots::fill(double angle_diff, double energy, 
-			double costheta, bool front)
+			double costheta)
 {
     int z_bin = binner().angle_bin( costheta );     
     if( z_bin>= binner().angle_bins()) return;
@@ -69,7 +81,7 @@ void FisheyePlots::fill(double angle_diff, double energy,
 
     int id =  binner().ident(e_bin, z_bin);
     double scaled_delta = 
-      angle_diff/PointSpreadFunction::scaleFactor(energy, costheta, front);
+      angle_diff/PointSpreadFunction::scaleFactor(energy, costheta, m_psf_scaling_pars);
     m_hists[id].fill(scaled_delta);
 }
 

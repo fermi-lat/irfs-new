@@ -24,7 +24,7 @@ public:
   FisheyePlots( IrfAnalysis& irf, std::ostream& log, embed_python::Module& py);
   ~FisheyePlots();
 
-  void fill(double diff, double energy, double costheta, bool front);
+  void fill(double diff, double energy, double costheta);
 
   void fit();
   void summarize();
@@ -47,6 +47,8 @@ private:
     PSFlist   m_hists;
     std::ostream * m_log;
     std::ostream& out() {return *m_log;}
+
+    std::vector<double> m_psf_scaling_pars;
 };
 
 #endif
