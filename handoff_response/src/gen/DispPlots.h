@@ -22,7 +22,7 @@ public:
     DispPlots( IrfAnalysis&, std::ostream&, embed_python::Module & );
     ~DispPlots();
 
-    void fill(double deviat, double energy, double costheta, bool front);
+    void fill(double deviat, double energy, double costheta);
 
     void fit();
     void summarize();

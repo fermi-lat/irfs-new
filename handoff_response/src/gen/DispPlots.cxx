@@ -74,7 +74,7 @@ DispPlots::~DispPlots()
 {}
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void DispPlots::fill(double deviat, double energy, double costheta, bool front)
+void DispPlots::fill(double deviat, double energy, double costheta)
 {
     int z_bin = binner().angle_bin( costheta );     if( z_bin>= binner().angle_bins()) return;
     int e_bin = binner().energy_bin(energy);        if( e_bin<0 || e_bin>= binner().energy_bins() )return;

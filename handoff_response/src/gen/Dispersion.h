@@ -82,8 +82,6 @@ private:
     double m_quant[2]; // for 68,95% quantiles
     double m_tail;     // fraction in tail beyond fit range
 
-    //static double s_coef_thin[6];
-    //static double s_coef_thick[6];
    std::vector<double> m_scaling_pars;
 
    double biaslimit;
