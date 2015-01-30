@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Fri Jan 30 03:36:41 PST 2015
+irfs/handoff_response/src/fits/make_fits
+
+Modified Files:
+	make_fits.cxx 
+Log Message:
+remove the distinction front/back in edisp scaling params, and just save all the pars in memory
+    *
+------------------------------------------------------------
 User: cohen  Fri Jan 30 03:35:01 PST 2015
 irfs/handoff_response/src/irfs
 
