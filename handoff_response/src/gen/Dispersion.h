@@ -45,16 +45,11 @@ public:
     
     std::vector<std::string> getFitParNames();
 
-    /// scale factor to apply to data
-    static double scaleFactor(double energy, double zdir, bool front);
-   
    /// Set the scale factor parameters
-   static void setScaleFactorParameters(const std::vector<double> & edisp_front,
-                                        const std::vector<double> & edisp_back);
+   void setScaleFactorParameters(const std::vector<double> & scaling_pars);
 
    /// Get the scale factor parameters
-   static void getScaleFactorParameters(std::vector<double> & edisp_front,
-                                        std::vector<double> & edisp_back);
+   void getScaleFactorParameters(std::vector<double> & scaling_pars);
 
    /// access to the function itself
    static double function(double* delta, double* par);
@@ -68,6 +63,7 @@ public:
     static std::vector<std::string> pnames;
     static const char* parname(int i);
     static int npars();
+    static double scaleFactor(double energy, double zdir, std::vector<double> edisp_scaling_pars);
 
     static void summary_title(std::ostream & out);
 
@@ -86,8 +82,9 @@ private:
     double m_quant[2]; // for 68,95% quantiles
     double m_tail;     // fraction in tail beyond fit range
 
-   static double s_coef_thin[6];
-   static double s_coef_thick[6];
+    //static double s_coef_thin[6];
+    //static double s_coef_thick[6];
+   std::vector<double> m_scaling_pars;
 
    double biaslimit;
    double bias2limit;

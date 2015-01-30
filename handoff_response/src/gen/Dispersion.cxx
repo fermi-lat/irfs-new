@@ -30,6 +30,9 @@ namespace {
   static double fitrange[]={-15, 15};
   static int min_entries(10);
   static int fit_tries=3; // try a fit this many times before giving up
+
+
+
   double edisp_func(double * x, double * par)
   {
     
@@ -100,15 +103,24 @@ namespace {
   
 }// anon namespace
 
-// following numbers determined empirically to roughly 
-// make the 68% containment radius be 1.0 independent of energy
-double Dispersion::s_coef_thin[6] = {0.0210, 0.058, -0.207,
-                                     -0.213, 0.042, 0.564};
-double Dispersion::s_coef_thick[6] = {0.0215, 0.0507, -0.22,
-                                      -0.243, 0.065, 0.584};
 
-// External versions.
+double Dispersion::scaleFactor(double energy,double  zdir,std::vector<double> edisp_scaling_pars)
+{
+  // following numbers determined empirically to roughly 
+  // make the 68% containment radius be 1.0 independent of energy
+  //use a TFunction so that all this stuff could be read from fits file
+   
+  //x is McLogEnergy, y is fabs(McZDir)
+  static const char funcdef[]="[0]*x*x+[1]*y*y + [2]*x + [3]*y + [4]*x*y + [5]";
 
+  static TF2 edisp_scale_func("edisp_scale_func",funcdef);
+
+  double vars[2]; vars[0]=::log10(energy); vars[1]=::fabs(zdir);
+
+  //reltying on contiguous storing of std::vector here....
+  return edisp_scale_func(vars,&edisp_scaling_pars[0]); 
+
+}
 
 const char* Dispersion::parname(int i){return names[i];}
 
@@ -190,49 +202,26 @@ void Dispersion::summarize(std::ostream & out)
   out<<"Nothing here yet! (Dispersion.cxx)" << std::endl;
 }
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-double Dispersion::scaleFactor(double energy,double  zdir, bool thin)
-{
-  // following numbers determined empirically to roughly 
-  // make the 68% containment radius be 1.0 independent of energy
-  //use a TFunction so that all this stuff could be read from fits file
-   
-  //x is McLogEnergy, y is fabs(McZDir)
-  static const char funcdef[]="[0]*x*x+[1]*y*y + [2]*x + [3]*y + [4]*x*y + [5]";
-
-  static TF2 edisp_scale_func("edisp_scale_func",funcdef);
-
-  double vars[2]; vars[0]=::log10(energy); vars[1]=::fabs(zdir);
-
-  if( thin ){
-    return edisp_scale_func(vars,s_coef_thin); 
-  }else{
-    return edisp_scale_func(vars,s_coef_thick); 
-  }
-}
-
 void Dispersion::
-setScaleFactorParameters(const std::vector<double> & edisp_front,
-                         const std::vector<double> & edisp_back) {
-   if (edisp_front.size() != 6 || edisp_back.size() !=6) {
+setScaleFactorParameters(const std::vector<double> & scaling_pars) {
+   unsigned int scaling_par_size = scaling_pars.size();
+   m_scaling_pars.resize(scaling_par_size);
+   m_scaling_pars.clear();
+   if ( scaling_par_size != 6) {
       throw std::runtime_error("Dispersion::setScaleFactorParameters:\n"
-                               "each of edisp_[front,back] must have "
+                               "the scaling parameters must have "
                                "exactly 6 values.");
    }
-   for (size_t i(0); i < edisp_front.size(); i++) {
-      s_coef_thin[i] = edisp_front[i];
-      s_coef_thick[i] = edisp_back[i];
+   for (size_t i(0); i < scaling_par_size; i++) {
+      m_scaling_pars[i] = scaling_pars[i];
    }
 }
 
 void Dispersion::
-getScaleFactorParameters(std::vector<double> & edisp_front,
-                         std::vector<double> & edisp_back) {
-   edisp_front.clear();
-   edisp_back.clear();
+getScaleFactorParameters(std::vector<double> & scaling_pars) {
+   scaling_pars.clear();
    for (size_t i(0); i < 6; i++) {
-      edisp_front.push_back(s_coef_thin[i]);
-      edisp_back.push_back(s_coef_thick[i]);
+      scaling_pars.push_back(m_scaling_pars[i]);
    }
 }
 
