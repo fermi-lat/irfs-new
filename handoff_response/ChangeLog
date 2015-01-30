@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Fri Jan 30 04:52:50 PST 2015
+irfs/handoff_response/src/gen
+
+Modified Files:
+	Dispersion.h 
+Log Message:
+clean up
+    *
+------------------------------------------------------------
 User: cohen  Fri Jan 30 03:36:41 PST 2015
 irfs/handoff_response/src/fits/make_fits
 
