@@ -4,7 +4,7 @@
 #
 root_file,f,a,"",,,"Input root parameter file"
 IRF_version,s,a,"PASS4",,,"IRF version name"
-new_edisp,        b, h, no, , , "Use the new edisp formalism"
+new_edisp,        b, h, yes, , , "Use the new edisp formalism"
 
 chatter,i,h,2,0,4,Output verbosity
 clobber,        b, h, yes, , , "Overwrite existing output files"
