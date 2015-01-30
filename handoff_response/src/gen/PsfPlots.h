@@ -24,7 +24,7 @@ public:
     PsfPlots( IrfAnalysis& irf, std::ostream&, embed_python::Module & );
     ~PsfPlots();
 
-    void fill(double diff, double energy, double costheta, bool front);
+    void fill(double diff, double energy, double costheta);
 
     void fit();
     void summarize();
@@ -48,6 +48,8 @@ protected:
     std::ostream * m_log;
     std::ostream& out() {return *m_log;}
 
+private:
+    std::vector<double> m_scaling_pars;
 };
 
 #endif

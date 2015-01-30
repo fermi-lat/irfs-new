@@ -18,6 +18,7 @@ $Header$
 #include <cmath>
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
 
 namespace {
 #if 1 // log-scale plots to see tails
@@ -38,6 +39,16 @@ PsfPlots::PsfPlots( IrfAnalysis& irf, std::ostream& log,
 , m_binner(irf.binner())
 , m_log(&log)
 {
+   try {
+      py.getList("PSF.scaling_pars", m_scaling_pars);
+      std::cout << "Using PSF scaling parameters:" << std::endl;
+      for (size_t i(0); i < m_scaling_pars.size(); i++) {
+        std::cout << m_scaling_pars[i] << "  ";
+      }
+      std::cout << std::endl;
+   } catch(std::invalid_argument &) {
+     throw std::runtime_error("PsfPlots::PsfPlots: PSF.scaling_pars not found in python setup script!");
+   }
 
     m_hists.resize(binner().size());
     for (int ebin = 0; ebin < binner().energy_bins(); ++ebin) {
@@ -52,6 +63,7 @@ PsfPlots::PsfPlots( IrfAnalysis& irf, std::ostream& log,
             }
             m_hists[id]=PointSpreadFunction(IrfBinner::hist_name(abin, ebin, "psf")
                                             , title.str(), py);
+            m_hists[id].setScaleFactorParameters(m_scaling_pars);
         }
     }
 }
@@ -60,13 +72,13 @@ PsfPlots::~PsfPlots()
 {}
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-void PsfPlots::fill(double angle_diff, double energy, double costheta, bool front)
+void PsfPlots::fill(double angle_diff, double energy, double costheta)
 {
     int z_bin = binner().angle_bin( costheta );     if( z_bin>= binner().angle_bins()) return;
     int e_bin = binner().energy_bin(energy);        if( e_bin<0 || e_bin>= binner().energy_bins() )return;
 
 //     int id =  binner().ident(e_bin, z_bin);
-     double scaled_delta =angle_diff/PointSpreadFunction::scaleFactor(energy, costheta, front);
+     double scaled_delta =angle_diff/PointSpreadFunction::scaleFactor(energy, costheta, m_scaling_pars);
 
 //     m_hists[id].fill(scaled_delta);
 
@@ -176,19 +188,13 @@ void PsfPlots::fillParameterTables()
     }
 
     // Write scaleFactor parameter values
-    std::vector<double> psf_pars;
-    std::vector<float> index_values;
-    PointSpreadFunction::getScaleFactorParameters(psf_pars);
-    // fill lower bin edges with index values
-    for (size_t i(0); i < psf_pars.size(); i++) {
-       index_values.push_back(static_cast<float>(i));
-    }
+    size_t nbins(m_scaling_pars.size());
     std::string histname("psf_scaling_params");
     TH1F * h1 = new TH1F(histname.c_str(), 
                          (histname + ";index").c_str(),
-                         psf_pars.size(), &index_values[0]);
-    for (size_t i(0); i < psf_pars.size(); i++) {
-       h1->SetBinContent(i, psf_pars[i]);
+                         nbins, 0, nbins-1);
+    for (size_t i(0); i < m_scaling_pars.size(); i++) {
+       h1->SetBinContent(i, m_scaling_pars[i]);
     }
     h1->GetXaxis()->CenterTitle();
     h1->Write();
