@@ -50,8 +50,8 @@ namespace {
          : m_pars(pars), m_etrue(etrue), m_costh(costh), m_isFront(isFront) {}
 
       double operator()(double emeas) const {
-         double xx((emeas - m_etrue)/m_etrue
-                   /Dispersion::scaleFactor(m_etrue, m_costh, m_isFront));
+        double xx((emeas - m_etrue)/m_etrue);
+                   //                   /Dispersion::scaleFactor(m_etrue, m_costh, m_isFront));
          return Dispersion::function(&xx, m_pars)/m_etrue;
       }
 
@@ -132,7 +132,7 @@ dispersion(double emeas, double energy, double theta, double /*phi*/) {
    double costh(cos(theta*M_PI/180)), x(emeas/energy-1);
 
    // prescale x
-   x = x/Dispersion::scaleFactor(energy, costh, isFront());
+   //x = x/Dispersion::scaleFactor(energy, costh, isFront());
 
    // get dispersion for prescaled var
    double ret = Dispersion::function(&x, disp_par(energy, costh));
