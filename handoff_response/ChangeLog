@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Fri Jan 30 04:56:11 PST 2015
+irfs/handoff_response/src/gen
+
+Modified Files:
+	IrfAnalysis.cxx 
+Log Message:
+remove setting Psf scaling parameters and bool front in the fill methods
+    *
+------------------------------------------------------------
 User: cohen  Fri Jan 30 04:53:38 PST 2015
 irfs/handoff_response/src/gen
 
