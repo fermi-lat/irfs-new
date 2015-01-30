@@ -200,22 +200,14 @@ void MakeFits::createFitsFiles(const std::string & className,
      edisp.setKeyword("EDISPVER", 1);
      edisp.close();
    }
-   // /// @bug These are hard-wired values in gen/Dispersion::scaleFactor()!!
-   // double edisp_front[] = {0.0210, 0.058, -0.207, -0.213, 0.042, 0.564};
-   // double edisp_back[] = {0.0215, 0.0507, -0.22, -0.243, 0.065, 0.584};
    
    std::vector<double> scalingPars;
    const std::vector<double> & edisp_pars(irfTables["edisp_scaling_params"].values());
    size_t npars(edisp_pars.size());
-   if (irfVersion.find("front") != std::string::npos) {
-      for (size_t i(0); i < npars/2; i++) {
-         scalingPars.push_back(edisp_pars[i]);
-      }
-   } else { // BACK
-      for (size_t i(npars/2); i < npars; i++) {
-         scalingPars.push_back(edisp_pars[i]);
-      }
+   for (size_t i(0); i < npars; i++) {
+     scalingPars.push_back(edisp_pars[i]);
    }
+
 
    /// @bug Append other hard-wired values from gen/Dispersion 
    // anonymous namespace:
