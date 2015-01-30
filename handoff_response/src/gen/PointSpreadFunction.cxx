@@ -101,11 +101,6 @@ namespace {
     }
 }// anon namespace
 
-double PointSpreadFunction::s_coef_thin[2] = {5.8e-2, 3.77e-4};
-double PointSpreadFunction::s_coef_thick[2] = {9.6e-2, 1.3e-3};
-double PointSpreadFunction::s_scale_factor_index(-0.8);
-
-// External versions.
 
 /// @param *x Pointer to the angular deviation in radians.
 /// @param *p Pointer to the PSF fit parameters.
@@ -252,38 +247,31 @@ void PointSpreadFunction::summarize(std::ostream & out)
 
 
 double PointSpreadFunction::
-scaleFactor(double energy, double zdir, bool thin) {
+scaleFactor(double energy, double zdir, std::vector<double> scaling_pars) {
    (void)(zdir);
    
-   double t(std::pow(energy/100., s_scale_factor_index));
-   if (thin) {
-      return std::sqrt(::sqr(s_coef_thin[0]*t) + ::sqr(s_coef_thin[1])); 
-   } else {
-      return std::sqrt(::sqr(s_coef_thick[0]*t) + ::sqr(s_coef_thick[1])); 
-   }
+   double t(std::pow(energy/100., scaling_pars[2]));
+   return std::sqrt(::sqr(scaling_pars[0]*t) + ::sqr(scaling_pars[1])); 
 }
 
 void PointSpreadFunction::
 setScaleFactorParameters(const std::vector<double> & pars) {
-   if (pars.size() != 5) {
+   if (pars.size() != 3) {
       throw std::runtime_error("PointSpreadFunction::setScaleFactorParameters:\n"
                                "Input pars must be of size 5");
    }
-   s_coef_thin[0] = pars[0];
-   s_coef_thin[1] = pars[1];
-   s_coef_thick[0] = pars[2];
-   s_coef_thick[1] = pars[3];
-   s_scale_factor_index = pars[4];
+   m_scaling_pars.resize(3, 0);
+   m_scaling_pars[0] = pars[0];
+   m_scaling_pars[1] = pars[1];
+   m_scaling_pars[2] = pars[2];
 }
 
 void PointSpreadFunction::
 getScaleFactorParameters(std::vector<double> & pars) {
-   pars.resize(5, 0);
-   pars[0] = s_coef_thin[0];
-   pars[1] = s_coef_thin[1];
-   pars[2] = s_coef_thick[0];
-   pars[3] = s_coef_thick[1];
-   pars[4] = s_scale_factor_index;
+   pars.resize(3, 0);
+   pars[0] = m_scaling_pars[0];
+   pars[1] = m_scaling_pars[1];
+   pars[2] = m_scaling_pars[2];
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

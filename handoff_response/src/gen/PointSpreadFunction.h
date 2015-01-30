@@ -45,12 +45,12 @@ public:
     std::vector<std::string> getFitParNames();
 
     /// scale factor to apply to data
-   static double scaleFactor(double energy, double zdir, bool front);
+   static double scaleFactor(double energy, double zdir, std::vector<double> scaling_pars);
 
    /// Set the scaleFactor scaling parameters.
-   static void setScaleFactorParameters(const std::vector<double> & pars);
+   void setScaleFactorParameters(const std::vector<double> & pars);
 
-   static void getScaleFactorParameters(std::vector<double> & pars);
+   void getScaleFactorParameters(std::vector<double> & pars);
 
     /// access to the function itself
     static double function(double* delta, double* par);
@@ -81,12 +81,9 @@ private:
     double m_quant[2]; // for 68,95% quantiles
     double m_tail;     // fraction in tail beyond fit range
 
-   static double s_coef_thin[2];
-   static double s_coef_thick[2];
-   static double s_scale_factor_index;
+   std::vector<double> m_scaling_pars;
 
     void reorder_parameters();
-    //void setFitPars(double * pars, double * pmin, double * pmax);
 };
 
 #endif
