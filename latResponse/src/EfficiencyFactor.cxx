@@ -79,10 +79,8 @@ readPars(std::string parfile) {
       parVectors.push_back(pars);
    }
 
-   m_p0_front = EfficiencyParameter(parVectors.at(0));
-   m_p1_front = EfficiencyParameter(parVectors.at(1));
-   m_p0_back = EfficiencyParameter(parVectors.at(2));
-   m_p1_back = EfficiencyParameter(parVectors.at(3));
+   m_p0 = EfficiencyParameter(parVectors.at(0));
+   m_p1 = EfficiencyParameter(parVectors.at(1));
 }
 
 void EfficiencyFactor::readFitsFile(const std::string & fitsfile,
@@ -112,10 +110,8 @@ void EfficiencyFactor::readFitsFile(const std::string & fitsfile,
       m_havePars = false;
       return;
    }
-   m_p0_front = EfficiencyParameter(parVectors.at(0));
-   m_p1_front = EfficiencyParameter(parVectors.at(1));
-   m_p0_back = EfficiencyParameter(parVectors.at(2));
-   m_p1_back = EfficiencyParameter(parVectors.at(3));
+   m_p0 = EfficiencyParameter(parVectors.at(0));
+   m_p1 = EfficiencyParameter(parVectors.at(1));
    delete table;
 }
 
@@ -152,39 +148,31 @@ double EfficiencyFactor::operator()(double energy, double met) const {
 
 double EfficiencyFactor::value(double energy, double livetimefrac,
                                bool front, double met) const {
+   /// front is no longer used with more general event_types in Pass 8
+   /// but we retain it to keep the interface backwards-compatible.
+   (void)(front);  
    (void)(met);
    if (!m_havePars) {
       return 1;
    }
-
    double logE(std::log10(energy));
-
-   double value(1);
-   if (front) {
-      value = m_p0_front(logE)*livetimefrac + m_p1_front(logE);
-   } else {
-      value = m_p0_back(logE)*livetimefrac + m_p1_back(logE);
-   }
+   double value(m_p0(logE)*livetimefrac + m_p1(logE));
    return value;
 }
 
 void EfficiencyFactor::
 getLivetimeFactors(double energy, double & factor1, double & factor2,
                    double met) const {
-   (void)(met);
-   if (!m_havePars) {
-      factor1 = 1;
-      factor2 = 0;
-      return;
-   }
-   double logE(std::log10(energy));
-
-   // Since we do not have access to the front and back effective
-   // areas separately, just return the averages.  We would really
-   // want to return the averages weighted by effective area (as a function
-   // of energy and theta).
-   factor1 = (m_p1_front(logE) + m_p1_back(logE))/2.;
-   factor2 = (m_p0_front(logE) + m_p0_back(logE))/2.;
+   throw std::runtime_error("EfficiencyFactor::getLivetimeFactors disabled");
+   // (void)(met);
+   // if (!m_havePars) {
+   //    factor1 = 1;
+   //    factor2 = 0;
+   //    return;
+   // }
+   // double logE(std::log10(energy));
+   // factor1 = m_p1(logE);
+   // factor2 = m_p0(logE);
 }
 
 } // namespace latResponse

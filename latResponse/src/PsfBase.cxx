@@ -54,20 +54,24 @@ double PsfBase::scaleFactor(double energy) const {
 }
 
 double PsfBase::scaleFactor(double energy, bool isFront) const {
+   /// For Pass 8 event_types, only one set of scaling parameters is
+   /// passed in array of size 3, so the isFront parameter is not
+   /// used.
+   (void)(isFront);
    double par0, par1;
-   if (isFront) {
-      par0 = m_psf_pars.at(0);
-      par1 = m_psf_pars.at(1);
-   } else {
-      par0 = m_psf_pars.at(2);
-      par1 = m_psf_pars.at(3);
-   }      
+   par0 = m_psf_pars.at(0);
+   par1 = m_psf_pars.at(1);
    double tt(std::pow(energy/100., m_index));
    return std::sqrt(::sqr(par0*tt) + ::sqr(par1));
 }
 
 void PsfBase::readScaling(const std::string & fitsfile, bool isFront, 
                           const std::string & extname) {
+   /// For Pass 8 event_types, only one set of scaling parameters is
+   /// passed in array of size 3, so the isFront parameter is not
+   /// used.
+   (void)(isFront);
+
    tip::IFileSvc & fileSvc(tip::IFileSvc::instance());
    const tip::Table * table(fileSvc.readTable(fitsfile, extname));
 
@@ -75,14 +79,9 @@ void PsfBase::readScaling(const std::string & fitsfile, bool isFront,
 
    FitsTable::getVectorData(table, "PSFSCALE", values);
    
-   if (isFront) {
-      m_par0 = values.at(0);
-      m_par1 = values.at(1);
-   } else {
-      m_par0 = values.at(2);
-      m_par1 = values.at(3);
-   }
-   m_index = values.at(4);
+   m_par0 = values.at(0);
+   m_par1 = values.at(1);
+   m_index = values.at(2);
 
    m_psf_pars.resize(values.size());
    std::copy(values.begin(), values.end(), m_psf_pars.begin());

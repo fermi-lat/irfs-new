@@ -96,7 +96,7 @@ private:
       double m_logEb1;
       double m_a2;
       double m_logEb2;
-   } m_p0_front, m_p1_front, m_p0_back, m_p1_back;
+   } m_p0, m_p1;
 
    double m_dt;
    std::vector<double> m_start;

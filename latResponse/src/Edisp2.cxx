@@ -101,8 +101,6 @@ double Edisp2::evaluate(double emeas, double energy,
 double Edisp2::value(double appEnergy, double energy,
                      double theta, double phi, double time) const {
    if (::getenv("DISABLE_EDISP_INTERP")) {
-      (void)(phi);
-      (void)(time);
       double costh(std::cos(theta*M_PI/180.));
       costh = std::min(costh, m_parTables.costhetas().back());
       double * my_pars(pars(energy, costh));
