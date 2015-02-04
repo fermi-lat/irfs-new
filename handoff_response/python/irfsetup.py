@@ -16,15 +16,9 @@ meritdir='/afs/slac/g/glast/groups/canda/irfs/p8_merit/P8V6/allGamma/'
 #selection of files to use
 globfile='*.root'
 #where to put the path structure
-target_dir='../test_irfs'
+target_dir='.'
 #update existing setup? if not fails if directory exists
 update=True
-
-#generated: #events,logemin,logemax
-generated=((19873*1e4,1.25,5.75), #allE
-           (9953*1e5,1.25,2.75), #lowE
-           (49524*1e6,log10(3),1.25), #vlowE
-           (136605*300.,5,7)) #highE
 
 #items: yaml file class identifier, irfs class name, variant
 #variant is either None or a yaml file identifier (e.g. "P8R1_EDISP0")
@@ -47,13 +41,6 @@ irf_version=params['irf_version']
 def makesetup(p8class,classname,variant):
     c = yaml.load(open(yamfile,'r'))
 
-    if variant == "FRONT":
-        varcut="Tkr1FirstLayer>5.5"
-    elif variant == "BACK":
-        varcut="Tkr1FirstLayer<5.5"    
-    else:
-        varcut=""
-
     setup_string = """
 from IRFdefault import *
 import glob
@@ -61,9 +48,13 @@ from math import *\n
 """
 
     setup_string+="Prune.fileName = 'skim_%s.root'\n" % (variant)
-
-    setup_string+="Prune.cuts = '(%s)&&(%s)'\n" % (varcut,c[p8class])
-
+    if variant == "FRONT":
+        setup_string+="Prune.cuts = '(%s)&&(%s)'\n" % ("Tkr1FirstLayer>5.5",c[p8class])
+    elif variant == "BACK":
+        setup_string+="Prune.cuts = '(%s)&&(%s)'\n" % ("Tkr1FirstLayer<5.5",c[p8class])
+    else:
+        setup_string+="Prune.cuts = '%s'\n" % (c[p8class])
+    
     setup_string+="""
 Prune.branchNames = '''McEnergy  McLogEnergy
 McXDir  McYDir  McZDir
@@ -76,8 +67,8 @@ Data.files = sorted(glob.glob(meritDir + meritFiles))\n
 """ % (meritdir,globfile)
 
     setup_string+="Data.generated = %s\n" % str([eval(generated[key][0]) for key in ['allE','lowE','highE','vlowE']])
-    setup_string+="Data.logemin = [%s]\n" % str([generated[key][1] for key in ['allE','lowE','highE','vlowE']])
-    setup_string+="Data.logemax = [%s]\n" % str([generated[key][2] for key in ['allE','lowE','highE','vlowE']])
+    setup_string+="Data.logemin = %s\n" % str([eval(str(generated[key][1])) for key in ['allE','lowE','highE','vlowE']])
+    setup_string+="Data.logemax = %s\n" % str([generated[key][2] for key in ['allE','lowE','highE','vlowE']])
 
     setup_string+="""
 Data.friends = {}
@@ -110,7 +101,7 @@ Bins.psf_angle_overlap = 0
 
     setup_string+=('Edisp.scaling_pars=%s\n'%str(params['Edisp']['scaling_pars'][variant]))
     setup_string+=('PSF.scaling_pars=%s\n'%str(params['PSF']['scaling_pars'][variant]))
-
+    setup_string+="selectionName=\'%s\'"%variant
     return setup_string
 
 for classname in ["CLEAN"]:
