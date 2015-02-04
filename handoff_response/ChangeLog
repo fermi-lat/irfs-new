@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Tue Feb  3 16:32:02 PST 2015
+irfs/handoff_response/python
+
+Added Files:
+	irfsetup.py params_P8R2_V6.yaml 
+Log Message:
+add here the python code to deploy the structure for running makeirf and makefits on all the necessary classes planned at a given point in time
+    *
+------------------------------------------------------------
 TAG
 Tag name: handoff_response-06-00-00, operation: add
 Package: handoff_response
