@@ -1,5 +1,31 @@
 ------------------------------------------------------------
 User: jchiang  Wed Feb  4 13:18:32 PST 2015
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/psf
+
+Modified Files:
+	psf_P7CLEAN_V6MC_back.fits psf_P7CLEAN_V6MC_front.fits 
+	psf_P7CLEAN_V6_back.fits psf_P7CLEAN_V6_front.fits 
+	psf_P7REP_CLEAN_V10_back.fits psf_P7REP_CLEAN_V10_front.fits 
+	psf_P7REP_CLEAN_V15_back.fits psf_P7REP_CLEAN_V15_front.fits 
+	psf_P7REP_SOURCE_V10_back.fits psf_P7REP_SOURCE_V10_front.fits 
+	psf_P7REP_SOURCE_V15_back.fits psf_P7REP_SOURCE_V15_front.fits 
+	psf_P7REP_TRANSIENT_V10_back.fits 
+	psf_P7REP_TRANSIENT_V10_front.fits 
+	psf_P7REP_TRANSIENT_V15_back.fits 
+	psf_P7REP_TRANSIENT_V15_front.fits 
+	psf_P7REP_ULTRACLEAN_V10_back.fits 
+	psf_P7REP_ULTRACLEAN_V10_front.fits 
+	psf_P7REP_ULTRACLEAN_V15_back.fits 
+	psf_P7REP_ULTRACLEAN_V15_front.fits 
+	psf_P7SOURCE_V6MC_back.fits psf_P7SOURCE_V6MC_front.fits 
+	psf_P7SOURCE_V6_back.fits psf_P7SOURCE_V6_front.fits 
+	psf_P7TRANSIENT_V6_back.fits psf_P7TRANSIENT_V6_front.fits 
+	psf_P7ULTRACLEAN_V6_back.fits psf_P7ULTRACLEAN_V6_front.fits 
+Log Message:
+fix front/back scaling redundancies to be consistent with Pass 8 latResponse implementation
+    *
+------------------------------------------------------------
+User: jchiang  Wed Feb  4 13:18:32 PST 2015
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/ea
 
 Modified Files:
