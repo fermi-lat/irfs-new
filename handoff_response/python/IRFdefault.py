@@ -80,8 +80,8 @@ class Bins(object):
         cls.angle_bins = int((1.0-cls.cthmin)/cls.cthdelta)    
         cls.angle_bin_edges = num.arange(cls.angle_bins+1)*cls.cthdelta+cls.cthmin
 
-    logemin = 1.25
-    logemax = 5.75
+    logemin = 0.75
+    logemax = 6.5
     logedelta = 0.25 #4 per decade
 
     cthdelta = 0.1
@@ -151,10 +151,14 @@ class EffectiveAreaBins(Bins):
     angle_bin_edges = num.arange(Bins.angle_bins*anglebinfactor+1)*Bins.cthdelta/anglebinfactor+Bins.cthmin
 
 class PSF(object):
-    pass
+    fit_pars={"ncore":[0.3,1e-6,1.],"ntail":[0.01,1e-6,1.0], "score":[0.44,0.1,5.0], "stail":[1.4,0.1,5], "gcore":[3.4,1.001,20.], "gtail":[2.4,1.001,20.]}
+    
 
 class Edisp(object):
-    pass
+    Version=2
+    #Fit Parameters key=name, value=[pinit,pmin,max]
+    fit_pars = {"f":[0.8,0.3,1.0],"s1":[1.5,0.1,5.0], "k1":[1.0,0.1,3.0], "bias":[0.0,-3,3], "bias2":[0.0,-3,3], "s2":[4.0,1.2,10], "k2":[1.0,0.1,3.0],"pindex1":[2.0,0.1,5],"pindex2":[2.0,0.1,5]}
+                            
 
 # the log file - to cout if null
 logFile = 'log.txt'
