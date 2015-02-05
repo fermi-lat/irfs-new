@@ -38,7 +38,7 @@ irf_version=params['irf_version']
 ################ END CONFIG ########################################
 ####################################################################
 
-def makesetup(p8class,classname,variant):
+def makesetup(class_version,classname,variant):
     c = yaml.load(open(yamfile,'r'))
 
     setup_string = """
@@ -48,12 +48,14 @@ from math import *\n
 """
 
     setup_string+="Prune.fileName = 'skim_%s.root'\n" % (variant)
+    p8class = '%s_%s'%(class_version,classname)
     if variant == "FRONT":
-        setup_string+="Prune.cuts = '(%s)&&(%s)'\n" % ("Tkr1FirstLayer>5.5",c[p8class])
+        variant_cut = "Tkr1FirstLayer>5.5"
     elif variant == "BACK":
-        setup_string+="Prune.cuts = '(%s)&&(%s)'\n" % ("Tkr1FirstLayer<5.5",c[p8class])
+        variant_cut = "Tkr1FirstLayer<5.5"
     else:
-        setup_string+="Prune.cuts = '%s'\n" % (c[p8class])
+        variant_cut = c['%s_%s'%(class_version,variant)]
+    setup_string+="Prune.cuts = '(%s)&&(%s)'\n" % (variant_cut,c[p8class])
     
     setup_string+="""
 Prune.branchNames = '''McEnergy  McLogEnergy
@@ -117,8 +119,5 @@ for classname in ["CLEAN"]:
             else:
                 raise err
         f = open(dirname+'setup.py','w')
-        f.write(makesetup('%s_%s'%(class_version,classname),irfname,typename))
+        f.write(makesetup(class_version,classname,typename))
         f.close()
-    # f = open(dirname+'setup_b.py','w')
-    # f.write(makesetup(p8id,classname,False,variant))
-    # f.close()
