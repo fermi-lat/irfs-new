@@ -1,5 +1,5 @@
 import yaml
-import os
+import os,sys
 from math import *
 from xml.dom import minidom
 
@@ -11,10 +11,16 @@ from xml.dom import minidom
 yamfile='pass8_event_selections_noalias_ssd.yaml'
 #IRF definitions
 xmlfile="EvtClassDefs_P8R2.xml"
-#location of root files: END WITH A '/'
-meritdir='/afs/slac/g/glast/groups/canda/irfs/p8_merit/P8V6/allGamma/'
-#selection of files to use
-globfile='*.root'
+
+if len(sys.argv)==1:
+    #selection of files to use
+    globfile='*.root'
+    #location of root files: END WITH A '/'
+    meritdir='/afs/slac/g/glast/groups/canda/irfs/p8_merit/P8V6/allGamma/'
+else:
+    meritdir='/afs/slac/g/glast/groups/canda/irfs/p8_merit/P8V6/allGamma/livetimebins/'
+    globfile='*%s*.root'%sys.argv[1]
+
 #where to put the path structure
 target_dir='.'
 #update existing setup? if not fails if directory exists
@@ -38,7 +44,7 @@ irf_version=params['irf_version']
 ################ END CONFIG ########################################
 ####################################################################
 
-def makesetup(class_version,classname,variant):
+def makesetup(class_version,classname,variant,livetime_bin=None):
     c = yaml.load(open(yamfile,'r'))
 
     setup_string = """
@@ -46,8 +52,10 @@ from IRFdefault import *
 import glob
 from math import *\n
 """
-
-    setup_string+="Prune.fileName = 'skim_%s.root'\n" % (variant)
+    if livetime_bin is None:
+        setup_string+="Prune.fileName = 'skim_%s.root'\n" % (variant)
+    else:
+        setup_string+="Prune.fileName = 'skim_%s_%s.root'\n" % (variant,livetime_bin)
     p8class = '%s_%s'%(class_version,classname)
     if variant == "FRONT":
         variant_cut = "Tkr1FirstLayer>5.5"
@@ -68,9 +76,15 @@ meritFiles = '%s'
 Data.files = sorted(glob.glob(meritDir + meritFiles))\n
 """ % (meritdir,globfile)
 
-    setup_string+="Data.generated = %s\n" % str([eval(generated[key][0]) for key in ['allE','lowE','highE','vlowE']])
-    setup_string+="Data.logemin = %s\n" % str([eval(str(generated[key][1])) for key in ['allE','lowE','highE','vlowE']])
-    setup_string+="Data.logemax = %s\n" % str([generated[key][2] for key in ['allE','lowE','highE','vlowE']])
+    if livetime_bin is None:
+        setup_string+="Data.generated = %s\n" % str([eval(generated[key][0]) for key in ['allE','lowE','highE','vlowE']])
+        setup_string+="Data.logemin = %s\n" % str([eval(str(generated[key][1])) for key in ['allE','lowE','highE','vlowE']])
+        setup_string+="Data.logemax = %s\n" % str([generated[key][2] for key in ['allE','lowE','highE','vlowE']])
+    else:
+        n_generated=float(params['Livetime']['ngen'][livetime_bin])
+        setup_string+="Data.generated = [%g]\n"%n_generated
+        setup_string+="Data.logemin = [1.25]\n" 
+        setup_string+="Data.logemax = [5.75]\n" 
 
     setup_string+="""
 Data.friends = {}
@@ -99,25 +113,46 @@ Bins.psf_angle_overlap = 0
 """
     setup_string+="PSF.fit_pars={'ncore':[%g,1e-6,1.],'ntail':[%g,1e-6,1.0], 'score':[%g,0.1,5.0], 'stail':[%g,0.1,5], 'gcore':[%g,1.001,20.], 'gtail':[%g,1.001,20.]}\n\n" % tuple(params['PSF']['fit_pars'][variant])
 
-    setup_string+="parameterFile = 'par_%s.root'\n\n" % (classname)
-
+    if livetime_bin is None:
+        setup_string+="parameterFile = 'par_%s.root'\n\n" % (classname)
+    else:
+        setup_string+="parameterFile = 'par_%s_%s.root'\n\n" % (classname,livetime_bin)
     setup_string+=('Edisp.scaling_pars=%s\n'%str(params['Edisp']['scaling_pars'][variant]))
     setup_string+=('PSF.scaling_pars=%s\n'%str(params['PSF']['scaling_pars'][variant]))
     setup_string+="selectionName=\'%s\'"%variant
     return setup_string
 
-for classname in ["CLEAN"]:
-    for typename in typenames:
-        irfname='%s_%s_%s_%s'%(class_version,classname,irf_version,typename)
-        print 'Doing',irfname
-        dirname=target_dir+'/'+irfname+'/'
-        try:
-            os.mkdir(dirname)
-        except OSError as err:
-            if update:
-                pass #do not care if direcotry exists
-            else:
-                raise err
-        f = open(dirname+'setup.py','w')
-        f.write(makesetup(class_version,classname,typename))
-        f.close()
+if len(sys.argv)==1:
+    for classname in ["CLEAN"]:
+        for typename in typenames:
+            irfname='%s_%s_%s_%s'%(class_version,classname,irf_version,typename)
+            print 'Doing',irfname
+            dirname=target_dir+'/'+irfname+'/'
+            try:
+                os.mkdir(dirname)
+            except OSError as err:
+                if update:
+                    pass #do not care if direcotry exists
+                else:
+                    raise err
+            f = open(dirname+'setup.py','w')
+            f.write(makesetup(class_version,classname,typename))
+            f.close()
+else:
+    livetime_bin=sys.argv[1]
+    for classname in ["CLEAN"]:
+        for typename in typenames:
+            irfname='%s_%s_%s_%s'%(class_version,classname,irf_version,typename)
+            print 'Doing',irfname
+            dirname=target_dir+'/'+irfname+'/'
+            try:
+                os.mkdir(dirname)
+            except OSError as err:
+                if update:
+                    pass #do not care if direcotry exists
+                else:
+                    raise err
+            f = open(dirname+'setup_%s.py'%livetime_bin,'w')
+            f.write(makesetup(class_version,classname,typename,livetime_bin))
+            f.close()
+    
