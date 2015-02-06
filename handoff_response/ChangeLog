@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: cohen  Thu Feb  5 18:24:48 PST 2015
+irfs/handoff_response/python
+
+Modified Files:
+	params_P8R2_V6.yaml 
+Log Message:
+add the livetime stuff to the parameter file
+    *
+------------------------------------------------------------
 User: cohen  Thu Feb  5 11:40:41 PST 2015
 irfs/handoff_response/python
 
