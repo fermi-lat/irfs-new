@@ -2,7 +2,21 @@ import yaml
 import os,sys
 from math import *
 from xml.dom import minidom
+import argparse
 
+usage = "%(prog)s [options] "
+description = """This generates directory structure and configuration
+files for IRF generation."""
+parser = argparse.ArgumentParser(usage=usage, description=description)
+
+parser.add_argument('--meritdir',
+                    default = '/afs/slac/g/glast/groups/canda/irfs/p8_merit/P8V6/allGamma', 
+                    help = 'ROOT directory for input merit files.')
+
+parser.add_argument('--livetime_bin',default=None, 
+                    help='Peform setup for livetime correction.')
+
+args = parser.parse_args()
 
 ###### CONFIGURATION, EDIT HERE #############
 
@@ -12,14 +26,14 @@ yamfile='pass8_event_selections_noalias_ssd.yaml'
 #IRF definitions
 xmlfile="EvtClassDefs_P8R2.xml"
 
-if len(sys.argv)==1:
+if not args.livetime_bin:
     #selection of files to use
     globfile='*.root'
     #location of root files: END WITH A '/'
-    meritdir='/afs/slac/g/glast/groups/canda/irfs/p8_merit/P8V6/allGamma/'
+    meritdir=args.meritdir
 else:
-    meritdir='/afs/slac/g/glast/groups/canda/irfs/p8_merit/P8V6/allGamma/livetimebins/'
-    globfile='*%s*.root'%sys.argv[1]
+    meritdir=os.path.join(args.meritdir,'livetimebins')
+    globfile='*%s*.root'%args.livetime_bin
 
 #where to put the path structure
 target_dir='.'
@@ -29,7 +43,7 @@ update=True
 #items: yaml file class identifier, irfs class name, variant
 #variant is either None or a yaml file identifier (e.g. "P8R1_EDISP0")
 def get_class_types_from_xml(xmlfile):
-    xmldoc = minidom.parse('EvtClassDefs_P8R2.xml')
+    xmldoc = minidom.parse(xmlfile)
     class_version =xmldoc.getElementsByTagName('EventClass')[0].attributes['version'].value
     itemlist = xmldoc.getElementsByTagName('EventMap')
     classnames=[l.attributes['name'].value for l in itemlist[0].getElementsByTagName("EventCategory") if l.attributes['name'].value!="LLE"]
@@ -44,7 +58,7 @@ irf_version=params['irf_version']
 ################ END CONFIG ########################################
 ####################################################################
 
-def makesetup(class_version,classname,variant,livetime_bin=None):
+def makesetup(class_version,classname,variant,irfname,livetime_bin=None):
     c = yaml.load(open(yamfile,'r'))
 
     setup_string = """
@@ -69,7 +83,7 @@ from math import *\n
 Prune.branchNames = '''McEnergy  McLogEnergy
 McXDir  McYDir  McZDir
 Tkr1FirstLayer WP8Best* WP8CT* Evt*
-FswGamState TkrNumTracks CalTrackAngle'''.split()
+FswGamState TkrNumTracks CalTrackAngle Tkr1SSDVeto'''.split()
 
 meritDir = '%s'
 meritFiles = '%s'
@@ -114,16 +128,16 @@ Bins.psf_angle_overlap = 0
     setup_string+="PSF.fit_pars={'ncore':[%g,1e-6,1.],'ntail':[%g,1e-6,1.0], 'score':[%g,0.1,5.0], 'stail':[%g,0.1,5], 'gcore':[%g,1.001,20.], 'gtail':[%g,1.001,20.]}\n\n" % tuple(params['PSF']['fit_pars'][variant])
 
     if livetime_bin is None:
-        setup_string+="parameterFile = 'par_%s.root'\n\n" % (classname)
+        setup_string+="parameterFile = 'par_%s.root'\n\n" % (irfname)
     else:
-        setup_string+="parameterFile = 'par_%s_%s.root'\n\n" % (classname,livetime_bin)
+        setup_string+="parameterFile = 'par_%s_%s.root'\n\n" % (irfname,livetime_bin)
     setup_string+=('Edisp.scaling_pars=%s\n'%str(params['Edisp']['scaling_pars'][variant]))
     setup_string+=('PSF.scaling_pars=%s\n'%str(params['PSF']['scaling_pars'][variant]))
     setup_string+="selectionName=\'%s\'"%variant
     return setup_string
 
-if len(sys.argv)==1:
-    for classname in ["CLEAN"]:
+if not args.livetime_bin:
+    for classname in classnames:
         for typename in typenames:
             irfname='%s_%s_%s_%s'%(class_version,classname,irf_version,typename)
             print 'Doing',irfname
@@ -136,10 +150,10 @@ if len(sys.argv)==1:
                 else:
                     raise err
             f = open(dirname+'setup.py','w')
-            f.write(makesetup(class_version,classname,typename))
+            f.write(makesetup(class_version,classname,typename,irfname))
             f.close()
 else:
-    livetime_bin=sys.argv[1]
+    livetime_bin=args.livetime_bin
     for classname in ["CLEAN"]:
         for typename in typenames:
             irfname='%s_%s_%s_%s'%(class_version,classname,irf_version,typename)
@@ -153,6 +167,6 @@ else:
                 else:
                     raise err
             f = open(dirname+'setup_%s.py'%livetime_bin,'w')
-            f.write(makesetup(class_version,classname,typename,livetime_bin))
+            f.write(makesetup(class_version,classname,typename,irfname,livetime_bin))
             f.close()
     
