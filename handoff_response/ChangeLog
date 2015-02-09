@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Sun Feb  8 23:58:44 PST 2015
+ScienceTools-scons/irfs/handoff_response/python
+
+Modified Files:
+	irfsetup.py 
+Log Message:
+Add argument parsing to irfsetup.
+    *
+------------------------------------------------------------
 User: cohen  Thu Feb  5 22:21:17 PST 2015
 irfs/handoff_response/python
 
