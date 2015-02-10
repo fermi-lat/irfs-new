@@ -27,29 +27,56 @@ def read_mappings(infile):
             mappings[2].append(tokens[2])
     return event_class, event_type
 
-evclass, evtype = read_mappings("irf_index.txt")
+def read_mappings_from_dict(index_mapping):
+    """
+    Read event_class and event_type mappings from a python dict.
+    """
+    evclass = [[],[],[]]
+    evtype = [[],[],[]]
+    for v in index_mapping['classes']:
+        evclass[0].append(v[0])
+        evclass[1].append(v[1])
+        evclass[2].append(v[2])
 
-output = pyfits.HDUList()
-output.append(pyfits.PrimaryHDU())
+    for v in index_mapping['types']:
+        evtype[0].append(v[0])
+        evtype[1].append(v[1])
+        evtype[2].append(v[2])
 
-evclass_cols = [pyfits.Column('EVENT_CLASS', format='60A', unit=' ',
-                              array=evclass[0]),
-                pyfits.Column('BITPOSITION', format='1I', unit=' ',
-                              array=evclass[1]),
-                pyfits.Column('EVENT_TYPES', format='1J', unit='  ',
-                              array=evclass[2])]
-evclass_hdu = pyfits.new_table(evclass_cols)
-evclass_hdu.name = "BITMASK_MAPPING"
-output.append(evclass_hdu)
+    return evclass, evtype
 
-evtype_cols = [pyfits.Column('EVENT_TYPE', format='60A', unit=' ',
-                             array=evtype[0]),
-               pyfits.Column('BITPOSITION', format='1I', unit=' ',
-                             array=evtype[1]),
-               pyfits.Column('EVENT_TYPE_PARTITION', format='20A', unit=' ',
-                             array=evtype[2])]
-evtype_hdu = pyfits.new_table(evtype_cols)
-evtype_hdu.name = "EVENT_TYPE_MAPPING"
-output.append(evtype_hdu)
+def make_irf_index(index_mapping,outfile):
 
-output.writeto("irf_index_candidate.fits", clobber=True)
+    if isinstance(index_mapping,dict):        
+        evclass, evtype = read_mappings_from_dict(index_mapping)
+    else:
+        evclass, evtype = read_mappings(index_mapping)
+
+    output = pyfits.HDUList()
+    output.append(pyfits.PrimaryHDU())
+
+    evclass_cols = [pyfits.Column('EVENT_CLASS', format='60A', unit=' ',
+                                  array=evclass[0]),
+                    pyfits.Column('BITPOSITION', format='1I', unit=' ',
+                                  array=evclass[1]),
+                    pyfits.Column('EVENT_TYPES', format='1J', unit='  ',
+                                  array=evclass[2])]
+    evclass_hdu = pyfits.new_table(evclass_cols)
+    evclass_hdu.name = "BITMASK_MAPPING"
+    output.append(evclass_hdu)
+
+    evtype_cols = [pyfits.Column('EVENT_TYPE', format='60A', unit=' ',
+                                 array=evtype[0]),
+                   pyfits.Column('BITPOSITION', format='1I', unit=' ',
+                                 array=evtype[1]),
+                   pyfits.Column('EVENT_TYPE_PARTITION', format='20A', unit=' ',
+                                 array=evtype[2])]
+    evtype_hdu = pyfits.new_table(evtype_cols)
+    evtype_hdu.name = "EVENT_TYPE_MAPPING"
+    output.append(evtype_hdu)
+
+    output.writeto(outfile, clobber=True)
+
+if __name__ == '__main__':
+
+    make_irf_index('irf_index.txt','irf_index_candidate.fits')
