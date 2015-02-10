@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Tue Feb 10 13:48:56 PST 2015
+ScienceTools-scons/irfs/caldb/python
+
+Modified Files:
+	make_irf_index.py 
+Log Message:
+Reorganized IRF index generation script into a python module.
+    *
+------------------------------------------------------------
 TAG
 Tag name: caldb-06-00-01, operation: add
 Package: caldb
