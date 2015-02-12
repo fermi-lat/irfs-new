@@ -1,8 +1,66 @@
-from read_aeff import read_aeff
+#from read_aeff import read_aeff
 from math import *
 import ROOT
 import pyfits
 import numpy
+import os
+import sys
+
+class read_aeff:
+    def __init__(self,fname):
+        hdulist=pyfits.open(fname)
+        self.hdu1=hdulist[1].data
+        self.e_lo=self.hdu1.field('ENERG_LO')[0]
+        self.e_hi=self.hdu1.field('ENERG_HI')[0]
+        self.cth_lo=self.hdu1.field('CTHETA_LO')[0]
+        self.cth_hi=self.hdu1.field('CTHETA_HI')[0]
+        self.aeff=self.hdu1.field('EFFAREA')[0]
+        self.n_e=len(self.e_lo)
+        self.n_cth=len(self.cth_lo)
+        print 'AEFF TABLE',self.n_e,'*',self.n_cth
+
+    def get_e_bin_bounds(self,i):
+        if i<0 or i>=self.n_e:
+            return -1
+        return (self.e_lo[i],self.e_hi[i])
+
+    def get_loge_bin_bounds(self,i):
+        if i<0 or i>=self.n_e:
+            return -1
+        return (log10(self.e_lo[i]),log10(self.e_hi[i]))
+
+    def get_e_bin_center(self,i):
+        if i<0 or i>=self.n_e:
+            return -1
+        return (self.e_lo[i]+self.e_hi[i])/2
+
+    def get_a_bin_bounds(self,i):
+        if i<0 or i>=self.n_cth:
+            return -1
+        return [degrees(acos(self.cth_hi[i])),
+                degrees(acos(self.cth_lo[i]))]
+
+    def get_a_bin_center(self,i):
+        if i<0 or i>=self.n_cth:
+            return -1
+        return degrees(acos((self.cth_lo[i]+self.cth_hi[i])/2))
+
+    def get_aeff(self,ebin,abin):
+        return self.aeff[abin,ebin]
+
+    def get_averaged_aeff(self,ebin):
+        a=0
+        for i in range(self.n_cth):
+            a+=self.get_aeff(ebin,i)
+        a/=self.n_cth
+        return a
+
+    def get_closest_e_bin(self,e):
+        for i in range(self.n_e):
+            if self.e_lo[i]<=e and self.e_hi[i]>e:
+                return i
+        return -1
+
 
 ROOT.gROOT.SetStyle('Plain')
 
@@ -334,10 +392,13 @@ class corr_fit:
         #suprise: one cannot append rows to a tables
         #remove existing EFF table
         newarray=numpy.array([0.,0.,0.,0.,0.,0.],dtype=numpy.float32)
+
+        print self.final_results
+        
         newcol=pyfits.Column(name='EFFICIENCY_PARAMS', format='6E', array=self.final_results)
         #newefftab=pyfits.new_table([newcol])
         #table_hdu = pyfits.new_table(newefftab.data, nrows=4)
-        table_hdu = pyfits.BinTableHDU.from_columns([newcol])
+        table_hdu = pyfits.new_table([newcol]) #from_columns([newcol])
         headkeys=[]
         for key in ['EXTNAME','TELESCOP','INSTRUME','FILTER',
                     'HDUCLASS','HDUCLAS1','HDUCLAS2','HDUVERS',
@@ -359,24 +420,19 @@ if __name__=="__main__":
 
     avltf=0.9047
 
-    irfnick="P8_ULTRACLEAN_V6"
-    fb='back'
+    irfnick=sys.argv[1]
     path='./'
-    reffile=path+'aeff_'+irfnick+'_'+fb+'.fits'
-    afilepieces=['aeff_'+irfnick+'_','_'+fb+'.fits']
+    reffile=path+'aeff_'+irfnick+'.fits'
 
-    fblabel=fb[0].upper()
-    cf=corr_fit(reffile,avltf,
-                irfnick+"_"+fblabel,
+    cf=corr_fit(reffile,avltf,irfnick,
                 min_ebin=8,max_ebin=68)
 
     lts=[.814,.833,.850,.871,.891,.913,.926]
     #lts=[.814]
 
     for i in range(len(lts)):
-        fn=("%sB%d%s") % (afilepieces[0],i+1,afilepieces[1])
+        fn=("aeff_%s_b%d.fits") % (irfnick,i+1)
         cf.add_aeff_file([fn,lts[i]],[25.e6,1.25,5.75])
-
 
     old_p0=[ -2., 5., -0.4, 2.4, -0.1, 3.5]
 
