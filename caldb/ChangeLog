@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Wed Feb 11 17:24:17 PST 2015
+ScienceTools-scons/irfs/caldb/python
+
+Added Files:
+	IrfConsolidator.py 
+Log Message:
+Adding Jim's IRF consolidator module.
+    *
+------------------------------------------------------------
 User: mdwood  Tue Feb 10 13:48:56 PST 2015
 ScienceTools-scons/irfs/caldb/python
 

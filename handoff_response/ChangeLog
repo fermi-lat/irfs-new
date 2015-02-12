@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: mdwood  Wed Feb 11 17:29:05 PST 2015
+ScienceTools-scons/irfs/handoff_response/python
+
+Modified Files:
+	irfsetup.py run_livetime_corr.py 
+Added Files:
+	irfbatch.py irfrun.py 
+Log Message:
+Updating IRF generation scripts.
+    *
+------------------------------------------------------------
 User: mdwood  Sun Feb  8 23:58:44 PST 2015
 ScienceTools-scons/irfs/handoff_response/python
 
