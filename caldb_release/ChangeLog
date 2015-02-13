@@ -1,4 +1,44 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb 12 21:22:05 PST 2015
+ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat/bcf/psf
+
+Added Files:
+	psf_P8R2_CLEAN_V6_EDISP.fits psf_P8R2_CLEAN_V6_FB.fits 
+	psf_P8R2_CLEAN_V6_PSF.fits psf_P8R2_SOURCE_V6_EDISP.fits 
+	psf_P8R2_SOURCE_V6_FB.fits psf_P8R2_SOURCE_V6_PSF.fits 
+	psf_P8R2_TRANSIENT010E_V6_EDISP.fits 
+	psf_P8R2_TRANSIENT010E_V6_FB.fits 
+	psf_P8R2_TRANSIENT010E_V6_PSF.fits 
+	psf_P8R2_TRANSIENT010_V6_EDISP.fits 
+	psf_P8R2_TRANSIENT010_V6_FB.fits 
+	psf_P8R2_TRANSIENT010_V6_PSF.fits 
+	psf_P8R2_TRANSIENT015S_V6_EDISP.fits 
+	psf_P8R2_TRANSIENT015S_V6_FB.fits 
+	psf_P8R2_TRANSIENT015S_V6_PSF.fits 
+	psf_P8R2_TRANSIENT020E_V6_EDISP.fits 
+	psf_P8R2_TRANSIENT020E_V6_FB.fits 
+	psf_P8R2_TRANSIENT020E_V6_PSF.fits 
+	psf_P8R2_TRANSIENT020_V6_EDISP.fits 
+	psf_P8R2_TRANSIENT020_V6_FB.fits 
+	psf_P8R2_TRANSIENT020_V6_PSF.fits 
+	psf_P8R2_TRANSIENT100E_V6_EDISP.fits 
+	psf_P8R2_TRANSIENT100E_V6_FB.fits 
+	psf_P8R2_TRANSIENT100E_V6_PSF.fits 
+	psf_P8R2_TRANSIENT100S_V6_EDISP.fits 
+	psf_P8R2_TRANSIENT100S_V6_FB.fits 
+	psf_P8R2_TRANSIENT100S_V6_PSF.fits 
+	psf_P8R2_TRANSIENT100_V6_EDISP.fits 
+	psf_P8R2_TRANSIENT100_V6_FB.fits 
+	psf_P8R2_TRANSIENT100_V6_PSF.fits 
+	psf_P8R2_ULTRACLEANVETO_V6_EDISP.fits 
+	psf_P8R2_ULTRACLEANVETO_V6_FB.fits 
+	psf_P8R2_ULTRACLEANVETO_V6_PSF.fits 
+	psf_P8R2_ULTRACLEAN_V6_EDISP.fits 
+	psf_P8R2_ULTRACLEAN_V6_FB.fits psf_P8R2_ULTRACLEAN_V6_PSF.fits 
+Log Message:
+add P8R2 irfs
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 12 21:22:04 PST 2015
 ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat/bcf/edisp
 
