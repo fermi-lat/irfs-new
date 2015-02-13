@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ caldb-07-00-00 12-Feb-2015 jchiang add P8R2 irfs
  caldb-06-00-01 04-Feb-2015 jchiang fix front/back scaling redundancies to be consistent with Pass 8 latResponse implementation
  caldb-06-00-00 08-Jan-2015 jchiang Pass 8-related changes; pre-Pass 7 irfs disabled; made Pass 7 files and entries in caldb.indx more fully CALDB compliant
  caldb-05-01-01 10-Aug-2013 jchiang add bit mappings to irfs_index.fits for P7REP irfs
