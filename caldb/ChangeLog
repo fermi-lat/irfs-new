@@ -1,4 +1,14 @@
 ------------------------------------------------------------
+User: jchiang  Thu Feb 12 21:09:21 PST 2015
+ScienceTools-scons/irfs/caldb/python
+
+Modified Files:
+	IrfConsolidator.py add_to_cvs.py irf_index.txt 
+	make_irf_index.py update_checksums.py 
+Log Message:
+add P8R2 irfs
+    *
+------------------------------------------------------------
 User: jchiang  Thu Feb 12 21:09:20 PST 2015
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/psf
 
