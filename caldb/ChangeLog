@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Thu Feb 12 16:23:25 PST 2015
+ScienceTools-scons/irfs/caldb/python
+
+Added Files:
+	build_caldb.py 
+Log Message:
+Adding script for building CALDB from output of makeirf/makefits.
+    *
+------------------------------------------------------------
 User: mdwood  Wed Feb 11 17:24:17 PST 2015
 ScienceTools-scons/irfs/caldb/python
 

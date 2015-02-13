@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Thu Feb 12 16:20:12 PST 2015
+ScienceTools-scons/irfs/handoff_response/python
+
+Modified Files:
+	irfrun.py params_P8R2_V6.yaml run_livetime_corr.py 
+Log Message:
+Minor updates to IRF generation scripts.
+    *
+------------------------------------------------------------
 User: mdwood  Wed Feb 11 17:29:05 PST 2015
 ScienceTools-scons/irfs/handoff_response/python
 
