@@ -42,10 +42,7 @@ class IrfConsolidator(object):
             hdu.header['CBD10001'] = 'VERSION(%s)' % self.irf_name
             if 'PSFVER' in hdu.header: hdu.header['PSFVER'] = 3
 
-            
-            
     def get_input_files(self, component, evtypes):
-
         irf_files = []
         for evtype in evtypes:
 
@@ -66,10 +63,8 @@ class IrfConsolidator(object):
         return irf_files
 
     def process_files(self, dryrun=False):
-
         outfiles = []
         for component in self._irf_components:
-            
             for evtype_base, evtypes in self._evtypes.items():
                 
                 infiles = self.get_input_files(component, evtypes)
@@ -77,15 +72,14 @@ class IrfConsolidator(object):
                                        '_'.join((component, self.irf_name, 
                                                  evtype_base + '.fits')))
                 outfile = os.path.abspath(outfile)
-                
                 if dryrun:
                     print infiles
                     print "writing", outfile
                     print
                     continue
-
                 if len(infiles) != len(evtypes):
-                    print 'Wrong number of IRFs found for event type: ', component, evtype_base
+                    print 'Wrong number of IRFs found for event type: ', \
+                        component, evtype_base
                     continue
                 
                 output = pyfits.open(infiles[0])

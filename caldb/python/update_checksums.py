@@ -5,13 +5,19 @@
 #
 # $Header$
 #
-import os
+import subprocess
 from GtApp import GtApp
 
 fverify = GtApp('fverify')
 fchecksum = GtApp('fchecksum')
 
-infiles, outfiles = os.popen4('/usr/bin/find . -name \*.fits -print' )
+popen = subprocess.Popen('/usr/bin/find . -name \*.fits -print', shell=True,
+                         stdin=subprocess.PIPE,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT,
+                         close_fds=True)
+infiles, outfiles = popen.stdin, popen.stdout
+#infiles, outfiles = os.popen4('/usr/bin/find . -name \*.fits -print' )
 
 warnings = []
 errors = []

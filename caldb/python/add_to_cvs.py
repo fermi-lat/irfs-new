@@ -4,13 +4,14 @@
 # $Header$
 #
 import os
-#suffixes = ("P6_v4_trans", "P6_v4_source", "P6_v4_diff",
-#            "P6_v5_trans", "P6_v5_source", "P6_v5_diff")
-#suffixes = ("P6_v7_trans", "P6_v7_source", "P6_v7_diff")
-suffixes = ("p6_v3_dataclean",)
+import glob
+import subprocess
 
-for item in suffixes:
-    for prefix, loc in zip(("aeff", "psf", "edisp"), ("ea", "psf", "edisp")):
-        for section in ("front", "back"):
-            infile = "%s_%s_%s.fits" % (prefix, item, section)
-            os.system("cvs add %s" % os.path.join(loc, infile))
+pattern = "P8R2"
+
+for subdir in "ea edisp psf".split():
+    irf_files = sorted(glob.glob(os.path.join(subdir, '*%s*.fits' % pattern)))
+    for item in irf_files:
+        command = "cvs add -kb %s" % item
+        print command
+        subprocess.call(command, shell=True)

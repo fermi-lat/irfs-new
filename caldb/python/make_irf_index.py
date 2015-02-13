@@ -46,8 +46,7 @@ def read_mappings_from_dict(index_mapping):
     return evclass, evtype
 
 def make_irf_index(index_mapping,outfile):
-
-    if isinstance(index_mapping,dict):        
+    if isinstance(index_mapping, dict):
         evclass, evtype = read_mappings_from_dict(index_mapping)
     else:
         evclass, evtype = read_mappings(index_mapping)
@@ -78,5 +77,4 @@ def make_irf_index(index_mapping,outfile):
     output.writeto(outfile, clobber=True)
 
 if __name__ == '__main__':
-
     make_irf_index('irf_index.txt','irf_index_candidate.fits')
