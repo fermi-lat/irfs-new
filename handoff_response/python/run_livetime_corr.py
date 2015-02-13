@@ -149,6 +149,14 @@ class corr_fit:
         
         self.c1=ROOT.TCanvas(self.cname+'_c1',self.cname,900,800)
         self.c1.Divide(7,10)
+
+        self.c3 = []
+        for i in range(4):
+            c = ROOT.TCanvas(self.cname+'_c%i'%(i+3),
+                             self.cname+'_c%i'%(i),900,800)
+            c.Divide(4,4)            
+            self.c3.append(c)
+        
         #set up global histograms
         self.g_p0=ROOT.TGraphErrors(7)
         self.g_p1=ROOT.TGraphErrors(7)
@@ -215,6 +223,22 @@ class corr_fit:
                 fits_p0.append(func.GetParameter(1))
                 fits_p1.append(func.GetParameter(0))
 
+            # Draw on c3 canvas
+            j = i/16
+
+            if j >= len(self.c3): continue
+            
+            self.c3[j].cd(i%16+1)
+            g.Draw("AP")            
+            func.Draw("SAME")
+
+        self.c1.Update()
+        self.c1.SaveAs('livetime_fits_'+self.cname+'.png')
+            
+        for i, c in enumerate(self.c3):
+            c.Update()
+            c.SaveAs('livetime_fits%i_'%(i)+self.cname+'.png')
+
         #save results in Fits file
         if len(fits_output)>0:
             col1=pyfits.Column(name='ENERGY',format='E',array=numpy.array(fits_e))
@@ -247,8 +271,8 @@ class corr_fit:
         self.tf1_p0.SetParameter(3,old_p0_pars[3]) # Eb1
         self.tf1_p0.SetParameter(4,old_p0_pars[4]) #a2
         self.tf1_p0.SetParameter(5,old_p0_pars[5]) #Eb2
-        self.tf1_p0.SetParLimits(3,1.25,5.75)
-        self.tf1_p0.SetParLimits(5,1.25,5.75)
+        self.tf1_p0.SetParLimits(3,1.5,2.5)
+        self.tf1_p0.SetParLimits(5,2.5,4.0)
         if len(old_p0_plimits)>0:
             for plmi in range(len(old_p0_plimits)):
                 self.tf1_p0.SetParLimits(plmi,old_p0_plimits[plmi][0],old_p0_plimits[plmi][1])
@@ -256,7 +280,6 @@ class corr_fit:
         self.tf1_p0.SetLineWidth(1)
         self.tf1_p0.SetLineColor(ROOT.kRed)
         self.c2.Update()
-
 
         self.c2.cd(2)
         self.g_p1.SetTitle("P1")
@@ -292,7 +315,13 @@ class corr_fit:
         self.tf1_p1.Draw("SAME")
         self.tf1_p1.SetLineWidth(1)
         self.tf1_p1.SetLineColor(ROOT.kBlue)
+
+        self.g_p1.GetHistogram().SetMaximum(3.0)
+        self.g_p1.GetHistogram().SetMinimum(-3.0)
+        
         self.c2.Update()
+        self.c2.SaveAs('livetime_params_'+self.cname+'.png')
+        
         print 'P1  A0',new_a0
         print 'P1  B0',new_b0
         print 'P1  A1',new_a1

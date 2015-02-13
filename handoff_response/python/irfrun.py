@@ -92,7 +92,7 @@ makeirf(target_dir,irftype,overwrite=args.overwrite)
 if args.no_livetime: sys.exit(0)
 
 # Generate IRFs for each livetime bin
-livetime_bins = config['Livetime']['ngen'].keys()
+livetime_bins = sorted(config['Livetime']['ngen'].keys())
 for ltb in livetime_bins:
     makeirf(target_dir,irftype,'_%s'%(ltb),
             overwrite=args.overwrite)
@@ -108,13 +108,11 @@ reffile=path+'aeff_'+irfnick+'.fits'
 cf=corr_fit(reffile,avltf,irfnick,
             min_ebin=8,max_ebin=68)
 
-lts=[.814,.833,.850,.871,.891,.913,.926]
-
 for lt, ltb in zip(lts,livetime_bins):
     fn=("aeff_%s_%s.fits") % (irfnick,ltb)
     cf.add_aeff_file([fn,lt],[25.e6,1.25,5.75])
 
-old_p0=[ -2., 5., -0.4, 2.4, -0.1, 3.5]
+old_p0=config['Livetime']['p0_pars']
 
 #do the fit
 cf.fit(old_p0,fits_output="")
