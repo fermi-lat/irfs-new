@@ -1,4 +1,45 @@
 ------------------------------------------------------------
+User: jchiang  Fri Feb 13 07:42:30 PST 2015
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/edisp
+
+Modified Files:
+	edisp_P8R2_CLEAN_V6_EDISP.fits edisp_P8R2_CLEAN_V6_FB.fits 
+	edisp_P8R2_CLEAN_V6_PSF.fits edisp_P8R2_SOURCE_V6_EDISP.fits 
+	edisp_P8R2_SOURCE_V6_FB.fits edisp_P8R2_SOURCE_V6_PSF.fits 
+	edisp_P8R2_TRANSIENT010E_V6_EDISP.fits 
+	edisp_P8R2_TRANSIENT010E_V6_FB.fits 
+	edisp_P8R2_TRANSIENT010E_V6_PSF.fits 
+	edisp_P8R2_TRANSIENT010_V6_EDISP.fits 
+	edisp_P8R2_TRANSIENT010_V6_FB.fits 
+	edisp_P8R2_TRANSIENT010_V6_PSF.fits 
+	edisp_P8R2_TRANSIENT015S_V6_EDISP.fits 
+	edisp_P8R2_TRANSIENT015S_V6_FB.fits 
+	edisp_P8R2_TRANSIENT015S_V6_PSF.fits 
+	edisp_P8R2_TRANSIENT020E_V6_EDISP.fits 
+	edisp_P8R2_TRANSIENT020E_V6_FB.fits 
+	edisp_P8R2_TRANSIENT020E_V6_PSF.fits 
+	edisp_P8R2_TRANSIENT020_V6_EDISP.fits 
+	edisp_P8R2_TRANSIENT020_V6_FB.fits 
+	edisp_P8R2_TRANSIENT020_V6_PSF.fits 
+	edisp_P8R2_TRANSIENT100E_V6_EDISP.fits 
+	edisp_P8R2_TRANSIENT100E_V6_FB.fits 
+	edisp_P8R2_TRANSIENT100E_V6_PSF.fits 
+	edisp_P8R2_TRANSIENT100S_V6_EDISP.fits 
+	edisp_P8R2_TRANSIENT100S_V6_FB.fits 
+	edisp_P8R2_TRANSIENT100S_V6_PSF.fits 
+	edisp_P8R2_TRANSIENT100_V6_EDISP.fits 
+	edisp_P8R2_TRANSIENT100_V6_FB.fits 
+	edisp_P8R2_TRANSIENT100_V6_PSF.fits 
+	edisp_P8R2_ULTRACLEANVETO_V6_EDISP.fits 
+	edisp_P8R2_ULTRACLEANVETO_V6_FB.fits 
+	edisp_P8R2_ULTRACLEANVETO_V6_PSF.fits 
+	edisp_P8R2_ULTRACLEAN_V6_EDISP.fits 
+	edisp_P8R2_ULTRACLEAN_V6_FB.fits 
+	edisp_P8R2_ULTRACLEAN_V6_PSF.fits 
+Log Message:
+fix TDIM10, TUNIT10 keywords
+    *
+------------------------------------------------------------
 TAG
 Tag name: caldb-07-00-00, operation: add
 Package: caldb
