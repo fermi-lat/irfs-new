@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Feb 13 07:45:22 PST 2015
+irfs/caldb
+
+Modified Files:
+	SConscript 
+Log Message:
+stag/GoGui_auto-tag
+    *
+------------------------------------------------------------
 User: jchiang  Fri Feb 13 07:42:30 PST 2015
 ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/edisp
 
