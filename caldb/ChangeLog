@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Wed Feb 18 23:41:04 PST 2015
+ScienceTools-scons/irfs/caldb/python
+
+Modified Files:
+	IrfConsolidator.py 
+Log Message:
+Enabling checksum evaluation for aggregated IRF files.
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-10-00-00, operation: add
 Package: caldb

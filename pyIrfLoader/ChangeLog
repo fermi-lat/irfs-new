@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Wed Feb 18 23:41:45 PST 2015
+ScienceTools-scons/irfs/pyIrfLoader/src
+
+Modified Files:
+	pyIrfLoader.i 
+Log Message:
+Adding vectorized versions of value methods for PSF and EDisp.
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-10-00-00, operation: add
 Package: pyIrfLoader
