@@ -68,7 +68,31 @@
       double phi = CLHEP::RandFlat::shoot()*360.;
       return std::make_pair<double, double>(separation, phi);
    }
+
+   std::vector<double> value(const std::vector<double>& separation, double energy, double theta, 
+			      double phi, double time = 0) const {
+      std::vector<double> v;
+      for(std::vector<double>::const_iterator itr = separation.begin();
+	  itr != separation.end(); ++itr)
+	v.push_back(self->value(*itr,energy,theta,phi,time));
+ 
+      return v;
+  }
 }
+
+%extend irfInterface::IEdisp {
+
+   std::vector<double> value(const std::vector<double>& appEnergy, double energy, 
+			     double theta, double phi, double time=0) const {
+     std::vector<double> v;
+     for(std::vector<double>::const_iterator itr = appEnergy.begin();
+	 itr != appEnergy.end(); ++itr)
+       v.push_back(self->value(*itr,energy,theta,phi,time));
+     
+     return v;
+   }
+}
+
 %extend irfInterface::IrfsFactory {
    std::vector<std::string> irfNames() {
       std::vector<std::string> names;
