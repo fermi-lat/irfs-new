@@ -91,7 +91,7 @@ class IrfConsolidator(object):
                     self._fix_headers(input, evtype)
                     for hdu in input[1:]:
                         output.append(hdu)
-                output.writeto(outfile, clobber=True)
+                output.writeto(outfile, clobber=True, checksum=True)
                 outfiles.append(outfile)
 
         return outfiles
