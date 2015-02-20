@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ latResponse-04-01-01 20-Feb-2015 jchiang remove backwards compatibility for aeff files that lack EFFICIENCY_PARAMS extension
  latResponse-04-01-00 03-Feb-2015 jchiang remove reliance on separate F/B efficiency factors and psf scaling
  latResponse-04-00-01 14-Jan-2015 jchiang make interpolation of the edisp distributions the default in Edisp[23]
  latResponse-04-00-00 08-Jan-2015 jchiang Pass 8-related development
