@@ -1,4 +1,65 @@
 ------------------------------------------------------------
+User: jchiang  Fri Feb 20 14:50:52 PST 2015
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf/ea
+
+Modified Files:
+	aeff_P7CLEAN_V6MC_back.fits aeff_P7CLEAN_V6MC_front.fits 
+	aeff_P7CLEAN_V6_back.fits aeff_P7CLEAN_V6_front.fits 
+	aeff_P7REP_CLEAN_V10_back.fits aeff_P7REP_CLEAN_V10_front.fits 
+	aeff_P7REP_CLEAN_V15_back.fits aeff_P7REP_CLEAN_V15_front.fits 
+	aeff_P7REP_SOURCE_V10_back.fits 
+	aeff_P7REP_SOURCE_V10_front.fits 
+	aeff_P7REP_SOURCE_V15_back.fits 
+	aeff_P7REP_SOURCE_V15_front.fits 
+	aeff_P7REP_TRANSIENT_V10_back.fits 
+	aeff_P7REP_TRANSIENT_V10_front.fits 
+	aeff_P7REP_TRANSIENT_V15_back.fits 
+	aeff_P7REP_TRANSIENT_V15_front.fits 
+	aeff_P7REP_ULTRACLEAN_V10_back.fits 
+	aeff_P7REP_ULTRACLEAN_V10_front.fits 
+	aeff_P7REP_ULTRACLEAN_V15_back.fits 
+	aeff_P7REP_ULTRACLEAN_V15_front.fits 
+	aeff_P7SOURCE_V6MC_back.fits aeff_P7SOURCE_V6MC_front.fits 
+	aeff_P7SOURCE_V6_back.fits aeff_P7SOURCE_V6_front.fits 
+	aeff_P7TRANSIENT_V6_back.fits aeff_P7TRANSIENT_V6_front.fits 
+	aeff_P7ULTRACLEAN_V6_back.fits aeff_P7ULTRACLEAN_V6_front.fits 
+	aeff_P8R2_CLEAN_V6_EDISP.fits aeff_P8R2_CLEAN_V6_FB.fits 
+	aeff_P8R2_CLEAN_V6_PSF.fits aeff_P8R2_SOURCE_V6_EDISP.fits 
+	aeff_P8R2_SOURCE_V6_FB.fits aeff_P8R2_SOURCE_V6_PSF.fits 
+	aeff_P8R2_TRANSIENT010E_V6_EDISP.fits 
+	aeff_P8R2_TRANSIENT010E_V6_FB.fits 
+	aeff_P8R2_TRANSIENT010E_V6_PSF.fits 
+	aeff_P8R2_TRANSIENT010_V6_EDISP.fits 
+	aeff_P8R2_TRANSIENT010_V6_FB.fits 
+	aeff_P8R2_TRANSIENT010_V6_PSF.fits 
+	aeff_P8R2_TRANSIENT015S_V6_EDISP.fits 
+	aeff_P8R2_TRANSIENT015S_V6_FB.fits 
+	aeff_P8R2_TRANSIENT015S_V6_PSF.fits 
+	aeff_P8R2_TRANSIENT020E_V6_EDISP.fits 
+	aeff_P8R2_TRANSIENT020E_V6_FB.fits 
+	aeff_P8R2_TRANSIENT020E_V6_PSF.fits 
+	aeff_P8R2_TRANSIENT020_V6_EDISP.fits 
+	aeff_P8R2_TRANSIENT020_V6_FB.fits 
+	aeff_P8R2_TRANSIENT020_V6_PSF.fits 
+	aeff_P8R2_TRANSIENT100E_V6_EDISP.fits 
+	aeff_P8R2_TRANSIENT100E_V6_FB.fits 
+	aeff_P8R2_TRANSIENT100E_V6_PSF.fits 
+	aeff_P8R2_TRANSIENT100S_V6_EDISP.fits 
+	aeff_P8R2_TRANSIENT100S_V6_FB.fits 
+	aeff_P8R2_TRANSIENT100S_V6_PSF.fits 
+	aeff_P8R2_TRANSIENT100_V6_EDISP.fits 
+	aeff_P8R2_TRANSIENT100_V6_FB.fits 
+	aeff_P8R2_TRANSIENT100_V6_PSF.fits 
+	aeff_P8R2_ULTRACLEANVETO_V6_EDISP.fits 
+	aeff_P8R2_ULTRACLEANVETO_V6_FB.fits 
+	aeff_P8R2_ULTRACLEANVETO_V6_PSF.fits 
+	aeff_P8R2_ULTRACLEAN_V6_EDISP.fits 
+	aeff_P8R2_ULTRACLEAN_V6_FB.fits 
+	aeff_P8R2_ULTRACLEAN_V6_PSF.fits 
+Log Message:
+P8R2 fixes for EFFICIENCY_PARAMS column name; P7* fixes for F/B issues regarding efficiency params and psf scaling
+    *
+------------------------------------------------------------
 User: mdwood  Wed Feb 18 23:41:04 PST 2015
 ScienceTools-scons/irfs/caldb/python
 
