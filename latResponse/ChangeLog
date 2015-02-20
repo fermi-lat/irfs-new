@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Fri Feb 20 14:54:05 PST 2015
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	EfficiencyFactor.cxx IrfLoader.cxx 
+Log Message:
+remove backwards compatibility for aeff files that lack an EFFICIENCY_PARAMS extension
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-10-00-00, operation: add
 Package: latResponse
