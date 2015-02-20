@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Fri Feb 20 11:41:29 PST 2015
+ScienceTools-scons/irfs/handoff_response/python
+
+Modified Files:
+	run_livetime_corr.py 
+Log Message:
+Fixing column name for efficiency correction.
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-10-00-00, operation: add
 Package: handoff_response
