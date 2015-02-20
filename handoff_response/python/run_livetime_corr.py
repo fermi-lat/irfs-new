@@ -417,17 +417,11 @@ class corr_fit:
 
         
     def writein(self,fitsname):
-        f=pyfits.open(fitsname,mode='update')
-        #suprise: one cannot append rows to a tables
-        #remove existing EFF table
-        newarray=numpy.array([0.,0.,0.,0.,0.,0.],dtype=numpy.float32)
-
-        print self.final_results
-        
-        newcol=pyfits.Column(name='EFFICIENCY_PARAMS', format='6E', array=self.final_results)
-        #newefftab=pyfits.new_table([newcol])
-        #table_hdu = pyfits.new_table(newefftab.data, nrows=4)
-        table_hdu = pyfits.new_table([newcol]) #from_columns([newcol])
+        f=pyfits.open(fitsname)
+        newcol=pyfits.Column(name='EFFICIENCY_PARS', format='6E',
+                             array=self.final_results)
+        newdata=pyfits.FITS_rec.from_columns([newcol])
+        table_hdu = pyfits.BinTableHDU(newdata,name='EFFICIENCY_PARAMS')
         headkeys=[]
         for key in ['EXTNAME','TELESCOP','INSTRUME','FILTER',
                     'HDUCLASS','HDUCLAS1','HDUCLAS2','HDUVERS',
@@ -440,7 +434,7 @@ class corr_fit:
         for pars in headkeys:
             f[3].header[pars[0]]=pars[1]
 
-        f.flush()
+        f.writeto(fitsname,clobber=True,checksum=True)
         f.close()
 
 
