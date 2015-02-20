@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ caldb_release-07-00-02 20-Feb-2015 jchiang P8R2 fixes for EFFICIENCY_PARAMS ext column name; P7* fixes for F/B efficiency params and psf scaling
  caldb_release-07-00-01 13-Feb-2015 jchiang fix TDIM10, TUNIT10 keywords in edisp_P8R2* headers
  caldb_release-07-00-00 12-Feb-2015 jchiang add P8R2 irfs
  caldb_release-06-00-01 04-Feb-2015 jchiang fix front/back scaling redundancies to be consistent with Pass 8 latResponse implementation
