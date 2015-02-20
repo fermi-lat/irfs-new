@@ -266,27 +266,23 @@ IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus, size_t iepoch) const {
 irfInterface::IEfficiencyFactor *
 IrfLoader::efficiency_factor(const irfUtil::IrfHdus & aeff_hdus) const {
    irfInterface::IEfficiencyFactor * my_eff(0);
-   try {
-      if (aeff_hdus.numEpochs() == 1) {
-         return new EfficiencyFactor(aeff_hdus, 0);
-      } else {
-         EfficiencyFactorEpochDep * my_eff(new EfficiencyFactorEpochDep());
-         const std::vector<std::pair<std::string, std::string> > &
-            filename_hdu_pairs(aeff_hdus("EFFICIENCY_PARS"));
-         for (size_t j(0); j < aeff_hdus.numEpochs(); j++) {
-            double epoch_start(EpochDep::epochStart(filename_hdu_pairs[j].first,
-                                                    filename_hdu_pairs[j].second));
-            irfInterface::IEfficiencyFactor * 
-               eff_component(new EfficiencyFactor(aeff_hdus, j));
-            my_eff->add(*eff_component, epoch_start);
-            delete eff_component;
-         }
-         return my_eff;
+   if (aeff_hdus.numEpochs() == 1) {
+      my_eff = new EfficiencyFactor(aeff_hdus, 0);
+   } else {
+      my_eff = new EfficiencyFactorEpochDep();
+      const std::vector<std::pair<std::string, std::string> > &
+         filename_hdu_pairs(aeff_hdus("EFFICIENCY_PARS"));
+      for (size_t j(0); j < aeff_hdus.numEpochs(); j++) {
+         double epoch_start(EpochDep::epochStart(filename_hdu_pairs[j].first,
+                                                 filename_hdu_pairs[j].second));
+         irfInterface::IEfficiencyFactor * 
+            eff_component(new EfficiencyFactor(aeff_hdus, j));
+         dynamic_cast<EfficiencyFactorEpochDep *>(my_eff)->add(*eff_component,
+                                                               epoch_start);
+         delete eff_component;
       }
-   } catch (tip::TipException &) {
-      return 0;
    }
-   return 0;
+   return my_eff;
 }
 
 void IrfLoader::readCustomIrfNames() {

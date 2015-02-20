@@ -163,16 +163,15 @@ double EfficiencyFactor::value(double energy, double livetimefrac,
 void EfficiencyFactor::
 getLivetimeFactors(double energy, double & factor1, double & factor2,
                    double met) const {
-   throw std::runtime_error("EfficiencyFactor::getLivetimeFactors disabled");
-   // (void)(met);
-   // if (!m_havePars) {
-   //    factor1 = 1;
-   //    factor2 = 0;
-   //    return;
-   // }
-   // double logE(std::log10(energy));
-   // factor1 = m_p1(logE);
-   // factor2 = m_p0(logE);
+   (void)(met);
+   if (!m_havePars) {
+      factor1 = 1;
+      factor2 = 0;
+      return;
+   }
+   double logE(std::log10(energy));
+   factor1 = m_p1(logE);
+   factor2 = m_p0(logE);
 }
 
 } // namespace latResponse
