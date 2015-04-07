@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Mon Apr  6 22:18:22 PDT 2015
+ScienceTools-scons/irfs/irfInterface/irfInterface
+
+Modified Files:
+	Irfs.h 
+Log Message:
+refactor Irfs to enable lazy evaluation of IRF classes in latResponse::Irfs subclass
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-10-00-03, operation: add
 Package: irfInterface
