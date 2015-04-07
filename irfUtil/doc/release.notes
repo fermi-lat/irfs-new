@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ irfUtil-02-01-00 06-Apr-2015 jchiang add EventTypeMapper Singleton class that reads in the irf_index.fits information once and for all; delete Util::get_event_type... static functions
  irfUtil-02-00-01 08-Jan-2015 jchiang resolve pow ambiguity encountered with older gcc compiler on rhel5-32
  irfUtil-02-00-00 08-Jan-2015 jchiang Pass 8-related development
  irfUtil-01-00-00 14-Jan-2013 jchiang add HdCaldb.getFiles(...) function to handle multi-epoch IRFs; revise usage of HDgtcalf so that time ranges requests are made correctly
