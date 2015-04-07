@@ -22,9 +22,6 @@ namespace irfInterface {
  * @brief Container of instrument response functions that are defined
  * using the irfInterface abstract interface.
  *
- * @author J. Chiang
- *
- * $Header$
  */
 
 class Irfs {
@@ -34,21 +31,26 @@ public:
    Irfs() : m_aeff(0), m_psf(0), m_edisp(0), m_efficiencyFactor(0),
             m_irfID(0) {}
 
-   Irfs(IAeff *aeff, IPsf *psf, IEdisp *edisp, int irfID) 
+   Irfs(IAeff * aeff, IPsf * psf, IEdisp * edisp, int irfID) 
       : m_aeff(aeff), m_psf(psf), m_edisp(edisp), 
         m_efficiencyFactor(0), m_irfID(irfID) {}
 
-   ~Irfs() {
-      delete m_aeff;
-      delete m_psf;
-      delete m_edisp;
-      delete m_efficiencyFactor;
-   }
-
-   Irfs(const Irfs &rhs) {
-      m_psf = rhs.m_psf->clone();
-      m_aeff = rhs.m_aeff->clone();
-      m_edisp = rhs.m_edisp->clone();
+   Irfs(const Irfs & rhs) {
+      if (rhs.m_psf != 0) {
+         m_psf = rhs.m_psf->clone();
+      } else {
+         m_psf = 0;
+      }
+      if (rhs.m_aeff != 0) {
+         m_aeff = rhs.m_aeff->clone();
+      } else {
+         m_aeff = 0;
+      }
+      if (rhs.m_edisp != 0) {
+         m_edisp = rhs.m_edisp->clone();
+      } else {
+         m_edisp = 0;
+      }
       if (rhs.m_efficiencyFactor != 0) {
          m_efficiencyFactor = rhs.m_efficiencyFactor->clone();
       } else {
@@ -57,11 +59,26 @@ public:
       m_irfID = rhs.m_irfID;
    }
 
-   IAeff *aeff() {return m_aeff;}
-   IPsf *psf() {return m_psf;}
-   IEdisp *edisp() {return m_edisp;}
+   virtual ~Irfs() {
+      delete m_aeff;
+      delete m_psf;
+      delete m_edisp;
+      delete m_efficiencyFactor;
+   }
 
-   const IEfficiencyFactor * efficiencyFactor() const {
+   virtual IAeff * aeff() {
+      return m_aeff;
+   }
+
+   virtual IPsf * psf() {
+      return m_psf;
+   }
+   
+   virtual IEdisp * edisp() {
+      return m_edisp;
+   }
+
+   virtual const IEfficiencyFactor * efficiencyFactor() const {
       return m_efficiencyFactor;
    }
 
@@ -69,18 +86,36 @@ public:
       m_efficiencyFactor = eff->clone();
    }
 
-   Irfs * clone() {
+   void setAeff(IAeff * aeff) {
+      m_aeff = aeff;
+   }
+
+   void setPsf(IPsf * psf) {
+      m_psf = psf;
+   }
+
+   void setEdisp(IEdisp * edisp) {
+      m_edisp = edisp;
+   }
+
+   virtual Irfs * clone() {
       return new Irfs(*this);
    }
 
    /// Return the ID number of the IRFs being used.
-   int irfID() const {return m_irfID;}
+   int irfID() const {
+      return m_irfID;
+   }
+
+   void setIrfID(int irfID) {
+      m_irfID = irfID;
+   }
 
 private:
 
-   IAeff *m_aeff;
-   IPsf *m_psf;
-   IEdisp *m_edisp;
+   IAeff * m_aeff;
+   IPsf * m_psf;
+   IEdisp * m_edisp;
 
    IEfficiencyFactor * m_efficiencyFactor;
    
