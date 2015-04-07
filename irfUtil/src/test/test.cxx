@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 
+#include "irfUtil/EventTypeMapper.h"
 #include "irfUtil/HdCaldb.h"
 #include "irfUtil/Util.h"
 
@@ -54,6 +55,23 @@ int main() {
       std::cout << "Exception caught: " 
                 << eObj.what() << std::endl;
    }
-      
+
+/// Exercise EventTypeMapper class
+   irfUtil::EventTypeMapper & my_mapper(irfUtil::EventTypeMapper::instance());
+   std::cout << my_mapper.bitPos("P8R2_SOURCE_V6", "FRONT").first << "\n"
+             << my_mapper.bitPos("P8R2_SOURCE_V6", "BACK").first << "\n"
+             << my_mapper.bitPos("P8R2_SOURCE_V6", "PSF0").first << "\n"
+             << my_mapper.bitPos("P8R2_SOURCE_V6", "PSF1").first << "\n"
+             << my_mapper.bitPos("P8R2_SOURCE_V6", "PSF2").first << "\n"
+             << my_mapper.bitPos("P8R2_SOURCE_V6", "PSF3").first << std::endl;
+
+   irfUtil::EventTypeMapper::EvTypeMapping_t & ev_mapping 
+      = const_cast<irfUtil::EventTypeMapper::EvTypeMapping_t &>(my_mapper.mapping("P8R2_SOURCE_V6"));
+   std::cout << ev_mapping["FRONT"].first << "\n"
+             << ev_mapping["BACK"].first << "\n"
+             << ev_mapping["PSF0"].first << "\n"
+             << ev_mapping["PSF1"].first << "\n"
+             << ev_mapping["PSF2"].first << "\n"
+             << ev_mapping["PSF3"].first << std::endl;
    return 0;
 }

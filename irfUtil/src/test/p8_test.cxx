@@ -73,85 +73,85 @@ int main() {
       std::cout << irf_file << "  " << hdu << std::endl;
    }
 
-/// Exercise get_event_[class,type]_mapping
-   std::map<std::string, unsigned int> mapping;
-   irfUtil::Util::get_event_class_mapping(mapping);
-   for (std::map<std::string, unsigned int>::const_iterator it(mapping.begin());
-        it != mapping.end(); ++it) {
-      std::cout << it->first << "  " << it->second << std::endl;
-   }
+// /// Exercise get_event_[class,type]_mapping
+//    std::map<std::string, unsigned int> mapping;
+//    irfUtil::Util::get_event_class_mapping(mapping);
+//    for (std::map<std::string, unsigned int>::const_iterator it(mapping.begin());
+//         it != mapping.end(); ++it) {
+//       std::cout << it->first << "  " << it->second << std::endl;
+//    }
 
-   std::map<std::string, std::pair<unsigned int, std::string> > evtype_mapping;
+//    std::map<std::string, std::pair<unsigned int, std::string> > evtype_mapping;
 
-   std::cout << "\nP7REP_SOURCE_V10 event types:\n";
-   irfUtil::Util::get_event_type_mapping("P7REP_SOURCE_V10", evtype_mapping);
-   for (std::map<std::string, std::pair<unsigned int, std::string> >::const_iterator 
-           it(evtype_mapping.begin()); it != evtype_mapping.end(); ++it) {
-      std::cout << it->first << "  " << it->second.first << std::endl;
-   }
+//    std::cout << "\nP7REP_SOURCE_V10 event types:\n";
+//    irfUtil::Util::get_event_type_mapping("P7REP_SOURCE_V10", evtype_mapping);
+//    for (std::map<std::string, std::pair<unsigned int, std::string> >::const_iterator 
+//            it(evtype_mapping.begin()); it != evtype_mapping.end(); ++it) {
+//       std::cout << it->first << "  " << it->second.first << std::endl;
+//    }
 
-   std::cout << "\nP8_SOURCE_V5 event types:\n";
-   irfUtil::Util::get_event_type_mapping("P8_SOURCE_V5", evtype_mapping);
-   for (std::map<std::string, std::pair<unsigned int, std::string> >::const_iterator 
-           it(evtype_mapping.begin()); it != evtype_mapping.end(); ++it) {
-      std::cout << it->first << "  " << it->second.first << std::endl;
-   }
+//    std::cout << "\nP8_SOURCE_V5 event types:\n";
+//    irfUtil::Util::get_event_type_mapping("P8_SOURCE_V5", evtype_mapping);
+//    for (std::map<std::string, std::pair<unsigned int, std::string> >::const_iterator 
+//            it(evtype_mapping.begin()); it != evtype_mapping.end(); ++it) {
+//       std::cout << it->first << "  " << it->second.first << std::endl;
+//    }
 
-/// Check that tip can read by extension number.
+// /// Check that tip can read by extension number.
    
-   std::vector<std::string> files;
-   std::vector<int> hdus;
+//    std::vector<std::string> files;
+//    std::vector<int> hdus;
 
-   hdcaldb.getFiles(files, hdus, "PSF0", "EFFICIENCY_PARS", "P8_CLEAN_V5");
-   std::ostringstream extname;
-   extname << hdus[0];
-   const tip::Table * 
-      table(tip::IFileSvc::instance().readTable(files[0], extname.str()));
+//    hdcaldb.getFiles(files, hdus, "PSF0", "EFFICIENCY_PARS", "P8_CLEAN_V5");
+//    std::ostringstream extname;
+//    extname << hdus[0];
+//    const tip::Table * 
+//       table(tip::IFileSvc::instance().readTable(files[0], extname.str()));
                             
-   tip::Table::ConstIterator it(table->begin());
-   tip::ConstTableRecord & row(*it);
-   for ( ; it != table->end(); ++it) {
-      std::vector<float> my_values;
-      row["EFFICIENCY_PARAMS"].get(my_values);
-      for (size_t i(0); i < my_values.size(); i++) {
-         std::cout << my_values[i] << "  ";
-      }
-      std::cout << std::endl;
-   }
-   delete table;
+//    tip::Table::ConstIterator it(table->begin());
+//    tip::ConstTableRecord & row(*it);
+//    for ( ; it != table->end(); ++it) {
+//       std::vector<float> my_values;
+//       row["EFFICIENCY_PARAMS"].get(my_values);
+//       for (size_t i(0); i < my_values.size(); i++) {
+//          std::cout << my_values[i] << "  ";
+//       }
+//       std::cout << std::endl;
+//    }
+//    delete table;
 
-   table = tip::IFileSvc::instance().readTable(files[0], 
-                                               "EFFICIENCY_PARAMS_PSF0");
-   it = table->begin();
-   for ( ; it != table->end(); ++it) {
-      std::vector<float> my_values;
-      row["EFFICIENCY_PARAMS"].get(my_values);
-      for (size_t i(0); i < my_values.size(); i++) {
-         std::cout << my_values[i] << "  ";
-      }
-      std::cout << std::endl;
-   }
-   delete table;
+//    table = tip::IFileSvc::instance().readTable(files[0], 
+//                                                "EFFICIENCY_PARAMS_PSF0");
+//    it = table->begin();
+//    for ( ; it != table->end(); ++it) {
+//       std::vector<float> my_values;
+//       row["EFFICIENCY_PARAMS"].get(my_values);
+//       for (size_t i(0); i < my_values.size(); i++) {
+//          std::cout << my_values[i] << "  ";
+//       }
+//       std::cout << std::endl;
+//    }
+//    delete table;
 
-/// Test IrfHdus class
-   // irfUtil::IrfHdus empty_hdus("Un_irf", "Un_event_type",
-   //                             irfUtil::IrfHdus::s_aeff_cnames);
-   // std::cout << "Contents of empty_hdus: " 
-   //           << empty_hdus.numEpochs() << std::endl;
+// /// Test IrfHdus class
+//    // irfUtil::IrfHdus empty_hdus("Un_irf", "Un_event_type",
+//    //                             irfUtil::IrfHdus::s_aeff_cnames);
+//    // std::cout << "Contents of empty_hdus: " 
+//    //           << empty_hdus.numEpochs() << std::endl;
 
-   std::cout << "\nP8_SOURCE_V5, PSF0, aeff:" << std::endl;
-   print_hdus(irfUtil::IrfHdus::aeff("P8_SOURCE_V5", "PSF0"));
+//    std::cout << "\nP8_SOURCE_V5, PSF0, aeff:" << std::endl;
+//    print_hdus(irfUtil::IrfHdus::aeff("P8_SOURCE_V5", "PSF0"));
 
-   std::cout << "\nP8_CLEAN_V5, EDISP1, psf:" << std::endl;
-   try {
-      print_hdus(irfUtil::IrfHdus::psf("P8_CLEAN_V5", "EDISP1"));
-   } catch (...) {
-   }
+//    std::cout << "\nP8_CLEAN_V5, EDISP1, psf:" << std::endl;
+//    try {
+//       print_hdus(irfUtil::IrfHdus::psf("P8_CLEAN_V5", "EDISP1"));
+//    } catch (...) {
+//    }
 
-   std::cout << "\nP8_ULTRACLEAN_V5, FRONT, edisp:" << std::endl;
-   try {
-      print_hdus(irfUtil::IrfHdus::edisp("P8_ULTRACLEAN_V5", "FRONT"));
-   } catch (...) {
-   }
+//    std::cout << "\nP8_ULTRACLEAN_V5, FRONT, edisp:" << std::endl;
+//    try {
+//       print_hdus(irfUtil::IrfHdus::edisp("P8_ULTRACLEAN_V5", "FRONT"));
+//    } catch (...) {
+//    }
    return 0;
 }

@@ -10,6 +10,7 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "irfUtil/EventTypeMapper.h"
 #include "irfUtil/HdCaldb.h"
 #include "irfUtil/Util.h"
 #include "irfUtil/IrfHdus.h"
@@ -52,10 +53,7 @@ IrfHdus::IrfHdus(const std::string & irf_name,
       }
       m_file_hdus[cnames[i]] = fh_pairs;
    }
-
-   std::map<std::string, std::pair<unsigned int, std::string> > evtype_mapping;
-   irfUtil::Util::get_event_type_mapping(irf_name, evtype_mapping);
-   m_bitPos = evtype_mapping[event_type].first;
+   m_bitPos = irfUtil::EventTypeMapper::instance().bitPos(irf_name, event_type).first;
 }
 
 typedef std::vector< std::pair<std::string, std::string> > FilenameHduPairs_t;
