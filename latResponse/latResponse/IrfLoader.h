@@ -41,7 +41,7 @@ public:
    virtual void registerEventClasses() const;
 
    virtual void loadIrfs() const;
-
+   
    virtual std::string name() const {
       return "LATRESPONSE";
    }
@@ -53,6 +53,19 @@ public:
    static bool interpolate_edisp() {
       return s_interpolate_edisp;
    }
+
+   /// @return Single or multi-epoch Aeff.
+   static irfInterface::IAeff * aeff(const irfUtil::IrfHdus & aeff_hdus);
+
+   /// @return Single or multi-epoch Psf.
+   static irfInterface::IPsf * psf(const irfUtil::IrfHdus & psf_hdus);
+
+   /// @return Single or multi-epoch Edisp.
+   static irfInterface::IEdisp * edisp(const irfUtil::IrfHdus & edisp_hdus);
+
+   /// @return Single or multi-epoch EfficiencyFactor.
+   static irfInterface::IEfficiencyFactor * 
+   efficiency_factor(const irfUtil::IrfHdus & aeff_hdus);
 
 private:
    
@@ -66,6 +79,10 @@ private:
 
    irfUtil::HdCaldb * m_hdcaldb;
 
+   void registerEventClasses(const std::string & irfName) const;
+
+   void loadIrfs(const std::string & irfName) const;
+
    void addIrfs(const std::string & irf_name, 
                 const std::string & event_type) const;
 
@@ -77,35 +94,21 @@ private:
 
    void find_cif(std::string & caldb_indx) const;
 
-   int edispVersion(const std::string & fitsfile,
-                    const std::string & extname) const;
+   static int edispVersion(const std::string & fitsfile,
+                           const std::string & extname);
 
-   int psfVersion(const std::string & fitsfile,
-                  const std::string & extname) const;
-
-   /// @return Single or multi-epoch Aeff.
-   irfInterface::IAeff * aeff(const irfUtil::IrfHdus & aeff_hdus) const;
-
-   /// @return Single or multi-epoch Psf.
-   irfInterface::IPsf * psf(const irfUtil::IrfHdus & psf_hdus) const;
+   static int psfVersion(const std::string & fitsfile,
+                         const std::string & extname);
 
    /// @return Single epoch Psf.  Needed to select desired Psf,
    /// Psf2 or Psf3 based on psfVersion return value.
-   irfInterface::IPsf * psf(const irfUtil::IrfHdus & psf_hdus,
-                            size_t iepoch) const;
-
-   /// @return Single or multi-epoch Edisp.
-   irfInterface::IEdisp * edisp(const irfUtil::IrfHdus & edisp_hdus) const;
+   static irfInterface::IPsf * psf(const irfUtil::IrfHdus & psf_hdus,
+                                   size_t iepoch);
 
    /// @return Single epoch Edisp.  Needed to select Edisp,
    /// Edisp2 or Edisp3 based on edispVersion return value.
-   irfInterface::IEdisp * edisp(const irfUtil::IrfHdus & edisp_hdus,
-                                size_t iepoch) const;
-
-   /// @return Single or multi-epoch EfficiencyFactor.
-   irfInterface::IEfficiencyFactor * 
-   efficiency_factor(const irfUtil::IrfHdus & aeff_hdus) const;
-
+   static irfInterface::IEdisp * edisp(const irfUtil::IrfHdus & edisp_hdus,
+                                       size_t iepoch);
 };
 
 } // namespace latResponse

@@ -28,6 +28,7 @@
 #include "irfInterface/Irfs.h"
 #include "irfInterface/IrfsFactory.h"
 
+#include "irfUtil/EventTypeMapper.h"
 #include "irfUtil/HdCaldb.h"
 #include "irfUtil/IrfHdus.h"
 #include "irfUtil/Util.h"
@@ -43,6 +44,7 @@
 #include "EdispEpochDep.h"
 #include "EfficiencyFactor.h"
 #include "EfficiencyFactorEpochDep.h"
+#include "Irfs.h"
 #include "Psf.h"
 #include "Psf2.h"
 #include "Psf3.h"
@@ -68,66 +70,66 @@ IrfLoader::~IrfLoader() {
 }
 
 void IrfLoader::registerEventClasses() const {
-   irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
    for (size_t i(0); i < m_caldbNames.size(); i++) {
-      const std::string & irfName(m_caldbNames.at(i));
-      // Get event_type partition info.
-      EventTypeMapping_t event_type_mapping;
-      std::vector<std::string> partitions;
-      std::map<std::string, unsigned int> bitmask_by_partition;
-      irfUtil::Util::get_event_type_mapping(irfName, event_type_mapping,
-                                            partitions, bitmask_by_partition);
-      for (size_t ip(0); ip < partitions.size(); ip++) {
-         std::vector<std::string> classNames;
-         EventTypeMapping_t::const_iterator it(event_type_mapping.begin());
-         for ( ; it != event_type_mapping.end(); ++it) {
-            if (it->second.second == partitions[ip]) {
-               classNames.push_back(irfName + "::" + it->first);
-               registry.registerEventClass(classNames.back(),classNames.back());
-            }
-         }
-         std::ostringstream partition_id;
-         if (partitions[ip] != "none") {
-            partition_id << " (" << partitions[ip] << ")";
-         }
-         if (!classNames.empty()) {
-            registry.registerEventClasses(irfName + partition_id.str(), 
-                                          classNames);
-         }
+      try {
+         registerEventClasses(m_caldbNames.at(i));
+      } catch (std::runtime_error & eObj) {
+         // do nothing
       }
    }
-   for (size_t i(0); i < m_customIrfNames.size(); i++) {
-      const std::string & irfName(m_customIrfNames.at(i));
+}
+
+void IrfLoader::registerEventClasses(const std::string & irfName) const {
+   irfInterface::IrfRegistry & registry(irfInterface::IrfRegistry::instance());
+
+   irfUtil::EventTypeMapper & evMapper(irfUtil::EventTypeMapper::instance());
+
+   const EventTypeMapping_t & event_type_mapping(evMapper.mapping(irfName));
+
+   std::vector<std::string> partitions;
+   evMapper.getPartitions(irfName, partitions);
+
+   for (size_t ip(0); ip < partitions.size(); ip++) {
       std::vector<std::string> classNames;
-      classNames.push_back(irfName + "::FRONT");
-      registry.registerEventClass(classNames.back(), classNames.back());
-      classNames.push_back(irfName + "::BACK");
-      registry.registerEventClass(classNames.back(), classNames.back());
-      registry.registerEventClasses(m_customIrfNames.at(i), classNames);
-   }
-// kluge to allow for HANDOFF irfs for backwards compatibility with old
-// handoff_response implementation
-   if (registry.respIds().find("PASS4") != registry.respIds().end()) {
-      std::vector<std::string> classNames;
-      classNames.push_back("PASS4::FRONT");
-      classNames.push_back("PASS4::BACK");
-      registry.registerEventClasses("HANDOFF", classNames);
-      registry.registerEventClass("HANDOFF::FRONT", "PASS4::FRONT");
-      registry.registerEventClass("HANDOFF::BACK", "PASS4::BACK");
+      EventTypeMapping_t::const_iterator it(event_type_mapping.begin());
+      for ( ; it != event_type_mapping.end(); ++it) {
+         if (it->second.second == partitions[ip]) {
+            classNames.push_back(irfName + "::" + it->first);
+            registry.registerEventClass(classNames.back(),classNames.back());
+         }
+      }
+      std::ostringstream partition_id;
+      if (partitions[ip] != "none") {
+         partition_id << " (" << partitions[ip] << ")";
+      }
+      if (!classNames.empty()) {
+         registry.registerEventClasses(irfName + partition_id.str(), 
+                                       classNames);
+      }
    }
 }
 
 void IrfLoader::loadIrfs() const {
    for (size_t i(0); i < m_caldbNames.size(); i++) {
-      EventTypeMapping_t event_type_mapping;
-      irfUtil::Util::get_event_type_mapping(m_caldbNames[i],
-                                            event_type_mapping);
-      EventTypeMapping_t::const_iterator it(event_type_mapping.begin());
-      for ( ; it != event_type_mapping.end(); ++it) {
-         addIrfs(m_caldbNames[i], it->first);
+      try {
+         loadIrfs(m_caldbNames[i]);
+      } catch (std::runtime_error & eObj) {
+         // do nothing.
       }
    }
-//   loadCustomIrfs();
+}
+
+void IrfLoader::loadIrfs(const std::string & irfName) const {
+   if (std::find(m_caldbNames.begin(), m_caldbNames.end(), irfName) 
+       == m_caldbNames.end()) {
+      throw std::runtime_error("IRF " + irfName + "not found in CALDB");
+   }
+   const EventTypeMapping_t & event_type_mapping =
+      irfUtil::EventTypeMapper::instance().mapping(irfName);
+   EventTypeMapping_t::const_iterator it(event_type_mapping.begin());
+   for ( ; it != event_type_mapping.end(); ++it) {
+      addIrfs(irfName, it->first);
+   }
 }
 
 void IrfLoader::addIrfs(const std::string & irf_name, 
@@ -140,26 +142,12 @@ void IrfLoader::addIrfs(const std::string & irf_name,
       return;
    }
 
-// Retrieve the filenames and hdus associated with each IRF component.
-   irfUtil::IrfHdus aeff_hdus(irfUtil::IrfHdus::aeff(irf_name, event_type));
-   irfUtil::IrfHdus psf_hdus(irfUtil::IrfHdus::psf(irf_name, event_type));
-   irfUtil::IrfHdus edisp_hdus(irfUtil::IrfHdus::edisp(irf_name, event_type));
-
-   irfInterface::Irfs * irfs(new irfInterface::Irfs(aeff(aeff_hdus),
-                                                    psf(psf_hdus),
-                                                    edisp(edisp_hdus),
-                                                    aeff_hdus.bitPos()));
-
-   irfInterface::IEfficiencyFactor * eff(efficiency_factor(aeff_hdus));
-   if (eff) {
-      irfs->setEfficiencyFactor(eff);
-      delete eff;
-   }
+   Irfs * irfs = new Irfs(irf_name, event_type);
    myFactory->addIrfs(irf_name + "::" + event_type, irfs);
 }
 
 irfInterface::IAeff * 
-IrfLoader::aeff(const irfUtil::IrfHdus & aeff_hdus) const {
+IrfLoader::aeff(const irfUtil::IrfHdus & aeff_hdus) {
    if (aeff_hdus.numEpochs() == 1) {
       return new Aeff(aeff_hdus, 0);
    } else {
@@ -179,7 +167,7 @@ IrfLoader::aeff(const irfUtil::IrfHdus & aeff_hdus) const {
 }
 
 irfInterface::IPsf * 
-IrfLoader::psf(const irfUtil::IrfHdus & psf_hdus) const {
+IrfLoader::psf(const irfUtil::IrfHdus & psf_hdus) {
    if (psf_hdus.numEpochs() == 1) {
       return psf(psf_hdus, 0);
    } else {
@@ -199,7 +187,7 @@ IrfLoader::psf(const irfUtil::IrfHdus & psf_hdus) const {
 }
 
 irfInterface::IPsf * IrfLoader::psf(const irfUtil::IrfHdus & psf_hdus, 
-                                    size_t iepoch) const {
+                                    size_t iepoch) {
    // Return the single epoch Psf.
    const std::vector<std::pair<std::string, std::string> > &
       filename_hdu_pairs(psf_hdus("RPSF"));
@@ -222,7 +210,7 @@ irfInterface::IPsf * IrfLoader::psf(const irfUtil::IrfHdus & psf_hdus,
 }
 
 irfInterface::IEdisp * 
-IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus) const {
+IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus) {
    if (edisp_hdus.numEpochs() == 1) {
       return edisp(edisp_hdus, 0);
    } else {
@@ -242,7 +230,7 @@ IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus) const {
 }
 
 irfInterface::IEdisp * 
-IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus, size_t iepoch) const {
+IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus, size_t iepoch) {
    const std::vector<std::pair<std::string, std::string> > &
       filename_hdu_pairs(edisp_hdus("EDISP"));
    const std::string & edisp_file(filename_hdu_pairs[iepoch].first);
@@ -264,7 +252,7 @@ IrfLoader::edisp(const irfUtil::IrfHdus & edisp_hdus, size_t iepoch) const {
 }
 
 irfInterface::IEfficiencyFactor *
-IrfLoader::efficiency_factor(const irfUtil::IrfHdus & aeff_hdus) const {
+IrfLoader::efficiency_factor(const irfUtil::IrfHdus & aeff_hdus) {
    irfInterface::IEfficiencyFactor * my_eff(0);
    if (aeff_hdus.numEpochs() == 1) {
       my_eff = new EfficiencyFactor(aeff_hdus, 0);
@@ -397,7 +385,7 @@ void IrfLoader::find_cif(std::string & caldb_indx) const {
 }
 
 int IrfLoader::edispVersion(const std::string & fitsfile, 
-                            const std::string & extname) const {
+                            const std::string & extname) {
    const tip::Table * table = 
       tip::IFileSvc::instance().readTable(fitsfile, extname);
    int version(1);
@@ -411,7 +399,7 @@ int IrfLoader::edispVersion(const std::string & fitsfile,
 }
 
 int IrfLoader::psfVersion(const std::string & fitsfile, 
-                          const std::string & extname) const {
+                          const std::string & extname) {
    const tip::Table * table = 
       tip::IFileSvc::instance().readTable(fitsfile, extname);
    int version(1);
