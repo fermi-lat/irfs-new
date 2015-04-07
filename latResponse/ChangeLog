@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: jchiang  Mon Apr  6 22:46:00 PDT 2015
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	IrfLoader.cxx 
+Added Files:
+	Irfs.cxx Irfs.h 
+Log Message:
+add Irfs subclass to defer loading of IRF files until needed
+    *
+------------------------------------------------------------
 User: jchiang  Mon Apr  6 22:45:59 PDT 2015
 ScienceTools-scons/irfs/latResponse/latResponse
 
