@@ -1,5 +1,16 @@
 ------------------------------------------------------------
 User: jchiang  Mon Apr  6 22:20:12 PDT 2015
+ScienceTools-scons/irfs/irfUtil/src
+
+Modified Files:
+	IrfHdus.cxx Util.cxx 
+Added Files:
+	EventTypeMapper.cxx 
+Log Message:
+add EventTypeMapper Singleton class that reads in the irf_index.fits information once and for all; delete Util::get_event_type... static functions
+    *
+------------------------------------------------------------
+User: jchiang  Mon Apr  6 22:20:12 PDT 2015
 ScienceTools-scons/irfs/irfUtil/irfUtil
 
 Modified Files:
