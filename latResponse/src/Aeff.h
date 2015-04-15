@@ -45,7 +45,7 @@ public:
    
    Aeff & operator=(const Aeff & rhs);
 
-   virtual ~Aeff() {}
+   virtual ~Aeff();
    
    virtual double value(double energy, 
                         const astro::SkyDir & srcDir, 

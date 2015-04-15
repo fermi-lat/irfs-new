@@ -75,6 +75,10 @@ Aeff & Aeff::operator=(const Aeff & rhs) {
    return *this;
 }
 
+Aeff::~Aeff() {
+   delete m_phiDepPars;
+}
+
 double Aeff::value(double energy, 
                    const astro::SkyDir & srcDir, 
                    const astro::SkyDir & scZAxis,
