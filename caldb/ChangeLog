@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jchiang  Tue Apr 21 15:30:49 PDT 2015
+ScienceTools-scons/irfs/caldb/CALDB/data/glast/lat/bcf
+
+Added Files:
+	valid_evclass_selections.txt valid_evtype_selections.txt 
+Log Message:
+add text files with valid evtype and evclass down selections
+    *
+------------------------------------------------------------
+User: jchiang  Tue Apr 21 15:30:49 PDT 2015
 ScienceTools-scons/irfs/caldb
 
 Modified Files:

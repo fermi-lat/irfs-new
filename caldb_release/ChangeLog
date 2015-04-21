@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jchiang  Tue Apr 21 15:31:55 PDT 2015
+ScienceTools-scons/irfs/caldb_release/CALDB/data/glast/lat/bcf
+
+Added Files:
+	valid_evclass_selections.txt valid_evtype_selections.txt 
+Log Message:
+add text files with valid evtype and evclass down selections
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-10-01-00, operation: add
 Package: caldb_release
