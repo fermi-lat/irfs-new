@@ -1,8 +1,9 @@
 # -*- python -*-
 # $Id$
 # Authors: James Chiang <jchiang@slac.stanford.edu>
-# Version: caldb-07-00-02
+# Version: caldb-07-00-03
 Import('baseEnv')
 Import('listFiles')
 
-baseEnv.Tool('registerTargets', package = 'caldb', data = listFiles(['CALDB/*'], recursive = True))
+baseEnv.Tool('registerTargets', package='caldb',
+             data=listFiles(['CALDB/*'], recursive=True))
