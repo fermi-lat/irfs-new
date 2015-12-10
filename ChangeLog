@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: echarles  Wed Dec  9 22:54:48 PST 2015
+irfs
+
+Modified Files:
+	SConscript 
+Log Message:
+stag/GoGui_auto-tag
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-10-00-05, operation: add
 Package: irfs
