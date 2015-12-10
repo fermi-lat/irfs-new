@@ -19,6 +19,10 @@
 #include "irfLoader/Loader.h"
 #include "CLHEP/Random/RandFlat.h"
 #include "CLHEP/Vector/ThreeVector.h"
+// EAC, add ProjBase sub-classes
+#include "astro/ProjBase.h"
+#include "astro/SkyProj.h"
+#include "astro/HealpixProj.h"
 #include <map>
 #include <stdexcept>
 #include <string>
@@ -40,7 +44,10 @@
 %template(IrfVector) std::vector<irfInterface::Irfs>;
 %template(ConeVector) std::vector<irfInterface::AcceptanceCone *>;
 %include CLHEP/Vector/ThreeVector.h
+// EAC, add ProjBase sub-classes
+%include astro/ProjBase.h
 %include astro/SkyProj.h
+%include astro/HealpixProj.h
 %include astro/SkyDir.h
 %include irfInterface/AcceptanceCone.h
 %include irfInterface/IAeff.h
