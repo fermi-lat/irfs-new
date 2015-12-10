@@ -1,4 +1,19 @@
 ------------------------------------------------------------
+TAG
+Tag name: irfs-00-09-06, operation: add
+Package: irfs
+User: echarles  Wed Dec  9 22:54:54 2015
+Files:
+  irfs/cmt/requirements  1.37
+  irfs/doc/release.notes  1.33
+  irfs/src/mainpage.h  1.1.1.1
+  irfs/.cvsignore  1.1.1.1
+  irfs/ChangeLog  1.296
+  irfs/irfsLib.py  1.2
+  irfs/SConscript  1.8
+
+    *
+------------------------------------------------------------
 User: echarles  Wed Dec  9 22:54:48 PST 2015
 irfs/cmt
 
