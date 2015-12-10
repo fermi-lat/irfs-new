@@ -45,3 +45,4 @@
 */
  irfs-00-09-04 03-Nov-2011    jrb Install irfsLib.py
  irfs-00-09-05 08-Jan-2015 jchiang remove g25, dc1, dc2 stuff
+ irfs-00-09-06 09-Dec-2015 echarles Replace SkyProj with ProjBase
