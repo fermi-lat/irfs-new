@@ -2,6 +2,15 @@
 TAG
 Tag name: ScienceTools-11-01-01, operation: add
 Package: irfs
+User: jchiang  Tue May  3 09:27:37 2016
+Files:
+  irfs/doc/release.notes  1.33
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: ScienceTools-11-01-01, operation: add
+Package: irfs
 User: jchiang  Tue May  3 09:27:26 2016
 Files:
   irfs/cmt/requirements  1.37
