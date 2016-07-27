@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Wed Jul 27 11:37:37 PDT 2016
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+Add new unit test for integral of PSF over ROI selection.
+    *
+------------------------------------------------------------
 User: mdwood  Wed Jul 27 11:36:17 PDT 2016
 ScienceTools-scons/irfs/latResponse/src
 
