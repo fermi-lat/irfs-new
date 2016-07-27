@@ -14,6 +14,7 @@
 #include <cstdlib>
 
 #include <iostream>
+#include <iomanip>
 #include <stdexcept>
 
 #include <cppunit/ui/text/TextTestRunner.h>
@@ -26,6 +27,7 @@
 #include "st_facilities/Environment.h"
 
 #include "irfInterface/IrfsFactory.h"
+#include "irfInterface/AcceptanceCone.h"
 
 #include "latResponse/IrfLoader.h"
 
@@ -59,6 +61,7 @@ class LatResponseTests : public CppUnit::TestFixture {
 
    CPPUNIT_TEST(psf_zero_separation);
    CPPUNIT_TEST(psf_normalization);
+   CPPUNIT_TEST(psf_roi_integral);
 
    CPPUNIT_TEST(edisp_normalization);
    CPPUNIT_TEST(edisp_sampling);
@@ -76,6 +79,7 @@ public:
 
    void psf_zero_separation();
    void psf_normalization();
+   void psf_roi_integral();
 
    void edisp_normalization();
    void edisp_sampling();
@@ -146,6 +150,123 @@ void LatResponseTests::psf_zero_separation() {
       }
       delete myIrfs;
    }
+}
+
+double integrate_psf(const irfInterface::IPsf & psf,
+		     const irfInterface::AcceptanceCone & cone,
+		     double energy, double theta, double phi, double time, 
+		     int nstep) {
+
+  const astro::SkyDir& roidir = cone.center();
+
+  double x0 = roidir.ra();
+  double y0 = roidir.dec();
+  double r0 = ::sqrt(x0*x0+y0*y0);
+
+  const double radius = cone.radius();
+  const double dstep = 2*radius/double(nstep);
+
+  double sum = 0;
+  for (int i = 0; i < nstep; i++) {
+    for (int j = 0; j < nstep; j++) {
+
+      double x = x0 - radius + (i+0.5)*dstep;
+      double y = y0 - radius + (j+0.5)*dstep;
+      double r = ::sqrt(x*x+y*y);
+      double deltar = ::sqrt(std::pow(x-x0,2) + std::pow(y-y0,2));
+
+      if( deltar > cone.radius() )
+	continue;
+
+      double psf_val = psf.value(r, energy, theta, phi, time);
+      sum += psf_val;
+    }
+  }
+
+  sum *= std::pow(dstep,2)*std::pow(M_PI/180.,2);
+  return sum;
+}
+
+void LatResponseTests::psf_roi_integral() {
+
+  double phi(0);
+  double time(239846401.);  // 08Aug2008 00:00:00
+  astro::SkyDir srcdir(0, 0.0);
+  astro::SkyDir roidir(0, 1.5);
+
+  double tol(1e-1);
+  
+  std::vector<double> psi;
+
+  std::vector<irfInterface::AcceptanceCone *> cones;
+
+  irfInterface::AcceptanceCone * cone = new irfInterface::AcceptanceCone(roidir,1.3);
+  cones.push_back(cone);
+
+  int nstep = 100;
+
+  std::vector<double> energies;
+  double emin(5e1);
+  double emax(5e5);
+  size_t nee(13);
+  double dee(std::log(emax/emin)/(nee-1));
+  for (size_t i = 0; i < nee; i++) {
+    energies.push_back(emin*std::exp(i*dee));
+  }
+
+  std::vector<double> thetas(3);
+  thetas[0] = 10.0;
+  thetas[1] = 30.0;
+  thetas[2] = 60.0;
+
+  std::vector<std::string> irfNames;
+  irfNames.push_back("P8R2_SOURCE_V6::FRONT");
+  irfNames.push_back("P8R2_SOURCE_V6::BACK");
+  irfNames.push_back("P8R2_SOURCE_V6::PSF0");
+  irfNames.push_back("P8R2_SOURCE_V6::PSF1");
+  irfNames.push_back("P8R2_SOURCE_V6::PSF2");
+  irfNames.push_back("P8R2_SOURCE_V6::PSF3");
+  irfNames.push_back("P8R2_SOURCE_V6::EDISP0");
+  irfNames.push_back("P8R2_SOURCE_V6::EDISP1");
+  irfNames.push_back("P8R2_SOURCE_V6::EDISP2");
+  irfNames.push_back("P8R2_SOURCE_V6::EDISP3");
+
+  bool integralFailures(false);
+
+  for (std::vector<std::string>::const_iterator name = irfNames.begin();
+       name != irfNames.end(); ++name) {
+
+    irfInterface::Irfs * myIrfs(m_irfsFactory->create(*name));
+    irfInterface::IPsf & psf(*myIrfs->psf());
+    
+    for (std::vector<double>::const_iterator energy = energies.begin();
+	 energy != energies.end(); ++energy) {
+
+      for (std::vector<double>::const_iterator theta = thetas.begin();
+	   theta != thetas.end(); ++theta) {
+
+	double angIntRef = integrate_psf(psf,*cone,*energy,*theta,phi,time,nstep);
+	double angInt(psf.angularIntegral(*energy, srcdir, *theta, phi, cones, time));
+	double fdiff = (angInt-angIntRef)/angIntRef;
+      
+	if(fabs(fdiff) > tol) {
+	  std::cout 
+	    << std::setw(25) << *name
+	    << std::setw(15) << *energy 
+	    << std::setw(15) << *theta 
+	    << std::setw(15) << angIntRef 
+	    << std::setw(15) << angInt 
+	    << std::setw(15) << fdiff 
+	    << std::endl;
+	  integralFailures = true;
+	}
+      }
+    }
+  }
+
+  delete cone;
+
+  CPPUNIT_ASSERT(!integralFailures);
 }
 
 void LatResponseTests::psf_normalization() {
