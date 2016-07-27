@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Wed Jul 27 11:36:17 PDT 2016
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	PsfIntegralCache.cxx 
+Log Message:
+Tweak grid points for interpolation.
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-11-02-00, operation: add
 Package: latResponse
