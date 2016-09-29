@@ -16,6 +16,7 @@
 #include "astro/SkyDir.h"
 
 #include "st_facilities/GaussianQuadrature.h"
+#include "st_facilities/RootFinder.h"
 
 #include "irfInterface/AcceptanceCone.h"
 #include "irfInterface/IPsf.h"
@@ -178,6 +179,41 @@ double IPsf::angularIntegral(double energy,
    return psfIntegral(this, energy, srcDir, theta, phi, acceptanceCones, time);
 }
 
+double IPsf::angularContainment(double energy, double theta, double phi, 
+				double frac, double time, double rtol) const {
+  IntegralFunctor fn = IntegralFunctor(*this, energy, theta, phi, time);
+  return st_facilities::RootFinder::find_root(fn, 0.0, 180.0, frac, rtol);
+}
+
+std::vector<double> IPsf::angularContainment(const std::vector<double>& energy, 
+					     double theta, double phi, 
+					     double frac, double time, double rtol) const {  
+  std::vector<double> ang;
+  ang.reserve(energy.size());
+  for(std::vector<double>::const_iterator itr = energy.begin();
+      itr != energy.end(); ++itr) {
+    ang.push_back(angularContainment(*itr,theta,phi,frac,time,rtol));
+  }
+  return ang;
+}
+
+std::vector<double> IPsf::angularContainment(const std::vector<double>& energy, 
+					     const std::vector<double>& theta, 
+					     double phi, 
+					     double frac, double time, double rtol) const {
+  if(energy.size() != theta.size())
+    throw std::runtime_error("Input arrays must have same dimension.");
+
+  std::vector<double> ang;
+  ang.reserve(energy.size());
+  std::vector<double>::const_iterator itr0 = energy.begin();
+  std::vector<double>::const_iterator itr1 = theta.begin();  
+  for(; (itr0 != energy.end()) && (itr1 != theta.end()); ++itr0, ++itr1) {
+    ang.push_back(angularContainment(*itr0,*itr1,phi,frac,time,rtol));
+  }
+  return ang;
+}
+
 double IPsf::psfIntegral(IPsf * self,
                          double energy,
                          const astro::SkyDir & srcDir,
@@ -249,6 +285,10 @@ double IPsf::psfIntegrand2(double * mu) {
       phimin = std::acos(arg);
    }
    return 2.*phimin*s_self->value(sep, s_energy, s_theta, s_phi, s_time);
+}
+
+double IPsf::IntegralFunctor::operator()(double sep) const {
+  return m_psf.angularIntegral(m_energy, m_theta, m_phi, sep, m_time);
 }
 
 } // namespace irfInterface

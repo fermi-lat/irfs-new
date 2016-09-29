@@ -106,6 +106,24 @@ public:
    virtual double angularIntegral(double energy, double theta, double phi,
                                   double radius, double time=0) const;
 
+   /// Angle containing a given fraction of the PSF integral.
+   virtual double angularContainment(double energy, double theta, double phi, 
+				     double frac, 
+				     double time=0, double rtol=1E-3) const;
+
+   /// Angle containing a given fraction of the PSF integral.
+   virtual std::vector<double> 
+   angularContainment(const std::vector<double>& energy,
+		      double theta, double phi, double frac, 
+		      double time=0, double rtol=1E-3) const;
+  
+   /// Angle containing a given fraction of the PSF integral.
+   virtual std::vector<double> 
+   angularContainment(const std::vector<double>& energy,
+		      const std::vector<double>& theta,
+		      double phi, double frac, 
+		      double time=0, double rtol=1E-3) const;
+
    /// Return a random apparent photon direction drawn from the
    /// PSF distribution.
    virtual astro::SkyDir appDir(double energy, 
@@ -164,6 +182,24 @@ private:
 
    static double psfIntegrand2(double * mu);
 
+#ifndef SWIG
+   class IntegralFunctor {
+
+   public:
+     IntegralFunctor(const IPsf& psf, double energy, double theta, double phi, double time) :
+       m_psf(psf), m_energy(energy), m_theta(theta), m_phi(phi), m_time(time) { }
+
+     double operator()(double sep) const;
+
+   private:
+
+     const IPsf& m_psf;
+     double      m_energy;
+     double      m_theta;
+     double      m_phi;
+     double      m_time;
+   };
+#endif
 };
 
 } // namespace irfInterface
