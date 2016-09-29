@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: mdwood  Thu Sep 29 14:57:26 PDT 2016
+ScienceTools-scons/irfs/irfInterface/src
+
+Modified Files:
+	IPsf.cxx 
+Log Message:
+Add new methods for evaluating PSF angular containment.
+    *
+------------------------------------------------------------
+User: mdwood  Thu Sep 29 14:57:26 PDT 2016
 ScienceTools-scons/irfs/irfInterface/irfInterface
 
 Modified Files:
