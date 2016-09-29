@@ -6,6 +6,7 @@
   $Id$
   EOH
 
+ irfInterface-03-03-00 29-Sep-2016 mdwood Add new method for evaluating PSF angular containment.
  irfInterface-03-02-00 06-Apr-2015 jchiang refactor Irfs to enable lazy evaluation of IRF classes in latResponse::Irfs subclass
  irfInterface-03-01-02 08-Jan-2015 jchiang suppress compiler warnings about psi variable in IPsf.cxx
  irfInterface-03-01-01 26-May-2014 jchiang improved offset angle sampler in IPsf::appDir
