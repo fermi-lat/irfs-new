@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Thu Sep 29 14:57:26 PDT 2016
+ScienceTools-scons/irfs/irfInterface/irfInterface
+
+Modified Files:
+	IPsf.h 
+Log Message:
+Add new methods for evaluating PSF angular containment.
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-11-03-00, operation: add
 Package: irfInterface
