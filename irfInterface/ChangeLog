@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Fri Sep 30 14:30:13 PDT 2016
+ScienceTools-scons/irfs/irfInterface/irfInterface
+
+Modified Files:
+	IPsf.h 
+Log Message:
+Tweak vectorized accessor methods and ensure unit normalization in angularContainment().
+    *
+------------------------------------------------------------
 TAG
 Tag name: irfInterface-03-03-00, operation: add
 Package: irfInterface
