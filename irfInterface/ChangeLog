@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: mdwood  Fri Sep 30 14:30:13 PDT 2016
+ScienceTools-scons/irfs/irfInterface/src
+
+Modified Files:
+	IPsf.cxx 
+Log Message:
+Tweak vectorized accessor methods and ensure unit normalization in angularContainment().
+    *
+------------------------------------------------------------
+User: mdwood  Fri Sep 30 14:30:13 PDT 2016
 ScienceTools-scons/irfs/irfInterface/irfInterface
 
 Modified Files:
