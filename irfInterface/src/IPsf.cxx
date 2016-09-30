@@ -41,6 +41,25 @@ IPsf::IPsf() {
    }
 }
 
+std::vector<double> IPsf::value(const std::vector<double>& separation,
+				const std::vector<double>& energy,
+				const std::vector<double>& theta,
+				double phi, double time) const {
+  if(separation.size() != energy.size() || separation.size() != theta.size())
+    throw std::runtime_error("Input arrays must have same dimension.");
+
+  std::vector<double> vals;
+  vals.reserve(energy.size());
+  std::vector<double>::const_iterator itr0 = separation.begin();
+  std::vector<double>::const_iterator itr1 = energy.begin();
+  std::vector<double>::const_iterator itr2 = theta.begin();  
+  for(; (itr0 != separation.end()) && (itr1 != energy.end()) && (itr2 != theta.end()); 
+      ++itr0, ++itr1, ++itr2) {
+    vals.push_back(value(*itr0,*itr1,*itr2,phi,time));
+  }
+  return vals;
+}
+
 astro::SkyDir IPsf::appDir(double energy,
                            const astro::SkyDir & srcDir,
                            const astro::SkyDir & scZAxis,
@@ -134,6 +153,22 @@ double IPsf::angularIntegral(double energy, double theta,
    return integral;
 }
 
+std::vector<double> IPsf::angularIntegral(const std::vector<double>& energy, 
+					  const std::vector<double>& theta, 
+					  double phi, double radius, double time) const {
+  if(energy.size() != theta.size())
+    throw std::runtime_error("Input arrays must have same dimension.");
+
+  std::vector<double> vals;
+  vals.reserve(energy.size());
+  std::vector<double>::const_iterator itr0 = energy.begin();
+  std::vector<double>::const_iterator itr1 = theta.begin();  
+  for(; (itr0 != energy.end()) && (itr1 != theta.end()); ++itr0, ++itr1) {
+    vals.push_back(angularIntegral(*itr0,*itr1,phi,radius,time));
+  }
+  return vals;
+}
+
 void IPsf::setStaticVariables(double energy, double theta, double phi,
                               double time, const IPsf * self) {
    s_energy = energy;
@@ -181,20 +216,9 @@ double IPsf::angularIntegral(double energy,
 
 double IPsf::angularContainment(double energy, double theta, double phi, 
 				double frac, double time, double rtol) const {
+  double fmax = angularIntegral(energy,theta,phi,180.);
   IntegralFunctor fn = IntegralFunctor(*this, energy, theta, phi, time);
-  return st_facilities::RootFinder::find_root(fn, 0.0, 180.0, frac, rtol);
-}
-
-std::vector<double> IPsf::angularContainment(const std::vector<double>& energy, 
-					     double theta, double phi, 
-					     double frac, double time, double rtol) const {  
-  std::vector<double> ang;
-  ang.reserve(energy.size());
-  for(std::vector<double>::const_iterator itr = energy.begin();
-      itr != energy.end(); ++itr) {
-    ang.push_back(angularContainment(*itr,theta,phi,frac,time,rtol));
-  }
-  return ang;
+  return st_facilities::RootFinder::find_root(fn, 0.0, 180.0, frac*fmax, rtol);
 }
 
 std::vector<double> IPsf::angularContainment(const std::vector<double>& energy, 
@@ -204,14 +228,14 @@ std::vector<double> IPsf::angularContainment(const std::vector<double>& energy,
   if(energy.size() != theta.size())
     throw std::runtime_error("Input arrays must have same dimension.");
 
-  std::vector<double> ang;
-  ang.reserve(energy.size());
+  std::vector<double> vals;
+  vals.reserve(energy.size());
   std::vector<double>::const_iterator itr0 = energy.begin();
   std::vector<double>::const_iterator itr1 = theta.begin();  
   for(; (itr0 != energy.end()) && (itr1 != theta.end()); ++itr0, ++itr1) {
-    ang.push_back(angularContainment(*itr0,*itr1,phi,frac,time,rtol));
+    vals.push_back(angularContainment(*itr0,*itr1,phi,frac,time,rtol));
   }
-  return ang;
+  return vals;
 }
 
 double IPsf::psfIntegral(IPsf * self,

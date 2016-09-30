@@ -63,6 +63,12 @@ public:
    virtual double value(double separation, double energy, double theta, 
                         double phi, double time=0) const = 0;
 
+   /// Vectorized version of value()
+   virtual std::vector<double> value(const std::vector<double>& separation,
+				     const std::vector<double>& energy,
+				     const std::vector<double>& theta,
+				     double phi, double time=0) const;
+  
    /// This method is also virtual, in case the sub-classes wish to
    /// overload it.
    virtual double operator()(const astro::SkyDir &appDir, 
@@ -106,18 +112,19 @@ public:
    virtual double angularIntegral(double energy, double theta, double phi,
                                   double radius, double time=0) const;
 
+   /// Vectorized version of angularIntegral()
+   virtual std::vector<double>
+   angularIntegral(const std::vector<double>& energy, 
+		   const std::vector<double>& theta,
+		   double phi,
+		   double radius, double time=0) const;
+   
    /// Angle containing a given fraction of the PSF integral.
    virtual double angularContainment(double energy, double theta, double phi, 
 				     double frac, 
 				     double time=0, double rtol=1E-3) const;
-
-   /// Angle containing a given fraction of the PSF integral.
-   virtual std::vector<double> 
-   angularContainment(const std::vector<double>& energy,
-		      double theta, double phi, double frac, 
-		      double time=0, double rtol=1E-3) const;
   
-   /// Angle containing a given fraction of the PSF integral.
+   /// Vectorized version of angularContainment()
    virtual std::vector<double> 
    angularContainment(const std::vector<double>& energy,
 		      const std::vector<double>& theta,
