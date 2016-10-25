@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Mon Oct 24 19:35:34 PDT 2016
+ScienceTools-scons/irfs/irfInterface/irfInterface
+
+Modified Files:
+	IAeff.h IEdisp.h 
+Log Message:
+Add vectorized accessor methods for Aeff and Edisp.
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-11-04-00, operation: add
 Package: irfInterface
