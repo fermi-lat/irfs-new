@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Mon Oct 24 19:43:31 PDT 2016
+ScienceTools-scons/irfs/irfInterface/irfInterface
+
+Modified Files:
+	IAeff.h 
+Log Message:
+Add missing header.
+    *
+------------------------------------------------------------
 User: mdwood  Mon Oct 24 19:35:35 PDT 2016
 ScienceTools-scons/irfs/irfInterface/src
 
