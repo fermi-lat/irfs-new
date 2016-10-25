@@ -9,6 +9,7 @@
 #ifndef irfInterface_IAeff_h
 #define irfInterface_IAeff_h
 
+#include <stdexcept>
 #include <vector>
 
 namespace astro {
