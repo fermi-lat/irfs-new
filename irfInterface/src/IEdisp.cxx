@@ -32,6 +32,26 @@ namespace {
 
 namespace irfInterface {
 
+std::vector<double> IEdisp::value(const std::vector<double>& appEnergy,
+				  const std::vector<double>& energy,
+				  const std::vector<double>& theta,
+				  double phi, double time) const {
+  if(appEnergy.size() != energy.size() || appEnergy.size() != theta.size())
+    throw std::runtime_error("Input arrays must have same dimension.");
+
+  std::vector<double> vals;
+  vals.reserve(appEnergy.size());
+  std::vector<double>::const_iterator itr0 = appEnergy.begin();
+  std::vector<double>::const_iterator itr1 = energy.begin();
+  std::vector<double>::const_iterator itr2 = theta.begin();  
+  for(; (itr0 != appEnergy.end()) && (itr1 != energy.end()) && 
+	(itr2 != theta.end()); 
+      ++itr0, ++itr1, ++itr2) {
+    vals.push_back(value(*itr0,*itr1,*itr2,phi,time));
+  }
+  return vals;
+}
+
 double IEdisp::appEnergy(double energy,
                          const astro::SkyDir & srcDir,
                          const astro::SkyDir & scZAxis,

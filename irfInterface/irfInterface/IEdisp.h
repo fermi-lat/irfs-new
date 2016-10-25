@@ -9,6 +9,8 @@
 #ifndef irfInterface_IEdisp_h
 #define irfInterface_IEdisp_h
 
+#include <vector>
+
 namespace astro {
    class SkyDir;
 }
@@ -56,6 +58,12 @@ public:
    /// @param time Photon arrival time (MET s).
    virtual double value(double appEnergy, double energy, 
                         double theta, double phi, double time=0) const = 0;
+
+   /// Vectorized version of value()
+   virtual std::vector<double> value(const std::vector<double>& appEnergy,
+				     const std::vector<double>& energy,
+				     const std::vector<double>& theta,
+				     double phi, double time=0) const;
 
    /// This method is also virtual, in case the sub-classes wish to
    /// overload it.

@@ -9,6 +9,8 @@
 #ifndef irfInterface_IAeff_h
 #define irfInterface_IAeff_h
 
+#include <vector>
+
 namespace astro {
    class SkyDir;
 }
@@ -52,6 +54,27 @@ public:
    /// @param time Photon arrival time (MET s).
    virtual double value(double energy, double theta, double phi,
                         double time=0) const = 0;
+
+   /// Vectorized version of value()
+   virtual std::vector<double> value(const std::vector<double>& energy,
+				     const std::vector<double>& theta,
+				     const std::vector<double>& phi,
+				     double time=0) const {
+     if(energy.size() != theta.size() || energy.size() != phi.size())
+       throw std::runtime_error("Input arrays must have same dimension.");
+
+     std::vector<double> vals;
+     vals.reserve(energy.size());
+     std::vector<double>::const_iterator itr0 = energy.begin();
+     std::vector<double>::const_iterator itr1 = theta.begin();
+     std::vector<double>::const_iterator itr2 = phi.begin();  
+     for(; (itr0 != energy.end()) && (itr1 != theta.end()) && 
+	   (itr2 != phi.end()); 
+	 ++itr0, ++itr1, ++itr2) {
+       vals.push_back(value(*itr0,*itr1,*itr2,time));
+     }
+     return vals;     
+   }
 
    /// This method is also virtual, in case the sub-classes wish to
    /// overload it.
