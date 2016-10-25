@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Mon Oct 24 19:35:35 PDT 2016
+ScienceTools-scons/irfs/irfInterface/src
+
+Modified Files:
+	IEdisp.cxx 
+Log Message:
+Add vectorized accessor methods for Aeff and Edisp.
+    *
+------------------------------------------------------------
 User: mdwood  Mon Oct 24 19:35:34 PDT 2016
 ScienceTools-scons/irfs/irfInterface/irfInterface
 
