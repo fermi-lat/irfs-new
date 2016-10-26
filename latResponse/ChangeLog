@@ -1,4 +1,15 @@
 ------------------------------------------------------------
+User: mdwood  Wed Oct 26 15:07:42 PDT 2016
+ScienceTools-scons/irfs/latResponse/latResponse
+
+Modified Files:
+	FitsTable.h ParTables.h 
+Added Files:
+	Aeff.h Edisp3.h EdispInterpolator.h Psf3.h PsfBase.h 
+Log Message:
+Move header files to expose IRF classes to pyIrfLoader.  Add accessor methods to get/set IRF parameters at runtime.
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-11-04-00, operation: add
 Package: latResponse
