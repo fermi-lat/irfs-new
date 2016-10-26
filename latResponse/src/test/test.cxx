@@ -31,8 +31,8 @@
 
 #include "latResponse/IrfLoader.h"
 
-#include "Aeff.h"
-#include "Psf3.h"
+#include "latResponse/Aeff.h"
+#include "latResponse/Psf3.h"
 #include "Edisp2.h"
 #include "EfficiencyFactor.h"
 #include "AeffEpochDep.h"
