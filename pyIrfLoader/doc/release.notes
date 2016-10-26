@@ -7,6 +7,7 @@
     @verbatim
     EOH
 
+ pyIrfLoader-00-02-00 26-Oct-2016 mdwood Expose IRF classes from latResponse.
  pyIrfLoader-00-01-06 04-Jan-2016 jchiang tag for inclusion of refactored astro/SkyProj etc classes
  pyIrfLoader-00-01-05 18-Feb-2015 mdwood Adding vectorized versions of value methods for PSF and EDisp.
  pyIrfLoader-00-01-04 03-Jun-2010 jchiang add CLHEP qualifiers in prep for CLHEP 2.0.4.6
