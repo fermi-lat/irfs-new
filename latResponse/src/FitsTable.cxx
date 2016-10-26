@@ -185,4 +185,14 @@ void FitsTable::getVectorData(const tip::Table * table,
    }
 }
 
+void FitsTable::setValues(const std::vector<double>& values) {
+  if(values.size() != m_values.size())
+    throw std::runtime_error("Wrong size for parameter array.");
+  m_values = values;
+  delete m_interpolator;
+  m_interpolator = new Bilinear(m_logEnergies, m_mus, m_values,
+				0, 10, -1, 1);
+  m_maxValue = *std::max_element(m_values.begin(),m_values.end());
+}
+
 } // namespace latResponse

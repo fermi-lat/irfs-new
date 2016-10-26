@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-#include "PsfBase.h"
+#include "latResponse/PsfBase.h"
 
 namespace irfUtil {
    class IrfHdus;
@@ -88,9 +88,26 @@ public:
    virtual double angularIntegral(double energy, double theta, double phi,
                                   double radius, double time=0) const;
 
+   virtual int nparams() const { return m_parVectors[0].size(); }
+   virtual std::vector<double> params(size_t indx) const;
+
+   /// Bin centers in energy
+   virtual const std::vector<double>& energies() const { return m_energies; }
+
+   /// Bin centers in log10(energy)
+   virtual const std::vector<double>& logEnergies() const { return m_logEs; }
+
+   /// Bin centers in cos(theta)
+   virtual const std::vector<double>& costhetas() const { return m_cosths; }
+
+   /// Bin centers in theta
+   virtual const std::vector<double>& thetas() const { return m_thetas; }
+
    virtual irfInterface::IPsf * clone() {
       return new Psf3(*this);
    }
+
+   void setParams(size_t indx, const std::vector<double>& params);
 
    static int findIndex(const std::vector<double> & xx, double x);
 

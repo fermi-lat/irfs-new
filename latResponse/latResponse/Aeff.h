@@ -70,6 +70,20 @@ public:
    double phi_modulation(double logE, double costheta, double phi,
                          bool interpolate) const;
 
+   const std::vector<double> & logEnergies() const {
+     return m_aeffTable.logEnergies();
+   }
+
+   const std::vector<double> & costhetas() const {
+     return m_aeffTable.costhetas();
+   }
+
+   const std::vector<double>& values() const { return m_aeffTable.values(); }
+
+   void setValues(const std::vector<double>& values) { 
+     m_aeffTable.setValues(values); 
+   }
+
 private:
 
    FitsTable m_aeffTable;

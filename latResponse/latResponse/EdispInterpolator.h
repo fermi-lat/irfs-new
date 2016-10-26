@@ -28,7 +28,7 @@ public:
                    const std::string & extname,
                    size_t nrow);
 
-   ~EdispInterpolator() throw();
+  ~EdispInterpolator() throw();
 
 #ifndef SWIG
    template<class IrfClass>
@@ -84,6 +84,23 @@ public:
    size_t nrow() const {
       return m_nrow;
    }
+
+   virtual int nparams() const { return m_parVectors[0].size(); }
+   std::vector<double> params(size_t indx) const;
+
+   /// Bin centers in energy
+   const std::vector<double>& energies() const { return m_energies; }
+
+   /// Bin centers in log10(energy)
+   const std::vector<double>& logEnergies() const { return m_logEs; }
+
+   /// Bin centers in cos(theta)
+   const std::vector<double>& costhetas() const { return m_cosths; }
+
+   /// Bin centers in theta
+   const std::vector<double>& thetas() const { return m_thetas; }
+
+   void setParams(size_t indx, const std::vector<double>& params);
 
 private:
 

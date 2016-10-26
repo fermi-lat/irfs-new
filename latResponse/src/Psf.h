@@ -20,7 +20,7 @@
 
 #include "latResponse/ParTables.h"
 
-#include "PsfBase.h"
+#include "latResponse/PsfBase.h"
 
 namespace latResponse {
 

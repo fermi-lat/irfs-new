@@ -23,7 +23,7 @@
 #include "latResponse/FitsTable.h"
 #include "latResponse/IrfLoader.h"
 
-#include "Edisp3.h"
+#include "latResponse/Edisp3.h"
 
 namespace {
    double gammln(double x){
@@ -201,5 +201,22 @@ void Edisp3::readScaling(const std::string & fitsfile,
    FitsTable::getVectorData(table, "EDISPSCALE", m_scalePars);
    delete table;
 }
+
+void Edisp3::setParams(size_t indx, const std::vector<double>& params) {  
+  interpolator().setParams(indx,params);
+  std::vector<double> p(m_parTables.logEnergies().size()*
+			m_parTables.costhetas().size());
+  const std::vector<double>& x = interpolator().energies();
+  const std::vector<double>& y = interpolator().thetas();
+  for (size_t i(1); i < x.size()-1; i++) {
+    for (size_t j(1); j < y.size()-1; j++) {
+      size_t idx0 = j*x.size() + i;
+      size_t idx1 = (j-1)*(x.size()-2) + i-1;
+      p.at(idx1) = params.at(idx0);
+    }
+  }
+  m_parTables.setParams(indx,p);
+}
+
 
 } // namespace latResponse

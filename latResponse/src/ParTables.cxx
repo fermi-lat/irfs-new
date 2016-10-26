@@ -44,6 +44,7 @@ ParTables::ParTables(const std::string & fitsfile,
    for (size_t i(4); i < validFields.size(); i++) {
       const std::string & tablename(validFields.at(i));
       m_parNames.push_back(tablename);
+      m_parIndices[i-4] = tablename;
       m_parTables.insert(
          std::map<std::string, FitsTable>::
          value_type(tablename, FitsTable(fitsfile, extname, tablename, nrow)));
@@ -111,5 +112,27 @@ setPars(size_t ilogE, size_t icosth, const std::vector<double> & pars) {
       table->second.setPar(ilogE, icosth, pars[i]);
    }
 }
+
+std::vector<double> ParTables::params(size_t indx) const { 
+
+  std::map<size_t, std::string>::const_iterator itr = m_parIndices.find(indx);
+  if(itr == m_parIndices.end())
+    throw std::runtime_error("Parameter index out of range.");
+
+  std::string parName = itr->second;
+
+  return m_parTables[parName].values();
+}
+
+void ParTables::setParams(size_t indx, const std::vector<double>& params) {
+  
+  std::map<size_t, std::string>::const_iterator itr = m_parIndices.find(indx);
+  if(itr == m_parIndices.end())
+    throw std::runtime_error("Parameter index out of range.");
+
+  std::string parName = itr->second;
+  m_parTables[parName].setValues(params);
+}
+
 
 } // namespace latResponse

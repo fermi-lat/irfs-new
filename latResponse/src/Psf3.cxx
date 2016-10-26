@@ -23,7 +23,7 @@
 #include "latResponse/FitsTable.h"
 
 #include "Psf2.h"
-#include "Psf3.h"
+#include "latResponse/Psf3.h"
 #include "PsfIntegralCache.h"
 
 namespace {
@@ -433,6 +433,41 @@ int Psf3::findIndex(const std::vector<double> & xx, double x) {
    }
    int i(ix - xx.begin());
    return i;
+}
+
+std::vector<double> Psf3::params(size_t indx) const { 
+
+  if(indx >= m_parVectors[0].size())
+    throw std::runtime_error("Parameter index out of range.");
+
+  std::vector<double> vals(m_parVectors.size(),0.0);
+  std::vector< std::vector<double> >::const_iterator itr0 = m_parVectors.begin();
+  std::vector<double>::iterator itr1 = vals.begin();
+  for( ;itr0 != m_parVectors.end() && itr1 != vals.end();
+       ++itr0, ++itr1)
+    *itr1 = (*itr0)[indx];
+
+  return vals;
+}
+
+void Psf3::setParams(size_t indx, const std::vector<double>& params) {
+  
+  if(indx >= m_parVectors[0].size())
+    throw std::runtime_error("Parameter index out of range.");
+  else if(params.size() != m_parVectors.size())
+    throw std::runtime_error("Wrong size for parameter array.");
+
+  delete m_integralCache;
+  m_integralCache = 0;
+
+  std::vector<double>::const_iterator itr0 = params.begin();
+  std::vector< std::vector<double> >::iterator itr1 = m_parVectors.begin();
+
+  for( ;itr0 != params.end() && itr1 != m_parVectors.end();
+       ++itr0, ++itr1)
+    (*itr1)[indx] = *itr0;
+
+  normalize_pars();
 }
 
 } // namespace latResponse

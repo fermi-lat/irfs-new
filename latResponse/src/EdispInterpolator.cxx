@@ -18,7 +18,7 @@
 
 #include "latResponse/FitsTable.h"
 
-#include "EdispInterpolator.h"
+#include "latResponse/EdispInterpolator.h"
 
 namespace {
    double sqr(double x) {
@@ -209,7 +209,7 @@ int EdispInterpolator::findIndex(const std::vector<double> & xx, double x) {
       std::cout << xx.front() << "  "
                 << x << "  "
                 << xx.back() << std::endl;
-      throw std::invalid_argument("Psf3::findIndex: x out of range");
+      throw std::invalid_argument("EdispInterpolator::findIndex: x out of range");
    }
    if (x == xx.back()) {
       ix = xx.end() - 1;
@@ -218,6 +218,38 @@ int EdispInterpolator::findIndex(const std::vector<double> & xx, double x) {
    }
    int i(ix - xx.begin());
    return i;
+}
+
+std::vector<double> EdispInterpolator::params(size_t indx) const { 
+
+  if(indx >= m_parVectors[0].size())
+    throw std::runtime_error("Parameter index out of range.");
+
+  std::vector<double> vals(m_parVectors.size(),0.0);
+  std::vector< std::vector<double> >::const_iterator itr0 = m_parVectors.begin();
+  std::vector<double>::iterator itr1 = vals.begin();
+  for( ;itr0 != m_parVectors.end() && itr1 != vals.end();
+       ++itr0, ++itr1)
+    *itr1 = (*itr0)[indx];
+
+  return vals;
+}
+
+void EdispInterpolator::setParams(size_t indx, const std::vector<double>& params) {
+  
+  if(indx >= m_parVectors[0].size())
+    throw std::runtime_error("Parameter index out of range.");
+  else if(params.size() != m_parVectors.size())
+    throw std::runtime_error("Wrong size for parameter array.");
+
+  std::vector<double>::const_iterator itr0 = params.begin();
+  std::vector< std::vector<double> >::iterator itr1 = m_parVectors.begin();
+
+  m_renormalized = false;
+
+  for( ;itr0 != params.end() && itr1 != m_parVectors.end();
+       ++itr0, ++itr1)
+    (*itr1)[indx] = *itr0;
 }
 
 } // namespace latResponse

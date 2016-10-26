@@ -19,7 +19,7 @@
 
 #include "irfInterface/AcceptanceCone.h"
 
-#include "PsfBase.h"
+#include "latResponse/PsfBase.h"
 #include "Psf.h"
 #include "PsfIntegralCache.h"
 

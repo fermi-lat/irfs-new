@@ -35,19 +35,19 @@
 
 #include "latResponse/IrfLoader.h"
 
-#include "Aeff.h"
+#include "latResponse/Aeff.h"
 #include "AeffEpochDep.h"
 #include "CaldbDate.h"
 #include "Edisp.h"
 #include "Edisp2.h"
-#include "Edisp3.h"
+#include "latResponse/Edisp3.h"
 #include "EdispEpochDep.h"
 #include "EfficiencyFactor.h"
 #include "EfficiencyFactorEpochDep.h"
 #include "Irfs.h"
 #include "Psf.h"
 #include "Psf2.h"
-#include "Psf3.h"
+#include "latResponse/Psf3.h"
 #include "PsfEpochDep.h"
 
 namespace {

@@ -89,6 +89,12 @@ public:
 
    void setPar(size_t ilogE, size_t icosth, double par);
    
+   const std::vector<double> & values() const { 
+     return m_values;
+   }
+
+   void setValues(const std::vector<double>& values);
+
 private:
 
    Bilinear * m_interpolator;

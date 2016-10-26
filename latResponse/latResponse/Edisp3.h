@@ -15,7 +15,7 @@
 
 #include "irfInterface/IEdisp.h"
 #include "latResponse/ParTables.h"
-#include "EdispInterpolator.h"
+#include "latResponse/EdispInterpolator.h"
 
 namespace irfUtil {
    class IrfHdus;
@@ -79,6 +79,44 @@ public:
       // by EdispInterpolator.  Edisp3 supposedly is automatically
       // correctly normalized.
    }
+
+   const EdispInterpolator& interpolator() const {
+     if (m_interpolator == 0) {
+       m_interpolator = new EdispInterpolator(m_fitsfile, m_extname, m_nrow);
+     }
+     return *m_interpolator;
+  } 
+
+   virtual int nparams() const { return interpolator().nparams(); }
+   virtual std::vector<double> params(size_t indx) const { 
+     return interpolator().params(indx);
+   }
+  
+   /// Bin centers in energy
+   virtual const std::vector<double>& energies() const { 
+     return interpolator().energies(); 
+   }
+
+   /// Bin centers in log10(energy)
+   virtual const std::vector<double>& logEnergies() const { 
+     return interpolator().logEnergies(); 
+   }
+
+   /// Bin centers in cos(theta)
+   virtual const std::vector<double>& costhetas() const { 
+     return interpolator().costhetas();
+   }
+
+   /// Bin centers in theta
+   virtual const std::vector<double>& thetas() const { 
+     return interpolator().thetas();
+   }
+
+   const ParTables& parTables() const {
+     return m_parTables;
+   }
+
+   void setParams(size_t indx, const std::vector<double>& params);
 
 private:
 

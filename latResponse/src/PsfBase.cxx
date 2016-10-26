@@ -15,7 +15,7 @@
 
 #include "latResponse/FitsTable.h"
 
-#include "PsfBase.h"
+#include "latResponse/PsfBase.h"
 
 namespace {
    double sqr(double x) { 

@@ -18,7 +18,7 @@
 #include "latResponse/FitsTable.h"
 #include "latResponse/ParTables.h"
 
-#include "Aeff.h"
+#include "latResponse/Aeff.h"
 
 namespace latResponse {
 

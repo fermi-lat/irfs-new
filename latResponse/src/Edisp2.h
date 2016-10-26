@@ -15,7 +15,7 @@
 
 #include "irfInterface/IEdisp.h"
 #include "latResponse/ParTables.h"
-#include "EdispInterpolator.h"
+#include "latResponse/EdispInterpolator.h"
 
 namespace latResponse {
 
