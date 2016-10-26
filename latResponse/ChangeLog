@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: mdwood  Wed Oct 26 16:23:59 PDT 2016
+ScienceTools-scons/irfs/latResponse/src/test
+
+Modified Files:
+	test.cxx 
+Log Message:
+Fix include statements.
+    *
+------------------------------------------------------------
 TAG
 Tag name: latResponse-04-03-00, operation: add
 Package: latResponse
