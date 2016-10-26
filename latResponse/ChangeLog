@@ -1,4 +1,17 @@
 ------------------------------------------------------------
+User: mdwood  Wed Oct 26 15:07:44 PDT 2016
+ScienceTools-scons/irfs/latResponse/src
+
+Modified Files:
+	Aeff.cxx Edisp2.h Edisp3.cxx EdispInterpolator.cxx 
+	FitsTable.cxx IrfLoader.cxx ParTables.cxx Psf.h Psf3.cxx 
+	PsfBase.cxx PsfIntegralCache.cxx 
+Removed Files:
+	Aeff.h Edisp3.h EdispInterpolator.h Psf3.h PsfBase.h 
+Log Message:
+Move header files to expose IRF classes to pyIrfLoader.  Add accessor methods to get/set IRF parameters at runtime.
+    *
+------------------------------------------------------------
 User: mdwood  Wed Oct 26 15:07:42 PDT 2016
 ScienceTools-scons/irfs/latResponse/latResponse
 
