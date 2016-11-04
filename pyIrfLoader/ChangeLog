@@ -1,5 +1,13 @@
 ------------------------------------------------------------
 TAG
+Tag name: ScienceTools-11-05-00, operation: add
+Package: pyIrfLoader
+User: glastrm  Fri Nov  4 09:03:08 2016
+Files:
+
+    *
+------------------------------------------------------------
+TAG
 Tag name: pyIrfLoader-00-02-00, operation: add
 Package: pyIrfLoader
 User: mdwood  Wed Oct 26 15:22:43 2016
