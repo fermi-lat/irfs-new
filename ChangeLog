@@ -2,6 +2,16 @@
 TAG
 Tag name: ScienceTools-11-05-01, operation: add
 Package: irfs
+User: glastrm  Thu Dec  1 20:04:33 2016
+Files:
+  irfs/cmt/requirements  1.37
+  irfs/doc/release.notes  1.33
+
+    *
+------------------------------------------------------------
+TAG
+Tag name: ScienceTools-11-05-01, operation: add
+Package: irfs
 User: glastrm  Thu Dec  1 20:04:16 2016
 Files:
   irfs/.cvsignore  1.1.1.1
