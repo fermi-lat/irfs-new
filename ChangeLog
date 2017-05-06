@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jrb  Fri May  5 18:05:19 PDT 2017
+irfs
+
+Modified Files:
+	.cvsignore irfsLib.py 
+Log Message:
+updates so that ST_User can be ROOTless
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-11-05-03, operation: add
 Package: irfs
