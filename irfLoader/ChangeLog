@@ -1,5 +1,14 @@
 ------------------------------------------------------------
 User: jrb  Fri May  5 18:05:21 PDT 2017
+irfs/irfLoader/src
+
+Modified Files:
+	Registrar.cxx 
+Log Message:
+updates so that ST_User can be ROOTless
+    *
+------------------------------------------------------------
+User: jrb  Fri May  5 18:05:21 PDT 2017
 irfs/irfLoader
 
 Modified Files:

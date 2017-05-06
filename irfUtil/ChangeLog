@@ -1,4 +1,13 @@
 ------------------------------------------------------------
+User: jrb  Fri May  5 18:05:21 PDT 2017
+irfs/irfUtil
+
+Modified Files:
+	SConscript 
+Log Message:
+updates so that ST_User can be ROOTless
+    *
+------------------------------------------------------------
 TAG
 Tag name: ScienceTools-11-05-03, operation: add
 Package: irfUtil
